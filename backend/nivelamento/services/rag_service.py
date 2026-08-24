@@ -1,9 +1,12 @@
 import os
 import json
 import time
+import random
 import logging
+import urllib.request
+import urllib.parse
+import re
 from django.conf import settings
-from duckduckgo_search import DDGS
 
 from google import genai
 from google.genai import types
@@ -112,15 +115,29 @@ class RAGService:
 
         historico = "Sem informacoes adicionais da web no momento."
         try:
-            ddg_results = DDGS().text(f"Historia cultura Tupi Guarani {tema}", max_results=2)
-            if ddg_results:
-                historico = "\n".join([r['body'] for r in ddg_results])
+            query = f"Historia cultura Tupi Guarani {tema} atual"
+            data = urllib.parse.urlencode({'q': query}).encode('utf-8')
+            req = urllib.request.Request('https://html.duckduckgo.com/html/', data=data, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+            html = urllib.request.urlopen(req, timeout=10).read().decode('utf-8', errors='ignore')
+            snippets = re.findall(r'class="result__snippet[^>]*>(.*?)</a>', html, re.IGNORECASE | re.DOTALL)
+            results = []
+            for s in snippets:
+                clean = re.sub(r'<[^>]+>', '', s).strip()
+                if clean:
+                    results.append(clean)
+                if len(results) >= 10:
+                    break
+            if results:
+                historico = "\n".join(results)
         except Exception as e:
-            logger.warning(f"[RAG] DuckDuckGo falhou: {e}")
+            logger.warning(f"[RAG] DuckDuckGo nativo falhou: {e}")
 
         prompt = f"""Voce e um especialista e professor academico de Tupi Antigo e linguas Tupi-Guarani.
 Crie um teste de nivelamento com exatamente 10 questoes de multipla escolha para o nivel {nivel_atual} de 10.
 Tema da etapa: {tema}.
+
+Contexto Historico/Atual da Web (Use para inspirar as questoes se relevante):
+{historico}
 
 DIRETRIZES FUNDAMENTAIS (LEIA COM EXTREMA ATENCAO):
 1. O teste e de LINGUA TUPI. Toda questao DEVE testar vocabulario, verbos ou gramatica de Tupi real.
@@ -147,13 +164,11 @@ Retorne APENAS o JSON com as 10 questoes seguindo rigorosamente essas regras.
 """
 
         candidate_models = [
-            self.model,
+            "openai/gpt-oss-20b",    # Groq LPU: geração ultra-rápida em menos de 1 segundo!
+            "gemini-3.6-flash",      # Google Gemini: excelente precisão e raciocínio
             "gemini-2.5-flash",
-            "gemini-2.0-flash",
-            "gemini-1.5-flash",
-            "llama3-70b-8192",
-            "llama3-8b-8192",
-            "mixtral-8x7b-32768",
+            "qwen/qwen3.6-27b",
+            "openai/gpt-oss-120b",
         ]
 
         last_error = None
@@ -161,7 +176,12 @@ Retorne APENAS o JSON com as 10 questoes seguindo rigorosamente essas regras.
             try:
                 logger.info(f"[RAG] Tentando modelo: {model_name}")
 
-                is_groq = model_name in ["llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it"]
+                is_groq = model_name in [
+                    "llama-3.3-70b-versatile",
+                    "llama-3.1-70b-versatile",
+                    "llama-3.1-8b-instant",
+                    "gemma2-9b-it",
+                ]
 
                 if is_groq:
                     if not self.groq_client:
@@ -191,13 +211,20 @@ Retorne APENAS o JSON com as 10 questoes seguindo rigorosamente essas regras.
                     content = response.text
 
                 parsed = json.loads(content)
+                
+                def _shuffle_options(q_list):
+                    for q in q_list:
+                        if isinstance(q, dict) and "opcoes" in q and isinstance(q["opcoes"], list):
+                            random.shuffle(q["opcoes"])
+                    return q_list
+
                 if isinstance(parsed, list):
-                    return {"questoes": parsed}
+                    return {"questoes": _shuffle_options(parsed)}
                 if isinstance(parsed, dict):
                     questoes = parsed.get("questoes") or list(parsed.values())[0]
                     if isinstance(questoes, list):
-                        return {"questoes": questoes}
-                return {"questoes": [parsed]}
+                        return {"questoes": _shuffle_options(questoes)}
+                return {"questoes": _shuffle_options([parsed])}
 
             except Exception as e:
                 logger.warning(f"[RAG] Falha no modelo {model_name}: {e}")

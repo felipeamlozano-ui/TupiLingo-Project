@@ -12,11 +12,27 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: ".env");
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (_) {
+    // FLUTTER-004: Fallback seguro via --dart-define ou --dart-define-from-file em runtime
+    dotenv.loadFromString(envString: '''
+SUPABASE_URL=${const String.fromEnvironment('SUPABASE_URL')}
+SUPABASE_ANON_KEY=${const String.fromEnvironment('SUPABASE_ANON_KEY')}
+API_URL=${const String.fromEnvironment('API_URL')}
+''');
+  }
+
+  final supabaseUrl = dotenv.env['SUPABASE_URL'];
+  final supabaseKey = dotenv.env['SUPABASE_ANON_KEY'];
+  if (supabaseUrl == null || supabaseUrl.isEmpty || supabaseKey == null || supabaseKey.isEmpty) {
+    throw Exception(
+        'Variaveis de ambiente faltando! Você precisa rodar `flutter clean` e compilar o app novamente com --dart-define-from-file=.env para injetar as credenciais.');
+  }
 
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    publishableKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: supabaseUrl,
+    publishableKey: supabaseKey,
     authOptions: const FlutterAuthClientOptions(
       authFlowType: AuthFlowType.pkce,
     ),

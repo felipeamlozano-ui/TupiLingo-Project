@@ -58,7 +58,7 @@ staticfiles/
 
 # Docker (evita recursão)
 docker-compose*.yml
-docker/
+# docker/ (removido para permitir COPY de arquivos como conf e entrypoints)
 
 # Node (caso exista frontend)
 node_modules/

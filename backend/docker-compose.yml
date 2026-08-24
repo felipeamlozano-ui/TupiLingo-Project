@@ -16,15 +16,12 @@ services:
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
     volumes:
-      - vector_db_data:/app/vector_store.db    # Banco vetorial SQLite persistente
       - pdfs_data:/app/pdfs                    # PDFs para ingestão
       - static_files:/app/staticfiles          # Estáticos coletados
       - media_files:/app/media                 # Uploads de mídia
       - huggingface_cache:/root/.cache/huggingface  # Modelo all-MiniLM-L6-v2 cacheado
     networks:
       - tupilingo_net
-    depends_on:
-      - nginx
 
   # ---- PDF Worker (ingestão) ----
   pdf_worker:
@@ -34,7 +31,6 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
-      - vector_db_data:/app/vector_store.db
       - pdfs_data:/app/pdfs
       - huggingface_cache:/root/.cache/huggingface
     networks:
@@ -43,6 +39,8 @@ services:
   # ---- Nginx (reverse proxy) ----
   nginx:
     restart: unless-stopped
+    depends_on:
+      - django
     ports:
       - "80:80"
     volumes:
@@ -53,8 +51,6 @@ services:
 
 # ---- Volumes persistentes ----
 volumes:
-  vector_db_data:
-    driver: local
   pdfs_data:
     driver: local
   static_files:

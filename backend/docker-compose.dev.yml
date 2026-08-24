@@ -17,9 +17,7 @@ services:
     volumes:
       # Hot reload: monta o código local dentro do container
       - .:/app
-      # Mantém os dados fora do código (não sobrescrever com o volume de código)
-      - vector_db_data:/app/vector_store.db
-      - pdfs_data:/app/pdfs
+      - ./pdfs:/app/pdfs
       - huggingface_cache:/root/.cache/huggingface
     ports:
       - "8000:8000"   # Acesso direto ao Django em dev (sem precisar do Nginx)
@@ -33,8 +31,7 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings.development
     volumes:
       - .:/app
-      - vector_db_data:/app/vector_store.db
-      - pdfs_data:/app/pdfs
+      - ./pdfs:/app/pdfs
       - huggingface_cache:/root/.cache/huggingface
     entrypoint: []   # Remove o entrypoint de produção (não precisa migrate aqui)
 

@@ -4,7 +4,7 @@ from nivelamento import views
 
 urlpatterns = [
     path(
-        "api/nivelamento/gerar-questao/",
+        "nivelamento/gerar-questao/",
         views.gerar_questao_nivelamento,
         name="gerar_questao_nivelamento",
     ),
