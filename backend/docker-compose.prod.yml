@@ -1,0 +1,88 @@
+# =============================================================
+# docker-compose.prod.yml — TupiLingo Backend (PRODUÇÃO)
+# Override do docker-compose.yml para VPS/servidor.
+#
+# Uso:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# Ou simplesmente: make prod
+# =============================================================
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+      target: runner
+    # Gunicorn: 4 workers síncronos são suficientes para a carga inicial
+    # Fórmula recomendada: (2 * núcleos_CPU) + 1
+    command: >
+      gunicorn config.wsgi:application
+        --bind 0.0.0.0:8000
+        --workers 4
+        --worker-class sync
+        --timeout 120
+        --keep-alive 5
+        --max-requests 1000
+        --max-requests-jitter 50
+        --log-level info
+        --access-logfile -
+        --error-logfile -
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+    # Não expõe porta diretamente — apenas o Nginx é público
+    expose:
+      - "8000"
+
+  pdf_worker:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+      target: runner
+    command: python /app/pdf_worker.py
+    entrypoint: []   # O worker não precisa do entrypoint.sh (migrate/collectstatic)
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    # Em produção, também expõe 443 para HTTPS externo (ex: Let's Encrypt via Cloudflare)
+    ports:
+      - "80:80"
+
+  # --- Infraestrutura preparada para escala futura ---
+  # Descomente quando adicionar Celery ao projeto:
+  #
+  # redis:
+  #   image: redis:7-alpine
+  #   restart: unless-stopped
+  #   networks:
+  #     - tupilingo_net
+  #   volumes:
+  #     - redis_data:/data
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 3
+  #
+  # celery:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/django/Dockerfile
+  #     target: runner
+  #   command: celery -A config worker --loglevel=info
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - DJANGO_SETTINGS_MODULE=config.settings.production
+  #   depends_on:
+  #     - redis
+  #     - django
+  #   networks:
+  #     - tupilingo_net
+
+# volumes:
+#   redis_data:
+#     driver: local

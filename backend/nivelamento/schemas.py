@@ -2,11 +2,11 @@
 Schemas Pydantic para validação de dados do nivelamento.
 
 Utiliza Pydantic v2 (já instalado como dependência transitiva do supabase-py).
+
+SCHEMA-001: ValidationResult removido — código morto, nunca chamado.
 """
 
 from __future__ import annotations
-
-import uuid
 
 from pydantic import BaseModel, field_validator, model_validator
 
@@ -16,8 +16,6 @@ class GenerateQuestionPayload(BaseModel):
 
     nivel_atual: int
     acertou_anterior: bool | None = None
-
-
 
     @field_validator("nivel_atual", check_fields=False)
     @classmethod
@@ -69,19 +67,4 @@ class QuestionData(BaseModel):
             raise ValueError(
                 f"resposta_correta '{self.resposta_correta}' não está entre as opções: {self.opcoes}"
             )
-        return self
-
-
-class ValidationResult(BaseModel):
-    """
-    Schema para o processo de Self-Correction (Dupla Passagem) do Gemini.
-    O Gemini validará sua própria questão gerada.
-    """
-    is_valid: bool
-    correction_feedback: str | None = None
-
-    @model_validator(mode="after")
-    def feedback_obrigatorio_se_invalido(self) -> ValidationResult:
-        if not self.is_valid and not self.correction_feedback:
-            raise ValueError("feedback_obrigatorio: correction_feedback deve ser preenchido se is_valid for False")
         return self

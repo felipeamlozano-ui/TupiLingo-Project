@@ -1,0 +1,44 @@
+# =============================================================
+# docker-compose.dev.yml — TupiLingo Backend (DESENVOLVIMENTO)
+# Override do docker-compose.yml para ambiente local.
+#
+# Uso: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+# Ou simplesmente: make dev
+# =============================================================
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile.dev
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.development
+    volumes:
+      # Hot reload: monta o código local dentro do container
+      - .:/app
+      # Mantém os dados fora do código (não sobrescrever com o volume de código)
+      - vector_db_data:/app/vector_store.db
+      - pdfs_data:/app/pdfs
+      - huggingface_cache:/root/.cache/huggingface
+    ports:
+      - "8000:8000"   # Acesso direto ao Django em dev (sem precisar do Nginx)
+
+  pdf_worker:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile.dev
+    command: python pdf_worker.py
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.development
+    volumes:
+      - .:/app
+      - vector_db_data:/app/vector_store.db
+      - pdfs_data:/app/pdfs
+      - huggingface_cache:/root/.cache/huggingface
+    entrypoint: []   # Remove o entrypoint de produção (não precisa migrate aqui)
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile

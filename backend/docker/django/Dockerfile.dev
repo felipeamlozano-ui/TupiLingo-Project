@@ -1,0 +1,43 @@
+# =============================================================
+# Dockerfile.dev — TupiLingo Django Backend (DESENVOLVIMENTO)
+# Imagem única sem multi-stage: hot reload via volume mount
+# =============================================================
+
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Dependências de sistema (igual ao runner de produção)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    libpq5 \
+    tesseract-ocr \
+    tesseract-ocr-por \
+    poppler-utils \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instala dependências Python
+COPY requirements.txt .
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Copia o código (será sobrescrito pelo volume mount no dev)
+COPY . .
+
+# Entrypoint de desenvolvimento
+COPY docker/django/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Cria diretórios necessários
+RUN mkdir -p /app/staticfiles /app/media /app/pdfs /app/logs
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DJANGO_SETTINGS_MODULE=config.settings.development \
+    PYTHONPATH=/app
+
+EXPOSE 8000
+
+ENTRYPOINT ["/entrypoint.sh"]

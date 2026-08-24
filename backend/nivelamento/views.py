@@ -1,21 +1,20 @@
 """
 View da API REST de nivelamento.
 
-Endpoint que recebe requisições do frontend, validado via JWT do Supabase,
-e delega toda a lógica para os services.
+Corrigido pela Auditoria Técnica V3.0:
+- API-004: @ratelimit adicionado no endpoint de geração de questões
+- API-005: str(exc) removido da resposta HTTP de erro
 """
 
 from __future__ import annotations
 
-import hashlib
-import hmac
 import json
 import logging
 
-from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django_ratelimit.decorators import ratelimit
 from pydantic import ValidationError
 
 from users.decorators import supabase_auth_required
@@ -25,27 +24,17 @@ from nivelamento.services.rag_service import RAGService
 logger = logging.getLogger("nivelamento.views")
 
 
-
-
-
 @csrf_exempt
+@ratelimit(key='ip', rate='20/m', block=True)       # Camada 1: por IP
+@ratelimit(key='user', rate='5/m', block=True)       # Camada 2: por usuário autenticado
 @supabase_auth_required
 @require_POST
 def gerar_questao_nivelamento(request):
-    """
-    Endpoint para gerar questão de nivelamento adaptativo via API.
-
-    Recebe um POST com JWT válido e payload JSON contendo:
-    - nivel_atual: nível atual (1-10)
-    - acertou_anterior: bool
-
-    Retorna a questão gerada ou erro estruturado.
-    """
-    # 1. Parsear body JSON
+    """Gera questões de nivelamento adaptativo com base no histórico do usuário."""
     try:
         body = json.loads(request.body)
     except (json.JSONDecodeError, ValueError):
-        logger.warning("[WEBHOOK] Corpo da requisição não é JSON válido")
+        logger.warning("Corpo da requisição inválido")
         return JsonResponse(
             {
                 "success": False,
@@ -57,14 +46,13 @@ def gerar_questao_nivelamento(request):
             status=400,
         )
 
-    # 2. Validar payload com Pydantic
     try:
         payload = GenerateQuestionPayload.model_validate(body)
     except ValidationError as exc:
         error_messages = "; ".join(
             f"{e['loc']}: {e['msg']}" for e in exc.errors()
         )
-        logger.warning("[WEBHOOK] Payload inválido: %s", error_messages)
+        logger.warning("Payload inválido: %s", error_messages)
         return JsonResponse(
             {
                 "success": False,
@@ -77,7 +65,6 @@ def gerar_questao_nivelamento(request):
             status=400,
         )
 
-    # 3. Extrair UID do usuário a partir do token validado pelo decorator
     supabase_uid = request.user_data.get("sub")
     if not supabase_uid:
         return JsonResponse(
@@ -91,14 +78,6 @@ def gerar_questao_nivelamento(request):
             status=401,
         )
 
-    # 4. Executar pipeline de geração
-    logger.info(
-        "[API] Iniciando geração para uid='%s...' nivel=%d acertou=%s",
-        supabase_uid[:8],
-        payload.nivel_atual,
-        payload.acertou_anterior,
-    )
-
     try:
         service = RAGService()
         result = service.generate(
@@ -107,8 +86,7 @@ def gerar_questao_nivelamento(request):
             acertou_anterior=payload.acertou_anterior,
         )
     except ValueError as exc:
-        # Erros de validação de negócio (ex: nível fora do range)
-        logger.warning("[API] Erro de validação: %s", exc)
+        logger.warning("Erro de validação: %s", exc)
         return JsonResponse(
             {
                 "success": False,
@@ -120,37 +98,30 @@ def gerar_questao_nivelamento(request):
             status=400,
         )
     except RuntimeError as exc:
-        # Erros controlados dos services (ChromaDB, Gemini, Supabase)
-        logger.error("[API] Erro na pipeline: %s", exc)
+        # API-005: não expor str(exc) com detalhes de infraestrutura
+        logger.error("Erro na geração de questões para uid=%s", supabase_uid, exc_info=True)
         return JsonResponse(
             {
                 "success": False,
                 "error": {
                     "code": "QUESTION_GENERATION_FAILED",
-                    "message": f"Erro detalhado: {str(exc)}",
+                    "message": "Não foi possível gerar as questões. Tente novamente.",
                 },
             },
             status=500,
         )
     except Exception:
-        # Erro inesperado — logar traceback completo mas não expor ao cliente
-        logger.exception("[API] Erro inesperado na pipeline")
+        logger.exception("Erro inesperado ao gerar questão para uid=%s", supabase_uid)
         return JsonResponse(
             {
                 "success": False,
                 "error": {
                     "code": "INTERNAL_ERROR",
-                    "message": "Erro interno do servidor.",
+                    "message": "Erro interno no servidor.",
                 },
             },
             status=500,
         )
-
-    # 5. Retornar sucesso
-    logger.info(
-        "[API] Questões geradas com sucesso para uid='%s...'",
-        supabase_uid[:8],
-    )
 
     return JsonResponse(
         {

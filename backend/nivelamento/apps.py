@@ -6,9 +6,6 @@ class NivelamentoConfig(AppConfig):
     verbose_name = 'Nivelamento Adaptativo'
 
     def ready(self):
-        from nivelamento.services.ingest_pdfs import ingest_new_pdfs
-        import os
-        import threading
-        if os.environ.get('RUN_MAIN', None) != 'true':
-            t = threading.Thread(target=ingest_new_pdfs, daemon=True)
-            t.start()
+        # A ingestão automática foi removida daqui para evitar travamentos durante a inicialização do Django.
+        # Agora o OCR e RAG devem ser chamados via: python manage.py ingest_pdfs
+        pass

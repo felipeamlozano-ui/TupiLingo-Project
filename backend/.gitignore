@@ -1,0 +1,6 @@
+
+vector_store.db
+ingest_progress.json
+chroma_db/
+worker.log
+
