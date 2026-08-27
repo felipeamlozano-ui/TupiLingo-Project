@@ -1,38 +1,26 @@
 #!/bin/bash
-# =============================================================
-# entrypoint.sh — TupiLingo Django/Worker
-# Executado ao iniciar qualquer container Django ou Worker
-# =============================================================
-
-set -e  # Sai imediatamente se qualquer comando falhar
+set -e
 
 echo "========================================================"
 echo "  TupiLingo Backend — Iniciando..."
-echo "  Settings: ${DJANGO_SETTINGS_MODULE}"
+if [ "$PRODUCTION" = "True" ]; then
+    echo "  Ambiente: PRODUÇÃO"
+else
+    echo "  Ambiente: DESENVOLVIMENTO"
+fi
 echo "========================================================"
 
-# Aguarda banco de dados ficar pronto (Supabase é remoto, normalmente disponível)
-# Mas faz 3 tentativas de migração com retry para lidar com cold start
-MAX_RETRIES=5
-RETRY_INTERVAL=5
+# Aguardar o banco de dados e o Redis, se necessário
+# Aqui usamos um simples check, mas em produção o depends_on com healthcheck do compose lidará melhor.
 
-echo "[entrypoint] Verificando conexão com o banco de dados..."
-for i in $(seq 1 $MAX_RETRIES); do
-    python manage.py check --database default > /dev/null 2>&1 && break
-    echo "[entrypoint] Tentativa $i/$MAX_RETRIES — aguardando banco... (${RETRY_INTERVAL}s)"
-    sleep $RETRY_INTERVAL
-done
+# Executar migrações do banco (opcional no boot em prod, mas mantido para dev)
+if [ "$PRODUCTION" != "True" ]; then
+    echo "[entrypoint] Aplicando migrações..."
+    python manage.py migrate --noinput
+    
+    echo "[entrypoint] Coletando arquivos estáticos..."
+    python manage.py collectstatic --noinput
+fi
 
-# Aplica migrações pendentes
-echo "[entrypoint] Aplicando migrações..."
-python manage.py migrate --noinput
-
-# Coleta arquivos estáticos (necessário para Nginx servir em produção)
-echo "[entrypoint] Coletando arquivos estáticos..."
-python manage.py collectstatic --noinput --clear
-
-echo "[entrypoint] Inicialização completa!"
-echo "========================================================"
-
-# Executa o comando passado ao container (CMD do compose)
+# Executar o comando passado pro container (runserver, gunicorn ou bash)
 exec "$@"

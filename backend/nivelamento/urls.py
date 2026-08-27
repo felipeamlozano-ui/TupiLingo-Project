@@ -8,4 +8,9 @@ urlpatterns = [
         views.gerar_questao_nivelamento,
         name="gerar_questao_nivelamento",
     ),
+    path(
+        "nivelamento/avaliar/",
+        views.avaliar_teste,
+        name="avaliar_teste",
+    ),
 ]

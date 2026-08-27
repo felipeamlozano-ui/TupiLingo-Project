@@ -51,14 +51,12 @@ try:
     logger.info("PyPDF2 carregado.")
 except ImportError:
     logger.error("PyPDF2 nao encontrado. Execute: pip install PyPDF2")
-    sys.exit(1)
 
 try:
     import numpy as np
     logger.info("NumPy carregado.")
 except ImportError:
     logger.error("NumPy nao encontrado. Execute: pip install numpy")
-    sys.exit(1)
 
 TESSERACT_AVAILABLE = False
 try:
@@ -121,24 +119,29 @@ def save_chunks(ids, documents, embeddings, filenames, file_hashes, pages, chunk
     conn.close()
 
 # === LOCAL EMBEDDER ===
-embedder_model = None
-try:
-    from sentence_transformers import SentenceTransformer
-    # O modelo 'all-MiniLM-L6-v2' eh extremamente rapido e leve para rodar em CPU local
-    logger.info("Carregando modelo de IA Local para Embeddings (SentenceTransformer)...")
-    embedder_model = SentenceTransformer('all-MiniLM-L6-v2')
-    logger.info("Modelo de IA Local carregado com sucesso (CPU).")
-except Exception as e:
-    logger.error(f"Erro ao carregar modelo de IA local: {e}")
+_embedder_model = None
+
+def get_worker_embedder():
+    global _embedder_model
+    if _embedder_model is None:
+        try:
+            os.environ["HF_HUB_OFFLINE"] = "1"
+            from sentence_transformers import SentenceTransformer
+            logger.info("Carregando modelo de IA Local para Embeddings no Worker...")
+            _embedder_model = SentenceTransformer('all-MiniLM-L6-v2')
+        except Exception as e:
+            logger.error(f"Erro ao carregar modelo de IA local: {e}")
+    return _embedder_model
 
 def embed_texts(texts: list) -> list:
     """Gera embeddings localmente via CPU (processador offline)."""
-    if not embedder_model or not texts:
+    model = get_worker_embedder()
+    if not model or not texts:
         return [[0.0] * EMBEDDING_DIM for _ in texts]
     
     try:
         # Codifica localmente, converte para lista de floats
-        embeddings = embedder_model.encode(texts, convert_to_numpy=True)
+        embeddings = model.encode(texts, convert_to_numpy=True)
         return embeddings.tolist()
     except Exception as e:
         logger.warning(f"Erro gerando embeddings localmente: {e}")
@@ -279,7 +282,7 @@ def process_pdf(pdf_path: Path, file_hash: str, progress: dict):
 
 def main():
     logger.info("=" * 60)
-    logger.info("  TupiLingo PDF Ingestion Worker (SQLite + NumPy)")
+    logger.info("  TupiLingo PDF Ingestion Worker (Contínuo)")
     logger.info(f"  Banco: {DB_PATH}")
     logger.info(f"  Logs:  {LOG_PATH}")
     logger.info("=" * 60)
@@ -290,34 +293,46 @@ def main():
         logger.error(f"Diretorio de PDFs nao encontrado: {PDFS_DIR}")
         return
 
-    pdfs = sorted(PDFS_DIR.glob("*.pdf"), key=lambda p: p.stat().st_size)
-    if not pdfs:
-        logger.info("Nenhum PDF encontrado.")
-        return
-
-    logger.info(f"Encontrados {len(pdfs)} PDFs.")
-    progress = load_progress()
-
-    for pdf_path in pdfs:
+    while True:
         try:
-            file_hash = get_file_hash(pdf_path)
-            if progress.get(file_hash, {}).get("done"):
-                logger.info(f"PULANDO: {pdf_path.name} (ja processado)")
+            pdfs = sorted(PDFS_DIR.glob("*.pdf"), key=lambda p: p.stat().st_size)
+            if not pdfs:
+                time.sleep(30)
                 continue
-            # Dupla verificacao no banco
-            if has_file_hash(file_hash):
-                logger.info(f"PULANDO: {pdf_path.name} (ja esta no banco)")
-                progress[file_hash] = {"done": True}
-                save_progress(progress)
-                continue
-            process_pdf(pdf_path, file_hash, progress)
-        except Exception as e:
-            logger.error(f"Erro com {pdf_path.name}: {e}")
-            traceback.print_exc()
 
-    logger.info("\n" + "=" * 60)
-    logger.info("  Ingestao concluida!")
-    logger.info("=" * 60)
+            progress = load_progress()
+            processed_any = False
+
+            for pdf_path in pdfs:
+                try:
+                    file_hash = get_file_hash(pdf_path)
+                    if progress.get(file_hash, {}).get("done"):
+                        continue
+                    if has_file_hash(file_hash):
+                        progress[file_hash] = {"done": True}
+                        save_progress(progress)
+                        continue
+                    
+                    process_pdf(pdf_path, file_hash, progress)
+                    processed_any = True
+                except Exception as e:
+                    logger.error(f"Erro com {pdf_path.name}: {e}")
+                    traceback.print_exc()
+
+            if processed_any:
+                logger.info("\n" + "=" * 60)
+                logger.info("  Ingestao de novos PDFs concluida!")
+                logger.info("=" * 60)
+            
+            # Aguarda 30 segundos antes de verificar novamente
+            time.sleep(30)
+            
+        except KeyboardInterrupt:
+            logger.info("Worker interrompido pelo usuário.")
+            break
+        except Exception as e:
+            logger.error(f"Erro no loop do worker: {e}")
+            time.sleep(30)
 
 
 if __name__ == "__main__":

@@ -11,9 +11,11 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile.dev
-    command: python manage.py runserver 0.0.0.0:8000
+    entrypoint: []
+    command: bash -c "pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       # Hot reload: monta o código local dentro do container
       - .:/app
@@ -21,19 +23,31 @@ services:
       - huggingface_cache:/root/.cache/huggingface
     ports:
       - "8000:8000"   # Acesso direto ao Django em dev (sem precisar do Nginx)
+    depends_on:
+      - redis
 
   pdf_worker:
     build:
       context: .
       dockerfile: docker/django/Dockerfile.dev
-    command: python pdf_worker.py
+    command: bash -c "pip install -r requirements.txt && python pdf_worker.py"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app
       - ./pdfs:/app/pdfs
       - huggingface_cache:/root/.cache/huggingface
     entrypoint: []   # Remove o entrypoint de produção (não precisa migrate aqui)
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - tupilingo_net
 
   nginx:
     build:

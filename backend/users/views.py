@@ -93,6 +93,11 @@ def register_user(request):
     except IntegrityError:
         # E-mail duplicado (outro registro com mesmo e-mail)
         logger.warning("Conflito de integridade ao criar UserProfile para uid=%s", user_id)
+        existing_user = UserProfile.objects.filter(email=email).first()
+        if existing_user:
+            existing_user.supabase_uid = user_id
+            existing_user.save(update_fields=['supabase_uid'])
+            return JsonResponse({"status": "Usuario re-sincronizado", "created": False})
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 
     if not created:

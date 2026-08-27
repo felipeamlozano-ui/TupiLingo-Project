@@ -4,7 +4,6 @@
 # ==============================================================================
 FROM python:3.13-slim-bookworm AS builder
 
-# Configurações do uv e Python
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     UV_COMPILE_BYTECODE=1 \
@@ -15,23 +14,32 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
-# Primeiro copiamos apenas os arquivos de dependência para aproveitar o cache
-# Note: Como o projeto atual usa requirements.txt, manteremos ele por enquanto.
+# Instalar pacotes de compilação necessários
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 
-# Instalar dependências usando o cache do uv e BuildKit
+# Instalar dependências de produção (excluindo debug/test)
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv pip install --system --no-cache-dir -r requirements.txt
 
 # ==============================================================================
-# Fase 2: Runtime (Imagem Final de Desenvolvimento)
+# Fase 2: Runtime (Imagem Final de Produção - Hardened & Rootless)
 # ==============================================================================
 FROM python:3.13-slim-bookworm
 
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    DJANGO_SETTINGS_MODULE="config.settings.production" \
+    PORT=8000
 
-# Instalar dependências de sistema mínimas que o runtime possa precisar
+# Adicionar usuário não-root (Hardening)
+RUN groupadd -r django && useradd -r -g django -s /sbin/nologin -c "Django User" django
+
+# Instalar apenas dependências estritamente necessárias em runtime
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     tesseract-ocr \
@@ -40,19 +48,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copiar bibliotecas instaladas na fase builder
+# Copiar libs da fase builder
 COPY --from=builder --link /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
 COPY --from=builder --link /usr/local/bin /usr/local/bin
 
-# Copiar o entrypoint script
-COPY --link docker/django/entrypoint.sh /entrypoint.sh
+# Copiar código fonte
+COPY --link --chown=django:django . .
+
+# Copiar script de entrypoint e dar permissão
+COPY --link --chown=django:django docker/django/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Copiar o restante do código
-COPY --link . .
+# Trocar para usuário não-root
+USER django
 
-# Usamos o script como entrypoint
+# Expor porta e executar entrypoint
+EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Comando padrão para desenvolvimento
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Usar gunicorn (production WSGI server) em vez de runserver
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "config.wsgi:application"]
