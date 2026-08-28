@@ -1,10 +1,4 @@
-"""
-View da API REST de nivelamento.
 
-Corrigido pela Auditoria Técnica V3.0:
-- API-004: @ratelimit adicionado no endpoint de geração de questões
-- API-005: str(exc) removido da resposta HTTP de erro
-"""
 
 from __future__ import annotations
 

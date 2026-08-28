@@ -1,10 +1,4 @@
-"""
-Schemas Pydantic para validação de dados do nivelamento.
 
-Utiliza Pydantic v2 (já instalado como dependência transitiva do supabase-py).
-
-SCHEMA-001: ValidationResult removido — código morto, nunca chamado.
-"""
 
 from __future__ import annotations
 
