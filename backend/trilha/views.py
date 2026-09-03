@@ -10,6 +10,7 @@ Fornece todos os dados que o Flutter precisa para renderizar:
 import json
 import logging
 
+from django.db.models import F
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
@@ -203,7 +204,8 @@ def detalhe_licao(request, licao_id: int):
             'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
             'pontos_base': ex.pontos_base, 'ordem': ex.ordem,
             'midia': ex.midia.url if ex.midia else None,
-            'opcoes': ex.opcoes, 'resposta_correta': ex.resposta_correta,
+            'opcoes': ex.opcoes,
+            # SECURITY-003: resposta_correta NÃO é enviada ao Flutter — validação é server-side
         })
     for ex in ExercicioCompletar.objects.filter(licao=licao).order_by('ordem'):
         exercicios.append({
@@ -270,11 +272,20 @@ def concluir_licao(request, licao_id: int):
         return JsonResponse({'error': 'JSON inválido.'}, status=400)
 
     acertos = int(body.get('acertos', 0))
-    total = int(body.get('total_exercicios', 1))
-    bonus_exploracao = int(body.get('bonus_exploracao_xp', 0))
+    # SECURITY-004: total_exercicios vem do banco, não do payload do cliente,
+    # para evitar manipulação de XP via body arbitrário.
+    total_escolha = ExercicioEscolha.objects.filter(licao=licao).count()
+    total_completar = ExercicioCompletar.objects.filter(licao=licao).count()
+    total_associacao = ExercicioAssociacao.objects.filter(licao=licao).count()
+    total = total_escolha + total_completar + total_associacao or 1  # Evita divisão por zero
+
+    # bonus_exploracao ainda aceito do payload (XP de StoryBlocks lidos), mas com cap razoável
+    bonus_exploracao = min(int(body.get('bonus_exploracao_xp', 0)), 100)
     primeira_tentativa = bool(body.get('primeira_tentativa', False))
 
-    accuracy = acertos / total if total > 0 else 0.0
+    # Clamp acertos ao total real do servidor
+    acertos = min(acertos, total)
+    accuracy = acertos / total
     status_ex = (
         ValidationResult.CORRETO if accuracy == 1.0 else
         ValidationResult.QUASE_CERTO if accuracy >= 0.7 else
@@ -296,14 +307,20 @@ def concluir_licao(request, licao_id: int):
     user_lesson.concluida_em = timezone.now()
     user_lesson.save()
 
-    user.xp_total = (user.xp_total or 0) + earned_xp
-    user.save(update_fields=['xp_total', 'updated_at'])
+    # PERFORMANCE-001: Atualização atômica com F() para evitar race condition em
+    # ambientes com múltiplas workers Gunicorn ou requests concorrentes.
+    UserProfile.objects.filter(pk=user.pk).update(
+        xp_total=F('xp_total') + earned_xp,
+        updated_at=timezone.now(),
+    )
+    user.refresh_from_db(fields=['xp_total'])
 
     return JsonResponse({
         'success': True,
         'earned_xp': earned_xp,
         'xp_total': user.xp_total,
         'accuracy': accuracy,
+        'total_exercicios_servidor': total,
         'message': f'Lição concluída! Você ganhou {earned_xp} XP. 🎉',
     })
 

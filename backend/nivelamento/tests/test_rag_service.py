@@ -16,7 +16,7 @@ from unittest.mock import MagicMock, patch
 from django.test import TestCase, override_settings
 
 from nivelamento.schemas import QuestionData
-from nivelamento.services.rag_service import RAGService
+from app.ai.rag_service import RAGService
 
 
 # Resposta válida padrão do Gemini

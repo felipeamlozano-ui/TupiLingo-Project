@@ -12,7 +12,6 @@ import logging
 import os
 import random
 import time
-import asyncio
 from typing import Any
 
 from pydantic import BaseModel, Field, ValidationError
@@ -424,15 +423,17 @@ class RAGService:
         modelo_usado = ""
 
         try:
-            # Ping Race para definir o modelo mais rápido na nuvem em tempo real
+            # PING RACE: Dispara um micro-ping em paralelo para os modelos candidatos.
+            # O primeiro a responder com HTTP 200 é eleito o vencedor e posicionado
+            # no topo da cadeia para gerar a questão imediatamente.
             try:
-                winner = asyncio.run(PingRaceRouter.get_fastest_model(model_chain))
-                logger.info("[RAGService] Ping Race elegeu: %s", winner)
-                provider_usado, modelo_usado = winner.split("/", 1)
-                # O vencedor é posicionado no topo da lista
+                winner = PingRaceRouter.get_fastest_model(model_chain)
+                logger.info("[RAGService] 🏁 Ping Race elegeu o modelo vencedor: %s", winner)
+                provider_usado, modelo_usado = winner.split("/", 1) if "/" in winner else ("LLM", winner)
+                # Reordena a cadeia colocando o vencedor em 1º lugar
                 model_chain = [winner] + [m for m in model_chain if m != winner]
             except Exception as ping_exc:
-                logger.warning("[RAGService] Ping Race falhou (%s). Prosseguindo com fallback padrão.", ping_exc)
+                logger.warning("[RAGService] Ping Race encontrou erro (%s). Prosseguindo com fallback padrão.", ping_exc)
 
             llm_response: LLMQuizResponse = FallbackOrchestrator.execute_with_fallback(
                 prompt=f"{system_prompt}\n\n{prompt_usuario}",
@@ -441,16 +442,16 @@ class RAGService:
                 temperature=0.2,
                 max_tokens=max_tokens,
             )
-            # Extrai o nome do provider se não tiver vindo pelo vencedor do ping
-            if not provider_usado:
-                provider_usado = "LLM"
-                modelo_usado = "Fallback"
+            if not provider_usado and model_chain:
+                first = model_chain[0]
+                provider_usado, modelo_usado = first.split("/", 1) if "/" in first else ("LLM", first)
         except Exception as exc:
             logger.error(
                 "[RAGService] LLM falhou completamente: %s. "
                 "Gerando questões heurísticas puras.",
                 exc,
             )
+
             # Fallback heurístico puro — sem LLM, monta questões do esqueleto direto
             llm_response = LLMQuizResponse(
                 questoes=[

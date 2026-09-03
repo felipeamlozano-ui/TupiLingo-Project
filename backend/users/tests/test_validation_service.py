@@ -40,14 +40,8 @@ class TestValidarRespostaCompletar(unittest.TestCase):
     """Testa a validação de respostas com mock do PostgreSQL."""
 
     def _mock_levenshtein(self, distancia: int):
-        """Helper que faz mock da query do PostgreSQL retornando distância fixa."""
-        mock_cursor = MagicMock()
-        mock_cursor.__enter__ = MagicMock(return_value=mock_cursor)
-        mock_cursor.__exit__ = MagicMock(return_value=False)
-        mock_cursor.fetchone.return_value = (distancia,)
-        mock_conn = MagicMock()
-        mock_conn.cursor.return_value = mock_cursor
-        return patch('users.services.validation_service.connection', mock_conn)
+        """Helper que faz mock da função de distância retornando distância fixa."""
+        return patch('users.services.validation_service._run_levenshtein_query', return_value=distancia)
 
     def test_resposta_exata(self):
         with self._mock_levenshtein(0):
@@ -81,28 +75,9 @@ class TestValidarListaLacunas(unittest.TestCase):
 
     def _mock_levenshtein(self, distancias: list):
         """Mock retorna distâncias em sequência."""
-        call_count = [0]
-        def side_effect(sql, params):
-            i = call_count[0]
-            call_count[0] += 1
-            return None
-        
-        cursors = []
-        for d in distancias:
-            mock_cursor = MagicMock()
-            mock_cursor.__enter__ = MagicMock(return_value=mock_cursor)
-            mock_cursor.__exit__ = MagicMock(return_value=False)
-            mock_cursor.fetchone.return_value = (d,)
-            cursors.append(mock_cursor)
-
-        call_idx = [0]
-        mock_conn = MagicMock()
-        def get_cursor():
-            idx = call_idx[0]
-            call_idx[0] += 1
-            return cursors[idx] if idx < len(cursors) else cursors[-1]
-        mock_conn.cursor.side_effect = get_cursor
-        return patch('users.services.validation_service.connection', mock_conn)
+    def _mock_levenshtein(self, distancias: list[int]):
+        """Helper que faz mock da função de distância para múltiplas lacunas."""
+        return patch('users.services.validation_service._run_levenshtein_query', side_effect=distancias)
 
     def test_todas_corretas(self):
         with self._mock_levenshtein([0, 0]):

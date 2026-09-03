@@ -1,63 +1,82 @@
 """
-Validation Service — Tolerância a Erros via PostgreSQL Extensions.
+Validation Service — Tolerância a Erros via Python Puro.
 
-Utiliza as extensões do Supabase/PostgreSQL:
-- unaccent: Remove acentos para comparação normalizda.
-  Ex: "Tupã" == "Tupa" (após unaccent).
-- fuzzystrmatch (levenshtein): Calcula a distância de edição entre duas strings.
-  Ex: levenshtein("karai", "karia") → 2 (dois caracteres diferentes).
+Utiliza normalização unicode (unicodedata) e Levenshtein em Python puro para
+calcular a distância de edição entre strings sem depender de extensões PostgreSQL.
+
+Vantagens sobre a implementação anterior (fuzzystrmatch + unaccent):
+- Sem round-trip SQL por validação (melhor latência, menos conexões ao banco).
+- Testável sem banco de dados.
+- Sem dependência de extensões externas no PostgreSQL.
 
 Regras de validação para ExercicioCompletar:
-- Distância 0: ✅ CORRETO — resposta exata.
+- Distância 0: ✅ correct — resposta exata.
 - Distância 1 (palavras curtas <= 4 chars) ou
-  Distância 1-2 (palavras médias 5-8 chars): ⚠️ QUASE_CERTO — "Quase lá! Faltou uma letra."
-- Acima da tolerância: ❌ ERRADO.
+  Distância 1-2 (palavras médias 5-8 chars): ⚠️ almost — "Quase lá! Faltou uma letra."
+- Acima da tolerância: ❌ wrong.
 
 A tolerância exata por exercício é configurável via `ExercicioCompletar.tolerancia_levenshtein`.
 """
 
 import logging
-from django.db import connection
+import unicodedata
 
 logger = logging.getLogger(__name__)
 
 
-def _run_levenshtein_query(resposta_usuario: str, resposta_correta: str) -> int:
+def _normalize(text: str) -> str:
     """
-    Executa a query de cálculo de distância de Levenshtein via PostgreSQL.
-    Aplica unaccent e lower em ambas as strings antes de comparar.
-
-    Retorna a distância (int). Menor = mais próximo. 0 = idêntico.
+    Normaliza texto para comparação:
+    - Strip de espaços
+    - Lowercase
+    - Remove diacríticos (acentos) via decomposição unicode NFD + filtro de Mn
     """
-    sql = """
-        SELECT levenshtein(
-            unaccent(lower(%s)),
-            unaccent(lower(%s))
-        )
-    """
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute(sql, [resposta_usuario.strip(), resposta_correta.strip()])
-            row = cursor.fetchone()
-            return row[0] if row else 999
-    except Exception as exc:
-        # Fallback: se a extensão não estiver disponível, usa comparação simples
-        logger.warning(
-            "levenshtein/unaccent não disponível no banco. Usando fallback simples. Erro: %s",
-            exc
-        )
-        return 0 if _normalize_fallback(resposta_usuario) == _normalize_fallback(resposta_correta) else 999
-
-
-def _normalize_fallback(text: str) -> str:
-    """Normalização básica sem extensão PostgreSQL (fallback de emergência)."""
-    import unicodedata
     text = text.strip().lower()
-    # Remove diacríticos manualmente
     return ''.join(
         c for c in unicodedata.normalize('NFD', text)
         if unicodedata.category(c) != 'Mn'
     )
+
+
+def _levenshtein(s1: str, s2: str) -> int:
+    """
+    Calcula a distância de Levenshtein entre duas strings em Python puro.
+    Complexidade: O(m*n) tempo e O(min(m,n)) espaço.
+    """
+    if s1 == s2:
+        return 0
+    len1, len2 = len(s1), len(s2)
+    # Garante que s2 seja a string mais curta para economizar memória
+    if len1 < len2:
+        s1, s2 = s2, s1
+        len1, len2 = len2, len1
+
+    row = list(range(len2 + 1))
+    for i, c1 in enumerate(s1, 1):
+        prev = i
+        for j, c2 in enumerate(s2, 1):
+            current = row[j - 1] if c1 == c2 else 1 + min(row[j - 1], row[j], prev)
+            row[j - 1] = prev
+            prev = current
+        row[len2] = prev
+    return row[len2]
+
+
+def _run_levenshtein_query(resposta_usuario: str, resposta_correta: str) -> int:
+    """
+    Calcula a distância de Levenshtein entre as duas respostas usando Python puro.
+    Aplica normalização (sem acentos, lowercase) antes de comparar.
+
+    Retorna a distância (int). Menor = mais próximo. 0 = idêntico.
+    """
+    return _levenshtein(_normalize(resposta_usuario), _normalize(resposta_correta))
+
+
+def _normalize_fallback(text: str) -> str:
+    """Alias mantido por compatibilidade com código legado que possa usar este helper."""
+    return _normalize(text)
+
+
 
 
 class ValidationResult:

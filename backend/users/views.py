@@ -39,16 +39,28 @@ def check_user(request):
     user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
     exists = user is not None
 
+    variante_ativa_data = None
+    if user and user.variante_ativa:
+        # Inclui status de nivelamento para que o Flutter saiba se deve redirecionar ao teste
+        from nivelamento.models import TestAttempt, UserVarianteLevel
+        variante = user.variante_ativa
+        ja_testou = TestAttempt.objects.filter(user=user, variante=variante).exists()
+        nivel_obj = UserVarianteLevel.objects.filter(user=user, variante=variante).first()
+        variante_ativa_data = {
+            "id": variante.id,
+            "nome": variante.nome,
+            "codigo": variante.codigo,
+            "ja_testou": ja_testou,
+            "nivel": nivel_obj.nivel if nivel_obj else None,
+        }
+
     return JsonResponse({
         "status": "Autenticado com sucesso",
         "exists": exists,
         "xp_total": user.xp_total if user else 0,
-        "variante_ativa": {
-            "id": user.variante_ativa.id,
-            "nome": user.variante_ativa.nome,
-            "codigo": user.variante_ativa.codigo,
-        } if user and user.variante_ativa else None,
+        "variante_ativa": variante_ativa_data,
     })
+
 
 
 @csrf_exempt
@@ -91,9 +103,21 @@ def register_user(request):
         logger.warning("Conflito de integridade ao criar UserProfile para uid=%s", user_id)
         existing_user = UserProfile.objects.filter(email=email).first()
         if existing_user:
-            existing_user.supabase_uid = user_id
-            existing_user.save(update_fields=['supabase_uid'])
-            return JsonResponse({"status": "Usuario re-sincronizado", "created": False})
+            # SECURITY-001: Nunca sobrescrevemos o supabase_uid de um perfil existente
+            # para evitar Account Takeover. O email já está vinculado a outra conta.
+            logger.warning(
+                "Tentativa de re-registro com email já existente. "
+                "email=%s novo_uid=%s uid_existente=%s",
+                email, user_id, existing_user.supabase_uid,
+            )
+            return JsonResponse(
+                {
+                    "error": "Este e-mail já está associado a uma conta. "
+                             "Por favor, faça login com a conta original.",
+                    "code": "EMAIL_ALREADY_EXISTS",
+                },
+                status=409,
+            )
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 
     if not created:

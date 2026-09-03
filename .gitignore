@@ -14,7 +14,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/ e lib64/ removidos para não ignorar lib/ do Flutter
 lib64/
 parts/
 sdist/

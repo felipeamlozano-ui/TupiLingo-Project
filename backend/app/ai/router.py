@@ -18,13 +18,14 @@ logger = logging.getLogger(__name__)
 # FAST: latência crítica — geração de quiz com prompt < 800 tokens.
 # Modelos com excelente tempo de resposta (<1s) e tiers gratuitos generosos.
 _CHAIN_FAST: list[str] = [
-    # 1. Provedores ultrarrápidos dedicados (LPU / Groq)
-    "groq/qwen/qwen3.8-27b",
-    "groq/groq/compound",
-    "groq/groq/compound-mini",
+    # 1. Provedores ultrarrápidos ativos (Groq LPU e Google Gemini)
     "groq/openai/gpt-oss-120b",
     "groq/openai/gpt-oss-20b",
+    "gemini/gemini-2.5-flash",
+    "groq/compound-mini",
+    "groq/qwen/qwen3.8-27b",
     "groq/allam-2-7b",
+
 
     # 2. Cohere API Nativa
     "cohere/command-r-08-2024",

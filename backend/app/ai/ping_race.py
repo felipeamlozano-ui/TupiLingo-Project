@@ -1,22 +1,20 @@
-import asyncio
-import litellm
+import concurrent.futures
 import logging
 import time
+import litellm
 
 logger = logging.getLogger(__name__)
 
+
 class PingRaceRouter:
     """
-    Implementa a lógica de Lowest Latency Routing (Corrida de Ping) com:
-      - Health Cache / TTL (evita queimar cotas de RPM em chamadas subsequentes)
-      - Circuit Breaker / Cooldown (penaliza modelos que tomarem 429/timeout por 60s)
-      - Cancelamento preemptivo de requisições pendentes
+    Implementa Lowest Latency Routing (Corrida de Ping Concorrente) em tempo real:
+      - Dispara micro-pings em paralelo para os modelos candidatos via ThreadPoolExecutor.
+      - O primeiro modelo a responder com HTTP 200 é eleito o vencedor imediatamente.
+      - Circuit Breaker / Cooldown progressivo (5m -> 10m -> 30m) para modelos que falharem.
+      - 100% seguro em threads síncronas do Django/WSGI (sem conflitos com event loops de asyncio).
     """
-    
-    _cached_winner: str | None = None
-    _cached_winner_timestamp: float = 0.0
-    _CACHE_TTL_SECONDS: float = 30.0  # 30 segundos de cache do modelo vencedor
-    
+
     # Mapa de cooldown: { "provider/model": timestamp_liberacao }
     _cooldown_map: dict[str, float] = {}
     # Histórico de falhas consecutivas: { "provider/model": contagem }
@@ -39,9 +37,6 @@ class PingRaceRouter:
             duration = cls._BASE_COOLDOWN_SECONDS * 6
 
         cls._cooldown_map[target] = now + duration
-        if cls._cached_winner == target:
-            cls._cached_winner = None
-            cls._cached_winner_timestamp = 0.0
         logger.warning(
             "[PingRace] Modelo %s penalizado em cooldown por %ds (%dª falha).",
             target,
@@ -63,19 +58,19 @@ class PingRaceRouter:
         return now < expiry
 
     @classmethod
-    async def _ping_model(cls, target: str) -> str:
-        """Envia um micro-ping para um único modelo e retorna o nome se HTTP 200."""
+    def _ping_single_model(cls, target: str) -> str:
+        """Envia um micro-ping síncrono para um único modelo e retorna o nome se HTTP 200."""
         provider_name, model_name = target.split("/", 1)
         full_model = f"{provider_name}/{model_name}"
         messages = [{"role": "user", "content": "ping"}]
-        
+
         try:
-            # max_tokens=1, timeout curto para fail-fast no ping
-            await litellm.acompletion(
+            # max_tokens=1, timeout curto (1.5s) para fail-fast no ping
+            litellm.completion(
                 model=full_model,
                 messages=messages,
                 max_tokens=1,
-                timeout=1.0
+                timeout=1.5,
             )
             return target
         except Exception as e:
@@ -84,69 +79,59 @@ class PingRaceRouter:
             raise e
 
     @classmethod
-    async def get_fastest_model(cls, chain: list[str]) -> str:
+    def get_fastest_model(cls, chain: list[str]) -> str:
         """
-        Executa a corrida de ping entre os modelos ativos (fora de cooldown).
-        Utiliza cache TTL para evitar pings redundantes se uma rota saudável já foi eleita.
+        Executa a corrida de ping concorrente entre os modelos ativos (fora de cooldown).
+        O primeiro a responder com HTTP 200 é eleito o vencedor da corrida.
         """
-        now = time.monotonic()
-        
-        # 1. Checa Health Cache
-        if cls._cached_winner and (now - cls._cached_winner_timestamp < cls._CACHE_TTL_SECONDS):
-            if not cls.is_in_cooldown(cls._cached_winner) and cls._cached_winner in chain:
-                logger.info(
-                    "[PingRace] Cache HIT: reutilizando rota rápida '%s' (TTL restante: %ds).",
-                    cls._cached_winner,
-                    int(cls._CACHE_TTL_SECONDS - (now - cls._cached_winner_timestamp)),
-                )
-                return cls._cached_winner
-
         if not chain:
             raise ValueError("Cadeia de modelos vazia para a Ping Race.")
 
-        # 2. Filtra modelos que não estejam em cooldown
+        # 1. Filtra modelos que não estejam em cooldown
         active_chain = [m for m in chain if not cls.is_in_cooldown(m)]
-        
-        # Se todos estiverem em cooldown (raro), reseta e tenta a cadeia completa
+
+        # Se todos estiverem em cooldown, reseta e tenta a cadeia completa
         if not active_chain:
             logger.warning("[PingRace] Todos os modelos estão em cooldown. Resetando penalidades.")
             cls._cooldown_map.clear()
             active_chain = list(chain)
-            
-        t_start = time.monotonic()
-        # Limita a corrida concorrente aos top 5 candidatos mais velozes para latência mínima (<500ms)
+
+        # Limita a corrida concorrente aos top 5 candidatos para uso eficiente de rede/tokens
         race_pool = active_chain[:5]
+        t_start = time.monotonic()
         logger.info(
-            "[PingRace] Iniciando corrida rápida entre os top %d modelos ativos na nuvem...",
+            "[PingRace] Iniciando corrida de ping em paralelo entre %d modelos: %s",
             len(race_pool),
+            race_pool,
         )
-        
-        # Cria as tasks de ping
-        tasks = [asyncio.create_task(cls._ping_model(target)) for target in race_pool]
-        
-        try:
-            for coro in asyncio.as_completed(tasks):
+
+        # Executa pings em paralelo usando ThreadPoolExecutor
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(race_pool)) as executor:
+            future_to_model = {
+                executor.submit(cls._ping_single_model, target): target
+                for target in race_pool
+            }
+
+            # as_completed entrega o primeiro future que terminar
+            for future in concurrent.futures.as_completed(future_to_model):
+                target = future_to_model[future]
                 try:
-                    winner = await coro
-                    # Vencedor encontrado! Cancela as outras tasks pendentes
-                    for task in tasks:
-                        if not task.done():
-                            task.cancel()
-                    
+                    winner = future.result()
                     latency_ms = int((time.monotonic() - t_start) * 1000)
-                    
-                    # Salva no Health Cache
-                    cls._cached_winner = winner
-                    cls._cached_winner_timestamp = time.monotonic()
-                    
-                    logger.info("[PingRace] ✓ Vencedor: %s em %d ms.", winner, latency_ms)
+                    cls.record_success(winner)
+                    logger.info("[PingRace] 🏁 Vencedor: %s em %d ms!", winner, latency_ms)
+
+                    # Cancela os outros futures pendentes que ainda não iniciaram
+                    for f in future_to_model:
+                        if f != future and not f.done():
+                            f.cancel()
+
                     return winner
                 except Exception:
-                    # Falhou, tenta a próxima task que completar
+                    # Falhou para esse modelo, continua aguardando o próximo no as_completed
                     continue
-            
-            # Se todos falharem
-            raise RuntimeError("Todos os modelos ativos falharam na corrida de ping.")
-            
-        except Exception as e:
-            raise RuntimeError(f"Erro na corrida de ping: {e}")
+
+        # Se todos os modelos do race_pool falharem no ping
+        logger.warning("[PingRace] Todos os modelos testados falharam no ping. Usando topo da cadeia.")
+        return chain[0]
+

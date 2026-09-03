@@ -111,22 +111,36 @@ class _AuthGateState extends State<AuthGate> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data["exists"] == true) {
-          String tupiLevel = data["tupi_level"]?.toString() ?? "";
-          bool isNumeric = int.tryParse(tupiLevel) != null;
+          // FLUTTER-006: Usa o contrato V2 da API (variante_ativa + ja_testou).
+          // O antigo campo tupi_level foi removido; o nível agora é por variante.
+          final varianteAtiva = data["variante_ativa"];
+          final bool jaTestou = varianteAtiva?["ja_testou"] == true;
 
-          if (isNumeric || tupiLevel == 'nenhum') {
+          if (jaTestou) {
+            // Usuário já completou o nivelamento para a variante ativa → vai para Home
             Navigator.pushReplacementNamed(context, '/home');
-          } else {
+          } else if (varianteAtiva != null) {
+            // Variante ativa existe mas ainda não foi nivelado → fluxo de nivelamento
+            final String varianteNome = varianteAtiva["nome"]?.toString() ?? 'iniciante';
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (_) => TesteScreen(
-                  nivel: tupiLevel.isNotEmpty ? tupiLevel : 'iniciante',
+                  nivel: varianteNome,
                 ),
+              ),
+            );
+          } else {
+            // Sem variante ativa → usuário precisa escolher língua / fazer nivelamento
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const TesteScreen(nivel: 'iniciante'),
               ),
             );
           }
         } else {
+
           Navigator.pushReplacementNamed(context, '/register');
         }
       } else {

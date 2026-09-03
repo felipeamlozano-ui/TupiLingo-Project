@@ -41,20 +41,17 @@ def _get_user_or_error(request) -> tuple[UserProfile | None, JsonResponse | None
         )
 
     user = UserProfile.objects.filter(supabase_uid=supabase_uid).first()
-    if not user:
-        email = request.user_data.get("email")
-        if email:
-            user = UserProfile.objects.filter(email=email).first()
-            if user:
-                user.supabase_uid = supabase_uid
-                user.save(update_fields=["supabase_uid"])
 
+    # SECURITY-002: Removida a re-sincronização silenciosa por email.
+    # Não atualizamos supabase_uid baseado em email pois isso permite Account Takeover:
+    # um atacante com um JWT de uid diferente poderia sequestrar qualquer conta pelo email.
     if not user:
         return None, JsonResponse(
             {"success": False, "error": {"code": "NOT_FOUND", "message": "Usuário não encontrado."}},
             status=404,
         )
     return user, None
+
 
 
 @csrf_exempt
