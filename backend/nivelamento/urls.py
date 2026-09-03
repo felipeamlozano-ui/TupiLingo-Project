@@ -13,4 +13,9 @@ urlpatterns = [
         views.avaliar_teste,
         name="avaliar_teste",
     ),
+    path(
+        "nivelamento/check-variante/",
+        views.check_teste_variante,
+        name="check_teste_variante",
+    ),
 ]

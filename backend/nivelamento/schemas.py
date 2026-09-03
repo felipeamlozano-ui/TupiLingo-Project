@@ -9,6 +9,7 @@ class GenerateQuestionPayload(BaseModel):
     """Validação do payload recebido na API de nivelamento."""
 
     nivel_atual: int
+    variante_id: int  # NOVO: obrigatório — isola o teste por língua
     acertou_anterior: bool | None = None
 
     @field_validator("nivel_atual", check_fields=False)
@@ -17,6 +18,13 @@ class GenerateQuestionPayload(BaseModel):
         """Garante que o nível está entre 1 e 10."""
         if not (1 <= v <= 10):
             raise ValueError(f"nivel_atual deve estar entre 1 e 10, recebido: {v}")
+        return v
+
+    @field_validator("variante_id", check_fields=False)
+    @classmethod
+    def validar_variante(cls, v: int) -> int:
+        if v <= 0:
+            raise ValueError("variante_id deve ser um inteiro positivo.")
         return v
 
 

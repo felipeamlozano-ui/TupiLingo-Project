@@ -41,5 +41,7 @@ def initialize_providers():
         except Exception as e:
             print(f"Aviso: Não foi possível inicializar Ollama: {e}")
 
+
+
 # Executa ao importar
 initialize_providers()

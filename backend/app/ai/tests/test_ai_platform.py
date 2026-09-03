@@ -56,7 +56,7 @@ def test_router_selects_fast_chain():
 
 def test_router_selects_heavy_chain_for_large_context():
     chain = ModelRouter.get_chain_for_task(context_length=50000)
-    assert any("gemini-2.5-pro" in item for item in chain)
+    assert any("gemini-2.5-flash" in item for item in chain)
 
 @patch("app.ai.fallback.wait_exponential_jitter", return_value=MagicMock())
 def test_fallback_orchestrator_success(mock_jitter):

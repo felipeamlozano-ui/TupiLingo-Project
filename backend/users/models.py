@@ -1,32 +1,28 @@
+"""
+Models principais do sistema de usuários do TupiLingo.
+
+Inclui:
+- UserProfile: perfil do usuário autenticado via Supabase Auth.
+- Achievement / UserAchievement: sistema de medalhas culturais.
+- UserLesson: progresso do usuário por Lição.
+- VocabularyProgress: revisão espaçada (SM-2) por palavra.
+- FilaExercicioUsuario: buffer de exercícios offline.
+"""
+
 import uuid
 from django.db import models
 from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+
+
+# ─── Choices ─────────────────────────────────────────────────────────────────
+
 class StatusFilaChoices(models.TextChoices):
     """Estado do exercício em relação ao dispositivo do usuário."""
     NA_FILA = 'na_fila', 'Na Fila'
     BAIXADO = 'baixado', 'Baixado'
     CONCLUIDO = 'concluido', 'Concluído'
-
-    
-class TupiLevelChoices(models.TextChoices):
-    """Valores permitidos para o nível de Tupi do usuário."""
-    NENHUM = 'nenhum', 'Sem conhecimento'
-    INICIANTE = 'iniciante', 'Iniciante'
-    INTERMEDIARIO = 'intermediario', 'Intermediário'
-    AVANCADO = 'avancado', 'Avançado'
-    # Níveis numéricos pós-teste (1-10) são gerenciados pela view
-    N1 = '1', 'Nível 1'
-    N2 = '2', 'Nível 2'
-    N3 = '3', 'Nível 3'
-    N4 = '4', 'Nível 4'
-    N5 = '5', 'Nível 5'
-    N6 = '6', 'Nível 6'
-    N7 = '7', 'Nível 7'
-    N8 = '8', 'Nível 8'
-    N9 = '9', 'Nível 9'
-    N10 = '10', 'Nível 10'
 
 
 class SourceChoices(models.TextChoices):
@@ -39,19 +35,26 @@ class SourceChoices(models.TextChoices):
     VAZIO = '', 'Não informado'
 
 
+class TipoAchievementChoices(models.TextChoices):
+    """Tipo de conquista."""
+    XP_TIER = 'xp_tier', 'Medalha de XP'
+    CULTURAL = 'cultural', 'Conquista Cultural'
+    EXPLORACAO = 'exploracao', 'Exploração'
+
+
+# ─── UserProfile ─────────────────────────────────────────────────────────────
+
 class UserProfile(models.Model):
     """
     Perfil do usuário vinculado ao Supabase Auth.
     O supabase_uid é o 'sub' (subject) do JWT do Supabase,
     que identifica unicamente cada usuário autenticado.
     """
-    # supabase_uid é único e indexado para consultas rápidas
     supabase_uid = models.UUIDField(
         unique=True,
         db_index=True,
         help_text="UUID do usuário no Supabase Auth (campo 'sub' do JWT)",
     )
-    # Garante que não haja duplicidade de emails, e indexa para consultas rápidas
     email = models.EmailField(
         unique=True,
         db_index=True,
@@ -64,135 +67,225 @@ class UserProfile(models.Model):
         choices=SourceChoices.choices,
         help_text="Como o usuário conheceu o app",
     )
-    
-    tupi_level = models.CharField(
-        max_length=30,
+
+    # ── Variante ativa ───────────────────────────────────────────────────────
+    # A variante que o usuário está estudando atualmente.
+    # Definida na primeira seleção e pode ser alterada (o que requer novo teste de nivelamento).
+    variante_ativa = models.ForeignKey(
+        'trilha.VarianteTupi',
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
-        default='',
-        choices=TupiLevelChoices.choices,
-        help_text="Nível de conhecimento em Tupi",
+        related_name='usuarios_ativos',
+        verbose_name="Variante Tupi Ativa",
+        help_text="Língua/Variante que o usuário está estudando atualmente."
     )
+
+    # ── Gamificação (sem punição, sem corações) ──────────────────────────────
+    xp_total = models.IntegerField(
+        default=0,
+        verbose_name="XP Total",
+        help_text="Pontuação de experiência acumulada ao longo de toda a jornada."
+    )
+
+    # ── Medalhas ─────────────────────────────────────────────────────────────
+    achievements = models.ManyToManyField(
+        'Achievement',
+        through='UserAchievement',
+        related_name='usuarios',
+        blank=True
+    )
+
+    # ── Timestamps ───────────────────────────────────────────────────────────
     created_at = models.DateTimeField(auto_now_add=True)
-   
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Perfil do Usuário'
         verbose_name_plural = 'Perfis dos Usuários'
-        indexes = [
-            models.Index(
-                fields=['tupi_level'],
-                name='userprofile_level_idx',
-                condition=models.Q(tupi_level__gt=''),
-            ),
-        ]
 
     def __str__(self):
-        return f"{self.name} ({self.email}) — nível: {self.tupi_level or 'indefinido'}"
-
-    # Integração da pontuação total do usuário, que pode ser calculada a partir de medalhas e progresso em módulos (Para o futuro, pode-se criar um método que atualize a pontuação com base em medalhas e progresso)
-    pontos = models.IntegerField(default=0, help_text="Pontuação total acumulada")
-    medalhas = models.ManyToManyField('Medalha', through='UsuarioMedalha', related_name='usuarios')
-    modulos = models.ManyToManyField('Modulo', through='UsuarioModulo', related_name='usuarios_progresso')
+        return f"{self.name} ({self.email})"
 
 
-class Modulo(models.Model):
-    titulo = models.CharField(max_length=255, null=False, blank=False, verbose_name="titulo")
-    descricao = models.CharField(max_length=255, verbose_name='descricao')
-    dificuldade = models.IntegerField(default=10, verbose_name="dificuldade")
-class UserModulo(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="usuario")
-    modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, verbose_name="modulo")
-    bloqueado = models.BooleanField(default=True, verbose_name="bloqueado")
-    
+# ─── Achievement ─────────────────────────────────────────────────────────────
+
+class Achievement(models.Model):
+    """
+    Medalha ou conquista desbloqueável pelo usuário.
+
+    Tipos:
+    - xp_tier: Conquistas por XP total acumulado (Semente, Folha, Arco, Guerreiro, Pajé, Guardião).
+    - cultural: Ganhas ao completar capítulos, ler curiosidades, dominar vocabulário.
+    - exploracao: Ganhas por completar trilhas de cenários específicos.
+
+    XP tiers: Semente=0, Folha=500, Arco=1500, Guerreiro=4000, Pajé=8000, Guardião=15000.
+    """
+    nome = models.CharField(max_length=100, unique=True, verbose_name="Nome")
+    descricao = models.TextField(verbose_name="Descrição")
+    tipo = models.CharField(
+        max_length=15,
+        choices=TipoAchievementChoices.choices,
+        default=TipoAchievementChoices.XP_TIER,
+        verbose_name="Tipo"
+    )
+    icone = models.CharField(
+        max_length=10,
+        blank=True,
+        verbose_name="Ícone Emoji",
+        help_text="Ex: 🌱 para Semente, 🏹 para Arco"
+    )
+    codigo = models.SlugField(
+        max_length=80,
+        unique=True,
+        verbose_name="Código",
+        help_text="Código interno único. Ex: xp_semente, cultural_floresta"
+    )
+    # Para conquistas de XP: quantidade mínima de XP necessária.
+    xp_necessario = models.IntegerField(
+        default=0,
+        verbose_name="XP Necessário",
+        help_text="Para conquistas do tipo xp_tier: mínimo de XP acumulado."
+    )
+    # Para conquistas culturais, pode estar ligada a um Capítulo ou Trilha.
+    # A lógica de desbloqueio é tratada no backend (achievement_service.py futuramente).
+
     class Meta:
-        verbose_name = 'Modulo do Usuario'
-        verbose_name_plural = 'Modulos do Usuario'
-
-class Medalha(models.Model):
-    nome = models.CharField(max_length=255, verbose_name="nome")
-    descricao = models.CharField(max_length=255, verbose_name="descricao")
-    icone = models.CharField(max_length=255, verbose_name="icone")
-    codigo = models.CharField(max_length=255, verbose_name="codigo")
+        verbose_name = "Conquista (Achievement)"
+        verbose_name_plural = "Conquistas (Achievements)"
+        ordering = ['xp_necessario', 'nome']
 
     def __str__(self):
-        return self.nome
+        return f"{self.icone} {self.nome}"
+
+
+class UserAchievement(models.Model):
+    """Relação Many-to-Many entre UserProfile e Achievement com data de conquista."""
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
+    conquistada_em = models.DateTimeField(auto_now_add=True, verbose_name="Conquistada em")
 
     class Meta:
-        verbose_name = "Medalha"
-        verbose_name_plural = "Medalhas"
-
-class UserMedalha(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="usuario")
-    medalha = models.ForeignKey(Medalha, on_delete=models.CASCADE, verbose_name="medalha")
-    dataConquista = models.DateTimeField(editable=False, auto_now=True, verbose_name="data conquista")
-
-    class Meta:
-        verbose_name = "Usuario Medalha"
-        verbose_name_plural = "Usuario Medalhas"
-
-class ExercicioBase(models.Model):
-    """Molde abstrato para os exercícios curados da trilha de aprendizagem."""
-    modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, related_name='%(class)ss')
-    enunciado = models.CharField(max_length=255, verbose_name="enunciado")
-    pontos = models.IntegerField(default=10)
-
-    class Meta:
-        abstract = True
+        verbose_name = "Conquista do Usuário"
+        verbose_name_plural = "Conquistas dos Usuários"
+        unique_together = ('user', 'achievement')
 
     def __str__(self):
-        return f"{self.modulo.titulo} - {self.enunciado[:30]}..."
-    
-class ExercicioEscolha(ExercicioBase):
-    opcoes = models.JSONField(null=False, blank=False, verbose_name="opcoes")
-    respostaCorreta = models.IntegerField(null=False, verbose_name="resposta correta")
+        return f"{self.user.name} desbloqueou '{self.achievement.nome}'"
+
+
+# ─── UserLesson ──────────────────────────────────────────────────────────────
+
+class UserLesson(models.Model):
+    """
+    Rastreia o progresso do usuário em cada Lição da Trilha.
+    Status: BLOQUEADA → DISPONÍVEL → EM_ANDAMENTO → CONCLUÍDA.
+    """
+    usuario = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name='progresso_licoes'
+    )
+    licao = models.ForeignKey(
+        'trilha.Licao',
+        on_delete=models.CASCADE,
+        related_name='progressos_usuarios'
+    )
+    status = models.CharField(
+        max_length=15,
+        choices=[
+            ('bloqueada', 'Bloqueada'),
+            ('disponivel', 'Disponível'),
+            ('em_andamento', 'Em Andamento'),
+            ('concluida', 'Concluída'),
+        ],
+        default='bloqueada',
+        verbose_name="Status"
+    )
+    # Percentual de conclusão (0-100), para caso o usuário saia no meio da lição.
+    completion_percentage = models.FloatField(
+        default=0.0,
+        verbose_name="Percentual de Conclusão"
+    )
+    # Taxa de acerto dos exercícios desta lição (0.0 a 1.0).
+    accuracy = models.FloatField(
+        default=0.0,
+        verbose_name="Taxa de Acerto"
+    )
+    earned_xp = models.IntegerField(
+        default=0,
+        verbose_name="XP Ganho nesta Lição"
+    )
+    iniciada_em = models.DateTimeField(null=True, blank=True, verbose_name="Iniciada em")
+    concluida_em = models.DateTimeField(null=True, blank=True, verbose_name="Concluída em")
 
     class Meta:
-        verbose_name = "Exercicio Escolha"
-        verbose_name_plural = "Exercicios Escolha"
+        verbose_name = "Progresso na Lição"
+        verbose_name_plural = "Progressos nas Lições"
+        unique_together = ('usuario', 'licao')
 
-class ExercicioCompletar(ExercicioBase):
-    textoComLacunas = models.TextField(blank=False, null=False, verbose_name="texto com lacunas")
-    respostasCorretas = models.JSONField(blank=False, null=False, verbose_name="respostas corretas")
+    def __str__(self):
+        return f"{self.usuario.name} — {self.licao.titulo} [{self.status}]"
+
+
+# ─── VocabularyProgress (SM-2) ────────────────────────────────────────────────
+
+class VocabularyProgress(models.Model):
+    """
+    Rastreia o progresso de memorização de cada VocabularyItem por usuário.
+    Implementa o algoritmo de Revisão Espaçada SM-2.
+
+    Como funciona:
+    - O usuário revisa palavras.
+    - Se acertar: o intervalo até a próxima revisão aumenta (ease_factor > 2.5).
+    - Se errar: o intervalo diminui e a palavra é revisada em breve.
+    - next_review: próximo datetime em que a palavra deve ser revisada.
+    """
+    usuario = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name='progresso_vocabulario'
+    )
+    item = models.ForeignKey(
+        'trilha.VocabularyItem',
+        on_delete=models.CASCADE,
+        related_name='progressos_usuarios'
+    )
+    # SM-2: número de repetições consecutivas corretas.
+    repetitions = models.IntegerField(default=0)
+    # SM-2: fator de facilidade (default 2.5). Cresce com acertos, cai com erros.
+    ease_factor = models.FloatField(default=2.5)
+    # SM-2: intervalo atual em dias até a próxima revisão.
+    interval_days = models.IntegerField(default=1)
+    # Data/hora da próxima revisão.
+    next_review = models.DateTimeField(default=timezone.now)
+    # Última vez que o item foi revisado.
+    last_reviewed = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Exercicio Completar"
-        verbose_name_plural = "Exercicios Completar"
+        verbose_name = "Progresso de Vocabulário"
+        verbose_name_plural = "Progressos de Vocabulário"
+        unique_together = ('usuario', 'item')
 
-class ExercicioAssociacao(ExercicioBase):
-    colunaEsquerda = models.JSONField(blank=False, null=False, verbose_name="coluna esquerda")
-    colunaDireita = models.JSONField(blank=False, null=False, verbose_name="coluna direita")
-    associacaoCorreta = models.JSONField(blank=False, null=False, verbose_name="associacao correta")
+    def __str__(self):
+        return f"{self.usuario.name} — {self.item.palavra_tupi} (próxima: {self.next_review.date()})"
 
-    class Meta:
-        verbose_name = "Exercicio Associacao"
-        verbose_name_plural = "Exercicios Associacao"
-class ExercicioCompletar(ExercicioBase):
-    texto_com_lacunas = models.TextField(help_text="Texto contendo marcadores para as lacunas")
-    respostas_corretas = models.JSONField(help_text="Lista de palavras esperadas nas lacunas")
-# Essa classe é utilizada para a IA gerar a questão, aqui é apenas visual
-# class QuestaoSchema(BaseModel):
-#     enunciado: str = Field(description="Enunciado da questão")
-#     contexto: Optional[str] = Field(None, description="Contexto extra ou trecho base")
-#     alternativas: List[Alternativa] = Field(description="Lista de alternativas da questão")
-#     resposta_correta: str = Field(description="Letra correspondente à resposta correta")
-#     explicacao: str = Field(description="Explicação da resposta")
-#     dificuldade: str = Field(description="Dificuldade da questão")
-#     categoria: str = Field(description="Categoria gramatical ou semântica (ex: Verbos, Vocabulário)")
-#     idioma: str = Field(default="tupi", description="Idioma alvo da questão")
+
+# ─── FilaExercicioUsuario ─────────────────────────────────────────────────────
+
 class FilaExercicioUsuario(models.Model):
-    # Classe para controlar a fila de exercícios no buffer do dispositivo (Evita atrasos devido a conexões lentas)
+    """
+    Buffer de exercícios no dispositivo do usuário.
+    Evita atrasos por conexões lentas, permitindo operação offline.
+    """
     usuario = models.ForeignKey(
         'UserProfile',
         on_delete=models.CASCADE,
         related_name='fila_exercicios'
     )
-
-    # Lembrar de definir contenttype na hora de realizar essa consulta
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    
-    exercicio = GenericForeignKey('content_type', 'object_id') # Mudar depois que definir a classe exercicio
+    exercicio = GenericForeignKey('content_type', 'object_id')
 
     status = models.CharField(
         max_length=20,
@@ -201,10 +294,7 @@ class FilaExercicioUsuario(models.Model):
         help_text="Status de sincronização com o aparelho"
     )
     ordem_apresentacao = models.IntegerField(
-        help_text="Ordem que o exercicio deve aparecer no app" 
-
-        # Definir após criação da classe exercicio
-
+        help_text="Ordem que o exercício deve aparecer no app"
     )
     data_baixado = models.DateTimeField(null=True, blank=True)
     data_conclusao = models.DateTimeField(null=True, blank=True)
@@ -212,14 +302,12 @@ class FilaExercicioUsuario(models.Model):
     class Meta:
         verbose_name = 'Fila de Exercício do Usuário'
         verbose_name_plural = 'Filas de Exercícios dos Usuários'
-        # Garante a ordem correta quando o app solicitar a fila
-        ordering = ['ordem_apresentacao'] 
-        # Evita que o mesmo exercício entre na fila do usuário duas vezes
+        ordering = ['ordem_apresentacao']
         unique_together = ('usuario', 'content_type', 'object_id')
 
     def __str__(self):
         return f"Fila de {self.usuario.name} - {self.exercicio} ({self.get_status_display()})"
-    
+
     def marcar_como_baixado(self):
         self.status = StatusFilaChoices.BAIXADO
         self.data_baixado = timezone.now()

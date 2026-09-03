@@ -50,11 +50,19 @@ docker-compose*.yml
 rag_vectors.sqlite3
 vector_store.db
 
-# Logs
+# PDFs & Media (Montados via Volume no Docker Compose)
+pdfs/
+media/
+staticfiles/
+
+# Logs & Tests
 *.log
 worker.log
 worker_debug.log
 ingest_test.log
+test_*.py
+pytest.ini
+.pytest_cache/
 
 # Chroma DB
 chroma_db/

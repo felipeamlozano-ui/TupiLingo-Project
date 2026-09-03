@@ -12,10 +12,11 @@ services:
       context: .
       dockerfile: docker/django/Dockerfile.dev
     entrypoint: []
-    command: bash -c "pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - REDIS_URL=redis://redis:6379/0
+      - OLLAMA_API_BASE=http://host.docker.internal:11434
     volumes:
       # Hot reload: monta o código local dentro do container
       - .:/app
@@ -23,6 +24,8 @@ services:
       - huggingface_cache:/root/.cache/huggingface
     ports:
       - "8000:8000"   # Acesso direto ao Django em dev (sem precisar do Nginx)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - redis
 
@@ -30,17 +33,39 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile.dev
-    command: bash -c "pip install -r requirements.txt && python pdf_worker.py"
+    command: bash -c "python pdf_worker.py"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - REDIS_URL=redis://redis:6379/0
+      - OLLAMA_API_BASE=http://host.docker.internal:11434
     volumes:
       - .:/app
       - ./pdfs:/app/pdfs
       - huggingface_cache:/root/.cache/huggingface
     entrypoint: []   # Remove o entrypoint de produção (não precisa migrate aqui)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - redis
+
+  vocab_worker:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile.dev
+    command: bash -c "python manage.py extract_vocab_from_rag --continuous"
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.development
+      - REDIS_URL=redis://redis:6379/0
+      - OLLAMA_API_BASE=http://host.docker.internal:11434
+    volumes:
+      - .:/app
+      - huggingface_cache:/root/.cache/huggingface
+    entrypoint: []
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - redis
+      - django
 
   redis:
     image: redis:alpine

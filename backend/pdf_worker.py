@@ -16,7 +16,6 @@ import io
 import traceback
 from pathlib import Path
 
-# === CONFIGURACAO ===
 BACKEND_DIR = Path(__file__).resolve().parent
 PDFS_DIR = BACKEND_DIR / "pdfs"
 DB_PATH = BACKEND_DIR / "vector_store.db"
@@ -34,7 +33,6 @@ else:
     TESSERACT_CMD = "tesseract"  # No Linux/Docker, está no PATH do sistema
 
 
-# === LOGGING ===
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -45,7 +43,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger("pdf_worker")
 
-# === IMPORTS ===
 try:
     import PyPDF2
     logger.info("PyPDF2 carregado.")
@@ -69,7 +66,6 @@ try:
 except Exception as e:
     logger.warning(f"Tesseract indisponivel: {e}. OCR de imagens desabilitado.")
 
-# === BANCO DE DADOS VETORIAL (SQLite puro) ===
 def init_db():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(DB_PATH))
@@ -118,37 +114,34 @@ def save_chunks(ids, documents, embeddings, filenames, file_hashes, pages, chunk
     conn.commit()
     conn.close()
 
-# === LOCAL EMBEDDER ===
 _embedder_model = None
 
 def get_worker_embedder():
     global _embedder_model
     if _embedder_model is None:
         try:
-            os.environ["HF_HUB_OFFLINE"] = "1"
-            from sentence_transformers import SentenceTransformer
-            logger.info("Carregando modelo de IA Local para Embeddings no Worker...")
-            _embedder_model = SentenceTransformer('all-MiniLM-L6-v2')
+            from fastembed import TextEmbedding
+            logger.info("Carregando modelo FastEmbed para Embeddings no Worker...")
+            _embedder_model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
         except Exception as e:
-            logger.error(f"Erro ao carregar modelo de IA local: {e}")
+            logger.error(f"Erro ao carregar modelo FastEmbed: {e}")
     return _embedder_model
 
 def embed_texts(texts: list) -> list:
-    """Gera embeddings localmente via CPU (processador offline)."""
+    """Gera embeddings localmente via CPU (processador offline) usando FastEmbed ONNX."""
     model = get_worker_embedder()
     if not model or not texts:
         return [[0.0] * EMBEDDING_DIM for _ in texts]
     
     try:
-        # Codifica localmente, converte para lista de floats
-        embeddings = model.encode(texts, convert_to_numpy=True)
-        return embeddings.tolist()
+        # FastEmbed retorna gerador de numpy arrays de 384 dimensões
+        embeddings = list(model.embed(texts))
+        return [emb.tolist() for emb in embeddings]
     except Exception as e:
         logger.warning(f"Erro gerando embeddings localmente: {e}")
         return [[0.0] * EMBEDDING_DIM for _ in texts]
 
 
-# === PROCESSAMENTO DE PDF ===
 def chunk_text(text: str) -> list:
     chunks = []
     text = text.strip()
@@ -183,11 +176,12 @@ def get_file_hash(path: Path) -> str:
     return h.hexdigest()
 
 
-def process_pdf(pdf_path: Path, file_hash: str, progress: dict):
+def process_pdf(pdf_path: Path, file_hash: str, progress: dict) -> int:
     filename = pdf_path.name
     prog_key = file_hash
     last_page = progress.get(prog_key, {}).get("last_page", 0)
     chunk_counter = progress.get(prog_key, {}).get("chunk_counter", 0)
+    initial_chunk_counter = chunk_counter
 
     logger.info(f"\n{'='*60}")
     logger.info(f"Processando: {filename} ({pdf_path.stat().st_size / 1024 / 1024:.1f} MB)")
@@ -201,7 +195,7 @@ def process_pdf(pdf_path: Path, file_hash: str, progress: dict):
         logger.info(f"Total de paginas: {total_pages}")
     except Exception as e:
         logger.error(f"Nao foi possivel abrir {filename}: {e}")
-        return
+        return 0
 
     # Processa pagina por pagina (nunca carrega tudo na RAM)
     pending_ids = []
@@ -275,9 +269,12 @@ def process_pdf(pdf_path: Path, file_hash: str, progress: dict):
         save_progress(progress)
         logger.info(f"CONCLUIDO: {filename} | {chunk_counter} chunks indexados.")
 
+        return chunk_counter - initial_chunk_counter
+
     except Exception as e:
         logger.error(f"Erro fatal em {filename}: {e}")
         traceback.print_exc()
+        return 0
 
 
 def main():
@@ -302,6 +299,7 @@ def main():
 
             progress = load_progress()
             processed_any = False
+            total_new_chunks = 0
 
             for pdf_path in pdfs:
                 try:
@@ -313,8 +311,10 @@ def main():
                         save_progress(progress)
                         continue
                     
-                    process_pdf(pdf_path, file_hash, progress)
-                    processed_any = True
+                    new_chunks = process_pdf(pdf_path, file_hash, progress)
+                    if new_chunks > 0:
+                        total_new_chunks += new_chunks
+                        processed_any = True
                 except Exception as e:
                     logger.error(f"Erro com {pdf_path.name}: {e}")
                     traceback.print_exc()
@@ -322,7 +322,11 @@ def main():
             if processed_any:
                 logger.info("\n" + "=" * 60)
                 logger.info("  Ingestao de novos PDFs concluida!")
+                logger.info(f"  {total_new_chunks} novos chunks extraídos.")
                 logger.info("=" * 60)
+                
+                if total_new_chunks > 0:
+                    logger.info("  Aguardando o vocab_worker processar os novos vetores em background...")
             
             # Aguarda 30 segundos antes de verificar novamente
             time.sleep(30)

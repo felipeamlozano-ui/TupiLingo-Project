@@ -14,6 +14,7 @@ if %ERRORLEVEL% NEQ 0 (
     echo [OK] ADB Reverse configurado com sucesso!
 )
 
+
 :: 2. Inicia os containers Docker (Django + Nginx + PDF Worker)
 echo [2/4] Iniciando o Backend via Docker...
 cd /d "%PROJECT_DIR%backend"
@@ -30,7 +31,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo [OK] Django esta respondendo!
 
-:: 5. Inicia o Flutter na janela atual
+:: 4. Inicia o Flutter na janela atual
 echo [4/4] Iniciando o aplicativo Flutter...
 cd /d "%PROJECT_DIR%frontend\tupi_lingo"
 flutter run --dart-define-from-file=.env

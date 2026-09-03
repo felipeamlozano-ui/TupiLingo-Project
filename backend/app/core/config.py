@@ -20,6 +20,12 @@ class Settings(BaseSettings):
     ENABLE_OPENAI: bool = True
     ENABLE_OTEL: bool = True
     ENABLE_METRICS: bool = True
+    # RFC v3.0: Engine Heurística Determinística
+    # true  → usa RPC Supabase + LLM para redação (prod)
+    # false → usa pipeline legado GraphRAG (rollback imediato)
+    USE_SUPABASE_QUIZ_ENGINE: bool = True
+    # TTL do cache de quiz gerado pela engine hírida (padrão: 24h)
+    QUIZ_CACHE_TTL: int = 3600 * 24
 
     # Supabase (used elsewhere, keeping decoupled if possible, but safe to list)
     SUPABASE_URL: str = ""
@@ -41,10 +47,11 @@ class Settings(BaseSettings):
     # Fallback Chain Configuration (can be overridden via env)
     FALLBACK_CHAIN: List[str] = Field(
         default=[
+            "groq/openai/gpt-oss-20b",
+            "cerebras/llama3.1-8b",
+            "groq/openai/gpt-oss-120b",
             "gemini/gemini-2.5-flash",
-            "cerebras/gpt-oss-120b",
             "openai/gpt-4o-mini",
-            "groq/qwen/qwen3.6-27b"
         ]
     )
 

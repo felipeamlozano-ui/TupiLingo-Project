@@ -31,9 +31,7 @@ MOCK_JWT_PAYLOAD = {"sub": "12345678-1234-1234-1234-123456789abc"}
 class WebhookViewTest(TestCase):
     """Testes para o endpoint gerar_questao_nivelamento via API Auth."""
 
-    # ------------------------------------------------------------------
     # Método HTTP (Sem Autenticação)
-    # ------------------------------------------------------------------
     def test_get_sem_auth_retorna_401(self) -> None:
         """GET sem token deve retornar 401 Unauthorized."""
         response = self.client.get(ENDPOINT)
@@ -48,9 +46,7 @@ class WebhookViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 401)
 
-    # ------------------------------------------------------------------
     # Método HTTP (Com Autenticação)
-    # ------------------------------------------------------------------
     @patch("users.decorators.jwt.decode", return_value=MOCK_JWT_PAYLOAD)
     @patch("users.decorators.jwks_client.get_signing_key_from_jwt")
     def test_get_com_auth_retorna_405(self, mock_get_key: MagicMock, mock_decode: MagicMock) -> None:
@@ -70,9 +66,7 @@ class WebhookViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 405)
 
-    # ------------------------------------------------------------------
     # Autenticação JWT (Supabase)
-    # ------------------------------------------------------------------
     def test_auth_ausente_retorna_401(self) -> None:
         """POST sem header Authorization deve retornar 401."""
         response = self.client.post(
@@ -112,9 +106,7 @@ class WebhookViewTest(TestCase):
         data = response.json()
         self.assertEqual(data["error"]["code"], "UNAUTHORIZED")
 
-    # ------------------------------------------------------------------
     # Payload inválido
-    # ------------------------------------------------------------------
     @patch("users.decorators.jwt.decode", return_value=MOCK_JWT_PAYLOAD)
     @patch("users.decorators.jwks_client.get_signing_key_from_jwt")
     def test_body_nao_json_retorna_400(self, mock_get_key: MagicMock, mock_decode: MagicMock) -> None:
@@ -175,9 +167,7 @@ class WebhookViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    # ------------------------------------------------------------------
     # Pipeline de sucesso
-    # ------------------------------------------------------------------
     @patch("nivelamento.views.RAGService")
     @patch("users.decorators.jwt.decode", return_value=MOCK_JWT_PAYLOAD)
     @patch("users.decorators.jwks_client.get_signing_key_from_jwt")
@@ -209,9 +199,7 @@ class WebhookViewTest(TestCase):
         self.assertIn("questao", data)
         self.assertEqual(len(data["questao"]["opcoes"]), 4)
 
-    # ------------------------------------------------------------------
     # Erro interno
-    # ------------------------------------------------------------------
     @patch("nivelamento.views.RAGService")
     @patch("users.decorators.jwt.decode", return_value=MOCK_JWT_PAYLOAD)
     @patch("users.decorators.jwks_client.get_signing_key_from_jwt")

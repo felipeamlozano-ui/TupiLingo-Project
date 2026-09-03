@@ -1,4 +1,5 @@
 import json
+import re
 from typing import Type
 from pydantic import BaseModel
 from openai import OpenAI
@@ -25,7 +26,12 @@ class GroqProvider(BaseProvider):
         )
 
     def _map_exception(self, e: Exception) -> Exception:
+        from app.ai.exceptions import AIProviderError
         if isinstance(e, openai.RateLimitError):
+            # 413 (request too large) = erro fatal para este modelo, nao faz retry
+            err_str = str(e)
+            if "413" in err_str or "too large" in err_str.lower() or "request too large" in err_str.lower():
+                return AIProviderError(f"Prompt excede limite de tokens do modelo: {e}")
             return RateLimitError(str(e))
         elif isinstance(e, openai.AuthenticationError):
             return AuthenticationError(str(e))
@@ -35,29 +41,56 @@ class GroqProvider(BaseProvider):
             return NetworkError(str(e))
         elif isinstance(e, openai.InternalServerError):
             return ServiceUnavailableError(str(e))
-        from app.ai.exceptions import AIProviderError
         return AIProviderError(str(e))
 
+    def _clean_content(self, content: str) -> str:
+        # Remove tags <think> e seu conteúdo
+        content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL)
+        return content.strip()
+
     def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:
-        try:
-            response = self.client.chat.completions.create(
-                model=model_name,
-                messages=[{"role": "user", "content": prompt}],
-                response_format={"type": "json_object"},
-                temperature=kwargs.get("temperature", 0.1),
-                max_tokens=kwargs.get("max_tokens", 2048)
-            )
-            content = response.choices[0].message.content
+        base_params = dict(
+            model=model_name,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=kwargs.get("temperature", 0.1),
+            max_tokens=kwargs.get("max_tokens", 2048),
+        )
+
+        def _parse(content: str) -> BaseModel:
+            content = self._clean_content(content)
             if not content:
                 raise StructuredOutputError("Resposta vazia do modelo.")
-            
-            # Validação via Pydantic
+            # Tenta parse direto
             try:
-                parsed = json.loads(content)
-                return schema(**parsed)
-            except (json.JSONDecodeError, ValueError) as ve:
-                raise StructuredOutputError(f"Falha ao processar JSON: {ve}")
-                
+                return schema(**json.loads(content))
+            except (json.JSONDecodeError, ValueError):
+                pass
+            # Extração manual do bloco { ... }
+            match = re.search(r'\{.*\}', content, re.DOTALL)
+            if match:
+                try:
+                    return schema(**json.loads(match.group(0)))
+                except (json.JSONDecodeError, ValueError):
+                    pass
+            raise StructuredOutputError("Não foi possível extrair JSON válido da resposta.")
+
+        try:
+            # Estratégia 1: response_format=json_object (gpt-oss-20b, gpt-oss-120b)
+            response = self.client.chat.completions.create(
+                **base_params,
+                response_format={"type": "json_object"},
+            )
+            return _parse(response.choices[0].message.content or "")
+
+        except openai.BadRequestError as e:
+            # Estratégia 2: sem response_format (qwen e outros que rejeitam json_object)
+            # Alguns modelos rejeitam json_object com 400 — tentamos sem e extraímos manualmente
+            try:
+                response = self.client.chat.completions.create(**base_params)
+                return _parse(response.choices[0].message.content or "")
+            except Exception as inner_e:
+                raise self._map_exception(inner_e)
+
         except Exception as e:
             raise self._map_exception(e)
 
@@ -68,6 +101,7 @@ class GroqProvider(BaseProvider):
                 messages=[{"role": "user", "content": prompt}],
                 temperature=kwargs.get("temperature", 0.7),
             )
-            return response.choices[0].message.content or ""
+            content = response.choices[0].message.content or ""
+            return self._clean_content(content)
         except Exception as e:
             raise self._map_exception(e)

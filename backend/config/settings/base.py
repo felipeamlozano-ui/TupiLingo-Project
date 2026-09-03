@@ -27,8 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    # Apps do TupiLingo
     'users',
     'nivelamento',
+    'trilha',
 ]
 
 MIDDLEWARE = [
