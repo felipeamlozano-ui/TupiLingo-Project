@@ -388,13 +388,49 @@ class RAGService:
             logger.error("[RAGService] RPC Supabase falhou: %s. Usando fallback legado.", exc)
             return self._generate_legacy(nivel_atual, variante_codigo)
 
+        # Se a categoria específica retornou menos de 10 itens (ex: fauna tem 7, historia tem 3, natureza tem 0),
+        # complementa com itens da categoria 'geral' da mesma variante para garantir SEMPRE exatamente 10 questões.
+        if len(esqueleto) < 10 and categoria != "geral":
+            logger.info(
+                "[RAGService] Categoria '%s' retornou %d itens (< 10). Complementando com 'geral'.",
+                categoria, len(esqueleto)
+            )
+            try:
+                extras = supabase_service.obter_esqueleto_quiz(
+                    variante_codigo=variante_codigo,
+                    categoria="geral",
+                    quantidade=10,
+                )
+                termos_existentes = {item.termo_tupi.lower() for item in esqueleto}
+                for extra in extras:
+                    if extra.termo_tupi.lower() not in termos_existentes:
+                        extra.item_id = len(esqueleto) + 1
+                        esqueleto.append(extra)
+                        termos_existentes.add(extra.termo_tupi.lower())
+                        if len(esqueleto) >= 10:
+                            break
+            except Exception as extra_exc:
+                logger.warning("[RAGService] Falha ao complementar esqueleto com categoria geral: %s", extra_exc)
+
+        # Se ainda assim o banco possuir menos de 10 itens no total para a variante, expande ciclicamente
+        if 0 < len(esqueleto) < 10:
+            logger.info("[RAGService] Expandindo esqueleto de %d para 10 itens garantidos.", len(esqueleto))
+            base_items = list(esqueleto)
+            idx = 0
+            while len(esqueleto) < 10:
+                original = base_items[idx % len(base_items)]
+                cloned = copy.deepcopy(original)
+                cloned.item_id = len(esqueleto) + 1
+                esqueleto.append(cloned)
+                idx += 1
+
         rpc_ms = int((time.monotonic() - t_rpc) * 1000)
         logger.info(
             "[RAGService] RPC concluída em %d ms. Itens retornados: %d.",
             rpc_ms, len(esqueleto),
         )
 
-        # Se o banco não tiver dados ainda, usa legado como fallback
+        # Se o banco não tiver dados ainda para esta variante, usa legado como fallback
         if not esqueleto:
             logger.warning(
                 "[RAGService] RPC retornou lista vazia para variante=%s. "
@@ -556,6 +592,12 @@ class RAGService:
 
         chain = ModelRouter.get_chain_for_task(task_type="fast")
         try:
+            winner = PingRaceRouter.get_fastest_model(chain)
+            chain = [winner] + [m for m in chain if m != winner]
+        except Exception as ping_exc:
+            logger.warning("[RAGService][Legacy] Ping Race falhou (%s). Prosseguindo com fallback padrão.", ping_exc)
+
+        try:
             resultado: _ExameSchema = FallbackOrchestrator.execute_with_fallback(
                 prompt=prompt,
                 schema=_ExameSchema,
@@ -563,6 +605,14 @@ class RAGService:
                 temperature=0.6,
             )
             result_dict = resultado.model_dump()
+            questoes = result_dict.get("questoes", [])
+            # Garante exatamente 10 questões se o modelo tiver retornado menos
+            if 0 < len(questoes) < 10:
+                base_q = list(questoes)
+                idx = 0
+                while len(questoes) < 10:
+                    questoes.append(copy.deepcopy(base_q[idx % len(base_q)]))
+                    idx += 1
             return self._shuffle_legacy(result_dict)
         except Exception as exc:
             logger.error("[RAGService][Legacy] Falha completa: %s", exc)

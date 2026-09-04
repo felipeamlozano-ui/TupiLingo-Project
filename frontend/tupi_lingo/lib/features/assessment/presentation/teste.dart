@@ -16,8 +16,13 @@ class _TupiColors {
 
 class TesteScreen extends StatefulWidget {
   final String nivel;
+  final Map<String, dynamic>? initialVariante;
 
-  const TesteScreen({super.key, required this.nivel});
+  const TesteScreen({
+    super.key,
+    required this.nivel,
+    this.initialVariante,
+  });
 
   @override
   State<TesteScreen> createState() => _TesteScreenState();
@@ -48,7 +53,14 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
   void initState() {
     super.initState();
     _initNivel();
-    _fetchVariantes();
+    if (widget.initialVariante != null) {
+      _selectedVariante = widget.initialVariante;
+      _isLoadingVariants = false;
+      _phase = 1;
+      _startTestForVariante(widget.initialVariante!);
+    } else {
+      _fetchVariantes();
+    }
   }
 
   void _initNivel() {

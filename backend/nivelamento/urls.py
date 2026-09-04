@@ -18,4 +18,9 @@ urlpatterns = [
         views.check_teste_variante,
         name="check_teste_variante",
     ),
+    path(
+        "nivelamento/definir-nivel-inicial/",
+        views.definir_nivel_inicial,
+        name="definir_nivel_inicial",
+    ),
 ]

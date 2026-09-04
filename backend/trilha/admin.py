@@ -26,6 +26,7 @@ from .models import (
     Licao,
     StoryBlock,
     VocabularyItem,
+    Exercicio,
     ExercicioEscolha,
     ExercicioCompletar,
     ExercicioAssociacao,
@@ -39,6 +40,13 @@ class StoryBlockInline(admin.TabularInline):
     extra = 1
     fields = ('ordem', 'tipo', 'titulo', 'conteudo', 'midia', 'xp_bonus')
     ordering = ('ordem',)
+    show_change_link = True
+
+
+class ExercicioInline(admin.TabularInline):
+    model = Exercicio
+    extra = 0
+    fields = ('ordem', 'tipo', 'enunciado', 'dificuldade', 'pontos_base')
     show_change_link = True
 
 
@@ -151,7 +159,7 @@ class LicaoAdmin(admin.ModelAdmin):
     list_filter = ('capitulo__trilha', 'publicada')
     ordering = ('capitulo', 'numero')
     search_fields = ('titulo',)
-    inlines = [StoryBlockInline, VocabularyItemInline, ExercicioEscolhaInline, ExercicioCompletarInline, ExercicioAssociacaoInline]
+    inlines = [StoryBlockInline, VocabularyItemInline, ExercicioInline, ExercicioEscolhaInline, ExercicioCompletarInline, ExercicioAssociacaoInline]
 
     fieldsets = (
         ('Identificação', {
@@ -222,6 +230,18 @@ class ExercicioAssociacaoAdmin(admin.ModelAdmin):
     list_display = ('enunciado_curto', 'licao', 'dificuldade', 'pontos_base')
     list_filter = ('dificuldade', 'licao__capitulo__trilha')
     search_fields = ('enunciado',)
+
+    def enunciado_curto(self, obj):
+        return obj.enunciado[:60] + '...' if len(obj.enunciado) > 60 else obj.enunciado
+    enunciado_curto.short_description = 'Enunciado'
+
+
+@admin.register(Exercicio)
+class ExercicioAdmin(admin.ModelAdmin):
+    list_display = ('enunciado_curto', 'licao', 'tipo', 'dificuldade', 'pontos_base', 'ordem')
+    list_filter = ('tipo', 'dificuldade', 'licao__capitulo__trilha')
+    search_fields = ('enunciado', 'explicacao')
+    ordering = ('licao', 'ordem')
 
     def enunciado_curto(self, obj):
         return obj.enunciado[:60] + '...' if len(obj.enunciado) > 60 else obj.enunciado

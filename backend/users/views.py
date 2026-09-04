@@ -185,25 +185,123 @@ def update_variante_ativa(request):
 
 @csrf_exempt
 @require_GET
-@ratelimit(key='ip', rate='20/m', block=True)
+@ratelimit(key='ip', rate='30/m', block=True)
+@supabase_auth_required
+def admin_check(request):
+    """Retorna se o usuário logado possui privilégios de administrador."""
+    from .decorators import is_request_admin
+    return JsonResponse({
+        "success": True,
+        "is_admin": is_request_admin(request),
+    })
+
+
+@csrf_exempt
+@require_GET
+@ratelimit(key='ip', rate='30/m', block=True)
 @supabase_auth_required
 def get_profile(request):
-    """Retorna o perfil completo do usuário com XP, achievements e progresso."""
+    """
+    Retorna o perfil completo do usuário (RF04 + RF10):
+    - Dados básicos e XP
+    - Nível calibrado na variante ativa
+    - Dias de ofensiva real
+    - Histórico detalhado das últimas lições concluídas
+    - Desempenho e taxa de acerto por capítulo
+    - Galeria completa de conquistas (desbloqueadas e bloqueadas)
+    """
+    from datetime import date, timedelta
+    from django.db.models import Avg
+    from nivelamento.models import UserVarianteLevel
+    from trilha.models import Capitulo
+    from .models import UserLesson
+    from .services.achievement_service import (
+        check_and_grant_xp_achievements,
+        get_all_achievements_with_status,
+    )
+
     user_id = request.user_data.get('sub')
     user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
     if not user:
         return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
 
-    # Achievements conquistados
-    achievements = []
-    for ua in user.userachievement_set.select_related('achievement').order_by('-conquistada_em'):
-        achievements.append({
-            'codigo': ua.achievement.codigo,
-            'nome': ua.achievement.nome,
-            'icone': ua.achievement.icone,
-            'tipo': ua.achievement.tipo,
-            'conquistada_em': ua.conquistada_em.isoformat(),
-        })
+    # 1. Nível calibrado na variante ativa
+    nivel_atual = 1
+    if user.variante_ativa:
+        lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=user.variante_ativa).first()
+        if lvl_obj:
+            nivel_atual = lvl_obj.nivel
+
+    # 2. Conquistas automáticas por XP e listagem
+    check_and_grant_xp_achievements(user)
+    achievements_desbloqueadas, achievements_bloqueadas = get_all_achievements_with_status(user)
+
+    # 3. Cálculo de Ofensiva (dias consecutivos)
+    datas_conclusao = list(
+        UserLesson.objects.filter(usuario=user, status='concluida', concluida_em__isnull=False)
+        .dates('concluida_em', 'day', order='DESC')
+    )
+    dias_ofensiva = 0
+    if datas_conclusao:
+        hoje = date.today()
+        ontem = hoje - timedelta(days=1)
+        primeira_data = datas_conclusao[0]
+        if primeira_data == hoje or primeira_data == ontem:
+            dias_ofensiva = 1
+            data_esperada = primeira_data - timedelta(days=1)
+            for d in datas_conclusao[1:]:
+                if d == data_esperada:
+                    dias_ofensiva += 1
+                    data_esperada -= timedelta(days=1)
+                else:
+                    break
+
+    # 4. Histórico recente de lições
+    licoes_qs = (
+        UserLesson.objects.filter(usuario=user, status='concluida')
+        .select_related('licao__capitulo')
+        .order_by('-concluida_em')[:10]
+    )
+    historico_licoes = [
+        {
+            'id': ul.licao.id,
+            'titulo': ul.licao.titulo,
+            'capitulo_titulo': ul.licao.capitulo.titulo,
+            'capitulo_numero': ul.licao.capitulo.numero,
+            'accuracy': ul.accuracy,
+            'accuracy_percent': int(round(ul.accuracy * 100)),
+            'earned_xp': ul.earned_xp,
+            'concluida_em': ul.concluida_em.isoformat() if ul.concluida_em else None,
+        }
+        for ul in licoes_qs
+    ]
+
+    # 5. Desempenho por Capítulo
+    desempenho_por_capitulo = []
+    if user.variante_ativa:
+        capitulos = Capitulo.objects.filter(
+            trilha__variante=user.variante_ativa, publicado=True
+        ).order_by('numero')
+        for cap in capitulos:
+            total_licoes = cap.licoes.filter(publicada=True).count()
+            concluidas = UserLesson.objects.filter(
+                usuario=user, licao__capitulo=cap, status='concluida'
+            )
+            qtd_concluidas = concluidas.count()
+            media_acc = concluidas.aggregate(m=Avg('accuracy'))['m'] or 0.0
+
+            desempenho_por_capitulo.append({
+                'capitulo_id': cap.id,
+                'numero': cap.numero,
+                'titulo': cap.titulo,
+                'total_licoes': total_licoes,
+                'licoes_concluidas': qtd_concluidas,
+                'accuracy_media': round(media_acc, 2),
+                'accuracy_percent': int(round(media_acc * 100)),
+            })
+
+    # Total de lições concluídas
+    total_licoes_concluidas = UserLesson.objects.filter(usuario=user, status='concluida').count()
 
     return JsonResponse({
         'success': True,
@@ -211,6 +309,9 @@ def get_profile(request):
             'name': user.name,
             'email': user.email,
             'xp_total': user.xp_total,
+            'nivel_atual': nivel_atual,
+            'dias_ofensiva': dias_ofensiva,
+            'total_licoes_concluidas': total_licoes_concluidas,
             'variante_ativa': {
                 'id': user.variante_ativa.id,
                 'nome': user.variante_ativa.nome,
@@ -218,5 +319,8 @@ def get_profile(request):
                 'icone': user.variante_ativa.icone,
             } if user.variante_ativa else None,
         },
-        'achievements': achievements,
+        'historico_licoes': historico_licoes,
+        'desempenho_por_capitulo': desempenho_por_capitulo,
+        'achievements': achievements_desbloqueadas,
+        'achievements_bloqueadas': achievements_bloqueadas,
     })

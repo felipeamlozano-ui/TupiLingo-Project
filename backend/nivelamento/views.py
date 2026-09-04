@@ -278,3 +278,53 @@ def check_teste_variante(request):
             "nivel": nivel_obj.nivel if nivel_obj else None,
         }
     )
+
+
+@csrf_exempt
+@ratelimit(key='ip', rate='20/m', block=True)
+@supabase_auth_required
+@require_POST
+def definir_nivel_inicial(request):
+    """
+    POST — Permite definir o nível inicial (ex: 1 para iniciante total)
+    sem a necessidade de realizar o teste adaptativo.
+    Payload: { "variante_id": int, "nivel": int }
+    """
+    user, err = _get_user_or_error(request)
+    if err:
+        return err
+    try:
+        body = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({"error": "JSON inválido."}, status=400)
+
+    variante_id = body.get('variante_id')
+    nivel = int(body.get('nivel', 1))
+
+    variante = VarianteTupi.objects.filter(id=variante_id, ativo=True).first()
+    if not variante:
+        return JsonResponse({"error": "Variante não encontrada."}, status=404)
+
+    lvl_obj, created = UserVarianteLevel.objects.get_or_create(
+        user=user, variante=variante, defaults={'nivel': nivel}
+    )
+    if not created and lvl_obj.nivel != nivel:
+        lvl_obj.nivel = nivel
+        lvl_obj.save(update_fields=['nivel', 'updated_at'])
+
+    TestAttempt.objects.get_or_create(
+        user=user,
+        variante=variante,
+        defaults={'nivel_inicial': nivel, 'nivel_calculado': nivel, 'score_total': 0.0}
+    )
+
+    user.variante_ativa = variante
+    user.save(update_fields=['variante_ativa', 'updated_at'])
+
+    return JsonResponse({
+        "success": True,
+        "variante_id": variante.id,
+        "nivel": lvl_obj.nivel,
+        "message": f"Nível inicial {lvl_obj.nivel} definido para {variante.nome}.",
+    })
+

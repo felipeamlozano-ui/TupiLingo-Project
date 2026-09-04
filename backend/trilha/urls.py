@@ -12,6 +12,7 @@ Endpoints:
 
 from django.urls import path
 from . import views
+from . import admin_views
 
 urlpatterns = [
     # ── Variantes ─────────────────────────────────────────────────────────────
@@ -46,4 +47,42 @@ urlpatterns = [
         views.verificar_resposta,
         name='verificar_resposta',
     ),
+
+    # ── Rotas Admin In-App ────────────────────────────────────────────────────
+    path(
+        'admin/trilha/dados/',
+        admin_views.admin_listar_dados,
+        name='admin_listar_dados',
+    ),
+    path(
+        'admin/trilha/capitulos/',
+        admin_views.admin_criar_capitulo,
+        name='admin_criar_capitulo',
+    ),
+    path(
+        'admin/trilha/capitulos/<int:capitulo_id>/',
+        admin_views.admin_gerenciar_capitulo,
+        name='admin_gerenciar_capitulo',
+    ),
+    path(
+        'admin/trilha/licoes/',
+        admin_views.admin_criar_licao,
+        name='admin_criar_licao',
+    ),
+    path(
+        'admin/trilha/licoes/<int:licao_id>/',
+        admin_views.admin_gerenciar_licao,
+        name='admin_gerenciar_licao',
+    ),
+    path(
+        'admin/trilha/exercicios/',
+        admin_views.admin_criar_exercicio,
+        name='admin_criar_exercicio',
+    ),
+    path(
+        'admin/trilha/exercicios/<int:exercicio_id>/',
+        admin_views.admin_gerenciar_exercicio,
+        name='admin_gerenciar_exercicio',
+    ),
 ]
+

@@ -30,6 +30,7 @@ from .models import (
     Capitulo,
     Licao,
     StoryBlock,
+    Exercicio,
     ExercicioCompletar,
     ExercicioEscolha,
     ExercicioAssociacao,
@@ -108,22 +109,56 @@ def listar_capitulos_mapa(request, variante_id: int):
     try:
         trilha = variante.trilha
     except TrilhaHistorica.DoesNotExist:
-        return JsonResponse({'error': 'Esta variante ainda não possui uma Trilha publicada.'}, status=404)
+        return JsonResponse({'error': 'Esta variante ainda não possui uma Trilha cadastrada.'}, status=404)
 
+    # Se a trilha não foi marcada explicitamente como publicada, mas possui conteúdo, publica-a
     if not trilha.publicada:
-        return JsonResponse({'error': 'Trilha não está publicada.'}, status=404)
+        if trilha.capitulos.exists():
+            trilha.publicada = True
+            trilha.save(update_fields=['publicada'])
+        else:
+            return JsonResponse({'error': 'Trilha não está publicada.'}, status=404)
+
+    # Garante que capítulos narrativos e lições existentes da trilha fiquem visíveis no mapa
+    capitulos_qs = trilha.capitulos.filter(numero__lt=900).select_related('scenario').order_by('numero')
+    if not capitulos_qs.filter(publicado=True).exists() and capitulos_qs.exists():
+        capitulos_qs.update(publicado=True)
 
     user_lessons = {
         ul.licao_id: ul
         for ul in UserLesson.objects.filter(usuario=user, licao__capitulo__trilha=trilha)
     }
 
-    capitulos_data = []
-    for capitulo in trilha.capitulos.filter(publicado=True).select_related('scenario').order_by('numero'):
-        scenario = capitulo.scenario
-        licoes_data = []
+    # Se o usuário não possui nenhuma lição acessível nesta trilha, desbloqueia a primeira lição
+    tem_licao_acessivel = any(
+        ul.status in ['disponivel', 'em_andamento', 'concluida']
+        for ul in user_lessons.values()
+    )
+    if not tem_licao_acessivel:
+        primeira_licao = Licao.objects.filter(
+            capitulo__trilha=trilha,
+            publicada=True
+        ).order_by('capitulo__numero', 'numero').first()
+        if primeira_licao:
+            ul, _ = UserLesson.objects.get_or_create(
+                usuario=user,
+                licao=primeira_licao,
+                defaults={'status': 'disponivel'}
+            )
+            if ul.status == 'bloqueada':
+                ul.status = 'disponivel'
+                ul.save(update_fields=['status'])
+            user_lessons[primeira_licao.id] = ul
 
-        for licao in capitulo.licoes.filter(publicada=True).order_by('numero'):
+    capitulos_data = []
+    for capitulo in capitulos_qs.filter(publicado=True):
+        scenario = capitulo.scenario
+        licoes_qs = capitulo.licoes.all().order_by('numero')
+        if not licoes_qs.filter(publicada=True).exists() and licoes_qs.exists():
+            licoes_qs.update(publicada=True)
+
+        licoes_data = []
+        for licao in licoes_qs.filter(publicada=True):
             user_lesson = user_lessons.get(licao.id)
             status = user_lesson.status if user_lesson else 'bloqueada'
 
@@ -198,36 +233,55 @@ def detalhe_licao(request, licao_id: int):
         })
 
     exercicios = []
-    for ex in ExercicioEscolha.objects.filter(licao=licao).order_by('ordem'):
-        exercicios.append({
-            'id': ex.id, 'tipo': 'escolha_multipla', 'enunciado': ex.enunciado,
-            'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
-            'pontos_base': ex.pontos_base, 'ordem': ex.ordem,
-            'midia': ex.midia.url if ex.midia else None,
-            'opcoes': ex.opcoes,
-            # SECURITY-003: resposta_correta NÃO é enviada ao Flutter — validação é server-side
-        })
-    for ex in ExercicioCompletar.objects.filter(licao=licao).order_by('ordem'):
-        exercicios.append({
-            'id': ex.id, 'tipo': 'completar', 'enunciado': ex.enunciado,
-            'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
-            'pontos_base': ex.pontos_base, 'ordem': ex.ordem,
-            'midia': ex.midia.url if ex.midia else None,
-            'texto_com_lacunas': ex.texto_com_lacunas,
-            'tolerancia_levenshtein': ex.tolerancia_levenshtein,
-            # NÃO enviamos respostas_corretas ao Flutter — validação é server-side
-        })
-    for ex in ExercicioAssociacao.objects.filter(licao=licao).order_by('ordem'):
-        exercicios.append({
-            'id': ex.id, 'tipo': 'associacao', 'enunciado': ex.enunciado,
-            'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
-            'pontos_base': ex.pontos_base, 'ordem': ex.ordem,
-            'midia': ex.midia.url if ex.midia else None,
-            'coluna_esquerda': ex.coluna_esquerda, 'coluna_direita': ex.coluna_direita,
-            # NÃO enviamos associacao_correta — validação é server-side
-        })
-
-    exercicios.sort(key=lambda e: e['ordem'])
+    qs_unificado = Exercicio.objects.filter(licao=licao).order_by('ordem')
+    if qs_unificado.exists():
+        for ex in qs_unificado:
+            item_data = {
+                'id': ex.id,
+                'tipo': ex.tipo,
+                'enunciado': ex.enunciado,
+                'explicacao': ex.explicacao,
+                'dificuldade': ex.dificuldade,
+                'pontos_base': ex.pontos_base,
+                'ordem': ex.ordem,
+                'midia': ex.midia.url if ex.midia else None,
+            }
+            if ex.tipo == 'escolha_multipla':
+                item_data['opcoes'] = ex.opcoes or []
+            elif ex.tipo == 'completar':
+                item_data['texto_com_lacunas'] = ex.texto_com_lacunas or ''
+                item_data['tolerancia_levenshtein'] = ex.tolerancia_levenshtein
+            elif ex.tipo == 'associacao':
+                item_data['coluna_esquerda'] = ex.coluna_esquerda or []
+                item_data['coluna_direita'] = ex.coluna_direita or []
+            exercicios.append(item_data)
+    else:
+        for ex in ExercicioEscolha.objects.filter(licao=licao).order_by('ordem'):
+            exercicios.append({
+                'id': ex.id, 'tipo': 'escolha_multipla', 'enunciado': ex.enunciado,
+                'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
+                'pontos_base': ex.pontos_base, 'ordem': ex.ordem,
+                'midia': ex.midia.url if ex.midia else None,
+                'opcoes': ex.opcoes,
+            })
+        for ex in ExercicioCompletar.objects.filter(licao=licao).order_by('ordem'):
+            exercicios.append({
+                'id': ex.id, 'tipo': 'completar', 'enunciado': ex.enunciado,
+                'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
+                'pontos_base': ex.pontos_base, 'ordem': ex.ordem,
+                'midia': ex.midia.url if ex.midia else None,
+                'texto_com_lacunas': ex.texto_com_lacunas,
+                'tolerancia_levenshtein': ex.tolerancia_levenshtein,
+            })
+        for ex in ExercicioAssociacao.objects.filter(licao=licao).order_by('ordem'):
+            exercicios.append({
+                'id': ex.id, 'tipo': 'associacao', 'enunciado': ex.enunciado,
+                'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
+                'pontos_base': ex.pontos_base, 'ordem': ex.ordem,
+                'midia': ex.midia.url if ex.midia else None,
+                'coluna_esquerda': ex.coluna_esquerda, 'coluna_direita': ex.coluna_direita,
+            })
+        exercicios.sort(key=lambda e: e['ordem'])
 
     vocabulario = []
     for item in licao.vocabulary.order_by('ordem'):
@@ -250,6 +304,87 @@ def detalhe_licao(request, licao_id: int):
     })
 
 
+def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi) -> int:
+    """
+    Recalibra o nível adaptativo do usuário com base no desempenho real
+    nas últimas 3 lições concluídas na variante informada.
+    Anti-manipulação: calculado exclusivamente no backend.
+    """
+    from nivelamento.models import UserVarianteLevel
+
+    level_obj, _ = UserVarianteLevel.objects.get_or_create(
+        user=user,
+        variante=variante,
+        defaults={'nivel': 1}
+    )
+
+    ultimas_licoes = list(
+        UserLesson.objects.filter(
+            usuario=user,
+            licao__capitulo__trilha__variante=variante,
+            status='concluida',
+        ).order_by('-concluida_em')[:3]
+    )
+
+    if len(ultimas_licoes) == 3:
+        if all(ul.accuracy >= 0.85 for ul in ultimas_licoes):
+            if level_obj.nivel < 10:
+                level_obj.nivel += 1
+                level_obj.save(update_fields=['nivel', 'updated_at'])
+                logger.info("Usuário %s subiu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
+        elif all(ul.accuracy <= 0.40 for ul in ultimas_licoes):
+            if level_obj.nivel > 1:
+                level_obj.nivel -= 1
+                level_obj.save(update_fields=['nivel', 'updated_at'])
+                logger.info("Usuário %s desceu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
+
+    return level_obj.nivel
+
+
+def _desbloquear_proxima_licao(user: UserProfile, licao: Licao) -> Licao | None:
+    """
+    Desbloqueia a próxima lição na sequência da trilha.
+    1. Procura a próxima lição publicada no mesmo capítulo (numero > licao.numero).
+    2. Se não houver, procura o próximo capítulo publicado e sua primeira lição.
+    3. Marca a UserLesson encontrada como 'disponivel'.
+    Retorna a Licao desbloqueada ou None.
+    """
+    # 1. Próxima lição no mesmo capítulo
+    prox_licao = Licao.objects.filter(
+        capitulo=licao.capitulo,
+        numero__gt=licao.numero,
+        publicada=True
+    ).order_by('numero').first()
+
+    # 2. Se não achou, procura no próximo capítulo da mesma trilha
+    if not prox_licao:
+        prox_capitulo = Capitulo.objects.filter(
+            trilha=licao.capitulo.trilha,
+            numero__gt=licao.capitulo.numero,
+            publicado=True
+        ).order_by('numero').first()
+
+        if prox_capitulo:
+            prox_licao = Licao.objects.filter(
+                capitulo=prox_capitulo,
+                publicada=True
+            ).order_by('numero').first()
+
+    # 3. Desbloqueia para o usuário
+    if prox_licao:
+        ul, created = UserLesson.objects.get_or_create(
+            usuario=user,
+            licao=prox_licao,
+            defaults={'status': 'disponivel'}
+        )
+        if ul.status == 'bloqueada':
+            ul.status = 'disponivel'
+            ul.save(update_fields=['status'])
+        logger.info("Próxima lição desbloqueada para user %s: licao_id=%d (%s)", user.id, prox_licao.id, prox_licao.titulo)
+
+    return prox_licao
+
+
 # ─── Concluir Lição ───────────────────────────────────────────────────────────
 
 @csrf_exempt
@@ -262,7 +397,7 @@ def concluir_licao(request, licao_id: int):
     if err:
         return err
 
-    licao = Licao.objects.filter(id=licao_id, publicada=True).first()
+    licao = Licao.objects.select_related('capitulo__trilha__variante').filter(id=licao_id, publicada=True).first()
     if not licao:
         return JsonResponse({'error': 'Lição não encontrada.'}, status=404)
 
@@ -274,10 +409,14 @@ def concluir_licao(request, licao_id: int):
     acertos = int(body.get('acertos', 0))
     # SECURITY-004: total_exercicios vem do banco, não do payload do cliente,
     # para evitar manipulação de XP via body arbitrário.
-    total_escolha = ExercicioEscolha.objects.filter(licao=licao).count()
-    total_completar = ExercicioCompletar.objects.filter(licao=licao).count()
-    total_associacao = ExercicioAssociacao.objects.filter(licao=licao).count()
-    total = total_escolha + total_completar + total_associacao or 1  # Evita divisão por zero
+    total_unificado = Exercicio.objects.filter(licao=licao).count()
+    if total_unificado > 0:
+        total = total_unificado
+    else:
+        total_escolha = ExercicioEscolha.objects.filter(licao=licao).count()
+        total_completar = ExercicioCompletar.objects.filter(licao=licao).count()
+        total_associacao = ExercicioAssociacao.objects.filter(licao=licao).count()
+        total = total_escolha + total_completar + total_associacao or 1  # Evita divisão por zero
 
     # bonus_exploracao ainda aceito do payload (XP de StoryBlocks lidos), mas com cap razoável
     bonus_exploracao = min(int(body.get('bonus_exploracao_xp', 0)), 100)
@@ -307,6 +446,9 @@ def concluir_licao(request, licao_id: int):
     user_lesson.concluida_em = timezone.now()
     user_lesson.save()
 
+    # Desbloqueia automaticamente a próxima lição da jornada
+    prox_licao = _desbloquear_proxima_licao(user, licao)
+
     # PERFORMANCE-001: Atualização atômica com F() para evitar race condition em
     # ambientes com múltiplas workers Gunicorn ou requests concorrentes.
     UserProfile.objects.filter(pk=user.pk).update(
@@ -315,12 +457,32 @@ def concluir_licao(request, licao_id: int):
     )
     user.refresh_from_db(fields=['xp_total'])
 
+    # Calibração de Nível
+    variante = licao.capitulo.trilha.variante
+    novo_nivel = _recalibrar_nivel(user, variante)
+
+    # Processamento de Achievements
+    from users.services.achievement_service import (
+        check_and_grant_xp_achievements,
+        check_and_grant_lesson_achievements,
+    )
+    novas_xp_ach = check_and_grant_xp_achievements(user)
+    novas_lesson_ach = check_and_grant_lesson_achievements(user, licao, accuracy)
+    novas_ach = [
+        {'codigo': a.codigo, 'nome': a.nome, 'icone': a.icone, 'descricao': a.descricao}
+        for a in (novas_xp_ach + novas_lesson_ach)
+    ]
+
     return JsonResponse({
         'success': True,
         'earned_xp': earned_xp,
         'xp_total': user.xp_total,
         'accuracy': accuracy,
         'total_exercicios_servidor': total,
+        'nivel_atual': novo_nivel,
+        'novas_conquistas': novas_ach,
+        'proxima_licao_id': prox_licao.id if prox_licao else None,
+        'proxima_licao_desbloqueada': prox_licao is not None,
         'message': f'Lição concluída! Você ganhou {earned_xp} XP. 🎉',
     })
 
@@ -361,6 +523,71 @@ def verificar_resposta(request):
     if not tipo or not exercicio_id:
         return JsonResponse({'error': 'Campos tipo e exercicio_id são obrigatórios.'}, status=400)
 
+    # 1. Tenta buscar no modelo unificado Exercicio
+    ex_unificado = Exercicio.objects.filter(id=exercicio_id).first()
+    if ex_unificado:
+        if ex_unificado.tipo == 'escolha_multipla':
+            indice = body.get('resposta_indice')
+            correto = indice == ex_unificado.resposta_correta
+            status = ValidationResult.CORRETO if correto else ValidationResult.ERRADO
+            xp = calcular_xp_exercicio(ex_unificado.pontos_base, primeira_tentativa, status)
+            opcoes = ex_unificado.opcoes or []
+            resp_str = opcoes[ex_unificado.resposta_correta] if (0 <= (ex_unificado.resposta_correta or -1) < len(opcoes)) else str((ex_unificado.resposta_correta or 0) + 1)
+            msg = 'Correto! 🎉' if correto else f'Incorreto. A resposta certa era: "{resp_str}".'
+            if ex_unificado.explicacao:
+                msg += f' — {ex_unificado.explicacao}'
+            return JsonResponse({
+                'success': True, 'status': status, 'correto': correto,
+                'resposta_correta_indice': ex_unificado.resposta_correta, 'explicacao': ex_unificado.explicacao, 'earned_xp': xp,
+                'mensagem': msg, 'message': msg,
+            })
+        elif ex_unificado.tipo == 'completar':
+            respostas_usuario = body.get('respostas', [])
+            resultado = validar_lista_lacunas(
+                respostas_usuario=respostas_usuario,
+                respostas_corretas=ex_unificado.respostas_corretas or [],
+                tolerancia=ex_unificado.tolerancia_levenshtein,
+            )
+            status = (
+                ValidationResult.CORRETO if resultado['tudo_correto'] else
+                ValidationResult.QUASE_CERTO if resultado['algum_quase'] else
+                ValidationResult.ERRADO
+            )
+            xp = calcular_xp_exercicio(ex_unificado.pontos_base, primeira_tentativa, status)
+            if status == ValidationResult.CORRETO:
+                msg = 'Correto! 🎉'
+            elif status == ValidationResult.QUASE_CERTO:
+                msg = resultado['resultados'][0].get('mensagem', 'Quase lá!') if resultado['resultados'] else 'Quase lá!'
+            else:
+                resp_esperada = ', '.join(ex_unificado.respostas_corretas or [])
+                msg = f'Incorreto. A resposta certa era: "{resp_esperada}".'
+            if ex_unificado.explicacao:
+                msg += f' — {ex_unificado.explicacao}'
+            return JsonResponse({
+                'success': True, 'status': status,
+                'resultados_lacunas': resultado['resultados'],
+                'acertos': resultado['acertos'], 'total': resultado['total'],
+                'explicacao': ex_unificado.explicacao, 'earned_xp': xp,
+                'mensagem': msg, 'message': msg,
+            })
+        elif ex_unificado.tipo == 'associacao':
+            assoc_usuario = body.get('associacoes', {})
+            correto = all(
+                str(assoc_usuario.get(str(k))) == str(v)
+                for k, v in (ex_unificado.associacao_correta or {}).items()
+            )
+            status = ValidationResult.CORRETO if correto else ValidationResult.ERRADO
+            xp = calcular_xp_exercicio(ex_unificado.pontos_base, primeira_tentativa, status)
+            msg = 'Correto! 🎉' if correto else 'Associação incorreta.'
+            if ex_unificado.explicacao:
+                msg += f' — {ex_unificado.explicacao}'
+            return JsonResponse({
+                'success': True, 'status': status, 'correto': correto,
+                'associacao_correta': ex_unificado.associacao_correta, 'explicacao': ex_unificado.explicacao, 'earned_xp': xp,
+                'mensagem': msg, 'message': msg,
+            })
+
+    # 2. Fallback para modelos legados
     if tipo == 'escolha_multipla':
         ex = ExercicioEscolha.objects.filter(id=exercicio_id).first()
         if not ex:
@@ -369,10 +596,15 @@ def verificar_resposta(request):
         correto = indice == ex.resposta_correta
         status = ValidationResult.CORRETO if correto else ValidationResult.ERRADO
         xp = calcular_xp_exercicio(ex.pontos_base, primeira_tentativa, status)
+        opcoes = ex.opcoes or []
+        resp_str = opcoes[ex.resposta_correta] if (0 <= (ex.resposta_correta or -1) < len(opcoes)) else str((ex.resposta_correta or 0) + 1)
+        msg = 'Correto! 🎉' if correto else f'Incorreto. A resposta certa era: "{resp_str}".'
+        if ex.explicacao:
+            msg += f' — {ex.explicacao}'
         return JsonResponse({
             'success': True, 'status': status, 'correto': correto,
             'resposta_correta_indice': ex.resposta_correta, 'explicacao': ex.explicacao, 'earned_xp': xp,
-            'mensagem': 'Correto! 🎉' if correto else f'Incorreto. A resposta certa era a opção {ex.resposta_correta + 1}.',
+            'mensagem': msg, 'message': msg,
         })
 
     if tipo == 'completar':
@@ -391,11 +623,21 @@ def verificar_resposta(request):
             ValidationResult.ERRADO
         )
         xp = calcular_xp_exercicio(ex.pontos_base, primeira_tentativa, status)
+        if status == ValidationResult.CORRETO:
+            msg = 'Correto! 🎉'
+        elif status == ValidationResult.QUASE_CERTO:
+            msg = resultado['resultados'][0].get('mensagem', 'Quase lá!') if resultado['resultados'] else 'Quase lá!'
+        else:
+            resp_esperada = ', '.join(ex.respostas_corretas or [])
+            msg = f'Incorreto. A resposta certa era: "{resp_esperada}".'
+        if ex.explicacao:
+            msg += f' — {ex.explicacao}'
         return JsonResponse({
             'success': True, 'status': status,
             'resultados_lacunas': resultado['resultados'],
             'acertos': resultado['acertos'], 'total': resultado['total'],
             'explicacao': ex.explicacao, 'earned_xp': xp,
+            'mensagem': msg, 'message': msg,
         })
 
     if tipo == 'associacao':
@@ -409,10 +651,13 @@ def verificar_resposta(request):
         )
         status = ValidationResult.CORRETO if correto else ValidationResult.ERRADO
         xp = calcular_xp_exercicio(ex.pontos_base, primeira_tentativa, status)
+        msg = 'Correto! 🎉' if correto else 'Associação incorreta.'
+        if ex.explicacao:
+            msg += f' — {ex.explicacao}'
         return JsonResponse({
             'success': True, 'status': status, 'correto': correto,
             'associacao_correta': ex.associacao_correta, 'explicacao': ex.explicacao, 'earned_xp': xp,
-            'mensagem': 'Correto! 🎉' if correto else 'Associação incorreta.',
+            'mensagem': msg, 'message': msg,
         })
 
     return JsonResponse({'error': f"Tipo '{tipo}' não reconhecido."}, status=400)

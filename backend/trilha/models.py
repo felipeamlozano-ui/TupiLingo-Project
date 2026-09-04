@@ -508,3 +508,116 @@ class ExercicioAssociacao(ExercicioBase):
     class Meta:
         verbose_name = "Exercício de Associação"
         verbose_name_plural = "Exercícios de Associação"
+
+
+# ─── Modelo Unificado de Exercício (Supabase-friendly) ────────────────────────
+
+class Exercicio(models.Model):
+    """
+    Modelo concreto e unificado de Exercício para o TupiLingo.
+    Armazenado na tabela 'trilha_exercicio' no Supabase.
+    Centraliza todos os tipos de exercícios (múltipla escolha, completar lacunas, associação),
+    facilitando o gerenciamento direto por desenvolvedores no Table Editor do Supabase.
+    """
+    licao = models.ForeignKey(
+        Licao,
+        on_delete=models.CASCADE,
+        related_name='exercicios',
+        verbose_name="Lição"
+    )
+    story_block = models.ForeignKey(
+        StoryBlock,
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='exercicios',
+        verbose_name="Bloco de História",
+        help_text="Se preenchido, este exercício aparece dentro daquele bloco específico."
+    )
+    tipo = models.CharField(
+        max_length=30,
+        choices=TipoExercicioChoices.choices,
+        verbose_name="Tipo de Exercício",
+        help_text="escolha_multipla, completar ou associacao."
+    )
+    enunciado = models.CharField(max_length=500, verbose_name="Enunciado")
+    explicacao = models.TextField(
+        blank=True,
+        verbose_name="Explicação",
+        help_text="Exibida após o usuário responder. Explica a resposta correta com contexto cultural."
+    )
+    dificuldade = models.CharField(
+        max_length=10,
+        choices=DificuldadeChoices.choices,
+        default=DificuldadeChoices.FACIL,
+        verbose_name="Dificuldade"
+    )
+    pontos_base = models.PositiveSmallIntegerField(
+        default=10,
+        verbose_name="Pontos Base (XP)"
+    )
+    ordem = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name="Ordem na Lição"
+    )
+    midia = models.FileField(
+        upload_to='exercicios/media/',
+        null=True, blank=True,
+        verbose_name="Mídia de Apoio",
+        help_text="Imagem ou áudio de apoio ao enunciado."
+    )
+
+    # ── Campos Específicos: Múltipla Escolha ──
+    opcoes = models.JSONField(
+        null=True, blank=True,
+        verbose_name="Opções de Múltipla Escolha",
+        help_text='Lista de strings. Ex: ["Kauê", "Pirá", "Tupã", "Taba"]'
+    )
+    resposta_correta = models.PositiveSmallIntegerField(
+        null=True, blank=True,
+        verbose_name="Índice da Resposta Correta",
+        help_text="Índice 0-based da opção correta. Ex: 0 para a primeira."
+    )
+
+    # ── Campos Específicos: Completar Lacunas ──
+    texto_com_lacunas = models.TextField(
+        null=True, blank=True,
+        verbose_name="Texto com Lacunas",
+        help_text="Use ___ para marcar cada lacuna. Ex: 'Ao avistar um amigo: \"___!\"'"
+    )
+    respostas_corretas = models.JSONField(
+        null=True, blank=True,
+        verbose_name="Respostas Corretas (Lacunas)",
+        help_text='Lista de strings com respostas aceitas. Ex: ["Kauê"]'
+    )
+    tolerancia_levenshtein = models.PositiveSmallIntegerField(
+        default=2,
+        null=True, blank=True,
+        verbose_name="Tolerância a Erros (Levenshtein)",
+        help_text="Distância máxima permitida para typos. 0=exato, 1=1 erro, 2=2 erros."
+    )
+
+    # ── Campos Específicos: Associação de Pares ──
+    coluna_esquerda = models.JSONField(
+        null=True, blank=True,
+        verbose_name="Coluna da Esquerda",
+        help_text='Lista de strings. Ex: ["Kauê", "Kunhã", "Taba"]'
+    )
+    coluna_direita = models.JSONField(
+        null=True, blank=True,
+        verbose_name="Coluna da Direita",
+        help_text='Lista de strings. Ex: ["Aldeia", "Olá", "Mulher"]'
+    )
+    associacao_correta = models.JSONField(
+        null=True, blank=True,
+        verbose_name="Associação Correta",
+        help_text='Dict índice->índice. Ex: {"0": "1", "1": "2", "2": "0"}'
+    )
+
+    class Meta:
+        db_table = 'trilha_exercicio'
+        verbose_name = "Exercício Unificado"
+        verbose_name_plural = "Exercícios Unificados"
+        ordering = ['licao', 'ordem']
+
+    def __str__(self):
+        return f"[{self.licao.titulo} | {self.get_tipo_display()}] {self.enunciado[:40]}..."

@@ -19,13 +19,12 @@ logger = logging.getLogger(__name__)
 # Modelos com excelente tempo de resposta (<1s) e tiers gratuitos generosos.
 _CHAIN_FAST: list[str] = [
     # 1. Provedores ultrarrápidos ativos (Groq LPU e Google Gemini)
+    "groq/groq/compound-mini",
     "groq/openai/gpt-oss-120b",
     "groq/openai/gpt-oss-20b",
     "gemini/gemini-2.5-flash",
-    "groq/compound-mini",
     "groq/qwen/qwen3.8-27b",
     "groq/allam-2-7b",
-
 
     # 2. Cohere API Nativa
     "cohere/command-r-08-2024",
@@ -45,9 +44,6 @@ _CHAIN_FAST: list[str] = [
     "openrouter/inclusionai/ling-3.0-flash-fin:free",
     "openrouter/cohere/north-mini-code:free",
     "openrouter/dots-studio/dots-3-note-preview:free",
-
-    # 4. Fallback Google GenAI
-    "gemini/gemini-2.5-flash",
 ]
 
 # LONG_CONTEXT: para prompts > 30 k tokens (não usada no caminho crítico do quiz).

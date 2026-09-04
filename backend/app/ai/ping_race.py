@@ -19,22 +19,22 @@ class PingRaceRouter:
     _cooldown_map: dict[str, float] = {}
     # Histórico de falhas consecutivas: { "provider/model": contagem }
     _failure_counts: dict[str, int] = {}
-    _BASE_COOLDOWN_SECONDS: float = 300.0  # 5 minutos base de penalidade
+    _BASE_COOLDOWN_SECONDS: float = 120.0  # 2 minutos base de penalidade (circuit breaker)
 
     @classmethod
     def record_failure(cls, target: str) -> None:
-        """Registra uma falha e coloca o modelo em cooldown progressivo (5m -> 10m -> 30m)."""
+        """Registra uma falha e coloca o modelo em cooldown progressivo (2m -> 5m -> 15m)."""
         now = time.monotonic()
         count = cls._failure_counts.get(target, 0) + 1
         cls._failure_counts[target] = count
 
-        # Penalidade progressiva: 1x = 300s (5min), 2x = 600s (10min), 3x+ = 1800s (30min)
+        # Penalidade progressiva: 1x = 120s (2min), 2x = 300s (5min), 3x+ = 900s (15min)
         if count == 1:
             duration = cls._BASE_COOLDOWN_SECONDS
         elif count == 2:
-            duration = cls._BASE_COOLDOWN_SECONDS * 2
+            duration = 300.0
         else:
-            duration = cls._BASE_COOLDOWN_SECONDS * 6
+            duration = 900.0
 
         cls._cooldown_map[target] = now + duration
         logger.warning(
@@ -60,17 +60,20 @@ class PingRaceRouter:
     @classmethod
     def _ping_single_model(cls, target: str) -> str:
         """Envia um micro-ping síncrono para um único modelo e retorna o nome se HTTP 200."""
+        # Suprime logs verbosos de depuração do litellm
+        litellm.suppress_debug_info = True
+
         provider_name, model_name = target.split("/", 1)
         full_model = f"{provider_name}/{model_name}"
         messages = [{"role": "user", "content": "ping"}]
 
         try:
-            # max_tokens=1, timeout curto (1.5s) para fail-fast no ping
+            # max_tokens=1, timeout suficiente (3.5s) para conexões seguras SSL
             litellm.completion(
                 model=full_model,
                 messages=messages,
                 max_tokens=1,
-                timeout=1.5,
+                timeout=3.5,
             )
             return target
         except Exception as e:

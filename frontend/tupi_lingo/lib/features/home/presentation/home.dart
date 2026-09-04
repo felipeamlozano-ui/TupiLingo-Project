@@ -5,34 +5,29 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/features/lesson/presentation/lesson_player.dart';
+import 'package:tupi_lingo/features/profile/presentation/profile_screen.dart';
+import 'package:tupi_lingo/features/admin/presentation/admin_screen.dart';
+import 'package:tupi_lingo/features/home/presentation/widgets/select_level_screen.dart';
 
-/// HomeScreen — Mapa Interativo de Aventura do TupiLingo.
-///
-/// Substitui a tela de cards/ações genérica por uma jornada narrativa imersiva
-/// com pontos de lição espalhados sobre um cenário temático (Mata Atlântica,
-/// Aldeia, Rio...). Cada ponto reage ao seu estado:
-/// - Bloqueada: pedra coberta de musgo (cinza)
-/// - Disponível: totem brilhando (dourado pulsante)
-/// - Em Andamento: fogueira (laranja animado)
-/// - Concluída: totem dourado (verde check)
-
-// ─── Palette ─────────────────────────────────────────────────────────────────
-
+/// Paleta de Cores com Identidade Visual Tupi Ancestral
 class _TupiColors {
-  static const background = Color(0xFF0D1F1A);
-  static const surfaceCard = Color(0xFF132A23);
-  static const primary = Color(0xFFD08A45);       // Âmbar Tupi
-  static const accent = Color(0xFF27C98A);         // Verde Floresta vibrante
-  static const textLight = Color(0xFFF0EAD6);      // Pergaminho
-  static const textMuted = Color(0xFF7A9E90);
-  static const nodeLocked = Color(0xFF3A4A44);
-  static const nodeAvailable = Color(0xFFD08A45);
-  static const nodeInProgress = Color(0xFFE8742A);
-  static const nodeCompleted = Color(0xFF27C98A);
-  static const xpColor = Color(0xFFFFD166);
+  static const background = Color(0xFFF3F2E8);        // Pergaminho Claro / Areia Sagrada (Idêntico ao resto do app)
+  static const backgroundSecondary = Color(0xFFEAE7DC); // Areia suave de contraste
+  static const surfaceCard = Colors.white;            // Cards em branco puro
+  static const surfaceCardLight = Color(0xFFFAF9F5);
+  static const primary = Color(0xFFD08A45);           // Âmbar / Terracota Tupi (Ação principal)
+  static const primaryDark = Color(0xFFA56627);       // Borda 3D botão terracota
+  static const accent = Color(0xFF0E5D4E);            // Verde Floresta Profundo (Ancestral)
+  static const accentDark = Color(0xFF083C32);        // Borda 3D botão verde
+  static const textDark = Color(0xFF1F2937);          // Texto principal escuro (alto contraste)
+  static const textMuted = Color(0xFF565D6D);         // Subtítulos e textos secundários (AppColors.subtitle)
+  static const border = Color(0xFFD0D0D0);            // Bordas padrão do app (AppColors.inputBorder)
+  static const nodeLocked = Color(0xFFE2DFD4);        // Pedra clara para nós bloqueados
+  static const nodeLockedBorder = Color(0xFFC7C3B6);  // Borda 3D nó bloqueado
+  static const xpColor = Color(0xFFD08A45);           // Âmbar/Dourado Tupi
+  static const streakColor = Color(0xFFE05638);       // Fogo da Ofensiva
+  static const shellColor = Color(0xFF0E5D4E);        // Conchas / Moedas do Pindorama
 }
-
-// ─── Fake Data Model (substituído pela API) ───────────────────────────────────
 
 enum LicaoStatus { bloqueada, disponivel, emAndamento, concluida }
 
@@ -42,8 +37,8 @@ class LicaoMapData {
   final String descricao;
   final int numero;
   final int xpBase;
-  final double posX; // 0-100% da largura
-  final double posY; // 0-100% da altura
+  final double posX;
+  final double posY;
   final LicaoStatus status;
   final int earnedXp;
 
@@ -78,8 +73,6 @@ class CapituloMapData {
   });
 }
 
-// ─── HomeScreen ───────────────────────────────────────────────────────────────
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -88,117 +81,191 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late final AnimationController _pulseController;
-  late final AnimationController _fireController;
+  int _currentTabIndex = 0; // 0: Trilha, 1: Prática, 2: Perfil, 3: Admin (se autorizado)
   int _selectedCapituloIndex = 0;
+  bool _isAdmin = false;
 
-  // API-driven chapter list
+  AnimationController? _pulseController;
+  AnimationController? _floatController;
+
   List<CapituloMapData> _capitulos = [];
-  bool _isLoadingMap = true;
-  String? _mapError;
+  bool _isLoading = true;
+  String? _errorMessage;
+
+  // Dados do Aluno
+  int _xpTotal = 85;
+  int _streakDays = 3;
+  int _conchas = 140;
+  int _varianteId = 1;
+  String _varianteNome = 'Tupi Antigo';
+
+  // Vocabulário para o Hub de Prática
+  final List<Map<String, String>> _vocabularyBank = [
+    {'tupi': 'Kauê', 'pt': 'Olá / Salve', 'pronuncia': 'ka-u-Ê', 'cat': 'Saudações'},
+    {'tupi': 'Abá', 'pt': 'Homem / Pessoa', 'pronuncia': 'a-BÁ', 'cat': 'Geral'},
+    {'tupi': 'Kunhã', 'pt': 'Mulher', 'pronuncia': 'ku-NHÃ', 'cat': 'Geral'},
+    {'tupi': 'Taba', 'pt': 'Aldeia', 'pronuncia': 'TA-ba', 'cat': 'Comunidade'},
+    {'tupi': 'Jagûara', 'pt': 'Onça / Fera', 'pronuncia': 'ja-gwa-RA', 'cat': 'Fauna'},
+    {'tupi': 'Pirá', 'pt': 'Peixe', 'pronuncia': 'pi-RÁ', 'cat': 'Fauna'},
+    {'tupi': 'Gûyrá', 'pt': 'Pássaro / Ave', 'pronuncia': 'gwi-RÁ', 'cat': 'Fauna'},
+    {'tupi': 'Tatu', 'pt': 'Tatu', 'pronuncia': 'ta-TU', 'cat': 'Fauna'},
+    {'tupi': 'Y', 'pt': 'Água / Rio', 'pronuncia': 'Y (som gutural)', 'cat': 'Natureza'},
+    {'tupi': 'Kûarasy', 'pt': 'Sol', 'pronuncia': 'kwa-ra-SY', 'cat': 'Natureza'},
+    {'tupi': 'Jasy', 'pt': 'Lua', 'pronuncia': 'ja-SY', 'cat': 'Natureza'},
+    {'tupi': 'Tatagûasu', 'pt': 'Fogo / Fogueira', 'pronuncia': 'ta-ta-gwa-SU', 'cat': 'Natureza'},
+  ];
 
   @override
   void initState() {
     super.initState();
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1800),
-    )..repeat(reverse: true);
-    _fireController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    )..repeat(reverse: true);
-    _fetchCapitulos();
+    _initAnimControllers();
+    _loadUserDataAndTrail();
   }
 
-  /// Busca os capítulos da variante ativa do usuário via API.
-  Future<void> _fetchCapitulos() async {
+  void _initAnimControllers() {
+    _pulseController ??= AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1600),
+    )..repeat(reverse: true);
+
+    _floatController ??= AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2400),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    _initAnimControllers();
+  }
+
+  @override
+  void dispose() {
+    _pulseController?.dispose();
+    _floatController?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadUserDataAndTrail() async {
     setState(() {
-      _isLoadingMap = true;
-      _mapError = null;
+      _isLoading = true;
+      _errorMessage = null;
     });
 
     try {
       final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) throw Exception('Sessão expirada');
-
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+      int varianteId = 1;
 
-      // 1. Descobre a variante ativa do usuário via check-user
-      final profileRes = await http.post(
-        Uri.parse('$baseUrl/api/v1/auth/check-user'),
-        headers: {
-          'Authorization': 'Bearer ${session.accessToken}',
-          'Content-Type': 'application/json',
-        },
-      ).timeout(const Duration(seconds: 10));
+      if (session != null) {
+        // 1. Carrega dados atualizados do usuário
+        try {
+          final profileRes = await http.post(
+            Uri.parse('$baseUrl/api/v1/auth/check-user'),
+            headers: {
+              'Authorization': 'Bearer ${session.accessToken}',
+              'Content-Type': 'application/json',
+            },
+          ).timeout(const Duration(seconds: 8));
 
-      if (profileRes.statusCode != 200) {
-        throw Exception('Erro ao obter perfil (HTTP ${profileRes.statusCode})');
+          if (profileRes.statusCode == 200) {
+            final dynamic profileData = jsonDecode(utf8.decode(profileRes.bodyBytes));
+            if (profileData is Map<String, dynamic>) {
+              final varianteAtiva = profileData['variante_ativa'];
+              if (varianteAtiva is Map<String, dynamic>) {
+                varianteId = (varianteAtiva['id'] as num?)?.toInt() ?? 1;
+                _varianteId = varianteId;
+                _varianteNome = varianteAtiva['nome']?.toString() ?? 'Tupi Antigo';
+              }
+              _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? 85;
+              _streakDays = (profileData['dias_ofensiva'] as num?)?.toInt() ?? 3;
+              _conchas = (profileData['conchas'] as num?)?.toInt() ?? 140;
+            }
+          }
+        } catch (_) {}
+
+        // 1.1 Checagem se o usuário possui permissão de Administrador
+        try {
+          final adminRes = await http.get(
+            Uri.parse('$baseUrl/api/v1/admin/me'),
+            headers: {
+              'Authorization': 'Bearer ${session.accessToken}',
+              'Content-Type': 'application/json',
+            },
+          ).timeout(const Duration(seconds: 5));
+
+          if (adminRes.statusCode == 200) {
+            final dynamic adminData = jsonDecode(utf8.decode(adminRes.bodyBytes));
+            if (adminData is Map<String, dynamic> && adminData['is_admin'] == true) {
+              _isAdmin = true;
+            }
+          }
+        } catch (_) {}
+
+        // 2. Carrega capítulos e lições da variante
+        final mapRes = await http.get(
+          Uri.parse('$baseUrl/api/v1/trilha/$varianteId/capitulos/'),
+          headers: {
+            'Authorization': 'Bearer ${session.accessToken}',
+            'Content-Type': 'application/json',
+          },
+        ).timeout(const Duration(seconds: 10));
+
+        if (mapRes.statusCode == 200) {
+          final dynamic mapData = jsonDecode(utf8.decode(mapRes.bodyBytes));
+          if (mapData is Map<String, dynamic>) {
+            final List<dynamic> capsJson = mapData['capitulos'] as List<dynamic>? ?? [];
+
+            final loadedCapitulos = capsJson.map((cap) {
+              final capMap = cap as Map<String, dynamic>? ?? {};
+              final List<dynamic> licoesJson = capMap['licoes'] as List<dynamic>? ?? [];
+              final licoes = licoesJson.map((l) {
+                final lMap = l as Map<String, dynamic>? ?? {};
+                return LicaoMapData(
+                  id: (lMap['id'] as num?)?.toInt() ?? 0,
+                  titulo: lMap['titulo']?.toString() ?? '',
+                  descricao: lMap['descricao']?.toString() ?? '',
+                  numero: (lMap['numero'] as num?)?.toInt() ?? 1,
+                  xpBase: (lMap['xp_base'] as num?)?.toInt() ?? 25,
+                  posX: (lMap['pos_x'] as num?)?.toDouble() ?? 50.0,
+                  posY: (lMap['pos_y'] as num?)?.toDouble() ?? 50.0,
+                  status: _parseLicaoStatus(lMap['status']?.toString() ?? 'bloqueada'),
+                  earnedXp: (lMap['earned_xp'] as num?)?.toInt() ?? 0,
+                );
+              }).toList();
+
+              final int capNum = (capMap['numero'] as num?)?.toInt() ?? 1;
+              return CapituloMapData(
+                id: (capMap['id'] as num?)?.toInt() ?? 0,
+                titulo: capMap['titulo']?.toString() ?? 'Capítulo $capNum',
+                descricao: capMap['descricao']?.toString() ?? '',
+                numero: capNum,
+                paletteColor: _TupiColors.accent,
+                licoes: licoes,
+              );
+            }).toList();
+
+            if (mounted) {
+              setState(() {
+                _capitulos = loadedCapitulos;
+                _selectedCapituloIndex = 0;
+                _isLoading = false;
+              });
+              return;
+            }
+          }
+        }
       }
-
-      final profileData = jsonDecode(profileRes.body);
-      final varianteId = profileData['variante_ativa']?['id'];
-      if (varianteId == null) {
-        throw Exception('Nenhuma variante ativa configurada.');
-      }
-
-      // 2. Busca os capítulos da variante ativa
-      final mapRes = await http.get(
-        Uri.parse('$baseUrl/api/v1/trilha/$varianteId/capitulos/'),
-        headers: {
-          'Authorization': 'Bearer ${session.accessToken}',
-          'Content-Type': 'application/json',
-        },
-      ).timeout(const Duration(seconds: 15));
-
-      if (mapRes.statusCode != 200) {
-        throw Exception('Erro ao carregar mapa (HTTP ${mapRes.statusCode})');
-      }
-
-      final mapData = jsonDecode(utf8.decode(mapRes.bodyBytes));
-      final List<dynamic> capitulosJson = mapData['capitulos'] ?? [];
-
-      final List<CapituloMapData> capitulos = capitulosJson.map((cap) {
-        final List<dynamic> licoesJson = cap['licoes'] ?? [];
-        final Color paletteColor = _parsePaletteColor(cap['scenario']?['palette']);
-
-        final licoes = licoesJson.map((l) {
-          return LicaoMapData(
-            id: l['id'] as int,
-            titulo: l['titulo'] ?? '',
-            descricao: l['descricao'] ?? '',
-            numero: l['numero'] as int,
-            xpBase: l['xp_base'] as int? ?? 10,
-            posX: (l['pos_x'] as num?)?.toDouble() ?? 50.0,
-            posY: (l['pos_y'] as num?)?.toDouble() ?? 50.0,
-            status: _parseLicaoStatus(l['status'] as String? ?? 'bloqueada'),
-            earnedXp: l['earned_xp'] as int? ?? 0,
-          );
-        }).toList();
-
-        return CapituloMapData(
-          id: cap['id'] as int,
-          titulo: cap['titulo'] ?? '',
-          descricao: cap['descricao'] ?? '',
-          numero: cap['numero'] as int,
-          paletteColor: paletteColor,
-          licoes: licoes,
-        );
-      }).toList();
 
       if (mounted) {
-        setState(() {
-          _capitulos = capitulos;
-          _selectedCapituloIndex = 0;
-          _isLoadingMap = false;
-        });
+        setState(() => _isLoading = false);
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          _isLoadingMap = false;
-          _mapError = e.toString();
+          _isLoading = false;
+          _errorMessage = 'Falha ao carregar trilha: $e';
         });
       }
     }
@@ -213,388 +280,552 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  Color _parsePaletteColor(dynamic palette) {
-    if (palette is Map && palette['primary'] is String) {
-      try {
-        final hex = (palette['primary'] as String).replaceAll('#', '');
-        return Color(int.parse('FF$hex', radix: 16));
-      } catch (_) {}
-    }
-    return _TupiColors.accent;
-  }
-
-  @override
-  void dispose() {
-    _pulseController.dispose();
-    _fireController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final user = Supabase.instance.client.auth.currentUser;
-    final userName = user?.userMetadata?['name']?.toString() ??
-        user?.email?.split('@').first ??
-        'Aprendiz';
-
-    // Loading state
-    if (_isLoadingMap) {
-      return Scaffold(
-        backgroundColor: _TupiColors.background,
-        body: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(color: _TupiColors.primary),
-              SizedBox(height: 16),
-              Text('Carregando sua jornada...', style: TextStyle(color: _TupiColors.textMuted)),
-            ],
-          ),
-        ),
-      );
-    }
-
-    // Error state
-    if (_mapError != null) {
-      return Scaffold(
-        backgroundColor: _TupiColors.background,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.wifi_off_rounded, color: _TupiColors.primary, size: 56),
-                const SizedBox(height: 16),
-                const Text('Não foi possível carregar o mapa.',
-                    style: TextStyle(color: _TupiColors.textLight, fontSize: 16),
-                    textAlign: TextAlign.center),
-                const SizedBox(height: 8),
-                Text(_mapError!, style: const TextStyle(color: _TupiColors.textMuted, fontSize: 12), textAlign: TextAlign.center),
-                const SizedBox(height: 24),
-                ElevatedButton.icon(
-                  onPressed: _fetchCapitulos,
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Tentar Novamente'),
-                  style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.primary, foregroundColor: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (_capitulos.isEmpty) {
-      return Scaffold(
-        backgroundColor: _TupiColors.background,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Nenhum conteúdo disponível ainda.',
-                  style: TextStyle(color: _TupiColors.textMuted)),
-              const SizedBox(height: 16),
-              ElevatedButton(onPressed: _fetchCapitulos, child: const Text('Recarregar')),
-            ],
-          ),
-        ),
-      );
-    }
-
-    final capitulo = _capitulos[_selectedCapituloIndex];
-
+    _initAnimControllers();
     return Scaffold(
       backgroundColor: _TupiColors.background,
-      body: Stack(
-        children: [
-          // ── Fundo gradiente do cenário ───────────────────────────────────
-          _buildScenarioBackground(capitulo),
-
-          // ── Conteúdo principal ───────────────────────────────────────────
-          SafeArea(
-            child: Column(
-              children: [
-                _buildTopBar(userName),
-                _buildXpBar(user),
-                _buildChapterSelector(),
-                Expanded(
-                  child: _buildAdventureMap(capitulo),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ── Fundo do cenário ────────────────────────────────────────────────────────
-
-  Widget _buildScenarioBackground(CapituloMapData capitulo) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 700),
-      curve: Curves.easeInOut,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            _TupiColors.background,
-            capitulo.paletteColor.withValues(alpha: 0.25),
-            _TupiColors.background,
-          ],
-          stops: const [0.0, 0.5, 1.0],
-        ),
-      ),
-    );
-  }
-
-  // ── Barra superior ──────────────────────────────────────────────────────────
-
-  Widget _buildTopBar(String userName) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 16, 0),
-      child: Row(
-        children: [
-          // Avatar
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: const LinearGradient(
-                colors: [Color(0xFFD08A45), Color(0xFF8B6914)],
-              ),
-              boxShadow: [
-                BoxShadow(color: _TupiColors.primary.withValues(alpha: 0.4), blurRadius: 12, spreadRadius: 1),
-              ],
-            ),
-            child: Center(
-              child: Text(
-                userName.isNotEmpty ? userName[0].toUpperCase() : 'T',
-                style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Kauê, $userName!',
-                  style: TextStyle(
-                    fontSize: 13, color: _TupiColors.textMuted, fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const Text(
-                  'TupiLingo',
-                  style: TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold, color: _TupiColors.textLight,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Botão de sair
-          IconButton(
-            icon: Icon(Icons.logout_rounded, color: _TupiColors.textMuted, size: 22),
-            tooltip: 'Sair',
-            onPressed: () async {
-              await Supabase.instance.client.auth.signOut();
-              if (mounted) Navigator.pushReplacementNamed(context, '/welcome');
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ── Barra de XP ─────────────────────────────────────────────────────────────
-
-  Widget _buildXpBar(User? user) {
-    // Demo: XP estático, substituído pelo UserProfile.xp_total da API
-    const xpTotal = 55;
-    const xpNivelAtual = 'Folha 🍃';
-    const xpProximo = 500;
-    const progresso = xpTotal / xpProximo;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: _TupiColors.surfaceCard.withValues(alpha: 0.85),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: _TupiColors.xpColor.withValues(alpha: 0.25), width: 1),
-        ),
-        child: Row(
+      body: SafeArea(
+        bottom: false,
+        child: Column(
           children: [
-            const Text('⭐', style: TextStyle(fontSize: 18)),
-            const SizedBox(width: 10),
+            _buildGlobalTopBar(),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        xpNivelAtual,
-                        style: const TextStyle(
-                          fontSize: 12, color: _TupiColors.xpColor, fontWeight: FontWeight.bold,
+              child: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(color: _TupiColors.primary),
+                    )
+                  : _errorMessage != null
+                      ? _buildErrorView()
+                      : IndexedStack(
+                          index: _currentTabIndex < (_isAdmin ? 4 : 3) ? _currentTabIndex : 0,
+                          children: [
+                            _buildTrilhaTab(),
+                            _buildPraticaTab(),
+                            const ProfileScreen(),
+                            if (_isAdmin) const AdminScreen(),
+                          ],
                         ),
-                      ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  // ─── Barra Superior Global ──────────────────────────────────────────────────
+  Widget _buildGlobalTopBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: const BoxDecoration(
+        color: _TupiColors.background,
+        border: Border(
+          bottom: BorderSide(color: _TupiColors.border, width: 1),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Variante Ativa Badge com Seletor de Idioma
+          GestureDetector(
+            onTap: () => _showLanguageSwitcher(context),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: _TupiColors.border),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('🌿', style: TextStyle(fontSize: 14)),
+                  const SizedBox(width: 6),
+                  Text(
+                    _varianteNome,
+                    style: const TextStyle(
+                      color: _TupiColors.accent,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    size: 16,
+                    color: _TupiColors.accent,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Métricas de Gamificação: Ofensiva, Conchas, XP
+          Row(
+            children: [
+              _buildTopStat(icon: '🔥', label: '$_streakDays', color: _TupiColors.streakColor),
+              const SizedBox(width: 10),
+              _buildTopStat(icon: '🐚', label: '$_conchas', color: _TupiColors.shellColor),
+              const SizedBox(width: 10),
+              _buildTopStat(icon: '⭐', label: '$_xpTotal', color: _TupiColors.xpColor),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTopStat({required String icon, required String label, required Color color}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: _TupiColors.border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(icon, style: const TextStyle(fontSize: 13)),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── ABA 1: TRILHA (Caminho Interativo de Aventura) ──────────────────────────
+  Widget _buildTrilhaTab() {
+    if (_capitulos.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Nenhum capítulo publicado para esta variante.',
+                style: TextStyle(color: _TupiColors.textMuted)),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: _loadUserDataAndTrail,
+              style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.primary),
+              child: const Text('Recarregar Trilha'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final safeIndex = (_selectedCapituloIndex >= 0 && _selectedCapituloIndex < _capitulos.length)
+        ? _selectedCapituloIndex
+        : 0;
+    final cap = _capitulos[safeIndex];
+
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+          children: [
+            // Seletor de Capítulos
+            _buildChapterTabsHeader(),
+            const SizedBox(height: 14),
+
+            // Card Principal da Unidade / Capítulo (Banner TupiLingo)
+            _buildChapterBannerCard(cap),
+            const SizedBox(height: 24),
+
+            // O Caminho de Lições Serpenteante
+            _buildWindingLessonPath(cap.licoes),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChapterTabsHeader() {
+    return SizedBox(
+      height: 38,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _capitulos.length,
+        itemBuilder: (context, i) {
+          final isSelected = i == _selectedCapituloIndex;
+          final cap = _capitulos[i];
+          return GestureDetector(
+            onTap: () => setState(() => _selectedCapituloIndex = i),
+            child: Container(
+              margin: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: isSelected ? _TupiColors.primary : Colors.white,
+                borderRadius: BorderRadius.circular(19),
+                border: Border.all(
+                  color: isSelected ? _TupiColors.primary : _TupiColors.border,
+                ),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: _TupiColors.primary.withValues(alpha: 0.25),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Text(
+                'Capítulo ${cap.numero}',
+                style: TextStyle(
+                  color: isSelected ? Colors.white : _TupiColors.textMuted,
+                  fontSize: 13,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildChapterBannerCard(CapituloMapData cap) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF0E5D4E), Color(0xFF134E41)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF0E5D4E).withValues(alpha: 0.25),
+            blurRadius: 14,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'CAPÍTULO ${cap.numero} • UNIDADE BÁSICA',
+                style: const TextStyle(
+                  color: Color(0xFFFFD166),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => _showCulturalGuideDialog(cap),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('📜', style: TextStyle(fontSize: 12)),
+                      SizedBox(width: 4),
                       Text(
-                        '$xpTotal / $xpProximo XP',
-                        style: TextStyle(fontSize: 11, color: _TupiColors.textMuted),
+                        'Guia Cultural',
+                        style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 5),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: LinearProgressIndicator(
-                      value: progresso,
-                      backgroundColor: _TupiColors.nodeLocked,
-                      valueColor: const AlwaysStoppedAnimation(_TupiColors.xpColor),
-                      minHeight: 6,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ── Seletor de Capítulos ─────────────────────────────────────────────────────
-
-  Widget _buildChapterSelector() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 14, 12, 0),
-      child: SizedBox(
-        height: 36,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _capitulos.length,
-          itemBuilder: (context, i) {
-            final cap = _capitulos[i];
-            final selected = i == _selectedCapituloIndex;
-            return GestureDetector(
-              onTap: () => setState(() => _selectedCapituloIndex = i),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                margin: const EdgeInsets.only(right: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                decoration: BoxDecoration(
-                  color: selected ? cap.paletteColor : _TupiColors.surfaceCard,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: selected ? cap.paletteColor : _TupiColors.textMuted.withValues(alpha: 0.2),
-                    width: 1.5,
-                  ),
-                ),
-                child: Text(
-                  'Cap. ${cap.numero}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-                    color: selected ? Colors.white : _TupiColors.textMuted,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  // ── Mapa de Aventura ─────────────────────────────────────────────────────────
-
-  Widget _buildAdventureMap(CapituloMapData capitulo) {
-    return Column(
-      children: [
-        // Título do capítulo
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  capitulo.titulo,
-                  style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.bold,
-                    color: _TupiColors.textLight, letterSpacing: 0.3,
-                  ),
                 ),
               ),
             ],
           ),
-        ),
-        Text(
-          capitulo.descricao,
-          style: TextStyle(fontSize: 12, color: _TupiColors.textMuted, height: 1.4),
-          textAlign: TextAlign.center,
-        ).paddingHorizontal(20),
-        const SizedBox(height: 16),
-
-        // O mapa interativo com os nodes posicionados
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final mapW = constraints.maxWidth;
-              final mapH = constraints.maxHeight;
-              return Stack(
-                children: [
-                  // Linha de trilha conectando os nodes
-                  CustomPaint(
-                    size: Size(mapW, mapH),
-                    painter: _TrailPainter(
-                      licoes: capitulo.licoes,
-                      mapWidth: mapW,
-                      mapHeight: mapH,
-                    ),
-                  ),
-
-                  // Nodes das lições
-                  ...capitulo.licoes.map((licao) {
-                    final x = (licao.posX / 100) * mapW;
-                    final y = (licao.posY / 100) * mapH;
-                    return Positioned(
-                      left: x - 32,
-                      top: y - 32,
-                      child: _LessonNode(
-                        licao: licao,
-                        pulseAnimation: _pulseController,
-                        fireAnimation: _fireController,
-                        onTap: () => _onLessonTap(licao),
-                      ),
-                    );
-                  }),
-                ],
-              );
-            },
+          const SizedBox(height: 8),
+          Text(
+            cap.titulo,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Text(
+            cap.descricao,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.85),
+              fontSize: 13,
+              height: 1.35,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  void _onLessonTap(LicaoMapData licao) {
+  /// Constrói o caminho de lições ondulado verticalmente
+  Widget _buildWindingLessonPath(List<LicaoMapData> licoes) {
+    if (licoes.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.all(32),
+        child: Center(
+          child: Text('Nenhuma lição neste capítulo.', style: TextStyle(color: _TupiColors.textMuted)),
+        ),
+      );
+    }
+
+    // Padrão de zigue-zague harmônico para os botões (-0.5 = esq, 0.0 = centro, 0.5 = dir)
+    final offsets = [0.0, -0.45, 0.45, 0.0, -0.45, 0.45];
+
+    return Column(
+      children: List.generate(licoes.length, (index) {
+        final licao = licoes[index];
+        final dx = offsets[index % offsets.length];
+
+        final isAvailable = licao.status == LicaoStatus.disponivel;
+
+        return Column(
+          children: [
+            if (index > 0) _buildTrailConnector(index),
+
+            // Nó da Lição com posicionamento ondulado
+            Align(
+              alignment: Alignment(dx, 0),
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  // Aura pulsante na lição ativa
+                  if (isAvailable && _pulseController != null)
+                    AnimatedBuilder(
+                      animation: _pulseController!,
+                      builder: (context, _) {
+                        final val = _pulseController?.value ?? 0.0;
+                        return Container(
+                          width: 84 + (val * 12),
+                          height: 84 + (val * 12),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _TupiColors.primary.withValues(alpha: 0.25 - (val * 0.15)),
+                          ),
+                        );
+                      },
+                    ),
+
+                  // Balãozinho de "COMEÇAR" flutuando acima do nó ativo
+                  if (isAvailable && _floatController != null)
+                    Positioned(
+                      top: -34,
+                      child: AnimatedBuilder(
+                        animation: _floatController!,
+                        builder: (context, _) {
+                          final val = _floatController?.value ?? 0.0;
+                          final dy = math.sin(val * math.pi) * 3;
+                          return Transform.translate(
+                            offset: Offset(0, dy),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: _TupiColors.primary,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.3),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: const Text(
+                                'COMEÇAR',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 0.8,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+
+                  // Botão 3D Tátil
+                  _build3DNodeButton(licao),
+                ],
+              ),
+            ),
+
+            // Se for após a Lição 2, insere um baú de recompensa cultural no caminho
+            if (index == 1 && licoes.length > 2) ...[
+              const SizedBox(height: 16),
+              _buildTrailConnector(99),
+              _buildChestRewardNode(),
+            ],
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget _build3DNodeButton(LicaoMapData licao) {
+    final isCompleted = licao.status == LicaoStatus.concluida;
+    final isAvailable = licao.status == LicaoStatus.disponivel;
+    final isLocked = licao.status == LicaoStatus.bloqueada;
+
+    Color topColor;
+    Color bottomColor;
+    Widget iconWidget;
+
+    if (isCompleted) {
+      topColor = _TupiColors.accent;
+      bottomColor = _TupiColors.accentDark;
+      iconWidget = const Text('👑', style: TextStyle(fontSize: 28));
+    } else if (isAvailable) {
+      topColor = _TupiColors.primary;
+      bottomColor = _TupiColors.primaryDark;
+      iconWidget = const Text('⭐', style: TextStyle(fontSize: 28));
+    } else {
+      topColor = _TupiColors.nodeLocked;
+      bottomColor = _TupiColors.nodeLockedBorder;
+      iconWidget = const Icon(Icons.lock_rounded, color: _TupiColors.textMuted, size: 26);
+    }
+
+    return GestureDetector(
+      onTap: () => _onLessonNodeTapped(licao),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: topColor,
+              border: Border(
+                bottom: BorderSide(color: bottomColor, width: 6),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: (isCompleted ? _TupiColors.accent : isAvailable ? _TupiColors.primary : const Color(0xFFC7C3B6))
+                      .withValues(alpha: 0.35),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(child: iconWidget),
+          ),
+          const SizedBox(height: 6),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: _TupiColors.border),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Text(
+              licao.titulo,
+              style: TextStyle(
+                color: isLocked ? _TupiColors.textMuted : _TupiColors.textDark,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTrailConnector(int index) {
+    return Container(
+      width: 6,
+      height: 36,
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: const Color(0xFFDCD8CB),
+        borderRadius: BorderRadius.circular(3),
+      ),
+    );
+  }
+
+  Widget _buildChestRewardNode() {
+    return GestureDetector(
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: _TupiColors.accent,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            content: const Row(
+              children: [
+                Text('🏺', style: TextStyle(fontSize: 22)),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Baú do Pajé: Continue avançando na trilha para desbloquear conchas e artefatos!',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: _TupiColors.surfaceCard,
+          shape: BoxShape.circle,
+          border: Border.all(color: _TupiColors.xpColor.withValues(alpha: 0.4), width: 2),
+        ),
+        child: const Text('🏺', style: TextStyle(fontSize: 26)),
+      ),
+    );
+  }
+
+  void _onLessonNodeTapped(LicaoMapData licao) {
     if (licao.status == LicaoStatus.bloqueada) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          backgroundColor: _TupiColors.textDark,
           behavior: SnackBarBehavior.floating,
-          backgroundColor: _TupiColors.surfaceCard,
-          margin: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           content: Row(
             children: [
@@ -602,8 +833,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Complete as lições anteriores para desbloquear "${licao.titulo}".',
-                  style: const TextStyle(color: _TupiColors.textLight, fontSize: 13),
+                  'Complete a Lição ${licao.numero - 1} para desbloquear "${licao.titulo}".',
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],
@@ -613,294 +844,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return;
     }
 
+    // Abre BottomSheet de Início da Lição
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => _LessonPreviewSheet(licao: licao),
-    );
-  }
-}
-
-// ─── Lesson Node Widget ───────────────────────────────────────────────────────
-
-class _LessonNode extends StatelessWidget {
-  final LicaoMapData licao;
-  final Animation<double> pulseAnimation;
-  final Animation<double> fireAnimation;
-  final VoidCallback onTap;
-
-  const _LessonNode({
-    required this.licao,
-    required this.pulseAnimation,
-    required this.fireAnimation,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: 64,
-        height: 64,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            _buildNodeBody(),
-            _buildNodeLabel(),
-          ],
-        ),
-      ),
+      isScrollControlled: true,
+      builder: (ctx) => _buildLessonModal(licao),
     );
   }
 
-  Widget _buildNodeBody() {
-    switch (licao.status) {
-      case LicaoStatus.bloqueada:
-        return _LockedNode();
-
-      case LicaoStatus.disponivel:
-        return AnimatedBuilder(
-          animation: pulseAnimation,
-          builder: (_, __) => _AvailableNode(pulse: pulseAnimation.value),
-        );
-
-      case LicaoStatus.emAndamento:
-        return AnimatedBuilder(
-          animation: fireAnimation,
-          builder: (_, __) => _InProgressNode(fire: fireAnimation.value),
-        );
-
-      case LicaoStatus.concluida:
-        return _CompletedNode();
-    }
-  }
-
-  Widget _buildNodeLabel() {
-    return Positioned(
-      bottom: -2,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        decoration: BoxDecoration(
-          color: _TupiColors.background.withValues(alpha: 0.85),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          '${licao.numero}',
-          style: const TextStyle(
-            fontSize: 9, color: _TupiColors.textMuted, fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _LockedNode extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 52,
-      height: 52,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: _TupiColors.nodeLocked,
-        border: Border.all(color: _TupiColors.textMuted.withValues(alpha: 0.3), width: 2),
-      ),
-      child: const Icon(Icons.lock_outline_rounded, color: _TupiColors.textMuted, size: 22),
-    );
-  }
-}
-
-class _AvailableNode extends StatelessWidget {
-  final double pulse;
-  const _AvailableNode({required this.pulse});
-
-  @override
-  Widget build(BuildContext context) {
-    final glowRadius = 8 + (pulse * 6);
-    return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: const RadialGradient(
-          colors: [Color(0xFFFFD166), Color(0xFFD08A45)],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: _TupiColors.primary.withValues(alpha: 0.5 + pulse * 0.3),
-            blurRadius: glowRadius,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: const Center(
-        child: Text('🏹', style: TextStyle(fontSize: 22)),
-      ),
-    );
-  }
-}
-
-class _InProgressNode extends StatelessWidget {
-  final double fire;
-  const _InProgressNode({required this.fire});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 54,
-      height: 54,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Color.lerp(
-          _TupiColors.nodeInProgress,
-          const Color(0xFFFFD166),
-          fire * 0.4,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: _TupiColors.nodeInProgress.withValues(alpha: 0.6),
-            blurRadius: 12,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: const Center(
-        child: Text('🔥', style: TextStyle(fontSize: 22)),
-      ),
-    );
-  }
-}
-
-class _CompletedNode extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 54,
-      height: 54,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: const RadialGradient(
-          colors: [Color(0xFF3DFFC0), Color(0xFF27C98A)],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: _TupiColors.accent.withValues(alpha: 0.45),
-            blurRadius: 14,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: const Center(
-        child: Text('✅', style: TextStyle(fontSize: 22)),
-      ),
-    );
-  }
-}
-
-// ─── Trail Painter (CustomPainter) ───────────────────────────────────────────
-
-class _TrailPainter extends CustomPainter {
-  final List<LicaoMapData> licoes;
-  final double mapWidth;
-  final double mapHeight;
-
-  const _TrailPainter({
-    required this.licoes,
-    required this.mapWidth,
-    required this.mapHeight,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round;
-
-    for (int i = 0; i < licoes.length - 1; i++) {
-      final from = licoes[i];
-      final to = licoes[i + 1];
-      final fromPt = Offset((from.posX / 100) * mapWidth, (from.posY / 100) * mapHeight);
-      final toPt = Offset((to.posX / 100) * mapWidth, (to.posY / 100) * mapHeight);
-
-      final isActive = from.status == LicaoStatus.concluida;
-      paint.color = isActive
-          ? _TupiColors.accent.withValues(alpha: 0.5)
-          : _TupiColors.nodeLocked.withValues(alpha: 0.4);
-
-      // Linha curva tipo Bézier
-      final control = Offset(
-        (fromPt.dx + toPt.dx) / 2 + math.sin(i.toDouble()) * 30,
-        (fromPt.dy + toPt.dy) / 2 - 20,
-      );
-      final path = Path()
-        ..moveTo(fromPt.dx, fromPt.dy)
-        ..quadraticBezierTo(control.dx, control.dy, toPt.dx, toPt.dy);
-
-      if (isActive) {
-        // Linha tracejada para trilha ativa
-        paint.color = _TupiColors.accent.withValues(alpha: 0.55);
-        canvas.drawPath(path, paint);
-        // Pontinhos de ouro ao longo da trilha concluída
-        final dashPaint = Paint()
-          ..color = _TupiColors.xpColor.withValues(alpha: 0.6)
-          ..strokeWidth = 2
-          ..strokeCap = StrokeCap.round;
-        for (double t = 0.2; t < 1.0; t += 0.25) {
-          final pt = _bezierPoint(fromPt, control, toPt, t);
-          canvas.drawCircle(pt, 2.5, dashPaint);
-        }
-      } else {
-        canvas.drawPath(path, paint);
-      }
-    }
-  }
-
-  Offset _bezierPoint(Offset p0, Offset p1, Offset p2, double t) {
-    final x = (1 - t) * (1 - t) * p0.dx + 2 * (1 - t) * t * p1.dx + t * t * p2.dx;
-    final y = (1 - t) * (1 - t) * p0.dy + 2 * (1 - t) * t * p1.dy + t * t * p2.dy;
-    return Offset(x, y);
-  }
-
-  @override
-  bool shouldRepaint(_TrailPainter old) => false;
-}
-
-// ─── Lesson Preview Bottom Sheet ─────────────────────────────────────────────
-
-class _LessonPreviewSheet extends StatelessWidget {
-  final LicaoMapData licao;
-
-  const _LessonPreviewSheet({required this.licao});
-
-  @override
-  Widget build(BuildContext context) {
-    final statusIcon = licao.status == LicaoStatus.concluida ? '✅' :
-                       licao.status == LicaoStatus.emAndamento ? '🔥' : '🏹';
-    final statusLabel = licao.status == LicaoStatus.concluida ? 'Concluída' :
-                        licao.status == LicaoStatus.emAndamento ? 'Em andamento' : 'Disponível';
+  Widget _buildLessonModal(LicaoMapData licao) {
+    final isCompleted = licao.status == LicaoStatus.concluida;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: _TupiColors.surfaceCard,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        border: Border.all(color: _TupiColors.primary.withValues(alpha: 0.2), width: 1),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Handle
           Center(
             child: Container(
-              width: 40, height: 4,
+              width: 44,
+              height: 5,
               decoration: BoxDecoration(
-                color: _TupiColors.textMuted.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(2),
+                color: _TupiColors.border,
+                borderRadius: BorderRadius.circular(2.5),
               ),
             ),
           ),
@@ -908,88 +880,605 @@ class _LessonPreviewSheet extends StatelessWidget {
 
           Row(
             children: [
-              Text(statusIcon, style: const TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              Text(isCompleted ? '👑' : '🏹', style: const TextStyle(fontSize: 32)),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Lição ${licao.numero}',
-                      style: TextStyle(fontSize: 12, color: _TupiColors.textMuted),
+                      'LIÇÃO ${licao.numero}',
+                      style: const TextStyle(
+                        color: _TupiColors.xpColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.0,
+                      ),
                     ),
                     Text(
                       licao.titulo,
                       style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold, color: _TupiColors.textLight,
+                        color: _TupiColors.textDark,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: _TupiColors.xpColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: _TupiColors.xpColor.withValues(alpha: 0.4)),
-                ),
-                child: Text(
-                  '${licao.xpBase} XP',
-                  style: const TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.bold, color: _TupiColors.xpColor,
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 12),
-
           Text(
             licao.descricao,
-            style: TextStyle(fontSize: 14, color: _TupiColors.textMuted, height: 1.5),
+            style: const TextStyle(color: _TupiColors.textMuted, fontSize: 14, height: 1.4),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 20),
 
-          Row(
-            children: [
-              _StatusChip(label: statusLabel),
-              if (licao.earnedXp > 0) ...[
-                const SizedBox(width: 8),
-                _StatusChip(label: '+${licao.earnedXp} XP ganhos', color: _TupiColors.xpColor),
+          // Recompensas
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: _TupiColors.backgroundSecondary,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: _TupiColors.border),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  children: [
+                    const Text('⭐', style: TextStyle(fontSize: 16)),
+                    const SizedBox(width: 6),
+                    Text(
+                      '+${licao.xpBase} XP',
+                      style: const TextStyle(
+                        color: _TupiColors.xpColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text('🐚', style: TextStyle(fontSize: 16)),
+                    const SizedBox(width: 6),
+                    const Text(
+                      '+10 Conchas',
+                      style: TextStyle(
+                        color: _TupiColors.shellColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
               ],
-            ],
+            ),
           ),
           const SizedBox(height: 24),
 
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              key: Key('btn_iniciar_licao_${licao.id}'),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LessonPlayerScreen(licaoId: licao.id),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: licao.status == LicaoStatus.concluida
-                    ? _TupiColors.accent
-                    : _TupiColors.primary,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                elevation: 0,
-              ),
+          // Botão Grande Começar
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => LessonPlayerScreen(licaoId: licao.id),
+                ),
+              );
+              _loadUserDataAndTrail();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: isCompleted ? _TupiColors.accent : _TupiColors.primary,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              elevation: 4,
+            ),
+            child: Text(
+              isCompleted ? 'REVISAR LIÇÃO' : 'COMEÇAR LIÇÃO',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 0.8),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showCulturalGuideDialog(CapituloMapData cap) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: _TupiColors.surfaceCard,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            const Text('📜', style: TextStyle(fontSize: 22)),
+            const SizedBox(width: 10),
+            Expanded(
               child: Text(
-                licao.status == LicaoStatus.concluida ? '🔄 Revisar Lição' :
-                licao.status == LicaoStatus.emAndamento ? '▶️ Continuar' : '▶️ Iniciar Jornada',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                'Guia do Capítulo ${cap.numero}',
+                style: const TextStyle(color: _TupiColors.textDark, fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              cap.titulo,
+              style: const TextStyle(color: _TupiColors.primary, fontWeight: FontWeight.bold, fontSize: 15),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'No Tupi Antigo, a fala expressava conexão íntima com a terra e com os ancestrais. '
+              'As palavras tinham sonoridade rica em vogais nasais e guturais (como o som de "Y"). '
+              'Pratique os termos e preste atenção aos animais sagrados da floresta.',
+              style: TextStyle(color: _TupiColors.textDark, fontSize: 13, height: 1.45),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Entendi', style: TextStyle(color: _TupiColors.accent, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLanguageSwitcher(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => _LanguageSwitcherBottomSheet(
+        varianteIdAtiva: _varianteId,
+        onVarianteSelected: (variante, precisaNivelar) {
+          if (precisaNivelar) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => SelectLevelScreen(variante: variante),
+              ),
+            ).then((_) => _loadUserDataAndTrail());
+          } else {
+            setState(() {
+              _varianteId = (variante['id'] as num).toInt();
+              _varianteNome = variante['nome']?.toString() ?? 'Tupi Antigo';
+            });
+            _loadUserDataAndTrail();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Idioma alterado para ${variante['nome']}! 🌿'),
+                backgroundColor: _TupiColors.accent,
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  // ─── ABA 2: PRÁTICA (Hub de Treino e Revisão Espaçada) ────────────────────────
+  Widget _buildPraticaTab() {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+          children: [
+            const Text(
+              'Centro de Prática Ancestral 🏹',
+              style: TextStyle(
+                color: _TupiColors.textDark,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Fortaleça sua memória com treinos rápidos e revisão espaçada.',
+              style: TextStyle(color: _TupiColors.textMuted, fontSize: 13),
+            ),
+            const SizedBox(height: 20),
+
+            // Card Destaque: Revisão Diária SM-2
+            Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF0E5D4E), Color(0xFF094338)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(color: _TupiColors.accent.withValues(alpha: 0.4)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Text('🧠', style: TextStyle(fontSize: 24)),
+                      ),
+                      const SizedBox(width: 14),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Revisão Espaçada (SM-2)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              '4 palavras prontas para fixação hoje',
+                              style: TextStyle(color: Colors.white70, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _startFlashcardSession(),
+                      icon: const Icon(Icons.bolt_rounded, color: Colors.white),
+                      label: const Text('PRATICAR AGORA (+15 XP)'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _TupiColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 13),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+            const Text(
+              'Banco de Vocabulário da Trilha',
+              style: TextStyle(
+                color: _TupiColors.textDark,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // Lista de Vocabulário Interativa
+            ..._vocabularyBank.map((item) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: _TupiColors.surfaceCard,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: _TupiColors.border),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: _TupiColors.primary.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Center(
+                        child: Text('🌿', style: TextStyle(fontSize: 20)),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                item['tupi']!,
+                                style: const TextStyle(
+                                  color: _TupiColors.textDark,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '[${item['pronuncia']!}]',
+                                style: TextStyle(color: _TupiColors.textMuted.withValues(alpha: 0.7), fontSize: 11),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            item['pt']!,
+                            style: const TextStyle(color: _TupiColors.textMuted, fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: _TupiColors.backgroundSecondary,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        item['cat']!,
+                        style: const TextStyle(color: _TupiColors.textMuted, fontSize: 10),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _startFlashcardSession() {
+    showDialog(
+      context: context,
+      builder: (ctx) => _FlashcardPracticeDialog(vocabulary: _vocabularyBank),
+    );
+  }
+
+  // ─── Barra de Navegação Inferior (BottomNavigationBar) ───────────────────────
+  Widget _buildBottomNavigationBar() {
+    final maxTabs = _isAdmin ? 4 : 3;
+    final safeIndex = _currentTabIndex < maxTabs ? _currentTabIndex : 0;
+
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          top: BorderSide(color: _TupiColors.border, width: 1),
+        ),
+      ),
+      child: BottomNavigationBar(
+        currentIndex: safeIndex,
+        onTap: (index) => setState(() => _currentTabIndex = index),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        selectedItemColor: _TupiColors.primary,
+        unselectedItemColor: _TupiColors.textMuted,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+        unselectedLabelStyle: const TextStyle(fontSize: 11),
+        type: BottomNavigationBarType.fixed,
+        items: [
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.explore_rounded),
+            activeIcon: Icon(Icons.explore_rounded, color: _TupiColors.primary),
+            label: 'Trilha',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.fitness_center_rounded),
+            activeIcon: Icon(Icons.fitness_center_rounded, color: _TupiColors.accent),
+            label: 'Prática',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.person_rounded),
+            activeIcon: Icon(Icons.person_rounded, color: _TupiColors.primary),
+            label: 'Perfil',
+          ),
+          if (_isAdmin)
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.admin_panel_settings_rounded),
+              activeIcon: Icon(Icons.admin_panel_settings_rounded, color: Color(0xFF0E5D4E)),
+              label: 'Admin',
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorView() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.wifi_off_rounded, color: _TupiColors.primary, size: 54),
+            const SizedBox(height: 16),
+            const Text(
+              'Não foi possível carregar a jornada.',
+              style: TextStyle(color: _TupiColors.textDark, fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _errorMessage ?? '',
+              style: const TextStyle(color: _TupiColors.textMuted, fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _loadUserDataAndTrail,
+              style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.primary),
+              child: const Text('Tentar Novamente'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Diálogo Interativo de Flashcards (Treino Rápido) ──────────────────────────
+class _FlashcardPracticeDialog extends StatefulWidget {
+  final List<Map<String, String>> vocabulary;
+  const _FlashcardPracticeDialog({required this.vocabulary});
+
+  @override
+  State<_FlashcardPracticeDialog> createState() => _FlashcardPracticeDialogState();
+}
+
+class _FlashcardPracticeDialogState extends State<_FlashcardPracticeDialog> {
+  int _currentIndex = 0;
+  bool _revealed = false;
+  int _reviewedCount = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_currentIndex >= widget.vocabulary.length) {
+      return AlertDialog(
+        backgroundColor: _TupiColors.surfaceCard,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('🎉', style: TextStyle(fontSize: 44)),
+            const SizedBox(height: 12),
+            const Text(
+              'Revisão Concluída!',
+              style: TextStyle(color: _TupiColors.textDark, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Você revisou $_reviewedCount palavras ancestrais com sucesso.',
+              style: const TextStyle(color: _TupiColors.textMuted, fontSize: 13),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.accent),
+              child: const Text('Concluir (+15 XP)'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final item = widget.vocabulary[_currentIndex];
+
+    return AlertDialog(
+      backgroundColor: _TupiColors.surfaceCard,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Palavra ${_currentIndex + 1}/${widget.vocabulary.length}',
+            style: const TextStyle(color: _TupiColors.textMuted, fontSize: 12),
+          ),
+          IconButton(
+            icon: const Icon(Icons.close, color: _TupiColors.textMuted, size: 20),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: () => setState(() => _revealed = !_revealed),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: double.infinity,
+              height: 180,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: _TupiColors.surfaceCardLight,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: _revealed ? _TupiColors.accent : _TupiColors.primary.withValues(alpha: 0.5),
+                  width: 2,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    item['tupi']!,
+                    style: const TextStyle(
+                      color: _TupiColors.textDark,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '[${item['pronuncia']!}]',
+                    style: const TextStyle(color: _TupiColors.textMuted, fontSize: 13),
+                  ),
+                  const SizedBox(height: 16),
+                  if (_revealed)
+                    Text(
+                      item['pt']!,
+                      style: const TextStyle(
+                        color: _TupiColors.accent,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  else
+                    const Text(
+                      'Toque para ver a tradução',
+                      style: TextStyle(color: _TupiColors.primary, fontSize: 12, fontWeight: FontWeight.w600),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      _currentIndex++;
+                      _revealed = false;
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: _TupiColors.textMuted,
+                    side: const BorderSide(color: _TupiColors.border),
+                  ),
+                  child: const Text('Rever Depois'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _reviewedCount++;
+                      _currentIndex++;
+                      _revealed = false;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.accent),
+                  child: const Text('Acertei!'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -997,34 +1486,306 @@ class _LessonPreviewSheet extends StatelessWidget {
   }
 }
 
-class _StatusChip extends StatelessWidget {
-  final String label;
-  final Color color;
+// ─── BottomSheet Seletor de Idioma / Variante ──────────────────────────────────
+class _LanguageSwitcherBottomSheet extends StatefulWidget {
+  final int varianteIdAtiva;
+  final Function(Map<String, dynamic> variante, bool precisaNivelar) onVarianteSelected;
 
-  const _StatusChip({required this.label, this.color = _TupiColors.accent});
+  const _LanguageSwitcherBottomSheet({
+    required this.varianteIdAtiva,
+    required this.onVarianteSelected,
+  });
+
+  @override
+  State<_LanguageSwitcherBottomSheet> createState() => _LanguageSwitcherBottomSheetState();
+}
+
+class _LanguageSwitcherBottomSheetState extends State<_LanguageSwitcherBottomSheet> {
+  bool _isLoading = true;
+  int? _updatingVarianteId;
+  String? _error;
+  List<Map<String, dynamic>> _variantes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchVariantes();
+  }
+
+  Future<void> _fetchVariantes() async {
+    try {
+      final session = Supabase.instance.client.auth.currentSession;
+      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+      final res = await http.get(
+        Uri.parse('$baseUrl/api/v1/trilha/variantes/'),
+        headers: {
+          'Content-Type': 'application/json',
+          if (session != null) 'Authorization': 'Bearer ${session.accessToken}',
+        },
+      ).timeout(const Duration(seconds: 8));
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(res.bodyBytes));
+        if (data['success'] == true && data['variantes'] is List) {
+          if (mounted) {
+            setState(() {
+              _variantes = List<Map<String, dynamic>>.from(data['variantes']);
+              _isLoading = false;
+            });
+            return;
+          }
+        }
+      }
+      throw Exception('Não foi possível carregar as variantes.');
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _error = e.toString();
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _selectVariante(Map<String, dynamic> v) async {
+    final int vId = (v['id'] as num).toInt();
+    if (vId == widget.varianteIdAtiva) {
+      Navigator.pop(context);
+      return;
+    }
+
+    setState(() => _updatingVarianteId = vId);
+
+    try {
+      final session = Supabase.instance.client.auth.currentSession;
+      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+
+      final res = await http.post(
+        Uri.parse('$baseUrl/api/v1/auth/update-variante'),
+        headers: {
+          'Content-Type': 'application/json',
+          if (session != null) 'Authorization': 'Bearer ${session.accessToken}',
+        },
+        body: jsonEncode({'variante_id': vId}),
+      ).timeout(const Duration(seconds: 10));
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(res.bodyBytes));
+        final bool precisaNivelar = data['precisa_nivelar'] == true;
+
+        if (mounted) {
+          Navigator.pop(context);
+          widget.onVarianteSelected(v, precisaNivelar);
+        }
+      } else {
+        throw Exception('Erro ao atualizar variante ativa');
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _updatingVarianteId = null);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro: $e')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
+      decoration: const BoxDecoration(
+        color: _TupiColors.surfaceCard,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: Text(
-        label,
-        style: TextStyle(fontSize: 11, color: color, fontWeight: FontWeight.w600),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        16,
+        20,
+        24 + MediaQuery.of(context).padding.bottom,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Handle
+          Center(
+            child: Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: _TupiColors.border,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Row(
+                children: [
+                  Text('🌿', style: TextStyle(fontSize: 22)),
+                  SizedBox(width: 8),
+                  Text(
+                    'Selecione o Idioma',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: _TupiColors.accent,
+                    ),
+                  ),
+                ],
+              ),
+              IconButton(
+                icon: const Icon(Icons.close_rounded, color: _TupiColors.textMuted),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Explore diferentes troncos e variações históricas das línguas Tupi.',
+            style: TextStyle(fontSize: 13, color: _TupiColors.textMuted),
+          ),
+          const SizedBox(height: 18),
+          if (_isLoading)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 40),
+              child: Center(
+                child: CircularProgressIndicator(color: _TupiColors.primary),
+              ),
+            )
+          else if (_error != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                children: [
+                  Text(_error!, style: const TextStyle(color: Colors.red, fontSize: 13)),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _isLoading = true;
+                        _error = null;
+                      });
+                      _fetchVariantes();
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.primary),
+                    child: const Text('Tentar Novamente'),
+                  ),
+                ],
+              ),
+            )
+          else ...[
+            ..._variantes.map((v) {
+              final int vId = (v['id'] as num).toInt();
+              final bool isSelected = vId == widget.varianteIdAtiva;
+              final bool isUpdating = _updatingVarianteId == vId;
+              final String nome = v['nome']?.toString() ?? 'Tupi';
+              final String icone = v['icone']?.toString() ?? '🌿';
+              final String desc = v['descricao']?.toString() ?? '';
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: InkWell(
+                  onTap: isUpdating ? null : () => _selectVariante(v),
+                  borderRadius: BorderRadius.circular(18),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: isSelected ? _TupiColors.primary.withValues(alpha: 0.08) : Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(
+                        color: isSelected ? _TupiColors.primary : _TupiColors.border,
+                        width: isSelected ? 2 : 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? _TupiColors.primary.withValues(alpha: 0.15)
+                                : _TupiColors.backgroundSecondary,
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Center(
+                            child: Text(icone, style: const TextStyle(fontSize: 24)),
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    nome,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: isSelected ? _TupiColors.primary : _TupiColors.accent,
+                                    ),
+                                  ),
+                                  if (isSelected) ...[
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: _TupiColors.primary,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Text(
+                                        'ATIVO',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                              if (desc.isNotEmpty) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  desc,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: _TupiColors.textMuted,
+                                    height: 1.3,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        if (isUpdating)
+                          const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: _TupiColors.primary),
+                          )
+                        else if (isSelected)
+                          const Icon(Icons.check_circle_rounded, color: _TupiColors.primary, size: 22)
+                        else
+                          const Icon(Icons.chevron_right_rounded, color: _TupiColors.textMuted, size: 22),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ],
+        ],
       ),
     );
   }
 }
 
-// ─── Extension ───────────────────────────────────────────────────────────────
-
-extension _WidgetPadding on Widget {
-  Widget paddingHorizontal(double h) => Padding(
-    padding: EdgeInsets.symmetric(horizontal: h),
-    child: this,
-  );
-}
