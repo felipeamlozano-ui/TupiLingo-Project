@@ -51,38 +51,37 @@ services:
     ports:
       - "80:80"
 
-  # --- Infraestrutura preparada para escala futura ---
-  # Descomente quando adicionar Celery ao projeto:
-  #
-  # redis:
-  #   image: redis:7-alpine
-  #   restart: unless-stopped
-  #   networks:
-  #     - tupilingo_net
-  #   volumes:
-  #     - redis_data:/data
-  #   healthcheck:
-  #     test: ["CMD", "redis-cli", "ping"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 3
-  #
-  # celery:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/django/Dockerfile
-  #     target: runner
-  #   command: celery -A config worker --loglevel=info
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - DJANGO_SETTINGS_MODULE=config.settings.production
-  #   depends_on:
-  #     - redis
-  #     - django
-  #   networks:
-  #     - tupilingo_net
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks:
+      - tupilingo_net
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
-# volumes:
-#   redis_data:
-#     driver: local
+  celery:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+      target: runner
+    command: celery -A config worker --loglevel=info --concurrency=2
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+    depends_on:
+      redis:
+        condition: service_healthy
+      django:
+        condition: service_started
+    networks:
+      - tupilingo_net
+
+volumes:
+  redis_data:
+    driver: local

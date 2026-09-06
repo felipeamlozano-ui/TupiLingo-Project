@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/network/api_client.dart';
 
 /// Normaliza o status de validação retornado pelo backend.
 /// Aceita tanto o formato canônico inglês ('correct', 'almost', 'wrong')
@@ -81,19 +81,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     });
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) throw Exception('Não autenticado');
-
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      final url = Uri.parse('$baseUrl/api/v1/trilha/licao/${widget.licaoId}/');
-
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session.accessToken}',
-        },
-      ).timeout(const Duration(seconds: 15));
+      final response = await ApiClient.get('$baseUrl/api/v1/trilha/licao/${widget.licaoId}/');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -130,9 +119,22 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       }
     } catch (e) {
       if (mounted) {
+        final String userMessage;
+        if (e is SessionExpiredException) {
+          userMessage = 'Sua sessão expirou. Faça login novamente.';
+          Navigator.pushReplacementNamed(context, '/welcome');
+          return;
+        } else if (e is http.ClientException ||
+                   e.toString().toLowerCase().contains('timeout') ||
+                   e.toString().toLowerCase().contains('socket')) {
+          userMessage = 'Sem conexão com o servidor. Verifique sua internet.';
+        } else {
+          userMessage = 'Erro ao carregar lição. Tente novamente.';
+          debugPrint('[LessonPlayer] Erro não tratado em _fetchLesson: $e');
+        }
         setState(() {
           _isLoading = false;
-          _errorMessage = e.toString();
+          _errorMessage = userMessage;
         });
       }
     }
@@ -171,7 +173,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     bool isFirstTry = _exercicioPrimeiraTentativa[exercicioId] ?? true;
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
       
       final payload = {
@@ -188,13 +189,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         payload['associacoes'] = (resposta is Map) ? resposta : {};
       }
 
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/v1/exercicios/verificar/'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session!.accessToken}',
-        },
-        body: jsonEncode(payload),
+      final response = await ApiClient.post(
+        '$baseUrl/api/v1/exercicios/verificar/',
+        body: payload,
       );
 
       if (dialogOpen && mounted) {
@@ -237,7 +234,29 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         dialogOpen = false;
       }
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro: $e')));
+        final String userMessage;
+        if (e is SessionExpiredException) {
+          userMessage = 'Sua sessão expirou. Faça login novamente.';
+          Navigator.pushReplacementNamed(context, '/welcome');
+          return;
+        } else if (e is http.ClientException ||
+                   e.toString().toLowerCase().contains('timeout') ||
+                   e.toString().toLowerCase().contains('socket')) {
+          userMessage = 'Sem conexão com o servidor. Verifique sua internet.';
+        } else {
+          userMessage = 'Erro ao verificar resposta. Tente novamente.';
+          debugPrint('[LessonPlayer] Erro não tratado em _verifyAnswer: $e');
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(userMessage),
+            action: SnackBarAction(
+              label: 'Tentar Novamente',
+              onPressed: () => _verifyAnswer(exercicioId, tipo, resposta),
+            ),
+          ),
+        );
       }
     }
   }
@@ -307,7 +326,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     setState(() => _isLoading = true);
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
       
       final payload = {
@@ -317,13 +335,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         'primeira_tentativa': _acertos == _totalExercicios && _totalExercicios > 0,
       };
 
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/v1/trilha/licao/${widget.licaoId}/concluir/'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session!.accessToken}',
-        },
-        body: jsonEncode(payload),
+      final response = await ApiClient.post(
+        '$baseUrl/api/v1/trilha/licao/${widget.licaoId}/concluir/',
+        body: payload,
       );
 
       if (response.statusCode == 200) {
@@ -334,12 +348,33 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
           _showVictoryDialog(data['earned_xp'] ?? 0, novasConquistas, nivelAtual);
         }
       } else {
-        throw Exception('Falha ao concluir lição.');
+        throw Exception('Falha ao concluir lição (HTTP ${response.statusCode}).');
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro: $e')));
+        final String userMessage;
+        if (e is SessionExpiredException) {
+          userMessage = 'Sua sessão expirou. Faça login novamente.';
+          Navigator.pushReplacementNamed(context, '/welcome');
+          return;
+        } else if (e is http.ClientException ||
+                   e.toString().toLowerCase().contains('timeout') ||
+                   e.toString().toLowerCase().contains('socket')) {
+          userMessage = 'Sem conexão com o servidor. Verifique sua internet.';
+        } else {
+          userMessage = 'Falha ao concluir lição. Tente novamente.';
+          debugPrint('[LessonPlayer] Erro não tratado em _finishLesson: $e');
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(userMessage),
+            action: SnackBarAction(
+              label: 'Tentar Novamente',
+              onPressed: _finishLesson,
+            ),
+          ),
+        );
       }
     }
   }

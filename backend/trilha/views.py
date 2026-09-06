@@ -10,7 +10,8 @@ Fornece todos os dados que o Flutter precisa para renderizar:
 import json
 import logging
 
-from django.db.models import F
+from django.db import transaction
+from django.db.models import F, Prefetch
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
@@ -120,9 +121,27 @@ def listar_capitulos_mapa(request, variante_id: int):
             return JsonResponse({'error': 'Trilha não está publicada.'}, status=404)
 
     # Garante que capítulos narrativos e lições existentes da trilha fiquem visíveis no mapa
-    capitulos_qs = trilha.capitulos.filter(numero__lt=900).select_related('scenario').order_by('numero')
-    if not capitulos_qs.filter(publicado=True).exists() and capitulos_qs.exists():
-        capitulos_qs.update(publicado=True)
+    capitulos_base_qs = trilha.capitulos.filter(numero__lt=900)
+    if not capitulos_base_qs.filter(publicado=True).exists() and capitulos_base_qs.exists():
+        capitulos_base_qs.update(publicado=True)
+
+    if not Licao.objects.filter(capitulo__trilha=trilha, publicada=True).exists() and Licao.objects.filter(capitulo__trilha=trilha).exists():
+        Licao.objects.filter(capitulo__trilha=trilha).update(publicada=True)
+
+    # PERF-002: Prefetch de licoes publicadas para eliminar N+1 queries no mapa
+    capitulos_qs = (
+        trilha.capitulos
+        .filter(numero__lt=900, publicado=True)
+        .select_related('scenario')
+        .prefetch_related(
+            Prefetch(
+                'licoes',
+                queryset=Licao.objects.filter(publicada=True).order_by('numero'),
+                to_attr='licoes_publicadas',
+            )
+        )
+        .order_by('numero')
+    )
 
     user_lessons = {
         ul.licao_id: ul
@@ -151,14 +170,10 @@ def listar_capitulos_mapa(request, variante_id: int):
             user_lessons[primeira_licao.id] = ul
 
     capitulos_data = []
-    for capitulo in capitulos_qs.filter(publicado=True):
+    for capitulo in capitulos_qs:
         scenario = capitulo.scenario
-        licoes_qs = capitulo.licoes.all().order_by('numero')
-        if not licoes_qs.filter(publicada=True).exists() and licoes_qs.exists():
-            licoes_qs.update(publicada=True)
-
         licoes_data = []
-        for licao in licoes_qs.filter(publicada=True):
+        for licao in capitulo.licoes_publicadas:
             user_lesson = user_lessons.get(licao.id)
             status = user_lesson.status if user_lesson else 'bloqueada'
 
@@ -308,35 +323,40 @@ def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi) -> int:
     """
     Recalibra o nível adaptativo do usuário com base no desempenho real
     nas últimas 3 lições concluídas na variante informada.
-    Anti-manipulação: calculado exclusivamente no backend.
+    Anti-manipulação: calculado exclusivamente no backend com lock pessimista (SCALE-002).
     """
     from nivelamento.models import UserVarianteLevel
 
-    level_obj, _ = UserVarianteLevel.objects.get_or_create(
-        user=user,
-        variante=variante,
-        defaults={'nivel': 1}
-    )
+    with transaction.atomic():
+        level_obj, _ = UserVarianteLevel.objects.select_for_update().get_or_create(
+            user=user,
+            variante=variante,
+            defaults={'nivel': 1}
+        )
 
-    ultimas_licoes = list(
-        UserLesson.objects.filter(
-            usuario=user,
-            licao__capitulo__trilha__variante=variante,
-            status='concluida',
-        ).order_by('-concluida_em')[:3]
-    )
+        ultimas_licoes = list(
+            UserLesson.objects.filter(
+                usuario=user,
+                licao__capitulo__trilha__variante=variante,
+                status='concluida',
+            ).order_by('-concluida_em')[:3]
+        )
 
-    if len(ultimas_licoes) == 3:
-        if all(ul.accuracy >= 0.85 for ul in ultimas_licoes):
-            if level_obj.nivel < 10:
-                level_obj.nivel += 1
-                level_obj.save(update_fields=['nivel', 'updated_at'])
-                logger.info("Usuário %s subiu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
-        elif all(ul.accuracy <= 0.40 for ul in ultimas_licoes):
-            if level_obj.nivel > 1:
-                level_obj.nivel -= 1
-                level_obj.save(update_fields=['nivel', 'updated_at'])
-                logger.info("Usuário %s desceu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
+        if len(ultimas_licoes) == 3:
+            if all(ul.accuracy >= 0.85 for ul in ultimas_licoes):
+                if level_obj.nivel < 10:
+                    UserVarianteLevel.objects.filter(pk=level_obj.pk).update(
+                        nivel=F('nivel') + 1
+                    )
+                    level_obj.refresh_from_db(fields=['nivel'])
+                    logger.info("Usuário %s subiu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
+            elif all(ul.accuracy <= 0.40 for ul in ultimas_licoes):
+                if level_obj.nivel > 1:
+                    UserVarianteLevel.objects.filter(pk=level_obj.pk).update(
+                        nivel=F('nivel') - 1
+                    )
+                    level_obj.refresh_from_db(fields=['nivel'])
+                    logger.info("Usuário %s desceu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
 
     return level_obj.nivel
 
@@ -420,7 +440,32 @@ def concluir_licao(request, licao_id: int):
 
     # bonus_exploracao ainda aceito do payload (XP de StoryBlocks lidos), mas com cap razoável
     bonus_exploracao = min(int(body.get('bonus_exploracao_xp', 0)), 100)
-    primeira_tentativa = bool(body.get('primeira_tentativa', False))
+
+    user_lesson, _ = UserLesson.objects.get_or_create(usuario=user, licao=licao)
+
+    # SEC-003: Idempotência — previne replay attack e farm de XP infinito
+    if user_lesson.status == 'concluida':
+        from nivelamento.models import UserVarianteLevel
+        lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=licao.capitulo.trilha.variante).first()
+        return JsonResponse({
+            'success': True,
+            'already_completed': True,
+            'earned_xp': 0,
+            'xp_total': user.xp_total,
+            'accuracy': user_lesson.accuracy,
+            'total_exercicios_servidor': total,
+            'nivel_atual': lvl_obj.nivel if lvl_obj else 1,
+            'novas_conquistas': [],
+            'proxima_licao_id': None,
+            'proxima_licao_desbloqueada': False,
+            'message': 'Lição já concluída anteriormente.',
+        })
+
+    # SEC-003: Derivar primeira_tentativa exclusivamente do estado do banco
+    primeira_tentativa = (
+        user_lesson.status in ['disponivel', 'em_andamento', 'bloqueada']
+        and (user_lesson.accuracy == 0.0 or user_lesson.accuracy is None)
+    )
 
     # Clamp acertos ao total real do servidor
     acertos = min(acertos, total)
@@ -438,7 +483,6 @@ def concluir_licao(request, licao_id: int):
         bonus_exploracao=bonus_exploracao,
     )
 
-    user_lesson, _ = UserLesson.objects.get_or_create(usuario=user, licao=licao)
     user_lesson.status = 'concluida'
     user_lesson.completion_percentage = 100.0
     user_lesson.accuracy = accuracy
@@ -457,21 +501,33 @@ def concluir_licao(request, licao_id: int):
     )
     user.refresh_from_db(fields=['xp_total'])
 
-    # Calibração de Nível
-    variante = licao.capitulo.trilha.variante
-    novo_nivel = _recalibrar_nivel(user, variante)
+    # Nível atual para retorno imediato (sem bloquear worker Gunicorn)
+    from nivelamento.models import UserVarianteLevel
+    lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=licao.capitulo.trilha.variante).first()
+    novo_nivel = lvl_obj.nivel if lvl_obj else 1
 
-    # Processamento de Achievements
-    from users.services.achievement_service import (
-        check_and_grant_xp_achievements,
-        check_and_grant_lesson_achievements,
-    )
-    novas_xp_ach = check_and_grant_xp_achievements(user)
-    novas_lesson_ach = check_and_grant_lesson_achievements(user, licao, accuracy)
-    novas_ach = [
-        {'codigo': a.codigo, 'nome': a.nome, 'icone': a.icone, 'descricao': a.descricao}
-        for a in (novas_xp_ach + novas_lesson_ach)
-    ]
+    # SCALE-001: Despacha calibração de nível e concessão de medalhas para worker Celery
+    novas_ach = []
+    try:
+        from users.tasks import processar_pos_licao
+        processar_pos_licao.delay(user.pk, licao.pk, accuracy)
+    except Exception as exc:
+        logger.warning("Falha ao enfileirar task Celery, executando fallback síncrono: %s", exc)
+        try:
+            variante = licao.capitulo.trilha.variante
+            novo_nivel = _recalibrar_nivel(user, variante)
+            from users.services.achievement_service import (
+                check_and_grant_xp_achievements,
+                check_and_grant_lesson_achievements,
+            )
+            novas_xp_ach = check_and_grant_xp_achievements(user)
+            novas_lesson_ach = check_and_grant_lesson_achievements(user, licao, accuracy)
+            novas_ach = [
+                {'codigo': a.codigo, 'nome': a.nome, 'icone': a.icone, 'descricao': a.descricao}
+                for a in (novas_xp_ach + novas_lesson_ach)
+            ]
+        except Exception as inner_exc:
+            logger.error("Erro no fallback síncrono pós-lição: %s", inner_exc)
 
     return JsonResponse({
         'success': True,

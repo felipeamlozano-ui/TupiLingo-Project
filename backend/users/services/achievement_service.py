@@ -13,6 +13,8 @@ from trilha.models import Licao, Capitulo
 
 logger = logging.getLogger('users.achievements')
 
+from django.core.cache import cache
+
 DEFAULT_ACHIEVEMENTS = [
     # XP Tiers
     {
@@ -100,7 +102,10 @@ DEFAULT_ACHIEVEMENTS = [
 
 
 def ensure_default_achievements():
-    """Garante que todas as conquistas padrão existam no banco de dados."""
+    """Garante que todas as conquistas padrão existam no banco de dados — cacheado por 1h (PERF-004)."""
+    cache_key = 'tupilingo_achievements_seeded'
+    if cache.get(cache_key):
+        return
     for item in DEFAULT_ACHIEVEMENTS:
         Achievement.objects.get_or_create(
             codigo=item['codigo'],
@@ -112,6 +117,7 @@ def ensure_default_achievements():
                 'xp_necessario': item['xp_necessario'],
             }
         )
+    cache.set(cache_key, True, timeout=3600)
 
 
 def check_and_grant_xp_achievements(user: UserProfile) -> list[Achievement]:

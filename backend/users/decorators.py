@@ -36,8 +36,11 @@ except Exception:
 def supabase_auth_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        # Permite bypass seguro em ambiente de teste automatizado se user_data foi previamente anexado
-        if hasattr(request, 'user_data') and request.user_data:
+        # Permite bypass apenas em ambiente de teste automatizado se user_data foi previamente anexado
+        import os
+        if (os.environ.get('DJANGO_TESTING') == '1'
+                and hasattr(request, 'user_data')
+                and request.user_data):
             return view_func(request, *args, **kwargs)
 
         # Rejeita cedo se o cliente JWKS não pôde ser inicializado
@@ -86,23 +89,11 @@ def is_request_admin(request) -> bool:
     from django.contrib.auth.models import User
     from django.db.models import Q
 
-    # 1. Verifica Django User com is_staff=True ou is_superuser=True por email ou username
-    is_staff = User.objects.filter(
+    # Verifica Django User com is_staff=True ou is_superuser=True por email ou username exato
+    return User.objects.filter(
         Q(email__iexact=email) | Q(username__iexact=email),
         Q(is_staff=True) | Q(is_superuser=True)
     ).exists()
-
-    if is_staff:
-        return True
-
-    # 2. Se o username de um staff for o prefixo do e-mail
-    username_prefix = email.split('@')[0]
-    is_staff = User.objects.filter(
-        Q(username__iexact=username_prefix),
-        Q(is_staff=True) | Q(is_superuser=True)
-    ).exists()
-
-    return is_staff
 
 
 def staff_required(view_func):

@@ -77,11 +77,31 @@ DATABASES = {
         'USER': config('DB_USER', default='postgres'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='5432'),
-        'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=60, cast=int),
+        'PORT': config('DB_PORT', default='6543'),
+        'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=0, cast=int),
         'CONN_HEALTH_CHECKS': True,
+        'OPTIONS': {
+            'options': '-c statement_timeout=30000',
+        },
     }
 }
+
+# Cache configuration (PERF-004)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'tupilingo-local-cache',
+    }
+}
+
+# Celery Configuration (SCALE-001)
+CELERY_BROKER_URL = config('REDIS_URL', default='redis://127.0.0.1:6379/0')
+CELERY_RESULT_BACKEND = config('REDIS_URL', default='redis://127.0.0.1:6379/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Sao_Paulo'
+CELERY_TASK_ALWAYS_EAGER = config('CELERY_TASK_ALWAYS_EAGER', default=False, cast=bool)
 
 AUTH_PASSWORD_VALIDATORS = [
     {

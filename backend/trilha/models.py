@@ -193,7 +193,7 @@ class Capitulo(models.Model):
         verbose_name="Número do Capítulo",
         help_text="Ordem sequencial dentro da trilha."
     )
-    publicado = models.BooleanField(default=False, verbose_name="Publicado")
+    publicado = models.BooleanField(default=False, db_index=True, verbose_name="Publicado")
 
     class Meta:
         verbose_name = "Capítulo"
@@ -246,7 +246,7 @@ class Licao(models.Model):
         verbose_name="Posição Y no mapa (%)",
         help_text="Posição vertical (0=topo, 100=fundo) no cenário."
     )
-    publicada = models.BooleanField(default=False, verbose_name="Publicada")
+    publicada = models.BooleanField(default=False, db_index=True, verbose_name="Publicada")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

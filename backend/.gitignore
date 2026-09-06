@@ -4,3 +4,7 @@ ingest_progress.json
 chroma_db/
 worker.log
 
+# Arquivos de Variaveis de Ambiente
+.env
+.env.*
+

@@ -211,9 +211,9 @@ def get_profile(request):
     - Galeria completa de conquistas (desbloqueadas e bloqueadas)
     """
     from datetime import date, timedelta
-    from django.db.models import Avg
+    from django.db.models import Avg, Count
     from nivelamento.models import UserVarianteLevel
-    from trilha.models import Capitulo
+    from trilha.models import Capitulo, Licao
     from .models import UserLesson
     from .services.achievement_service import (
         check_and_grant_xp_achievements,
@@ -276,25 +276,49 @@ def get_profile(request):
         for ul in licoes_qs
     ]
 
-    # 5. Desempenho por Capítulo
+    # 5. Desempenho por Capítulo (PERF-001: O(1) queries sem N+1)
     desempenho_por_capitulo = []
     if user.variante_ativa:
-        capitulos = Capitulo.objects.filter(
-            trilha__variante=user.variante_ativa, publicado=True
-        ).order_by('numero')
-        for cap in capitulos:
-            total_licoes = cap.licoes.filter(publicada=True).count()
-            concluidas = UserLesson.objects.filter(
-                usuario=user, licao__capitulo=cap, status='concluida'
-            )
-            qtd_concluidas = concluidas.count()
-            media_acc = concluidas.aggregate(m=Avg('accuracy'))['m'] or 0.0
+        capitulos = list(
+            Capitulo.objects.filter(
+                trilha__variante=user.variante_ativa, publicado=True
+            ).order_by('numero')
+        )
 
+        totais_qs = (
+            Licao.objects
+            .filter(capitulo__trilha__variante=user.variante_ativa, publicada=True)
+            .values('capitulo_id')
+            .annotate(total=Count('id'))
+        )
+        totais_map = {row['capitulo_id']: row['total'] for row in totais_qs}
+
+        concluidas_qs = (
+            UserLesson.objects
+            .filter(
+                usuario=user,
+                licao__capitulo__trilha__variante=user.variante_ativa,
+                licao__publicada=True,
+                status='concluida',
+            )
+            .values('licao__capitulo_id')
+            .annotate(
+                qtd_concluidas=Count('id'),
+                media_acc=Avg('accuracy'),
+            )
+        )
+        concluidas_map = {
+            row['licao__capitulo_id']: (row['qtd_concluidas'], row['media_acc'] or 0.0)
+            for row in concluidas_qs
+        }
+
+        for cap in capitulos:
+            qtd_concluidas, media_acc = concluidas_map.get(cap.id, (0, 0.0))
             desempenho_por_capitulo.append({
                 'capitulo_id': cap.id,
                 'numero': cap.numero,
                 'titulo': cap.titulo,
-                'total_licoes': total_licoes,
+                'total_licoes': totais_map.get(cap.id, 0),
                 'licoes_concluidas': qtd_concluidas,
                 'accuracy_media': round(media_acc, 2),
                 'accuracy_percent': int(round(media_acc * 100)),

@@ -200,6 +200,7 @@ class UserLesson(models.Model):
             ('concluida', 'Concluída'),
         ],
         default='bloqueada',
+        db_index=True,
         verbose_name="Status"
     )
     # Percentual de conclusão (0-100), para caso o usuário saia no meio da lição.
@@ -217,12 +218,16 @@ class UserLesson(models.Model):
         verbose_name="XP Ganho nesta Lição"
     )
     iniciada_em = models.DateTimeField(null=True, blank=True, verbose_name="Iniciada em")
-    concluida_em = models.DateTimeField(null=True, blank=True, verbose_name="Concluída em")
+    concluida_em = models.DateTimeField(null=True, blank=True, db_index=True, verbose_name="Concluída em")
 
     class Meta:
         verbose_name = "Progresso na Lição"
         verbose_name_plural = "Progressos nas Lições"
         unique_together = ('usuario', 'licao')
+        indexes = [
+            models.Index(fields=['usuario', 'status']),
+            models.Index(fields=['usuario', 'concluida_em']),
+        ]
 
     def __str__(self):
         return f"{self.usuario.name} — {self.licao.titulo} [{self.status}]"
