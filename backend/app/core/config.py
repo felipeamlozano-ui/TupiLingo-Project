@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     ENABLE_GEMINI: bool = True
     ENABLE_OLLAMA: bool = True
     ENABLE_OPENAI: bool = True
+    ENABLE_DASHSCOPE: bool = True
+    ENABLE_SAMBANOVA: bool = True
+    ENABLE_OPENROUTER: bool = True
     ENABLE_OTEL: bool = True
     ENABLE_METRICS: bool = True
     # RFC v3.0: Engine Heurística Determinística
@@ -36,9 +39,16 @@ class Settings(BaseSettings):
     GROQ_API_KEY: Optional[str] = None
     CEREBRAS_API_KEY: Optional[str] = None
     OPENAI_API_KEY: Optional[str] = None
+    DASHSCOPE_API_KEY: Optional[str] = None
+    SAMBANOVA_API_KEY: Optional[str] = None
+    OPENROUTER_API_KEY: Optional[str] = None
+    COHERE_API_KEY: Optional[str] = None
     
     # Base URLs
     OLLAMA_BASE_URL: str = "http://localhost:11434/v1"
+    DASHSCOPE_BASE_URL: str = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+    SAMBANOVA_BASE_URL: str = "https://api.sambanova.ai/v1"
+    CEREBRAS_BASE_URL: str = "https://api.cerebras.ai/v1"
     
     # RAG Config
     RAG_TOP_K: int = 5

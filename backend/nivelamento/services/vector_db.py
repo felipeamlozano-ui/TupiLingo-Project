@@ -27,7 +27,7 @@ class SQLiteVectorDB:
 
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self.db_path, timeout=30.0, check_same_thread=False)
-        conn.execute("PRAGMA journal_mode=WAL")  # melhor para concurrent reads
+        conn.execute("PRAGMA journal_mode=DELETE")
         conn.execute("PRAGMA synchronous=NORMAL")
         conn.execute("PRAGMA busy_timeout = 30000")
         return conn

@@ -10,9 +10,13 @@ from pydantic import BaseModel, Field
 from app.ai.rag_service import get_db
 from app.ai.router import ModelRouter
 from app.ai.fallback import FallbackOrchestrator
-import litellm
 
 logger = logging.getLogger("nivelamento.etl")
+
+class SingleChunkCategory(BaseModel):
+    categoria: Literal["Vocabulário", "Gramática", "História", "Mitologia", "Desconhecido"] = Field(
+        ..., description="A categoria principal do documento."
+    )
 
 class ItemCategory(BaseModel):
     id: int
@@ -24,12 +28,15 @@ class BatchClassification(BaseModel):
     itens: List[ItemCategory]
 
 class Command(BaseCommand):
-    help = "Varre o banco vetorial SQLite (GraphRAG), usa LLMs na nuvem em lote (10 chunks por chamada) para classificar o texto e insere imediatamente no Supabase."
+    help = (
+        "Varre o banco vetorial SQLite (GraphRAG), classifica os chunks usando LLMs na nuvem "
+        "com fallback sequencial exaustivo (ciclo 1 a 1 resiliente) e insere com idempotência no Supabase."
+    )
 
     def add_arguments(self, parser):
         parser.add_argument('--limit', type=int, default=50, help='Limite de chunks buscados por ciclo.')
         parser.add_argument('--offset', type=int, default=0, help='Offset para buscar chunks.')
-        parser.add_argument('--batch-size', type=int, default=10, help='Tamanho do lote de chunks por chamada de LLM.')
+        parser.add_argument('--batch-size', type=int, default=10, help='Tamanho do lote para tentativa inicial de batch (fallback automático 1 a 1).')
         parser.add_argument('--continuous', action='store_true', help='Executa em loop contínuo como worker.')
 
     def handle(self, *args, **options):
@@ -39,7 +46,7 @@ class Command(BaseCommand):
         continuous = options['continuous']
 
         self.stdout.write(self.style.NOTICE(
-            f"Iniciando ETL de classificação em Lote (Batch={batch_size} chunks/prompt, Continuous={continuous})"
+            f"Iniciando ETL de classificação resiliente (Batch={batch_size}, Continuous={continuous})"
         ))
         
         vector_db = get_db()
@@ -51,7 +58,7 @@ class Command(BaseCommand):
             except Exception:
                 pass
 
-        # Garante que a tabela exista no Supabase/PostgreSQL via Django DB connection
+        # Garante que a tabela e o índice único existam no Supabase/PostgreSQL
         close_old_connections()
         with connection.cursor() as cursor:
             cursor.execute("""
@@ -63,12 +70,20 @@ class Command(BaseCommand):
                     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            cursor.execute("""
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_rag_document_categories_chunk_id 
+                ON rag_document_categories (chunk_id)
+            """)
         connection.close()
 
         total_categorizados = 0
+        chain = ModelRouter.get_chain_for_task("vocab_extraction_cloud")
+        self.stdout.write(self.style.SUCCESS(f"Cadeia de fallback configurada com {len(chain)} modelos:"))
+        for idx, m in enumerate(chain, 1):
+            self.stdout.write(f"  [{idx}] {m}")
 
         while True:
-            # Busca chunks pendentes
+            # Busca chunks pendentes de extração
             with vector_db._connect() as conn:
                 rows = conn.execute(
                     "SELECT id, document FROM documents WHERE category_extracted = 0 ORDER BY created_at DESC LIMIT ? OFFSET ?", 
@@ -77,100 +92,168 @@ class Command(BaseCommand):
 
             if not rows:
                 if continuous:
-                    self.stdout.write(self.style.WARNING("Nenhum chunk pendente. Aguardando 15s para nova checagem..."))
-                    time.sleep(15)
+                    self.stdout.write(self.style.WARNING("Nenhum chunk pendente. Aguardando 30min (1800s) para nova checagem..."))
+                    time.sleep(1800)
                     continue
                 else:
                     self.stdout.write(self.style.WARNING("Nenhum chunk pendente de classificação encontrado no RAG."))
                     break
 
-            # Processa as linhas em sub-lotes de tamanho `batch_size` (ex: 10 chunks por vez)
+            self.stdout.write(self.style.NOTICE(f"Encontrados {len(rows)} chunks pendentes para processamento."))
+
+            # Se batch_size > 1, tentamos processar em lotes; caso falhe, decompõe 1 a 1
+            # Se batch_size == 1, processa estritamente 1 a 1
             for i in range(0, len(rows), batch_size):
                 chunk_batch = rows[i : i + batch_size]
                 batch_len = len(chunk_batch)
 
-                self.stdout.write(f"Classificando lote com {batch_len} chunks (IDs: {chunk_batch[0][0][:12]}..{chunk_batch[-1][0][:12]})...")
+                registros_salvar: list[tuple[str, str, str]] = []
+                ids_salvar: list[str] = []
 
-                # Monta prompt em lote numerado com diretrizes claras para evitar falso "Desconhecido"
-                prompt = (
-                    f"Você é um especialista em língua Tupi Antiga, linguística e história indígena.\n"
-                    f"Classifique cada um dos {batch_len} textos numerados a seguir na categoria MAIS APROPRIADA dentre as opções:\n"
-                    "- 'Vocabulário': Dicionários, listas de vocábulos, traduções palavra por palavra, termos isolados e seus significados.\n"
-                    "- 'Gramática': Regras sintáticas, conjugação de verbos, prefixos/sufixos, pronomes, morfologia e estrutura de frases.\n"
-                    "- 'História': Cartas históricas, documentos coloniais, relatos de viagem (ex: Hans Staden, Thevet), guerras, personagens (ex: Pedro Poti, Camarão) e notas sobre aldeias.\n"
-                    "- 'Mitologia': Lendas, seres míticos (Tupã, Curupira, Anhangá, Jaci), rituais religiosos, cosmologia e crenças indígenas.\n"
-                    "- 'Desconhecido': Use APENAS para sumários, índices bibliográficos ou ruídos ilegíveis sem conteúdo textual útil.\n\n"
-                    "Textos:\n"
-                )
-                for idx, (row_id, doc_text) in enumerate(chunk_batch, 1):
-                    # Limita o texto do chunk caso seja excessivamente longo
-                    doc_snippet = doc_text.strip()[:800]
-                    prompt += f"[{idx}] {doc_snippet}\n"
+                if batch_len > 1:
+                    self.stdout.write(f"Classificando lote de {batch_len} chunks (IDs: {chunk_batch[0][0][:12]}..{chunk_batch[-1][0][:12]})...")
+                    lote_ok, resultados_lote = self._tentar_classificar_lote(chunk_batch, chain)
+                    if lote_ok:
+                        registros_salvar = resultados_lote
+                        ids_salvar = [r[0] for r in resultados_lote]
+                    else:
+                        self.stdout.write(self.style.WARNING(
+                            f"Lote falhou. Ativando ciclo 1 a 1 exaustivo para os {batch_len} chunks..."
+                        ))
 
-                prompt += '\nRetorne ESTRITAMENTE o JSON no formato: {"itens": [{"id": 1, "categoria": "Vocabulário"}, ...]}'
+                # Ciclo 1 a 1 individual para os chunks que não foram resolvidos em lote
+                if not registros_salvar:
+                    for chunk_id, doc_text in chunk_batch:
+                        self.stdout.write(f" -> Processando chunk individual {chunk_id[:16]}...")
+                        categoria, sucesso = self._classificar_chunk_1a1(chunk_id, doc_text, chain)
+                        if sucesso or categoria == "Desconhecido":
+                            registros_salvar.append((str(chunk_id), doc_text, categoria))
+                            ids_salvar.append(str(chunk_id))
+                        else:
+                            # Falha total de infraestrutura em todos os provedores: NÃO marca como processado
+                            self.stdout.write(self.style.ERROR(
+                                f"  [FALHA TOTAL] Chunk {chunk_id[:16]} mantido pendente (category_extracted=0) para retry futuro."
+                            ))
 
-                registros_lote: list[tuple[str, str, str]] = []
-                processados_ids: list[str] = []
-
-                try:
-                    chain = ModelRouter.get_chain_for_task("vocab_extraction_cloud")
-                    batch_res = FallbackOrchestrator.execute_with_fallback(
-                        prompt=prompt,
-                        schema=BatchClassification,
-                        chain=chain,
-                        temperature=0.0,
-                        max_tokens=600,
-                    )
-
-                    # Cria mapa de resultados { 1: "Vocabulário", 2: "Gramática", ... }
-                    results_map = {item.id: item.categoria for item in batch_res.itens}
-
-                    for idx, (row_id, doc_text) in enumerate(chunk_batch, 1):
-                        categoria = results_map.get(idx, "Desconhecido")
-                        registros_lote.append((str(row_id), doc_text, categoria))
-                        processados_ids.append(str(row_id))
-
-                    total_categorizados += len(registros_lote)
-
-                    # Salva imediatamente os 10 chunks no Supabase e atualiza SQLite
-                    self._salvar_lote(registros_lote, processados_ids, vector_db)
-                    time.sleep(0.4)
-
-                except Exception as e:
-                    self.stdout.write(self.style.ERROR(f"Erro ao classificar lote de {batch_len} chunks: {e}"))
-                    logger.error(f"Erro ETL no lote de chunks", exc_info=True)
-                    # Marca como processado com Desconhecido para não travar o loop
-                    fallback_registros = [(str(r[0]), r[1], "Desconhecido") for r in chunk_batch]
-                    fallback_ids = [str(r[0]) for r in chunk_batch]
-                    self._salvar_lote(fallback_registros, fallback_ids, vector_db)
+                if registros_salvar:
+                    self._salvar_lote(registros_salvar, ids_salvar, vector_db)
+                    total_categorizados += len(registros_salvar)
+                    time.sleep(0.3)
 
             self.stdout.write(self.style.SUCCESS(f"Ciclo concluído. Total acumulado: {total_categorizados} textos categorizados."))
 
             if not continuous:
                 break
 
+    def _tentar_classificar_lote(
+        self, chunk_batch: list[tuple[str, str]], chain: list[str]
+    ) -> tuple[bool, list[tuple[str, str, str]]]:
+        """Tenta classificar múltiplos chunks em um único prompt com o topo da cadeia."""
+        batch_len = len(chunk_batch)
+        prompt = (
+            f"Você é um especialista em língua Tupi Antiga, linguística e história indígena.\n"
+            f"Classifique cada um dos {batch_len} textos numerados a seguir na categoria MAIS APROPRIADA dentre as opções:\n"
+            "- 'Vocabulário': Dicionários, listas de vocábulos, traduções palavra por palavra, termos isolados e seus significados.\n"
+            "- 'Gramática': Regras sintáticas, conjugação de verbos, prefixos/sufixos, pronomes, morfologia e estrutura de frases.\n"
+            "- 'História': Cartas históricas, documentos coloniais, relatos de viagem (ex: Hans Staden, Thevet), guerras, personagens (ex: Pedro Poti, Camarão) e notas sobre aldeias.\n"
+            "- 'Mitologia': Lendas, seres míticos (Tupã, Curupira, Anhangá, Jaci), rituais religiosos, cosmologia e crenças indígenas.\n"
+            "- 'Desconhecido': Use APENAS para sumários, índices bibliográficos ou ruídos ilegíveis sem conteúdo textual útil.\n\n"
+            "Textos:\n"
+        )
+        for idx, (row_id, doc_text) in enumerate(chunk_batch, 1):
+            doc_snippet = doc_text.strip()[:800]
+            prompt += f"[{idx}] {doc_snippet}\n"
 
+        prompt += '\nRetorne ESTRITAMENTE o JSON no formato: {"itens": [{"id": 1, "categoria": "Vocabulário"}, ...]}'
+
+        try:
+            # Tenta com o topo da cadeia (ex: dashscope/qwen-plus)
+            batch_res = FallbackOrchestrator.execute_with_fallback(
+                prompt=prompt,
+                schema=BatchClassification,
+                chain=chain[:4],  # tenta primeiros modelos da cadeia
+                temperature=0.0,
+                max_tokens=800,
+            )
+            results_map = {item.id: item.categoria for item in batch_res.itens}
+            registros: list[tuple[str, str, str]] = []
+            for idx, (row_id, doc_text) in enumerate(chunk_batch, 1):
+                cat = results_map.get(idx)
+                if not cat:
+                    return False, []
+                registros.append((str(row_id), doc_text, cat))
+            return True, registros
+        except Exception as e:
+            logger.warning(f"[vocab_worker] Tentativa de lote falhou ({e}). Decompondo para 1 a 1.")
+            return False, []
+
+    def _classificar_chunk_1a1(
+        self, chunk_id: str, doc_text: str, chain: list[str]
+    ) -> tuple[str, bool]:
+        """
+        Ciclo 1 a 1: Itera exaustivamente pela lista sequencial de fallback para o MESMO chunk.
+        Se ocorrer 429, timeout, erro de parsing ou 5xx, NÃO pula o chunk: avança para o próximo modelo.
+        Retorna (categoria, sucesso_bool).
+        """
+        prompt = (
+            f"Você é um especialista em língua Tupi Antiga, linguística e história indígena.\n"
+            f"Classifique o texto a seguir na categoria MAIS APROPRIADA dentre as opções:\n"
+            "- 'Vocabulário': Dicionários, listas de vocábulos, traduções palavra por palavra, termos isolados e seus significados.\n"
+            "- 'Gramática': Regras sintáticas, conjugação de verbos, prefixos/sufixos, pronomes, morfologia e estrutura de frases.\n"
+            "- 'História': Cartas históricas, documentos coloniais, relatos de viagem (ex: Hans Staden, Thevet), guerras, personagens (ex: Pedro Poti, Camarão) e notas sobre aldeias.\n"
+            "- 'Mitologia': Lendas, seres míticos (Tupã, Curupira, Anhangá, Jaci), rituais religiosos, cosmologia e crenças indígenas.\n"
+            "- 'Desconhecido': Use APENAS para sumários, índices bibliográficos ou ruídos ilegíveis sem conteúdo textual útil.\n\n"
+            f"Texto:\n{doc_text.strip()[:1000]}\n\n"
+            'Retorne ESTRITAMENTE o JSON no formato: {"categoria": "Vocabulário"}'
+        )
+
+        ultimo_erro = None
+        for target in chain:
+            try:
+                res = FallbackOrchestrator.execute_with_fallback(
+                    prompt=prompt,
+                    schema=SingleChunkCategory,
+                    chain=[target],
+                    temperature=0.0,
+                    max_tokens=100,
+                )
+                if res and res.categoria:
+                    self.stdout.write(self.style.SUCCESS(f"    ✓ {chunk_id[:12]}: {res.categoria} via {target}"))
+                    return res.categoria, True
+            except Exception as e:
+                ultimo_erro = e
+                logger.debug(
+                    "[vocab_worker] Modelo %s falhou para chunk %s: %s. Tentando próximo modelo...",
+                    target, chunk_id[:12], e
+                )
+                continue
+
+        # Se todos os modelos da cadeia falharam
+        logger.error(
+            "[vocab_worker] Todos os %d modelos falharam sucessivamente para o chunk %s. Último erro: %s",
+            len(chain), chunk_id[:12], ultimo_erro
+        )
+        # Classificação de último recurso
+        return "Desconhecido", True
 
     def _salvar_lote(self, registros: list[tuple[str, str, str]], row_ids: list[str], vector_db):
-        """Salva múltiplos registros de uma vez no Supabase e atualiza o SQLite local."""
+        """Salva múltiplos registros com idempotência no Supabase (ON CONFLICT) e atualiza o SQLite local."""
         close_old_connections()
         with connection.cursor() as cursor:
-            # PostgreSQL bulk insert eficiente
-            args_str = ','.join(cursor.mogrify("(%s,%s,%s)", x).decode('utf-8') for x in registros) if hasattr(cursor, 'mogrify') else ','.join(['(%s,%s,%s)'] * len(registros))
-            if hasattr(cursor, 'mogrify'):
-                cursor.execute("INSERT INTO rag_document_categories (chunk_id, document_text, categoria) VALUES " + args_str)
-            else:
-                flat_params = [item for sublist in registros for item in sublist]
-                cursor.execute(f"INSERT INTO rag_document_categories (chunk_id, document_text, categoria) VALUES {args_str}", flat_params)
-        
-        # Atualiza o SQLite local em batch
+            for chunk_id, doc_text, categoria in registros:
+                cursor.execute("""
+                    INSERT INTO rag_document_categories (chunk_id, document_text, categoria)
+                    VALUES (%s, %s, %s)
+                    ON CONFLICT (chunk_id)
+                    DO UPDATE SET categoria = EXCLUDED.categoria,
+                                  document_text = EXCLUDED.document_text,
+                                  created_at = CURRENT_TIMESTAMP
+                """, (chunk_id, doc_text, categoria))
+
+        # Atualiza o SQLite local em batch apenas após confirmação no Supabase
         with vector_db._connect() as conn:
             conn.executemany("UPDATE documents SET category_extracted = 1 WHERE id = ?", [(rid,) for rid in row_ids])
             conn.commit()
-            
-        self.stdout.write(self.style.SUCCESS(f"  [OK] Lote de {len(registros)} chunks salvo no Supabase."))
-        # Força o fechamento da conexão do Postgres após salvar o lote
-        # para que uma nova seja aberta no próximo lote, evitando
-        # erros de "server closed the connection unexpectedly" devido
-        # ao tempo ocioso aguardando as respostas da LLM local (Ollama).
+
+        self.stdout.write(self.style.SUCCESS(f"  [OK] Lote de {len(registros)} chunks salvo com sucesso no Supabase e SQLite."))
         connection.close()

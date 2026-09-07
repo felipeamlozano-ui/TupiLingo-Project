@@ -68,6 +68,12 @@ class PingRaceRouter:
         messages = [{"role": "user", "content": "ping"}]
 
         try:
+            from app.ai.registry import registry
+            if provider_name in registry._providers:
+                provider = registry.get_provider(provider_name)
+                provider.generate_text("ping", model_name, max_tokens=1)
+                return target
+
             # max_tokens=1, timeout suficiente (3.5s) para conexões seguras SSL
             litellm.completion(
                 model=full_model,
@@ -80,6 +86,7 @@ class PingRaceRouter:
             logger.debug("[PingRace] Ping falhou para %s: %s", target, e)
             cls.record_failure(target)
             raise e
+
 
     @classmethod
     def get_fastest_model(cls, chain: list[str]) -> str:

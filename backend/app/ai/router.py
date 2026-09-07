@@ -1,7 +1,12 @@
 """
-Define as cadeias de fallback de modelos LLM para cada tipo de tarefa.
-Prioriza fallbacks rápidos em vez de retries com backoff.
-Inclui uma vasta gama de provedores gratuitos de alta velocidade e alta taxa de tokens (Groq, Gemini, OpenRouter Free).
+Define as cadeias de fallback de modelos LLM para cada tipo de tarefa no TupiLingo.
+Organiza catálogos completos para:
+  - Alibaba Cloud (Model Studio / DashScope)
+  - Groq Cloud (14 modelos ativos da chave)
+  - OpenRouter (Modelos gratuitos e auxiliares)
+  - Cerebras Cloud
+  - SambaNova Cloud
+  - Google Gemini
 """
 
 from __future__ import annotations
@@ -13,86 +18,187 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Cadeias de modelos
+# ==============================================================================
+# CATÁLOGOS CENTRALIZADOS DE MODELOS POR PROVEDOR E ESPECIALIDADE
+# ==============================================================================
 
-# FAST: latência crítica — geração de quiz com prompt < 800 tokens.
-# Modelos com excelente tempo de resposta (<1s) e tiers gratuitos generosos.
+# A. OpenRouter
+# 1. Modelos Gratuitos de Texto / Chat para Inferência
+OPENROUTER_FREE_TEXT_MODELS = [
+    "poolside/laguna-xs-2.1:free",                 # 112B
+    "cohere/north-mini-code:free",                  # 115B
+    "minimax/minimax-m3:free",                      # 5.77T
+    "minimax/minimax-m2.7:free",                    # 749B
+    "google/gemma-4-26b-a4b-it:free",
+    "google/gemma-4-31b-it:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+]
+
+# 2. Modelos Auxiliares (Embeddings, Rerankers, Moderação - NÃO colocar em filas de chat)
+OPENROUTER_AUXILIARY_MODELS = {
+    "embeddings": [
+        "nvidia/nemotron-3-embed-1b:free",
+        "nvidia/llama-nemotron-embed-vl-1b-v2:free",
+    ],
+    "rerankers": [
+        "nvidia/llama-nemotron-rerank-vl-1b-v2:free",
+    ],
+    "safety": [
+        "nvidia/nemotron-3.5-content-safety:free",
+    ],
+}
+
+# B. Groq (Catálogo dos 14 modelos ativos da chave)
+GROQ_TEXT_MODELS = [
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "openai/gpt-oss-safeguard-20b",
+    "qwen/qwen3.8-27b",
+    "qwen/qwen3.6-27b",
+    "groq/compound",
+    "groq/compound-mini",
+    "allam-2-7b",
+]
+
+GROQ_GUARD_MODELS = [
+    "meta-llama/llama-prompt-guard-2-86m",
+    "meta-llama/llama-prompt-guard-2-22m",
+]
+
+GROQ_AUDIO_MODELS = [
+    "canopylabs/orpheus-v1-english",
+    "canopylabs/orpheus-arabic-saudi",
+    "whisper-large-v3-turbo",
+    "whisper-large-v3",
+]
+
+# C. Cerebras Cloud
+CEREBRAS_MODELS = [
+    "qwen-3.8-27b",             # Contexto: 131k, 450 RPM
+    "gemma-4-31bPreview",       # Contexto: 131k, 5 RPM
+    "gpt-oss-120bProduction",   # Contexto: 131k, 5 RPM
+]
+
+# D. Alibaba Cloud (Model Studio / DashScope)
+DASHSCOPE_MODELS = {
+    "classifier_primary": "qwen-plus",                  # Classificador Semântico Principal
+    "classifier_secondary": "qwen3.6-plus",             # Fallback Secundário vocab_worker
+    "classifier_contingency": "qwen3.6-plus-2026-04-02",# Snapshot de Contingência
+    "classifier_fast": "qwen-turbo",                    # Classificação Rápida de Vocabulário
+    "quiz_primary": "qwen-max",                         # Gerador de Quizzes e Raciocínio TRI
+    "quiz_fallback": "qwen3.7-max",                     # Fallback para Geração de Quizzes
+    "quiz_contingency": "qwen3.7-max-2026-05-17",       # Snapshot de Contingência rag_service
+    "psychometric_val": "qwen3.8-max",                  # Validação Psicométrica e Calibração TRI
+    "structured_outputs": "qwen2.5-coder",              # Saídas Estruturadas e Contratos de Dados
+}
+
+# E. SambaNova Cloud
+SAMBANOVA_MODELS = [
+    "DeepSeek-V3.1",
+    "DeepSeek-V3.2",
+    "Meta-Llama-3.3-70B-Instruct",
+    "MiniMax-M2.7",
+    "MiniMax-M3",
+    "gemma-4-31B-it",
+    "gpt-oss-120b",
+]
+
+
+# ==============================================================================
+# CADEIAS DE FALLBACK POR TAREFA
+# ==============================================================================
+
+# VOCAB_EXTRACTION_CLOUD: Esteira de classificação do vocab_worker
+# Prioridade: DashScope (estável, alta cota) -> Groq (chat) -> OpenRouter (free) -> SambaNova -> Cerebras
+_CHAIN_VOCAB_EXTRACTION_CLOUD: list[str] = [
+    # 1. Alibaba Cloud / DashScope (Cavalo de Batalha Principal)
+    f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
+    f"dashscope/{DASHSCOPE_MODELS['classifier_secondary']}",
+    f"dashscope/{DASHSCOPE_MODELS['classifier_fast']}",
+    f"dashscope/{DASHSCOPE_MODELS['classifier_contingency']}",
+    f"dashscope/{DASHSCOPE_MODELS['structured_outputs']}",
+
+    # 2. Groq (Modelos ativos de chat)
+    f"groq/{GROQ_TEXT_MODELS[0]}",   # openai/gpt-oss-120b
+    f"groq/{GROQ_TEXT_MODELS[1]}",   # openai/gpt-oss-20b
+    f"groq/{GROQ_TEXT_MODELS[3]}",   # qwen/qwen3.8-27b
+    f"groq/{GROQ_TEXT_MODELS[4]}",   # qwen/qwen3.6-27b
+    f"groq/{GROQ_TEXT_MODELS[7]}",   # allam-2-7b
+    f"groq/{GROQ_TEXT_MODELS[2]}",   # openai/gpt-oss-safeguard-20b
+    f"groq/{GROQ_TEXT_MODELS[5]}",   # groq/compound
+    f"groq/{GROQ_TEXT_MODELS[6]}",   # groq/compound-mini
+
+    # 3. OpenRouter Free Endpoints
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # minimax/minimax-m2.7:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[5]}",  # google/gemma-4-31b-it:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[4]}",  # google/gemma-4-26b-a4b-it:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[0]}",  # poolside/laguna-xs-2.1:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[1]}",  # cohere/north-mini-code:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[2]}",  # minimax/minimax-m3:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[8]}",  # nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[7]}",  # nvidia/nemotron-3-super-120b-a12b:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[6]}",  # nvidia/nemotron-3-ultra-550b-a55b:free
+
+    # 4. Google Gemini
+    "gemini/gemini-2.5-flash",
+
+    # 5. SambaNova Cloud
+    f"sambanova/{SAMBANOVA_MODELS[1]}",  # DeepSeek-V3.2
+    f"sambanova/{SAMBANOVA_MODELS[2]}",  # Meta-Llama-3.3-70B-Instruct
+    f"sambanova/{SAMBANOVA_MODELS[5]}",  # gemma-4-31B-it
+    f"sambanova/{SAMBANOVA_MODELS[6]}",  # gpt-oss-120b
+
+    # 6. Cerebras Cloud
+    f"cerebras/{CEREBRAS_MODELS[0]}",   # qwen-3.8-27b
+    f"cerebras/{CEREBRAS_MODELS[2]}",   # gpt-oss-120bProduction
+]
+
+# FAST: Latência crítica — geração de quiz com prompt < 800 tokens (rag_service).
 _CHAIN_FAST: list[str] = [
-    # 1. Provedores ultrarrápidos ativos (Groq LPU e Google Gemini)
-    "groq/groq/compound-mini",
-    "groq/openai/gpt-oss-120b",
-    "groq/openai/gpt-oss-20b",
+    # 1. DashScope (Alta capacidade de raciocínio pedagógico e TRI)
+    f"dashscope/{DASHSCOPE_MODELS['quiz_primary']}",
+    f"dashscope/{DASHSCOPE_MODELS['quiz_fallback']}",
+    f"dashscope/{DASHSCOPE_MODELS['psychometric_val']}",
+    f"dashscope/{DASHSCOPE_MODELS['quiz_contingency']}",
+    f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
+
+    # 2. Groq LPU (Baixíssima latência)
+    f"groq/{GROQ_TEXT_MODELS[0]}",   # openai/gpt-oss-120b
+    f"groq/{GROQ_TEXT_MODELS[1]}",   # openai/gpt-oss-20b
+    f"groq/{GROQ_TEXT_MODELS[3]}",   # qwen/qwen3.8-27b
+    f"groq/{GROQ_TEXT_MODELS[6]}",   # groq/compound-mini
+    f"groq/{GROQ_TEXT_MODELS[7]}",   # allam-2-7b
+
+    # 3. Google Gemini
     "gemini/gemini-2.5-flash",
-    "groq/qwen/qwen3.8-27b",
-    "groq/allam-2-7b",
 
-    # 2. Cohere API Nativa
-    "cohere/command-r-08-2024",
-    "cohere/command-r-plus-08-2024",
-    "cohere/c4ai-aya-expanse-32b",
-    "cohere/command-nightly",
+    # 4. OpenRouter Free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # minimax/minimax-m2.7:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[5]}",  # google/gemma-4-31b-it:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[0]}",  # poolside/laguna-xs-2.1:free
 
-    # 3. OpenRouter Free Endpoints testados e ativos (sem custo, na nuvem)
-    "openrouter/minimax/minimax-m3:free",
-    "openrouter/minimax/minimax-m2.7:free",
-    "openrouter/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-    "openrouter/nvidia/nemotron-3.5-lightning:free",
-    "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-    "openrouter/poolside/laguna-s-2.1:free",
-    "openrouter/poolside/laguna-xs-2.1:free",
-    "openrouter/liquid/lfm-2.5-2.6b:free",
-    "openrouter/inclusionai/ling-3.0-flash-fin:free",
-    "openrouter/cohere/north-mini-code:free",
-    "openrouter/dots-studio/dots-3-note-preview:free",
+    # 5. SambaNova e Cerebras
+    f"sambanova/{SAMBANOVA_MODELS[1]}",  # DeepSeek-V3.2
+    f"cerebras/{CEREBRAS_MODELS[0]}",   # qwen-3.8-27b
 ]
 
-# LONG_CONTEXT: para prompts > 30 k tokens (não usada no caminho crítico do quiz).
+# LONG_CONTEXT: Prompts extensos (> 30k tokens)
 _CHAIN_LONG_CONTEXT: list[str] = [
-    "cohere/command-r-08-2024",
-    "cohere/command-r-plus-08-2024",
-    "openrouter/minimax/minimax-m3:free",
-    "openrouter/minimax/minimax-m2.7:free",
-    "openrouter/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-    "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    f"dashscope/{DASHSCOPE_MODELS['quiz_primary']}",
+    f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
     "gemini/gemini-2.5-flash",
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[2]}",  # minimax/minimax-m3:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # minimax/minimax-m2.7:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[7]}",  # nvidia/nemotron-3-super-120b-a12b:free
 ]
 
-# LOCAL_ONLY: fallback totalmente offline via Ollama.
+# LOCAL_ONLY: Totalmente offline via Ollama
 _CHAIN_LOCAL_ONLY: list[str] = [
     "ollama/qwen2.5:1.5b-instruct",
     "ollama/qwen2.5:1.5b",
     "ollama/llama3.2:1b",
-]
-
-# VOCAB_EXTRACTION_CLOUD: Cadeia Multi-Provider para extração/classificação via nuvem
-_CHAIN_VOCAB_EXTRACTION_CLOUD: list[str] = [
-    # 1. Groq (limites de rate por modelo independente)
-    "groq/qwen/qwen3.8-27b",
-    "groq/groq/compound",
-    "groq/groq/compound-mini",
-    "groq/openai/gpt-oss-120b",
-    "groq/openai/gpt-oss-20b",
-    "groq/allam-2-7b",
-
-    # 2. Cohere API Nativa
-    "cohere/command-r-08-2024",
-    "cohere/command-r-plus-08-2024",
-    "cohere/c4ai-aya-expanse-32b",
-    "cohere/command-nightly",
-
-    # 3. OpenRouter Free Endpoints
-    "openrouter/minimax/minimax-m3:free",
-    "openrouter/minimax/minimax-m2.7:free",
-    "openrouter/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-    "openrouter/nvidia/nemotron-3.5-lightning:free",
-    "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-    "openrouter/poolside/laguna-s-2.1:free",
-    "openrouter/poolside/laguna-xs-2.1:free",
-    "openrouter/liquid/lfm-2.5-2.6b:free",
-    "openrouter/inclusionai/ling-3.0-flash-fin:free",
-    "openrouter/cohere/north-mini-code:free",
-    "openrouter/dots-studio/dots-3-note-preview:free",
-    "gemini/gemini-2.5-flash",
 ]
 
 TaskType = Literal["fast", "long_context", "local_only", "balanced", "vocab_extraction_cloud"]
@@ -119,10 +225,10 @@ class ModelRouter:
             return list(_CHAIN_LONG_CONTEXT)
 
         chain_map: dict[str, list[str]] = {
-            "fast":             _CHAIN_FAST,
-            "long_context":     _CHAIN_LONG_CONTEXT,
-            "local_only":       _CHAIN_LOCAL_ONLY,
-            "balanced":         list(settings.FALLBACK_CHAIN),
+            "fast":                   _CHAIN_FAST,
+            "long_context":           _CHAIN_LONG_CONTEXT,
+            "local_only":             _CHAIN_LOCAL_ONLY,
+            "balanced":               list(settings.FALLBACK_CHAIN),
             "vocab_extraction_cloud": _CHAIN_VOCAB_EXTRACTION_CLOUD,
         }
 

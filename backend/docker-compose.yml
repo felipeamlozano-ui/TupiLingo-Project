@@ -36,17 +36,17 @@ services:
     networks:
       - tupilingo_net
 
-  # ---- Vocab Worker (extração) [TEMPORARIAMENTE DESATIVADO] ----
-  # vocab_worker:
-  #   restart: on-failure
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - PYTHONUNBUFFERED=1
-  #   volumes:
-  #     - huggingface_cache:/root/.cache/huggingface
-  #   networks:
-  #     - tupilingo_net
+  # ---- Vocab Worker (extração) ----
+  vocab_worker:
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - huggingface_cache:/root/.cache/huggingface
+    networks:
+      - tupilingo_net
 
   # ---- Nginx (reverse proxy) ----
   nginx:

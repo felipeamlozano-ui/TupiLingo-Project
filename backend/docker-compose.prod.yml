@@ -43,6 +43,18 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
 
+  vocab_worker:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+      target: runner
+    command: python manage.py extract_vocab_from_rag --continuous
+    entrypoint: []
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+    depends_on:
+      - django
+
   nginx:
     build:
       context: .

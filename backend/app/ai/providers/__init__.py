@@ -34,6 +34,20 @@ def initialize_providers():
         except Exception as e:
             print(f"Aviso: Não foi possível inicializar OpenAI: {e}")
 
+    if settings.ENABLE_DASHSCOPE:
+        try:
+            from app.ai.providers.dashscope import DashScopeProvider
+            registry.register("dashscope", DashScopeProvider())
+        except Exception as e:
+            print(f"Aviso: Não foi possível inicializar DashScope: {e}")
+
+    if settings.ENABLE_SAMBANOVA:
+        try:
+            from app.ai.providers.sambanova import SambaNovaProvider
+            registry.register("sambanova", SambaNovaProvider())
+        except Exception as e:
+            print(f"Aviso: Não foi possível inicializar SambaNova: {e}")
+
     if settings.ENABLE_OLLAMA:
         try:
             from app.ai.providers.ollama import OllamaProvider

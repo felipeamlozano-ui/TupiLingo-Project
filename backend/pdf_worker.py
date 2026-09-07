@@ -66,10 +66,52 @@ try:
 except Exception as e:
     logger.warning(f"Tesseract indisponivel: {e}. OCR de imagens desabilitado.")
 
+def _ocr_image_with_auto_orientation(img: Image.Image) -> str:
+    """
+    Executa OCR aplicando correcao automatica de orientacao caso a pagina
+    esteja digitalizada de cabeca para baixo (180 graus) ou invertida.
+    Valida a legibilidade do texto em lingua portuguesa/tupi.
+    """
+    if not TESSERACT_AVAILABLE:
+        return ""
+    
+    # 1. Tenta deteccao automatica rapida via OSD
+    try:
+        osd = pytesseract.image_to_osd(img)
+        rotate_angle = 0
+        for line in osd.splitlines():
+            if line.startswith("Rotate:"):
+                rotate_angle = int(line.split(":")[1].strip())
+                break
+        if rotate_angle in (90, 180, 270):
+            return pytesseract.image_to_string(img.rotate(rotate_angle, expand=True), lang="por")
+    except Exception:
+        pass
+
+    # 2. Heuristica de legibilidade (Normal vs 180 graus)
+    txt_normal = pytesseract.image_to_string(img, lang="por")
+    common_words = (" de ", " para ", " em ", " com ", " não ", " tupi ", " que ", " por ", " da ", " do ")
+    normal_score = sum(1 for w in common_words if w in txt_normal.lower())
+
+    # Se a pontuacao normal for muito baixa e houver texto, testa 180 graus
+    if normal_score <= 1 and len(txt_normal.strip()) > 30:
+        txt_180 = pytesseract.image_to_string(img.rotate(180, expand=True), lang="por")
+        score_180 = sum(1 for w in common_words if w in txt_180.lower())
+        if score_180 > normal_score:
+            return txt_180
+
+    return txt_normal
+
+def _get_db_connection(timeout: float = 30.0) -> sqlite3.Connection:
+    conn = sqlite3.connect(str(DB_PATH), timeout=timeout)
+    conn.execute("PRAGMA busy_timeout = 30000")
+    conn.execute("PRAGMA journal_mode = TRUNCATE")
+    conn.execute("PRAGMA synchronous = NORMAL")
+    return conn
+
 def init_db():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(DB_PATH))
-    conn.execute("PRAGMA journal_mode=WAL")
+    conn = _get_db_connection()
     conn.execute("""
         CREATE TABLE IF NOT EXISTS documents (
             id TEXT PRIMARY KEY,
@@ -79,40 +121,47 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    # Não criamos índice no file_hash pois agora é parte do JSON, o SQLite lidará via json_extract
     conn.commit()
     count = conn.execute("SELECT COUNT(*) FROM documents").fetchone()[0]
     logger.info(f"Banco vetorial SQLite pronto. Documentos existentes: {count}")
     conn.close()
 
 def has_file_hash(file_hash: str) -> bool:
-    conn = sqlite3.connect(str(DB_PATH))
+    conn = _get_db_connection()
     count = conn.execute("SELECT COUNT(*) FROM documents WHERE json_extract(metadata, '$.file_hash')=?", (file_hash,)).fetchone()[0]
     conn.close()
     return count > 0
 
 def save_chunks(ids, documents, embeddings, filenames, file_hashes, pages, chunk_indices):
-    conn = sqlite3.connect(str(DB_PATH))
-    conn.execute("PRAGMA journal_mode=WAL")
-    for i in range(len(ids)):
-        emb_json = json.dumps(embeddings[i]) if embeddings[i] else None
-        meta_dict = {
-            "filename": filenames[i],
-            "file_hash": file_hashes[i],
-            "page": pages[i],
-            "chunk_index": chunk_indices[i]
-        }
-        meta_json = json.dumps(meta_dict, ensure_ascii=False)
-        conn.execute("""
-            INSERT INTO documents (id, document, embedding, metadata)
-            VALUES (?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET
-                document=excluded.document,
-                embedding=excluded.embedding,
-                metadata=excluded.metadata
-        """, (ids[i], documents[i], emb_json, meta_json))
-    conn.commit()
-    conn.close()
+    max_retries = 5
+    for attempt in range(max_retries):
+        try:
+            conn = _get_db_connection()
+            for i in range(len(ids)):
+                emb_json = json.dumps(embeddings[i]) if embeddings[i] else None
+                meta_dict = {
+                    "filename": filenames[i],
+                    "file_hash": file_hashes[i],
+                    "page": pages[i],
+                    "chunk_index": chunk_indices[i]
+                }
+                meta_json = json.dumps(meta_dict, ensure_ascii=False)
+                conn.execute("""
+                    INSERT INTO documents (id, document, embedding, metadata)
+                    VALUES (?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        document=excluded.document,
+                        embedding=excluded.embedding,
+                        metadata=excluded.metadata
+                """, (ids[i], documents[i], emb_json, meta_json))
+            conn.commit()
+            conn.close()
+            return
+        except sqlite3.OperationalError as e:
+            logger.warning(f"Erro SQLite (tentativa {attempt+1}/{max_retries}): {e}. Tentando novamente em 1s...")
+            time.sleep(1.0)
+            if attempt == max_retries - 1:
+                raise
 
 _embedder_model = None
 
@@ -224,7 +273,7 @@ def process_pdf(pdf_path: Path, file_hash: str, progress: dict) -> int:
                         for img_obj in page.images:
                             try:
                                 img = Image.open(io.BytesIO(img_obj.data))
-                                ocr_text = pytesseract.image_to_string(img, lang="por")
+                                ocr_text = _ocr_image_with_auto_orientation(img)
                                 page_text += ocr_text + "\n"
                                 img.close()
                             except Exception as e:
@@ -328,15 +377,15 @@ def main():
                 if total_new_chunks > 0:
                     logger.info("  Aguardando o vocab_worker processar os novos vetores em background...")
             
-            # Aguarda 30 segundos antes de verificar novamente
-            time.sleep(30)
+            # Aguarda 30 minutos (1800s) antes de verificar novamente
+            time.sleep(1800)
             
         except KeyboardInterrupt:
             logger.info("Worker interrompido pelo usuário.")
             break
         except Exception as e:
             logger.error(f"Erro no loop do worker: {e}")
-            time.sleep(30)
+            time.sleep(1800)
 
 
 if __name__ == "__main__":

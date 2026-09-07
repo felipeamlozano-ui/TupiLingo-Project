@@ -48,24 +48,24 @@ services:
     depends_on:
       - redis
 
-  # vocab_worker [TEMPORARIAMENTE DESATIVADO]:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/django/Dockerfile.dev
-  #   command: bash -c "python manage.py extract_vocab_from_rag --continuous"
-  #   environment:
-  #     - DJANGO_SETTINGS_MODULE=config.settings.development
-  #     - REDIS_URL=redis://redis:6379/0
-  #     - OLLAMA_API_BASE=http://host.docker.internal:11434
-  #   volumes:
-  #     - .:/app
-  #     - huggingface_cache:/root/.cache/huggingface
-  #   entrypoint: []
-  #   extra_hosts:
-  #     - "host.docker.internal:host-gateway"
-  #   depends_on:
-  #     - redis
-  #     - django
+  vocab_worker:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile.dev
+    command: bash -c "python manage.py extract_vocab_from_rag --continuous"
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.development
+      - REDIS_URL=redis://redis:6379/0
+      - OLLAMA_API_BASE=http://host.docker.internal:11434
+    volumes:
+      - .:/app
+      - huggingface_cache:/root/.cache/huggingface
+    entrypoint: []
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - redis
+      - django
 
   redis:
     image: redis:alpine

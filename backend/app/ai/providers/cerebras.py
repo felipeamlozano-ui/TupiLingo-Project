@@ -33,10 +33,13 @@ class CerebrasProvider(BaseProvider):
             return TimeoutError(str(e))
         elif isinstance(e, openai.APIConnectionError):
             return NetworkError(str(e))
-        elif isinstance(e, openai.InternalServerError):
-            return ServiceUnavailableError(str(e))
+        err_msg = str(e).lower()
+        if "402" in err_msg or "payment" in err_msg or "quota" in err_msg or "rate limit" in err_msg:
+            return RateLimitError(str(e))
+
         from app.ai.exceptions import AIProviderError
         return AIProviderError(str(e))
+
 
     def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:
         try:
