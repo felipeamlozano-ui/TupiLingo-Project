@@ -5,18 +5,18 @@ Testes automatizados para os endpoints administrativos de Trilha
 
 import json
 from unittest.mock import patch
-from django.test import TestCase, RequestFactory
+
 from django.contrib.auth.models import User
-from trilha.models import VarianteTupi, TrilhaHistorica, Capitulo, Licao, Exercicio
+from django.test import RequestFactory, TestCase
+
 from trilha.admin_views import (
     admin_criar_capitulo,
-    admin_gerenciar_capitulo,
-    admin_criar_licao,
-    admin_gerenciar_licao,
     admin_criar_exercicio,
-    admin_gerenciar_exercicio,
+    admin_criar_licao,
+    admin_gerenciar_capitulo,
     admin_listar_dados,
 )
+from trilha.models import Capitulo, Exercicio, Licao, TrilhaHistorica, VarianteTupi
 
 
 class TrilhaAdminViewsTests(TestCase):
@@ -165,8 +165,10 @@ class TrilhaProgressionEndToEndTests(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         import uuid
+
         from users.models import UserProfile
-        from trilha.models import VarianteTupi, TrilhaHistorica, Capitulo, Licao, Exercicio
+
+        from trilha.models import Capitulo, TrilhaHistorica, VarianteTupi
 
         self.student = UserProfile.objects.create(
             supabase_uid=uuid.uuid4(),
@@ -227,8 +229,9 @@ class TrilhaProgressionEndToEndTests(TestCase):
         2. Conclui a lição e desbloqueia a próxima de forma persistida.
         3. A listagem de capítulos reflete a lição 2 disponível sem rollback.
         """
-        from trilha.views import detalhe_licao, concluir_licao, listar_capitulos_mapa
         from users.models import UserLesson
+
+        from trilha.views import concluir_licao, detalhe_licao, listar_capitulos_mapa
 
         # 1. Acessar Lição 1
         req1 = self.factory.get(f"/api/v1/trilha/licao/{self.licao1.id}/", HTTP_AUTHORIZATION="Bearer token")

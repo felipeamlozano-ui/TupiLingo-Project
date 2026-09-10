@@ -3,18 +3,18 @@ Testes automatizados para o achievement_service e recalibração de nível.
 """
 
 import uuid
+
 from django.test import TestCase
 from django.utils import timezone
-from users.models import UserProfile, Achievement, UserAchievement, UserLesson
-from users.services.achievement_service import (
-    ensure_default_achievements,
-    check_and_grant_xp_achievements,
-    check_and_grant_lesson_achievements,
-    get_all_achievements_with_status,
-)
-from trilha.models import VarianteTupi, TrilhaHistorica, Capitulo, Licao
-from trilha.views import _recalibrar_nivel
 from nivelamento.models import UserVarianteLevel
+from trilha.models import Capitulo, Licao, TrilhaHistorica, VarianteTupi
+from trilha.views import _recalibrar_nivel
+
+from users.models import UserLesson, UserProfile
+from users.services.achievement_service import (
+    check_and_grant_lesson_achievements,
+    check_and_grant_xp_achievements,
+)
 
 
 class AchievementServiceTests(TestCase):
@@ -69,8 +69,8 @@ class AchievementServiceTests(TestCase):
         # Inicialmente a 0 XP deve conceder 'xp_semente'
         novas = check_and_grant_xp_achievements(self.user)
         codigos = [a.codigo for a in novas]
-        self.assertIn('xp_semente', codigos)
-        self.assertNotIn('xp_folha', codigos)
+        self.assertIn("xp_semente", codigos)
+        self.assertNotIn("xp_folha", codigos)
 
         # Não concede duplicado
         repetidas = check_and_grant_xp_achievements(self.user)
@@ -81,21 +81,21 @@ class AchievementServiceTests(TestCase):
         self.user.save()
         novas_500 = check_and_grant_xp_achievements(self.user)
         codigos_500 = [a.codigo for a in novas_500]
-        self.assertIn('xp_folha', codigos_500)
+        self.assertIn("xp_folha", codigos_500)
 
     def test_lesson_achievements(self):
         """Testa conquistas por conclusão de lição e acurácia perfeita."""
-        novas = check_and_grant_lesson_achievements(self.user, self.licao1, accuracy=1.0)
+        novas = check_and_grant_lesson_achievements(
+            self.user, self.licao1, accuracy=1.0
+        )
         codigos = [a.codigo for a in novas]
-        self.assertIn('cultural_primeira_licao', codigos)
-        self.assertIn('cultural_perfeicao', codigos)
+        self.assertIn("cultural_primeira_licao", codigos)
+        self.assertIn("cultural_perfeicao", codigos)
 
     def test_nivel_recalibration_promotion(self):
         """Testa calibração positiva do nível ao acertar >= 85% nas últimas 3 lições."""
         lvl_obj, _ = UserVarianteLevel.objects.get_or_create(
-            user=self.user,
-            variante=self.variante,
-            defaults={'nivel': 2}
+            user=self.user, variante=self.variante, defaults={"nivel": 2}
         )
         self.assertEqual(lvl_obj.nivel, 2)
 
@@ -104,7 +104,7 @@ class AchievementServiceTests(TestCase):
             UserLesson.objects.create(
                 usuario=self.user,
                 licao=licao,
-                status='concluida',
+                status="concluida",
                 accuracy=0.90,
                 concluida_em=timezone.now(),
             )
@@ -115,9 +115,7 @@ class AchievementServiceTests(TestCase):
     def test_nivel_recalibration_demotion(self):
         """Testa calibração negativa do nível ao ter <= 40% nas últimas 3 lições."""
         lvl_obj, _ = UserVarianteLevel.objects.get_or_create(
-            user=self.user,
-            variante=self.variante,
-            defaults={'nivel': 4}
+            user=self.user, variante=self.variante, defaults={"nivel": 4}
         )
         self.assertEqual(lvl_obj.nivel, 4)
 
@@ -125,7 +123,7 @@ class AchievementServiceTests(TestCase):
             UserLesson.objects.create(
                 usuario=self.user,
                 licao=licao,
-                status='concluida',
+                status="concluida",
                 accuracy=0.30,
                 concluida_em=timezone.now(),
             )

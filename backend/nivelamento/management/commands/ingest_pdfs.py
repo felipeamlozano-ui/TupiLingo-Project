@@ -1,6 +1,8 @@
+
 from django.core.management.base import BaseCommand
+
 from nivelamento.services.ingest_pdfs import ingest_new_pdfs
-import logging
+
 
 class Command(BaseCommand):
     help = 'Executa a ingestao e OCR de PDFs para o banco vetorial'

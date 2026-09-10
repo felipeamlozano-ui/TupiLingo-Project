@@ -4,12 +4,12 @@ Banco Vetorial customizado usando SQLite + NumPy.
 
 Armazena embeddings em SQLite como JSON e usa similaridade coseno para busca.
 """
-import sqlite3
 import json
 import logging
-import numpy as np
+import sqlite3
 from pathlib import Path
-from typing import Optional
+
+import numpy as np
 
 logger = logging.getLogger("nivelamento.vectordb")
 

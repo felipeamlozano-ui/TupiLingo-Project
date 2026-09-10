@@ -19,19 +19,18 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import (
-    VarianteTupi,
-    TrilhaHistorica,
-    Scenario,
     Capitulo,
-    Licao,
-    StoryBlock,
-    VocabularyItem,
     Exercicio,
-    ExercicioEscolha,
-    ExercicioCompletar,
     ExercicioAssociacao,
+    ExercicioCompletar,
+    ExercicioEscolha,
+    Licao,
+    Scenario,
+    StoryBlock,
+    TrilhaHistorica,
+    VarianteTupi,
+    VocabularyItem,
 )
-
 
 # ─── Inlines ─────────────────────────────────────────────────────────────────
 

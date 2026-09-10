@@ -5,14 +5,13 @@ Roda como processo independente, sem Django, sem ChromaDB.
 
 Uso: venv\Scripts\python.exe pdf_worker.py
 """
-import os
-import sys
-import sqlite3
 import hashlib
-import logging
-import json
-import time
 import io
+import json
+import logging
+import sqlite3
+import sys
+import time
 import traceback
 from pathlib import Path
 
@@ -27,6 +26,7 @@ EMBEDDING_DIM = 384  # all-MiniLM-L6-v2 usa 384 dimensoes
 
 # Caminho do Tesseract — detecta automaticamente Windows vs Linux/Docker
 import platform
+
 if platform.system() == "Windows":
     TESSERACT_CMD = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 else:

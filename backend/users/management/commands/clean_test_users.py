@@ -1,5 +1,5 @@
-from django.core.management.base import BaseCommand
 from clean_test_users import clean_users
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):

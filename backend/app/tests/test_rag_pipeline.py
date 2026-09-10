@@ -7,9 +7,10 @@ Testes unitários e de integração para o pipeline RAG otimizado:
 
 import unittest
 from unittest.mock import MagicMock, patch
-from app.services.supabase_service import SupabaseService
-from app.ai.rag_service import _build_prompt, _NIVEL_RAG_CATEGORIAS
+
+from app.ai.rag_service import _build_prompt
 from app.schemas.quiz import EsqueletoItem
+from app.services.supabase_service import SupabaseService
 
 
 class TestRAGPipeline(unittest.TestCase):

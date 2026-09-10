@@ -1,11 +1,17 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
-from app.ai.registry import ProviderRegistry
-from app.ai.providers.base import BaseProvider
+from app.ai.exceptions import (
+    ProviderNotFoundError,
+    RateLimitError,
+    StructuredOutputError,
+)
 from app.ai.fallback import FallbackOrchestrator
+from app.ai.providers.base import BaseProvider
+from app.ai.registry import ProviderRegistry
 from app.ai.router import ModelRouter
 from app.ai.schemas import QuestaoSchema
-from app.ai.exceptions import ProviderNotFoundError, RateLimitError, StructuredOutputError
+
 
 # Mock de um Provider Base para Testes
 class MockProvider(BaseProvider):

@@ -12,16 +12,12 @@ Garante:
 from __future__ import annotations
 
 import json
-import os
-import sys
 from pathlib import Path
 from typing import Any
 
 import jsonschema
-from django.core.management.base import BaseCommand, CommandError
-
 from app.ai.ping_race import get_redis_client
-from app.schemas.quiz import QuizResponse, QuizItem
+from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):

@@ -46,7 +46,9 @@ class NivelamentoConfig(AppConfig):
         if use_supabase:
             logger.info("[AppConfig] Aquecendo SupabaseService (connection pool)...")
             try:
-                from app.services.supabase_service import supabase_service  # noqa: PLC0415
+                from app.services.supabase_service import (
+                    supabase_service,
+                )
                 _ = supabase_service._rpc_url
                 logger.info("[AppConfig] SupabaseService pronto com connection pool.")
             except Exception as exc:
@@ -54,8 +56,8 @@ class NivelamentoConfig(AppConfig):
         else:
             logger.info("[AppConfig] Pré-carregando GraphRAG (legado)...")
             try:
-                from app.ai.rag_service import get_db, get_embedder  # noqa: PLC0415
-                from app.ai.knowledge_graph import get_graph          # noqa: PLC0415
+                from app.ai.knowledge_graph import get_graph
+                from app.ai.rag_service import get_db, get_embedder
                 get_db()
                 get_embedder()
                 get_graph(rebuild=False)
@@ -67,8 +69,8 @@ class NivelamentoConfig(AppConfig):
         # GANHO DE PERFORMANCE: Popula o ranking no Redis ANTES do primeiro usuário clicar em "Fazer Nivelamento"
         try:
             logger.info("[AppConfig] Disparando warm-up da corrida PingRace Global no Redis...")
-            from app.ai.router import ModelRouter
             from app.ai.ping_race import PingRaceRouter
+            from app.ai.router import ModelRouter
 
             fast_chain = ModelRouter.get_chain_for_task(task_type="fast")
             PingRaceRouter.warm_up(fast_chain)

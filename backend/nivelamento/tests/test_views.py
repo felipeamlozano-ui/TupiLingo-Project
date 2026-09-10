@@ -15,10 +15,8 @@ import json
 from unittest.mock import MagicMock, patch
 
 from django.test import TestCase, override_settings
-
-from users.models import UserProfile
 from trilha.models import VarianteTupi
-
+from users.models import UserProfile
 
 VALID_PAYLOAD = {
     "nivel_atual": 3,

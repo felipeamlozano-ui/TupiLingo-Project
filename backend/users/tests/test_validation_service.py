@@ -10,14 +10,14 @@ Testa:
 """
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from users.services.validation_service import (
-    _normalize_fallback,
     ValidationResult,
-    validar_resposta_completar,
-    validar_lista_lacunas,
+    _normalize_fallback,
     calcular_xp_exercicio,
+    validar_lista_lacunas,
+    validar_resposta_completar,
 )
 
 
@@ -26,7 +26,9 @@ class TestNormalizeFallback(unittest.TestCase):
 
     def test_remove_accents(self):
         self.assertEqual(_normalize_fallback("Tupã"), _normalize_fallback("Tupa"))
-        self.assertEqual(_normalize_fallback("Nheengatu"), _normalize_fallback("Nheengatu"))
+        self.assertEqual(
+            _normalize_fallback("Nheengatu"), _normalize_fallback("Nheengatu")
+        )
         self.assertEqual(_normalize_fallback("Mboi"), _normalize_fallback("mboi"))
 
     def test_case_insensitive(self):
@@ -41,7 +43,10 @@ class TestValidarRespostaCompletar(unittest.TestCase):
 
     def _mock_levenshtein(self, distancia: int):
         """Helper que faz mock da função de distância retornando distância fixa."""
-        return patch('users.services.validation_service._run_levenshtein_query', return_value=distancia)
+        return patch(
+            "users.services.validation_service._run_levenshtein_query",
+            return_value=distancia,
+        )
 
     def test_resposta_exata(self):
         with self._mock_levenshtein(0):
@@ -75,9 +80,13 @@ class TestValidarListaLacunas(unittest.TestCase):
 
     def _mock_levenshtein(self, distancias: list):
         """Mock retorna distâncias em sequência."""
+
     def _mock_levenshtein(self, distancias: list[int]):
         """Helper que faz mock da função de distância para múltiplas lacunas."""
-        return patch('users.services.validation_service._run_levenshtein_query', side_effect=distancias)
+        return patch(
+            "users.services.validation_service._run_levenshtein_query",
+            side_effect=distancias,
+        )
 
     def test_todas_corretas(self):
         with self._mock_levenshtein([0, 0]):
@@ -86,9 +95,9 @@ class TestValidarListaLacunas(unittest.TestCase):
                 respostas_corretas=["tupã", "pajé"],
                 tolerancia=2,
             )
-        self.assertTrue(resultado['tudo_correto'])
-        self.assertEqual(resultado['acertos'], 2)
-        self.assertEqual(resultado['total'], 2)
+        self.assertTrue(resultado["tudo_correto"])
+        self.assertEqual(resultado["acertos"], 2)
+        self.assertEqual(resultado["total"], 2)
 
     def test_uma_quase_certa(self):
         with self._mock_levenshtein([0, 1]):
@@ -97,9 +106,9 @@ class TestValidarListaLacunas(unittest.TestCase):
                 respostas_corretas=["tupã", "pajé"],
                 tolerancia=2,
             )
-        self.assertFalse(resultado['tudo_correto'])
-        self.assertTrue(resultado['algum_quase'])
-        self.assertEqual(resultado['acertos'], 1)
+        self.assertFalse(resultado["tudo_correto"])
+        self.assertTrue(resultado["algum_quase"])
+        self.assertEqual(resultado["acertos"], 1)
 
 
 class TestCalcularXpExercicio(unittest.TestCase):
@@ -155,5 +164,5 @@ class TestCalcularXpExercicio(unittest.TestCase):
         self.assertGreaterEqual(xp, 0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

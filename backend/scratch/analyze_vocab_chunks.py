@@ -1,8 +1,9 @@
 import os
 import sys
+
 sys.path.insert(0, '/app')
+
 import django
-import re
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.development")
 django.setup()

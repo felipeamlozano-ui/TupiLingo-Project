@@ -12,15 +12,16 @@ Garante:
 """
 
 import logging
-from datetime import date, timedelta
-from typing import Dict, Any, List
-from django.db.models import Avg, Sum, Count
-from django.utils import timezone
 import zoneinfo
+from datetime import timedelta
+from typing import Any
 
-from users.models import UserProfile, UserLesson, VocabularyProgress, DailyStudyLog
+from django.db.models import Avg, Count, Sum
+from django.utils import timezone
+from trilha.models import Licao, VocabularyItem
+
+from users.models import DailyStudyLog, UserLesson, UserProfile, VocabularyProgress
 from users.services.streak_service import StreakService
-from trilha.models import VocabularyItem, Licao
 
 logger = logging.getLogger("users.stats")
 BR_TZ = zoneinfo.ZoneInfo("America/Sao_Paulo")
@@ -42,12 +43,20 @@ class StatisticsService:
     """Serviço de cálculo estatístico de desempenho e memória."""
 
     @classmethod
-    def get_user_progress_stats(cls, user: UserProfile) -> Dict[str, Any]:
+    def get_user_progress_stats(cls, user: UserProfile) -> dict[str, Any]:
         """
         Retorna todas as estatísticas consolidadas do usuário
         para o ProgressDashboardScreen do Flutter.
         """
-        user.refresh_from_db(fields=["xp_total", "streak_atual", "maior_streak", "dias_estudados_total", "ultimo_dia_estudado"])
+        user.refresh_from_db(
+            fields=[
+                "xp_total",
+                "streak_atual",
+                "maior_streak",
+                "dias_estudados_total",
+                "ultimo_dia_estudado",
+            ]
+        )
         today_br = timezone.now().astimezone(BR_TZ).date()
 
         # 1. Sincroniza e obtém ofensiva real
@@ -77,18 +86,18 @@ class StatisticsService:
         lesson_learned_ids = set(
             VocabularyItem.objects.filter(
                 licao__progressos_usuarios__usuario=user,
-                licao__progressos_usuarios__status="concluida"
+                licao__progressos_usuarios__status="concluida",
             ).values_list("id", flat=True)
         )
         unique_learned_term_ids = sm2_learned_ids | lesson_learned_ids
         total_termos_aprendidos = len(unique_learned_term_ids)
 
         # 5. Precisão real (média de accuracy de lições e logs)
-        acc_agg = UserLesson.objects.filter(
-            usuario=user, status="concluida"
-        ).aggregate(media_acc=Avg("accuracy"))
+        acc_agg = UserLesson.objects.filter(usuario=user, status="concluida").aggregate(
+            media_acc=Avg("accuracy")
+        )
         precisao_real = round(acc_agg["media_acc"] or 0.0, 2)
-        precisao_percentual = int(round(precisao_real * 100))
+        precisao_percentual = round(precisao_real * 100)
 
         # 6. Tempo de Estudo Real
         time_agg = DailyStudyLog.objects.filter(user=user).aggregate(
@@ -116,23 +125,27 @@ class StatisticsService:
             )
         }
 
-        weekly_activity: List[Dict[str, Any]] = []
+        weekly_activity: list[dict[str, Any]] = []
         for i in range(7):
             current_day = monday + timedelta(days=i)
             day_name = DAY_NAMES_PT[i]
             log = logs_semana.get(current_day)
 
-            weekly_activity.append({
-                "day_name": day_name,
-                "day_index": i,
-                "date": current_day.isoformat(),
-                "xp": log.xp_ganho if log else 0,
-                "lessons_completed": log.licoes_concluidas if log else 0,
-                "is_today": current_day == today_br,
-            })
+            weekly_activity.append(
+                {
+                    "day_name": day_name,
+                    "day_index": i,
+                    "date": current_day.isoformat(),
+                    "xp": log.xp_ganho if log else 0,
+                    "lessons_completed": log.licoes_concluidas if log else 0,
+                    "is_today": current_day == today_br,
+                }
+            )
 
         # 8. Categorias Lexicais e Domínio Real
-        category_masteries = cls._calculate_category_masteries(user, unique_learned_term_ids)
+        category_masteries = cls._calculate_category_masteries(
+            user, unique_learned_term_ids
+        )
 
         # 9. Calendário de Atividade (Últimos 30 dias)
         start_30 = today_br - timedelta(days=30)
@@ -146,7 +159,8 @@ class StatisticsService:
         # 10. Progresso Geral Percentual
         overall_progress_pct = (
             round(completed_lessons_count / total_lessons, 2)
-            if total_lessons > 0 else 0.0
+            if total_lessons > 0
+            else 0.0
         )
 
         is_empty_state = (
@@ -178,7 +192,7 @@ class StatisticsService:
     @classmethod
     def _calculate_category_masteries(
         cls, user: UserProfile, learned_item_ids: set
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Calcula o domínio real de vocabulário agrupado por categoria gramatical/temática."""
         # Busca todas as categorias existentes nos itens publicados
         categories_qs = (
@@ -213,14 +227,18 @@ class StatisticsService:
             if cat_name == "saudacoes":
                 display_name = "Saudações"
 
-            result.append({
-                "category": display_name,
-                "categoria_slug": cat_name,
-                "icon": icon,
-                "mastered_words": mastered_words,
-                "total_words": total_words,
-                "percentage": int(round((mastered_words / total_words) * 100)) if total_words > 0 else 0,
-            })
+            result.append(
+                {
+                    "category": display_name,
+                    "categoria_slug": cat_name,
+                    "icon": icon,
+                    "mastered_words": mastered_words,
+                    "total_words": total_words,
+                    "percentage": round((mastered_words / total_words) * 100)
+                    if total_words > 0
+                    else 0,
+                }
+            )
 
         return result
 

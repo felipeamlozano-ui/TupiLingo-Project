@@ -6,6 +6,7 @@ Cobertura: GenerateQuestionPayload, QuestionData, validações cruzadas.
 
 import pytest
 from pydantic import ValidationError
+
 from nivelamento.schemas import GenerateQuestionPayload, QuestionData
 
 

@@ -8,15 +8,16 @@ Corrigido pela Auditoria Técnica V3.0:
 """
 
 import logging
-import jwt
-from jwt import PyJWKClient
-from django.http import JsonResponse
 from functools import wraps
+
+import jwt
 from decouple import config
+from django.http import JsonResponse
+from jwt import PyJWKClient
 
-logger = logging.getLogger('users.auth')
+logger = logging.getLogger("users.auth")
 
-supabase_url = config('SUPABASE_URL')
+supabase_url = config("SUPABASE_URL")
 jwks_url = f"{supabase_url}/auth/v1/.well-known/jwks.json"
 
 # Instância global com cache de chaves para evitar requests repetidos ao Supabase.
@@ -38,33 +39,37 @@ def supabase_auth_required(view_func):
     def wrapper(request, *args, **kwargs):
         import os
         import sys
-        if ((os.environ.get('DJANGO_TESTING') == '1' or 'test' in sys.argv)
-                and hasattr(request, 'user_data')
-                and request.user_data):
+
+        if (
+            (os.environ.get("DJANGO_TESTING") == "1" or "test" in sys.argv)
+            and hasattr(request, "user_data")
+            and request.user_data
+        ):
             return view_func(request, *args, **kwargs)
 
         # Rejeita cedo se o cliente JWKS não pôde ser inicializado
         if jwks_client is None:
             logger.warning("JWT validation skipped: JWKS client not initialized")
             return JsonResponse(
-                {'error': 'Serviço de autenticação indisponível'},
+                {"error": "Serviço de autenticação indisponível"},
                 status=503,
             )
 
-        auth_header = request.headers.get('Authorization')
-        if not auth_header or not auth_header.startswith('Bearer '):
-            return JsonResponse({'error': 'Token ausente'}, status=401)
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return JsonResponse({"error": "Token ausente"}, status=401)
 
-        token = auth_header.split(' ')[1]
+        token = auth_header.split(" ")[1]
         import hashlib
         import time
+
         from django.core.cache import cache
 
-        token_hash = hashlib.sha256(token.encode('utf-8')).hexdigest()
+        token_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
         cache_key = f"jwt_payload_{token_hash}"
         cached_payload = cache.get(cache_key)
 
-        if cached_payload and cached_payload.get('exp', 0) > time.time():
+        if cached_payload and cached_payload.get("exp", 0) > time.time():
             request.user_data = cached_payload
             return view_func(request, *args, **kwargs)
 
@@ -81,23 +86,24 @@ def supabase_auth_required(view_func):
             )
             # Associa os dados do usuário à requisição para uso nas views
             request.user_data = payload
-            ttl = min(int(payload.get('exp', 0) - time.time()), 300)
+            ttl = min(int(payload.get("exp", 0) - time.time()), 300)
             if ttl > 0:
                 cache.set(cache_key, payload, timeout=ttl)
         except Exception:
             # Não logar o token — pode conter dados sensíveis (SEC-001)
             logger.warning("JWT validation failed for incoming request", exc_info=False)
-            return JsonResponse({'error': 'Token inválido ou expirado'}, status=401)
+            return JsonResponse({"error": "Token inválido ou expirado"}, status=401)
 
         return view_func(request, *args, **kwargs)
+
     return wrapper
 
 
 def is_request_admin(request) -> bool:
     """Verifica se o usuário autenticado na requisição é administrador/staff."""
-    if not hasattr(request, 'user_data') or not request.user_data:
+    if not hasattr(request, "user_data") or not request.user_data:
         return False
-    email = (request.user_data.get('email') or '').strip().lower()
+    email = (request.user_data.get("email") or "").strip().lower()
     if not email:
         return False
 
@@ -107,16 +113,20 @@ def is_request_admin(request) -> bool:
     # Verifica Django User com is_staff=True ou is_superuser=True por email ou username exato
     return User.objects.filter(
         Q(email__iexact=email) | Q(username__iexact=email),
-        Q(is_staff=True) | Q(is_superuser=True)
+        Q(is_staff=True) | Q(is_superuser=True),
     ).exists()
 
 
 def staff_required(view_func):
     """Decorator que exige autenticação JWT e status de staff/admin no Django."""
+
     @wraps(view_func)
     @supabase_auth_required
     def wrapper(request, *args, **kwargs):
         if not is_request_admin(request):
-            return JsonResponse({'error': 'Acesso restrito a administradores.'}, status=403)
+            return JsonResponse(
+                {"error": "Acesso restrito a administradores."}, status=403
+            )
         return view_func(request, *args, **kwargs)
+
     return wrapper

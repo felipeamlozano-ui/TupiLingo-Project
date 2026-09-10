@@ -1,10 +1,8 @@
 import logging
-from typing import Type
-from pydantic import BaseModel
 
+from app.ai.exceptions import AIProviderError
 from app.ai.registry import registry
-from app.ai.exceptions import ProviderNotFoundError, AIProviderError
-from app.core.config import settings
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +18,7 @@ class AIInvoker:
         provider_name: str, 
         model_name: str, 
         prompt: str, 
-        schema: Type[BaseModel], 
+        schema: type[BaseModel],
         **kwargs
     ) -> BaseModel:
         """

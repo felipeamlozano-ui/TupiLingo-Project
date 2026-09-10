@@ -1,10 +1,11 @@
 # urls.py do projeto
 # URLS-001: prefixo /api/v1/ adicionado para versionamento de API
-from django.contrib import admin
-from django.urls import path, include
-from django.http import JsonResponse
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.http import JsonResponse
+from django.urls import include, path
+
 
 def ping(request):
     return JsonResponse({"status": "ok"})

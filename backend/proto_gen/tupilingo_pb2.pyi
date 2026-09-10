@@ -1,13 +1,15 @@
-from google.protobuf.internal import containers as _containers
+from collections.abc import Iterable as _Iterable
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar
+
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from collections.abc import Iterable as _Iterable, Mapping as _Mapping
-from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
+from google.protobuf.internal import containers as _containers
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class UserProfileMessage(_message.Message):
-    __slots__ = ("supabase_uid", "email", "name", "xp_total", "streak_dias", "nivel_atual", "conchas", "variante_ativa_codigo", "variante_ativa_nome", "ofensiva_ativa")
+    __slots__ = ("conchas", "email", "name", "nivel_atual", "ofensiva_ativa", "streak_dias", "supabase_uid", "variante_ativa_codigo", "variante_ativa_nome", "xp_total")
     SUPABASE_UID_FIELD_NUMBER: _ClassVar[int]
     EMAIL_FIELD_NUMBER: _ClassVar[int]
     NAME_FIELD_NUMBER: _ClassVar[int]
@@ -28,10 +30,10 @@ class UserProfileMessage(_message.Message):
     variante_ativa_codigo: str
     variante_ativa_nome: str
     ofensiva_ativa: bool
-    def __init__(self, supabase_uid: _Optional[str] = ..., email: _Optional[str] = ..., name: _Optional[str] = ..., xp_total: _Optional[int] = ..., streak_dias: _Optional[int] = ..., nivel_atual: _Optional[int] = ..., conchas: _Optional[int] = ..., variante_ativa_codigo: _Optional[str] = ..., variante_ativa_nome: _Optional[str] = ..., ofensiva_ativa: _Optional[bool] = ...) -> None: ...
+    def __init__(self, supabase_uid: str | None = ..., email: str | None = ..., name: str | None = ..., xp_total: int | None = ..., streak_dias: int | None = ..., nivel_atual: int | None = ..., conchas: int | None = ..., variante_ativa_codigo: str | None = ..., variante_ativa_nome: str | None = ..., ofensiva_ativa: bool | None = ...) -> None: ...
 
 class UserLessonProgressMessage(_message.Message):
-    __slots__ = ("licao_id", "numero", "titulo", "concluida", "pontuacao_maxima", "tentativas", "data_conclusao_timestamp")
+    __slots__ = ("concluida", "data_conclusao_timestamp", "licao_id", "numero", "pontuacao_maxima", "tentativas", "titulo")
     LICAO_ID_FIELD_NUMBER: _ClassVar[int]
     NUMERO_FIELD_NUMBER: _ClassVar[int]
     TITULO_FIELD_NUMBER: _ClassVar[int]
@@ -46,10 +48,10 @@ class UserLessonProgressMessage(_message.Message):
     pontuacao_maxima: int
     tentativas: int
     data_conclusao_timestamp: int
-    def __init__(self, licao_id: _Optional[int] = ..., numero: _Optional[int] = ..., titulo: _Optional[str] = ..., concluida: _Optional[bool] = ..., pontuacao_maxima: _Optional[int] = ..., tentativas: _Optional[int] = ..., data_conclusao_timestamp: _Optional[int] = ...) -> None: ...
+    def __init__(self, licao_id: int | None = ..., numero: int | None = ..., titulo: str | None = ..., concluida: bool | None = ..., pontuacao_maxima: int | None = ..., tentativas: int | None = ..., data_conclusao_timestamp: int | None = ...) -> None: ...
 
 class QuizItemMessage(_message.Message):
-    __slots__ = ("item_id", "termo_tupi", "traducao_correta", "distratores", "regra_contexto", "enunciado", "explicacao", "curiosidade")
+    __slots__ = ("curiosidade", "distratores", "enunciado", "explicacao", "item_id", "regra_contexto", "termo_tupi", "traducao_correta")
     ITEM_ID_FIELD_NUMBER: _ClassVar[int]
     TERMO_TUPI_FIELD_NUMBER: _ClassVar[int]
     TRADUCAO_CORRETA_FIELD_NUMBER: _ClassVar[int]
@@ -66,10 +68,10 @@ class QuizItemMessage(_message.Message):
     enunciado: str
     explicacao: str
     curiosidade: str
-    def __init__(self, item_id: _Optional[int] = ..., termo_tupi: _Optional[str] = ..., traducao_correta: _Optional[str] = ..., distratores: _Optional[_Iterable[str]] = ..., regra_contexto: _Optional[str] = ..., enunciado: _Optional[str] = ..., explicacao: _Optional[str] = ..., curiosidade: _Optional[str] = ...) -> None: ...
+    def __init__(self, item_id: int | None = ..., termo_tupi: str | None = ..., traducao_correta: str | None = ..., distratores: _Iterable[str] | None = ..., regra_contexto: str | None = ..., enunciado: str | None = ..., explicacao: str | None = ..., curiosidade: str | None = ...) -> None: ...
 
 class QuizBlockMessage(_message.Message):
-    __slots__ = ("quiz_id", "variante_codigo", "nivel", "tema", "questoes", "gerado_em_timestamp")
+    __slots__ = ("gerado_em_timestamp", "nivel", "questoes", "quiz_id", "tema", "variante_codigo")
     QUIZ_ID_FIELD_NUMBER: _ClassVar[int]
     VARIANTE_CODIGO_FIELD_NUMBER: _ClassVar[int]
     NIVEL_FIELD_NUMBER: _ClassVar[int]
@@ -82,4 +84,4 @@ class QuizBlockMessage(_message.Message):
     tema: str
     questoes: _containers.RepeatedCompositeFieldContainer[QuizItemMessage]
     gerado_em_timestamp: int
-    def __init__(self, quiz_id: _Optional[str] = ..., variante_codigo: _Optional[str] = ..., nivel: _Optional[int] = ..., tema: _Optional[str] = ..., questoes: _Optional[_Iterable[_Union[QuizItemMessage, _Mapping]]] = ..., gerado_em_timestamp: _Optional[int] = ...) -> None: ...
+    def __init__(self, quiz_id: str | None = ..., variante_codigo: str | None = ..., nivel: int | None = ..., tema: str | None = ..., questoes: _Iterable[QuizItemMessage | _Mapping] | None = ..., gerado_em_timestamp: int | None = ...) -> None: ...

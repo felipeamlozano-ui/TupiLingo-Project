@@ -6,166 +6,346 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('trilha', '0001_initial'),
-        ('users', '0002_audit_v3_uuid_email_choices_timestamp'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("trilha", "0001_initial"),
+        ("users", "0002_audit_v3_uuid_email_choices_timestamp"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Achievement',
+            name="Achievement",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nome', models.CharField(max_length=100, unique=True, verbose_name='Nome')),
-                ('descricao', models.TextField(verbose_name='Descrição')),
-                ('tipo', models.CharField(choices=[('xp_tier', 'Medalha de XP'), ('cultural', 'Conquista Cultural'), ('exploracao', 'Exploração')], default='xp_tier', max_length=15, verbose_name='Tipo')),
-                ('icone', models.CharField(blank=True, help_text='Ex: 🌱 para Semente, 🏹 para Arco', max_length=10, verbose_name='Ícone Emoji')),
-                ('codigo', models.SlugField(help_text='Código interno único. Ex: xp_semente, cultural_floresta', max_length=80, unique=True, verbose_name='Código')),
-                ('xp_necessario', models.IntegerField(default=0, help_text='Para conquistas do tipo xp_tier: mínimo de XP acumulado.', verbose_name='XP Necessário')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "nome",
+                    models.CharField(max_length=100, unique=True, verbose_name="Nome"),
+                ),
+                ("descricao", models.TextField(verbose_name="Descrição")),
+                (
+                    "tipo",
+                    models.CharField(
+                        choices=[
+                            ("xp_tier", "Medalha de XP"),
+                            ("cultural", "Conquista Cultural"),
+                            ("exploracao", "Exploração"),
+                        ],
+                        default="xp_tier",
+                        max_length=15,
+                        verbose_name="Tipo",
+                    ),
+                ),
+                (
+                    "icone",
+                    models.CharField(
+                        blank=True,
+                        help_text="Ex: 🌱 para Semente, 🏹 para Arco",
+                        max_length=10,
+                        verbose_name="Ícone Emoji",
+                    ),
+                ),
+                (
+                    "codigo",
+                    models.SlugField(
+                        help_text="Código interno único. Ex: xp_semente, cultural_floresta",
+                        max_length=80,
+                        unique=True,
+                        verbose_name="Código",
+                    ),
+                ),
+                (
+                    "xp_necessario",
+                    models.IntegerField(
+                        default=0,
+                        help_text="Para conquistas do tipo xp_tier: mínimo de XP acumulado.",
+                        verbose_name="XP Necessário",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Conquista (Achievement)',
-                'verbose_name_plural': 'Conquistas (Achievements)',
-                'ordering': ['xp_necessario', 'nome'],
+                "verbose_name": "Conquista (Achievement)",
+                "verbose_name_plural": "Conquistas (Achievements)",
+                "ordering": ["xp_necessario", "nome"],
             },
         ),
         migrations.CreateModel(
-            name='FilaExercicioUsuario',
+            name="FilaExercicioUsuario",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('object_id', models.PositiveIntegerField()),
-                ('status', models.CharField(choices=[('na_fila', 'Na Fila'), ('baixado', 'Baixado'), ('concluido', 'Concluído')], default='na_fila', help_text='Status de sincronização com o aparelho', max_length=20)),
-                ('ordem_apresentacao', models.IntegerField(help_text='Ordem que o exercício deve aparecer no app')),
-                ('data_baixado', models.DateTimeField(blank=True, null=True)),
-                ('data_conclusao', models.DateTimeField(blank=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("object_id", models.PositiveIntegerField()),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("na_fila", "Na Fila"),
+                            ("baixado", "Baixado"),
+                            ("concluido", "Concluído"),
+                        ],
+                        default="na_fila",
+                        help_text="Status de sincronização com o aparelho",
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "ordem_apresentacao",
+                    models.IntegerField(
+                        help_text="Ordem que o exercício deve aparecer no app"
+                    ),
+                ),
+                ("data_baixado", models.DateTimeField(blank=True, null=True)),
+                ("data_conclusao", models.DateTimeField(blank=True, null=True)),
             ],
             options={
-                'verbose_name': 'Fila de Exercício do Usuário',
-                'verbose_name_plural': 'Filas de Exercícios dos Usuários',
-                'ordering': ['ordem_apresentacao'],
+                "verbose_name": "Fila de Exercício do Usuário",
+                "verbose_name_plural": "Filas de Exercícios dos Usuários",
+                "ordering": ["ordem_apresentacao"],
             },
         ),
         migrations.CreateModel(
-            name='UserAchievement',
+            name="UserAchievement",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('conquistada_em', models.DateTimeField(auto_now_add=True, verbose_name='Conquistada em')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "conquistada_em",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Conquistada em"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Conquista do Usuário',
-                'verbose_name_plural': 'Conquistas dos Usuários',
+                "verbose_name": "Conquista do Usuário",
+                "verbose_name_plural": "Conquistas dos Usuários",
             },
         ),
         migrations.CreateModel(
-            name='UserLesson',
+            name="UserLesson",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('bloqueada', 'Bloqueada'), ('disponivel', 'Disponível'), ('em_andamento', 'Em Andamento'), ('concluida', 'Concluída')], default='bloqueada', max_length=15, verbose_name='Status')),
-                ('completion_percentage', models.FloatField(default=0.0, verbose_name='Percentual de Conclusão')),
-                ('accuracy', models.FloatField(default=0.0, verbose_name='Taxa de Acerto')),
-                ('earned_xp', models.IntegerField(default=0, verbose_name='XP Ganho nesta Lição')),
-                ('iniciada_em', models.DateTimeField(blank=True, null=True, verbose_name='Iniciada em')),
-                ('concluida_em', models.DateTimeField(blank=True, null=True, verbose_name='Concluída em')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("bloqueada", "Bloqueada"),
+                            ("disponivel", "Disponível"),
+                            ("em_andamento", "Em Andamento"),
+                            ("concluida", "Concluída"),
+                        ],
+                        default="bloqueada",
+                        max_length=15,
+                        verbose_name="Status",
+                    ),
+                ),
+                (
+                    "completion_percentage",
+                    models.FloatField(
+                        default=0.0, verbose_name="Percentual de Conclusão"
+                    ),
+                ),
+                (
+                    "accuracy",
+                    models.FloatField(default=0.0, verbose_name="Taxa de Acerto"),
+                ),
+                (
+                    "earned_xp",
+                    models.IntegerField(default=0, verbose_name="XP Ganho nesta Lição"),
+                ),
+                (
+                    "iniciada_em",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="Iniciada em"
+                    ),
+                ),
+                (
+                    "concluida_em",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="Concluída em"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Progresso na Lição',
-                'verbose_name_plural': 'Progressos nas Lições',
+                "verbose_name": "Progresso na Lição",
+                "verbose_name_plural": "Progressos nas Lições",
             },
         ),
         migrations.CreateModel(
-            name='VocabularyProgress',
+            name="VocabularyProgress",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('repetitions', models.IntegerField(default=0)),
-                ('ease_factor', models.FloatField(default=2.5)),
-                ('interval_days', models.IntegerField(default=1)),
-                ('next_review', models.DateTimeField(default=django.utils.timezone.now)),
-                ('last_reviewed', models.DateTimeField(blank=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("repetitions", models.IntegerField(default=0)),
+                ("ease_factor", models.FloatField(default=2.5)),
+                ("interval_days", models.IntegerField(default=1)),
+                (
+                    "next_review",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                ("last_reviewed", models.DateTimeField(blank=True, null=True)),
             ],
             options={
-                'verbose_name': 'Progresso de Vocabulário',
-                'verbose_name_plural': 'Progressos de Vocabulário',
+                "verbose_name": "Progresso de Vocabulário",
+                "verbose_name_plural": "Progressos de Vocabulário",
             },
         ),
         migrations.RemoveIndex(
-            model_name='userprofile',
-            name='userprofile_level_idx',
+            model_name="userprofile",
+            name="userprofile_level_idx",
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='variante_ativa',
-            field=models.ForeignKey(blank=True, help_text='Língua/Variante que o usuário está estudando atualmente.', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='usuarios_ativos', to='trilha.variantetupi', verbose_name='Variante Tupi Ativa'),
+            model_name="userprofile",
+            name="variante_ativa",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Língua/Variante que o usuário está estudando atualmente.",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="usuarios_ativos",
+                to="trilha.variantetupi",
+                verbose_name="Variante Tupi Ativa",
+            ),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='xp_total',
-            field=models.IntegerField(default=0, help_text='Pontuação de experiência acumulada ao longo de toda a jornada.', verbose_name='XP Total'),
+            model_name="userprofile",
+            name="xp_total",
+            field=models.IntegerField(
+                default=0,
+                help_text="Pontuação de experiência acumulada ao longo de toda a jornada.",
+                verbose_name="XP Total",
+            ),
         ),
         migrations.AddField(
-            model_name='filaexerciciousuario',
-            name='content_type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.contenttype'),
+            model_name="filaexerciciousuario",
+            name="content_type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="contenttypes.contenttype",
+            ),
         ),
         migrations.AddField(
-            model_name='filaexerciciousuario',
-            name='usuario',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='fila_exercicios', to='users.userprofile'),
+            model_name="filaexerciciousuario",
+            name="usuario",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="fila_exercicios",
+                to="users.userprofile",
+            ),
         ),
         migrations.AddField(
-            model_name='userachievement',
-            name='achievement',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.achievement'),
+            model_name="userachievement",
+            name="achievement",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="users.achievement"
+            ),
         ),
         migrations.AddField(
-            model_name='userachievement',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.userprofile'),
+            model_name="userachievement",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="users.userprofile"
+            ),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='achievements',
-            field=models.ManyToManyField(blank=True, related_name='usuarios', through='users.UserAchievement', to='users.achievement'),
+            model_name="userprofile",
+            name="achievements",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="usuarios",
+                through="users.UserAchievement",
+                to="users.achievement",
+            ),
         ),
         migrations.AddField(
-            model_name='userlesson',
-            name='licao',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='progressos_usuarios', to='trilha.licao'),
+            model_name="userlesson",
+            name="licao",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="progressos_usuarios",
+                to="trilha.licao",
+            ),
         ),
         migrations.AddField(
-            model_name='userlesson',
-            name='usuario',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='progresso_licoes', to='users.userprofile'),
+            model_name="userlesson",
+            name="usuario",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="progresso_licoes",
+                to="users.userprofile",
+            ),
         ),
         migrations.AddField(
-            model_name='vocabularyprogress',
-            name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='progressos_usuarios', to='trilha.vocabularyitem'),
+            model_name="vocabularyprogress",
+            name="item",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="progressos_usuarios",
+                to="trilha.vocabularyitem",
+            ),
         ),
         migrations.AddField(
-            model_name='vocabularyprogress',
-            name='usuario',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='progresso_vocabulario', to='users.userprofile'),
+            model_name="vocabularyprogress",
+            name="usuario",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="progresso_vocabulario",
+                to="users.userprofile",
+            ),
         ),
         migrations.RemoveField(
-            model_name='userprofile',
-            name='tupi_level',
+            model_name="userprofile",
+            name="tupi_level",
         ),
         migrations.AlterUniqueTogether(
-            name='filaexerciciousuario',
-            unique_together={('usuario', 'content_type', 'object_id')},
+            name="filaexerciciousuario",
+            unique_together={("usuario", "content_type", "object_id")},
         ),
         migrations.AlterUniqueTogether(
-            name='userachievement',
-            unique_together={('user', 'achievement')},
+            name="userachievement",
+            unique_together={("user", "achievement")},
         ),
         migrations.AlterUniqueTogether(
-            name='userlesson',
-            unique_together={('usuario', 'licao')},
+            name="userlesson",
+            unique_together={("usuario", "licao")},
         ),
         migrations.AlterUniqueTogether(
-            name='vocabularyprogress',
-            unique_together={('usuario', 'item')},
+            name="vocabularyprogress",
+            unique_together={("usuario", "item")},
         ),
     ]

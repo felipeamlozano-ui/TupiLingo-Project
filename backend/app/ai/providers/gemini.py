@@ -1,16 +1,20 @@
 import json
-from typing import Type
-from pydantic import BaseModel
+
+from app.ai.exceptions import (
+    AuthenticationError,
+    NetworkError,
+    RateLimitError,
+    ServiceUnavailableError,
+    StructuredOutputError,
+    TimeoutError,
+)
+from app.ai.providers.base import BaseProvider
+from app.core.config import settings
 from google import genai
 from google.genai import types
 from google.genai.errors import APIError
+from pydantic import BaseModel
 
-from app.core.config import settings
-from app.ai.providers.base import BaseProvider
-from app.ai.exceptions import (
-    RateLimitError, TimeoutError, AuthenticationError,
-    ServiceUnavailableError, NetworkError, StructuredOutputError
-)
 
 class GeminiProvider(BaseProvider):
     """
@@ -33,7 +37,7 @@ class GeminiProvider(BaseProvider):
                 return TimeoutError(str(e))
         return NetworkError(str(e))
 
-    def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:
+    def generate_structured(self, prompt: str, schema: type[BaseModel], model_name: str, **kwargs) -> BaseModel:
         try:
             response = self.client.models.generate_content(
                 model=model_name,

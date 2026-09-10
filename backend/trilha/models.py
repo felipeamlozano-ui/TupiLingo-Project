@@ -10,7 +10,6 @@ O Flutter renderiza dinamicamente a partir desses modelos via API.
 
 from django.db import models
 
-
 # ─── Choices ─────────────────────────────────────────────────────────────────
 
 class TipoStoryBlockChoices(models.TextChoices):

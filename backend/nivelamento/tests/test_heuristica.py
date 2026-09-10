@@ -5,7 +5,12 @@ Cobertura: calcular_nivel, _selecionar_tema, limites de nível, valores de borda
 """
 
 import pytest
-from nivelamento.services.heuristica_service import calcular_nivel, NIVEL_MINIMO, NIVEL_MAXIMO
+
+from nivelamento.services.heuristica_service import (
+    NIVEL_MAXIMO,
+    NIVEL_MINIMO,
+    calcular_nivel,
+)
 
 
 class TestCalcularNivel:

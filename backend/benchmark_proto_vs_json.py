@@ -6,10 +6,9 @@ Avalia:
 3. Tempo de Deserialização (Decoding latency)
 4. Throughput (operações por segundo)
 """
+import json
 import sys
 import time
-import json
-import statistics
 from pathlib import Path
 
 # Adiciona o backend ao path para carregar o stub gerado
@@ -158,13 +157,13 @@ def run_benchmark(iterations: int = 10000):
 
         # Resultados de Tempo e Velocidade
         print("\n Performance de Latência (tempo total para 10k execuções):")
-        print(f"   [Serialização]")
+        print("   [Serialização]")
         print(f"     JSON:     {json_ser_time * 1000:.2f} ms ({iterations / json_ser_time:,.0f} ops/sec) | Média: {(json_ser_time / iterations) * 1e6:.2f} µs/op")
         print(f"     Protobuf: {proto_ser_time * 1000:.2f} ms ({iterations / proto_ser_time:,.0f} ops/sec) | Média: {(proto_ser_time / iterations) * 1e6:.2f} µs/op")
         ser_speedup = json_ser_time / proto_ser_time
         print(f"     Speedup:  {ser_speedup:.2f}x mais rápido na serialização")
 
-        print(f"   [Deserialização]")
+        print("   [Deserialização]")
         print(f"     JSON:     {json_deser_time * 1000:.2f} ms ({iterations / json_deser_time:,.0f} ops/sec) | Média: {(json_deser_time / iterations) * 1e6:.2f} µs/op")
         print(f"     Protobuf: {proto_deser_time * 1000:.2f} ms ({iterations / proto_deser_time:,.0f} ops/sec) | Média: {(proto_deser_time / iterations) * 1e6:.2f} µs/op")
         deser_speedup = json_deser_time / proto_deser_time

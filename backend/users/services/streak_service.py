@@ -12,13 +12,14 @@ Garante:
 """
 
 import logging
+import zoneinfo
 from datetime import date, timedelta
-from typing import Dict, Any
+from typing import Any
+
 from django.db import connection, transaction
 from django.utils import timezone
-import zoneinfo
 
-from users.models import UserProfile, DailyStudyLog
+from users.models import DailyStudyLog, UserProfile
 
 logger = logging.getLogger("users.streak")
 
@@ -42,7 +43,7 @@ class StreakService:
         is_lesson_completed: bool = False,
         exercicios_respondidos: int = 0,
         exercicios_corretos: int = 0,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Registra uma atividade de estudo válida no banco e atualiza a ofensiva do usuário.
         Executa prioritariamente a função SQL atômica do PostgreSQL fn_record_user_activity.
@@ -74,7 +75,10 @@ class StreakService:
 
                         logger.info(
                             "Ofensiva registrada via SQL para user %d: streak=%d, maior=%d, xp=%d",
-                            user.id, streak_atual, maior_streak, xp_total
+                            user.id,
+                            streak_atual,
+                            maior_streak,
+                            xp_total,
                         )
                         return {
                             "success": True,
@@ -84,11 +88,19 @@ class StreakService:
                             "streak_incremented": streak_incremented,
                         }
         except Exception as exc:
-            logger.warning("Falha ao invocar fn_record_user_activity, executando fallback ORM: %s", exc)
+            logger.warning(
+                "Falha ao invocar fn_record_user_activity, executando fallback ORM: %s",
+                exc,
+            )
 
         # Fallback ORM caso a conexão direta a procedure falhe ou em ambiente de testes
         return cls._register_study_activity_orm(
-            user, xp_ganho, tempo_segundos, is_lesson_completed, exercicios_respondidos, exercicios_corretos
+            user,
+            xp_ganho,
+            tempo_segundos,
+            is_lesson_completed,
+            exercicios_respondidos,
+            exercicios_corretos,
         )
 
     @classmethod
@@ -101,7 +113,7 @@ class StreakService:
         is_lesson_completed: bool,
         exercicios_respondidos: int,
         exercicios_corretos: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         today_br = cls.get_today_brasilia()
         yesterday_br = today_br - timedelta(days=1)
 
@@ -126,8 +138,7 @@ class StreakService:
             streak_atual = 1
             streak_incremented = True
 
-        if streak_atual > maior_streak:
-            maior_streak = streak_atual
+        maior_streak = max(maior_streak, streak_atual)
 
         user.streak_atual = streak_atual
         user.maior_streak = maior_streak
@@ -147,7 +158,7 @@ class StreakService:
                 "licoes_concluidas": 1 if is_lesson_completed else 0,
                 "exercicios_respondidos": exercicios_respondidos,
                 "exercicios_corretos": exercicios_corretos,
-            }
+            },
         )
         if not created:
             log.xp_ganho += xp_ganho
@@ -176,9 +187,15 @@ class StreakService:
         yesterday_br = today_br - timedelta(days=1)
 
         if user.streak_atual > 0:
-            if user.ultimo_dia_estudado is None or user.ultimo_dia_estudado < yesterday_br:
+            if (
+                user.ultimo_dia_estudado is None
+                or user.ultimo_dia_estudado < yesterday_br
+            ):
                 user.streak_atual = 0
                 user.save(update_fields=["streak_atual", "updated_at"])
-                logger.info("Streak do usuário %d recalculado para 0 devido a inatividade.", user.id)
+                logger.info(
+                    "Streak do usuário %d recalculado para 0 devido a inatividade.",
+                    user.id,
+                )
 
         return user.streak_atual

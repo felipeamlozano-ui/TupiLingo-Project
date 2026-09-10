@@ -1,7 +1,8 @@
 import logging
-from django.core.management.base import BaseCommand
-from django.db import connection, close_old_connections
+
 from app.ai.rag_service import get_db
+from django.core.management.base import BaseCommand
+from django.db import close_old_connections, connection
 
 logger = logging.getLogger("nivelamento.etl")
 

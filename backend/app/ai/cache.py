@@ -1,9 +1,10 @@
-import json
 import hashlib
-import redis
-from typing import Optional, Dict, Any
+import json
+from typing import Any
 
+import redis
 from app.core.config import settings
+
 
 class PromptCache:
     """
@@ -22,10 +23,10 @@ class PromptCache:
 
     def _generate_key(self, prompt: str, model_name: str) -> str:
         """Gera uma chave SHA-256 única para o prompt + modelo."""
-        payload = f"{model_name}:{prompt}".encode('utf-8')
+        payload = f"{model_name}:{prompt}".encode()
         return "prompt_cache:" + hashlib.sha256(payload).hexdigest()
 
-    def get(self, prompt: str, model_name: str) -> Optional[Dict[str, Any]]:
+    def get(self, prompt: str, model_name: str) -> dict[str, Any] | None:
         if not self.enabled:
             return None
             
@@ -35,7 +36,7 @@ class PromptCache:
             return json.loads(cached_data)
         return None
 
-    def set(self, prompt: str, model_name: str, response_data: Dict[str, Any]):
+    def set(self, prompt: str, model_name: str, response_data: dict[str, Any]):
         if not self.enabled:
             return
             

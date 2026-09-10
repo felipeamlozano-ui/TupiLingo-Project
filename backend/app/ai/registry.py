@@ -1,4 +1,5 @@
-from typing import Dict, Type, TYPE_CHECKING
+from typing import TYPE_CHECKING
+
 from app.ai.exceptions import ProviderNotFoundError
 
 if TYPE_CHECKING:
@@ -6,7 +7,7 @@ if TYPE_CHECKING:
 
 class ProviderRegistry:
     """Registry pattern para gerenciar provedores de IA dinamicamente."""
-    _providers: Dict[str, 'BaseProvider'] = {}
+    _providers: dict[str, 'BaseProvider'] = {}
 
     @classmethod
     def register(cls, name: str, provider_instance: 'BaseProvider'):
@@ -29,4 +30,3 @@ class ProviderRegistry:
 registry = ProviderRegistry()
 
 # Importar os provedores no final para garantir que o registry seja povoado
-import app.ai.providers

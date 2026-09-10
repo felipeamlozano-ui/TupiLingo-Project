@@ -7,18 +7,19 @@ Todas as rotas são protegidas por @staff_required (exclusivas para admin).
 
 import json
 import logging
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from users.decorators import staff_required
+
 from .models import (
-    VarianteTupi,
-    TrilhaHistorica,
     Capitulo,
-    Licao,
-    Exercicio,
-    TipoExercicioChoices,
     DificuldadeChoices,
+    Exercicio,
+    Licao,
+    TrilhaHistorica,
+    VarianteTupi,
 )
 
 logger = logging.getLogger("trilha.admin")

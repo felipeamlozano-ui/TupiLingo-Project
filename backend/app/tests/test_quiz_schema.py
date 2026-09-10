@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
-
 from app.schemas.quiz import (
     Alternative,
     EsqueletoItem,
@@ -13,7 +11,7 @@ from app.schemas.quiz import (
     QuizItem,
     QuizResponse,
 )
-
+from pydantic import ValidationError
 
 # Alternative
 

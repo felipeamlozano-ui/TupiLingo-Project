@@ -11,7 +11,6 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-
 # Constantes de domínio
 
 CATEGORIAS_VALIDAS: frozenset[str] = frozenset(
@@ -173,7 +172,7 @@ class QuizItem(BaseModel):
     )
 
     @model_validator(mode="after")
-    def validate_exatamente_uma_correta(self) -> "QuizItem":
+    def validate_exatamente_uma_correta(self) -> QuizItem:
         corretas = [a for a in self.alternativas if a.letra == self.resposta_correta]
         if len(corretas) != 1:
             raise ValueError(

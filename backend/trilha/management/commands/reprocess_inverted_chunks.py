@@ -1,15 +1,13 @@
-import time
 import logging
-import sqlite3
+import time
 from typing import Literal
-from pydantic import BaseModel, Field
 
-from django.core.management.base import BaseCommand
-from django.db import connection, close_old_connections
-
+from app.ai.fallback import FallbackOrchestrator
 from app.ai.rag_service import get_db
 from app.ai.router import ModelRouter
-from app.ai.fallback import FallbackOrchestrator
+from django.core.management.base import BaseCommand
+from django.db import close_old_connections, connection
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger("reprocess_inverted")
 

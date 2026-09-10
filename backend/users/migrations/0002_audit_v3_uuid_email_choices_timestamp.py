@@ -4,43 +4,87 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='userprofile',
-            options={'verbose_name': 'Perfil do Usuário', 'verbose_name_plural': 'Perfis dos Usuários'},
+            name="userprofile",
+            options={
+                "verbose_name": "Perfil do Usuário",
+                "verbose_name_plural": "Perfis dos Usuários",
+            },
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='updated_at',
+            model_name="userprofile",
+            name="updated_at",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
-            model_name='userprofile',
-            name='email',
+            model_name="userprofile",
+            name="email",
             field=models.EmailField(db_index=True, max_length=254, unique=True),
         ),
         migrations.AlterField(
-            model_name='userprofile',
-            name='source',
-            field=models.CharField(blank=True, choices=[('redes_sociais', 'Redes Sociais'), ('indicacao', 'Indicação de amigo'), ('escola', 'Escola / Universidade'), ('pesquisa', 'Pesquisa na internet'), ('outro', 'Outro'), ('', 'Não informado')], default='', help_text='Como o usuário conheceu o app', max_length=50),
+            model_name="userprofile",
+            name="source",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("redes_sociais", "Redes Sociais"),
+                    ("indicacao", "Indicação de amigo"),
+                    ("escola", "Escola / Universidade"),
+                    ("pesquisa", "Pesquisa na internet"),
+                    ("outro", "Outro"),
+                    ("", "Não informado"),
+                ],
+                default="",
+                help_text="Como o usuário conheceu o app",
+                max_length=50,
+            ),
         ),
         migrations.AlterField(
-            model_name='userprofile',
-            name='supabase_uid',
-            field=models.UUIDField(db_index=True, help_text="UUID do usuário no Supabase Auth (campo 'sub' do JWT)", unique=True),
+            model_name="userprofile",
+            name="supabase_uid",
+            field=models.UUIDField(
+                db_index=True,
+                help_text="UUID do usuário no Supabase Auth (campo 'sub' do JWT)",
+                unique=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='userprofile',
-            name='tupi_level',
-            field=models.CharField(blank=True, choices=[('nenhum', 'Sem conhecimento'), ('iniciante', 'Iniciante'), ('intermediario', 'Intermediário'), ('avancado', 'Avançado'), ('1', 'Nível 1'), ('2', 'Nível 2'), ('3', 'Nível 3'), ('4', 'Nível 4'), ('5', 'Nível 5'), ('6', 'Nível 6'), ('7', 'Nível 7'), ('8', 'Nível 8'), ('9', 'Nível 9'), ('10', 'Nível 10')], default='', help_text='Nível de conhecimento em Tupi', max_length=30),
+            model_name="userprofile",
+            name="tupi_level",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("nenhum", "Sem conhecimento"),
+                    ("iniciante", "Iniciante"),
+                    ("intermediario", "Intermediário"),
+                    ("avancado", "Avançado"),
+                    ("1", "Nível 1"),
+                    ("2", "Nível 2"),
+                    ("3", "Nível 3"),
+                    ("4", "Nível 4"),
+                    ("5", "Nível 5"),
+                    ("6", "Nível 6"),
+                    ("7", "Nível 7"),
+                    ("8", "Nível 8"),
+                    ("9", "Nível 9"),
+                    ("10", "Nível 10"),
+                ],
+                default="",
+                help_text="Nível de conhecimento em Tupi",
+                max_length=30,
+            ),
         ),
         migrations.AddIndex(
-            model_name='userprofile',
-            index=models.Index(condition=models.Q(('tupi_level__gt', '')), fields=['tupi_level'], name='userprofile_level_idx'),
+            model_name="userprofile",
+            index=models.Index(
+                condition=models.Q(("tupi_level__gt", "")),
+                fields=["tupi_level"],
+                name="userprofile_level_idx",
+            ),
         ),
     ]

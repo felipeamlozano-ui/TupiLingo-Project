@@ -15,14 +15,11 @@ from __future__ import annotations
 import concurrent.futures
 import json
 import logging
-import os
 import threading
 import time
-from typing import Optional
 
 import litellm
 import redis
-
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -41,10 +38,10 @@ TTL_REVALIDATE_LOCK = 15       # Lock distribuído de revalidação expira em 15
 BASE_COOLDOWN_SECONDS = 120.0  # 2 minutos base de penalidade progressiva
 
 # Singleton Connection Pool Redis para Gunicorn
-_redis_pool: Optional[redis.ConnectionPool] = None
+_redis_pool: redis.ConnectionPool | None = None
 
 
-def get_redis_client() -> Optional[redis.Redis]:
+def get_redis_client() -> redis.Redis | None:
     """Retorna cliente Redis a partir de ConnectionPool thread-safe compartilhado."""
     global _redis_pool
     if not settings.ENABLE_PROMPT_CACHE:

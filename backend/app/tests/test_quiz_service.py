@@ -5,9 +5,8 @@ from __future__ import annotations
 import json
 from unittest.mock import MagicMock, patch
 
-import pytest
 import httpx
-
+import pytest
 from app.schemas.quiz import EsqueletoItem
 from app.services.supabase_service import (
     SupabaseRPCError,
@@ -15,7 +14,6 @@ from app.services.supabase_service import (
     SupabaseService,
     SupabaseServiceError,
 )
-
 
 # Fixtures
 

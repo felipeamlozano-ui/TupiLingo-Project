@@ -4,27 +4,57 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='UserProfile',
+            name="UserProfile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('supabase_uid', models.CharField(db_index=True, help_text="UUID do usuario no Supabase Auth (campo 'sub' do JWT)", max_length=255, unique=True)),
-                ('email', models.EmailField(max_length=254)),
-                ('name', models.CharField(max_length=150)),
-                ('source', models.CharField(blank=True, default='', help_text='Como o usuario conheceu o app (redes_sociais, indicacao, etc.)', max_length=50)),
-                ('tupi_level', models.CharField(blank=True, default='', help_text='Nivel de conhecimento em Tupi (iniciante, intermediario, avancado)', max_length=30)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "supabase_uid",
+                    models.CharField(
+                        db_index=True,
+                        help_text="UUID do usuario no Supabase Auth (campo 'sub' do JWT)",
+                        max_length=255,
+                        unique=True,
+                    ),
+                ),
+                ("email", models.EmailField(max_length=254)),
+                ("name", models.CharField(max_length=150)),
+                (
+                    "source",
+                    models.CharField(
+                        blank=True,
+                        default="",
+                        help_text="Como o usuario conheceu o app (redes_sociais, indicacao, etc.)",
+                        max_length=50,
+                    ),
+                ),
+                (
+                    "tupi_level",
+                    models.CharField(
+                        blank=True,
+                        default="",
+                        help_text="Nivel de conhecimento em Tupi (iniciante, intermediario, avancado)",
+                        max_length=30,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'verbose_name': 'Perfil do Usuario',
-                'verbose_name_plural': 'Perfis dos Usuarios',
+                "verbose_name": "Perfil do Usuario",
+                "verbose_name_plural": "Perfis dos Usuarios",
             },
         ),
     ]

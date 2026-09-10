@@ -9,13 +9,20 @@ Garante que:
 """
 
 import logging
-from typing import Optional, Dict, Any, List
-from django.db import transaction
-from django.db.models import Prefetch, F
-from django.utils import timezone
+from typing import Any
 
-from users.models import UserProfile, UserLesson
-from trilha.models import TrilhaHistorica, Capitulo, Licao, VarianteTupi, UserChestReward
+from django.db import transaction
+from django.db.models import F, Prefetch
+from django.utils import timezone
+from trilha.models import (
+    Capitulo,
+    Licao,
+    TrilhaHistorica,
+    UserChestReward,
+    VarianteTupi,
+)
+
+from users.models import UserLesson, UserProfile
 
 logger = logging.getLogger("users.progress")
 
@@ -24,9 +31,10 @@ class ProgressService:
     """Serviço autoritativo de progressão do TupiLingo."""
 
     @classmethod
-    def invalidate_user_trail_cache(cls, user_id: int, variante_id: int = None):
+    def invalidate_user_trail_cache(cls, user_id: int, variante_id: int | None = None):
         """Invalida o cache da trilha do usuário em todas as variantes."""
         from django.core.cache import cache
+
         if variante_id:
             cache.delete(f"user_trail_{user_id}_{variante_id}")
         for vid in range(1, 10):
@@ -35,7 +43,7 @@ class ProgressService:
     @classmethod
     def get_trail_structure_with_progression(
         cls, user: UserProfile, variante: VarianteTupi, use_cache: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Retorna a estrutura completa da Trilha, Capítulos, Lições e Baús
         com o estado de progressão canônico de cada nó calculado de forma estrita.
@@ -43,6 +51,7 @@ class ProgressService:
         workers Gunicorn e elimina rollbacks visuais no frontend Flutter.
         """
         from django.core.cache import cache
+
         cache_key = f"user_trail_{user.id}_{variante.id}"
         if use_cache:
             cached = cache.get(cache_key)
@@ -61,7 +70,9 @@ class ProgressService:
             .prefetch_related(
                 Prefetch(
                     "licoes",
-                    queryset=Licao.objects.filter(publicada=True).order_by("numero", "id"),
+                    queryset=Licao.objects.filter(publicada=True).order_by(
+                        "numero", "id"
+                    ),
                     to_attr="licoes_publicadas",
                 )
             )
@@ -69,14 +80,24 @@ class ProgressService:
         )
 
         if not capitulos:
-            return {"capitulos": [], "trilha": {"id": trilha.id, "titulo": trilha.titulo}}
+            return {
+                "capitulos": [],
+                "trilha": {"id": trilha.id, "titulo": trilha.titulo},
+            }
 
         # 2. Carrega todos os registros de progresso do usuário nesta trilha
         user_lessons_map = {
             ul.licao_id: ul
             for ul in UserLesson.objects.filter(
                 usuario=user, licao__capitulo__trilha=trilha
-            ).only("id", "licao_id", "status", "completion_percentage", "earned_xp", "accuracy")
+            ).only(
+                "id",
+                "licao_id",
+                "status",
+                "completion_percentage",
+                "earned_xp",
+                "accuracy",
+            )
         }
 
         # 3. Carrega os baús já coletados pelo usuário nesta trilha
@@ -87,7 +108,7 @@ class ProgressService:
         )
 
         # 4. Constrói a lista linear sequencial de todas as lições da trilha
-        all_ordered_lessons: List[Licao] = []
+        all_ordered_lessons: list[Licao] = []
         for cap in capitulos:
             all_ordered_lessons.extend(cap.licoes_publicadas)
 
@@ -97,7 +118,7 @@ class ProgressService:
         # - Lições já iniciadas/desbloqueadas ('em_andamento', 'disponivel') são preservadas.
         # - A Lição 0 (primeira da trilha) é sempre pelo menos 'disponivel'.
         # - Se uma Lição N foi concluída, a Lição N+1 imediata é desbloqueada ('disponivel') se estiver bloqueada.
-        canonical_status_map: Dict[int, str] = {}
+        canonical_status_map: dict[int, str] = {}
         first_lesson_id = all_ordered_lessons[0].id if all_ordered_lessons else None
 
         for idx, licao in enumerate(all_ordered_lessons):
@@ -116,7 +137,9 @@ class ProgressService:
         # Garante propagação sequencial: lição imediatamente seguinte à última concluída fica liberada
         for idx in range(len(all_ordered_lessons)):
             curr_licao = all_ordered_lessons[idx]
-            if canonical_status_map.get(curr_licao.id) == "concluida" and idx + 1 < len(all_ordered_lessons):
+            if canonical_status_map.get(curr_licao.id) == "concluida" and idx + 1 < len(
+                all_ordered_lessons
+            ):
                 next_licao = all_ordered_lessons[idx + 1]
                 if canonical_status_map.get(next_licao.id) == "bloqueada":
                     canonical_status_map[next_licao.id] = "disponivel"
@@ -136,79 +159,104 @@ class ProgressService:
                 if c_status == "concluida":
                     cap_completed_count += 1
 
-                licoes_data.append({
-                    "id": licao.id,
-                    "titulo": licao.titulo,
-                    "descricao": licao.descricao,
-                    "numero": licao.numero,
-                    "xp_base": licao.xp_base,
-                    "pos_x": licao.pos_x,
-                    "pos_y": licao.pos_y,
-                    "status": c_status,
-                    "completion_percentage": ul.completion_percentage if ul else 0.0,
-                    "earned_xp": ul.earned_xp if ul else 0,
-                })
+                licoes_data.append(
+                    {
+                        "id": licao.id,
+                        "titulo": licao.titulo,
+                        "descricao": licao.descricao,
+                        "numero": licao.numero,
+                        "xp_base": licao.xp_base,
+                        "pos_x": licao.pos_x,
+                        "pos_y": licao.pos_y,
+                        "status": c_status,
+                        "completion_percentage": ul.completion_percentage
+                        if ul
+                        else 0.0,
+                        "earned_xp": ul.earned_xp if ul else 0,
+                    }
+                )
 
             # Marco do Baú Cultural do Capítulo (após a Lição 2 ou na metade do capítulo)
             # Regra do Baú:
             # - Requer que as lições até o marco (ex: lições 1 e 2) estejam 100% concluídas.
             milestone_lesson_index = min(2, total_cap_licoes)
             lessons_before_chest = cap.licoes_publicadas[:milestone_lesson_index]
-            chest_unlocked = (
-                len(lessons_before_chest) > 0
-                and all(canonical_status_map.get(l.id) == "concluida" for l in lessons_before_chest)
+            chest_unlocked = len(lessons_before_chest) > 0 and all(
+                canonical_status_map.get(l.id) == "concluida"
+                for l in lessons_before_chest
             )
             # 3.1. Regra de Baú Único da Trilha:
             # O usuário só pode abrir o baú da trilha uma única vez.
             has_collected_trail_chest = len(collected_chests) > 0
-            is_chest_collected = has_collected_trail_chest or (cap.id, 1) in collected_chests
+            is_chest_collected = (
+                has_collected_trail_chest or (cap.id, 1) in collected_chests
+            )
 
             chest_status = (
-                "concluido" if is_chest_collected
-                else "disponivel" if chest_unlocked
+                "concluido"
+                if is_chest_collected
+                else "disponivel"
+                if chest_unlocked
                 else "bloqueado"
             )
 
             module_progress_pct = (
                 round((cap_completed_count / total_cap_licoes) * 100, 1)
-                if total_cap_licoes > 0 else 0.0
+                if total_cap_licoes > 0
+                else 0.0
             )
 
-            capitulos_data.append({
-                "id": cap.id,
-                "numero": cap.numero,
-                "titulo": cap.titulo,
-                "descricao": cap.descricao,
-                "module_progress_percentage": module_progress_pct,
-                "total_licoes": total_cap_licoes,
-                "licoes_concluidas": cap_completed_count,
-                "scenario": {
-                    "nome": scenario.nome if scenario else "",
-                    "background_image": scenario.background_image.url if scenario and scenario.background_image else None,
-                    "ambient_audio": scenario.ambient_audio.url if scenario and scenario.ambient_audio else None,
-                    "palette": scenario.palette if scenario else {},
-                } if scenario else None,
-                "chest_reward": {
-                    "milestone_index": 1,
-                    "status": chest_status,
-                    "unlocked": chest_unlocked,
-                    "collected": is_chest_collected,
-                    "recompensa_xp": 75,
-                    "recompensa_conchas": 50,
-                    "after_lesson_number": milestone_lesson_index,
-                },
-                "licoes": licoes_data,
-            })
+            capitulos_data.append(
+                {
+                    "id": cap.id,
+                    "numero": cap.numero,
+                    "titulo": cap.titulo,
+                    "descricao": cap.descricao,
+                    "module_progress_percentage": module_progress_pct,
+                    "total_licoes": total_cap_licoes,
+                    "licoes_concluidas": cap_completed_count,
+                    "scenario": {
+                        "nome": scenario.nome if scenario else "",
+                        "background_image": scenario.background_image.url
+                        if scenario and scenario.background_image
+                        else None,
+                        "ambient_audio": scenario.ambient_audio.url
+                        if scenario and scenario.ambient_audio
+                        else None,
+                        "palette": scenario.palette if scenario else {},
+                    }
+                    if scenario
+                    else None,
+                    "chest_reward": {
+                        "milestone_index": 1,
+                        "status": chest_status,
+                        "unlocked": chest_unlocked,
+                        "collected": is_chest_collected,
+                        "recompensa_xp": 75,
+                        "recompensa_conchas": 50,
+                        "after_lesson_number": milestone_lesson_index,
+                    },
+                    "licoes": licoes_data,
+                }
+            )
 
         result = {
             "success": True,
-            "variante": {"id": variante.id, "nome": variante.nome, "codigo": variante.codigo},
-            "trilha": {"id": trilha.id, "titulo": trilha.titulo, "subtitulo": trilha.subtitulo},
+            "variante": {
+                "id": variante.id,
+                "nome": variante.nome,
+                "codigo": variante.codigo,
+            },
+            "trilha": {
+                "id": trilha.id,
+                "titulo": trilha.titulo,
+                "subtitulo": trilha.subtitulo,
+            },
             "user_stats": {
                 "xp_total": user.xp_total,
                 "streak_atual": user.streak_atual,
                 "dias_ofensiva": user.streak_atual,
-                "conchas": getattr(user, 'conchas', 0),
+                "conchas": getattr(user, "conchas", 0),
                 "maior_streak": user.maior_streak,
             },
             "capitulos": capitulos_data,
@@ -250,21 +298,26 @@ class ProgressService:
             if current_index == 0:
                 return True
             prev_licao_id = todas_licoes[current_index - 1]
-            prev_ul = UserLesson.objects.filter(usuario=user, licao_id=prev_licao_id).first()
+            prev_ul = UserLesson.objects.filter(
+                usuario=user, licao_id=prev_licao_id
+            ).first()
             return prev_ul is not None and prev_ul.status == "concluida"
         except ValueError:
             return False
 
     @classmethod
-    def unlock_next_lesson(cls, user: UserProfile, completed_licao: Licao) -> Optional[Licao]:
+    def unlock_next_lesson(
+        cls, user: UserProfile, completed_licao: Licao
+    ) -> Licao | None:
         """
         Desbloqueia a lição imediatamente subsequente à que foi concluída.
         Retorna a próxima Lição ou None caso o usuário tenha chegado ao fim da trilha.
         """
         trilha = completed_licao.capitulo.trilha
         todas_licoes = list(
-            Licao.objects.filter(capitulo__trilha=trilha, publicada=True)
-            .order_by("capitulo__numero", "numero", "id")
+            Licao.objects.filter(capitulo__trilha=trilha, publicada=True).order_by(
+                "capitulo__numero", "numero", "id"
+            )
         )
 
         current_idx = None
@@ -279,9 +332,7 @@ class ProgressService:
 
         next_licao = todas_licoes[current_idx + 1]
         next_ul, _ = UserLesson.objects.get_or_create(
-            usuario=user,
-            licao=next_licao,
-            defaults={"status": "disponivel"}
+            usuario=user, licao=next_licao, defaults={"status": "disponivel"}
         )
         if next_ul.status == "bloqueada":
             next_ul.status = "disponivel"
@@ -290,13 +341,17 @@ class ProgressService:
         cls.invalidate_user_trail_cache(user.id, trilha.variante_id)
         logger.info(
             "Lição %d (%s) desbloqueada com sucesso para usuário %d",
-            next_licao.id, next_licao.titulo, user.id
+            next_licao.id,
+            next_licao.titulo,
+            user.id,
         )
         return next_licao
 
     @classmethod
     @transaction.atomic
-    def collect_chest(cls, user: UserProfile, capitulo_id: int, milestone_index: int = 1) -> Dict[str, Any]:
+    def collect_chest(
+        cls, user: UserProfile, capitulo_id: int, milestone_index: int = 1
+    ) -> dict[str, Any]:
         """
         Coleta um baú cultural de capítulo de forma atômica e segura.
         Valida que o usuário cumpriu as lições exigidas e previne coletas duplicadas.
@@ -314,7 +369,7 @@ class ProgressService:
                 "success": False,
                 "error": "O baú da trilha só pode ser coletado uma única vez.",
                 "already_collected": True,
-                "status": 409
+                "status": 409,
             }
 
         # Valida se as lições do marco estão concluídas
@@ -323,13 +378,15 @@ class ProgressService:
         required_lessons = licoes_cap[:milestone_limit]
 
         if not required_lessons:
-            return {"success": False, "error": "Capítulo sem lições suficientes", "status": 400}
+            return {
+                "success": False,
+                "error": "Capítulo sem lições suficientes",
+                "status": 400,
+            }
 
         completed_ids = set(
             UserLesson.objects.filter(
-                usuario=user,
-                licao__in=required_lessons,
-                status="concluida"
+                usuario=user, licao__in=required_lessons, status="concluida"
             ).values_list("licao_id", flat=True)
         )
 
@@ -337,7 +394,7 @@ class ProgressService:
             return {
                 "success": False,
                 "error": "Você precisa concluir as lições anteriores antes de abrir este baú.",
-                "status": 403
+                "status": 403,
             }
 
         recompensa_xp = 75
@@ -361,18 +418,22 @@ class ProgressService:
 
         # Registra no log de atividade diária
         from users.services.streak_service import StreakService
+
         StreakService.register_study_activity(
             user=user,
             xp_ganho=recompensa_xp,
             tempo_segundos=30,
             is_lesson_completed=False,
             exercicios_respondidos=0,
-            exercicios_corretos=0
+            exercicios_corretos=0,
         )
 
         logger.info(
             "Baú coletado com sucesso! User %d, Cap %d, +%d XP, +%d Conchas",
-            user.id, capitulo.id, recompensa_xp, recompensa_conchas
+            user.id,
+            capitulo.id,
+            recompensa_xp,
+            recompensa_conchas,
         )
 
         cls.invalidate_user_trail_cache(user.id, capitulo.trilha.variante_id)

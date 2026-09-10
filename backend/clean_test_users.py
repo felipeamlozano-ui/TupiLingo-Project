@@ -22,33 +22,32 @@ Uso:
   python clean_test_users.py --all
 """
 
-import os
-import sys
 import argparse
 import logging
-from typing import List, Set
+import os
+import sys
 
 # Configura o ambiente Django antes de qualquer import de models
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
 
 import django
+
 django.setup()
 
-from django.db import transaction
-from django.contrib.auth.models import User
 from decouple import config
-
-from users.models import (
-    UserProfile,
-    UserLesson,
-    DailyStudyLog,
-    UserAchievement,
-    VocabularyProgress,
-    FilaExercicioUsuario,
-)
+from django.contrib.auth.models import User
+from django.db import transaction
+from nivelamento.models import TestAttempt, UserVarianteLevel
 from trilha.models import UserChestReward
-from nivelamento.models import UserVarianteLevel, TestAttempt
+from users.models import (
+    DailyStudyLog,
+    FilaExercicioUsuario,
+    UserAchievement,
+    UserLesson,
+    UserProfile,
+    VocabularyProgress,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("clean_test_users")
@@ -58,7 +57,7 @@ DEFAULT_PROTECTED_EMAILS = {
 }
 
 
-def get_protected_emails(extra_keep: List[str] = None, keep_staff: bool = False) -> Set[str]:
+def get_protected_emails(extra_keep: list[str] = None, keep_staff: bool = False) -> set[str]:
     """Retorna o conjunto de emails que NÃO devem ser excluídos."""
     protected = set(email.lower().strip() for email in DEFAULT_PROTECTED_EMAILS)
 
@@ -79,7 +78,7 @@ def get_protected_emails(extra_keep: List[str] = None, keep_staff: bool = False)
     return protected
 
 
-def delete_from_supabase_auth(supabase_uids: List[str]) -> int:
+def delete_from_supabase_auth(supabase_uids: list[str]) -> int:
     """Remove usuários do Supabase Auth usando o Service Role Key."""
     supabase_url = config('SUPABASE_URL', default=None)
     service_role_key = config('SUPABASE_SERVICE_ROLE_KEY', default=None)
@@ -111,7 +110,7 @@ def clean_users(
     dry_run: bool = False,
     include_supabase: bool = False,
     all_users: bool = False,
-    extra_keep: List[str] = None,
+    extra_keep: list[str] = None,
     keep_staff: bool = False,
 ):
     protected_emails = set() if all_users else get_protected_emails(extra_keep, keep_staff=keep_staff)
@@ -128,8 +127,8 @@ def clean_users(
     print("-" * 75)
 
     all_profiles = UserProfile.objects.all()
-    to_delete: List[UserProfile] = []
-    to_keep: List[UserProfile] = []
+    to_delete: list[UserProfile] = []
+    to_keep: list[UserProfile] = []
 
     for prof in all_profiles:
         prof_email = (prof.email or "").strip().lower()

@@ -32,9 +32,8 @@ def _normalize(text: str) -> str:
     - Remove diacríticos (acentos) via decomposição unicode NFD + filtro de Mn
     """
     text = text.strip().lower()
-    return ''.join(
-        c for c in unicodedata.normalize('NFD', text)
-        if unicodedata.category(c) != 'Mn'
+    return "".join(
+        c for c in unicodedata.normalize("NFD", text) if unicodedata.category(c) != "Mn"
     )
 
 
@@ -77,20 +76,19 @@ def _normalize_fallback(text: str) -> str:
     return _normalize(text)
 
 
-
-
 class ValidationResult:
     """Resultado da validação de uma resposta."""
-    CORRETO = 'correct'
-    QUASE_CERTO = 'almost'
-    ERRADO = 'wrong'
+
+    CORRETO = "correct"
+    QUASE_CERTO = "almost"
+    ERRADO = "wrong"
 
     def __init__(
         self,
         status: str,
         distancia: int,
         resposta_correta: str,
-        mensagem: str = '',
+        mensagem: str = "",
     ):
         self.status = status
         self.distancia = distancia
@@ -99,10 +97,10 @@ class ValidationResult:
 
     def to_dict(self) -> dict:
         return {
-            'status': self.status,
-            'distancia_levenshtein': self.distancia,
-            'resposta_correta': self.resposta_correta,
-            'mensagem': self.mensagem,
+            "status": self.status,
+            "distancia_levenshtein": self.distancia,
+            "resposta_correta": self.resposta_correta,
+            "mensagem": self.mensagem,
         }
 
 
@@ -188,8 +186,8 @@ def validar_lista_lacunas(
     # Garante que as listas têm o mesmo tamanho
     total = max(len(respostas_corretas), len(respostas_usuario))
     for i in range(total):
-        usuario = respostas_usuario[i] if i < len(respostas_usuario) else ''
-        correta = respostas_corretas[i] if i < len(respostas_corretas) else ''
+        usuario = respostas_usuario[i] if i < len(respostas_usuario) else ""
+        correta = respostas_corretas[i] if i < len(respostas_corretas) else ""
 
         resultado = validar_resposta_completar(usuario, correta, tolerancia)
         resultados.append(resultado.to_dict())
@@ -200,11 +198,11 @@ def validar_lista_lacunas(
             algum_quase = True
 
     return {
-        'resultados': resultados,
-        'tudo_correto': acertos == total and total > 0,
-        'algum_quase': algum_quase,
-        'acertos': acertos,
-        'total': total,
+        "resultados": resultados,
+        "tudo_correto": acertos == total and total > 0,
+        "algum_quase": algum_quase,
+        "acertos": acertos,
+        "total": total,
     }
 
 

@@ -1,6 +1,7 @@
 import abc
-from typing import Any, Dict, Type
+
 from pydantic import BaseModel
+
 
 class BaseProvider(abc.ABC):
     """
@@ -9,7 +10,7 @@ class BaseProvider(abc.ABC):
     """
     
     @abc.abstractmethod
-    def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:
+    def generate_structured(self, prompt: str, schema: type[BaseModel], model_name: str, **kwargs) -> BaseModel:
         """
         Gera uma resposta estruturada de acordo com o schema Pydantic fornecido.
         
@@ -22,11 +23,9 @@ class BaseProvider(abc.ABC):
         Returns:
             BaseModel: Uma instância da classe schema preenchida.
         """
-        pass
 
     @abc.abstractmethod
     def generate_text(self, prompt: str, model_name: str, **kwargs) -> str:
         """
         Gera texto puro.
         """
-        pass

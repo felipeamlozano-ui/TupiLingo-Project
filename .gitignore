@@ -179,3 +179,4 @@ backend/rag_vectors.sqlite3-journal
 frontend/tupi_lingo/build/
 frontend/tupi_lingo/.dart_tool/
 venv2/
+venv3/
