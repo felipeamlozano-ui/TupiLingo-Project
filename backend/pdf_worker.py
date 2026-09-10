@@ -84,18 +84,23 @@ def _ocr_image_with_auto_orientation(img: Image.Image) -> str:
                 rotate_angle = int(line.split(":")[1].strip())
                 break
         if rotate_angle in (90, 180, 270):
-            return pytesseract.image_to_string(img.rotate(rotate_angle, expand=True), lang="por")
+            return pytesseract.image_to_string(img.rotate(rotate_angle, expand=True), lang="por+eng")
     except Exception:
         pass
 
-    # 2. Heuristica de legibilidade (Normal vs 180 graus)
-    txt_normal = pytesseract.image_to_string(img, lang="por")
-    common_words = (" de ", " para ", " em ", " com ", " não ", " tupi ", " que ", " por ", " da ", " do ")
+    # 2. Heuristica de legibilidade (Normal vs 180 graus) — suporta Portugues, Tupi e Ingles
+    txt_normal = pytesseract.image_to_string(img, lang="por+eng")
+    common_words = (
+        # Português / Tupi
+        " de ", " para ", " em ", " com ", " não ", " tupi ", " que ", " por ", " da ", " do ",
+        # Inglês (artigos acadêmicos / fontes internacionais)
+        " the ", " and ", " of ", " to ", " in ", " with ", " is ", " that ", " for ", " as ", " on "
+    )
     normal_score = sum(1 for w in common_words if w in txt_normal.lower())
 
     # Se a pontuacao normal for muito baixa e houver texto, testa 180 graus
     if normal_score <= 1 and len(txt_normal.strip()) > 30:
-        txt_180 = pytesseract.image_to_string(img.rotate(180, expand=True), lang="por")
+        txt_180 = pytesseract.image_to_string(img.rotate(180, expand=True), lang="por+eng")
         score_180 = sum(1 for w in common_words if w in txt_180.lower())
         if score_180 > normal_score:
             return txt_180

@@ -692,47 +692,9 @@ def run_seed():
         explicacao='Mimbŷ = Flauta, Maraká = Chocalho, Toryba = Alegria.',
     )
 
-    # 6. Atualiza o status do usuário logado para ter a lição 1 concluída e lição 2 disponível
-    for user in UserProfile.objects.all():
-        UserLesson.objects.update_or_create(
-            usuario=user,
-            licao=l1,
-            defaults={'status': 'concluida', 'earned_xp': 25, 'completion_percentage': 100.0}
-        )
-        UserLesson.objects.update_or_create(
-            usuario=user,
-            licao=l2,
-            defaults={'status': 'disponivel', 'earned_xp': 0, 'completion_percentage': 0.0}
-        )
-        UserLesson.objects.update_or_create(
-            usuario=user,
-            licao=l3,
-            defaults={'status': 'bloqueada'}
-        )
-        UserLesson.objects.update_or_create(
-            usuario=user,
-            licao=l4,
-            defaults={'status': 'bloqueada'}
-        )
-        UserLesson.objects.update_or_create(
-            usuario=user,
-            licao=l5,
-            defaults={'status': 'bloqueada'}
-        )
-        UserLesson.objects.update_or_create(
-            usuario=user,
-            licao=l6,
-            defaults={'status': 'bloqueada'}
-        )
-        UserLesson.objects.update_or_create(
-            usuario=user,
-            licao=l7,
-            defaults={'status': 'bloqueada'}
-        )
-        if user.xp_total < 85:
-            user.xp_total = 85
-        user.variante_ativa = variante
-        user.save()
+    # 6. Garantia de integridade da trilha: O progresso individual do usuário é
+    # gerenciado dinamicamente pelo ProgressService (a lição 1 inicia como 'disponivel'
+    # para novos usuários e progride de forma orgânica à medida que completam lições).
 
     # 7. Conquistas padrão (Achievements)
     achievements_data = [

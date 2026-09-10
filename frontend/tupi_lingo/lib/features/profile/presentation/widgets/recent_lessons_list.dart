@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class RecentLessonsList extends StatelessWidget {
   final List<Map<String, dynamic>> historico;
@@ -11,15 +12,17 @@ class RecentLessonsList extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final isDark = AppTheme.isDark(context);
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFD0D0D0)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -28,16 +31,19 @@ class RecentLessonsList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Text('📚', style: TextStyle(fontSize: 18)),
-              SizedBox(width: 8),
-              Text(
-                'Últimas Lições Concluídas',
-                style: TextStyle(
-                  color: Color(0xFF1F2937),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+              const Text('📚', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  'Últimas Lições Concluídas',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -55,12 +61,12 @@ class RecentLessonsList extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 10),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFFAF9F5),
+                color: isDark ? const Color(0xFF1A2621) : const Color(0xFFFAF9F5),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: isPerfect
-                      ? const Color(0xFF0E5D4E).withValues(alpha: 0.3)
-                      : const Color(0xFFDCD8CB),
+                      ? (isDark ? const Color(0xFF1EC9A5).withValues(alpha: 0.5) : const Color(0xFF0E5D4E).withValues(alpha: 0.3))
+                      : AppTheme.border(context),
                 ),
               ),
               child: Row(
@@ -70,7 +76,7 @@ class RecentLessonsList extends StatelessWidget {
                     height: 38,
                     decoration: BoxDecoration(
                       color: isPerfect
-                          ? const Color(0xFF0E5D4E).withValues(alpha: 0.15)
+                          ? (isDark ? const Color(0xFF1EC9A5).withValues(alpha: 0.2) : const Color(0xFF0E5D4E).withValues(alpha: 0.15))
                           : const Color(0xFFD08A45).withValues(alpha: 0.15),
                       shape: BoxShape.circle,
                     ),
@@ -88,8 +94,8 @@ class RecentLessonsList extends StatelessWidget {
                       children: [
                         Text(
                           titulo,
-                          style: const TextStyle(
-                            color: Color(0xFF1F2937),
+                          style: TextStyle(
+                            color: AppTheme.textPrimary(context),
                             fontWeight: FontWeight.bold,
                             fontSize: 13,
                           ),
@@ -97,8 +103,8 @@ class RecentLessonsList extends StatelessWidget {
                         if (capTitulo.isNotEmpty)
                           Text(
                             capTitulo,
-                            style: const TextStyle(
-                              color: Color(0xFF565D6D),
+                            style: TextStyle(
+                              color: AppTheme.textSecondary(context),
                               fontSize: 11,
                             ),
                           ),
@@ -112,7 +118,7 @@ class RecentLessonsList extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
                           color: isPerfect
-                              ? const Color(0xFF0E5D4E)
+                              ? (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E))
                               : const Color(0xFFD08A45),
                           borderRadius: BorderRadius.circular(8),
                         ),

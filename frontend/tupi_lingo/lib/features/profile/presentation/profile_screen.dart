@@ -10,6 +10,8 @@ import 'widgets/streak_card.dart';
 import 'widgets/performance_chart.dart';
 import 'widgets/recent_lessons_list.dart';
 import 'widgets/achievement_gallery.dart';
+import '../../../../core/state/app_progression_notifier.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -35,6 +37,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _fetchProfile();
+    AppProgressionNotifier.instance.addListener(_onProgressionUpdated);
+  }
+
+  @override
+  void dispose() {
+    AppProgressionNotifier.instance.removeListener(_onProgressionUpdated);
+    super.dispose();
+  }
+
+  void _onProgressionUpdated() {
+    if (mounted) {
+      _fetchProfile();
+    }
   }
 
   Future<void> _fetchProfile() async {
@@ -206,6 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final xpTotal = (profile['xp_total'] as num?)?.toInt() ?? 0;
     final nivelAtual = (profile['nivel_atual'] as num?)?.toInt() ?? 1;
     final diasOfensiva = (profile['dias_ofensiva'] as num?)?.toInt() ?? 0;
+    final maiorStreak = (profile['maior_streak'] as num?)?.toInt() ?? diasOfensiva;
     final variante = profile['variante_ativa'] as Map<String, dynamic>?;
     final varianteNome = variante != null ? (variante['nome']?.toString() ?? 'Tupi Antigo') : 'Tupi Antigo';
 
@@ -227,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 16),
 
               // 3. Fogo da Ofensiva
-              StreakCard(streakDays: diasOfensiva),
+              StreakCard(streakDays: diasOfensiva, maiorStreak: maiorStreak),
               const SizedBox(height: 16),
 
               // 4. Barra de Progresso de XP
@@ -247,9 +263,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 unlockedAchievements: _achievementsDesbloqueadas,
                 lockedAchievements: _achievementsBloqueadas,
               ),
+              const SizedBox(height: 16),
+
+              // 8. Seletor de Tema Ancestral (Claro / Escuro / Auto)
+              _buildThemeSelectorCard(context),
               const SizedBox(height: 24),
 
-              // 8. Botão de Logout
+              // 9. Botão de Logout
               OutlinedButton.icon(
                 onPressed: () async {
                   await Supabase.instance.client.auth.signOut();
@@ -272,16 +292,164 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Widget _buildThemeSelectorCard(BuildContext context) {
+    final isDark = AppTheme.isDark(context);
+    final currentMode = ThemeNotifier.instance.value;
+
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppTheme.surface(context),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppTheme.border(context)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFFD08A45)).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(
+                    isDark ? '🌙' : '☀️',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Aparência Ancestral',
+                      style: TextStyle(
+                        color: AppTheme.textPrimary(context),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      isDark ? 'Noite na Selva (Modo Escuro)' : 'Areia Sagrada (Modo Claro)',
+                      style: TextStyle(
+                        color: AppTheme.textSecondary(context),
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              _buildThemeOption(
+                context,
+                title: 'Areia',
+                icon: Icons.wb_sunny_rounded,
+                selected: currentMode == ThemeMode.light,
+                onTap: () => ThemeNotifier.instance.setThemeMode(ThemeMode.light),
+              ),
+              const SizedBox(width: 8),
+              _buildThemeOption(
+                context,
+                title: 'Noite',
+                icon: Icons.nightlight_round,
+                selected: currentMode == ThemeMode.dark,
+                onTap: () => ThemeNotifier.instance.setThemeMode(ThemeMode.dark),
+              ),
+              const SizedBox(width: 8),
+              _buildThemeOption(
+                context,
+                title: 'Auto',
+                icon: Icons.brightness_auto_rounded,
+                selected: currentMode == ThemeMode.system,
+                onTap: () => ThemeNotifier.instance.setThemeMode(ThemeMode.system),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildThemeOption(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    final isDark = AppTheme.isDark(context);
+    final activeColor = isDark ? const Color(0xFF1EC9A5) : const Color(0xFFD08A45);
+
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: selected
+                ? activeColor.withValues(alpha: 0.15)
+                : AppTheme.surfaceSubtle(context),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: selected ? activeColor : AppTheme.border(context),
+              width: selected ? 2 : 1,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: selected ? activeColor : AppTheme.textSecondary(context),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                title,
+                style: TextStyle(
+                  color: selected ? activeColor : AppTheme.textSecondary(context),
+                  fontSize: 12,
+                  fontWeight: selected ? FontWeight.bold : FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildUserHeader(String name, String email, String varianteNome) {
+    final isDark = AppTheme.isDark(context);
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFD0D0D0)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -317,8 +485,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Text(
                   name,
-                  style: const TextStyle(
-                    color: Color(0xFF1F2937),
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -328,7 +496,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 2),
                 Text(
                   email,
-                  style: const TextStyle(color: Color(0xFF565D6D), fontSize: 12),
+                  style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -336,13 +504,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0E5D4E).withValues(alpha: 0.12),
+                    color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     'Variante: $varianteNome',
-                    style: const TextStyle(
-                      color: Color(0xFF0E5D4E),
+                    style: TextStyle(
+                      color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),

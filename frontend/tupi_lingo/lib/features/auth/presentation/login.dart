@@ -337,6 +337,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
+                          color: Colors.black87,
                         ),
                       ),
 
@@ -356,8 +357,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(color: Colors.black87),
                         decoration: const InputDecoration(
                           labelText: 'Email',
+                          labelStyle: TextStyle(color: Colors.black87),
+                          hintText: 'Digite seu email',
+                          hintStyle: TextStyle(color: Colors.black54),
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -367,8 +372,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                         controller: _passwordController,
                         obscureText: true,
+                        style: const TextStyle(color: Colors.black87),
                         decoration: const InputDecoration(
                           labelText: 'Senha',
+                          labelStyle: TextStyle(color: Colors.black87),
+                          hintText: 'Digite sua senha',
+                          hintStyle: TextStyle(color: Colors.black54),
                           border: OutlineInputBorder(),
                         ),
                       ),

@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SeedTupiNivelamento",
+  "description": "Schema de validação rigorosa dos pacotes de questões estáticas para o Question Pool do TupiLingo.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["pacote_id", "variante", "nivel", "questoes"],
+    "additionalProperties": true,
+    "properties": {
+      "pacote_id": {
+        "type": "string",
+        "description": "Identificador UUID único do pacote para prevenir colisões no Redis."
+      },
+      "variante": {
+        "type": "string",
+        "enum": ["tupi", "tupi_contemporaneo", "tupinamba"],
+        "description": "Variante linguística indígena correspondente."
+      },
+      "nivel": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "description": "Nível de proficiência TRI (1 a 10)."
+      },
+      "questoes": {
+        "type": "array",
+        "minItems": 10,
+        "maxItems": 10,
+        "description": "Exatamente 10 questões de múltipla escolha.",
+        "items": {
+          "type": "object",
+          "required": [
+            "item_id",
+            "enunciado",
+            "alternativas",
+            "resposta_correta",
+            "explicacao",
+            "categoria",
+            "variante",
+            "dificuldade",
+            "fonte_confianca"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "item_id": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "enunciado": {
+              "type": "string",
+              "minLength": 10
+            },
+            "alternativas": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "required": ["letra", "texto"],
+                "properties": {
+                  "letra": {
+                    "type": "string",
+                    "enum": ["A", "B", "C", "D"]
+                  },
+                  "texto": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "resposta_correta": {
+              "type": "string",
+              "enum": ["A", "B", "C", "D"]
+            },
+            "explicacao": {
+              "type": "string",
+              "minLength": 10
+            },
+            "categoria": {
+              "type": "string"
+            },
+            "variante": {
+              "type": "string"
+            },
+            "dificuldade": {
+              "type": "string",
+              "enum": ["facil", "media", "dificil"]
+            },
+            "curiosidade": {
+              "type": "string"
+            },
+            "fonte_confianca": {
+              "type": "string",
+              "enum": ["alta", "média", "baixa"],
+              "description": "Grau de certeza linguística do especialista: alta, média ou baixa."
+            }
+          }
+        }
+      }
+    }
+  }
+}

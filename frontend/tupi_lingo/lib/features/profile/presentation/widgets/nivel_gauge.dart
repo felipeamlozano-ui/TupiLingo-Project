@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class NivelGauge extends StatelessWidget {
   final int nivel; // 1 a 10
@@ -33,16 +34,17 @@ class NivelGauge extends StatelessWidget {
   Widget build(BuildContext context) {
     final clampedNivel = nivel.clamp(1, 10);
     final targetPercent = clampedNivel / 10.0;
+    final isDark = AppTheme.isDark(context);
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFD0D0D0)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -53,30 +55,36 @@ class NivelGauge extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
-                children: [
-                  Text('🎯', style: TextStyle(fontSize: 18)),
-                  SizedBox(width: 8),
-                  Text(
-                    'Calibração de Aprendizado',
-                    style: TextStyle(
-                      color: Color(0xFF1F2937),
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                child: Row(
+                  children: [
+                    const Text('🎯', style: TextStyle(fontSize: 18)),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        'Calibração de Aprendizado',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0E5D4E).withValues(alpha: 0.12),
+                  color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Text(
+                child: Text(
                   'Tempo Real (TRI)',
                   style: TextStyle(
-                    color: Color(0xFF0E5D4E),
+                    color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
@@ -96,15 +104,18 @@ class NivelGauge extends StatelessWidget {
                 width: 170,
                 height: 170,
                 child: CustomPaint(
-                  painter: _GaugePainter(progress: value),
+                  painter: _GaugePainter(
+                    progress: value,
+                    isDark: isDark,
+                  ),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'NÍVEL',
                           style: TextStyle(
-                            color: Color(0xFF565D6D),
+                            color: AppTheme.textSecondary(context),
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 1.5,
@@ -112,8 +123,8 @@ class NivelGauge extends StatelessWidget {
                         ),
                         Text(
                           '$clampedNivel',
-                          style: const TextStyle(
-                            color: Color(0xFF1F2937),
+                          style: TextStyle(
+                            color: AppTheme.textPrimary(context),
                             fontSize: 48,
                             fontWeight: FontWeight.w900,
                             height: 1.1,
@@ -122,7 +133,7 @@ class NivelGauge extends StatelessWidget {
                         Text(
                           'de 10',
                           style: TextStyle(
-                            color: Colors.grey.shade500,
+                            color: AppTheme.textSecondary(context),
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
@@ -165,8 +176,8 @@ class NivelGauge extends StatelessWidget {
           Text(
             tierDescription,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF565D6D),
+            style: TextStyle(
+              color: AppTheme.textSecondary(context),
               fontSize: 12,
               height: 1.35,
             ),
@@ -179,8 +190,9 @@ class NivelGauge extends StatelessWidget {
 
 class _GaugePainter extends CustomPainter {
   final double progress; // 0.0 a 1.0
+  final bool isDark;
 
-  _GaugePainter({required this.progress});
+  _GaugePainter({required this.progress, this.isDark = false});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -190,7 +202,7 @@ class _GaugePainter extends CustomPainter {
 
     // Arco de fundo
     final bgPaint = Paint()
-      ..color = const Color(0xFFEAE7DC)
+      ..color = isDark ? const Color(0xFF1E2B26) : const Color(0xFFEAE7DC)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;

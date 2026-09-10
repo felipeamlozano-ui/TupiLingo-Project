@@ -24,6 +24,11 @@ urlpatterns = [
 
     # ── Trilha / Mapa ─────────────────────────────────────────────────────────
     path(
+        'trilha/regioes/',
+        views.listar_regioes_mapa,
+        name='listar_regioes_mapa',
+    ),
+    path(
         'trilha/<int:variante_id>/capitulos/',
         views.listar_capitulos_mapa,
         name='listar_capitulos_mapa',
@@ -39,6 +44,17 @@ urlpatterns = [
         'trilha/licao/<int:licao_id>/concluir/',
         views.concluir_licao,
         name='concluir_licao',
+    ),
+    path(
+        'trilha/capitulo/<int:capitulo_id>/bau/<int:milestone_index>/coletar/',
+        views.coletar_bau,
+        name='coletar_bau',
+    ),
+    path(
+        'trilha/capitulo/<int:capitulo_id>/bau/coletar/',
+        views.coletar_bau,
+        {'milestone_index': 1},
+        name='coletar_bau_default',
     ),
 
     # ── Validação de Exercícios ───────────────────────────────────────────────

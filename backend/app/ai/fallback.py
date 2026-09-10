@@ -1,13 +1,13 @@
 """
-TupiLingo — Fallback Orchestrator (RFC v3.0)
+TupiLingo — Fallback Orchestrator (RFC v3.0 Fail-Fast por Modelo)
 
-Executa a cadeia de fallback de modelos LLM com política Fail-Fast:
-  - Timeout por chamada: 2.5 s
-  - Máximo de 1 retry por modelo
-  - Sem exponential backoff
-  - Failover imediato para o próximo modelo na cadeia
-
-Registra provedor, modelo e motivo do failover em cada troca.
+Executa a cadeia de fallback de modelos LLM sobre a lista ranqueada do PingRaceRouter:
+  - Política Fail-Fast por Modelo: 1 tentativa por modelo (stop_after_attempt(1)).
+    Isso significa: NUNCA insiste no mesmo modelo após timeout, 429 ou esgotamento de cota.
+    Em vez de re-tentar o mesmo modelo falho por 5-10s, faz failover IMEDIATO para o próximo do ranking.
+  - Itera sobre todos os modelos ranqueados até esgotar a lista ou obter sucesso.
+  - Se todos os modelos falharem, lança explicitamente AllModelsUnavailableError com detalhes
+    de telemetria, nunca retornando None silencioso ou mascarando a falha.
 """
 
 from __future__ import annotations
@@ -28,7 +28,6 @@ from tenacity import (
 # Compatibilidade retroativa para mocks de teste legados
 wait_exponential_jitter = wait_none
 
-
 from app.core.config import settings
 from app.ai.invoker import AIInvoker
 from app.ai.exceptions import (
@@ -43,7 +42,7 @@ from app.ai.ping_race import PingRaceRouter
 
 logger = logging.getLogger(__name__)
 
-# Exceções que justificam um único retry imediato no MESMO modelo
+# Exceções que indicam falha no modelo
 _RETRYABLE: tuple[type[Exception], ...] = (
     RateLimitError,
     TimeoutError,
@@ -52,15 +51,14 @@ _RETRYABLE: tuple[type[Exception], ...] = (
 )
 
 
+class AllModelsUnavailableError(AIProviderError):
+    """Exceção explícita lançada quando TODOS os modelos da cadeia de inferência falham."""
+    pass
+
+
 class FallbackOrchestrator:
     """
-    Orquestrador de fallback entre provedores/modelos LLM.
-
-    Política RFC v3.0 (Fail-Fast):
-      - Cada modelo tem no máximo 1 retry (2 tentativas totais).
-      - Sem espera entre tentativas (``wait_none``).
-      - Failover imediato para o próximo modelo da cadeia.
-      - Registra provedor + modelo + motivo em cada failover.
+    Orquestrador Fail-Fast de inferência estruturada entre provedores/modelos LLM.
     """
 
     @classmethod
@@ -72,46 +70,52 @@ class FallbackOrchestrator:
         **kwargs: object,
     ) -> BaseModel:
         """
-        Tenta gerar a resposta estruturada percorrendo a cadeia de modelos.
+        Tenta gerar a resposta estruturada percorrendo a cadeia ranqueada pelo PingRace.
 
         Args:
             prompt: Prompt completo a ser enviado ao modelo.
             schema: Classe Pydantic que valida a saída da LLM.
-            chain: Lista de alvos no formato ``"provider/model_name"``.
-                   Se None, usa ``settings.FALLBACK_CHAIN``.
-            **kwargs: Argumentos adicionais passados ao provider
-                      (ex: ``temperature``, ``max_tokens``).
+            chain: Lista de alvos no formato "provider/model_name".
+                   Se None, usa settings.FALLBACK_CHAIN.
+            **kwargs: Argumentos adicionais passados ao provider (temperature, max_tokens).
 
         Returns:
-            Instância do ``schema`` validada via Pydantic.
+            Instância do schema validada via Pydantic.
 
         Raises:
-            Exception: Quando todos os modelos da cadeia falham.
+            AllModelsUnavailableError: Quando todos os modelos da cadeia falham.
         """
-        model_chain = chain or list(settings.FALLBACK_CHAIN)
-        last_exception: Exception | None = None
+        base_chain = chain or list(settings.FALLBACK_CHAIN)
         t_start = time.monotonic()
+        errors_history: dict[str, str] = {}
 
-        # RFC v3.0: Filtra modelos que já estão em cooldown (penalizados por 429 ou erro recente)
-        # Evita desperdiçar requisições ou tomar 429 repetidamente no mesmo modelo
-        active_chain = [m for m in model_chain if not PingRaceRouter.is_in_cooldown(m)]
+        # ── OBTÉM RANKING DO PINGRACE GLOBAL (SWR NO REDIS) ───────────────────
+        # GANHO DE PERFORMANCE: Obtém ranking compartilhado já ordenado pelo menor tempo de resposta
+        try:
+            ranked_chain = PingRaceRouter.get_ranked_models(base_chain)
+        except Exception as race_exc:
+            logger.warning("[FallbackOrchestrator] Falha ao obter ranking PingRace (%s). Usando base.", race_exc)
+            ranked_chain = list(base_chain)
+
+        # Filtra modelos que não estejam em cooldown ativo
+        active_chain = [m for m in ranked_chain if not PingRaceRouter.is_in_cooldown(m)]
         if not active_chain:
             logger.info(
-                "[FallbackOrchestrator] Todos os modelos da cadeia (%d) estão em cooldown. Resetando penalidades.",
-                len(model_chain),
+                "[FallbackOrchestrator] Todos os modelos (%d) em cooldown. Resetando penalidades para tentativa de emergência.",
+                len(ranked_chain),
             )
-            PingRaceRouter._cooldown_map.clear()
-            active_chain = list(model_chain)
+            active_chain = list(ranked_chain)
 
+        logger.info("[FallbackOrchestrator] Iniciando cadeia de fallback com %d modelos: %s", len(active_chain), active_chain)
+
+        # ── ITERAÇÃO FAIL-FAST POR MODELO ─────────────────────────────────────
+        # Itera sobre a lista ranqueada. Se um modelo falhar, faz failover IMEDIATO
+        # para o próximo sem repetir tentativas no mesmo modelo falho.
         for target in active_chain:
             try:
                 provider_name, model_name = target.split("/", 1)
             except ValueError:
-                logger.error(
-                    "[FallbackOrchestrator] Formato de alvo inválido: '%s'. "
-                    "Esperado 'provider/modelo'. Ignorando.",
-                    target,
-                )
+                logger.error("[FallbackOrchestrator] Alvo inválido: '%s'. Esperado 'provider/modelo'.", target)
                 continue
 
             t_model = time.monotonic()
@@ -123,64 +127,62 @@ class FallbackOrchestrator:
                 PingRaceRouter.record_success(target)
                 logger.info(
                     "[FallbackOrchestrator] ✓ Sucesso via %s/%s em %d ms.",
-                    provider_name,
-                    model_name,
-                    latency_ms,
+                    provider_name, model_name, latency_ms,
                 )
                 return result
 
             except ProviderNotFoundError:
                 logger.warning(
-                    "[FallbackOrchestrator] Provedor '%s' inativo/inexistente. "
-                    "Failover → próximo modelo.",
+                    "[FallbackOrchestrator] Provedor '%s' inativo/inexistente. Failover → próximo modelo.",
                     provider_name,
                 )
+                errors_history[target] = "ProviderNotFoundError"
                 continue
 
             except RetryError as exc:
-                # Único retry esgotado
+                # 1 única tentativa executada; failover imediato para o próximo
                 latency_ms = int((time.monotonic() - t_model) * 1000)
                 inner = exc.last_attempt.exception()
+                err_msg = f"{type(inner).__name__}: {str(inner)[:180]}"
+                errors_history[target] = err_msg
                 PingRaceRouter.record_failure(target)
                 logger.warning(
-                    "[FallbackOrchestrator] ✗ %s/%s falhou após retry em %d ms "
-                    "[%s: %s]. Failover → próximo.",
-                    provider_name,
-                    model_name,
-                    latency_ms,
-                    type(inner).__name__,
-                    str(inner)[:200],
+                    "[FallbackOrchestrator] ✗ %s/%s falhou em %d ms [%s]. Failover imediato → próximo.",
+                    provider_name, model_name, latency_ms, err_msg,
                 )
-                last_exception = inner or exc
                 continue
 
             except (AIProviderError, Exception) as exc:
                 latency_ms = int((time.monotonic() - t_model) * 1000)
+                err_msg = f"{type(exc).__name__}: {str(exc)[:180]}"
+                errors_history[target] = err_msg
                 PingRaceRouter.record_failure(target)
                 logger.error(
-                    "[FallbackOrchestrator] ✗ %s/%s erro fatal em %d ms "
-                    "[%s: %s]. Failover → próximo.",
-                    provider_name,
-                    model_name,
-                    latency_ms,
-                    type(exc).__name__,
-                    str(exc)[:200],
+                    "[FallbackOrchestrator] ✗ %s/%s erro fatal em %d ms [%s]. Failover imediato → próximo.",
+                    provider_name, model_name, latency_ms, err_msg,
                 )
-                last_exception = exc
                 continue
 
+        # ── COMPORTAMENTO EXPLÍCITO DE ERRO ───────────────────────────────────
+        # CRITÉRIO DE ACEITAÇÃO: Não retorna None nem omite a falha. Lança exceção tipada.
         total_ms = int((time.monotonic() - t_start) * 1000)
-        raise RuntimeError(
-            f"Todos os provedores da cadeia falharam após {total_ms} ms. "
-            f"Último erro: {last_exception}"
+        error_summary = "; ".join(f"{k}: {v}" for k, v in errors_history.items())
+        logger.critical(
+            "[FallbackOrchestrator] 💥 Todos os %d modelos falharam após %d ms. Resumo: %s",
+            len(active_chain), total_ms, error_summary,
+        )
+        raise AllModelsUnavailableError(
+            f"Todos os provedores da cadeia falharam após {total_ms} ms. Detalhes: {error_summary}"
         )
 
     @classmethod
     @retry(
-        stop=stop_after_attempt(2),       # 1 tentativa original + 1 retry = 2 total
-        wait=wait_none(),                  # sem espera — Fail-Fast
+        # GANHO DE PERFORMANCE: stop_after_attempt(1) garante Fail-Fast por modelo.
+        # Não re-tenta o mesmo modelo após falha (evita desperdiçar 4s-10s no mesmo endpoint falho).
+        stop=stop_after_attempt(1),
+        wait=wait_none(),
         retry=retry_if_exception_type(_RETRYABLE),
-        reraise=False,                     # propaga via RetryError para logging preciso
+        reraise=False,
     )
     def _invoke_with_single_retry(
         cls,
@@ -190,7 +192,10 @@ class FallbackOrchestrator:
         schema: Type[BaseModel],
         **kwargs: object,
     ) -> BaseModel:
-        """Executa uma única chamada com suporte prioritário a provedores nativos do registry e fallback para LiteLLM."""
+        """
+        Executa 1 tentativa de chamada no modelo com suporte prioritário
+        a provedores nativos do registry e fallback para LiteLLM.
+        """
         from app.ai.registry import registry
         
         # 1. Prioriza provedor especializado registrado nativamente (DashScope, Cerebras, SambaNova, Groq, Gemini)
@@ -208,14 +213,12 @@ class FallbackOrchestrator:
             ServiceUnavailableError as LiteLLMServiceUnavailable,
             BadRequestError as LiteLLMBadRequest,
         )
-        import json
         import re
 
         full_model = f"{provider_name}/{model_name}"
         messages = [{"role": "user", "content": prompt}]
         
         try:
-            # Tenta com response_format (Pydantic ou JSON mode)
             try:
                 response = litellm.completion(
                     model=full_model,
@@ -266,4 +269,3 @@ class FallbackOrchestrator:
             if "429" in err_str or "rate limit" in err_str or "quota" in err_str or "402" in err_str:
                 raise RateLimitError(str(e))
             raise AIProviderError(f"Erro no provedor {full_model}: {str(e)}")
-

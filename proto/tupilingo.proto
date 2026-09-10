@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package tupilingo;
+
+option go_package = "tupilingo/proto";
+option java_package = "com.tupilingo.proto";
+
+// ─── Perfil do Usuário ────────────────────────────────────────────────────────
+message UserProfileMessage {
+  string supabase_uid = 1;
+  string email = 2;
+  string name = 3;
+  int32 xp_total = 4;
+  int32 streak_dias = 5;
+  int32 nivel_atual = 6;
+  int32 conchas = 7;
+  string variante_ativa_codigo = 8;
+  string variante_ativa_nome = 9;
+  bool ofensiva_ativa = 10;
+}
+
+// ─── Progresso de Lições do Usuário ──────────────────────────────────────────
+message UserLessonProgressMessage {
+  int32 licao_id = 1;
+  int32 numero = 2;
+  string titulo = 3;
+  bool concluida = 4;
+  int32 pontuacao_maxima = 5;
+  int32 tentativas = 6;
+  int64 data_conclusao_timestamp = 7; // Unix timestamp em segundos
+}
+
+// ─── Questão / Item de Quiz (Nivelamento / Prática) ──────────────────────────
+message QuizItemMessage {
+  int32 item_id = 1;
+  string termo_tupi = 2;
+  string traducao_correta = 3;
+  repeated string distratores = 4;
+  string regra_contexto = 5;
+  string enunciado = 6;
+  string explicacao = 7;
+  string curiosidade = 8;
+}
+
+// ─── Bloco de Exercícios / Prova de Nivelamento ──────────────────────────────
+message QuizBlockMessage {
+  string quiz_id = 1;
+  string variante_codigo = 2;
+  int32 nivel = 3;
+  string tema = 4;
+  repeated QuizItemMessage questoes = 5;
+  int64 gerado_em_timestamp = 6;
+}

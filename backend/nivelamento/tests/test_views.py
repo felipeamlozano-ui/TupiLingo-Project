@@ -14,22 +14,41 @@ from __future__ import annotations
 import json
 from unittest.mock import MagicMock, patch
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
+
+from users.models import UserProfile
+from trilha.models import VarianteTupi
 
 
 VALID_PAYLOAD = {
     "nivel_atual": 3,
+    "variante_id": 1,
     "acertou_anterior": True,
 }
 
-ENDPOINT = "/api/nivelamento/gerar-questao"
+ENDPOINT = "/api/v1/nivelamento/gerar-questao/"
 
 # Mocks para o decorator de autenticação JWT
 MOCK_JWT_PAYLOAD = {"sub": "12345678-1234-1234-1234-123456789abc"}
 
 
+@override_settings(RATELIMIT_ENABLE=False)
 class WebhookViewTest(TestCase):
     """Testes para o endpoint gerar_questao_nivelamento via API Auth."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.user = UserProfile.objects.create(
+            supabase_uid="12345678-1234-1234-1234-123456789abc",
+            email="teste@tupilingo.com",
+            name="Tester",
+        )
+        self.variante = VarianteTupi.objects.create(
+            id=1,
+            codigo="tupi",
+            nome="Tupi Antigo",
+            ativo=True,
+        )
 
     # Método HTTP (Sem Autenticação)
     def test_get_sem_auth_retorna_401(self) -> None:
@@ -177,12 +196,20 @@ class WebhookViewTest(TestCase):
         mock_service.generate.return_value = {
             "nivel": 4,
             "tema": "fauna",
-            "questao": {
-                "enunciado": "Qual a tradução de jaguar?",
-                "opcoes": ["Jaguara", "Tapira", "Arara", "Piranha"],
-                "resposta_correta": "Jaguara",
-                "explicacao": "Jaguar significa Jaguara em Tupi.",
-            },
+            "questoes": [
+                {
+                    "id": "q1",
+                    "enunciado": "Qual a tradução de jaguar?",
+                    "alternativas": [
+                        {"letra": "A", "texto": "Jaguara"},
+                        {"letra": "B", "texto": "Tapira"},
+                        {"letra": "C", "texto": "Arara"},
+                        {"letra": "D", "texto": "Piranha"},
+                    ],
+                    "resposta_correta": "A",
+                    "explicacao": "Jaguar significa Jaguara em Tupi.",
+                }
+            ],
         }
         mock_service_cls.return_value = mock_service
 
@@ -196,8 +223,9 @@ class WebhookViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertTrue(data["success"])
-        self.assertIn("questao", data)
-        self.assertEqual(len(data["questao"]["opcoes"]), 4)
+        self.assertIn("questoes", data)
+        self.assertEqual(len(data["questoes"]), 1)
+        self.assertEqual(len(data["questoes"][0]["alternativas"]), 4)
 
     # Erro interno
     @patch("nivelamento.views.RAGService")

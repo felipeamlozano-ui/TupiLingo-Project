@@ -53,13 +53,36 @@ def _get_user(request) -> tuple:
 
 
 def _get_or_create_user_lesson(user: UserProfile, licao: Licao) -> UserLesson:
-    """Garante que o registro de progresso da lição existe para o usuário."""
+    """Garante que o registro de progresso da lição existe para o usuário com status inicial coerente."""
+    from users.services.progress_service import ProgressService
+    status_default = 'disponivel' if ProgressService.is_lesson_accessible(user, licao) else 'bloqueada'
     obj, _ = UserLesson.objects.get_or_create(
         usuario=user,
         licao=licao,
-        defaults={'status': 'disponivel'},
+        defaults={'status': status_default},
     )
     return obj
+
+
+def _is_celery_broker_reachable() -> bool:
+    """Verifica de forma ultra-rápida (<=150ms) se o broker Redis do Celery está acessível."""
+    import socket
+    from urllib.parse import urlparse
+    from django.conf import settings
+    broker_url = getattr(settings, 'CELERY_BROKER_URL', '')
+    if not broker_url or getattr(settings, 'CELERY_TASK_ALWAYS_EAGER', False):
+        return False
+    try:
+        parsed = urlparse(broker_url)
+        host = parsed.hostname or '127.0.0.1'
+        port = parsed.port or 6379
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(0.15)
+        res = s.connect_ex((host, port))
+        s.close()
+        return res == 0
+    except Exception:
+        return False
 
 
 # ─── Variantes ────────────────────────────────────────────────────────────────
@@ -128,88 +151,139 @@ def listar_capitulos_mapa(request, variante_id: int):
     if not Licao.objects.filter(capitulo__trilha=trilha, publicada=True).exists() and Licao.objects.filter(capitulo__trilha=trilha).exists():
         Licao.objects.filter(capitulo__trilha=trilha).update(publicada=True)
 
-    # PERF-002: Prefetch de licoes publicadas para eliminar N+1 queries no mapa
-    capitulos_qs = (
-        trilha.capitulos
-        .filter(numero__lt=900, publicado=True)
-        .select_related('scenario')
-        .prefetch_related(
-            Prefetch(
-                'licoes',
-                queryset=Licao.objects.filter(publicada=True).order_by('numero'),
-                to_attr='licoes_publicadas',
-            )
-        )
-        .order_by('numero')
-    )
+    # PERF: ProgressService resolve a árvore em O(1) queries com prefetch e estado canônico
+    from users.services.progress_service import ProgressService
+    trail_data = ProgressService.get_trail_structure_with_progression(user, variante)
+    if not trail_data.get('success', False):
+        return JsonResponse(trail_data, status=trail_data.get('status', 400))
 
-    user_lessons = {
-        ul.licao_id: ul
-        for ul in UserLesson.objects.filter(usuario=user, licao__capitulo__trilha=trilha)
-    }
+    return JsonResponse(trail_data)
 
-    # Se o usuário não possui nenhuma lição acessível nesta trilha, desbloqueia a primeira lição
-    tem_licao_acessivel = any(
-        ul.status in ['disponivel', 'em_andamento', 'concluida']
-        for ul in user_lessons.values()
-    )
-    if not tem_licao_acessivel:
-        primeira_licao = Licao.objects.filter(
-            capitulo__trilha=trilha,
-            publicada=True
-        ).order_by('capitulo__numero', 'numero').first()
-        if primeira_licao:
-            ul, _ = UserLesson.objects.get_or_create(
-                usuario=user,
-                licao=primeira_licao,
-                defaults={'status': 'disponivel'}
-            )
-            if ul.status == 'bloqueada':
-                ul.status = 'disponivel'
-                ul.save(update_fields=['status'])
-            user_lessons[primeira_licao.id] = ul
 
-    capitulos_data = []
-    for capitulo in capitulos_qs:
-        scenario = capitulo.scenario
-        licoes_data = []
-        for licao in capitulo.licoes_publicadas:
-            user_lesson = user_lessons.get(licao.id)
-            status = user_lesson.status if user_lesson else 'bloqueada'
+@csrf_exempt
+@ratelimit(key='ip', rate='30/m', block=True)
+@supabase_auth_required
+@require_GET
+def listar_regioes_mapa(request):
+    """
+    Retorna as regiões históricas (Aldeias) dinâmicas, integradas com o
+    progresso real das lições e capítulos do usuário na trilha.
+    """
+    user, err = _get_user(request)
+    if err:
+        return err
 
-            licoes_data.append({
-                'id': licao.id,
-                'titulo': licao.titulo,
-                'descricao': licao.descricao,
-                'numero': licao.numero,
-                'xp_base': licao.xp_base,
-                'pos_x': licao.pos_x,
-                'pos_y': licao.pos_y,
-                'status': status,
-                'completion_percentage': user_lesson.completion_percentage if user_lesson else 0.0,
-                'earned_xp': user_lesson.earned_xp if user_lesson else 0,
-            })
+    from users.services.progress_service import ProgressService
+    from nivelamento.models import UserVarianteLevel
 
-        capitulos_data.append({
-            'id': capitulo.id,
-            'numero': capitulo.numero,
-            'titulo': capitulo.titulo,
-            'descricao': capitulo.descricao,
-            'scenario': {
-                'nome': scenario.nome if scenario else '',
-                'background_image': scenario.background_image.url if scenario and scenario.background_image else None,
-                'ambient_audio': scenario.ambient_audio.url if scenario and scenario.ambient_audio else None,
-                'palette': scenario.palette if scenario else {},
-            } if scenario else None,
-            'licoes': licoes_data,
-        })
+    variante = user.variante_ativa
+    if not variante:
+        variante = VarianteTupi.objects.filter(ativo=True).order_by('ordem').first()
 
-    return JsonResponse({
-        'success': True,
-        'variante': {'id': variante.id, 'nome': variante.nome, 'codigo': variante.codigo},
-        'trilha': {'id': trilha.id, 'titulo': trilha.titulo, 'subtitulo': trilha.subtitulo},
-        'capitulos': capitulos_data,
-    })
+    trail_data = ProgressService.get_trail_structure_with_progression(user, variante) if variante else {}
+    capitulos = trail_data.get('capitulos', [])
+
+    regioes_template = [
+        {
+            'id': 1,
+            'name': 'Costa dos Tupinambás (Ubatuba / Guanabara)',
+            'indigenous_nation': 'Tupinambá',
+            'historical_period': 'Século XVI - Confederação dos Tamoios',
+            'relative_x': 0.72,
+            'relative_y': 0.68,
+            'radius': 26.0,
+            'cultural_summary': (
+                'Coração da Confederação dos Tamoios liderada por Cunhambebe. Famosos navegadores de canoas '
+                'e guerreiros da floresta atlântica, falantes do Tupi clássico registrado por Jean de Léry e Hans Staden.'
+            ),
+            'vocabulary_highlights': ['Iperoig', 'Tamoio', 'Karai', 'Tupã', 'Maracá'],
+            'required_level': 1,
+        },
+        {
+            'id': 2,
+            'name': 'Território Carijó (Litoral Sul / Ilha de SC)',
+            'indigenous_nation': 'Carijó (Guarani)',
+            'historical_period': 'Século XVI - Trilha do Peabiru',
+            'relative_x': 0.60,
+            'relative_y': 0.84,
+            'radius': 24.0,
+            'cultural_summary': (
+                'Povo pacífico de navegadores e guardiões do mítico caminho sagrado do Peabiru, que ligava o Atlântico aos Andes. '
+                'Grandes ceramistas e agricultores de mandioca e milho.'
+            ),
+            'vocabulary_highlights': ['Peabiru', 'Meiembipe', 'Mandi\'oka', 'Avaxi'],
+            'required_level': 2,
+        },
+        {
+            'id': 3,
+            'name': 'Alto Xingu & Florestas Centrais',
+            'indigenous_nation': 'Kamaiurá / Aweti (Tupi)',
+            'historical_period': 'Tradição Milenar das Aldeias Circulares',
+            'relative_x': 0.52,
+            'relative_y': 0.48,
+            'radius': 25.0,
+            'cultural_summary': (
+                'Complexo cultural do Xingu com aldeias circulares monumentais, rituais sagrados do Kuarup e luta Huka-Huka. '
+                'Preservam a língua de tronco Tupi viva em sua forma mais rica e expressiva.'
+            ),
+            'vocabulary_highlights': ['Kuarup', 'Huka-huka', 'Jawari', 'Moitará'],
+            'required_level': 3,
+        },
+        {
+            'id': 4,
+            'name': 'Amazônia Nheengatu (Bacia do Rio Negro)',
+            'indigenous_nation': 'Povos do Rio Negro (Nheengatu)',
+            'historical_period': 'Século XVII aos dias atuais',
+            'relative_x': 0.32,
+            'relative_y': 0.22,
+            'radius': 26.0,
+            'cultural_summary': (
+                'Berço da Língua Geral Amazônica (Nheengatu), derivada do Tupinambá e reconhecida como patrimônio linguístico vivo. '
+                'Riquíssima cosmologia sobre Jurupari e os rios de água preta.'
+            ),
+            'vocabulary_highlights': ['Yande', 'Paranã', 'Yara', 'Jurupari', 'Puraque'],
+            'required_level': 4,
+        },
+        {
+            'id': 5,
+            'name': 'Costa dos Tupiniquins (Porto Seguro)',
+            'indigenous_nation': 'Tupiniquim',
+            'historical_period': '1500 - Primeiro Contato',
+            'relative_x': 0.84,
+            'relative_y': 0.56,
+            'radius': 23.0,
+            'cultural_summary': (
+                'Habitantes da costa sul da Bahia, foram os primeiros anfitriões dos navegadores portugueses em 1500. '
+                'Exímios coletores de moluscos e conhecedores dos segredos das marés.'
+            ),
+            'vocabulary_highlights': ['Pindorama', 'Mbya', 'Itaparica', 'Pirá'],
+            'required_level': 5,
+        },
+    ]
+
+    regioes_finais = []
+    lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=variante).first() if variante else None
+    user_nivel = lvl_obj.nivel if lvl_obj else 1
+
+    for idx, reg in enumerate(regioes_template):
+        if idx < len(capitulos):
+            cap = capitulos[idx]
+            licoes = cap.get('licoes', [])
+            total_licoes = len(licoes) if licoes else 5
+            completadas = sum(1 for l in licoes if l.get('status') == 'concluida')
+            is_unlocked = (idx == 0) or (cap.get('unlocked', False)) or (user_nivel >= reg['required_level'])
+        else:
+            total_licoes = 5
+            completadas = 0
+            is_unlocked = user_nivel >= reg['required_level']
+
+        reg_data = dict(reg)
+        reg_data['lessons_count'] = total_licoes
+        reg_data['completed_lessons_count'] = completadas
+        reg_data['is_unlocked'] = is_unlocked
+        regioes_finais.append(reg_data)
+
+    return JsonResponse({'success': True, 'regioes': regioes_finais})
 
 
 # ─── Detalhe da Lição ─────────────────────────────────────────────────────────
@@ -230,9 +304,29 @@ def detalhe_licao(request, licao_id: int):
     if not licao:
         return JsonResponse({'error': 'Lição não encontrada.'}, status=404)
 
+    from users.decorators import is_request_admin
+    from users.services.progress_service import ProgressService
     user_lesson = _get_or_create_user_lesson(user, licao)
+    is_admin = is_request_admin(request)
+
+    # Sincroniza a variante ativa do usuário com a variante da lição acessada
+    variante_licao = licao.capitulo.trilha.variante
+    if user.variante_ativa_id != variante_licao.id:
+        user.variante_ativa = variante_licao
+        user.save(update_fields=['variante_ativa', 'updated_at'])
+
+    # SEC-005: Validação server-side estrita de progressão sequencial
+    if not is_admin and not ProgressService.is_lesson_accessible(user, licao):
+        return JsonResponse({
+            'error': 'Esta lição está bloqueada na sua jornada. Conclua as anteriores primeiro.',
+            'code': 'LESSON_LOCKED',
+            'licao_id': licao.id,
+        }, status=403)
+
+    # Se a lição for acessível na jornada do usuário, promove o status para disponível
     if user_lesson.status == 'bloqueada':
-        return JsonResponse({'error': 'Esta lição está bloqueada.'}, status=403)
+        user_lesson.status = 'disponivel'
+        user_lesson.save(update_fields=['status'])
 
     if user_lesson.status == 'disponivel':
         user_lesson.status = 'em_andamento'
@@ -443,22 +537,51 @@ def concluir_licao(request, licao_id: int):
 
     user_lesson, _ = UserLesson.objects.get_or_create(usuario=user, licao=licao)
 
-    # SEC-003: Idempotência — previne replay attack e farm de XP infinito
+    from users.services.progress_service import ProgressService
+    from users.services.streak_service import StreakService
+    from nivelamento.models import UserVarianteLevel
+
+    # Sincroniza a variante ativa do usuário com a variante da lição concluída
+    variante_licao = licao.capitulo.trilha.variante
+    if user.variante_ativa_id != variante_licao.id:
+        user.variante_ativa = variante_licao
+        user.save(update_fields=['variante_ativa', 'updated_at'])
+
+    # SEC-003: Idempotência com suporte a revisão — previne farm de XP infinito mas
+    # garante desbloqueio da próxima lição e registro de estudo diário (streak).
     if user_lesson.status == 'concluida':
-        from nivelamento.models import UserVarianteLevel
-        lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=licao.capitulo.trilha.variante).first()
+        with transaction.atomic():
+            prox_licao = ProgressService.unlock_next_lesson(user, licao)
+            tempo_gasto = int(body.get('tempo_segundos', 60))
+            StreakService.register_study_activity(
+                user=user,
+                xp_ganho=0,
+                tempo_segundos=tempo_gasto,
+                is_lesson_completed=True,
+                exercicios_respondidos=total,
+                exercicios_corretos=acertos,
+            )
+            user.refresh_from_db(fields=['xp_total', 'streak_atual', 'maior_streak'])
+            lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=licao.capitulo.trilha.variante).first()
+            ProgressService.invalidate_user_trail_cache(user.id, licao.capitulo.trilha.variante_id)
+
         return JsonResponse({
             'success': True,
             'already_completed': True,
+            'variante_id': variante_licao.id,
+            'variante_nome': variante_licao.nome,
+            'variante_codigo': variante_licao.codigo,
             'earned_xp': 0,
             'xp_total': user.xp_total,
+            'streak_atual': user.streak_atual,
+            'dias_ofensiva': user.streak_atual,
             'accuracy': user_lesson.accuracy,
             'total_exercicios_servidor': total,
             'nivel_atual': lvl_obj.nivel if lvl_obj else 1,
             'novas_conquistas': [],
-            'proxima_licao_id': None,
-            'proxima_licao_desbloqueada': False,
-            'message': 'Lição já concluída anteriormente.',
+            'proxima_licao_id': prox_licao.id if prox_licao else None,
+            'proxima_licao_desbloqueada': prox_licao is not None,
+            'message': 'Lição concluída! Ofensiva diária mantida.',
         })
 
     # SEC-003: Derivar primeira_tentativa exclusivamente do estado do banco
@@ -483,36 +606,46 @@ def concluir_licao(request, licao_id: int):
         bonus_exploracao=bonus_exploracao,
     )
 
-    user_lesson.status = 'concluida'
-    user_lesson.completion_percentage = 100.0
-    user_lesson.accuracy = accuracy
-    user_lesson.earned_xp = earned_xp
-    user_lesson.concluida_em = timezone.now()
-    user_lesson.save()
+    with transaction.atomic():
+        user_lesson.status = 'concluida'
+        user_lesson.completion_percentage = 100.0
+        user_lesson.accuracy = accuracy
+        user_lesson.earned_xp = earned_xp
+        user_lesson.concluida_em = timezone.now()
+        user_lesson.save()
 
-    # Desbloqueia automaticamente a próxima lição da jornada
-    prox_licao = _desbloquear_proxima_licao(user, licao)
+        # Desbloqueia automaticamente a próxima lição da jornada
+        prox_licao = ProgressService.unlock_next_lesson(user, licao)
 
-    # PERFORMANCE-001: Atualização atômica com F() para evitar race condition em
-    # ambientes com múltiplas workers Gunicorn ou requests concorrentes.
-    UserProfile.objects.filter(pk=user.pk).update(
-        xp_total=F('xp_total') + earned_xp,
-        updated_at=timezone.now(),
-    )
-    user.refresh_from_db(fields=['xp_total'])
+        # Registra no log de atividade diária e atualiza streak e XP de forma atômica
+        tempo_gasto = int(body.get('tempo_segundos', 60))
+        StreakService.register_study_activity(
+            user=user,
+            xp_ganho=earned_xp,
+            tempo_segundos=tempo_gasto,
+            is_lesson_completed=True,
+            exercicios_respondidos=total,
+            exercicios_corretos=acertos,
+        )
+        user.refresh_from_db(fields=['xp_total', 'streak_atual', 'maior_streak'])
+        ProgressService.invalidate_user_trail_cache(user.id, licao.capitulo.trilha.variante_id)
 
     # Nível atual para retorno imediato (sem bloquear worker Gunicorn)
-    from nivelamento.models import UserVarianteLevel
     lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=licao.capitulo.trilha.variante).first()
     novo_nivel = lvl_obj.nivel if lvl_obj else 1
 
-    # SCALE-001: Despacha calibração de nível e concessão de medalhas para worker Celery
+    # SCALE-001: Despacha para Celery se o broker estiver ativo; caso contrário, executa síncrono imediatamente
     novas_ach = []
-    try:
-        from users.tasks import processar_pos_licao
-        processar_pos_licao.delay(user.pk, licao.pk, accuracy)
-    except Exception as exc:
-        logger.warning("Falha ao enfileirar task Celery, executando fallback síncrono: %s", exc)
+    dispatched_celery = False
+    if _is_celery_broker_reachable():
+        try:
+            from users.tasks import processar_pos_licao
+            processar_pos_licao.apply_async(args=[user.pk, licao.pk, accuracy], connect_timeout=1.0, retry=False)
+            dispatched_celery = True
+        except Exception as exc:
+            logger.warning("Falha ao enfileirar task Celery, executando fallback síncrono: %s", exc)
+
+    if not dispatched_celery:
         try:
             variante = licao.capitulo.trilha.variante
             novo_nivel = _recalibrar_nivel(user, variante)
@@ -531,8 +664,13 @@ def concluir_licao(request, licao_id: int):
 
     return JsonResponse({
         'success': True,
+        'variante_id': variante_licao.id,
+        'variante_nome': variante_licao.nome,
+        'variante_codigo': variante_licao.codigo,
         'earned_xp': earned_xp,
         'xp_total': user.xp_total,
+        'streak_atual': user.streak_atual,
+        'dias_ofensiva': user.streak_atual,
         'accuracy': accuracy,
         'total_exercicios_servidor': total,
         'nivel_atual': novo_nivel,
@@ -541,6 +679,24 @@ def concluir_licao(request, licao_id: int):
         'proxima_licao_desbloqueada': prox_licao is not None,
         'message': f'Lição concluída! Você ganhou {earned_xp} XP. 🎉',
     })
+
+
+# ─── Coletar Baú Cultural ────────────────────────────────────────────────────
+
+@csrf_exempt
+@ratelimit(key='ip', rate='20/m', block=True)
+@supabase_auth_required
+@require_POST
+def coletar_bau(request, capitulo_id: int, milestone_index: int = 1):
+    """Permite ao usuário coletar as recompensas do Baú Cultural de um Capítulo."""
+    user, err = _get_user(request)
+    if err:
+        return err
+
+    from users.services.progress_service import ProgressService
+    result = ProgressService.collect_chest(user, capitulo_id, milestone_index)
+    status_code = result.get('status', 200) if not result.get('success', False) else 200
+    return JsonResponse(result, status=status_code)
 
 
 # ─── Verificar Resposta ───────────────────────────────────────────────────────
@@ -579,8 +735,15 @@ def verificar_resposta(request):
     if not tipo or not exercicio_id:
         return JsonResponse({'error': 'Campos tipo e exercicio_id são obrigatórios.'}, status=400)
 
-    # 1. Tenta buscar no modelo unificado Exercicio
-    ex_unificado = Exercicio.objects.filter(id=exercicio_id).first()
+    # 1. Tenta buscar no modelo unificado Exercicio (com cache em memória para resposta instantânea)
+    from django.core.cache import cache
+    ex_cache_key = f"exercicio_unificado_{exercicio_id}"
+    ex_unificado = cache.get(ex_cache_key)
+    if ex_unificado is None:
+        ex_unificado = Exercicio.objects.filter(id=exercicio_id).first()
+        if ex_unificado:
+            cache.set(ex_cache_key, ex_unificado, timeout=600)
+
     if ex_unificado:
         if ex_unificado.tipo == 'escolha_multipla':
             indice = body.get('resposta_indice')

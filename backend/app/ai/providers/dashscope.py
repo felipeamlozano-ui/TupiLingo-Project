@@ -27,7 +27,7 @@ class DashScopeProvider(BaseProvider):
         self.client = OpenAI(
             api_key=api_key,
             base_url=settings.DASHSCOPE_BASE_URL,
-            timeout=15.0
+            timeout=4.0
         )
 
     def _map_exception(self, e: Exception) -> Exception:

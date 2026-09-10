@@ -17,6 +17,14 @@ dependencies:
   # Em produção, usar --dart-define no build. Flutter_dotenv usado apenas em dev.
   flutter_dotenv: ^6.0.1
   http: ^1.6.0
+  fl_chart: ^1.2.0
+  flutter_animate: ^4.5.2
+  flutter_svg: ^2.3.0
+  ffi: ^2.2.0
+  protobuf: ^6.0.0
+  flutter_secure_storage: ^11.0.0
+  crypto: ^3.0.7
+  fixnum: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -29,3 +37,6 @@ flutter:
   assets:
     - assets/google_logo.png
     # FLUTTER-004: .env REMOVIDO — não bundlar credenciais no APK/IPA
+
+  shaders:
+    - assets/shaders/mystic_aura.frag

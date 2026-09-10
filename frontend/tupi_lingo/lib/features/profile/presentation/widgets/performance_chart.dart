@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class PerformanceChart extends StatelessWidget {
   final List<Map<String, dynamic>> desempenho;
@@ -11,15 +12,17 @@ class PerformanceChart extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final isDark = AppTheme.isDark(context);
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFD0D0D0)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -28,16 +31,19 @@ class PerformanceChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Text('📈', style: TextStyle(fontSize: 18)),
-              SizedBox(width: 8),
-              Text(
-                'Desempenho por Módulo / Capítulo',
-                style: TextStyle(
-                  color: Color(0xFF1F2937),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+              const Text('📈', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  'Desempenho por Módulo / Capítulo',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -50,7 +56,7 @@ class PerformanceChart extends StatelessWidget {
             final licoesConcluidas = (item['licoes_concluidas'] as num?)?.toInt() ?? 0;
             final totalLicoes = (item['total_licoes'] as num?)?.toInt() ?? 0;
 
-            Color barColor = const Color(0xFF0E5D4E);
+            Color barColor = isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E);
             if (accuracyPercent < 60) {
               barColor = const Color(0xFFE05638);
             } else if (accuracyPercent < 80) {
@@ -68,8 +74,8 @@ class PerformanceChart extends StatelessWidget {
                       Expanded(
                         child: Text(
                           'Cap. $numero • $titulo',
-                          style: const TextStyle(
-                            color: Color(0xFF1F2937),
+                          style: TextStyle(
+                            color: AppTheme.textPrimary(context),
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
                           ),
@@ -94,7 +100,7 @@ class PerformanceChart extends StatelessWidget {
                       height: 8,
                       child: LinearProgressIndicator(
                         value: (accuracyPercent / 100.0).clamp(0.0, 1.0),
-                        backgroundColor: const Color(0xFFEAE7DC),
+                        backgroundColor: isDark ? const Color(0xFF1E2A25) : const Color(0xFFEAE7DC),
                         valueColor: AlwaysStoppedAnimation<Color>(barColor),
                       ),
                     ),
@@ -102,8 +108,8 @@ class PerformanceChart extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     '$licoesConcluidas de $totalLicoes lições concluídas',
-                    style: const TextStyle(
-                      color: Color(0xFF565D6D),
+                    style: TextStyle(
+                      color: AppTheme.textSecondary(context),
                       fontSize: 11,
                     ),
                   ),

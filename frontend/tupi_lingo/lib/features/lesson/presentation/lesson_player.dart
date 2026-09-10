@@ -3,6 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:tupi_lingo/core/network/api_client.dart';
+import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
+import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
 
 /// Normaliza o status de validação retornado pelo backend.
 /// Aceita tanto o formato canônico inglês ('correct', 'almost', 'wrong')
@@ -53,6 +55,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
   int _acertos = 0;
   int _totalExercicios = 0;
   int _bonusXp = 0;
+  bool _isVerifying = false;
   
   final Map<int, bool> _exercicioPrimeiraTentativa = {};
 
@@ -74,7 +77,45 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     super.dispose();
   }
 
+  void _applyLessonData(Map<String, dynamic> data) {
+    _licao = data['licao'];
+    final List<dynamic> storyBlocks = data['story_blocks'] ?? [];
+    final List<dynamic> exercicios = data['exercicios'] ?? [];
+
+    _items = [];
+    _totalExercicios = 0;
+    _exercicioPrimeiraTentativa.clear();
+
+    for (var sb in storyBlocks) {
+      sb['is_story'] = true;
+      _items.add(Map<String, dynamic>.from(sb));
+    }
+    for (var ex in exercicios) {
+      ex['is_story'] = false;
+      _items.add(Map<String, dynamic>.from(ex));
+      _totalExercicios++;
+      _exercicioPrimeiraTentativa[ex['id']] = true;
+    }
+
+    // Ordena tudo pela ordem definida no Django
+    _items.sort((a, b) => (a['ordem'] as int).compareTo(b['ordem'] as int));
+
+    setState(() {
+      _isLoading = false;
+    });
+    _updateProgress();
+  }
+
   Future<void> _fetchLesson() async {
+    // 1. Instant Loading: Checa se a lição já foi pré-aquecida pelo PredictivePreloadingEngine ou L1 Cache
+    final cached = PredictivePreloadingEngine.instance.consumePreloadedData<Map<String, dynamic>>('licao_${widget.licaoId}') ??
+        MemoryResidencyEngine.instance.getL1<Map<String, dynamic>>('licao_${widget.licaoId}');
+
+    if (cached != null) {
+      _applyLessonData(cached);
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -87,30 +128,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         if (data['success'] == true) {
-          _licao = data['licao'];
-          
-          final List<dynamic> storyBlocks = data['story_blocks'] ?? [];
-          final List<dynamic> exercicios = data['exercicios'] ?? [];
-          
-          _items = [];
-          for (var sb in storyBlocks) {
-            sb['is_story'] = true;
-            _items.add(Map<String, dynamic>.from(sb));
-          }
-          for (var ex in exercicios) {
-            ex['is_story'] = false;
-            _items.add(Map<String, dynamic>.from(ex));
-            _totalExercicios++;
-            _exercicioPrimeiraTentativa[ex['id']] = true;
-          }
-          
-          // Ordena tudo pela ordem definida no Django
-          _items.sort((a, b) => (a['ordem'] as int).compareTo(b['ordem'] as int));
-
-          setState(() {
-            _isLoading = false;
-          });
-          _updateProgress();
+          // Persiste no cache de memória L1 para acessos subsequentes instantâneos
+          MemoryResidencyEngine.instance.putL1('licao_${widget.licaoId}', data);
+          _applyLessonData(data);
         } else {
           throw Exception(data['error'] ?? 'Erro desconhecido');
         }
@@ -160,15 +180,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
   }
 
   Future<void> _verifyAnswer(int exercicioId, String tipo, dynamic resposta) async {
-    // Mostra loading de forma segura rastreando se o diálogo está aberto
-    bool dialogOpen = true;
-    showDialog(
-      context: context, 
-      barrierDismissible: false, 
-      builder: (_) => const Center(child: CircularProgressIndicator(color: _TupiColors.primary))
-    ).then((_) {
-      dialogOpen = false;
-    });
+    if (_isVerifying) return;
+    setState(() => _isVerifying = true);
 
     bool isFirstTry = _exercicioPrimeiraTentativa[exercicioId] ?? true;
 
@@ -193,11 +206,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         '$baseUrl/api/v1/exercicios/verificar/',
         body: payload,
       );
-
-      if (dialogOpen && mounted) {
-        Navigator.pop(context); // Fecha o loading
-        dialogOpen = false;
-      }
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -229,10 +237,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         throw Exception('Erro na validação (HTTP ${response.statusCode}).');
       }
     } catch (e) {
-      if (dialogOpen && mounted) {
-        Navigator.pop(context);
-        dialogOpen = false;
-      }
       if (mounted) {
         final String userMessage;
         if (e is SessionExpiredException) {
@@ -257,6 +261,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
             ),
           ),
         );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isVerifying = false);
       }
     }
   }
@@ -332,6 +340,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         'acertos': _acertos,
         'total_exercicios': _totalExercicios,
         'bonus_exploracao_xp': _bonusXp,
+        'tempo_segundos': 60,
         'primeira_tentativa': _acertos == _totalExercicios && _totalExercicios > 0,
       };
 
@@ -345,7 +354,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         if (mounted) {
           final List<dynamic> novasConquistas = data['novas_conquistas'] ?? [];
           final int? nivelAtual = data['nivel_atual'];
-          _showVictoryDialog(data['earned_xp'] ?? 0, novasConquistas, nivelAtual);
+          _showVictoryDialog(
+            data['earned_xp'] ?? 0,
+            novasConquistas,
+            nivelAtual,
+            completionData: data is Map<String, dynamic> ? data : null,
+          );
         }
       } else {
         throw Exception('Falha ao concluir lição (HTTP ${response.statusCode}).');
@@ -379,7 +393,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     }
   }
 
-  void _showVictoryDialog(int earnedXp, List<dynamic> novasConquistas, int? nivelAtual) {
+  void _showVictoryDialog(
+    int earnedXp,
+    List<dynamic> novasConquistas,
+    int? nivelAtual, {
+    Map<String, dynamic>? completionData,
+  }) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -450,7 +469,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context); // fecha dialog
-                    Navigator.pop(context, true); // volta pro mapa indicando conclusão
+                    Navigator.pop(context, completionData ?? true); // volta pro mapa indicando conclusão e repassando dados
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _TupiColors.primary,

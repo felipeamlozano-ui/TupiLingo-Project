@@ -392,7 +392,13 @@ class _RegisterScreenState extends State<RegisterScreen>
         }
       } else {
         debugPrint('REGISTER ERRO: ${response.statusCode} - ${response.body}');
-        _showSnackBar('Erro ao salvar perfil. Tente novamente.');
+        try {
+          final errorBody = jsonDecode(response.body);
+          final msg = errorBody['error'] ?? 'Erro ao salvar perfil. Tente novamente.';
+          _showSnackBar(msg.toString());
+        } catch (_) {
+          _showSnackBar('Erro ao salvar perfil. Tente novamente.');
+        }
       }
     } catch (e, stackTrace) {
       debugPrint('REGISTER GOOGLE ERRO: $e');
@@ -407,47 +413,60 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: _AppColors.background,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                _buildHeader(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        if (_currentStep > 0) {
+          _previousStep();
+        } else if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          Navigator.pushReplacementNamed(context, '/welcome');
+        }
+      },
+      child: Scaffold(
+        backgroundColor: _AppColors.background,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  _buildHeader(),
 
-                Expanded(
-                  child: PageView(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    onPageChanged: (index) {
-                      setState(() => _currentStep = index);
-                    },
-                    children: [
-                      _buildStepName(),
-                      _buildStepSource(),
-                      // Para usuários Google, a Etapa 3 (nível) é a última.
-                      // Para email/senha, segue com Etapa 4 (credenciais).
-                      _buildStepLevel(),
-                      if (!_isGoogleUser) _buildStepCredentials(),
-                    ],
+                  Expanded(
+                    child: PageView(
+                      controller: _pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      onPageChanged: (index) {
+                        setState(() => _currentStep = index);
+                      },
+                      children: [
+                        _buildStepName(),
+                        _buildStepSource(),
+                        // Para usuários Google, a Etapa 3 (nível) é a última.
+                        // Para email/senha, segue com Etapa 4 (credenciais).
+                        _buildStepLevel(),
+                        if (!_isGoogleUser) _buildStepCredentials(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
 
-            if (_isLoading)
-              Positioned.fill(
-                child: Container(
-                  color: Colors.black26,
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: _AppColors.primary,
+              if (_isLoading)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black26,
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: _AppColors.primary,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -462,18 +481,28 @@ class _RegisterScreenState extends State<RegisterScreen>
           // Linha superior: botão voltar + indicador de etapa
           Row(
             children: [
-              // Botão voltar (só aparece a partir da etapa 2)
-              AnimatedOpacity(
-                opacity: _currentStep > 0 ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 300),
-                child: IconButton(
-                  onPressed: _currentStep > 0 ? _previousStep : null,
-                  icon: const Icon(Icons.arrow_back_ios_rounded, size: 20),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+              // Botão voltar: volta de etapa se > 0, ou sai da tela de registro se == 0
+              IconButton(
+                onPressed: () {
+                  if (_currentStep > 0) {
+                    _previousStep();
+                  } else if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pushReplacementNamed(context, '/welcome');
+                  }
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  size: 22,
+                  color: Colors.black54,
+                ),
+                tooltip: _currentStep > 0 ? 'Voltar etapa' : 'Voltar',
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black54,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),

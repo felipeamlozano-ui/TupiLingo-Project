@@ -159,3 +159,120 @@ class TrilhaAdminViewsTests(TestCase):
         dados = json.loads(response.content)
         self.assertTrue(dados["success"])
         self.assertTrue(len(dados["variantes"]) > 0)
+
+
+class TrilhaProgressionEndToEndTests(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        import uuid
+        from users.models import UserProfile
+        from trilha.models import VarianteTupi, TrilhaHistorica, Capitulo, Licao, Exercicio
+
+        self.student = UserProfile.objects.create(
+            supabase_uid=uuid.uuid4(),
+            email="aluno_teste@tupilingo.com",
+            name="Aluno Teste",
+        )
+        self.variante = VarianteTupi.objects.create(
+            nome="Tupi Antigo Teste",
+            codigo="tupi_antigo_teste",
+            ordem=1,
+            ativo=True,
+        )
+        self.trilha = TrilhaHistorica.objects.create(
+            variante=self.variante,
+            titulo="Trilha Teste",
+            publicada=True,
+        )
+        self.capitulo = Capitulo.objects.create(
+            trilha=self.trilha,
+            numero=1,
+            titulo="Capítulo 1",
+            publicado=True,
+        )
+        self.licao1 = Licao.objects.create(
+            capitulo=self.capitulo,
+            numero=1,
+            titulo="Lição 1",
+            xp_base=25,
+            publicada=True,
+        )
+        self.licao2 = Licao.objects.create(
+            capitulo=self.capitulo,
+            numero=2,
+            titulo="Lição 2",
+            xp_base=25,
+            publicada=True,
+        )
+        self.ex1 = Exercicio.objects.create(
+            licao=self.licao1,
+            tipo="escolha_multipla",
+            enunciado="Questão 1",
+            ordem=1,
+            pontos_base=10,
+        )
+
+    def _auth_request(self, request):
+        request.user_data = {
+            "sub": str(self.student.supabase_uid),
+            "email": self.student.email,
+        }
+        return request
+
+    @patch("users.decorators.jwks_client")
+    def test_progression_flow_non_admin_no_403(self, mock_jwks):
+        """
+        Garante que o aluno não-admin:
+        1. Acessa a primeira lição sem erro 403.
+        2. Conclui a lição e desbloqueia a próxima de forma persistida.
+        3. A listagem de capítulos reflete a lição 2 disponível sem rollback.
+        """
+        from trilha.views import detalhe_licao, concluir_licao, listar_capitulos_mapa
+        from users.models import UserLesson
+
+        # 1. Acessar Lição 1
+        req1 = self.factory.get(f"/api/v1/trilha/licao/{self.licao1.id}/", HTTP_AUTHORIZATION="Bearer token")
+        req1 = self._auth_request(req1)
+        res1 = detalhe_licao(req1, licao_id=self.licao1.id)
+        self.assertEqual(res1.status_code, 200, "Aluno comum não deve receber 403 ao acessar a lição inicial.")
+
+        ul1 = UserLesson.objects.get(usuario=self.student, licao=self.licao1)
+        self.assertEqual(ul1.status, "em_andamento")
+
+        # 2. Concluir Lição 1
+        payload = {
+            "acertos": 1,
+            "total_exercicios": 1,
+            "tempo_segundos": 45,
+            "primeira_tentativa": True,
+        }
+        req2 = self.factory.post(
+            f"/api/v1/trilha/licao/{self.licao1.id}/concluir/",
+            data=json.dumps(payload),
+            content_type="application/json",
+            HTTP_AUTHORIZATION="Bearer token",
+        )
+        req2 = self._auth_request(req2)
+        res2 = concluir_licao(req2, licao_id=self.licao1.id)
+        self.assertEqual(res2.status_code, 200)
+        data2 = json.loads(res2.content)
+        self.assertTrue(data2["success"])
+        self.assertEqual(data2["proxima_licao_id"], self.licao2.id)
+        self.assertTrue(data2["proxima_licao_desbloqueada"])
+
+        ul1.refresh_from_db()
+        self.assertEqual(ul1.status, "concluida")
+
+        ul2 = UserLesson.objects.get(usuario=self.student, licao=self.licao2)
+        self.assertEqual(ul2.status, "disponivel")
+
+        # 3. Listar capítulos do mapa (sem cache desatualizado)
+        req3 = self.factory.get(f"/api/v1/trilha/{self.variante.id}/capitulos/", HTTP_AUTHORIZATION="Bearer token")
+        req3 = self._auth_request(req3)
+        res3 = listar_capitulos_mapa(req3, variante_id=self.variante.id)
+        self.assertEqual(res3.status_code, 200)
+        data3 = json.loads(res3.content)
+        licoes_retornadas = data3["capitulos"][0]["licoes"]
+        self.assertEqual(licoes_retornadas[0]["status"], "concluida")
+        self.assertEqual(licoes_retornadas[1]["status"], "disponivel")
+

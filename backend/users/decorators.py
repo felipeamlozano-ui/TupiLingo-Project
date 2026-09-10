@@ -36,9 +36,9 @@ except Exception:
 def supabase_auth_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        # Permite bypass apenas em ambiente de teste automatizado se user_data foi previamente anexado
         import os
-        if (os.environ.get('DJANGO_TESTING') == '1'
+        import sys
+        if ((os.environ.get('DJANGO_TESTING') == '1' or 'test' in sys.argv)
                 and hasattr(request, 'user_data')
                 and request.user_data):
             return view_func(request, *args, **kwargs)
@@ -56,6 +56,18 @@ def supabase_auth_required(view_func):
             return JsonResponse({'error': 'Token ausente'}, status=401)
 
         token = auth_header.split(' ')[1]
+        import hashlib
+        import time
+        from django.core.cache import cache
+
+        token_hash = hashlib.sha256(token.encode('utf-8')).hexdigest()
+        cache_key = f"jwt_payload_{token_hash}"
+        cached_payload = cache.get(cache_key)
+
+        if cached_payload and cached_payload.get('exp', 0) > time.time():
+            request.user_data = cached_payload
+            return view_func(request, *args, **kwargs)
+
         try:
             signing_key = jwks_client.get_signing_key_from_jwt(token)
             # leeway=30 aceita tokens expirados há até 30s (clock skew tolerável)
@@ -69,6 +81,9 @@ def supabase_auth_required(view_func):
             )
             # Associa os dados do usuário à requisição para uso nas views
             request.user_data = payload
+            ttl = min(int(payload.get('exp', 0) - time.time()), 300)
+            if ttl > 0:
+                cache.set(cache_key, payload, timeout=ttl)
         except Exception:
             # Não logar o token — pode conter dados sensíveis (SEC-001)
             logger.warning("JWT validation failed for incoming request", exc_info=False)

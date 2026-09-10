@@ -106,6 +106,10 @@ class EsqueletoItem(BaseModel):
     categoria: str = Field(default="geral")
     regra_contexto: str = Field(default="", description="Exemplo de uso ou transliteração.")
     fonte: str = Field(default="Base Lexical Oficial TupiLingo")
+    fonte_confianca: Literal["alta", "média", "baixa"] = Field(
+        default="alta",
+        description="Grau de certeza linguística sobre a tradução/vocabulário."
+    )
 
     @field_validator("classe_gramatical")
     @classmethod
@@ -163,6 +167,10 @@ class QuizItem(BaseModel):
     dificuldade: Literal["facil", "media", "dificil"] = Field(default="facil")
     curiosidade: str = Field(default="", description="Fato cultural opcional.")
     regra_contexto: str = Field(default="")
+    fonte_confianca: Literal["alta", "média", "baixa"] = Field(
+        default="alta",
+        description="Grau de certeza linguística sobre a tradução/vocabulário (alta / média / baixa)."
+    )
 
     @model_validator(mode="after")
     def validate_exatamente_uma_correta(self) -> "QuizItem":
@@ -193,6 +201,7 @@ class QuizResponse(BaseModel):
     Compatível com o contrato Flutter existente.
     """
 
+    pacote_id: str | None = Field(default=None, description="UUID do pacote no Question Pool.")
     questoes: Annotated[list[QuizItem], Field(min_length=1, max_length=50)]
     provider: str = Field(default="", description="Provedor de IA utilizado.")
     modelo: str = Field(default="", description="Modelo de IA utilizado.")
@@ -210,13 +219,13 @@ class LLMQuizItem(BaseModel):
     Todos os dados lexicais são injetados pelo PromptBuilder.
     """
 
-    item_id: int = Field(..., ge=1)
-    enunciado: str = Field(..., min_length=10)
-    explicacao: str = Field(..., min_length=10)
-    curiosidade: str = Field(default="")
+    item_id: int = Field(default=1, description="ID numérico correspondente do item")
+    enunciado: str = Field(default="", description="Pergunta em português natural")
+    explicacao: str = Field(default="", description="Explicação pedagógica pós-resposta")
+    curiosidade: str = Field(default="", description="Fato cultural ou etimológico opcional")
 
 
 class LLMQuizResponse(BaseModel):
     """Envelope de saída da LLM contendo a lista de itens redigidos."""
 
-    questoes: Annotated[list[LLMQuizItem], Field(min_length=1, max_length=50)]
+    questoes: list[LLMQuizItem] = Field(default_factory=list, description="Lista de itens redigidos")

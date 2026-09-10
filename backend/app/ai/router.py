@@ -156,32 +156,34 @@ _CHAIN_VOCAB_EXTRACTION_CLOUD: list[str] = [
 ]
 
 # FAST: Latência crítica — geração de quiz com prompt < 800 tokens (rag_service).
+# Prioriza modelos com resposta sub-segundo e cotas ativas no topo para a PingRace
 _CHAIN_FAST: list[str] = [
-    # 1. DashScope (Alta capacidade de raciocínio pedagógico e TRI)
-    f"dashscope/{DASHSCOPE_MODELS['quiz_primary']}",
-    f"dashscope/{DASHSCOPE_MODELS['quiz_fallback']}",
-    f"dashscope/{DASHSCOPE_MODELS['psychometric_val']}",
-    f"dashscope/{DASHSCOPE_MODELS['quiz_contingency']}",
-    f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
-
-    # 2. Groq LPU (Baixíssima latência)
+    # 1. Groq LPU (Baixíssima latência ~200-500ms)
     f"groq/{GROQ_TEXT_MODELS[0]}",   # openai/gpt-oss-120b
     f"groq/{GROQ_TEXT_MODELS[1]}",   # openai/gpt-oss-20b
+    f"groq/{GROQ_TEXT_MODELS[7]}",   # allam-2-7b (alta disponibilidade)
     f"groq/{GROQ_TEXT_MODELS[3]}",   # qwen/qwen3.8-27b
     f"groq/{GROQ_TEXT_MODELS[6]}",   # groq/compound-mini
-    f"groq/{GROQ_TEXT_MODELS[7]}",   # allam-2-7b
 
-    # 3. Google Gemini
+    # 2. Google Gemini & Cerebras (Ultrarrápido)
     "gemini/gemini-2.5-flash",
+    f"cerebras/{CEREBRAS_MODELS[0]}",   # qwen-3.8-27b
+
+    # 3. SambaNova Cloud
+    f"sambanova/{SAMBANOVA_MODELS[1]}",  # DeepSeek-V3.2
+    f"sambanova/{SAMBANOVA_MODELS[2]}",  # Meta-Llama-3.3-70B-Instruct
 
     # 4. OpenRouter Free
     f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # minimax/minimax-m2.7:free
     f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[5]}",  # google/gemma-4-31b-it:free
     f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[0]}",  # poolside/laguna-xs-2.1:free
 
-    # 5. SambaNova e Cerebras
-    f"sambanova/{SAMBANOVA_MODELS[1]}",  # DeepSeek-V3.2
-    f"cerebras/{CEREBRAS_MODELS[0]}",   # qwen-3.8-27b
+    # 5. DashScope (Model Studio / Alibaba)
+    f"dashscope/{DASHSCOPE_MODELS['quiz_primary']}",
+    f"dashscope/{DASHSCOPE_MODELS['quiz_fallback']}",
+    f"dashscope/{DASHSCOPE_MODELS['psychometric_val']}",
+    f"dashscope/{DASHSCOPE_MODELS['quiz_contingency']}",
+    f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
 ]
 
 # LONG_CONTEXT: Prompts extensos (> 30k tokens)

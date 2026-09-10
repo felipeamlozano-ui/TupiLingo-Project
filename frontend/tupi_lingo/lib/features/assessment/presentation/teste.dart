@@ -347,32 +347,89 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
     }
   }
 
+  Future<bool> _handleBackAttempt() async {
+    // Se o teste já foi finalizado (fase 2), permite voltar para a Home diretamente
+    if (_phase == 2) {
+      Navigator.pushReplacementNamed(context, '/home');
+      return false;
+    }
+
+    // Se estiver em andamento (fase 1) ou na seleção (fase 0)
+    final shouldQuit = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: _TupiColors.background,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Desistir do Nivelamento?',
+          style: TextStyle(fontWeight: FontWeight.bold, color: _TupiColors.accent),
+        ),
+        content: const Text(
+          'Se você sair agora, seu progresso neste teste será cancelado e seu nível não será alterado.',
+          style: TextStyle(color: _TupiColors.subtitle),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Continuar Teste', style: TextStyle(color: _TupiColors.accent, fontWeight: FontWeight.bold)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _TupiColors.danger,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Sair do Teste'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldQuit == true && mounted) {
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: _TupiColors.background,
-      appBar: AppBar(
-        centerTitle: true,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          _handleBackAttempt();
+        }
+      },
+      child: Scaffold(
         backgroundColor: _TupiColors.background,
-        elevation: 0,
-        foregroundColor: Colors.black,
-        title: Text(
-          _phase == 0 ? 'Escolha sua Língua' : 'Teste de Nivelamento',
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: _TupiColors.background,
+          elevation: 0,
+          foregroundColor: Colors.black,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            onPressed: _handleBackAttempt,
+          ),
+          title: Text(
+            _phase == 0 ? 'Escolha sua Língua' : 'Teste de Nivelamento',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          bottom: _phase == 1 && _questions.isNotEmpty && !_isLoadingTest
+              ? PreferredSize(
+                  preferredSize: const Size.fromHeight(4),
+                  child: LinearProgressIndicator(
+                    value: (_currentQuestionIndex + 1) / _questions.length,
+                    backgroundColor: Colors.black12,
+                    valueColor: const AlwaysStoppedAnimation<Color>(_TupiColors.accent),
+                  ),
+                )
+              : null,
         ),
-        bottom: _phase == 1 && _questions.isNotEmpty && !_isLoadingTest
-            ? PreferredSize(
-                preferredSize: const Size.fromHeight(4),
-                child: LinearProgressIndicator(
-                  value: (_currentQuestionIndex + 1) / _questions.length,
-                  backgroundColor: Colors.black12,
-                  valueColor: const AlwaysStoppedAnimation<Color>(_TupiColors.accent),
-                ),
-              )
-            : null,
-      ),
-      body: SafeArea(
-        child: _buildBody(),
+        body: SafeArea(
+          child: _buildBody(),
+        ),
       ),
     );
   }

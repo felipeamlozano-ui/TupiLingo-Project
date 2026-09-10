@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/platform/platform_web_bridge.dart';
 
 /// Exceção lançada quando a sessão do Supabase expira e não pode ser renovada.
 class SessionExpiredException implements Exception {
@@ -15,7 +16,10 @@ class SessionExpiredException implements Exception {
 /// renovação automática de sessão JWT (FLUTTER-001) e timeout resiliente.
 class ApiClient {
   static Future<http.Response> get(String url, {Map<String, String>? extraHeaders}) =>
-      _withRetry(() => _buildGet(url, extraHeaders: extraHeaders));
+      PlatformWebBridge.instance.executeRequest(
+        key: 'GET_$url',
+        action: () => _withRetry(() => _buildGet(url, extraHeaders: extraHeaders)),
+      );
 
   static Future<http.Response> post(String url, {Object? body, Map<String, String>? extraHeaders}) =>
       _withRetry(() => _buildPost(url, body: body, extraHeaders: extraHeaders));

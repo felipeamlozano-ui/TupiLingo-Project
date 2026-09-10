@@ -22,7 +22,7 @@ class GroqProvider(BaseProvider):
         self.client = OpenAI(
             api_key=settings.GROQ_API_KEY,
             base_url="https://api.groq.com/openai/v1",
-            timeout=30.0
+            timeout=6.0
         )
 
     def _map_exception(self, e: Exception) -> Exception:

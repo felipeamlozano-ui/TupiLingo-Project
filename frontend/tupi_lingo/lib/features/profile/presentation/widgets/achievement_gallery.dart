@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class AchievementGallery extends StatelessWidget {
   final List<Map<String, dynamic>> unlockedAchievements;
@@ -13,7 +14,7 @@ class AchievementGallery extends StatelessWidget {
   void _showAchievementModal(BuildContext context, Map<String, dynamic> ach, bool isUnlocked) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.surface(context),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -64,8 +65,8 @@ class AchievementGallery extends StatelessWidget {
               const SizedBox(height: 14),
               Text(
                 nome,
-                style: const TextStyle(
-                  color: Color(0xFF1F2937),
+                style: TextStyle(
+                  color: AppTheme.textPrimary(context),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -75,14 +76,16 @@ class AchievementGallery extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: isUnlocked
-                      ? const Color(0xFF0E5D4E).withValues(alpha: 0.12)
+                      ? (AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.15)
                       : Colors.grey.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   isUnlocked ? '✓ DESBLOQUEADA' : '🔒 BLOQUEADA',
                   style: TextStyle(
-                    color: isUnlocked ? const Color(0xFF0E5D4E) : const Color(0xFF565D6D),
+                    color: isUnlocked
+                        ? (AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E))
+                        : AppTheme.textSecondary(context),
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.8,
@@ -93,8 +96,8 @@ class AchievementGallery extends StatelessWidget {
               Text(
                 desc,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Color(0xFF565D6D),
+                style: TextStyle(
+                  color: AppTheme.textSecondary(context),
                   fontSize: 13,
                   height: 1.4,
                 ),
@@ -103,20 +106,24 @@ class AchievementGallery extends StatelessWidget {
               if (isUnlocked && conquistadaEm != null)
                 Text(
                   'Desbloqueada em: ${_formatDate(conquistadaEm.toString())}',
-                  style: const TextStyle(color: Color(0xFF0E5D4E), fontSize: 12, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    color: AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 )
               else if (!isUnlocked && xpNecessario > 0)
                 Text(
-                  'Requisito: $xpNecessario XP acumulados',
+                  'Requer: $xpNecessario XP Total',
                   style: const TextStyle(color: Color(0xFFD08A45), fontSize: 12, fontWeight: FontWeight.bold),
                 ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0E5D4E),
+                    backgroundColor: AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   ),
@@ -143,16 +150,17 @@ class AchievementGallery extends StatelessWidget {
   Widget build(BuildContext context) {
     final totalConquistadas = unlockedAchievements.length;
     final total = totalConquistadas + lockedAchievements.length;
+    final isDark = AppTheme.isDark(context);
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFD0D0D0)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -164,19 +172,24 @@ class AchievementGallery extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
-                children: [
-                  Text('🏅', style: TextStyle(fontSize: 18)),
-                  SizedBox(width: 8),
-                  Text(
-                    'Galeria de Medalhas',
-                    style: TextStyle(
-                      color: Color(0xFF1F2937),
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                child: Row(
+                  children: [
+                    const Text('🏅', style: TextStyle(fontSize: 18)),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        'Galeria de Medalhas',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Text(
                 '$totalConquistadas de $total',
@@ -189,17 +202,15 @@ class AchievementGallery extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-
-          // Grade 3 colunas com Conquistas Desbloqueadas e Bloqueadas
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: total,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 0.85,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 0.70,
             ),
             itemBuilder: (context, index) {
               final isUnlocked = index < totalConquistadas;
@@ -213,14 +224,16 @@ class AchievementGallery extends StatelessWidget {
               return GestureDetector(
                 onTap: () => _showAchievementModal(context, ach, isUnlocked),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
                   decoration: BoxDecoration(
-                    color: isUnlocked ? const Color(0xFFFAF9F5) : const Color(0xFFF3F2E8),
+                    color: isUnlocked
+                        ? AppTheme.surfaceSubtle(context)
+                        : (isDark ? const Color(0xFF131B18) : const Color(0xFFF3F2E8)),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: isUnlocked
                           ? const Color(0xFFD08A45).withValues(alpha: 0.5)
-                          : const Color(0xFFD0D0D0),
+                          : AppTheme.border(context),
                       width: isUnlocked ? 1.5 : 1,
                     ),
                   ),
@@ -228,34 +241,36 @@ class AchievementGallery extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 44,
-                        height: 44,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: isUnlocked
                               ? const Color(0xFFD08A45).withValues(alpha: 0.15)
-                              : Colors.white.withValues(alpha: 0.6),
+                              : (isDark ? const Color(0xFF1E2A25) : const Color(0xFFEAE7DC)),
                         ),
                         child: Center(
                           child: Text(
                             icone,
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 18,
                               color: isUnlocked ? null : Colors.grey,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        nome,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: isUnlocked ? const Color(0xFF1F2937) : const Color(0xFF565D6D),
-                          fontSize: 11,
-                          fontWeight: isUnlocked ? FontWeight.bold : FontWeight.w500,
+                      const SizedBox(height: 6),
+                      Flexible(
+                        child: Text(
+                          nome,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: isUnlocked ? AppTheme.textPrimary(context) : AppTheme.textSecondary(context),
+                            fontSize: 11,
+                            fontWeight: isUnlocked ? FontWeight.bold : FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],

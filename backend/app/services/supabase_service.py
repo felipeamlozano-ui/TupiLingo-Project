@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import random
 import threading
 import time
 from typing import Any
@@ -256,6 +257,82 @@ class SupabaseService:
                 continue
 
         return itens
+
+    def obter_chunks_rag(
+        self,
+        categorias: list[str] | str = "Vocabulário",
+        limite: int = 3,
+    ) -> list[dict[str, Any]]:
+        """
+        Recupera chunks autênticos do RAG (PDFs) no Supabase filtrados por categorias.
+        Executa via RPC otimizada com fallback gracioso para PostgREST em caso de falha.
+
+        Args:
+            categorias: Categoria ou lista de categorias (ex: ["História", "Gramática"]).
+            limite: Número máximo de chunks a recuperar (default: 3).
+
+        Returns:
+            Lista de dicionários contendo {'id', 'chunk_id', 'document_text', 'categoria'}.
+        """
+        t_start = time.monotonic()
+
+        # Normaliza parâmetro para lista de strings
+        if isinstance(categorias, str):
+            cats_list = [categorias]
+        else:
+            cats_list = list(categorias) if categorias else ["Vocabulário"]
+
+        payload: dict[str, Any] = {
+            "p_categorias": cats_list,
+            "p_limite": limite,
+        }
+
+        # ── 1. Tentativa Primária: Chamada RPC ────────────────────────────────
+        try:
+            url_rpc = f"{self._base_url}/rest/v1/rpc/obter_chunks_rag"
+            response = self._client.post(url_rpc, json=payload)
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list) and data:
+                    logger.info(
+                        "[SupabaseService] RPC obter_chunks_rag retornou %d chunks em %d ms.",
+                        len(data),
+                        int((time.monotonic() - t_start) * 1000),
+                    )
+                    return data
+        except Exception as rpc_exc:
+            logger.warning(
+                "[SupabaseService] Falha na RPC obter_chunks_rag (%s). Acionando fallback REST.",
+                rpc_exc,
+            )
+
+        # ── 2. Fallback Secundário: Consulta Direta via PostgREST ─────────────
+        try:
+            cats_formatted = ",".join(f'"{c}"' for c in cats_list)
+            offset_aleatorio = random.randint(0, 100)
+
+            params = {
+                "categoria": f"in.({cats_formatted})",
+                "select": "id,chunk_id,document_text,categoria",
+                "limit": str(limite),
+                "offset": str(offset_aleatorio),
+            }
+            url_table = f"{self._base_url}/rest/v1/rag_document_categories"
+            response = self._client.get(url_table, params=params)
+
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list) and data:
+                    logger.info(
+                        "[SupabaseService] Fallback REST retornou %d chunks em %d ms.",
+                        len(data),
+                        int((time.monotonic() - t_start) * 1000),
+                    )
+                    return data
+        except Exception as rest_exc:
+            logger.error("[SupabaseService] Fallback REST também falhou: %s", rest_exc)
+
+        return []
 
 
 # Instância global (lazy initialization)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class XpProgressBar extends StatelessWidget {
   final int xpTotal;
@@ -20,16 +21,17 @@ class XpProgressBar extends StatelessWidget {
     final (baseXp, targetXp, nextTitle) = nextTierInfo;
     final progress = ((xpTotal - baseXp) / (targetXp - baseXp)).clamp(0.0, 1.0);
     final falta = (targetXp - xpTotal).clamp(0, targetXp);
+    final isDark = AppTheme.isDark(context);
 
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFD0D0D0)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -41,14 +43,14 @@ class XpProgressBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Text('⭐', style: TextStyle(fontSize: 16)),
-                  SizedBox(width: 8),
+                  const Text('⭐', style: TextStyle(fontSize: 16)),
+                  const SizedBox(width: 8),
                   Text(
                     'Jornada de XP',
                     style: TextStyle(
-                      color: Color(0xFF1F2937),
+                      color: AppTheme.textPrimary(context),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -72,7 +74,7 @@ class XpProgressBar extends StatelessWidget {
               height: 12,
               child: LinearProgressIndicator(
                 value: progress,
-                backgroundColor: const Color(0xFFEAE7DC),
+                backgroundColor: isDark ? const Color(0xFF1E2A25) : const Color(0xFFEAE7DC),
                 valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFD08A45)),
               ),
             ),
@@ -81,23 +83,29 @@ class XpProgressBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Próxima: $nextTitle',
-                style: const TextStyle(
-                  color: Color(0xFF565D6D),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  'Próxima: $nextTitle',
+                  style: TextStyle(
+                    color: AppTheme.textSecondary(context),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (falta > 0)
+              if (falta > 0) ...[
+                const SizedBox(width: 8),
                 Text(
                   'Faltam $falta XP',
-                  style: const TextStyle(
-                    color: Color(0xFF0E5D4E),
+                  style: TextStyle(
+                    color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              ],
             ],
           ),
         ],

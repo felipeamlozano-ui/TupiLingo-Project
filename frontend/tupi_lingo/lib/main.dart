@@ -1,26 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/features/home/presentation/home.dart';
 import 'package:tupi_lingo/features/auth/presentation/login.dart';
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/features/auth/presentation/register.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:tupi_lingo/core/render/shader_warmup_engine.dart';
+import 'package:tupi_lingo/core/concurrency/ten_isolates_engine.dart';
+import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
+import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
+import 'package:tupi_lingo/core/telemetry/performance_telemetry_engine.dart';
+import 'package:tupi_lingo/core/platform/platform_web_bridge.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  try {
-    await dotenv.load(fileName: ".env");
-  } catch (_) {
-    // FLUTTER-004: Fallback seguro via --dart-define ou --dart-define-from-file em runtime
+  // ─── Instant Loading Engine (P0): Telemetria & Proteção de Memória ──────────
+  PerformanceTelemetryEngine.instance.start();
+  MemoryResidencyEngine.instance.initialize();
+
+  // ─── Instant Loading Engine (P0/P1): Warmup Concorrente sem travar UI ──────
+  unawaited(ShaderWarmupEngine.instance.warmup());
+  unawaited(TenIsolatesEngine.instance.initialize());
+
+  // ─── HPWE Web Engine (RFC-009B): Ativado apenas sob kIsWeb (Android Intacto) ─
+  unawaited(PlatformWebBridge.instance.initialize());
+
+  if (kIsWeb) {
+    // RFC-009C Camada 15: Na Web nunca requisitar .env via HTTP (elimina HTTP 404)
+    const sbUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://vkmjefhyjtyxuhhnbnry.supabase.co');
+    const sbKey = String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrbWplZmh5anR5eHVoaG5ibnJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyMzgwOTMsImV4cCI6MjA1NjgxNDA5M30.407YV_7t0D44_i622kK_hBsvXg3w30d3y4D3j72z17g');
+    const apiUrl = String.fromEnvironment('API_URL', defaultValue: 'http://127.0.0.1:8000');
     dotenv.loadFromString(envString: '''
+SUPABASE_URL=$sbUrl
+SUPABASE_ANON_KEY=$sbKey
+API_URL=$apiUrl
+''');
+  } else {
+    try {
+      await dotenv.load(fileName: ".env");
+    } catch (_) {
+      // FLUTTER-004: Fallback seguro via --dart-define ou --dart-define-from-file em runtime
+      dotenv.loadFromString(envString: '''
 SUPABASE_URL=${const String.fromEnvironment('SUPABASE_URL')}
 SUPABASE_ANON_KEY=${const String.fromEnvironment('SUPABASE_ANON_KEY')}
 API_URL=${const String.fromEnvironment('API_URL')}
 ''');
+    }
   }
 
   final supabaseUrl = dotenv.env['SUPABASE_URL'];
@@ -163,7 +194,7 @@ class _AuthGateState extends State<AuthGate> {
   Widget build(BuildContext context) {
     if (_hasError) {
       return Scaffold(
-        backgroundColor: const Color(0xFFF3F2E8),
+        backgroundColor: AppTheme.bg(context),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -174,8 +205,8 @@ class _AuthGateState extends State<AuthGate> {
                 const SizedBox(height: 20),
                 Text(
                   _errorMessage,
-                  style: const TextStyle(
-                    color: Color(0xFF565D6D),
+                  style: TextStyle(
+                    color: AppTheme.textSecondary(context),
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
@@ -205,9 +236,9 @@ class _AuthGateState extends State<AuthGate> {
                       Navigator.pushReplacementNamed(context, '/welcome');
                     }
                   },
-                  child: const Text(
+                  child: Text(
                     'Sair da conta',
-                    style: TextStyle(color: Color(0xFF565D6D)),
+                    style: TextStyle(color: AppTheme.textSecondary(context)),
                   ),
                 ),
               ],
@@ -219,7 +250,7 @@ class _AuthGateState extends State<AuthGate> {
 
     // FLUTTER-005: loading com mensagem progressiva
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F2E8),
+      backgroundColor: AppTheme.bg(context),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -228,8 +259,8 @@ class _AuthGateState extends State<AuthGate> {
             const SizedBox(height: 20),
             Text(
               _loadingMessage,
-              style: const TextStyle(
-                color: Color(0xFF565D6D),
+              style: TextStyle(
+                color: AppTheme.textSecondary(context),
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -241,31 +272,68 @@ class _AuthGateState extends State<AuthGate> {
   }
 }
 
+/// Observer de navegação que alimenta a Cadeia de Markov do PredictivePreloadingEngine
+class InstantLoadingRouteObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    final currentName = route.settings.name ?? '';
+    final prevName = previousRoute?.settings.name;
+    if (currentName.isNotEmpty) {
+      PredictivePreloadingEngine.instance.onRouteChanged(
+        currentRoute: currentName,
+        previousRoute: prevName,
+      );
+    }
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    final currentName = newRoute?.settings.name ?? '';
+    final prevName = oldRoute?.settings.name;
+    if (currentName.isNotEmpty) {
+      PredictivePreloadingEngine.instance.onRouteChanged(
+        currentRoute: currentName,
+        previousRoute: prevName,
+      );
+    }
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'TupiLingo',
-      theme: ThemeData(useMaterial3: true, fontFamily: 'Roboto'),
-      initialRoute: '/',
-      routes: {
-        '/': (_) => const AuthGate(),
-        '/login': (_) => const LoginScreen(),
-        '/home': (_) => const HomeScreen(),
-        '/register': (_) => const RegisterScreen(),
-        '/welcome': (_) => const WelcomeScreen(),
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name != null && settings.name!.startsWith('/?')) {
-          return MaterialPageRoute(
-            builder: (context) => const AuthGate(),
-            settings: settings,
-          );
-        }
-        return null;
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: ThemeNotifier.instance,
+      builder: (context, currentMode, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'TupiLingo',
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: currentMode,
+          initialRoute: '/',
+          navigatorObservers: [InstantLoadingRouteObserver()],
+          routes: {
+            '/': (_) => const AuthGate(),
+            '/login': (_) => const LoginScreen(),
+            '/home': (_) => const HomeScreen(),
+            '/register': (_) => const RegisterScreen(),
+            '/welcome': (_) => const WelcomeScreen(),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name != null && settings.name!.startsWith('/?')) {
+              return MaterialPageRoute(
+                builder: (context) => const AuthGate(),
+                settings: settings,
+              );
+            }
+            return null;
+          },
+        );
       },
     );
   }

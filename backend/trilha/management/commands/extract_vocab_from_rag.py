@@ -158,6 +158,7 @@ class Command(BaseCommand):
             "- 'História': Cartas históricas, documentos coloniais, relatos de viagem (ex: Hans Staden, Thevet), guerras, personagens (ex: Pedro Poti, Camarão) e notas sobre aldeias.\n"
             "- 'Mitologia': Lendas, seres míticos (Tupã, Curupira, Anhangá, Jaci), rituais religiosos, cosmologia e crenças indígenas.\n"
             "- 'Desconhecido': Use APENAS para sumários, índices bibliográficos ou ruídos ilegíveis sem conteúdo textual útil.\n\n"
+            "Observação: Os textos extraídos de documentos podem estar em português, inglês ou Tupi (ex: teses acadêmicas internacionais sobre povos Tupi). Classifique pelo conteúdo temático, independentemente do idioma.\n\n"
             "Textos:\n"
         )
         for idx, (row_id, doc_text) in enumerate(chunk_batch, 1):
@@ -203,6 +204,7 @@ class Command(BaseCommand):
             "- 'História': Cartas históricas, documentos coloniais, relatos de viagem (ex: Hans Staden, Thevet), guerras, personagens (ex: Pedro Poti, Camarão) e notas sobre aldeias.\n"
             "- 'Mitologia': Lendas, seres míticos (Tupã, Curupira, Anhangá, Jaci), rituais religiosos, cosmologia e crenças indígenas.\n"
             "- 'Desconhecido': Use APENAS para sumários, índices bibliográficos ou ruídos ilegíveis sem conteúdo textual útil.\n\n"
+            "Observação: O texto pode estar em português, inglês ou Tupi (ex: pesquisas etnográficas ou linguísticas em inglês). Classifique pelo conteúdo temático, independentemente do idioma.\n\n"
             f"Texto:\n{doc_text.strip()[:1000]}\n\n"
             'Retorne ESTRITAMENTE o JSON no formato: {"categoria": "Vocabulário"}'
         )

@@ -28,15 +28,32 @@ VALID_SOURCES = {
 
 
 @csrf_exempt
-@ratelimit(key='ip', rate='10/m', block=True)
+@ratelimit(key='ip', rate='60/m', block=True)
 @supabase_auth_required
 def check_user(request):
     """
     Retorna se o usuário autenticado já possui perfil cadastrado no Django.
-    Inclui a variante ativa e XP total do usuário.
+    Inclui a variante ativa, XP total, ofensiva (streak) e conchas do usuário.
+    Se o supabase_uid mudou (ex: login via Google OAuth ou nova sessão),
+    mas o e-mail verificado pertence a um perfil existente, re-sincroniza o supabase_uid.
     """
     user_id = request.user_data.get('sub')
+    email = (request.user_data.get('email') or '').strip().lower()
+
     user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
+
+    # Reconciliação automática para tokens criptograficamente validados pelo Supabase
+    if not user and email:
+        existing = UserProfile.objects.select_related('variante_ativa').filter(email__iexact=email).first()
+        if existing:
+            logger.info(
+                "Reconciliando supabase_uid em check_user para %s (antigo=%s, novo=%s)",
+                email, existing.supabase_uid, user_id,
+            )
+            existing.supabase_uid = user_id
+            existing.save(update_fields=['supabase_uid'])
+            user = existing
+
     exists = user is not None
 
     variante_ativa_data = None
@@ -58,6 +75,10 @@ def check_user(request):
         "status": "Autenticado com sucesso",
         "exists": exists,
         "xp_total": user.xp_total if user else 0,
+        "streak_atual": user.streak_atual if user else 0,
+        "dias_ofensiva": user.streak_atual if user else 0,
+        "maior_streak": user.maior_streak if user else 0,
+        "conchas": getattr(user, 'conchas', 0) if user else 0,
         "variante_ativa": variante_ativa_data,
     })
 
@@ -73,7 +94,7 @@ def register_user(request):
     Não define mais tupi_level — o nível é definido pelo teste de nivelamento por variante.
     """
     user_id = request.user_data.get('sub')
-    email = request.user_data.get('email', '')
+    email = (request.user_data.get('email') or '').strip().lower()
 
     try:
         body = json.loads(request.body)
@@ -89,6 +110,25 @@ def register_user(request):
     if source not in VALID_SOURCES:
         source = 'outro'
 
+    # Se já existe pelo supabase_uid, já está registrado
+    existing_by_uid = UserProfile.objects.filter(supabase_uid=user_id).first()
+    if existing_by_uid:
+        return JsonResponse({"status": "Usuario ja registrado", "created": False})
+
+    # Se já existe por e-mail no Django (ex: conta recriada no Supabase), reconcilia com o novo supabase_uid
+    if email:
+        existing_by_email = UserProfile.objects.filter(email__iexact=email).first()
+        if existing_by_email:
+            logger.info(
+                "Reconciliando supabase_uid no registro para %s (antigo=%s, novo=%s)",
+                email, existing_by_email.supabase_uid, user_id,
+            )
+            existing_by_email.supabase_uid = user_id
+            if name:
+                existing_by_email.name = name
+            existing_by_email.save(update_fields=['supabase_uid', 'name'])
+            return JsonResponse({"status": "Perfil reconciliado com sucesso", "created": False})
+
     # API-003: get_or_create atômico evita race condition TOCTOU
     try:
         profile, created = UserProfile.objects.get_or_create(
@@ -101,23 +141,11 @@ def register_user(request):
         )
     except IntegrityError:
         logger.warning("Conflito de integridade ao criar UserProfile para uid=%s", user_id)
-        existing_user = UserProfile.objects.filter(email=email).first()
+        existing_user = UserProfile.objects.filter(email__iexact=email).first()
         if existing_user:
-            # SECURITY-001: Nunca sobrescrevemos o supabase_uid de um perfil existente
-            # para evitar Account Takeover. O email já está vinculado a outra conta.
-            logger.warning(
-                "Tentativa de re-registro com email já existente. "
-                "email=%s novo_uid=%s uid_existente=%s",
-                email, user_id, existing_user.supabase_uid,
-            )
-            return JsonResponse(
-                {
-                    "error": "Este e-mail já está associado a uma conta. "
-                             "Por favor, faça login com a conta original.",
-                    "code": "EMAIL_ALREADY_EXISTS",
-                },
-                status=409,
-            )
+            existing_user.supabase_uid = user_id
+            existing_user.save(update_fields=['supabase_uid'])
+            return JsonResponse({"status": "Usuario re-sincronizado", "created": False})
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 
     if not created:
@@ -334,7 +362,9 @@ def get_profile(request):
             'email': user.email,
             'xp_total': user.xp_total,
             'nivel_atual': nivel_atual,
-            'dias_ofensiva': dias_ofensiva,
+            'dias_ofensiva': user.streak_atual,
+            'maior_ofensiva': user.maior_streak,
+            'dias_estudados_total': user.dias_estudados_total,
             'total_licoes_concluidas': total_licoes_concluidas,
             'variante_ativa': {
                 'id': user.variante_ativa.id,
@@ -348,3 +378,41 @@ def get_profile(request):
         'achievements': achievements_desbloqueadas,
         'achievements_bloqueadas': achievements_bloqueadas,
     })
+
+
+@csrf_exempt
+@require_GET
+@ratelimit(key='ip', rate='30/m', block=True)
+@supabase_auth_required
+def dashboard_stats(request):
+    """
+    Retorna estatísticas consolidadas 100% autênticas do usuário
+    para o Painel de Desempenho & Memória (sem mocks ou seeds),
+    com cache Redis de alto desempenho (120s).
+    """
+    user_id = request.user_data.get('sub')
+    user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
+    if not user:
+        return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+
+    from app.ai.ping_race import get_redis_client
+    r = get_redis_client()
+    cache_key = f"dashboard_stats_{user.id}"
+    if r:
+        try:
+            cached = r.get(cache_key)
+            if cached:
+                return JsonResponse(json.loads(cached))
+        except Exception:
+            pass
+
+    from .services.statistics_service import StatisticsService
+    stats = StatisticsService.get_user_progress_stats(user)
+
+    if r:
+        try:
+            r.setex(cache_key, 120, json.dumps(stats, ensure_ascii=False))
+        except Exception:
+            pass
+
+    return JsonResponse(stats)

@@ -96,6 +96,7 @@ class Command(BaseCommand):
                 "- 'História': Textos históricos, cartas coloniais, relatos de viagem, biografia de autores.\n"
                 "- 'Mitologia': Lendas, seres míticos, rituais, espiritualidade indígena.\n"
                 "- 'Desconhecido': Apenas ruídos ilegíveis, índices vazios, capas ou referências numéricas sem texto útil.\n\n"
+                "Observação: Os textos podem estar em português, inglês ou Tupi. Classifique pelo tema, independentemente do idioma.\n\n"
                 "Textos:\n"
             )
 

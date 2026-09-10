@@ -621,3 +621,40 @@ class Exercicio(models.Model):
 
     def __str__(self):
         return f"[{self.licao.titulo} | {self.get_tipo_display()}] {self.enunciado[:40]}..."
+
+
+# ─── UserChestReward ──────────────────────────────────────────────────────────
+
+class UserChestReward(models.Model):
+    """
+    Rastreia os baús culturais de capítulo coletados pelo usuário.
+    Garante que cada marco (milestone) de baú só possa ser coletado uma única vez.
+    """
+    user = models.ForeignKey(
+        'users.UserProfile',
+        on_delete=models.CASCADE,
+        related_name='chests_coletados',
+        verbose_name="Usuário"
+    )
+    capitulo = models.ForeignKey(
+        Capitulo,
+        on_delete=models.CASCADE,
+        related_name='chests_coletados',
+        verbose_name="Capítulo"
+    )
+    milestone_index = models.IntegerField(default=1, verbose_name="Índice do Marco na Trilha")
+    recompensa_xp = models.IntegerField(default=75, verbose_name="XP da Recompensa")
+    recompensa_conchas = models.IntegerField(default=50, verbose_name="Conchas da Recompensa")
+    coletado_em = models.DateTimeField(auto_now_add=True, verbose_name="Coletado em")
+
+    class Meta:
+        db_table = 'trilha_userchestreward'
+        verbose_name = "Baú Coletado pelo Usuário"
+        verbose_name_plural = "Baús Coletados pelos Usuários"
+        unique_together = ('user', 'capitulo', 'milestone_index')
+        indexes = [
+            models.Index(fields=['user', 'capitulo'], name='idx_userchest_user_cap'),
+        ]
+
+    def __str__(self):
+        return f"{self.user.name} - Cap {self.capitulo.numero} (Marco {self.milestone_index})"

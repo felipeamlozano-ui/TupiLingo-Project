@@ -8,10 +8,18 @@ import 'package:tupi_lingo/features/lesson/presentation/lesson_player.dart';
 import 'package:tupi_lingo/features/profile/presentation/profile_screen.dart';
 import 'package:tupi_lingo/features/admin/presentation/admin_screen.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/select_level_screen.dart';
+import 'package:tupi_lingo/features/dashboard/presentation/pages/progress_dashboard_screen.dart';
+import 'package:tupi_lingo/features/rewards/presentation/widgets/indigenous_artifact_chest.dart';
+import 'package:tupi_lingo/features/rewards/domain/entities/indigenous_reward.dart';
+import 'package:tupi_lingo/features/historical_map/presentation/widgets/lazy_map_loader.dart';
+import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
+import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
+import 'package:tupi_lingo/core/network/api_client.dart';
+import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 
 /// Paleta de Cores com Identidade Visual Tupi Ancestral
 class _TupiColors {
-  static const background = Color(0xFFF3F2E8);        // Pergaminho Claro / Areia Sagrada (Idêntico ao resto do app)
   static const backgroundSecondary = Color(0xFFEAE7DC); // Areia suave de contraste
   static const surfaceCard = Colors.white;            // Cards em branco puro
   static const surfaceCardLight = Color(0xFFFAF9F5);
@@ -53,6 +61,50 @@ class LicaoMapData {
     required this.status,
     this.earnedXp = 0,
   });
+
+  LicaoMapData copyWith({
+    int? id,
+    String? titulo,
+    String? descricao,
+    int? numero,
+    int? xpBase,
+    double? posX,
+    double? posY,
+    LicaoStatus? status,
+    int? earnedXp,
+  }) {
+    return LicaoMapData(
+      id: id ?? this.id,
+      titulo: titulo ?? this.titulo,
+      descricao: descricao ?? this.descricao,
+      numero: numero ?? this.numero,
+      xpBase: xpBase ?? this.xpBase,
+      posX: posX ?? this.posX,
+      posY: posY ?? this.posY,
+      status: status ?? this.status,
+      earnedXp: earnedXp ?? this.earnedXp,
+    );
+  }
+}
+
+class ChestRewardMapData {
+  final int milestoneIndex;
+  final String status; // 'bloqueado', 'disponivel', 'concluido'
+  final bool unlocked;
+  final bool collected;
+  final int recompensaXp;
+  final int recompensaConchas;
+  final int afterLessonNumber;
+
+  const ChestRewardMapData({
+    required this.milestoneIndex,
+    required this.status,
+    required this.unlocked,
+    required this.collected,
+    required this.recompensaXp,
+    required this.recompensaConchas,
+    required this.afterLessonNumber,
+  });
 }
 
 class CapituloMapData {
@@ -62,6 +114,8 @@ class CapituloMapData {
   final int numero;
   final Color paletteColor;
   final List<LicaoMapData> licoes;
+  final ChestRewardMapData? chestReward;
+  final double moduleProgressPercentage;
 
   const CapituloMapData({
     required this.id,
@@ -70,7 +124,31 @@ class CapituloMapData {
     required this.numero,
     required this.paletteColor,
     required this.licoes,
+    this.chestReward,
+    this.moduleProgressPercentage = 0.0,
   });
+
+  CapituloMapData copyWith({
+    int? id,
+    String? titulo,
+    String? descricao,
+    int? numero,
+    Color? paletteColor,
+    List<LicaoMapData>? licoes,
+    ChestRewardMapData? chestReward,
+    double? moduleProgressPercentage,
+  }) {
+    return CapituloMapData(
+      id: id ?? this.id,
+      titulo: titulo ?? this.titulo,
+      descricao: descricao ?? this.descricao,
+      numero: numero ?? this.numero,
+      paletteColor: paletteColor ?? this.paletteColor,
+      licoes: licoes ?? this.licoes,
+      chestReward: chestReward ?? this.chestReward,
+      moduleProgressPercentage: moduleProgressPercentage ?? this.moduleProgressPercentage,
+    );
+  }
 }
 
 class HomeScreen extends StatefulWidget {
@@ -92,10 +170,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _isLoading = true;
   String? _errorMessage;
 
-  // Dados do Aluno
-  int _xpTotal = 85;
-  int _streakDays = 3;
-  int _conchas = 140;
+  // Dados do Aluno (100% autênticos do Supabase/Django)
+  int _xpTotal = 0;
+  int _streakDays = 0;
+  int _conchas = 0;
   int _varianteId = 1;
   String _varianteNome = 'Tupi Antigo';
 
@@ -119,7 +197,48 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _initAnimControllers();
+    _setupPredictivePreloading();
     _loadUserDataAndTrail();
+    AppProgressionNotifier.instance.addListener(_onProgressionUpdated);
+  }
+
+  void _setupPredictivePreloading() {
+    PredictivePreloadingEngine.instance.setPreloadHandler((route, params) async {
+      if (route == '/lesson' && params != null && params['licao_id'] != null) {
+        final licaoId = params['licao_id'];
+        final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+        try {
+          final res = await ApiClient.get('$baseUrl/api/v1/trilha/licao/$licaoId/');
+          if (res.statusCode == 200) {
+            final data = jsonDecode(utf8.decode(res.bodyBytes));
+            if (data['success'] == true) {
+              PredictivePreloadingEngine.instance.storePreloadedData('licao_$licaoId', data);
+              debugPrint('⚡ [HomeScreen Preload] Lição $licaoId pré-aquecida em memória (Zero Loading garantido).');
+            }
+          }
+        } catch (_) {}
+      }
+    });
+  }
+
+  void _preheatNextLesson() {
+    for (final cap in _capitulos) {
+      for (final lic in cap.licoes) {
+        if (lic.status == LicaoStatus.disponivel || lic.status == LicaoStatus.emAndamento) {
+          PredictivePreloadingEngine.instance.onRouteChanged(
+            currentRoute: '/home',
+            contextParams: {'licao_id': lic.id},
+          );
+          return;
+        }
+      }
+    }
+  }
+
+  void _onProgressionUpdated() {
+    if (mounted) {
+      _loadUserDataAndTrail();
+    }
   }
 
   void _initAnimControllers() {
@@ -142,79 +261,170 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    AppProgressionNotifier.instance.removeListener(_onProgressionUpdated);
     _pulseController?.dispose();
     _floatController?.dispose();
     super.dispose();
   }
 
-  Future<void> _loadUserDataAndTrail() async {
+  void _optimisticallyUnlockLesson(int completedLessonId, {int? unlockedNextLessonId}) {
+    if (!mounted || _capitulos.isEmpty) return;
     setState(() {
-      _isLoading = true;
-      _errorMessage = null;
+      bool found = false;
+      for (int c = 0; c < _capitulos.length; c++) {
+        final cap = _capitulos[c];
+        final updatedLicoes = <LicaoMapData>[];
+        for (int l = 0; l < cap.licoes.length; l++) {
+          final lic = cap.licoes[l];
+          if (lic.id == completedLessonId) {
+            updatedLicoes.add(lic.copyWith(
+              status: LicaoStatus.concluida,
+              earnedXp: lic.earnedXp > 0 ? lic.earnedXp : lic.xpBase,
+            ));
+            found = true;
+          } else if (unlockedNextLessonId != null && lic.id == unlockedNextLessonId) {
+            updatedLicoes.add(lic.copyWith(status: LicaoStatus.disponivel));
+          } else if (found && lic.status == LicaoStatus.bloqueada) {
+            updatedLicoes.add(lic.copyWith(status: LicaoStatus.disponivel));
+            found = false;
+          } else {
+            updatedLicoes.add(lic);
+          }
+        }
+        _capitulos[c] = cap.copyWith(licoes: updatedLicoes);
+      }
     });
+  }
+
+  /// Mescla o estado carregado da rede com o estado otimista da sessão local.
+  /// Impede terminantemente rollbacks visuais caso a resposta da rede venha com cache
+  /// desatualizado ou ocorra race condition antes da replicação do banco.
+  List<CapituloMapData> _mergeCapitulosWithLocalProgress(
+    List<CapituloMapData> current,
+    List<CapituloMapData> incoming,
+  ) {
+    if (current.isEmpty) return incoming;
+
+    final locallyCompleted = <int>{};
+    final locallyUnlocked = <int>{};
+    for (final cap in current) {
+      for (final lic in cap.licoes) {
+        if (lic.status == LicaoStatus.concluida) {
+          locallyCompleted.add(lic.id);
+        } else if (lic.status == LicaoStatus.disponivel || lic.status == LicaoStatus.emAndamento) {
+          locallyUnlocked.add(lic.id);
+        }
+      }
+    }
+
+    if (locallyCompleted.isEmpty && locallyUnlocked.isEmpty) return incoming;
+
+    return incoming.map((cap) {
+      final mergedLicoes = cap.licoes.map((lic) {
+        if (locallyCompleted.contains(lic.id)) {
+          return lic.copyWith(status: LicaoStatus.concluida);
+        }
+        if (locallyUnlocked.contains(lic.id) && lic.status == LicaoStatus.bloqueada) {
+          return lic.copyWith(status: LicaoStatus.disponivel);
+        }
+        return lic;
+      }).toList();
+
+      return cap.copyWith(licoes: mergedLicoes);
+    }).toList();
+  }
+
+  Future<void> _loadUserDataAndTrail() async {
+    // Silent background refresh se já houver capítulos carregados (zero spinner)
+    if (_capitulos.isEmpty) {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+    }
 
     try {
       final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      int varianteId = 1;
+      int varianteId = _varianteId;
 
       if (session != null) {
-        // 1. Carrega dados atualizados do usuário
-        try {
-          final profileRes = await http.post(
-            Uri.parse('$baseUrl/api/v1/auth/check-user'),
-            headers: {
-              'Authorization': 'Bearer ${session.accessToken}',
-              'Content-Type': 'application/json',
-            },
-          ).timeout(const Duration(seconds: 8));
+        final headers = {
+          'Authorization': 'Bearer ${session.accessToken}',
+          'Content-Type': 'application/json',
+        };
 
-          if (profileRes.statusCode == 200) {
+        // Dispara requisições em paralelo com Future.wait para máxima velocidade
+        final checkUserReq = http.post(
+          Uri.parse('$baseUrl/api/v1/auth/check-user'),
+          headers: headers,
+        ).timeout(const Duration(seconds: 5)).catchError((_) => http.Response('{}', 500));
+
+        final adminReq = http.get(
+          Uri.parse('$baseUrl/api/v1/admin/me'),
+          headers: headers,
+        ).timeout(const Duration(seconds: 5)).catchError((_) => http.Response('{}', 500));
+
+        final mapReq = http.get(
+          Uri.parse('$baseUrl/api/v1/trilha/$varianteId/capitulos/'),
+          headers: headers,
+        ).timeout(const Duration(seconds: 8)).catchError((_) => http.Response('{}', 500));
+
+        final responses = await Future.wait([checkUserReq, adminReq, mapReq]);
+        final profileRes = responses[0];
+        final adminRes = responses[1];
+        final mapRes = responses[2];
+
+        // 1. Processa check-user
+        if (profileRes.statusCode == 200) {
+          try {
             final dynamic profileData = jsonDecode(utf8.decode(profileRes.bodyBytes));
             if (profileData is Map<String, dynamic>) {
               final varianteAtiva = profileData['variante_ativa'];
               if (varianteAtiva is Map<String, dynamic>) {
-                varianteId = (varianteAtiva['id'] as num?)?.toInt() ?? 1;
-                _varianteId = varianteId;
-                _varianteNome = varianteAtiva['nome']?.toString() ?? 'Tupi Antigo';
+                final userVarId = (varianteAtiva['id'] as num?)?.toInt() ?? 1;
+                // Preservação estrita da variante: só adota a variante do check-user
+                // se a lista de capítulos estiver vazia (cold boot inicial).
+                // Caso contrário, respeita a variante que o usuário está ativamente cursando.
+                if (_capitulos.isEmpty) {
+                  _varianteId = userVarId;
+                  _varianteNome = varianteAtiva['nome']?.toString() ?? 'Tupi Antigo';
+                } else if (_varianteId == userVarId) {
+                  _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
+                }
               }
-              _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? 85;
-              _streakDays = (profileData['dias_ofensiva'] as num?)?.toInt() ?? 3;
-              _conchas = (profileData['conchas'] as num?)?.toInt() ?? 140;
+              _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
+              _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
+                  (profileData['dias_ofensiva'] as num?)?.toInt() ??
+                  _streakDays;
+              _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
             }
-          }
-        } catch (_) {}
+          } catch (_) {}
+        }
 
-        // 1.1 Checagem se o usuário possui permissão de Administrador
-        try {
-          final adminRes = await http.get(
-            Uri.parse('$baseUrl/api/v1/admin/me'),
-            headers: {
-              'Authorization': 'Bearer ${session.accessToken}',
-              'Content-Type': 'application/json',
-            },
-          ).timeout(const Duration(seconds: 5));
-
-          if (adminRes.statusCode == 200) {
+        // 1.1 Processa admin
+        if (adminRes.statusCode == 200) {
+          try {
             final dynamic adminData = jsonDecode(utf8.decode(adminRes.bodyBytes));
             if (adminData is Map<String, dynamic> && adminData['is_admin'] == true) {
               _isAdmin = true;
             }
-          }
-        } catch (_) {}
+          } catch (_) {}
+        }
 
-        // 2. Carrega capítulos e lições da variante
-        final mapRes = await http.get(
-          Uri.parse('$baseUrl/api/v1/trilha/$varianteId/capitulos/'),
-          headers: {
-            'Authorization': 'Bearer ${session.accessToken}',
-            'Content-Type': 'application/json',
-          },
-        ).timeout(const Duration(seconds: 10));
-
+        // 2. Processa capítulos e lições da trilha
         if (mapRes.statusCode == 200) {
           final dynamic mapData = jsonDecode(utf8.decode(mapRes.bodyBytes));
           if (mapData is Map<String, dynamic>) {
+            if (mapData['user_stats'] is Map<String, dynamic>) {
+              final us = mapData['user_stats'] as Map<String, dynamic>;
+              _xpTotal = (us['xp_total'] as num?)?.toInt() ?? _xpTotal;
+              _streakDays = (us['streak_atual'] as num?)?.toInt() ??
+                  (us['dias_ofensiva'] as num?)?.toInt() ??
+                  _streakDays;
+              _conchas = (us['conchas'] as num?)?.toInt() ?? _conchas;
+            }
+
             final List<dynamic> capsJson = mapData['capitulos'] as List<dynamic>? ?? [];
 
             final loadedCapitulos = capsJson.map((cap) {
@@ -236,6 +446,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }).toList();
 
               final int capNum = (capMap['numero'] as num?)?.toInt() ?? 1;
+              final double progressPct = (capMap['module_progress_percentage'] as num?)?.toDouble() ?? 0.0;
+
+              ChestRewardMapData? chestReward;
+              if (capMap['chest_reward'] != null) {
+                final cr = capMap['chest_reward'] as Map<String, dynamic>;
+                final statusStr = cr['status']?.toString() ?? 'bloqueado';
+                final isCollected = cr['collected'] == true || statusStr == 'concluido';
+                chestReward = ChestRewardMapData(
+                  milestoneIndex: (cr['milestone_index'] as num?)?.toInt() ?? 1,
+                  status: isCollected ? 'concluido' : statusStr,
+                  unlocked: cr['unlocked'] == true,
+                  collected: isCollected,
+                  recompensaXp: (cr['recompensa_xp'] as num?)?.toInt() ?? 75,
+                  recompensaConchas: (cr['recompensa_conchas'] as num?)?.toInt() ?? 50,
+                  afterLessonNumber: (cr['after_lesson_number'] as num?)?.toInt() ?? 2,
+                );
+              }
+
               return CapituloMapData(
                 id: (capMap['id'] as num?)?.toInt() ?? 0,
                 titulo: capMap['titulo']?.toString() ?? 'Capítulo $capNum',
@@ -243,15 +471,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 numero: capNum,
                 paletteColor: _TupiColors.accent,
                 licoes: licoes,
+                chestReward: chestReward,
+                moduleProgressPercentage: progressPct,
               );
             }).toList();
 
+            final mergedCapitulos = _mergeCapitulosWithLocalProgress(_capitulos, loadedCapitulos);
+
             if (mounted) {
               setState(() {
-                _capitulos = loadedCapitulos;
-                _selectedCapituloIndex = 0;
+                _capitulos = mergedCapitulos;
                 _isLoading = false;
               });
+              _preheatNextLesson();
+              // Pré-aquecimento do Painel de Desempenho em background (Zero Loading no 1º clique)
+              Future.microtask(() => DashboardRepositoryImpl().getUserProgressStats());
               return;
             }
           }
@@ -284,7 +518,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     _initAnimControllers();
     return Scaffold(
-      backgroundColor: _TupiColors.background,
+      backgroundColor: AppTheme.bg(context),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -316,66 +550,123 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // ─── Barra Superior Global ──────────────────────────────────────────────────
   Widget _buildGlobalTopBar() {
+    final isDark = AppTheme.isDark(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: const BoxDecoration(
-        color: _TupiColors.background,
+      decoration: BoxDecoration(
+        color: AppTheme.bg(context),
         border: Border(
-          bottom: BorderSide(color: _TupiColors.border, width: 1),
+          bottom: BorderSide(color: AppTheme.border(context), width: 1),
         ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Variante Ativa Badge com Seletor de Idioma
-          GestureDetector(
-            onTap: () => _showLanguageSwitcher(context),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: _TupiColors.border),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.03),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('🌿', style: TextStyle(fontSize: 14)),
-                  const SizedBox(width: 6),
-                  Text(
-                    _varianteNome,
-                    style: const TextStyle(
-                      color: _TupiColors.accent,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
+          Flexible(
+            child: GestureDetector(
+              onTap: () => _showLanguageSwitcher(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppTheme.surface(context),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppTheme.border(context)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
                     ),
-                  ),
-                  const SizedBox(width: 4),
-                  const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 16,
-                    color: _TupiColors.accent,
-                  ),
-                ],
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('🌿', style: TextStyle(fontSize: 13)),
+                    const SizedBox(width: 4),
+                    Flexible(
+                      child: Text(
+                        _varianteNome,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 16,
+                      color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          const SizedBox(width: 6),
 
-          // Métricas de Gamificação: Ofensiva, Conchas, XP
+          // Métricas de Gamificação: Ofensiva, Conchas, XP + Atalhos Interativos
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               _buildTopStat(icon: '🔥', label: '$_streakDays', color: _TupiColors.streakColor),
-              const SizedBox(width: 10),
-              _buildTopStat(icon: '🐚', label: '$_conchas', color: _TupiColors.shellColor),
-              const SizedBox(width: 10),
-              _buildTopStat(icon: '⭐', label: '$_xpTotal', color: _TupiColors.xpColor),
+              const SizedBox(width: 5),
+              _buildTopStat(icon: '🐚', label: '$_conchas', color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.shellColor),
+              const SizedBox(width: 5),
+              // Toque no XP abre o Dashboard de Progresso 3D
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProgressDashboardScreen()),
+                ),
+                child: _buildTopStat(icon: '⭐', label: '$_xpTotal', color: _TupiColors.xpColor),
+              ),
+              const SizedBox(width: 5),
+              // Botão de alternância rápida de Tema Ancestral (Sol / Lua)
+              GestureDetector(
+                onTap: () => ThemeNotifier.instance.toggleTheme(context),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surface(context),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: AppTheme.border(context)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Text(isDark ? '🌙' : '☀️', style: const TextStyle(fontSize: 13)),
+                ),
+              ),
+              const SizedBox(width: 5),
+              // Botão do Mapa Interativo de Aldeias
+              GestureDetector(
+                onTap: _showInteractiveMapModal,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: (isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent).withValues(alpha: 0.3),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const Text('🗺️', style: TextStyle(fontSize: 13)),
+                ),
+              ),
             ],
           ),
         ],
@@ -384,15 +675,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildTopStat({required String icon, required String label, required Color color}) {
+    final isDark = AppTheme.isDark(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _TupiColors.border),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -456,7 +748,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             const SizedBox(height: 24),
 
             // O Caminho de Lições Serpenteante
-            _buildWindingLessonPath(cap.licoes),
+            _buildWindingLessonPath(cap),
           ],
         ),
       ),
@@ -478,10 +770,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected ? _TupiColors.primary : Colors.white,
+                color: isSelected ? _TupiColors.primary : AppTheme.surface(context),
                 borderRadius: BorderRadius.circular(19),
                 border: Border.all(
-                  color: isSelected ? _TupiColors.primary : _TupiColors.border,
+                  color: isSelected ? _TupiColors.primary : AppTheme.border(context),
                 ),
                 boxShadow: isSelected
                     ? [
@@ -496,7 +788,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Text(
                 'Capítulo ${cap.numero}',
                 style: TextStyle(
-                  color: isSelected ? Colors.white : _TupiColors.textMuted,
+                  color: isSelected ? Colors.white : AppTheme.textSecondary(context),
                   fontSize: 13,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                 ),
@@ -583,13 +875,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               height: 1.35,
             ),
           ),
+          const SizedBox(height: 12),
+          // Barra de progresso real do capítulo
+          Row(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: LinearProgressIndicator(
+                    value: (cap.moduleProgressPercentage / 100).clamp(0.0, 1.0),
+                    backgroundColor: Colors.white.withValues(alpha: 0.2),
+                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFFD166)),
+                    minHeight: 6,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                '${cap.moduleProgressPercentage.toInt()}%',
+                style: const TextStyle(
+                  color: Color(0xFFFFD166),
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  /// Constrói o caminho de lições ondulado verticalmente
-  Widget _buildWindingLessonPath(List<LicaoMapData> licoes) {
+  /// Constrói o caminho de lições ondulado verticalmente com baú cultural
+  Widget _buildWindingLessonPath(CapituloMapData cap) {
+    final licoes = cap.licoes;
     if (licoes.isEmpty) {
       return const Padding(
         padding: EdgeInsets.all(32),
@@ -602,12 +921,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // Padrão de zigue-zague harmônico para os botões (-0.5 = esq, 0.0 = centro, 0.5 = dir)
     final offsets = [0.0, -0.45, 0.45, 0.0, -0.45, 0.45];
 
+    // Localiza a lição prioritária que o aluno deve fazer agora
+    final targetIndex = licoes.indexWhere(
+      (l) => l.status == LicaoStatus.disponivel || l.status == LicaoStatus.emAndamento,
+    );
+
     return Column(
       children: List.generate(licoes.length, (index) {
         final licao = licoes[index];
         final dx = offsets[index % offsets.length];
 
-        final isAvailable = licao.status == LicaoStatus.disponivel;
+        final isTarget = (index == targetIndex);
+        final isInProgress = licao.status == LicaoStatus.emAndamento;
 
         return Column(
           children: [
@@ -620,73 +945,93 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
                 children: [
-                  // Aura pulsante na lição ativa
-                  if (isAvailable && _pulseController != null)
-                    AnimatedBuilder(
-                      animation: _pulseController!,
-                      builder: (context, _) {
-                        final val = _pulseController?.value ?? 0.0;
-                        return Container(
-                          width: 84 + (val * 12),
-                          height: 84 + (val * 12),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _TupiColors.primary.withValues(alpha: 0.25 - (val * 0.15)),
-                          ),
-                        );
-                      },
-                    ),
-
-                  // Balãozinho de "COMEÇAR" flutuando acima do nó ativo
-                  if (isAvailable && _floatController != null)
-                    Positioned(
-                      top: -34,
+                  // Aura pulsante radiante isolada por RepaintBoundary para fluidez 120 FPS
+                  if (isTarget && _pulseController != null)
+                    RepaintBoundary(
                       child: AnimatedBuilder(
-                        animation: _floatController!,
+                        animation: _pulseController!,
                         builder: (context, _) {
-                          final val = _floatController?.value ?? 0.0;
-                          final dy = math.sin(val * math.pi) * 3;
-                          return Transform.translate(
-                            offset: Offset(0, dy),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: _TupiColors.primary,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.3),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: const Text(
-                                'COMEÇAR',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 0.8,
+                          final val = _pulseController?.value ?? 0.0;
+                          return Container(
+                            width: 86 + (val * 18),
+                            height: 86 + (val * 18),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: const Color(0xFFFFB300).withValues(alpha: 0.32 - (val * 0.18)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFFFFD54F).withValues(alpha: 0.40 - (val * 0.20)),
+                                  blurRadius: 18 + (val * 8),
+                                  spreadRadius: 2,
                                 ),
-                              ),
+                              ],
                             ),
                           );
                         },
                       ),
                     ),
 
-                  // Botão 3D Tátil
-                  _build3DNodeButton(licao),
+                  // Balãozinho de destaque "SUA VEZ / CONTINUAR" flutuante animado
+                  if (isTarget && _floatController != null)
+                    Positioned(
+                      top: -36,
+                      child: RepaintBoundary(
+                        child: AnimatedBuilder(
+                          animation: _floatController!,
+                          builder: (context, _) {
+                            final val = _floatController?.value ?? 0.0;
+                            final dy = math.sin(val * math.pi) * 3.5;
+                            return Transform.translate(
+                              offset: Offset(0, dy),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF0E5D4E), Color(0xFF1B4332)],
+                                  ),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(color: const Color(0xFFFFD166), width: 1.5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFFFFD166).withValues(alpha: 0.45),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(isInProgress ? '⚡ ' : '✨ ', style: const TextStyle(fontSize: 11)),
+                                    Text(
+                                      isInProgress ? 'CONTINUAR' : 'SUA VEZ',
+                                      style: const TextStyle(
+                                        color: Color(0xFFFFD166),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 0.9,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+
+                  // Botão 3D Tátil com suporte a destaque e brilho
+                  _build3DNodeButton(licao, isTarget: isTarget),
                 ],
               ),
             ),
 
-            // Se for após a Lição 2, insere um baú de recompensa cultural no caminho
+            // Se for após a Lição 2, insere o baú de recompensa cultural do capítulo
             if (index == 1 && licoes.length > 2) ...[
               const SizedBox(height: 16),
               _buildTrailConnector(99),
-              _buildChestRewardNode(),
+              _buildChestRewardNode(cap, cap.chestReward),
             ],
           ],
         );
@@ -694,27 +1039,93 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _build3DNodeButton(LicaoMapData licao) {
+  Widget _build3DNodeButton(LicaoMapData licao, {bool isTarget = false}) {
     final isCompleted = licao.status == LicaoStatus.concluida;
+    final isInProgress = licao.status == LicaoStatus.emAndamento;
     final isAvailable = licao.status == LicaoStatus.disponivel;
+    final isPlayable = isAvailable || isInProgress;
     final isLocked = licao.status == LicaoStatus.bloqueada;
 
-    Color topColor;
-    Color bottomColor;
     Widget iconWidget;
+    Gradient? bgGradient;
+    Color? solidColor;
+    Color bottomColor;
+    List<BoxShadow> shadows;
+
+    final isDark = AppTheme.isDark(context);
 
     if (isCompleted) {
-      topColor = _TupiColors.accent;
-      bottomColor = _TupiColors.accentDark;
+      solidColor = isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent;
+      bottomColor = isDark ? const Color(0xFF0E6955) : _TupiColors.accentDark;
       iconWidget = const Text('👑', style: TextStyle(fontSize: 28));
-    } else if (isAvailable) {
-      topColor = _TupiColors.primary;
+      shadows = [
+        BoxShadow(
+          color: (isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent).withValues(alpha: 0.35),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ];
+    } else if (isTarget) {
+      // 🌟 LIÇÃO QUE ELE DEVE FAZER: Super brilhante, dourada radiante, efeito glossy
+      bgGradient = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFFFFDF70), // Dourado brilhante no topo
+          Color(0xFFFFB300), // Ouro vivo
+          Color(0xFFF57C00), // Âmbar solar na base
+        ],
+      );
+      bottomColor = const Color(0xFFC67D00);
+      iconWidget = Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          const Text('⭐', style: TextStyle(fontSize: 32)),
+          Positioned(
+            right: -6,
+            top: -4,
+            child: const Text('✨', style: TextStyle(fontSize: 14)),
+          ),
+        ],
+      );
+      shadows = [
+        BoxShadow(
+          color: const Color(0xFFFFB300).withValues(alpha: 0.60),
+          blurRadius: 18,
+          spreadRadius: 2,
+          offset: const Offset(0, 4),
+        ),
+        BoxShadow(
+          color: const Color(0xFFFFD54F).withValues(alpha: 0.40),
+          blurRadius: 8,
+          offset: const Offset(0, 1),
+        ),
+      ];
+    } else if (isPlayable) {
+      // Outra lição disponível ou em andamento (não é a lição alvo primária)
+      solidColor = _TupiColors.primary;
       bottomColor = _TupiColors.primaryDark;
-      iconWidget = const Text('⭐', style: TextStyle(fontSize: 28));
+      iconWidget = Text(isInProgress ? '🏹' : '⭐', style: const TextStyle(fontSize: 28));
+      shadows = [
+        BoxShadow(
+          color: _TupiColors.primary.withValues(alpha: 0.35),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ];
     } else {
-      topColor = _TupiColors.nodeLocked;
-      bottomColor = _TupiColors.nodeLockedBorder;
-      iconWidget = const Icon(Icons.lock_rounded, color: _TupiColors.textMuted, size: 26);
+      // Bloqueada: pedra clara ou obsidiana escura com cadeado
+      solidColor = isDark ? const Color(0xFF19231F) : _TupiColors.nodeLocked;
+      bottomColor = isDark ? const Color(0xFF23322C) : _TupiColors.nodeLockedBorder;
+      iconWidget = Icon(Icons.lock_rounded, color: AppTheme.textSecondary(context), size: 26);
+      shadows = [
+        BoxShadow(
+          color: isDark ? Colors.black.withValues(alpha: 0.3) : const Color(0xFFC7C3B6).withValues(alpha: 0.35),
+          blurRadius: 6,
+          offset: const Offset(0, 3),
+        ),
+      ];
     }
 
     return GestureDetector(
@@ -723,35 +1134,60 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 72,
-            height: 72,
+            width: 74,
+            height: 74,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: topColor,
+              color: solidColor,
+              gradient: bgGradient,
               border: Border(
                 bottom: BorderSide(color: bottomColor, width: 6),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: (isCompleted ? _TupiColors.accent : isAvailable ? _TupiColors.primary : const Color(0xFFC7C3B6))
-                      .withValues(alpha: 0.35),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
+              boxShadow: shadows,
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Reflexo glossy curvo (efeito botão vítreo brilhante 3D)
+                if (isTarget || isPlayable)
+                  Positioned(
+                    top: 4,
+                    left: 10,
+                    right: 10,
+                    height: 22,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white.withValues(alpha: isTarget ? 0.70 : 0.35),
+                            Colors.white.withValues(alpha: 0.0),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                Center(child: iconWidget),
               ],
             ),
-            child: Center(child: iconWidget),
           ),
           const SizedBox(height: 6),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppTheme.surface(context),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: _TupiColors.border),
+              border: Border.all(
+                color: isTarget ? const Color(0xFFFFB300) : AppTheme.border(context),
+                width: isTarget ? 1.5 : 1.0,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
+                  color: isTarget
+                      ? const Color(0xFFFFB300).withValues(alpha: 0.18)
+                      : Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -760,9 +1196,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Text(
               licao.titulo,
               style: TextStyle(
-                color: isLocked ? _TupiColors.textMuted : _TupiColors.textDark,
+                color: isLocked
+                    ? AppTheme.textSecondary(context)
+                    : isTarget
+                        ? const Color(0xFFFFB300)
+                        : AppTheme.textPrimary(context),
                 fontSize: 11,
-                fontWeight: FontWeight.bold,
+                fontWeight: isTarget ? FontWeight.w900 : FontWeight.bold,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -774,74 +1214,370 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildTrailConnector(int index) {
+    final isDark = AppTheme.isDark(context);
     return Container(
       width: 6,
       height: 36,
       margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFFDCD8CB),
+        color: isDark ? const Color(0xFF263833) : const Color(0xFFDCD8CB),
         borderRadius: BorderRadius.circular(3),
       ),
     );
   }
 
-  Widget _buildChestRewardNode() {
+  Widget _buildChestRewardNode(CapituloMapData cap, ChestRewardMapData? chest) {
+    final status = chest?.status ?? 'bloqueado';
+    final isUnlocked = status == 'disponivel';
+    final isCollected = status == 'concluido';
+    final isDark = AppTheme.isDark(context);
+
+    Color bgColor;
+    Border border;
+    List<BoxShadow> shadows;
+    Widget icon;
+    String badgeText;
+
+    if (isCollected) {
+      bgColor = isDark ? const Color(0xFF172420) : const Color(0xFFFAF9F5);
+      border = Border.all(color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent, width: 2.5);
+      shadows = [
+        BoxShadow(
+          color: (isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent).withValues(alpha: 0.2),
+          blurRadius: 8,
+          spreadRadius: 1,
+        ),
+      ];
+      icon = const Text('✨', style: TextStyle(fontSize: 26));
+      badgeText = 'COLETADO';
+    } else if (isUnlocked) {
+      bgColor = AppTheme.surface(context);
+      border = Border.all(color: _TupiColors.xpColor, width: 3);
+      shadows = [
+        BoxShadow(
+          color: _TupiColors.xpColor.withValues(alpha: 0.45),
+          blurRadius: 14,
+          spreadRadius: 3,
+        ),
+      ];
+      icon = const Text('🏺', style: TextStyle(fontSize: 28));
+      badgeText = 'ABRIR BAÚ';
+    } else {
+      bgColor = isDark ? const Color(0xFF19231F) : _TupiColors.nodeLocked;
+      border = Border.all(color: isDark ? const Color(0xFF23322C) : _TupiColors.nodeLockedBorder, width: 2);
+      shadows = [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.05),
+          blurRadius: 4,
+          offset: const Offset(0, 2),
+        ),
+      ];
+      icon = const Text('🔒', style: TextStyle(fontSize: 22));
+      badgeText = 'BLOQUEADO';
+    }
+
     return GestureDetector(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: _TupiColors.accent,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-            content: const Row(
-              children: [
-                Text('🏺', style: TextStyle(fontSize: 22)),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    'Baú do Pajé: Continue avançando na trilha para desbloquear conchas e artefatos!',
-                    style: TextStyle(color: Colors.white),
+        if (isCollected) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: _TupiColors.accent,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              content: Row(
+                children: [
+                  const Text('✨', style: TextStyle(fontSize: 18)),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Baú do Capítulo ${cap.numero} já resgatado! (+${chest?.recompensaXp ?? 75} XP)',
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            ),
+          );
+        } else if (isUnlocked) {
+          _openIndigenousChestModal(cap, chest!);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: _TupiColors.textDark,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              content: const Row(
+                children: [
+                  Text('🔒', style: TextStyle(fontSize: 18)),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Conclua as lições anteriores do capítulo para abrir este baú cultural.',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          RepaintBoundary(
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: bgColor,
+                shape: BoxShape.circle,
+                border: border,
+                boxShadow: shadows,
+              ),
+              child: Center(child: icon),
             ),
           ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: _TupiColors.surfaceCard,
-          shape: BoxShape.circle,
-          border: Border.all(color: _TupiColors.xpColor.withValues(alpha: 0.4), width: 2),
+          const SizedBox(height: 6),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            decoration: BoxDecoration(
+              color: isCollected
+                  ? _TupiColors.accent.withValues(alpha: 0.15)
+                  : isUnlocked
+                      ? _TupiColors.primary.withValues(alpha: 0.2)
+                      : const Color(0xFFE2DFD4),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              badgeText,
+              style: TextStyle(
+                color: isCollected
+                    ? _TupiColors.accent
+                    : isUnlocked
+                        ? _TupiColors.primaryDark
+                        : _TupiColors.textMuted,
+                fontSize: 9,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0.6,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openIndigenousChestModal(CapituloMapData cap, ChestRewardMapData chest) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.75),
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+        child: IndigenousArtifactChest(
+          reward: IndigenousReward.sampleMuiraquita(),
+          onCollected: () async {
+            Navigator.pop(ctx);
+
+            // Marcação otimista imediata para prevenir múltiplos cliques locais
+            setState(() {
+              _capitulos = _capitulos.map((c) {
+                if (c.chestReward != null) {
+                  return CapituloMapData(
+                    id: c.id,
+                    titulo: c.titulo,
+                    descricao: c.descricao,
+                    numero: c.numero,
+                    paletteColor: c.paletteColor,
+                    licoes: c.licoes,
+                    chestReward: ChestRewardMapData(
+                      milestoneIndex: c.chestReward!.milestoneIndex,
+                      status: 'concluido',
+                      unlocked: c.chestReward!.unlocked,
+                      collected: true,
+                      recompensaXp: c.chestReward!.recompensaXp,
+                      recompensaConchas: c.chestReward!.recompensaConchas,
+                      afterLessonNumber: c.chestReward!.afterLessonNumber,
+                    ),
+                    moduleProgressPercentage: c.moduleProgressPercentage,
+                  );
+                }
+                return c;
+              }).toList();
+            });
+
+            final session = Supabase.instance.client.auth.currentSession;
+            final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+
+            try {
+              if (session != null) {
+                final response = await http.post(
+                  Uri.parse('$baseUrl/api/v1/trilha/capitulo/${cap.id}/bau/${chest.milestoneIndex}/coletar/'),
+                  headers: {
+                    'Authorization': 'Bearer ${session.accessToken}',
+                    'Content-Type': 'application/json',
+                  },
+                ).timeout(const Duration(seconds: 8));
+
+                if (response.statusCode == 200) {
+                  final data = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+                  final xpGanho = (data['recompensa_xp'] as num?)?.toInt() ?? 75;
+                  final conchasGanho = (data['recompensa_conchas'] as num?)?.toInt() ?? 50;
+
+                  setState(() {
+                    _xpTotal = (data['xp_total'] as num?)?.toInt() ?? (_xpTotal + xpGanho);
+                    _conchas += conchasGanho;
+                  });
+
+                  DashboardRepositoryImpl.invalidateCache();
+                  AppProgressionNotifier.instance.notifyProgressUpdated(
+                    xpGained: xpGanho,
+                    conchasGained: conchasGanho,
+                  );
+
+                  _loadUserDataAndTrail();
+
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: _TupiColors.accent,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        content: Row(
+                          children: [
+                            const Text('✨', style: TextStyle(fontSize: 20)),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Baú Coletado! +$xpGanho XP e +$conchasGanho Conchas sagradas.',
+                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return;
+                } else if (response.statusCode == 409) {
+                  // Baú já coletado - regra de abertura única
+                  _loadUserDataAndTrail();
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: _TupiColors.textDark,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        content: const Row(
+                          children: [
+                            Text('🛡️', style: TextStyle(fontSize: 20)),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Este baú já foi resgatado! Cada usuário pode abrir o baú da trilha apenas uma vez.',
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return;
+                }
+              }
+            } catch (e) {
+              debugPrint('Erro ao coletar baú: $e');
+            }
+
+            _loadUserDataAndTrail();
+          },
         ),
-        child: const Text('🏺', style: TextStyle(fontSize: 26)),
+      ),
+    );
+  }
+
+  void _showInteractiveMapModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          color: Color(0xFFF3F2E8),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          children: [
+            Center(
+              child: Container(
+                width: 44,
+                height: 5,
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFD0D0D0),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            Expanded(
+              child: LazyHistoricalMapLoader(
+                capitulos: _capitulos,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   void _onLessonNodeTapped(LicaoMapData licao) {
     if (licao.status == LicaoStatus.bloqueada) {
+      if (!_isAdmin) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: _TupiColors.textDark,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            content: Row(
+              children: [
+                const Text('🔒', style: TextStyle(fontSize: 18)),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Complete a Lição ${licao.numero - 1} para desbloquear "${licao.titulo}".',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        return;
+      }
+
+      // Se for administrador, exibe aviso de bypass e prossegue
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: _TupiColors.textDark,
+          backgroundColor: _TupiColors.accent,
           behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 2),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           content: Row(
             children: [
-              const Text('🔒', style: TextStyle(fontSize: 18)),
+              const Text('🛡️', style: TextStyle(fontSize: 18)),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Complete a Lição ${licao.numero - 1} para desbloquear "${licao.titulo}".',
-                  style: const TextStyle(color: Colors.white),
+                  'Acesso Admin: Visualizando "${licao.titulo}" (bloqueada para alunos).',
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
         ),
       );
-      return;
     }
 
     // Abre BottomSheet de Início da Lição
@@ -963,13 +1699,50 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
-              await Navigator.push(
+              final dynamic result = await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => LessonPlayerScreen(licaoId: licao.id),
                 ),
               );
-              _loadUserDataAndTrail();
+
+              // Atualização otimista instantânea (0ms) na interface
+              if (result != null && (result is Map<String, dynamic> || result == true)) {
+                int? nextLicaoId;
+                if (result is Map<String, dynamic>) {
+                  nextLicaoId = (result['proxima_licao_id'] as num?)?.toInt();
+                  final earnedXp = (result['earned_xp'] as num?)?.toInt() ?? 0;
+                  final totalXp = (result['xp_total'] as num?)?.toInt();
+                  final streak = (result['streak_atual'] as num?)?.toInt() ??
+                      (result['dias_ofensiva'] as num?)?.toInt();
+                  if (totalXp != null && totalXp > 0) {
+                    _xpTotal = totalXp;
+                  } else if (earnedXp > 0) {
+                    _xpTotal += earnedXp;
+                  }
+                  if (streak != null && streak > 0) {
+                    _streakDays = streak;
+                  }
+                  final returnedVid = (result['variante_id'] as num?)?.toInt();
+                  if (returnedVid != null && returnedVid > 0) {
+                    _varianteId = returnedVid;
+                    if (result['variante_nome'] != null) {
+                      _varianteNome = result['variante_nome'].toString();
+                    }
+                  }
+                }
+                _optimisticallyUnlockLesson(licao.id, unlockedNextLessonId: nextLicaoId);
+
+                DashboardRepositoryImpl.invalidateCache();
+                AppProgressionNotifier.instance.notifyProgressUpdated(
+                  completedLessonId: licao.id,
+                  unlockedLessonId: nextLicaoId,
+                  newStreak: _streakDays,
+                );
+              } else {
+                DashboardRepositoryImpl.invalidateCache();
+                AppProgressionNotifier.instance.notifyProgressUpdated();
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: isCompleted ? _TupiColors.accent : _TupiColors.primary,
@@ -979,7 +1752,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               elevation: 4,
             ),
             child: Text(
-              isCompleted ? 'REVISAR LIÇÃO' : 'COMEÇAR LIÇÃO',
+              isCompleted
+                  ? 'REVISAR LIÇÃO'
+                  : licao.status == LicaoStatus.emAndamento
+                      ? 'CONTINUAR LIÇÃO'
+                      : 'COMEÇAR LIÇÃO',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 0.8),
             ),
           ),
@@ -1052,6 +1829,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             setState(() {
               _varianteId = (variante['id'] as num).toInt();
               _varianteNome = variante['nome']?.toString() ?? 'Tupi Antigo';
+              _capitulos = [];
             });
             _loadUserDataAndTrail();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -1074,18 +1852,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
           children: [
-            const Text(
+            Text(
               'Centro de Prática Ancestral 🏹',
               style: TextStyle(
-                color: _TupiColors.textDark,
+                color: AppTheme.textPrimary(context),
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
+            Text(
               'Fortaleça sua memória com treinos rápidos e revisão espaçada.',
-              style: TextStyle(color: _TupiColors.textMuted, fontSize: 13),
+              style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
             ),
             const SizedBox(height: 20),
 
@@ -1157,10 +1935,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
 
             const SizedBox(height: 24),
-            const Text(
+            Text(
               'Banco de Vocabulário da Trilha',
               style: TextStyle(
-                color: _TupiColors.textDark,
+                color: AppTheme.textPrimary(context),
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -1173,9 +1951,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 margin: const EdgeInsets.only(bottom: 10),
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: _TupiColors.surfaceCard,
+                  color: AppTheme.surface(context),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: _TupiColors.border),
+                  border: Border.all(color: AppTheme.border(context)),
                 ),
                 child: Row(
                   children: [
@@ -1199,8 +1977,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             children: [
                               Text(
                                 item['tupi']!,
-                                style: const TextStyle(
-                                  color: _TupiColors.textDark,
+                                style: TextStyle(
+                                  color: AppTheme.textPrimary(context),
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -1208,14 +1986,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const SizedBox(width: 8),
                               Text(
                                 '[${item['pronuncia']!}]',
-                                style: TextStyle(color: _TupiColors.textMuted.withValues(alpha: 0.7), fontSize: 11),
+                                style: TextStyle(color: AppTheme.textSecondary(context).withValues(alpha: 0.7), fontSize: 11),
                               ),
                             ],
                           ),
                           const SizedBox(height: 3),
                           Text(
                             item['pt']!,
-                            style: const TextStyle(color: _TupiColors.textMuted, fontSize: 13),
+                            style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
                           ),
                         ],
                       ),
@@ -1223,12 +2001,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: _TupiColors.backgroundSecondary,
+                        color: AppTheme.surfaceSubtle(context),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         item['cat']!,
-                        style: const TextStyle(color: _TupiColors.textMuted, fontSize: 10),
+                        style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 10),
                       ),
                     ),
                   ],
@@ -1252,44 +2030,45 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildBottomNavigationBar() {
     final maxTabs = _isAdmin ? 4 : 3;
     final safeIndex = _currentTabIndex < maxTabs ? _currentTabIndex : 0;
+    final isDark = AppTheme.isDark(context);
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: AppTheme.surface(context),
         border: Border(
-          top: BorderSide(color: _TupiColors.border, width: 1),
+          top: BorderSide(color: AppTheme.border(context), width: 1),
         ),
       ),
       child: BottomNavigationBar(
         currentIndex: safeIndex,
         onTap: (index) => setState(() => _currentTabIndex = index),
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context),
         elevation: 0,
-        selectedItemColor: _TupiColors.primary,
-        unselectedItemColor: _TupiColors.textMuted,
+        selectedItemColor: isDark ? const Color(0xFFE69A56) : _TupiColors.primary,
+        unselectedItemColor: AppTheme.textSecondary(context),
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
         unselectedLabelStyle: const TextStyle(fontSize: 11),
         type: BottomNavigationBarType.fixed,
         items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.explore_rounded),
-            activeIcon: Icon(Icons.explore_rounded, color: _TupiColors.primary),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.explore_rounded),
+            activeIcon: Icon(Icons.explore_rounded, color: isDark ? const Color(0xFFE69A56) : _TupiColors.primary),
             label: 'Trilha',
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center_rounded),
-            activeIcon: Icon(Icons.fitness_center_rounded, color: _TupiColors.accent),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.fitness_center_rounded),
+            activeIcon: Icon(Icons.fitness_center_rounded, color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent),
             label: 'Prática',
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.person_rounded),
-            activeIcon: Icon(Icons.person_rounded, color: _TupiColors.primary),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person_rounded),
+            activeIcon: Icon(Icons.person_rounded, color: isDark ? const Color(0xFFE69A56) : _TupiColors.primary),
             label: 'Perfil',
           ),
           if (_isAdmin)
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.admin_panel_settings_rounded),
-              activeIcon: Icon(Icons.admin_panel_settings_rounded, color: Color(0xFF0E5D4E)),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.admin_panel_settings_rounded),
+              activeIcon: Icon(Icons.admin_panel_settings_rounded, color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)),
               label: 'Admin',
             ),
         ],

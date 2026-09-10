@@ -88,6 +88,29 @@ class UserProfile(models.Model):
         help_text="Pontuação de experiência acumulada ao longo de toda a jornada."
     )
 
+    # ── Ofensiva Diária (Streak) Automatizado (Supabase + pg_cron) ────────────
+    streak_atual = models.IntegerField(
+        default=0,
+        verbose_name="Ofensiva Atual (Dias)",
+        help_text="Dias consecutivos de estudo ativo do usuário."
+    )
+    maior_streak = models.IntegerField(
+        default=0,
+        verbose_name="Maior Ofensiva (Recorde)",
+        help_text="Maior sequência de dias consecutivos já atingida."
+    )
+    ultimo_dia_estudado = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Último Dia Estudado",
+        help_text="Data da última atividade válida no fuso America/Sao_Paulo."
+    )
+    dias_estudados_total = models.IntegerField(
+        default=0,
+        verbose_name="Dias Estudados no Total",
+        help_text="Contagem total de dias com pelo menos uma atividade concluída."
+    )
+
     # ── Medalhas ─────────────────────────────────────────────────────────────
     achievements = models.ManyToManyField(
         'Achievement',
@@ -322,3 +345,42 @@ class FilaExercicioUsuario(models.Model):
         self.status = StatusFilaChoices.CONCLUIDO
         self.data_conclusao = timezone.now()
         self.save()
+
+
+# ─── DailyStudyLog ────────────────────────────────────────────────────────────
+
+class DailyStudyLog(models.Model):
+    """
+    Registro diário de atividades de estudo do usuário para cálculo de estatísticas
+    100% autênticas (ritmo semanal, calendário de atividade, tempo e precisão).
+    """
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name='daily_study_logs',
+        verbose_name="Usuário"
+    )
+    data = models.DateField(
+        verbose_name="Data da Atividade",
+        help_text="Data no fuso horário America/Sao_Paulo"
+    )
+    xp_ganho = models.IntegerField(default=0, verbose_name="XP Ganho no Dia")
+    licoes_concluidas = models.IntegerField(default=0, verbose_name="Lições Concluídas")
+    exercicios_respondidos = models.IntegerField(default=0, verbose_name="Exercícios Respondidos")
+    exercicios_corretos = models.IntegerField(default=0, verbose_name="Exercícios Corretos")
+    tempo_estudo_segundos = models.IntegerField(default=0, verbose_name="Tempo de Estudo (Segundos)")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Log Diário de Estudo'
+        verbose_name_plural = 'Logs Diários de Estudo'
+        unique_together = ('user', 'data')
+        indexes = [
+            models.Index(fields=['user', '-data'], name='idx_dailylog_user_data_desc'),
+        ]
+        db_table = 'users_daily_study_log'
+
+    def __str__(self):
+        return f"{self.user.name} - {self.data}: {self.xp_ganho} XP ({self.licoes_concluidas} lições)"
