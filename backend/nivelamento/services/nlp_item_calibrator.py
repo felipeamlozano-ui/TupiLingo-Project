@@ -11,11 +11,9 @@ Objetivo:
 """
 
 from __future__ import annotations
-
 import re
 import unicodedata
-from collections.abc import Sequence
-
+from typing import Sequence, List
 import numpy as np
 
 
@@ -141,7 +139,7 @@ class NLPItemCalibrator:
         # Extração de vetores semânticos leves (caracteres n-grams hash-embeddings normalizados)
         v_target = self._generate_lightweight_embedding(resposta_correta)
 
-        similarities: list[float] = []
+        similarities: List[float] = []
         for dist in distratores:
             v_dist = self._generate_lightweight_embedding(dist)
             sim = self._cosine_similarity(v_target, v_dist)

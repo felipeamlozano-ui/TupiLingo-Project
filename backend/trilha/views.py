@@ -11,29 +11,31 @@ import json
 import logging
 
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Prefetch
 from django.http import JsonResponse
-from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django_ratelimit.decorators import ratelimit
-from users.decorators import supabase_auth_required
-from users.models import UserLesson, UserProfile
-from users.services.validation_service import (
-    ValidationResult,
-    calcular_xp_exercicio,
-    validar_lista_lacunas,
-)
+from django.utils import timezone
 
+from users.decorators import supabase_auth_required
+from users.models import UserProfile, UserLesson
+from users.services.validation_service import (
+    validar_lista_lacunas,
+    calcular_xp_exercicio,
+    ValidationResult,
+)
 from .models import (
+    VarianteTupi,
+    TrilhaHistorica,
     Capitulo,
+    Licao,
+    StoryBlock,
     Exercicio,
-    ExercicioAssociacao,
     ExercicioCompletar,
     ExercicioEscolha,
-    Licao,
-    TrilhaHistorica,
-    VarianteTupi,
+    ExercicioAssociacao,
+    VocabularyItem,
 )
 
 logger = logging.getLogger("trilha.views")
@@ -66,7 +68,6 @@ def _is_celery_broker_reachable() -> bool:
     """Verifica de forma ultra-rápida (<=150ms) se o broker Redis do Celery está acessível."""
     import socket
     from urllib.parse import urlparse
-
     from django.conf import settings
     broker_url = getattr(settings, 'CELERY_BROKER_URL', '')
     if not broker_url or getattr(settings, 'CELERY_TASK_ALWAYS_EAGER', False):
@@ -172,8 +173,8 @@ def listar_regioes_mapa(request):
     if err:
         return err
 
-    from nivelamento.models import UserVarianteLevel
     from users.services.progress_service import ProgressService
+    from nivelamento.models import UserVarianteLevel
 
     variante = user.variante_ativa
     if not variante:
@@ -536,9 +537,9 @@ def concluir_licao(request, licao_id: int):
 
     user_lesson, _ = UserLesson.objects.get_or_create(usuario=user, licao=licao)
 
-    from nivelamento.models import UserVarianteLevel
     from users.services.progress_service import ProgressService
     from users.services.streak_service import StreakService
+    from nivelamento.models import UserVarianteLevel
 
     # Sincroniza a variante ativa do usuário com a variante da lição concluída
     variante_licao = licao.capitulo.trilha.variante
@@ -649,8 +650,8 @@ def concluir_licao(request, licao_id: int):
             variante = licao.capitulo.trilha.variante
             novo_nivel = _recalibrar_nivel(user, variante)
             from users.services.achievement_service import (
-                check_and_grant_lesson_achievements,
                 check_and_grant_xp_achievements,
+                check_and_grant_lesson_achievements,
             )
             novas_xp_ach = check_and_grant_xp_achievements(user)
             novas_lesson_ach = check_and_grant_lesson_achievements(user, licao, accuracy)

@@ -1,20 +1,16 @@
 import json
 import re
-
-import openai
-from app.ai.exceptions import (
-    AuthenticationError,
-    NetworkError,
-    RateLimitError,
-    ServiceUnavailableError,
-    StructuredOutputError,
-    TimeoutError,
-)
-from app.ai.providers.base import BaseProvider
-from app.core.config import settings
-from openai import OpenAI
+from typing import Type
 from pydantic import BaseModel
+from openai import OpenAI
+import openai
 
+from app.core.config import settings
+from app.ai.providers.base import BaseProvider
+from app.ai.exceptions import (
+    RateLimitError, TimeoutError, AuthenticationError,
+    ServiceUnavailableError, NetworkError, StructuredOutputError
+)
 
 class GroqProvider(BaseProvider):
     """
@@ -52,7 +48,7 @@ class GroqProvider(BaseProvider):
         content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL)
         return content.strip()
 
-    def generate_structured(self, prompt: str, schema: type[BaseModel], model_name: str, **kwargs) -> BaseModel:
+    def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:
         base_params = dict(
             model=model_name,
             messages=[{"role": "user", "content": prompt}],
@@ -86,7 +82,7 @@ class GroqProvider(BaseProvider):
             )
             return _parse(response.choices[0].message.content or "")
 
-        except openai.BadRequestError:
+        except openai.BadRequestError as e:
             # Estratégia 2: sem response_format (qwen e outros que rejeitam json_object)
             # Alguns modelos rejeitam json_object com 400 — tentamos sem e extraímos manualmente
             try:

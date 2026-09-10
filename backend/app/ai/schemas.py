@@ -1,6 +1,5 @@
-
 from pydantic import BaseModel, Field
-
+from typing import List, Optional
 
 class Alternativa(BaseModel):
     letra: str = Field(description="Letra da alternativa, ex: A, B, C, D")
@@ -8,8 +7,8 @@ class Alternativa(BaseModel):
 
 class QuestaoSchema(BaseModel):
     enunciado: str = Field(description="Enunciado da questão")
-    contexto: str | None = Field(None, description="Contexto extra ou trecho base")
-    alternativas: list[Alternativa] = Field(description="Lista de alternativas da questão")
+    contexto: Optional[str] = Field(None, description="Contexto extra ou trecho base")
+    alternativas: List[Alternativa] = Field(description="Lista de alternativas da questão")
     resposta_correta: str = Field(description="Letra correspondente à resposta correta")
     explicacao: str = Field(description="Explicação da resposta")
     dificuldade: str = Field(description="Dificuldade da questão")

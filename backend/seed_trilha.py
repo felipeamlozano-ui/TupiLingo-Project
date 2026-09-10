@@ -1,5 +1,4 @@
 import os
-
 import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
@@ -7,19 +6,11 @@ django.setup()
 
 from django.db import connection
 from trilha.models import (
-    Capitulo,
-    Exercicio,
-    ExercicioAssociacao,
-    ExercicioCompletar,
-    ExercicioEscolha,
-    Licao,
-    Scenario,
-    StoryBlock,
-    TrilhaHistorica,
-    VarianteTupi,
-    VocabularyItem,
+    VarianteTupi, TrilhaHistorica, Capitulo, Licao, Scenario,
+    StoryBlock, VocabularyItem, Exercicio,
+    ExercicioEscolha, ExercicioCompletar, ExercicioAssociacao
 )
-from users.models import Achievement, UserAchievement, UserProfile
+from users.models import UserProfile, UserLesson, Achievement, UserAchievement
 
 
 def criar_exercicio_escolha(licao, ordem, enunciado, opcoes, resposta_correta, explicacao, dificuldade='facil', pontos_base=10):

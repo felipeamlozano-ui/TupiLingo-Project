@@ -1,21 +1,17 @@
 import json
 import logging
 import re
-
-import openai
-from app.ai.exceptions import (
-    AIProviderError,
-    AuthenticationError,
-    NetworkError,
-    RateLimitError,
-    ServiceUnavailableError,
-    StructuredOutputError,
-    TimeoutError,
-)
-from app.ai.providers.base import BaseProvider
-from app.core.config import settings
-from openai import OpenAI
+from typing import Type
 from pydantic import BaseModel
+from openai import OpenAI
+import openai
+
+from app.core.config import settings
+from app.ai.providers.base import BaseProvider
+from app.ai.exceptions import (
+    RateLimitError, TimeoutError, AuthenticationError,
+    ServiceUnavailableError, NetworkError, StructuredOutputError, AIProviderError
+)
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +48,7 @@ class DashScopeProvider(BaseProvider):
 
         return AIProviderError(str(e))
 
-    def generate_structured(self, prompt: str, schema: type[BaseModel], model_name: str, **kwargs) -> BaseModel:
+    def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:
         try:
             # Solicita formato JSON para o modelo
             try:

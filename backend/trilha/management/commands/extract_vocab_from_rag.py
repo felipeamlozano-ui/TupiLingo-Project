@@ -1,13 +1,15 @@
+import json
 import logging
+import os
 import time
-from typing import Literal
+from typing import Literal, List
+from django.core.management.base import BaseCommand
+from django.db import connection, transaction, close_old_connections
+from pydantic import BaseModel, Field
 
-from app.ai.fallback import FallbackOrchestrator
 from app.ai.rag_service import get_db
 from app.ai.router import ModelRouter
-from django.core.management.base import BaseCommand
-from django.db import close_old_connections, connection
-from pydantic import BaseModel, Field
+from app.ai.fallback import FallbackOrchestrator
 
 logger = logging.getLogger("nivelamento.etl")
 
@@ -23,7 +25,7 @@ class ItemCategory(BaseModel):
     )
 
 class BatchClassification(BaseModel):
-    itens: list[ItemCategory]
+    itens: List[ItemCategory]
 
 class Command(BaseCommand):
     help = (

@@ -13,10 +13,11 @@ from __future__ import annotations
 import json
 from unittest.mock import MagicMock, patch
 
-from app.ai.rag_service import RAGService
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from nivelamento.schemas import QuestionData
+from app.ai.rag_service import RAGService
+
 
 # Resposta válida padrão do Gemini
 VALID_GEMINI_RESPONSE = json.dumps({

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import logging
 import time
+from typing import Type
 
 from pydantic import BaseModel
 from tenacity import (
@@ -27,6 +28,8 @@ from tenacity import (
 # Compatibilidade retroativa para mocks de teste legados
 wait_exponential_jitter = wait_none
 
+from app.core.config import settings
+from app.ai.invoker import AIInvoker
 from app.ai.exceptions import (
     AIProviderError,
     NetworkError,
@@ -35,9 +38,7 @@ from app.ai.exceptions import (
     ServiceUnavailableError,
     TimeoutError,
 )
-from app.ai.invoker import AIInvoker
 from app.ai.ping_race import PingRaceRouter
-from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -52,6 +53,7 @@ _RETRYABLE: tuple[type[Exception], ...] = (
 
 class AllModelsUnavailableError(AIProviderError):
     """Exceção explícita lançada quando TODOS os modelos da cadeia de inferência falham."""
+    pass
 
 
 class FallbackOrchestrator:
@@ -63,7 +65,7 @@ class FallbackOrchestrator:
     def execute_with_fallback(
         cls,
         prompt: str,
-        schema: type[BaseModel],
+        schema: Type[BaseModel],
         chain: list[str] | None = None,
         **kwargs: object,
     ) -> BaseModel:
@@ -187,7 +189,7 @@ class FallbackOrchestrator:
         provider_name: str,
         model_name: str,
         prompt: str,
-        schema: type[BaseModel],
+        schema: Type[BaseModel],
         **kwargs: object,
     ) -> BaseModel:
         """
@@ -203,24 +205,15 @@ class FallbackOrchestrator:
             )
 
         # 2. Se não estiver no registry nativo, executa via LiteLLM (ex: openrouter/*)
-        import re
-
         import litellm
         from litellm.exceptions import (
+            RateLimitError as LiteLLMRateLimit,
+            Timeout as LiteLLMTimeout,
             APIConnectionError as LiteLLMConnection,
-        )
-        from litellm.exceptions import (
+            ServiceUnavailableError as LiteLLMServiceUnavailable,
             BadRequestError as LiteLLMBadRequest,
         )
-        from litellm.exceptions import (
-            RateLimitError as LiteLLMRateLimit,
-        )
-        from litellm.exceptions import (
-            ServiceUnavailableError as LiteLLMServiceUnavailable,
-        )
-        from litellm.exceptions import (
-            Timeout as LiteLLMTimeout,
-        )
+        import re
 
         full_model = f"{provider_name}/{model_name}"
         messages = [{"role": "user", "content": prompt}]
@@ -275,4 +268,4 @@ class FallbackOrchestrator:
             err_str = str(e).lower()
             if "429" in err_str or "rate limit" in err_str or "quota" in err_str or "402" in err_str:
                 raise RateLimitError(str(e))
-            raise AIProviderError(f"Erro no provedor {full_model}: {e!s}")
+            raise AIProviderError(f"Erro no provedor {full_model}: {str(e)}")

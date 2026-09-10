@@ -3,8 +3,8 @@ Django settings for TupiLingo backend.
 Base configuration for all environments.
 """
 
+import logging
 from pathlib import Path
-
 from decouple import config
 
 # BASE_DIR should point to backend/ (which is 3 levels up from this file)

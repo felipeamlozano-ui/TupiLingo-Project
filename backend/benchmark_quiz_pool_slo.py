@@ -29,11 +29,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 import django
-
 django.setup()
 
 from app.ai.ping_race import get_redis_client
-from app.ai.rag_service import RAGService, _pool_key
+from app.ai.rag_service import RAGService, _pool_key, _shuffle_quiz_response
+from app.schemas.quiz import QuizResponse
 
 
 def calculate_percentile(sorted_data: list[float], percentile: float) -> float:

@@ -29,7 +29,7 @@ def processar_pos_licao(self, user_id: int, licao_id: int, accuracy: float):
         logger.info(
             f"Pós-lição processada com sucesso para usuário {user_id} e lição {licao_id}"
         )
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.error(
             f"Erro no processamento pós-lição (user: {user_id}, licao: {licao_id}): {exc}"
         )

@@ -19,19 +19,26 @@ Cenários cobertos:
 from __future__ import annotations
 
 import json
+import logging
 from unittest.mock import MagicMock, patch
 
+from django.test import TestCase
+
 from app.ai.rag_service import (
-    TARGET_POOL_SIZE,
     RAGService,
+    WATERMARK_LOW,
+    TARGET_POOL_SIZE,
+    _pool_key,
     _trigger_async_pool_replenishment,
 )
 from app.schemas.quiz import (
+    Alternative,
     EsqueletoItem,
     LLMQuizItem,
     LLMQuizResponse,
+    QuizItem,
+    QuizResponse,
 )
-from django.test import TestCase
 
 
 class QuizPoolCircuitBreakerTest(TestCase):

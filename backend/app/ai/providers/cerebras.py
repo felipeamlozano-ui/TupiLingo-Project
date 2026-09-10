@@ -1,18 +1,15 @@
 import json
-
-import openai
-from app.ai.exceptions import (
-    AuthenticationError,
-    NetworkError,
-    RateLimitError,
-    StructuredOutputError,
-    TimeoutError,
-)
-from app.ai.providers.base import BaseProvider
-from app.core.config import settings
-from openai import OpenAI
+from typing import Type
 from pydantic import BaseModel
+from openai import OpenAI
+import openai
 
+from app.core.config import settings
+from app.ai.providers.base import BaseProvider
+from app.ai.exceptions import (
+    RateLimitError, TimeoutError, AuthenticationError,
+    ServiceUnavailableError, NetworkError, StructuredOutputError
+)
 
 class CerebrasProvider(BaseProvider):
     """
@@ -44,7 +41,7 @@ class CerebrasProvider(BaseProvider):
         return AIProviderError(str(e))
 
 
-    def generate_structured(self, prompt: str, schema: type[BaseModel], model_name: str, **kwargs) -> BaseModel:
+    def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:
         try:
             response = self.client.chat.completions.create(
                 model=model_name,

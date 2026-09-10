@@ -11,8 +11,8 @@ Endpoints:
 """
 
 from django.urls import path
-
-from . import admin_views, views
+from . import views
+from . import admin_views
 
 urlpatterns = [
     # ── Variantes ─────────────────────────────────────────────────────────────

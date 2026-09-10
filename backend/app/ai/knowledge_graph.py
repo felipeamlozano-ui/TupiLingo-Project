@@ -5,9 +5,9 @@ Usa similaridade semântica para criar arestas entre os chunks, imitando o racio
 """
 
 import logging
-
 import networkx as nx
 import numpy as np
+from typing import List, Dict
 
 logger = logging.getLogger(__name__)
 

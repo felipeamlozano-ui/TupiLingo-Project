@@ -1,6 +1,4 @@
 from app.core.config import settings
-
-
 def initialize_providers():
     """
     Inicializa e registra os provedores de IA habilitados.

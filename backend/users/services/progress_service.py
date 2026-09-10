@@ -31,7 +31,7 @@ class ProgressService:
     """Serviço autoritativo de progressão do TupiLingo."""
 
     @classmethod
-    def invalidate_user_trail_cache(cls, user_id: int, variante_id: int | None = None):
+    def invalidate_user_trail_cache(cls, user_id: int, variante_id: int = None):
         """Invalida o cache da trilha do usuário em todas as variantes."""
         from django.core.cache import cache
 

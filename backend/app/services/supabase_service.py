@@ -19,9 +19,10 @@ import time
 from typing import Any
 
 import httpx
+from pydantic import ValidationError
+
 from app.core.config import settings
 from app.schemas.quiz import EsqueletoItem
-from pydantic import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -62,10 +63,10 @@ class SupabaseService:
         itens = supabase_service.obter_esqueleto_quiz("tupi", "fauna", 10)
     """
 
-    _instance: SupabaseService | None = None
+    _instance: "SupabaseService | None" = None
     _lock: threading.Lock = threading.Lock()
 
-    def __new__(cls) -> SupabaseService:
+    def __new__(cls) -> "SupabaseService":
         if cls._instance is None:
             with cls._lock:
                 if cls._instance is None:
@@ -144,7 +145,7 @@ class SupabaseService:
             SupabaseServiceError: Para qualquer outro erro de comunicação.
         """
         t_start = time.monotonic()
-        request_id = hashlib.md5(
+        request_id = hashlib.md5(  # noqa: S324
             f"{variante_codigo}:{categoria}:{quantidade}:{t_start}".encode()
         ).hexdigest()[:8]
 

@@ -1,5 +1,4 @@
 import logging
-
 from celery import shared_task
 
 logger = logging.getLogger(__name__)
@@ -81,8 +80,8 @@ def async_generate_question_pack(self, nivel_atual: int, supabase_uid: str):
     """
     logger.info(f"Iniciando geração async para nivel {nivel_atual} (Usuário: {supabase_uid})")
     try:
-        from app.ai.cache import prompt_cache
         from app.ai.rag_service import RAGService
+        from app.ai.cache import prompt_cache
         rag = RAGService()
         questoes = rag.generate(nivel_atual)
         

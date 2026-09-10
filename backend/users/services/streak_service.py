@@ -87,7 +87,7 @@ class StreakService:
                             "xp_total": xp_total,
                             "streak_incremented": streak_incremented,
                         }
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.warning(
                 "Falha ao invocar fn_record_user_activity, executando fallback ORM: %s",
                 exc,

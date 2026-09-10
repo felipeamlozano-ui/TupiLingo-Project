@@ -11,12 +11,11 @@ Implementa:
 """
 
 from __future__ import annotations
-
 import math
-from collections.abc import Sequence
 from dataclasses import dataclass
-
+from typing import Sequence, Dict, Any
 import numpy as np
+
 
 D_FACTOR: float = 1.702  # Constante de escala para aproximação com a ogiva normal
 

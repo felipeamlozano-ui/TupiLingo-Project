@@ -4,9 +4,8 @@ Refatorado para alta performance e precisão matemática estrita via VectorizedT
 """
 
 import logging
-from typing import Any
-
-from .tri_engine_vectorized import TRIResult, VectorizedTRIEngine
+from typing import List, Dict, Any
+from .tri_engine_vectorized import VectorizedTRIEngine, TRIResult
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ def p_theta(theta: float, a: float, b: float, c: float) -> float:
     return float(val[0])
 
 
-def evaluate_test(answers: list[dict[str, Any]], current_level: int) -> dict[str, Any]:
+def evaluate_test(answers: List[Dict[str, Any]], current_level: int) -> Dict[str, Any]:
     """
     Avalia a proficiência latente (theta) e o nível pedagógico do aluno usando MAP vetorizado.
 

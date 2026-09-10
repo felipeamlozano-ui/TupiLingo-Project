@@ -7,17 +7,18 @@ Uso:
 """
 
 from __future__ import annotations
-
+import sys
 import logging
-
+from typing import List, Dict, Any
 import numpy as np
+
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from trilha.models import Exercicio
 
-from nivelamento.models import AnswerItem
 from nivelamento.services.nlp_item_calibrator import NLPItemCalibrator
-from nivelamento.services.tri_engine_vectorized import D_FACTOR, VectorizedTRIEngine
+from nivelamento.services.tri_engine_vectorized import VectorizedTRIEngine, D_FACTOR
+from trilha.models import Exercicio
+from nivelamento.models import AnswerItem
 
 logger = logging.getLogger("nivelamento.bootstrapping")
 

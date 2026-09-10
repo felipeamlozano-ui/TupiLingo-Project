@@ -285,9 +285,10 @@ def get_profile(request):
     - Desempenho e taxa de acerto por capítulo
     - Galeria completa de conquistas (desbloqueadas e bloqueadas)
     """
-    from datetime import date, timedelta
+    from datetime import timedelta
 
     from django.db.models import Avg, Count
+    from django.utils import timezone
     from nivelamento.models import UserVarianteLevel
     from trilha.models import Capitulo, Licao
 
@@ -329,7 +330,9 @@ def get_profile(request):
     )
     dias_ofensiva = 0
     if datas_conclusao:
-        hoje = date.today()
+        from django.utils import timezone
+
+        hoje = timezone.localtime().date()
         ontem = hoje - timedelta(days=1)
         primeira_data = datas_conclusao[0]
         if primeira_data == hoje or primeira_data == ontem:
@@ -474,7 +477,7 @@ def dashboard_stats(request):
             cached = r.get(cache_key)
             if cached:
                 return JsonResponse(json.loads(cached))
-        except Exception:
+        except Exception:  # noqa: BLE001, S110  # noqa: BLE001
             pass
 
     from .services.statistics_service import StatisticsService
@@ -484,7 +487,7 @@ def dashboard_stats(request):
     if r:
         try:
             r.setex(cache_key, 120, json.dumps(stats, ensure_ascii=False))
-        except Exception:
+        except Exception:  # noqa: BLE001, S110  # noqa: BLE001
             pass
 
     return JsonResponse(stats)

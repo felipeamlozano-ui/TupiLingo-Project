@@ -1,7 +1,6 @@
-
-from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
+from pydantic import Field
+from typing import List, Optional
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', extra='ignore')
@@ -36,14 +35,14 @@ class Settings(BaseSettings):
     SUPABASE_SERVICE_ROLE_KEY: str = ""
 
     # AI API Keys
-    GEMINI_API_KEY: str | None = None
-    GROQ_API_KEY: str | None = None
-    CEREBRAS_API_KEY: str | None = None
-    OPENAI_API_KEY: str | None = None
-    DASHSCOPE_API_KEY: str | None = None
-    SAMBANOVA_API_KEY: str | None = None
-    OPENROUTER_API_KEY: str | None = None
-    COHERE_API_KEY: str | None = None
+    GEMINI_API_KEY: Optional[str] = None
+    GROQ_API_KEY: Optional[str] = None
+    CEREBRAS_API_KEY: Optional[str] = None
+    OPENAI_API_KEY: Optional[str] = None
+    DASHSCOPE_API_KEY: Optional[str] = None
+    SAMBANOVA_API_KEY: Optional[str] = None
+    OPENROUTER_API_KEY: Optional[str] = None
+    COHERE_API_KEY: Optional[str] = None
     
     # Base URLs
     OLLAMA_BASE_URL: str = "http://localhost:11434/v1"
@@ -56,7 +55,7 @@ class Settings(BaseSettings):
     DDG_TIMEOUT: int = 5
     
     # Fallback Chain Configuration (can be overridden via env)
-    FALLBACK_CHAIN: list[str] = Field(
+    FALLBACK_CHAIN: List[str] = Field(
         default=[
             "groq/openai/gpt-oss-20b",
             "cerebras/llama3.1-8b",

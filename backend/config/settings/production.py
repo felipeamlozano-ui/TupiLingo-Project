@@ -6,7 +6,6 @@ O TLS é terminado no Nginx (proxy reverso), que se comunica com o Gunicorn
 via HTTP interno. Reativar isso causaria redirect loops infinitos.
 """
 from django.core.exceptions import ImproperlyConfigured
-
 from .base import *
 
 DEBUG = config('DEBUG', default=False, cast=bool)

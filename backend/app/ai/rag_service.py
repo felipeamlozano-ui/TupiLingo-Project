@@ -15,11 +15,14 @@ import random
 import threading
 import time
 import uuid
-from typing import Any, TypedDict
+from typing import Any, List, TypedDict
 
-from app.ai.fallback import AllModelsUnavailableError, FallbackOrchestrator
-from app.ai.ping_race import get_redis_client
+from pydantic import BaseModel, Field, ValidationError
+
+from app.ai.cache import prompt_cache
+from app.ai.fallback import FallbackOrchestrator, AllModelsUnavailableError
 from app.ai.router import ModelRouter
+from app.ai.ping_race import PingRaceRouter, get_redis_client
 from app.core.config import settings
 from app.schemas.quiz import (
     Alternative,
@@ -52,7 +55,7 @@ def get_db():
     """Compat shim: retorna a instância singleton do SQLiteVectorDB."""
     global _db_instance
     if _db_instance is None:
-        from nivelamento.services.vector_db import SQLiteVectorDB
+        from nivelamento.services.vector_db import SQLiteVectorDB  # noqa: PLC0415
         _db_instance = SQLiteVectorDB("vector_store.db")
     return _db_instance
 
@@ -62,7 +65,7 @@ def get_embedder():
     global _embedder_instance
     if _embedder_instance is None:
         try:
-            from fastembed import TextEmbedding
+            from fastembed import TextEmbedding  # noqa: PLC0415
             _embedder_instance = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
         except Exception as exc:  # noqa: BLE001
             logger.warning("[rag_service] get_embedder() falhou: %s. Retornando None.", exc)
@@ -129,7 +132,7 @@ class LLMOutputItem(TypedDict):
 
 
 class LLMOutputPayload(TypedDict):
-    questoes: list[LLMOutputItem]
+    questoes: List[LLMOutputItem]
 
 
 # ── FEW-SHOT PROMPTING SYSTEM (GANHO DE PERFORMANCE) ─────────────────────────
@@ -749,19 +752,18 @@ class RAGService:
         variante_codigo: str = "tupi",
     ) -> dict[str, Any]:
         """Pipeline legado de contingência."""
-
-        from pydantic import BaseModel as _BaseModel
-        from pydantic import Field as _Field
+        from pydantic import BaseModel as _BaseModel, Field as _Field
+        from typing import List as _List
 
         class QuestaoSchema(_BaseModel):
             enunciado: str
-            alternativas: list[dict]
+            alternativas: _List[dict]
             resposta_correta: str
             explicacao: str
             categoria: str = "geral"
 
         class _ExameSchema(_BaseModel):
-            questoes: list[QuestaoSchema] = _Field(default_factory=list)
+            questoes: _List[QuestaoSchema] = _Field(default_factory=list)
 
         temas = {
             1: "palavras basicas do dia a dia, animais comuns",

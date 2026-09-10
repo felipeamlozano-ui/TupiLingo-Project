@@ -14,19 +14,19 @@ from __future__ import annotations
 import json
 import logging
 
-from app.ai.rag_service import RAGService
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django_ratelimit.decorators import ratelimit
 from pydantic import ValidationError
-from trilha.models import VarianteTupi
+
 from users.decorators import supabase_auth_required
 from users.models import UserProfile
-
-from nivelamento.models import AnswerItem, TestAttempt, UserVarianteLevel
 from nivelamento.schemas import GenerateQuestionPayload
+from app.ai.rag_service import RAGService
+from nivelamento.models import TestAttempt, AnswerItem, UserVarianteLevel
 from nivelamento.services.tri_service import evaluate_test
+from trilha.models import VarianteTupi
 
 logger = logging.getLogger("nivelamento.views")
 
