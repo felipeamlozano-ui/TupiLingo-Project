@@ -17,10 +17,12 @@ class GroqProvider(BaseProvider):
     Provider para Groq utilizando cliente OpenAI compatível.
     """
     def __init__(self):
-        if not settings.GROQ_API_KEY:
+        from app.services.vault_service import VaultService
+        api_key = VaultService.get_secret("GROQ_API_KEY", fallback_env_var="GROQ_API_KEY") or settings.GROQ_API_KEY
+        if not api_key:
             raise AuthenticationError("GROQ_API_KEY não configurada.")
         self.client = OpenAI(
-            api_key=settings.GROQ_API_KEY,
+            api_key=api_key,
             base_url="https://api.groq.com/openai/v1",
             timeout=6.0
         )

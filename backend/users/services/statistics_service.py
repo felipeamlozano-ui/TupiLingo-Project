@@ -42,6 +42,26 @@ class StatisticsService:
     """Serviço de cálculo estatístico de desempenho e memória."""
 
     @classmethod
+    def invalidate_user_stats_cache(cls, user_id: int):
+        """
+        Invalida de forma imediata o cache Redis e Django Cache das estatísticas
+        do usuário, garantindo atualização instantânea do painel de desempenho.
+        """
+        from django.core.cache import cache
+        cache.delete(f"dashboard_stats_{user_id}")
+        cache.delete(f"stats_v3_{user_id}")
+        try:
+            from app.ai.ping_race import get_redis_client
+            r = get_redis_client()
+            if r:
+                r.delete(f"dashboard_stats_{user_id}")
+                r.delete(f"stats_v3_{user_id}")
+                for vid in range(1, 15):
+                    r.delete(f"mapa_regioes_{user_id}_{vid}")
+        except Exception as exc:
+            logger.warning("Falha ao invalidar cache Redis de stats do usuário %s: %s", user_id, exc)
+
+    @classmethod
     def get_user_progress_stats(cls, user: UserProfile) -> Dict[str, Any]:
         """
         Retorna todas as estatísticas consolidadas do usuário

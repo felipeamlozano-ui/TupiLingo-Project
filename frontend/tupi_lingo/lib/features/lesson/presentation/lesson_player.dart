@@ -5,6 +5,12 @@ import 'dart:convert';
 import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
 import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
+import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
+import '../../dashboard/data/repositories/dashboard_repository_impl.dart';
+import '../../historical_map/data/datasources/historical_map_remote_data_source.dart';
+import 'widgets/exercises/multiple_choice_view.dart';
+import 'widgets/exercises/fill_in_the_blank_view.dart';
+import 'widgets/exercises/matching_columns_view.dart';
 
 /// Normaliza o status de validação retornado pelo backend.
 /// Aceita tanto o formato canônico inglês ('correct', 'almost', 'wrong')
@@ -351,6 +357,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
+        // Sincronização imediata de desempenho e histórico em toda a aplicação
+        DashboardRepositoryImpl.invalidateCache();
+        HistoricalMapRemoteDataSourceImpl.invalidateCache();
+        AppProgressionNotifier.instance.notifyProgressionChanged();
+
         if (mounted) {
           final List<dynamic> novasConquistas = data['novas_conquistas'] ?? [];
           final int? nivelAtual = data['nivel_atual'];
@@ -656,7 +667,6 @@ class _ExercicioDispatcher extends StatefulWidget {
 class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
   int? _selectedOption;
   final TextEditingController _textController = TextEditingController();
-  int? _selectedLeftIndex;
   final Map<int, int> _associations = {}; // leftIndex -> rightIndex
 
   @override
@@ -665,7 +675,6 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
     if (oldWidget.item['id'] != widget.item['id']) {
       _selectedOption = null;
       _textController.clear();
-      _selectedLeftIndex = null;
       _associations.clear();
     }
   }
@@ -701,11 +710,28 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
         Expanded(
           child: SingleChildScrollView(
             child: tipo == 'escolha_multipla'
-                ? _buildEscolhaMultipla()
+                ? MultipleChoiceView(
+                    options: widget.item['opcoes'] as List<dynamic>? ?? [],
+                    selectedIndex: _selectedOption,
+                    onSelect: (index) => setState(() => _selectedOption = index),
+                  )
                 : tipo == 'completar'
-                    ? _buildCompletar()
+                    ? FillInTheBlankView(
+                        textoComLacunas: widget.item['texto_com_lacunas'] ?? '',
+                        textController: _textController,
+                        onChanged: (_) => setState(() {}),
+                      )
                     : tipo == 'associacao'
-                        ? _buildAssociacao()
+                        ? MatchingColumnsView(
+                            key: ValueKey(widget.item['id']),
+                            leftItems: widget.item['coluna_esquerda'] as List<dynamic>? ?? [],
+                            rightItems: widget.item['coluna_direita'] as List<dynamic>? ?? [],
+                            initialAssociations: _associations,
+                            onAssociationsChanged: (map) => setState(() {
+                              _associations.clear();
+                              _associations.addAll(map);
+                            }),
+                          )
                         : Center(child: Text('Tipo de exercício não suportado: $tipo')),
           ),
         ),
@@ -736,325 +762,6 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
             ),
             child: const Text('VERIFICAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEscolhaMultipla() {
-    final opcoes = widget.item['opcoes'] as List<dynamic>? ?? [];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: List.generate(opcoes.length, (index) {
-        final text = opcoes[index].toString();
-        final isSelected = _selectedOption == index;
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: InkWell(
-            onTap: () => setState(() => _selectedOption = index),
-            borderRadius: BorderRadius.circular(16),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-              decoration: BoxDecoration(
-                color: isSelected ? _TupiColors.primary.withValues(alpha: 0.1) : Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: isSelected ? _TupiColors.primary : _TupiColors.border,
-                  width: isSelected ? 2 : 1,
-                ),
-              ),
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  color: isSelected ? _TupiColors.primary : _TupiColors.subtitle,
-                ),
-              ),
-            ),
-          ),
-        );
-      }),
-    );
-  }
-
-  Widget _buildCompletar() {
-    final String textoComLacunas = widget.item['texto_com_lacunas']?.toString() ?? '';
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (textoComLacunas.isNotEmpty) ...[
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: _TupiColors.border),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: _buildFormattedLacuna(textoComLacunas),
-          ),
-          const SizedBox(height: 24),
-        ],
-        const Text(
-          "Digite a palavra que completa a lacuna:",
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _TupiColors.subtitle),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: _textController,
-          onChanged: (v) => setState(() {}),
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _TupiColors.accent),
-          decoration: InputDecoration(
-            hintText: 'Sua resposta...',
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: _TupiColors.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: _TupiColors.primary, width: 2),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFormattedLacuna(String texto) {
-    if (!texto.contains('___')) {
-      return Text(
-        texto,
-        style: const TextStyle(
-          fontSize: 19,
-          fontWeight: FontWeight.w600,
-          color: _TupiColors.accent,
-          height: 1.5,
-        ),
-      );
-    }
-
-    final parts = texto.split('___');
-    return RichText(
-      text: TextSpan(
-        style: const TextStyle(
-          fontSize: 19,
-          fontWeight: FontWeight.w500,
-          color: _TupiColors.subtitle,
-          height: 1.6,
-        ),
-        children: [
-          TextSpan(text: parts[0]),
-          WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 6),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-              decoration: BoxDecoration(
-                color: _TupiColors.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: _TupiColors.primary, width: 1.5),
-              ),
-              child: Text(
-                _textController.text.trim().isNotEmpty
-                    ? _textController.text.trim()
-                    : ' ______ ',
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: _TupiColors.primary,
-                ),
-              ),
-            ),
-          ),
-          if (parts.length > 1) TextSpan(text: parts[1]),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAssociacao() {
-    final leftItems = (widget.item['coluna_esquerda'] as List<dynamic>?) ?? [];
-    final rightItems = (widget.item['coluna_direita'] as List<dynamic>?) ?? [];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Text(
-          "Toque em uma palavra à esquerda e depois na sua tradução correspondente à direita:",
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _TupiColors.subtitle),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Coluna da Esquerda
-            Expanded(
-              child: Column(
-                children: List.generate(leftItems.length, (i) {
-                  final text = leftItems[i].toString();
-                  final bool isSelected = _selectedLeftIndex == i;
-                  final bool isMatched = _associations.containsKey(i);
-
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (_selectedLeftIndex == i) {
-                            _selectedLeftIndex = null;
-                          } else {
-                            _selectedLeftIndex = i;
-                          }
-                        });
-                      },
-                      borderRadius: BorderRadius.circular(16),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? _TupiColors.primary.withValues(alpha: 0.15)
-                              : isMatched
-                                  ? _TupiColors.accent.withValues(alpha: 0.08)
-                                  : Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isSelected
-                                ? _TupiColors.primary
-                                : isMatched
-                                    ? _TupiColors.accent
-                                    : _TupiColors.border,
-                            width: isSelected || isMatched ? 2 : 1,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                text,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: isSelected
-                                      ? _TupiColors.primary
-                                      : isMatched
-                                          ? _TupiColors.accent
-                                          : _TupiColors.subtitle,
-                                ),
-                              ),
-                            ),
-                            if (isMatched) ...[
-                              const SizedBox(width: 4),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: _TupiColors.accent,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  '${i + 1}',
-                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-            const SizedBox(width: 12),
-            // Coluna da Direita
-            Expanded(
-              child: Column(
-                children: List.generate(rightItems.length, (j) {
-                  final text = rightItems[j].toString();
-                  // Acha se algum item da esquerda está associado a este j
-                  int? matchedLeft;
-                  for (final entry in _associations.entries) {
-                    if (entry.value == j) {
-                      matchedLeft = entry.key;
-                      break;
-                    }
-                  }
-                  final bool isMatched = matchedLeft != null;
-
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (_selectedLeftIndex != null) {
-                            // Associa o selecionado da esquerda com este j
-                            _associations.removeWhere((k, v) => v == j);
-                            _associations[_selectedLeftIndex!] = j;
-                            _selectedLeftIndex = null;
-                          } else if (isMatched) {
-                            // Se já estava associado e clica nele sem esquerda selecionada, desassocia
-                            _associations.remove(matchedLeft);
-                          }
-                        });
-                      },
-                      borderRadius: BorderRadius.circular(16),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-                        decoration: BoxDecoration(
-                          color: isMatched
-                              ? _TupiColors.accent.withValues(alpha: 0.08)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isMatched ? _TupiColors.accent : _TupiColors.border,
-                            width: isMatched ? 2 : 1,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            if (isMatched) ...[
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: _TupiColors.accent,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  '${matchedLeft + 1}',
-                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                            ],
-                            Expanded(
-                              child: Text(
-                                text,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: isMatched ? _TupiColors.accent : _TupiColors.subtitle,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ],
         ),
       ],
     );

@@ -8,6 +8,7 @@ import 'capitulos_admin.dart';
 import 'licoes_admin.dart';
 import 'exercicios_admin.dart';
 import 'map_admin/historical_regions_admin_tab.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
@@ -91,19 +92,22 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppTheme.isDark(context);
+    final accentColor = isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F2E8),
+      backgroundColor: AppTheme.bg(context),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context),
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
-            Text('⚙️', style: TextStyle(fontSize: 20)),
-            SizedBox(width: 8),
+            const Text('⚙️', style: TextStyle(fontSize: 20)),
+            const SizedBox(width: 8),
             Text(
               'Gerenciador de Conteúdo',
               style: TextStyle(
-                color: Color(0xFF1F2937),
+                color: AppTheme.textPrimary(context),
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -112,16 +116,16 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh_rounded, color: Color(0xFF0E5D4E)),
+            icon: Icon(Icons.refresh_rounded, color: accentColor),
             tooltip: 'Atualizar Dados',
             onPressed: _loadAdminData,
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
-          labelColor: const Color(0xFF0E5D4E),
-          unselectedLabelColor: const Color(0xFF565D6D),
-          indicatorColor: const Color(0xFF0E5D4E),
+          labelColor: accentColor,
+          unselectedLabelColor: AppTheme.textSecondary(context),
+          indicatorColor: accentColor,
           indicatorWeight: 3,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
           tabs: const [

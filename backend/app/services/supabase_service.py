@@ -98,14 +98,14 @@ class SupabaseService:
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        # httpx.Client com pool de conexões reutilizáveis e timeout estrito
+        # httpx.Client com pool de conexões reutilizáveis e timeout resiliente
         self._client = httpx.Client(
             headers=self._headers,
             timeout=httpx.Timeout(
-                connect=1.0,   # TCP handshake
-                read=2.0,      # Leitura da resposta (SLA da RPC)
-                write=1.0,
-                pool=0.5,
+                connect=4.0,   # TCP handshake e SSL tolerante a cold start / WSL2
+                read=4.0,      # Leitura da resposta
+                write=2.0,
+                pool=1.0,
             ),
             limits=httpx.Limits(
                 max_connections=20,
@@ -140,7 +140,7 @@ class SupabaseService:
             Lista de :class:`~app.schemas.quiz.EsqueletoItem` validados.
 
         Raises:
-            SupabaseRPCTimeoutError: Se a RPC não responder em 2 s.
+            SupabaseRPCTimeoutError: Se a RPC não responder dentro do SLA.
             SupabaseRPCError: Se o Supabase retornar status HTTP >= 400.
             SupabaseServiceError: Para qualquer outro erro de comunicação.
         """
@@ -164,24 +164,31 @@ class SupabaseService:
             quantidade,
         )
 
-        try:
-            response = self._client.post(self._rpc_url, json=payload)
-        except httpx.TimeoutException as exc:
-            latency_ms = int((time.monotonic() - t_start) * 1000)
-            logger.error(
-                "[SupabaseService][%s] Timeout na RPC após %d ms: %s",
-                request_id,
-                latency_ms,
-                exc,
-            )
-            raise SupabaseRPCTimeoutError(
-                f"RPC gerar_esqueleto_quiz excedeu timeout de 2 s após {latency_ms} ms."
-            ) from exc
-        except httpx.RequestError as exc:
-            logger.error(
-                "[SupabaseService][%s] Erro de conexão na RPC: %s", request_id, exc
-            )
-            raise SupabaseServiceError(f"Erro de conexão com o Supabase: {exc}") from exc
+        response = None
+        for attempt in range(2):
+            try:
+                response = self._client.post(self._rpc_url, json=payload)
+                break
+            except httpx.TimeoutException as exc:
+                if attempt == 0:
+                    logger.warning("[SupabaseService][%s] Timeout na 1ª tentativa de RPC, retentando...", request_id)
+                    time.sleep(0.2)
+                    continue
+                latency_ms = int((time.monotonic() - t_start) * 1000)
+                logger.error(
+                    "[SupabaseService][%s] Timeout na RPC após %d ms: %s",
+                    request_id,
+                    latency_ms,
+                    exc,
+                )
+                raise SupabaseRPCTimeoutError(
+                    f"RPC gerar_esqueleto_quiz excedeu timeout após {latency_ms} ms."
+                ) from exc
+            except httpx.RequestError as exc:
+                logger.error(
+                    "[SupabaseService][%s] Erro de conexão na RPC: %s", request_id, exc
+                )
+                raise SupabaseServiceError(f"Erro de conexão com o Supabase: {exc}") from exc
 
         latency_ms = int((time.monotonic() - t_start) * 1000)
 
@@ -333,6 +340,185 @@ class SupabaseService:
             logger.error("[SupabaseService] Fallback REST também falhou: %s", rest_exc)
 
         return []
+
+    def buscar_chunks_rag_semantico(
+        self,
+        embedding: list[float] | None,
+        categorias: list[str] | None = None,
+        limite: int = 3,
+        threshold: float = 0.35,
+    ) -> list[dict[str, Any]]:
+        """
+        Executa busca semântica ultrarrápida via pgvector através da RPC buscar_chunks_rag_semantico.
+        Combina similaridade vetorial com filtro opcional de categorias.
+        """
+        t_start = time.monotonic()
+        payload: dict[str, Any] = {
+            "p_embedding": embedding,
+            "p_categorias": categorias,
+            "p_limite": limite,
+            "p_threshold": threshold,
+        }
+        try:
+            url_rpc = f"{self._base_url}/rest/v1/rpc/buscar_chunks_rag_semantico"
+            response = self._client.post(url_rpc, json=payload)
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list) and data:
+                    logger.info(
+                        "[SupabaseService] RPC buscar_chunks_rag_semantico (pgvector) retornou %d chunks em %d ms.",
+                        len(data),
+                        int((time.monotonic() - t_start) * 1000),
+                    )
+                    return data
+        except Exception as exc:
+            logger.warning("[SupabaseService] Falha na RPC pgvector: %s. Acionando fallback obter_chunks_rag.", exc)
+
+        return self.obter_chunks_rag(categorias or ["Vocabulário"], limite)
+
+    def validar_resposta_fuzzy_trgm(
+        self,
+        resposta_usuario: str,
+        resposta_esperada: str,
+        limiar_correto: float = 0.90,
+        limiar_quase: float = 0.65,
+    ) -> dict[str, Any]:
+        """
+        Valida resposta escrita utilizando a RPC PostgreSQL com pg_trgm e unaccent.
+        Retorna dict com status ('correct', 'almost', 'wrong'), similaridade e mensagem.
+        """
+        t_start = time.monotonic()
+        payload = {
+            "p_resposta_usuario": resposta_usuario,
+            "p_resposta_esperada": resposta_esperada,
+            "p_limiar_correto": limiar_correto,
+            "p_limiar_quase": limiar_quase,
+        }
+        try:
+            url_rpc = f"{self._base_url}/rest/v1/rpc/validar_resposta_fuzzy_trgm"
+            response = self._client.post(url_rpc, json=payload)
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list) and len(data) > 0:
+                    res = data[0]
+                    logger.debug(
+                        "[SupabaseService] pg_trgm validou em %d ms. Status: %s (sim=%.2f)",
+                        int((time.monotonic() - t_start) * 1000),
+                        res.get("status"),
+                        res.get("similaridade", 0.0),
+                    )
+                    return res
+        except Exception as exc:
+            logger.warning("[SupabaseService] Falha na RPC pg_trgm: %s", exc)
+
+        # Fallback local em Python será feito pelo validation_service
+        return {}
+
+    def validar_quiz_payload_jsonschema(self, payload: dict[str, Any]) -> tuple[bool, str | None]:
+        """
+        Valida o payload gerado pela IA no PostgreSQL usando a extensão pg_jsonschema.
+        Retorna (is_valid, error_message).
+        """
+        try:
+            url_rpc = f"{self._base_url}/rest/v1/rpc/validar_quiz_payload_jsonschema"
+            response = self._client.post(url_rpc, json={"p_payload": payload})
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list) and len(data) > 0:
+                    row = data[0]
+                    return bool(row.get("valido", False)), row.get("erros")
+        except Exception as exc:
+            logger.warning("[SupabaseService] Falha na RPC pg_jsonschema: %s", exc)
+
+        # Validação defensiva básica em caso de RPC offline
+        is_valid = bool(payload and "questoes" in payload and isinstance(payload["questoes"], list) and len(payload["questoes"]) > 0)
+        return is_valid, None if is_valid else "Payload básico inválido."
+
+    def rpc(self, function_name: str, payload: dict[str, Any] | None = None) -> Any:
+        """Executa uma RPC genérica no Supabase via REST API."""
+        try:
+            url_rpc = f"{self._base_url}/rest/v1/rpc/{function_name}"
+            response = self._client.post(url_rpc, json=payload or {})
+            if response.status_code in (200, 201):
+                return response.json()
+            elif response.status_code == 204:
+                return None
+            logger.debug("[SupabaseService] RPC %s retornou status %d: %s", function_name, response.status_code, response.text)
+        except Exception as exc:
+            logger.debug("[SupabaseService] Erro ao invocar RPC %s: %s", function_name, exc)
+        return None
+
+    def buscar_cache_semantico(
+        self,
+        embedding: list[float],
+        variante_id: int | None = None,
+        threshold: float = 0.95,
+    ) -> dict[str, Any] | None:
+        """
+        Consulta o Cache Semântico de temas via pgvector (similaridade > 0.95).
+        Retorna o registro com questões salvas instantaneamente em caso de cache hit.
+        """
+        t_start = time.monotonic()
+        payload = {
+            "p_embedding": embedding,
+            "p_variante_id": variante_id,
+            "p_threshold": threshold,
+        }
+        try:
+            res = self.rpc("buscar_cache_semantico_tematico", payload)
+            if isinstance(res, list) and len(res) > 0:
+                hit = res[0]
+                elapsed = int((time.monotonic() - t_start) * 1000)
+                logger.info(
+                    "[SupabaseService] Cache Semântico HIT em %d ms! Tema: '%s' (sim=%.3f)",
+                    elapsed,
+                    hit.get("tema"),
+                    hit.get("similaridade", 0.0),
+                )
+                return hit
+        except Exception as exc:
+            logger.debug("[SupabaseService] Falha na busca de cache semântico: %s", exc)
+        return None
+
+    def salvar_cache_semantico(
+        self,
+        tema: str,
+        variante_id: int | None,
+        embedding: list[float],
+        questoes: list[dict[str, Any]],
+        termos_srs: list[dict[str, Any]] | None = None,
+    ) -> bool:
+        """Armazena um quiz gerado no Cache Semântico vetorial com seu embedding."""
+        try:
+            url = f"{self._base_url}/rest/v1/ai_thematic_semantic_cache"
+            row = {
+                "tema": tema,
+                "variante_id": variante_id,
+                "embedding": embedding,
+                "questoes": questoes,
+                "termos_srs": termos_srs or [],
+                "hit_count": 1,
+            }
+            res = self._client.post(url, json=row)
+            return res.status_code in (200, 201)
+        except Exception as exc:
+            logger.debug("[SupabaseService] Falha ao salvar no cache semântico: %s", exc)
+            return False
+
+    def enfileirar_historico_pgmq(self, batch: list[dict[str, Any]]) -> bool:
+        """
+        Envia lote de histórico de respostas para a fila assíncrona pgmq no Postgres.
+        Garante descarregamento assíncrono com latência inferior a 10ms.
+        """
+        t_start = time.monotonic()
+        try:
+            res = self.rpc("enfileirar_respostas_pgmq", {"p_batch": batch})
+            elapsed = int((time.monotonic() - t_start) * 1000)
+            logger.info("[SupabaseService] Lote de %d itens enfileirado no pgmq em %d ms.", len(batch), elapsed)
+            return bool(res)
+        except Exception as exc:
+            logger.warning("[SupabaseService] Falha ao enfileirar no pgmq (%s). Tentando gravação direta.", exc)
+            return False
 
 
 # Instância global (lazy initialization)

@@ -203,7 +203,7 @@ _CHAIN_LOCAL_ONLY: list[str] = [
     "ollama/llama3.2:1b",
 ]
 
-TaskType = Literal["fast", "long_context", "local_only", "balanced", "vocab_extraction_cloud"]
+TaskType = Literal["fast", "long_context", "local_only", "balanced", "vocab_extraction_cloud", "thematic_practice"]
 
 
 class ModelRouter:
@@ -228,6 +228,7 @@ class ModelRouter:
 
         chain_map: dict[str, list[str]] = {
             "fast":                   _CHAIN_FAST,
+            "thematic_practice":      _CHAIN_FAST,
             "long_context":           _CHAIN_LONG_CONTEXT,
             "local_only":             _CHAIN_LOCAL_ONLY,
             "balanced":               list(settings.FALLBACK_CHAIN),

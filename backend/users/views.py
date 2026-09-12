@@ -388,17 +388,19 @@ def dashboard_stats(request):
     """
     Retorna estatísticas consolidadas 100% autênticas do usuário
     para o Painel de Desempenho & Memória (sem mocks ou seeds),
-    com cache Redis de alto desempenho (120s).
+    com cache Redis otimizado de 30s e suporte a refresh forçado.
     """
     user_id = request.user_data.get('sub')
     user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
     if not user:
         return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
 
+    force_refresh = request.GET.get('refresh') in ('1', 'true', 'True')
+
     from app.ai.ping_race import get_redis_client
     r = get_redis_client()
     cache_key = f"dashboard_stats_{user.id}"
-    if r:
+    if r and not force_refresh:
         try:
             cached = r.get(cache_key)
             if cached:
@@ -411,7 +413,7 @@ def dashboard_stats(request):
 
     if r:
         try:
-            r.setex(cache_key, 120, json.dumps(stats, ensure_ascii=False))
+            r.setex(cache_key, 30, json.dumps(stats, ensure_ascii=False))
         except Exception:
             pass
 

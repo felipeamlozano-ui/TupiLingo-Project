@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/user_progress_stats.dart';
 
 /// Widget de gráfico de barras com perspectiva 3D simulada e gradientes dinâmicos.
@@ -30,9 +31,9 @@ class _Progress3DBarChartState extends State<Progress3DBarChart> {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFD0D0D0).withValues(alpha: 0.6)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0E5D4E).withValues(alpha: 0.06),
@@ -52,10 +53,9 @@ class _Progress3DBarChartState extends State<Progress3DBarChart> {
                   color: const Color(0xFFD08A45).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text('📊', style: TextStyle(fontSize: 18)),
               ),
               const SizedBox(width: 10),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -66,7 +66,7 @@ class _Progress3DBarChartState extends State<Progress3DBarChart> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1F2937),
+                        color: AppTheme.textPrimary(context),
                       ),
                     ),
                     Text(
@@ -75,7 +75,7 @@ class _Progress3DBarChartState extends State<Progress3DBarChart> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 11,
-                        color: Color(0xFF565D6D),
+                        color: AppTheme.textSecondary(context),
                       ),
                     ),
                   ],
@@ -87,22 +87,7 @@ class _Progress3DBarChartState extends State<Progress3DBarChart> {
                 decoration: BoxDecoration(
                   color: const Color(0xFF0E5D4E).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('⚡', style: TextStyle(fontSize: 12)),
-                    SizedBox(width: 4),
-                    Text(
-                      '3D Dinâmico',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF0E5D4E),
-                      ),
-                    ),
-                  ],
-                ),
+                ),        
               ),
             ],
           ),

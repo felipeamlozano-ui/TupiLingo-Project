@@ -20,7 +20,10 @@ import threading
 import time
 from typing import Optional
 
-import litellm
+try:
+    import litellm
+except ImportError:
+    litellm = None
 import redis
 
 from app.core.config import settings

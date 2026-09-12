@@ -315,27 +315,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Row(
             children: [
-              Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFFD08A45)).withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(
-                    isDark ? '🌙' : '☀️',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Aparência Ancestral',
+                      'Aparência Ancestral (Tema)',
                       style: TextStyle(
                         color: AppTheme.textPrimary(context),
                         fontSize: 15,

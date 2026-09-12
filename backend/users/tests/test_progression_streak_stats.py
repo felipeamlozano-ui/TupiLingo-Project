@@ -137,3 +137,64 @@ class ProgressionAndStreakTests(TestCase):
         self.assertGreaterEqual(stats["xp_total"], 50)
         self.assertEqual(stats["dias_ofensiva"], 1)
         self.assertEqual(len(stats["weekly_activity"]), 7)
+
+    def test_canonical_progression_heals_inconsistent_prior_lessons(self):
+        """
+        Se o usuário completou uma lição posterior (ex: lição 3),
+        todas as lições anteriores (lições 1 e 2) devem ser canonicamente 'concluida'
+        tanto na resposta da API quanto no banco de dados, evitando apontar para lições anteriores.
+        """
+        licao4 = Licao.objects.create(
+            capitulo=self.capitulo,
+            numero=4,
+            titulo="Lição 4: O Teste",
+            xp_base=40,
+            publicada=True
+        )
+        licao5 = Licao.objects.create(
+            capitulo=self.capitulo,
+            numero=5,
+            titulo="Lição 5: Conquista",
+            xp_base=45,
+            publicada=True
+        )
+
+        # Simula inconsistência: lição 2 em_andamento, lição 1 sem registro, lição 3 concluída
+        UserLesson.objects.create(
+            usuario=self.user,
+            licao=self.licao2,
+            status="em_andamento",
+            completion_percentage=50.0
+        )
+        UserLesson.objects.create(
+            usuario=self.user,
+            licao=self.licao3,
+            status="concluida",
+            completion_percentage=100.0,
+            earned_xp=35
+        )
+
+        trail = ProgressService.get_trail_structure_with_progression(self.user, self.variante)
+        self.assertTrue(trail["success"])
+        licoes_data = trail["capitulos"][0]["licoes"]
+        status_by_id = {l["id"]: l["status"] for l in licoes_data}
+
+        # Lições anteriores e a própria concluída DEVEM ser 'concluida'
+        self.assertEqual(status_by_id[self.licao1.id], "concluida")
+        self.assertEqual(status_by_id[self.licao2.id], "concluida")
+        self.assertEqual(status_by_id[self.licao3.id], "concluida")
+
+        # Lição imediatamente subsequente deve ser 'disponivel'
+        self.assertEqual(status_by_id[licao4.id], "disponivel")
+
+        # Lições posteriores devem ser 'bloqueada'
+        self.assertEqual(status_by_id[licao5.id], "bloqueada")
+
+        # Verifica auto-reconciliação no banco
+        ul1 = UserLesson.objects.get(usuario=self.user, licao=self.licao1)
+        self.assertEqual(ul1.status, "concluida")
+        self.assertEqual(ul1.completion_percentage, 100.0)
+
+        ul2 = UserLesson.objects.get(usuario=self.user, licao=self.licao2)
+        self.assertEqual(ul2.status, "concluida")
+        self.assertEqual(ul2.completion_percentage, 100.0)

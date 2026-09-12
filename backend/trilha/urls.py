@@ -13,8 +13,36 @@ Endpoints:
 from django.urls import path
 from . import views
 from . import admin_views
+from . import views_pratica
 
 urlpatterns = [
+    # ── Prática Temática Dinâmica & TRI Progressivo ───────────────────────────
+    path(
+        'pratica/temas/',
+        views_pratica.listar_temas_pratica,
+        name='listar_temas_pratica',
+    ),
+    path(
+        'pratica/gerar-tematico/',
+        views_pratica.gerar_pratica_tematica,
+        name='gerar_pratica_tematica',
+    ),
+    path(
+        'pratica/responder-item/',
+        views_pratica.responder_item_pratica,
+        name='responder_item_pratica',
+    ),
+    path(
+        'pratica/sincronizar-lote/',
+        views_pratica.sincronizar_lote_pratica,
+        name='sincronizar_lote_pratica',
+    ),
+    path(
+        'pratica/finalizar/',
+        views_pratica.finalizar_sessao_pratica,
+        name='finalizar_sessao_pratica',
+    ),
+
     # ── Variantes ─────────────────────────────────────────────────────────────
     path(
         'trilha/variantes/',

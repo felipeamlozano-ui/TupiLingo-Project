@@ -33,7 +33,6 @@ class RecentLessonsList extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('📚', style: TextStyle(fontSize: 18)),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(

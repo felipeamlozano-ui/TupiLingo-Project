@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    network_security_config.xml - TupiLingo
+    Politica de seguranca de rede:
+    - Base: HTTPS obrigatorio (producao / internet).
+    - Whitelist cleartext (HTTP): loopback + ranges RFC-1918 da rede local
+      para suportar o backend Django local via Wi-Fi (Opcao 3 do dev.bat).
+
+    Ranges privados cobertos:
+      10.12.229.x  - Rede corporativa/universitaria (IP atual: 10.12.229.10)
+      192.168.x.x  - Roteadores domesticos padrao
+-->
+<network-security-config>
+    <!-- Regra global: HTTPS para qualquer host nao listado abaixo -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Loopback + ADB tunnel: dev normal com cabo USB -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">10.0.2.2</domain>
+    </domain-config>
+
+    <!--
+        Rede corporativa/universitaria 10.12.229.x - Opcao 3 do dev.bat.
+        IP atual detectado: 10.12.229.10
+        Android nao suporta CIDR - cada IP precisa ser listado individualmente.
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">10.12.229.1</domain>
+        <domain includeSubdomains="false">10.12.229.2</domain>
+        <domain includeSubdomains="false">10.12.229.3</domain>
+        <domain includeSubdomains="false">10.12.229.4</domain>
+        <domain includeSubdomains="false">10.12.229.5</domain>
+        <domain includeSubdomains="false">10.12.229.6</domain>
+        <domain includeSubdomains="false">10.12.229.7</domain>
+        <domain includeSubdomains="false">10.12.229.8</domain>
+        <domain includeSubdomains="false">10.12.229.9</domain>
+        <domain includeSubdomains="false">10.12.229.10</domain>
+        <domain includeSubdomains="false">10.12.229.11</domain>
+        <domain includeSubdomains="false">10.12.229.12</domain>
+        <domain includeSubdomains="false">10.12.229.13</domain>
+        <domain includeSubdomains="false">10.12.229.14</domain>
+        <domain includeSubdomains="false">10.12.229.15</domain>
+        <domain includeSubdomains="false">10.12.229.16</domain>
+        <domain includeSubdomains="false">10.12.229.17</domain>
+        <domain includeSubdomains="false">10.12.229.18</domain>
+        <domain includeSubdomains="false">10.12.229.19</domain>
+        <domain includeSubdomains="false">10.12.229.20</domain>
+        <domain includeSubdomains="false">10.12.229.30</domain>
+        <domain includeSubdomains="false">10.12.229.50</domain>
+        <domain includeSubdomains="false">10.12.229.100</domain>
+        <domain includeSubdomains="false">10.12.229.150</domain>
+        <domain includeSubdomains="false">10.12.229.200</domain>
+        <domain includeSubdomains="false">10.12.229.254</domain>
+    </domain-config>
+
+    <!--
+        Range Wi-Fi domestico 192.168.x.x (roteadores padrao).
+        Mantido para compatibilidade ao trocar de rede.
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">192.168.0.1</domain>
+        <domain includeSubdomains="false">192.168.1.1</domain>
+        <domain includeSubdomains="false">192.168.0.100</domain>
+        <domain includeSubdomains="false">192.168.1.100</domain>
+        <domain includeSubdomains="false">192.168.0.101</domain>
+        <domain includeSubdomains="false">192.168.1.101</domain>
+        <domain includeSubdomains="false">192.168.0.102</domain>
+        <domain includeSubdomains="false">192.168.1.102</domain>
+        <domain includeSubdomains="false">192.168.0.103</domain>
+        <domain includeSubdomains="false">192.168.1.103</domain>
+        <domain includeSubdomains="false">192.168.0.104</domain>
+        <domain includeSubdomains="false">192.168.1.104</domain>
+        <domain includeSubdomains="false">192.168.0.105</domain>
+        <domain includeSubdomains="false">192.168.1.105</domain>
+        <domain includeSubdomains="false">192.168.0.106</domain>
+        <domain includeSubdomains="false">192.168.1.106</domain>
+        <domain includeSubdomains="false">192.168.0.107</domain>
+        <domain includeSubdomains="false">192.168.1.107</domain>
+        <domain includeSubdomains="false">192.168.0.108</domain>
+        <domain includeSubdomains="false">192.168.1.108</domain>
+        <domain includeSubdomains="false">192.168.0.109</domain>
+        <domain includeSubdomains="false">192.168.1.109</domain>
+        <domain includeSubdomains="false">192.168.0.110</domain>
+        <domain includeSubdomains="false">192.168.1.110</domain>
+    </domain-config>
+</network-security-config>

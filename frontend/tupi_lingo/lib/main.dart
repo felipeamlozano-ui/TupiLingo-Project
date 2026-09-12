@@ -52,6 +52,13 @@ SUPABASE_ANON_KEY=${const String.fromEnvironment('SUPABASE_ANON_KEY')}
 API_URL=${const String.fromEnvironment('API_URL')}
 ''');
     }
+    // Garante precedência do --dart-define e saneamento de API_URL
+    const envApiUrl = String.fromEnvironment('API_URL');
+    if (envApiUrl.trim().isNotEmpty) {
+      dotenv.env['API_URL'] = envApiUrl.trim();
+    } else if (dotenv.env['API_URL'] == null || dotenv.env['API_URL']!.trim().isEmpty) {
+      dotenv.env['API_URL'] = 'http://127.0.0.1:8000';
+    }
   }
 
   final supabaseUrl = dotenv.env['SUPABASE_URL'];
@@ -123,19 +130,54 @@ class _AuthGateState extends State<AuthGate> {
 
       if (mounted) setState(() => _loadingMessage = 'Conectando ao servidor...');
 
-      final accessToken = session.accessToken;
-      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+      final configuredUrl = (dotenv.env['API_URL']?.trim().isNotEmpty == true)
+          ? dotenv.env['API_URL']!.trim()
+          : 'http://127.0.0.1:8000';
 
-      // URLS-001: prefixo /api/v1/ adicionado
-      final response = await http
-          .post(
-            Uri.parse("$baseUrl/api/v1/auth/check-user"),
-            headers: {
-              "Authorization": "Bearer $accessToken",
-              "Content-Type": "application/json",
-            },
-          )
-          .timeout(const Duration(seconds: 10));
+      // Lista de candidatos de rede testados SIMULTANEAMENTE (Parallel Race):
+      // 1. 127.0.0.1:8000 (ADB reverse via USB - ultra veloz ~10ms quando plugado)
+      // 2. configuredUrl (URL definida no .env ou --dart-define)
+      // 3. 10.12.229.10:8000 (IP da máquina na rede Wi-Fi local)
+      // 4. 10.0.2.2:8000 (Gateway padrão do emulador Android)
+      final candidateUrls = <String>{
+        'http://127.0.0.1:8000',
+        configuredUrl,
+        'http://10.12.229.10:8000',
+        'http://10.0.2.2:8000',
+      }.toList();
+
+      http.Response? response;
+      const int maxAttempts = 3;
+
+      for (int attempt = 0; attempt < maxAttempts; attempt++) {
+        if (mounted) {
+          setState(() {
+            _loadingMessage = attempt == 0
+                ? 'Conectando ao servidor...'
+                : 'Estabelecendo conexão (${attempt + 1}/$maxAttempts)...';
+          });
+        }
+
+        final currentToken =
+            Supabase.instance.client.auth.currentSession?.accessToken ?? session.accessToken;
+
+        // Dispara todos os candidatos em paralelo. O primeiro que responder ganha!
+        final winner = await _raceCandidateEndpoints(candidateUrls, currentToken);
+        if (winner != null) {
+          response = winner.response;
+          dotenv.env['API_URL'] = winner.url; // Sincroniza o endpoint vencedor
+          break;
+        }
+
+        // Aguarda backoff progressivo apenas se nenhum candidato respondeu (ex: Django ainda subindo)
+        if (attempt < maxAttempts - 1) {
+          await Future.delayed(Duration(milliseconds: 500 * (attempt + 1)));
+        }
+      }
+
+      if (response == null) {
+        throw Exception('Não foi possível conectar ao servidor em nenhum dos endpoints.');
+      }
 
       if (!mounted) return;
 
@@ -188,6 +230,52 @@ class _AuthGateState extends State<AuthGate> {
         });
       }
     }
+  }
+
+  /// Dispara requisições simultâneas para todos os endpoints candidatos em paralelo (Race).
+  /// O primeiro que responder com status válido (200, 401 ou 403) vence imediatamente,
+  /// eliminando qualquer espera de timeout sequencial (USB, Wi-Fi e Emulador).
+  Future<({String url, http.Response response})?> _raceCandidateEndpoints(
+    List<String> candidates,
+    String token, {
+    Duration candidateTimeout = const Duration(seconds: 3),
+  }) async {
+    if (candidates.isEmpty) return null;
+
+    final completer = Completer<({String url, http.Response response})?>();
+    int pending = candidates.length;
+
+    for (final candidate in candidates) {
+      http
+          .post(
+            Uri.parse('$candidate/api/v1/auth/check-user'),
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Content-Type': 'application/json',
+            },
+          )
+          .timeout(candidateTimeout)
+          .then((res) {
+            if (!completer.isCompleted) {
+              if (res.statusCode == 200 || res.statusCode == 401 || res.statusCode == 403) {
+                completer.complete((url: candidate, response: res));
+                return;
+              }
+            }
+            pending--;
+            if (pending <= 0 && !completer.isCompleted) {
+              completer.complete(null);
+            }
+          })
+          .catchError((_) {
+            pending--;
+            if (pending <= 0 && !completer.isCompleted) {
+              completer.complete(null);
+            }
+          });
+    }
+
+    return completer.future;
   }
 
   @override

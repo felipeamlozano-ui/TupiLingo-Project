@@ -13,18 +13,39 @@ abstract class HistoricalMapRemoteDataSource {
 class HistoricalMapRemoteDataSourceImpl implements HistoricalMapRemoteDataSource {
   String get _baseUrl => dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
 
+  // Cache em memória de altíssimo desempenho para o Modal do Mapa abrir em 0ms
+  static List<HistoricalRegionModel>? _cachedRegions;
+
+  static void invalidateCache() {
+    _cachedRegions = null;
+  }
+
+  static List<HistoricalRegionModel>? getCachedRegions() => _cachedRegions;
+
   @override
-  Future<List<HistoricalRegionModel>> fetchRegions() async {
+  Future<List<HistoricalRegionModel>> fetchRegions({bool forceRefresh = false}) async {
+    if (!forceRefresh && _cachedRegions != null && _cachedRegions!.isNotEmpty) {
+      return _cachedRegions!;
+    }
+
     try {
-      final res = await ApiClient.get('$_baseUrl/api/v1/trilha/regioes/');
+      final query = forceRefresh ? '?refresh=1' : '';
+      final res = await ApiClient.get('$_baseUrl/api/v1/trilha/regioes/$query');
       if (res.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(utf8.decode(res.bodyBytes));
         final list = (data['regioes'] as List<dynamic>? ?? []).map((e) {
           return HistoricalRegionModel.fromJson(e as Map<String, dynamic>);
         }).toList();
-        if (list.isNotEmpty) return list;
+        if (list.isNotEmpty) {
+          _cachedRegions = list;
+          return list;
+        }
       }
     } catch (_) {}
+
+    if (_cachedRegions != null && _cachedRegions!.isNotEmpty) {
+      return _cachedRegions!;
+    }
     return HistoricalRegionModel.defaultHistoricalRegions();
   }
 

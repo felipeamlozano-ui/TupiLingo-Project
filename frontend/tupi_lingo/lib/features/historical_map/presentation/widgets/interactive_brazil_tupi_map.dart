@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/historical_region.dart';
 import 'render_brazil_tupi_map.dart';
 import 'historical_region_detail_sheet.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class InteractiveBrazilTupiMap extends StatefulWidget {
   final List<HistoricalRegion> regions;
@@ -62,15 +63,17 @@ class _InteractiveBrazilTupiMapState extends State<InteractiveBrazilTupiMap>
   @override
   Widget build(BuildContext context) {
     final unlockedCount = widget.regions.where((r) => r.isUnlocked).length;
+    final isDark = AppTheme.isDark(context);
+    final accentColor = isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E);
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF9F8F3),
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: const Color(0xFFD0D0D0).withValues(alpha: 0.7)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0E5D4E).withValues(alpha: 0.08),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
             blurRadius: 18,
             offset: const Offset(0, 6),
           ),
@@ -87,7 +90,7 @@ class _InteractiveBrazilTupiMapState extends State<InteractiveBrazilTupiMap>
                 children: [
                   const Text('🗺️', style: TextStyle(fontSize: 18)),
                   const SizedBox(width: 8),
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       'Pindorama Histórico',
                       maxLines: 1,
@@ -95,7 +98,7 @@ class _InteractiveBrazilTupiMapState extends State<InteractiveBrazilTupiMap>
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1F2937),
+                        color: AppTheme.textPrimary(context),
                       ),
                     ),
                   ),
@@ -103,15 +106,15 @@ class _InteractiveBrazilTupiMapState extends State<InteractiveBrazilTupiMap>
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF0E5D4E).withValues(alpha: 0.12),
+                      color: accentColor.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       '$unlockedCount/${widget.regions.length} Aldeias',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF0E5D4E),
+                        color: accentColor,
                       ),
                     ),
                   ),
@@ -148,13 +151,13 @@ class _InteractiveBrazilTupiMapState extends State<InteractiveBrazilTupiMap>
                     bottom: 14,
                     child: FloatingActionButton.small(
                       heroTag: 'reset_zoom_fab',
-                      backgroundColor: Colors.white,
+                      backgroundColor: AppTheme.surface(context),
                       elevation: 2,
                       tooltip: 'Centralizar Mapa',
                       onPressed: () {
                         _transformController.value = Matrix4.identity();
                       },
-                      child: const Icon(Icons.my_location_rounded, color: Color(0xFF0E5D4E), size: 18),
+                      child: Icon(Icons.my_location_rounded, color: accentColor, size: 18),
                     ),
                   ),
                 ],

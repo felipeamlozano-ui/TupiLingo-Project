@@ -11,6 +11,9 @@ class DashboardRepositoryImpl implements DashboardRepository {
   static DateTime? _cacheTimestamp;
   static const Duration _cacheTtl = Duration(seconds: 30);
 
+  /// Retorna as estatísticas atualmente em cache para renderização em 0ms
+  static UserProgressStats? getCachedStats() => _cachedStats;
+
   /// Invalida o cache para forçar requisição fresca (ex: pós conclusão de lição/baú)
   static void invalidateCache() {
     _cachedStats = null;
@@ -20,18 +23,20 @@ class DashboardRepositoryImpl implements DashboardRepository {
   @override
   Future<UserProgressStats> getUserProgressStats({bool forceRefresh = false}) async {
     final now = DateTime.now();
-    if (!forceRefresh &&
-        _cachedStats != null &&
+    if (forceRefresh) {
+      invalidateCache();
+    } else if (_cachedStats != null &&
         _cacheTimestamp != null &&
         now.difference(_cacheTimestamp!) < _cacheTtl) {
       return _cachedStats!;
     }
 
     final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+    final query = forceRefresh ? '?refresh=1' : '';
 
     try {
       // 1. Tenta o endpoint otimizado de dashboard
-      var response = await ApiClient.get('$baseUrl/api/v1/dashboard/stats/');
+      var response = await ApiClient.get('$baseUrl/api/v1/dashboard/stats/$query');
       if (response.statusCode != 200) {
         // 2. Fallback para rota de perfil compatível
         response = await ApiClient.get('$baseUrl/api/v1/profile/');

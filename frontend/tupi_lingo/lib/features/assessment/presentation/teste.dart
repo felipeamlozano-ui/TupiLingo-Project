@@ -4,6 +4,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
+import '../../dashboard/data/repositories/dashboard_repository_impl.dart';
+import '../../historical_map/data/datasources/historical_map_remote_data_source.dart';
 
 class _TupiColors {
   static const background = Color(0xFFF3F2E8);
@@ -307,6 +310,9 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
             savedSuccessfully = true;
             final responseData = jsonDecode(utf8.decode(response.bodyBytes));
             finalLvl = responseData['new_level'] ?? _currentNivel;
+            DashboardRepositoryImpl.invalidateCache();
+            HistoricalMapRemoteDataSourceImpl.invalidateCache();
+            AppProgressionNotifier.instance.notifyProgressionChanged();
         }
       }
     } catch (e) {
@@ -350,7 +356,7 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
   Future<bool> _handleBackAttempt() async {
     // Se o teste já foi finalizado (fase 2), permite voltar para a Home diretamente
     if (_phase == 2) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       return false;
     }
 
@@ -717,7 +723,7 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
               height: 56,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/home');
+                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _TupiColors.primary,

@@ -8,7 +8,7 @@ de todas as tabelas de progresso associadas:
   - DailyStudyLog (histórico diário de ofensiva/XP)
   - UserChestReward (baús culturais coletados)
   - UserAchievement (medalhas e conquistas)
-  - VocabularyProgress (revisão espaçada SM-2)
+  - VocabularyProgress 
   - UserVarianteLevel (nível calibrado por variante)
   - TestAttempt (tentativas de teste de nivelamento)
   - FilaExercicioUsuario (fila offline de exercícios)
@@ -169,7 +169,7 @@ def clean_users(
     print(f"     - Logs de Ofensiva (DailyStudyLog): {total_logs}")
     print(f"     - Baús Coletados (UserChestReward): {total_chests}")
     print(f"     - Medalhas (UserAchievement): {total_achievements}")
-    print(f"     - Vocabulário SM-2 (VocabularyProgress): {total_vocab}")
+    print(f"     - Vocabulário (VocabularyProgress): {total_vocab}")
     print(f"     - Níveis por Variante (UserVarianteLevel): {total_levels}")
     print(f"     - Testes de Nivelamento (TestAttempt): {total_attempts}")
     print(f"     - Buffer Offline (FilaExercicioUsuario): {total_offline}")

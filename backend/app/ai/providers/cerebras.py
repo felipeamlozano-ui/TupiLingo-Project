@@ -16,10 +16,12 @@ class CerebrasProvider(BaseProvider):
     Provider para Cerebras Cloud.
     """
     def __init__(self):
-        if not settings.CEREBRAS_API_KEY:
+        from app.services.vault_service import VaultService
+        api_key = VaultService.get_secret("CEREBRAS_API_KEY", fallback_env_var="CEREBRAS_API_KEY") or settings.CEREBRAS_API_KEY
+        if not api_key:
             raise AuthenticationError("CEREBRAS_API_KEY não configurada.")
         self.client = OpenAI(
-            api_key=settings.CEREBRAS_API_KEY,
+            api_key=api_key,
             base_url="https://api.cerebras.ai/v1",
             timeout=10.0
         )

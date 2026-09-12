@@ -5,7 +5,7 @@ Inclui:
 - UserProfile: perfil do usuário autenticado via Supabase Auth.
 - Achievement / UserAchievement: sistema de medalhas culturais.
 - UserLesson: progresso do usuário por Lição.
-- VocabularyProgress: revisão espaçada (SM-2) por palavra.
+- VocabularyProgress: revisão espaçada por palavra.
 - FilaExercicioUsuario: buffer de exercícios offline.
 """
 
@@ -81,11 +81,15 @@ class UserProfile(models.Model):
         help_text="Língua/Variante que o usuário está estudando atualmente."
     )
 
-    # ── Gamificação (sem punição, sem corações) ──────────────────────────────
     xp_total = models.IntegerField(
         default=0,
         verbose_name="XP Total",
         help_text="Pontuação de experiência acumulada ao longo de toda a jornada."
+    )
+    conchas = models.IntegerField(
+        default=0,
+        verbose_name="Conchas (Moeda)",
+        help_text="Moeda do Pindorama acumulada em lições e práticas."
     )
 
     # ── Ofensiva Diária (Streak) Automatizado (Supabase + pg_cron) ────────────
@@ -384,3 +388,46 @@ class DailyStudyLog(models.Model):
 
     def __str__(self):
         return f"{self.user.name} - {self.data}: {self.xp_ganho} XP ({self.licoes_concluidas} lições)"
+
+
+# ─── HistoricoResposta (Auditoria, TRI e SRS) ─────────────────────────────────
+
+class HistoricoResposta(models.Model):
+    """
+    Registro detalhado de respostas de exercícios do usuário para auditoria,
+    calibração psicométrica TRI e Repetição Espaçada (SRS).
+    """
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name='historico_respostas',
+        verbose_name="Usuário"
+    )
+    vocabulary_item = models.ForeignKey(
+        'trilha.VocabularyItem',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='historico_respostas',
+        verbose_name="Item de Vocabulário"
+    )
+    palavra_tupi = models.CharField(max_length=200, verbose_name="Palavra em Tupi")
+    traducao_pt = models.CharField(max_length=200, blank=True, default='', verbose_name="Tradução em Português")
+    status = models.CharField(max_length=20, verbose_name="Status de Validação")
+    similaridade = models.FloatField(default=0.0, verbose_name="Similaridade Trigramas")
+    time_taken_seconds = models.FloatField(default=0.0, verbose_name="Tempo de Resposta (s)")
+    origem = models.CharField(max_length=50, default='pratica_tematica', verbose_name="Origem do Exercício")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
+
+    class Meta:
+        db_table = 'users_historicoresposta'
+        verbose_name = 'Histórico de Resposta'
+        verbose_name_plural = 'Histórico de Respostas'
+        indexes = [
+            models.Index(fields=['user', 'status'], name='idx_histresp_user_status'),
+            models.Index(fields=['palavra_tupi'], name='idx_histresp_palavra'),
+            models.Index(fields=['-created_at'], name='idx_histresp_created_at'),
+        ]
+
+    def __str__(self):
+        return f"{self.user.name} - {self.palavra_tupi} ({self.status})"

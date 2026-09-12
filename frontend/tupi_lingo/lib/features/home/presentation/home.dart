@@ -14,15 +14,20 @@ import 'package:tupi_lingo/features/rewards/domain/entities/indigenous_reward.da
 import 'package:tupi_lingo/features/historical_map/presentation/widgets/lazy_map_loader.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
+import 'package:tupi_lingo/features/historical_map/data/datasources/historical_map_remote_data_source.dart';
 import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
+import 'package:tupi_lingo/features/pratica/presentation/thematic_practice_screen.dart';
+import 'package:tupi_lingo/features/home/data/models/trail_map_models.dart';
+import 'package:tupi_lingo/features/home/presentation/widgets/flashcard_practice_dialog.dart';
+import 'package:tupi_lingo/features/home/presentation/widgets/language_switcher_bottom_sheet.dart';
+import 'package:tupi_lingo/features/home/presentation/widgets/trail_app_bar.dart';
 
 /// Paleta de Cores com Identidade Visual Tupi Ancestral
 class _TupiColors {
   static const backgroundSecondary = Color(0xFFEAE7DC); // Areia suave de contraste
   static const surfaceCard = Colors.white;            // Cards em branco puro
-  static const surfaceCardLight = Color(0xFFFAF9F5);
   static const primary = Color(0xFFD08A45);           // Âmbar / Terracota Tupi (Ação principal)
   static const primaryDark = Color(0xFFA56627);       // Borda 3D botão terracota
   static const accent = Color(0xFF0E5D4E);            // Verde Floresta Profundo (Ancestral)
@@ -33,122 +38,7 @@ class _TupiColors {
   static const nodeLocked = Color(0xFFE2DFD4);        // Pedra clara para nós bloqueados
   static const nodeLockedBorder = Color(0xFFC7C3B6);  // Borda 3D nó bloqueado
   static const xpColor = Color(0xFFD08A45);           // Âmbar/Dourado Tupi
-  static const streakColor = Color(0xFFE05638);       // Fogo da Ofensiva
   static const shellColor = Color(0xFF0E5D4E);        // Conchas / Moedas do Pindorama
-}
-
-enum LicaoStatus { bloqueada, disponivel, emAndamento, concluida }
-
-class LicaoMapData {
-  final int id;
-  final String titulo;
-  final String descricao;
-  final int numero;
-  final int xpBase;
-  final double posX;
-  final double posY;
-  final LicaoStatus status;
-  final int earnedXp;
-
-  const LicaoMapData({
-    required this.id,
-    required this.titulo,
-    required this.descricao,
-    required this.numero,
-    required this.xpBase,
-    required this.posX,
-    required this.posY,
-    required this.status,
-    this.earnedXp = 0,
-  });
-
-  LicaoMapData copyWith({
-    int? id,
-    String? titulo,
-    String? descricao,
-    int? numero,
-    int? xpBase,
-    double? posX,
-    double? posY,
-    LicaoStatus? status,
-    int? earnedXp,
-  }) {
-    return LicaoMapData(
-      id: id ?? this.id,
-      titulo: titulo ?? this.titulo,
-      descricao: descricao ?? this.descricao,
-      numero: numero ?? this.numero,
-      xpBase: xpBase ?? this.xpBase,
-      posX: posX ?? this.posX,
-      posY: posY ?? this.posY,
-      status: status ?? this.status,
-      earnedXp: earnedXp ?? this.earnedXp,
-    );
-  }
-}
-
-class ChestRewardMapData {
-  final int milestoneIndex;
-  final String status; // 'bloqueado', 'disponivel', 'concluido'
-  final bool unlocked;
-  final bool collected;
-  final int recompensaXp;
-  final int recompensaConchas;
-  final int afterLessonNumber;
-
-  const ChestRewardMapData({
-    required this.milestoneIndex,
-    required this.status,
-    required this.unlocked,
-    required this.collected,
-    required this.recompensaXp,
-    required this.recompensaConchas,
-    required this.afterLessonNumber,
-  });
-}
-
-class CapituloMapData {
-  final int id;
-  final String titulo;
-  final String descricao;
-  final int numero;
-  final Color paletteColor;
-  final List<LicaoMapData> licoes;
-  final ChestRewardMapData? chestReward;
-  final double moduleProgressPercentage;
-
-  const CapituloMapData({
-    required this.id,
-    required this.titulo,
-    required this.descricao,
-    required this.numero,
-    required this.paletteColor,
-    required this.licoes,
-    this.chestReward,
-    this.moduleProgressPercentage = 0.0,
-  });
-
-  CapituloMapData copyWith({
-    int? id,
-    String? titulo,
-    String? descricao,
-    int? numero,
-    Color? paletteColor,
-    List<LicaoMapData>? licoes,
-    ChestRewardMapData? chestReward,
-    double? moduleProgressPercentage,
-  }) {
-    return CapituloMapData(
-      id: id ?? this.id,
-      titulo: titulo ?? this.titulo,
-      descricao: descricao ?? this.descricao,
-      numero: numero ?? this.numero,
-      paletteColor: paletteColor ?? this.paletteColor,
-      licoes: licoes ?? this.licoes,
-      chestReward: chestReward ?? this.chestReward,
-      moduleProgressPercentage: moduleProgressPercentage ?? this.moduleProgressPercentage,
-    );
-  }
 }
 
 class HomeScreen extends StatefulWidget {
@@ -237,6 +127,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void _onProgressionUpdated() {
     if (mounted) {
+      final gained = AppProgressionNotifier.instance.lastConchasGained;
+      if (gained > 0) {
+        setState(() {
+          _conchas += gained;
+        });
+      }
       _loadUserDataAndTrail();
     }
   }
@@ -354,6 +250,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           'Content-Type': 'application/json',
         };
 
+        // Se ainda não carregamos capítulos (cold boot), sincroniza a variante ativa primeiro
+        // para garantir que a trilha carregada corresponda à variante_ativa do usuário.
+        if (_capitulos.isEmpty) {
+          try {
+            final checkUserRes = await http.post(
+              Uri.parse('$baseUrl/api/v1/auth/check-user'),
+              headers: headers,
+            ).timeout(const Duration(seconds: 6));
+
+            if (checkUserRes.statusCode == 200) {
+              final dynamic profileData = jsonDecode(utf8.decode(checkUserRes.bodyBytes));
+              if (profileData is Map<String, dynamic>) {
+                final varianteAtiva = profileData['variante_ativa'];
+                if (varianteAtiva is Map<String, dynamic>) {
+                  _varianteId = (varianteAtiva['id'] as num?)?.toInt() ?? _varianteId;
+                  _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
+                }
+                _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
+                _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
+                    (profileData['dias_ofensiva'] as num?)?.toInt() ??
+                    _streakDays;
+                _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
+              }
+            }
+          } catch (_) {}
+          varianteId = _varianteId;
+        }
+
         // Dispara requisições em paralelo com Future.wait para máxima velocidade
         final checkUserReq = http.post(
           Uri.parse('$baseUrl/api/v1/auth/check-user'),
@@ -383,21 +307,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               final varianteAtiva = profileData['variante_ativa'];
               if (varianteAtiva is Map<String, dynamic>) {
                 final userVarId = (varianteAtiva['id'] as num?)?.toInt() ?? 1;
-                // Preservação estrita da variante: só adota a variante do check-user
-                // se a lista de capítulos estiver vazia (cold boot inicial).
-                // Caso contrário, respeita a variante que o usuário está ativamente cursando.
-                if (_capitulos.isEmpty) {
+                // Se o check-user indicar uma variante diferente da que está em tela
+                // (ex: após nivelamento ou troca de variante), atualiza a variante ativa
+                // e recarrega os dados da trilha para essa variante imediatamente.
+                if (_varianteId != userVarId) {
                   _varianteId = userVarId;
                   _varianteNome = varianteAtiva['nome']?.toString() ?? 'Tupi Antigo';
-                } else if (_varianteId == userVarId) {
+                  _capitulos = [];
+                  if (mounted) {
+                    setState(() {});
+                    _loadUserDataAndTrail();
+                  }
+                  return;
+                } else {
                   _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
                 }
               }
-              _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
-              _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
-                  (profileData['dias_ofensiva'] as num?)?.toInt() ??
-                  _streakDays;
-              _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
+              if (mounted) {
+                setState(() {
+                  _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
+                  _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
+                      (profileData['dias_ofensiva'] as num?)?.toInt() ??
+                      _streakDays;
+                  _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
+                });
+              }
             }
           } catch (_) {}
         }
@@ -418,11 +352,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           if (mapData is Map<String, dynamic>) {
             if (mapData['user_stats'] is Map<String, dynamic>) {
               final us = mapData['user_stats'] as Map<String, dynamic>;
-              _xpTotal = (us['xp_total'] as num?)?.toInt() ?? _xpTotal;
-              _streakDays = (us['streak_atual'] as num?)?.toInt() ??
-                  (us['dias_ofensiva'] as num?)?.toInt() ??
-                  _streakDays;
-              _conchas = (us['conchas'] as num?)?.toInt() ?? _conchas;
+              if (mounted) {
+                setState(() {
+                  _xpTotal = (us['xp_total'] as num?)?.toInt() ?? _xpTotal;
+                  _streakDays = (us['streak_atual'] as num?)?.toInt() ??
+                      (us['dias_ofensiva'] as num?)?.toInt() ??
+                      _streakDays;
+                  _conchas = (us['conchas'] as num?)?.toInt() ?? _conchas;
+                });
+              }
             }
 
             final List<dynamic> capsJson = mapData['capitulos'] as List<dynamic>? ?? [];
@@ -478,14 +416,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
             final mergedCapitulos = _mergeCapitulosWithLocalProgress(_capitulos, loadedCapitulos);
 
+            // Determina qual capítulo contém a lição ativa (disponível ou em andamento)
+            int activeCapIdx = 0;
+            for (int i = 0; i < mergedCapitulos.length; i++) {
+              final hasActiveLesson = mergedCapitulos[i].licoes.any(
+                (l) => l.status == LicaoStatus.disponivel || l.status == LicaoStatus.emAndamento,
+              );
+              if (hasActiveLesson) {
+                activeCapIdx = i;
+                break;
+              }
+            }
+
+            final bool currentCapFinished = _selectedCapituloIndex < mergedCapitulos.length &&
+                mergedCapitulos[_selectedCapituloIndex].licoes.isNotEmpty &&
+                mergedCapitulos[_selectedCapituloIndex].licoes.every((l) => l.status == LicaoStatus.concluida);
+
+            final bool shouldUpdateSelectedCap = _capitulos.isEmpty ||
+                _selectedCapituloIndex >= mergedCapitulos.length ||
+                currentCapFinished;
+
             if (mounted) {
               setState(() {
                 _capitulos = mergedCapitulos;
+                if (shouldUpdateSelectedCap) {
+                  _selectedCapituloIndex = activeCapIdx;
+                }
                 _isLoading = false;
               });
               _preheatNextLesson();
-              // Pré-aquecimento do Painel de Desempenho em background (Zero Loading no 1º clique)
-              Future.microtask(() => DashboardRepositoryImpl().getUserProgressStats());
+              // Pré-aquecimento do Painel de Desempenho, Mapa e Variantes em background (Zero Loading no 1º clique)
+              Future.microtask(() {
+                DashboardRepositoryImpl().getUserProgressStats();
+                HistoricalMapRemoteDataSourceImpl().fetchRegions();
+                LanguageSwitcherBottomSheet.preloadVariantes();
+              });
               return;
             }
           }
@@ -550,161 +515,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // ─── Barra Superior Global ──────────────────────────────────────────────────
   Widget _buildGlobalTopBar() {
-    final isDark = AppTheme.isDark(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: AppTheme.bg(context),
-        border: Border(
-          bottom: BorderSide(color: AppTheme.border(context), width: 1),
-        ),
+    return TrailAppBar(
+      varianteNome: _varianteNome,
+      streakDays: _streakDays,
+      conchas: _conchas,
+      xpTotal: _xpTotal,
+      onLanguageTap: () => _showLanguageSwitcher(context),
+      onXpTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ProgressDashboardScreen()),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Variante Ativa Badge com Seletor de Idioma
-          Flexible(
-            child: GestureDetector(
-              onTap: () => _showLanguageSwitcher(context),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppTheme.surface(context),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppTheme.border(context)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('🌿', style: TextStyle(fontSize: 13)),
-                    const SizedBox(width: 4),
-                    Flexible(
-                      child: Text(
-                        _varianteNome,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 2),
-                    Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      size: 16,
-                      color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 6),
-
-          // Métricas de Gamificação: Ofensiva, Conchas, XP + Atalhos Interativos
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildTopStat(icon: '🔥', label: '$_streakDays', color: _TupiColors.streakColor),
-              const SizedBox(width: 5),
-              _buildTopStat(icon: '🐚', label: '$_conchas', color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.shellColor),
-              const SizedBox(width: 5),
-              // Toque no XP abre o Dashboard de Progresso 3D
-              GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProgressDashboardScreen()),
-                ),
-                child: _buildTopStat(icon: '⭐', label: '$_xpTotal', color: _TupiColors.xpColor),
-              ),
-              const SizedBox(width: 5),
-              // Botão de alternância rápida de Tema Ancestral (Sol / Lua)
-              GestureDetector(
-                onTap: () => ThemeNotifier.instance.toggleTheme(context),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surface(context),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppTheme.border(context)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Text(isDark ? '🌙' : '☀️', style: const TextStyle(fontSize: 13)),
-                ),
-              ),
-              const SizedBox(width: 5),
-              // Botão do Mapa Interativo de Aldeias
-              GestureDetector(
-                onTap: _showInteractiveMapModal,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: (isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent).withValues(alpha: 0.3),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Text('🗺️', style: TextStyle(fontSize: 13)),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTopStat({required String icon, required String label, required Color color}) {
-    final isDark = AppTheme.isDark(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppTheme.surface(context),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.border(context)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(icon, style: const TextStyle(fontSize: 13)),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: color,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+      onThemeToggle: () => ThemeNotifier.instance.toggleTheme(context),
+      onMapTap: _showInteractiveMapModal,
     );
   }
 
@@ -845,7 +667,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('📜', style: TextStyle(fontSize: 12)),
+                      Text('', style: TextStyle(fontSize: 12)),
                       SizedBox(width: 4),
                       Text(
                         'Guia Cultural',
@@ -922,9 +744,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final offsets = [0.0, -0.45, 0.45, 0.0, -0.45, 0.45];
 
     // Localiza a lição prioritária que o aluno deve fazer agora
-    final targetIndex = licoes.indexWhere(
-      (l) => l.status == LicaoStatus.disponivel || l.status == LicaoStatus.emAndamento,
-    );
+    // Só destaca se este capítulo for o capítulo ativo sendo exibido
+    final isCurrentActiveChapter =
+        (_selectedCapituloIndex < _capitulos.length && _capitulos[_selectedCapituloIndex].id == cap.id);
+    final targetIndex = isCurrentActiveChapter
+        ? licoes.indexWhere(
+            (l) => l.status == LicaoStatus.disponivel || l.status == LicaoStatus.emAndamento,
+          )
+        : -1;
 
     return Column(
       children: List.generate(licoes.length, (index) {
@@ -1002,7 +829,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(isInProgress ? '⚡ ' : '✨ ', style: const TextStyle(fontSize: 11)),
+                                    Text(isInProgress ? '' : ' ', style: const TextStyle(fontSize: 11)),
                                     Text(
                                       isInProgress ? 'CONTINUAR' : 'SUA VEZ',
                                       style: const TextStyle(
@@ -1504,9 +1331,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       builder: (ctx) => Container(
         height: MediaQuery.of(context).size.height * 0.85,
         padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          color: Color(0xFFF3F2E8),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        decoration: BoxDecoration(
+          color: AppTheme.bg(context),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         ),
         child: Column(
           children: [
@@ -1516,7 +1343,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 height: 5,
                 margin: const EdgeInsets.only(bottom: 12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD0D0D0),
+                  color: AppTheme.border(context),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -1769,8 +1596,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: _TupiColors.surfaceCard,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: AppTheme.surface(context),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: AppTheme.border(context)),
+        ),
         title: Row(
           children: [
             const Text('📜', style: TextStyle(fontSize: 22)),
@@ -1778,7 +1608,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Expanded(
               child: Text(
                 'Guia do Capítulo ${cap.numero}',
-                style: const TextStyle(color: _TupiColors.textDark, fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(color: AppTheme.textPrimary(context), fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -1792,18 +1622,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               style: const TextStyle(color: _TupiColors.primary, fontWeight: FontWeight.bold, fontSize: 15),
             ),
             const SizedBox(height: 10),
-            const Text(
+            Text(
               'No Tupi Antigo, a fala expressava conexão íntima com a terra e com os ancestrais. '
               'As palavras tinham sonoridade rica em vogais nasais e guturais (como o som de "Y"). '
               'Pratique os termos e preste atenção aos animais sagrados da floresta.',
-              style: TextStyle(color: _TupiColors.textDark, fontSize: 13, height: 1.45),
+              style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13, height: 1.45),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Entendi', style: TextStyle(color: _TupiColors.accent, fontWeight: FontWeight.bold)),
+            child: Text(
+              'Entendi',
+              style: TextStyle(
+                color: AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : _TupiColors.accent,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
@@ -1815,10 +1651,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => _LanguageSwitcherBottomSheet(
+      builder: (ctx) => LanguageSwitcherBottomSheet(
         varianteIdAtiva: _varianteId,
         onVarianteSelected: (variante, precisaNivelar) {
           if (precisaNivelar) {
+            setState(() {
+              _varianteId = (variante['id'] as num).toInt();
+              _varianteNome = variante['nome']?.toString() ?? 'Tupi Antigo';
+              _capitulos = [];
+            });
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -1853,7 +1694,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
           children: [
             Text(
-              'Centro de Prática Ancestral 🏹',
+              'Centro de Prática Ancestral',
               style: TextStyle(
                 color: AppTheme.textPrimary(context),
                 fontSize: 22,
@@ -1898,7 +1739,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Revisão Espaçada (SM-2)',
+                              'Revisão Espaçada',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -1933,6 +1774,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
             ),
+
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Text(
+                  'Treino Temático com IA',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0E5D4E).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Text(
+                    'Treino Inteligente ',
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E)),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Pratique com questões contextualizadas usando o acervo histórico primário.',
+              style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
+            ),
+            const SizedBox(height: 14),
+
+            // Carrossel/Cards de Temas Interativos
+            _buildThematicPracticeSection(),
 
             const SizedBox(height: 24),
             Text(
@@ -2022,7 +1898,184 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _startFlashcardSession() {
     showDialog(
       context: context,
-      builder: (ctx) => _FlashcardPracticeDialog(vocabulary: _vocabularyBank),
+      builder: (ctx) => FlashcardPracticeDialog(vocabulary: _vocabularyBank),
+    );
+  }
+
+  Widget _buildThematicPracticeSection() {
+    final themes = [
+      {'titulo': 'Natureza e Rios', 'icone': '🌿', 'desc': 'Águas, matas e cosmos', 'xp': 20, 'conchas': 3},
+      {'titulo': 'Animais e Caça', 'icone': '🐆', 'desc': 'Onças, aves e fauna', 'xp': 20, 'conchas': 3},
+      {'titulo': 'Mitologia e Tupã', 'icone': '⚡', 'desc': 'Entidades e cosmologia', 'xp': 25, 'conchas': 4},
+      {'titulo': 'Aldeia e Cotidiano', 'icone': '🏡', 'desc': 'Oka, taba e comunidade', 'xp': 20, 'conchas': 3},
+      {'titulo': 'Guerra e Rituais', 'icone': '🏹', 'desc': 'Armas, chefias e cantos', 'xp': 25, 'conchas': 4},
+      {'titulo': 'Culinária e Roça', 'icone': '🍲', 'desc': 'Mandioca, cauim e peixes', 'xp': 20, 'conchas': 3},
+    ];
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 125,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: themes.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
+            itemBuilder: (context, idx) {
+              final t = themes[idx];
+              return InkWell(
+                onTap: () => _openThematicPractice(t['titulo'] as String),
+                borderRadius: BorderRadius.circular(18),
+                child: Container(
+                  width: 165,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surface(context),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: AppTheme.border(context)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(t['icone'] as String, style: const TextStyle(fontSize: 24)),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD08A45).withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              '+${t['xp']} XP',
+                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFD08A45)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            t['titulo'] as String,
+                            style: TextStyle(
+                              color: AppTheme.textPrimary(context),
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            t['desc'] as String,
+                            style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 10),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: _showCustomThemeDialog,
+            icon: const Icon(Icons.edit_note_rounded, size: 20, color: Color(0xFF0E5D4E)),
+            label: const Text(
+              'DIGITAR TEMA PERSONALIZADO...',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E)),
+            ),
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Color(0xFF0E5D4E), width: 1.2),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _openThematicPractice(String tema) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ThematicPracticeScreen(
+          tema: tema,
+          varianteId: _varianteId,
+          varianteNome: _varianteNome,
+          initialConchas: _conchas,
+        ),
+      ),
+    );
+    if (mounted) {
+      _loadUserDataAndTrail();
+    }
+  }
+
+  void _showCustomThemeDialog() {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Row(
+            children: [
+              Text('🏹 ', style: TextStyle(fontSize: 22)),
+              Text('Tema Personalizado', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Escolha qualquer assunto. A inteligência da aldeia buscará os saberes e vocabulários adequados:',
+                style: TextStyle(fontSize: 13, color: Colors.grey),
+              ),
+              const SizedBox(height: 14),
+              TextField(
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: 'Ex: Constelações, Pesca, Pintura corporal...',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('CANCELAR'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final tema = controller.text.trim();
+                if (tema.isNotEmpty) {
+                  Navigator.pop(ctx);
+                  _openThematicPractice(tema);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0E5D4E),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text('INICIAR'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -2085,21 +2138,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           children: [
             const Icon(Icons.wifi_off_rounded, color: _TupiColors.primary, size: 54),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Não foi possível carregar a jornada.',
-              style: TextStyle(color: _TupiColors.textDark, fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(color: AppTheme.textPrimary(context), fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               _errorMessage ?? '',
-              style: const TextStyle(color: _TupiColors.textMuted, fontSize: 12),
+              style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _loadUserDataAndTrail,
               style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.primary),
-              child: const Text('Tentar Novamente'),
+              child: const Text('Tentar Novamente', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -2108,463 +2161,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 }
 
-// ─── Diálogo Interativo de Flashcards (Treino Rápido) ──────────────────────────
-class _FlashcardPracticeDialog extends StatefulWidget {
-  final List<Map<String, String>> vocabulary;
-  const _FlashcardPracticeDialog({required this.vocabulary});
-
-  @override
-  State<_FlashcardPracticeDialog> createState() => _FlashcardPracticeDialogState();
-}
-
-class _FlashcardPracticeDialogState extends State<_FlashcardPracticeDialog> {
-  int _currentIndex = 0;
-  bool _revealed = false;
-  int _reviewedCount = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    if (_currentIndex >= widget.vocabulary.length) {
-      return AlertDialog(
-        backgroundColor: _TupiColors.surfaceCard,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('🎉', style: TextStyle(fontSize: 44)),
-            const SizedBox(height: 12),
-            const Text(
-              'Revisão Concluída!',
-              style: TextStyle(color: _TupiColors.textDark, fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              'Você revisou $_reviewedCount palavras ancestrais com sucesso.',
-              style: const TextStyle(color: _TupiColors.textMuted, fontSize: 13),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.accent),
-              child: const Text('Concluir (+15 XP)'),
-            ),
-          ],
-        ),
-      );
-    }
-
-    final item = widget.vocabulary[_currentIndex];
-
-    return AlertDialog(
-      backgroundColor: _TupiColors.surfaceCard,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Palavra ${_currentIndex + 1}/${widget.vocabulary.length}',
-            style: const TextStyle(color: _TupiColors.textMuted, fontSize: 12),
-          ),
-          IconButton(
-            icon: const Icon(Icons.close, color: _TupiColors.textMuted, size: 20),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: () => setState(() => _revealed = !_revealed),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              width: double.infinity,
-              height: 180,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: _TupiColors.surfaceCardLight,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: _revealed ? _TupiColors.accent : _TupiColors.primary.withValues(alpha: 0.5),
-                  width: 2,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    item['tupi']!,
-                    style: const TextStyle(
-                      color: _TupiColors.textDark,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    '[${item['pronuncia']!}]',
-                    style: const TextStyle(color: _TupiColors.textMuted, fontSize: 13),
-                  ),
-                  const SizedBox(height: 16),
-                  if (_revealed)
-                    Text(
-                      item['pt']!,
-                      style: const TextStyle(
-                        color: _TupiColors.accent,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  else
-                    const Text(
-                      'Toque para ver a tradução',
-                      style: TextStyle(color: _TupiColors.primary, fontSize: 12, fontWeight: FontWeight.w600),
-                    ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      _currentIndex++;
-                      _revealed = false;
-                    });
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: _TupiColors.textMuted,
-                    side: const BorderSide(color: _TupiColors.border),
-                  ),
-                  child: const Text('Rever Depois'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _reviewedCount++;
-                      _currentIndex++;
-                      _revealed = false;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.accent),
-                  child: const Text('Acertei!'),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── BottomSheet Seletor de Idioma / Variante ──────────────────────────────────
-class _LanguageSwitcherBottomSheet extends StatefulWidget {
-  final int varianteIdAtiva;
-  final Function(Map<String, dynamic> variante, bool precisaNivelar) onVarianteSelected;
-
-  const _LanguageSwitcherBottomSheet({
-    required this.varianteIdAtiva,
-    required this.onVarianteSelected,
-  });
-
-  @override
-  State<_LanguageSwitcherBottomSheet> createState() => _LanguageSwitcherBottomSheetState();
-}
-
-class _LanguageSwitcherBottomSheetState extends State<_LanguageSwitcherBottomSheet> {
-  bool _isLoading = true;
-  int? _updatingVarianteId;
-  String? _error;
-  List<Map<String, dynamic>> _variantes = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchVariantes();
-  }
-
-  Future<void> _fetchVariantes() async {
-    try {
-      final session = Supabase.instance.client.auth.currentSession;
-      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      final res = await http.get(
-        Uri.parse('$baseUrl/api/v1/trilha/variantes/'),
-        headers: {
-          'Content-Type': 'application/json',
-          if (session != null) 'Authorization': 'Bearer ${session.accessToken}',
-        },
-      ).timeout(const Duration(seconds: 8));
-
-      if (res.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(res.bodyBytes));
-        if (data['success'] == true && data['variantes'] is List) {
-          if (mounted) {
-            setState(() {
-              _variantes = List<Map<String, dynamic>>.from(data['variantes']);
-              _isLoading = false;
-            });
-            return;
-          }
-        }
-      }
-      throw Exception('Não foi possível carregar as variantes.');
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _error = e.toString();
-          _isLoading = false;
-        });
-      }
-    }
-  }
-
-  Future<void> _selectVariante(Map<String, dynamic> v) async {
-    final int vId = (v['id'] as num).toInt();
-    if (vId == widget.varianteIdAtiva) {
-      Navigator.pop(context);
-      return;
-    }
-
-    setState(() => _updatingVarianteId = vId);
-
-    try {
-      final session = Supabase.instance.client.auth.currentSession;
-      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-
-      final res = await http.post(
-        Uri.parse('$baseUrl/api/v1/auth/update-variante'),
-        headers: {
-          'Content-Type': 'application/json',
-          if (session != null) 'Authorization': 'Bearer ${session.accessToken}',
-        },
-        body: jsonEncode({'variante_id': vId}),
-      ).timeout(const Duration(seconds: 10));
-
-      if (res.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(res.bodyBytes));
-        final bool precisaNivelar = data['precisa_nivelar'] == true;
-
-        if (mounted) {
-          Navigator.pop(context);
-          widget.onVarianteSelected(v, precisaNivelar);
-        }
-      } else {
-        throw Exception('Erro ao atualizar variante ativa');
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _updatingVarianteId = null);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro: $e')),
-        );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: _TupiColors.surfaceCard,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      padding: EdgeInsets.fromLTRB(
-        20,
-        16,
-        20,
-        24 + MediaQuery.of(context).padding.bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Handle
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: _TupiColors.border,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Row(
-                children: [
-                  Text('🌿', style: TextStyle(fontSize: 22)),
-                  SizedBox(width: 8),
-                  Text(
-                    'Selecione o Idioma',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: _TupiColors.accent,
-                    ),
-                  ),
-                ],
-              ),
-              IconButton(
-                icon: const Icon(Icons.close_rounded, color: _TupiColors.textMuted),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Explore diferentes troncos e variações históricas das línguas Tupi.',
-            style: TextStyle(fontSize: 13, color: _TupiColors.textMuted),
-          ),
-          const SizedBox(height: 18),
-          if (_isLoading)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 40),
-              child: Center(
-                child: CircularProgressIndicator(color: _TupiColors.primary),
-              ),
-            )
-          else if (_error != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                children: [
-                  Text(_error!, style: const TextStyle(color: Colors.red, fontSize: 13)),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _isLoading = true;
-                        _error = null;
-                      });
-                      _fetchVariantes();
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.primary),
-                    child: const Text('Tentar Novamente'),
-                  ),
-                ],
-              ),
-            )
-          else ...[
-            ..._variantes.map((v) {
-              final int vId = (v['id'] as num).toInt();
-              final bool isSelected = vId == widget.varianteIdAtiva;
-              final bool isUpdating = _updatingVarianteId == vId;
-              final String nome = v['nome']?.toString() ?? 'Tupi';
-              final String icone = v['icone']?.toString() ?? '🌿';
-              final String desc = v['descricao']?.toString() ?? '';
-
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                child: InkWell(
-                  onTap: isUpdating ? null : () => _selectVariante(v),
-                  borderRadius: BorderRadius.circular(18),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: isSelected ? _TupiColors.primary.withValues(alpha: 0.08) : Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(
-                        color: isSelected ? _TupiColors.primary : _TupiColors.border,
-                        width: isSelected ? 2 : 1,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? _TupiColors.primary.withValues(alpha: 0.15)
-                                : _TupiColors.backgroundSecondary,
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Center(
-                            child: Text(icone, style: const TextStyle(fontSize: 24)),
-                          ),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    nome,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: isSelected ? _TupiColors.primary : _TupiColors.accent,
-                                    ),
-                                  ),
-                                  if (isSelected) ...[
-                                    const SizedBox(width: 8),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: _TupiColors.primary,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Text(
-                                        'ATIVO',
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                              if (desc.isNotEmpty) ...[
-                                const SizedBox(height: 4),
-                                Text(
-                                  desc,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: _TupiColors.textMuted,
-                                    height: 1.3,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                        if (isUpdating)
-                          const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: _TupiColors.primary),
-                          )
-                        else if (isSelected)
-                          const Icon(Icons.check_circle_rounded, color: _TupiColors.primary, size: 22)
-                        else
-                          const Icon(Icons.chevron_right_rounded, color: _TupiColors.textMuted, size: 22),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ],
-        ],
-      ),
-    );
-  }
-}
 

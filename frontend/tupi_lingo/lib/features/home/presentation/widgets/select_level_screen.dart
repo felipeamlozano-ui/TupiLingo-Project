@@ -4,13 +4,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class _TupiColors {
-  static const background = Color(0xFFF3F2E8);
-  static const subtitle = Color(0xFF565D6D);
   static const primary = Color(0xFFD08A45);
-  static const accent = Color(0xFF0E5D4E);
-  static const border = Color(0xFFD0D0D0);
 }
 
 class SelectLevelScreen extends StatefulWidget {
@@ -131,11 +128,11 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
     final String icone = widget.variante['icone']?.toString() ?? '🌿';
 
     return Scaffold(
-      backgroundColor: _TupiColors.background,
+      backgroundColor: AppTheme.bg(context),
       appBar: AppBar(
-        backgroundColor: _TupiColors.background,
+        backgroundColor: AppTheme.bg(context),
         elevation: 0,
-        foregroundColor: _TupiColors.accent,
+        foregroundColor: AppTheme.textPrimary(context),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => Navigator.pop(context),
@@ -164,19 +161,19 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
                       Text(
                         'Qual seu nível em $nome?',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: _TupiColors.accent,
+                          color: AppTheme.textPrimary(context),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
+                      Text(
                         'Isso nos ajuda a calibrar as lições e histórias sob medida para você.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
-                          color: _TupiColors.subtitle,
+                          color: AppTheme.textSecondary(context),
                           height: 1.4,
                         ),
                       ),
@@ -196,15 +193,15 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
                               duration: const Duration(milliseconds: 200),
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: isSelected ? optColor.withValues(alpha: 0.08) : Colors.white,
+                                color: isSelected ? optColor.withValues(alpha: 0.12) : AppTheme.surface(context),
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: isSelected ? optColor : _TupiColors.border,
+                                  color: isSelected ? optColor : AppTheme.border(context),
                                   width: isSelected ? 2 : 1,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withValues(alpha: isSelected ? 0.06 : 0.02),
+                                    color: Colors.black.withValues(alpha: isSelected ? 0.08 : 0.02),
                                     blurRadius: 8,
                                     offset: const Offset(0, 3),
                                   ),
@@ -215,7 +212,7 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
                                   Container(
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: optColor.withValues(alpha: 0.12),
+                                      color: optColor.withValues(alpha: 0.15),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Icon(opt['icon'] as IconData, color: optColor, size: 26),
@@ -230,15 +227,15 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: isSelected ? optColor : _TupiColors.accent,
+                                            color: isSelected ? optColor : AppTheme.textPrimary(context),
                                           ),
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
                                           opt['description'] as String,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 13,
-                                            color: _TupiColors.subtitle,
+                                            color: AppTheme.textSecondary(context),
                                             height: 1.3,
                                           ),
                                         ),
@@ -251,7 +248,7 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: isSelected ? optColor : _TupiColors.border,
+                                        color: isSelected ? optColor : AppTheme.border(context),
                                         width: 2,
                                       ),
                                       color: isSelected ? optColor : Colors.transparent,
@@ -278,7 +275,7 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: _TupiColors.primary,
                             foregroundColor: Colors.white,
-                            disabledBackgroundColor: _TupiColors.border,
+                            disabledBackgroundColor: AppTheme.border(context),
                             disabledForegroundColor: Colors.white70,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../../core/state/app_progression_notifier.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/user_progress_stats.dart';
 import '../../domain/repositories/dashboard_repository.dart';
 import '../../data/repositories/dashboard_repository_impl.dart';
@@ -25,6 +26,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
   void initState() {
     super.initState();
     _repository = widget.repository ?? DashboardRepositoryImpl();
+    // Hidratação instantânea em 0ms se já houver cache em memória
+    _stats = DashboardRepositoryImpl.getCachedStats();
+    _isLoading = _stats == null;
     _loadStats();
 
     // Sincronização em tempo real de alta fluidez
@@ -58,22 +62,24 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppTheme.isDark(context);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F2E8),
+      backgroundColor: AppTheme.bg(context),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context),
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
-            Text('🏛️', style: TextStyle(fontSize: 20)),
-            SizedBox(width: 8),
+            const Text('🏛️', style: TextStyle(fontSize: 20)),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
                 'Painel de Desempenho & Memória',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: Color(0xFF1F2937),
+                  color: AppTheme.textPrimary(context),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -83,7 +89,10 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh_rounded, color: Color(0xFF0E5D4E)),
+            icon: Icon(
+              Icons.refresh_rounded,
+              color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
+            ),
             onPressed: () => _loadStats(forceRefresh: true),
             tooltip: 'Atualizar Estatísticas',
           ),
@@ -92,7 +101,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
       body: _isLoading && _stats == null
           ? _buildSkeletonLoading()
           : RefreshIndicator(
-              color: const Color(0xFF0E5D4E),
+              color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
               onRefresh: () => _loadStats(forceRefresh: true),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(
@@ -133,6 +142,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
 
   /// Estado Vazio Amigável e Autêntico (quando usuário tem 0 lições e 0 XP)
   Widget _buildEmptyState() {
+    final isDark = AppTheme.isDark(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
@@ -143,7 +153,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
               width: 90,
               height: 90,
               decoration: BoxDecoration(
-                color: const Color(0xFF0E5D4E).withValues(alpha: 0.1),
+                color: isDark
+                    ? const Color(0xFF1EC9A5).withValues(alpha: 0.15)
+                    : const Color(0xFF0E5D4E).withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -151,21 +163,21 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
               ),
             ).animate().scale(duration: 400.ms, curve: Curves.easeOutBack),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               'Sua Jornada Começa Aqui!',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFF1F2937),
+                color: AppTheme.textPrimary(context),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 10),
-            const Text(
+            Text(
               'Você ainda não concluiu lições nesta jornada. Complete sua primeira lição na Trilha para registrar seu XP diário, acender a fogueira da ofensiva e desbloquear as métricas de vocabulário e memória.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFF565D6D),
+                color: AppTheme.textSecondary(context),
                 fontSize: 14,
                 height: 1.45,
               ),
@@ -179,7 +191,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0E5D4E),
+                backgroundColor: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 elevation: 3,
@@ -206,7 +218,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                     height: 80,
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppTheme.surface(context),
                       borderRadius: BorderRadius.circular(18),
                     ),
                   ),
@@ -217,7 +229,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
             Container(
               height: 180,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppTheme.surface(context),
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
@@ -225,7 +237,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
             Container(
               height: 140,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppTheme.surface(context),
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
@@ -239,7 +251,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
     return Row(
       children: [
         Expanded(
-          child: _buildKpiCard(
+          child:
+          
+          _buildKpiCard(
             title: 'XP Total',
             value: '${stats.totalXp}',
             icon: '⭐',
@@ -277,9 +291,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFD0D0D0).withValues(alpha: 0.6)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
             color: accentColor.withValues(alpha: 0.08),
@@ -289,7 +303,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(icon, style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 6),
@@ -297,8 +311,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Color(0xFF1F2937),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: AppTheme.textPrimary(context),
               fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
@@ -308,8 +323,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Color(0xFF565D6D),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: AppTheme.textSecondary(context),
               fontSize: 11,
             ),
           ),

@@ -175,7 +175,6 @@ class AchievementGallery extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    const Text('🏅', style: TextStyle(fontSize: 18)),
                     const SizedBox(width: 8),
                     Flexible(
                       child: Text(

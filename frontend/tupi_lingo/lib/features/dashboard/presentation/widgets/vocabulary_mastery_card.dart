@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/user_progress_stats.dart';
 
 class VocabularyMasteryCard extends StatelessWidget {
@@ -17,9 +18,9 @@ class VocabularyMasteryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFD0D0D0).withValues(alpha: 0.6)),
+        border: Border.all(color: AppTheme.border(context)),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0E5D4E).withValues(alpha: 0.06),
@@ -35,7 +36,7 @@ class VocabularyMasteryCard extends StatelessWidget {
             children: [
               const Text('🌿', style: TextStyle(fontSize: 20)),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Domínio de Vocabulário Ancestral',
                   maxLines: 1,
@@ -43,7 +44,7 @@ class VocabularyMasteryCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1F2937),
+                    color: AppTheme.textPrimary(context),
                   ),
                 ),
               ),
@@ -85,20 +86,20 @@ class VocabularyMasteryCard extends StatelessWidget {
                           cat.category,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF1F2937),
+                            color: AppTheme.textPrimary(context),
                           ),
                         ),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         '${cat.masteredWords}/${cat.totalWords} (${(pct * 100).toInt()}%)',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF565D6D),
+                          color: AppTheme.textSecondary(context),
                         ),
                       ),
                     ],
@@ -110,7 +111,7 @@ class VocabularyMasteryCard extends StatelessWidget {
                       children: [
                         Container(
                           height: 10,
-                          color: const Color(0xFFF3F2E8),
+                          color: AppTheme.surfaceSubtle(context),
                         ),
                         FractionallySizedBox(
                           widthFactor: pct,

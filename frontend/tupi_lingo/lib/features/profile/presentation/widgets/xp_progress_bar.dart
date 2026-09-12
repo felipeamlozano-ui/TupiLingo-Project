@@ -45,7 +45,6 @@ class XpProgressBar extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Text('⭐', style: TextStyle(fontSize: 16)),
                   const SizedBox(width: 8),
                   Text(
                     'Jornada de XP',

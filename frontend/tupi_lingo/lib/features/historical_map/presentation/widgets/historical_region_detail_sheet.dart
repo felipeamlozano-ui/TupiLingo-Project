@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../domain/entities/historical_region.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class HistoricalRegionDetailSheet extends StatelessWidget {
   final HistoricalRegion region;
@@ -26,16 +27,22 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppTheme.isDark(context);
+    final accentColor = isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E);
+
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      decoration: BoxDecoration(
+        color: AppTheme.surface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+        border: Border(
+          top: BorderSide(color: AppTheme.border(context), width: 1),
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.08),
             blurRadius: 20,
-            offset: Offset(0, -4),
+            offset: const Offset(0, -4),
           ),
         ],
       ),
@@ -49,7 +56,7 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
               width: 44,
               height: 5,
               decoration: BoxDecoration(
-                color: const Color(0xFFD0D0D0),
+                color: AppTheme.border(context),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -63,7 +70,7 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0E5D4E).withValues(alpha: 0.12),
+                  color: accentColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(
@@ -73,8 +80,8 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
                     const SizedBox(width: 6),
                     Text(
                       region.indigenousNation,
-                      style: const TextStyle(
-                        color: Color(0xFF0E5D4E),
+                      style: TextStyle(
+                        color: accentColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
                       ),
@@ -96,7 +103,7 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
                     Text(
                       region.isUnlocked ? '✨ Território Aberto' : '🔒 Nível ${region.requiredLevel}',
                       style: TextStyle(
-                        color: region.isUnlocked ? const Color(0xFFD08A45) : const Color(0xFF565D6D),
+                        color: region.isUnlocked ? const Color(0xFFD08A45) : AppTheme.textSecondary(context),
                         fontWeight: FontWeight.bold,
                         fontSize: 11,
                       ),
@@ -111,10 +118,10 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
           // Título da Região
           Text(
             region.name,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1F2937),
+              color: AppTheme.textPrimary(context),
             ),
           ),
           const SizedBox(height: 4),
@@ -132,13 +139,14 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFF3F2E8),
+              color: AppTheme.surfaceSubtle(context),
               borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.border(context)),
             ),
             child: Text(
               region.culturalSummary,
-              style: const TextStyle(
-                color: Color(0xFF565D6D),
+              style: TextStyle(
+                color: AppTheme.textSecondary(context),
                 fontSize: 13,
                 height: 1.45,
               ),
@@ -148,12 +156,12 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
 
           // Vocabulário em Destaque
           if (region.vocabularyHighlights.isNotEmpty) ...[
-            const Text(
+            Text(
               'Vocabulário Sagrado Desta Região:',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1F2937),
+                color: AppTheme.textPrimary(context),
               ),
             ),
             const SizedBox(height: 8),
@@ -164,9 +172,9 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppTheme.surface(context),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFF0E5D4E).withValues(alpha: 0.3)),
+                    border: Border.all(color: accentColor.withValues(alpha: 0.4)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -175,8 +183,8 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         term,
-                        style: const TextStyle(
-                          color: Color(0xFF0E5D4E),
+                        style: TextStyle(
+                          color: accentColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
@@ -196,8 +204,8 @@ class HistoricalRegionDetailSheet extends StatelessWidget {
             child: ElevatedButton(
               onPressed: region.isUnlocked ? onExplore : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0E5D4E),
-                disabledBackgroundColor: Colors.grey.shade300,
+                backgroundColor: accentColor,
+                disabledBackgroundColor: isDark ? const Color(0xFF2A3631) : Colors.grey.shade300,
                 elevation: 4,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),

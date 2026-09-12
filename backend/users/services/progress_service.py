@@ -92,34 +92,73 @@ class ProgressService:
             all_ordered_lessons.extend(cap.licoes_publicadas)
 
         # 5. Determinação canônica do status de cada lição
-        # Regras:
-        # - Lições concluídas no banco permanecem 'concluida'.
-        # - Lições já iniciadas/desbloqueadas ('em_andamento', 'disponivel') são preservadas.
-        # - A Lição 0 (primeira da trilha) é sempre pelo menos 'disponivel'.
-        # - Se uma Lição N foi concluída, a Lição N+1 imediata é desbloqueada ('disponivel') se estiver bloqueada.
+        # Regras de Progressão Sequencial Canônica Estrita:
+        # - Identifica a última lição concluída (maior índice) na trilha.
+        # - Todas as lições anteriores (0 .. last_completed_idx) SÃO OBRIGATORIAMENTE 'concluida'.
+        #   (Evita que lições antigas fiquem 'disponivel'/'em_andamento' enquanto lições posteriores já foram feitas).
+        # - A lição imediatamente seguinte (last_completed_idx + 1) é a lição da fronteira ativa:
+        #   se estiver 'em_andamento', mantém; caso contrário, torna-se 'disponivel'.
+        # - Todas as lições subsequentes (> last_completed_idx + 1) são 'bloqueada'.
+        # - Se nenhuma lição foi concluída ainda, a Lição 0 é a fronteira ativa ('disponivel' ou 'em_andamento').
         canonical_status_map: Dict[int, str] = {}
-        first_lesson_id = all_ordered_lessons[0].id if all_ordered_lessons else None
+        last_completed_idx = -1
 
         for idx, licao in enumerate(all_ordered_lessons):
             ul = user_lessons_map.get(licao.id)
-            current_raw_status = ul.status if ul else None
+            if ul and ul.status == "concluida":
+                last_completed_idx = max(last_completed_idx, idx)
 
-            if current_raw_status == "concluida":
+        lessons_to_reconcile = []
+
+        if last_completed_idx >= 0:
+            # Todas as lições até a última concluída são marcadas como 'concluida'
+            for idx in range(last_completed_idx + 1):
+                licao = all_ordered_lessons[idx]
                 canonical_status_map[licao.id] = "concluida"
-            elif current_raw_status in ["em_andamento", "disponivel"]:
-                canonical_status_map[licao.id] = current_raw_status
-            elif licao.id == first_lesson_id:
-                canonical_status_map[licao.id] = "disponivel"
-            else:
-                canonical_status_map[licao.id] = "bloqueada"
+                ul = user_lessons_map.get(licao.id)
+                if not ul or ul.status != "concluida":
+                    lessons_to_reconcile.append(licao)
 
-        # Garante propagação sequencial: lição imediatamente seguinte à última concluída fica liberada
-        for idx in range(len(all_ordered_lessons)):
-            curr_licao = all_ordered_lessons[idx]
-            if canonical_status_map.get(curr_licao.id) == "concluida" and idx + 1 < len(all_ordered_lessons):
-                next_licao = all_ordered_lessons[idx + 1]
-                if canonical_status_map.get(next_licao.id) == "bloqueada":
-                    canonical_status_map[next_licao.id] = "disponivel"
+            # Lição da fronteira ativa (imediatamente posterior à última concluída)
+            next_idx = last_completed_idx + 1
+            if next_idx < len(all_ordered_lessons):
+                frontier_licao = all_ordered_lessons[next_idx]
+                ul = user_lessons_map.get(frontier_licao.id)
+                if ul and ul.status == "em_andamento":
+                    canonical_status_map[frontier_licao.id] = "em_andamento"
+                else:
+                    canonical_status_map[frontier_licao.id] = "disponivel"
+
+            # Todas as demais lições à frente ficam bloqueadas
+            for idx in range(last_completed_idx + 2, len(all_ordered_lessons)):
+                licao = all_ordered_lessons[idx]
+                canonical_status_map[licao.id] = "bloqueada"
+        else:
+            # Nenhuma lição concluída: Lição 0 é a fronteira ativa
+            for idx, licao in enumerate(all_ordered_lessons):
+                if idx == 0:
+                    ul = user_lessons_map.get(licao.id)
+                    canonical_status_map[licao.id] = (
+                        "em_andamento" if (ul and ul.status == "em_andamento") else "disponivel"
+                    )
+                else:
+                    canonical_status_map[licao.id] = "bloqueada"
+
+        # Auto-reconciliação atômica no banco de dados para lições que ficaram para trás
+        if lessons_to_reconcile:
+            try:
+                for lic in lessons_to_reconcile:
+                    UserLesson.objects.update_or_create(
+                        usuario=user,
+                        licao=lic,
+                        defaults={
+                            "status": "concluida",
+                            "completion_percentage": 100.0,
+                            "concluida_em": timezone.now(),
+                        },
+                    )
+            except Exception as e:
+                logger.warning("Falha na auto-reconciliação de UserLessons: %s", e)
 
         # 6. Montagem dos capítulos com dados de progresso e baús
         capitulos_data = []
@@ -249,6 +288,16 @@ class ProgressService:
             current_index = todas_licoes.index(licao.id)
             if current_index == 0:
                 return True
+
+            # Se qualquer lição nesta posição ou posterior já foi concluída, a lição é permitida
+            has_later_completed = UserLesson.objects.filter(
+                usuario=user,
+                licao_id__in=todas_licoes[current_index:],
+                status="concluida"
+            ).exists()
+            if has_later_completed:
+                return True
+
             prev_licao_id = todas_licoes[current_index - 1]
             prev_ul = UserLesson.objects.filter(usuario=user, licao_id=prev_licao_id).first()
             return prev_ul is not None and prev_ul.status == "concluida"
@@ -352,12 +401,13 @@ class ProgressService:
             recompensa_conchas=recompensa_conchas,
         )
 
-        # Atualiza XP do usuário atomicamente
+        # Atualiza XP e Conchas do usuário atomicamente
         UserProfile.objects.filter(pk=user.pk).update(
             xp_total=F("xp_total") + recompensa_xp,
+            conchas=F("conchas") + recompensa_conchas,
             updated_at=timezone.now(),
         )
-        user.refresh_from_db(fields=["xp_total"])
+        user.refresh_from_db(fields=["xp_total", "conchas"])
 
         # Registra no log de atividade diária
         from users.services.streak_service import StreakService
@@ -376,12 +426,15 @@ class ProgressService:
         )
 
         cls.invalidate_user_trail_cache(user.id, capitulo.trilha.variante_id)
+        from users.services.statistics_service import StatisticsService
+        StatisticsService.invalidate_user_stats_cache(user.id)
 
         return {
             "success": True,
             "recompensa_xp": recompensa_xp,
             "recompensa_conchas": recompensa_conchas,
             "xp_total": user.xp_total,
+            "conchas": getattr(user, "conchas", 0),
             "status": "concluido",
             "message": f"Baú Coletado! +{recompensa_xp} XP e +{recompensa_conchas} Conchas.",
         }

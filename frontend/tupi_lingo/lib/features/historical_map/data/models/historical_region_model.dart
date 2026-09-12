@@ -59,15 +59,15 @@ class HistoricalRegionModel extends HistoricalRegion {
 
   static List<HistoricalRegionModel> defaultHistoricalRegions({
     int totalCompleted = 0,
-    int totalLessons = 6,
+    int totalLessons = 4,
     int userLevel = 1,
   }) {
     final cap1Completed = totalCompleted.clamp(0, totalLessons);
     final cap2Unlocked = totalCompleted >= totalLessons || userLevel >= 2;
-    final cap2Completed = cap2Unlocked ? (totalCompleted - totalLessons).clamp(0, 5) : 0;
-    final cap3Unlocked = userLevel >= 3 || totalCompleted >= 11;
-    final cap4Unlocked = userLevel >= 4 || totalCompleted >= 16;
-    final cap5Unlocked = userLevel >= 5 || totalCompleted >= 22;
+    final cap2Completed = cap2Unlocked ? (totalCompleted - totalLessons).clamp(0, 4) : 0;
+    final cap3Unlocked = userLevel >= 3 || totalCompleted >= (totalLessons + 4);
+    final cap4Unlocked = userLevel >= 4 || totalCompleted >= (totalLessons + 8);
+    final cap5Unlocked = userLevel >= 5 || totalCompleted >= (totalLessons + 12);
 
     return [
       HistoricalRegionModel(

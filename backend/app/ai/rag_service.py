@@ -594,8 +594,8 @@ class RAGService:
                 quantidade=10,
             )
         except (SupabaseRPCTimeoutError, SupabaseRPCError, SupabaseServiceError) as exc:
-            logger.error("[RAGService] RPC Supabase falhou: %s. Usando fallback legado.", exc)
-            return self._generate_legacy(nivel_atual, variante_codigo)
+            logger.warning("[RAGService] RPC Supabase indisponível (%s). Ativando contingência léxica autêntica.", exc)
+            esqueleto = []
 
         # Complementa com geral se retornou menos de 10 itens
         if len(esqueleto) < 10 and categoria != "geral":
@@ -669,16 +669,25 @@ class RAGService:
         if not esqueleto:
             return self._generate_legacy(nivel_atual, variante_codigo)
 
-        # ── Etapa 1.5: Recuperação de Chunks do RAG (PDFs) no Supabase ───────
+        # ── Etapa 1.5: Recuperação Semântica de Chunks via pgvector no Supabase ───────
         rag_chunks: list[dict[str, Any]] = []
         categorias_rag = _NIVEL_RAG_CATEGORIAS.get(nivel_atual, ["Vocabulário"])
         try:
-            rag_chunks = supabase_service.obter_chunks_rag(
+            emb_vec = None
+            embedder = get_embedder()
+            if embedder:
+                embs = list(embedder.embed([f"{tema} {variante_nome}"]))
+                if embs:
+                    emb_vec = embs[0].tolist()
+
+            rag_chunks = supabase_service.buscar_chunks_rag_semantico(
+                embedding=emb_vec,
                 categorias=categorias_rag,
                 limite=3,
+                threshold=0.30,
             )
         except Exception as rag_exc:
-            logger.warning("[RAGService] Falha ao recuperar chunks do RAG: %s", rag_exc)
+            logger.warning("[RAGService] Falha ao recuperar chunks via pgvector: %s", rag_exc)
 
         # ── Etapa 2: Prompt Builder com Payload Mínimo e Contexto do RAG ─────
         prompt_usuario = _build_prompt(
@@ -755,9 +764,13 @@ class RAGService:
         from pydantic import BaseModel as _BaseModel, Field as _Field
         from typing import List as _List
 
+        class _AlternativaSchema(_BaseModel):
+            letra: str
+            texto: str
+
         class QuestaoSchema(_BaseModel):
             enunciado: str
-            alternativas: _List[dict]
+            alternativas: _List[_AlternativaSchema]
             resposta_correta: str
             explicacao: str
             categoria: str = "geral"
@@ -778,6 +791,7 @@ class RAGService:
             10: "textos historicos fluentes",
         }
         tema = temas.get(nivel_atual, "vocabulario geral")
+        _, dificuldade = _NIVEL_TEMAS.get(nivel_atual, ("vocabulário geral", "facil"))
         variante_nome = _VARIANTE_NOME_MAP.get(
             variante_codigo,
             variante_codigo.replace("_", " ").title(),
@@ -830,13 +844,18 @@ class RAGService:
                         if len(questoes) >= 10:
                             break
                 result_dict["questoes"] = questoes
-            return self._shuffle_legacy(result_dict)
+            return self._shuffle_legacy(result_dict, variante_codigo=variante_codigo, dificuldade=dificuldade)
         except Exception as exc:
             logger.error("[RAGService][Legacy] Falha completa: %s", exc)
             raise RuntimeError(f"Falha ao gerar questões (legado): {exc}") from exc
 
-    def _shuffle_legacy(self, result_dict: dict[str, Any]) -> dict[str, Any]:
-        """Embaralha e valida 4 alternativas únicas no formato legado."""
+    def _shuffle_legacy(
+        self,
+        result_dict: dict[str, Any],
+        variante_codigo: str = "tupi",
+        dificuldade: str = "facil",
+    ) -> dict[str, Any]:
+        """Embaralha e valida 4 alternativas únicas garantindo o contrato QuizResponse."""
         shuffled = copy.deepcopy(result_dict)
         fallbacks_pool = [
             "Onça / Fera", "Pássaro / Ave", "Peixe", "Casa / Habitação", "Mãe", "Pai",
@@ -844,7 +863,7 @@ class RAGService:
         ]
         letras_padrao = ["A", "B", "C", "D"]
 
-        for q in shuffled.get("questoes", []):
+        for idx, q in enumerate(shuffled.get("questoes", []), start=1):
             alts_raw = q.get("alternativas", [])
             correct_letter = q.get("resposta_correta", "A")
             correct_text = next(
@@ -876,11 +895,23 @@ class RAGService:
             final_textos = list(distratores_unicos[:3])
             final_textos.insert(pos_correta, correct_text)
 
+            q["item_id"] = idx
+            q["variante"] = variante_codigo
+            q["dificuldade"] = dificuldade if dificuldade in ("facil", "media", "dificil") else "facil"
+            q["categoria"] = q.get("categoria", "geral")
+            q["curiosidade"] = q.get("curiosidade", "")
+            q["regra_contexto"] = q.get("regra_contexto", "")
             q["alternativas"] = [
                 {"letra": letras_padrao[i], "texto": final_textos[i]}
                 for i in range(4)
             ]
             q["resposta_correta"] = letras_padrao[pos_correta]
             q["fonte_confianca"] = q.get("fonte_confianca", "alta")
+
+        shuffled["pacote_id"] = str(uuid.uuid4())
+        shuffled["provider"] = "legacy"
+        shuffled["modelo"] = "legacy"
+        shuffled["tempo_total_ms"] = 0
+        shuffled["cache_hit"] = False
 
         return shuffled

@@ -326,7 +326,7 @@ class StoryBlock(models.Model):
 class VocabularyItem(models.Model):
     """
     Palavra do vocabulário ensinada dentro de uma Lição.
-    Utilizada tanto nos StoryBlocks quanto no sistema de Revisão Espaçada (SM-2).
+    Utilizada tanto nos StoryBlocks quanto no sistema de Revisão Espaçada .
     """
     licao = models.ForeignKey(
         Licao,

@@ -91,19 +91,105 @@ class ValidationResult:
         distancia: int,
         resposta_correta: str,
         mensagem: str = '',
+        similaridade: float = 1.0,
     ):
         self.status = status
         self.distancia = distancia
         self.resposta_correta = resposta_correta
         self.mensagem = mensagem
+        self.similaridade = similaridade
 
     def to_dict(self) -> dict:
         return {
             'status': self.status,
             'distancia_levenshtein': self.distancia,
+            'similaridade': round(self.similaridade, 3),
             'resposta_correta': self.resposta_correta,
             'mensagem': self.mensagem,
         }
+
+
+def validar_resposta_fuzzy_global(
+    resposta_usuario: str,
+    resposta_correta: str,
+    limiar_correto: float = 0.90,
+    limiar_quase: float = 0.65,
+    tolerancia_levenshtein: int = 2,
+) -> ValidationResult:
+    """
+    Validação global unificada com tolerância a pequenos erros de digitação:
+    1. Executa prioritariamente via extensão PostgreSQL pg_trgm + unaccent (RPC validar_resposta_fuzzy_trgm).
+    2. Fallback determinístico em Python puro (Levenshtein + unicodedata NFD) se o banco estiver offline.
+    """
+    u_raw = (resposta_usuario or '').strip()
+    c_raw = (resposta_correta or '').strip()
+
+    if not u_raw or not c_raw:
+        return ValidationResult(
+            status=ValidationResult.ERRADO,
+            distancia=999,
+            resposta_correta=c_raw,
+            mensagem="Resposta vazia.",
+            similaridade=0.0,
+        )
+
+    # 1. Tentativa via RPC nativa PostgreSQL (pg_trgm)
+    try:
+        from app.services.supabase_service import supabase_service
+        rpc_result = supabase_service.validar_resposta_fuzzy_trgm(
+            resposta_usuario=u_raw,
+            resposta_esperada=c_raw,
+            limiar_correto=limiar_correto,
+            limiar_quase=limiar_quase,
+        )
+        if rpc_result and "status" in rpc_result:
+            sim = float(rpc_result.get("similaridade", 0.0))
+            st = rpc_result.get("status", ValidationResult.ERRADO)
+            msg = rpc_result.get("mensagem", "")
+            dist = 0 if st == ValidationResult.CORRETO else (1 if st == ValidationResult.QUASE_CERTO else 3)
+            return ValidationResult(
+                status=st,
+                distancia=dist,
+                resposta_correta=c_raw,
+                mensagem=msg,
+                similaridade=sim,
+            )
+    except Exception as exc:
+        logger.debug("[ValidationService] Fallback para Levenshtein local (pg_trgm indisponível: %s)", exc)
+
+    # 2. Fallback Local em Python (Levenshtein + normalização sem diacríticos)
+    distancia = _run_levenshtein_query(u_raw, c_raw)
+    max_len = max(len(u_raw), len(c_raw), 1)
+    sim_estimada = max(0.0, 1.0 - (distancia / max_len))
+
+    if distancia == 0:
+        return ValidationResult(
+            status=ValidationResult.CORRETO,
+            distancia=0,
+            resposta_correta=c_raw,
+            mensagem="Correto! 🎉",
+            similaridade=1.0,
+        )
+
+    if 0 < distancia <= tolerancia_levenshtein:
+        return ValidationResult(
+            status=ValidationResult.QUASE_CERTO,
+            distancia=distancia,
+            resposta_correta=c_raw,
+            mensagem=(
+                f"Quase lá! Verifique a escrita de '{c_raw}'. "
+                f"Você digitou '{u_raw}'."
+            ),
+            similaridade=sim_estimada,
+        )
+
+    return ValidationResult(
+        status=ValidationResult.ERRADO,
+        distancia=distancia,
+        resposta_correta=c_raw,
+        mensagem=f"Incorreto. A resposta correta era '{c_raw}'.",
+        similaridade=sim_estimada,
+    )
 
 
 def validar_resposta_completar(
@@ -112,51 +198,13 @@ def validar_resposta_completar(
     tolerancia: int = 2,
 ) -> ValidationResult:
     """
-    Valida a resposta de um ExercicioCompletar.
-
-    Args:
-        resposta_usuario: O que o usuário digitou.
-        resposta_correta: A resposta esperada (armazenada no banco).
-        tolerancia: Distância máxima de Levenshtein permitida para "Quase lá".
-                    Configurável por exercício via ExercicioCompletar.tolerancia_levenshtein.
-
-    Returns:
-        ValidationResult com status, distância e mensagem de feedback.
+    Compatibilidade retroativa: valida a resposta de um ExercicioCompletar
+    ou questão temática usando pg_trgm com fallback para Levenshtein.
     """
-    if not resposta_usuario or not resposta_correta:
-        return ValidationResult(
-            status=ValidationResult.ERRADO,
-            distancia=999,
-            resposta_correta=resposta_correta,
-            mensagem="Resposta vazia.",
-        )
-
-    distancia = _run_levenshtein_query(resposta_usuario, resposta_correta)
-
-    if distancia == 0:
-        return ValidationResult(
-            status=ValidationResult.CORRETO,
-            distancia=0,
-            resposta_correta=resposta_correta,
-            mensagem="Correto! 🎉",
-        )
-
-    if 0 < distancia <= tolerancia:
-        return ValidationResult(
-            status=ValidationResult.QUASE_CERTO,
-            distancia=distancia,
-            resposta_correta=resposta_correta,
-            mensagem=(
-                f"Quase lá! Verifique a escrita de '{resposta_correta}'. "
-                f"Você digitou '{resposta_usuario}'."
-            ),
-        )
-
-    return ValidationResult(
-        status=ValidationResult.ERRADO,
-        distancia=distancia,
+    return validar_resposta_fuzzy_global(
+        resposta_usuario=resposta_usuario,
         resposta_correta=resposta_correta,
-        mensagem=f"Incorreto. A resposta correta era '{resposta_correta}'.",
+        tolerancia_levenshtein=tolerancia,
     )
 
 

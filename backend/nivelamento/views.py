@@ -123,25 +123,8 @@ def gerar_questao_nivelamento(request):
     # ofuscação/criptografia dinâmica de payloads e monitoramento heurístico de tráfego.
     # Esta declaração explícita no código evita falsas sensações de segurança arquitetural.
     # ─────────────────────────────────────────────────────────────────────────
-    ja_fez_teste = TestAttempt.objects.filter(user_id=user.id, variante_id=variante.id).exists()
-    if ja_fez_teste:
-        nivel_atual = (
-            UserVarianteLevel.objects
-            .filter(user_id=user.id, variante_id=variante.id)
-            .only('nivel')
-            .first()
-        )
-        return JsonResponse(
-            {
-                "success": False,
-                "error": {
-                    "code": "ALREADY_TESTED",
-                    "message": f"Você já realizou o teste para '{variante.nome}'.",
-                    "nivel_atual": nivel_atual.nivel if nivel_atual else 1,
-                },
-            },
-            status=409,
-        )
+    # Permite nivelamento e re-nivelamento contínuo para a variante selecionada
+    # ─────────────────────────────────────────────────────────────────────────
 
     # ── Geração das questões via RAG filtrado por variante ────────────────────
     try:
@@ -293,18 +276,6 @@ def avaliar_teste(request):
             status=404,
         )
 
-    # ── Verifica unicidade (proteção dupla) ──────────────────────────────────
-    if TestAttempt.objects.filter(user=user, variante=variante).exists():
-        nivel = UserVarianteLevel.objects.filter(user=user, variante=variante).first()
-        return JsonResponse(
-            {
-                "success": False,
-                "error": f"Teste para '{variante.nome}' já realizado.",
-                "nivel_atual": nivel.nivel if nivel else 1,
-            },
-            status=409,
-        )
-
     # ── Avaliação TRI ─────────────────────────────────────────────────────────
     evaluation = evaluate_test(answers, current_level)
     new_level = evaluation["level"]
@@ -312,13 +283,17 @@ def avaliar_teste(request):
     is_cheating = evaluation["cheating"]
 
     try:
-        attempt = TestAttempt.objects.create(
+        attempt, created = TestAttempt.objects.update_or_create(
             user=user,
             variante=variante,
-            calculated_level=new_level,
-            calculated_theta=theta,
-            is_suspected_cheating=is_cheating,
+            defaults={
+                "calculated_level": new_level,
+                "calculated_theta": theta,
+                "is_suspected_cheating": is_cheating,
+            },
         )
+        if not created:
+            attempt.answers.all().delete()
 
         # GANHO DE PERFORMANCE (Anti N+1): bulk_create com batch_size=50 em lote único
         answer_items = [
@@ -329,7 +304,7 @@ def avaliar_teste(request):
                 selected_letter=ans.get("selected_letter", ""),
                 is_correct=ans.get("is_correct", False),
                 time_taken_seconds=float(ans.get("time_taken_seconds", 0.0)),
-                param_b=(current_level - 5) / 2.0,
+                param_b=float(ans.get("param_b", (current_level - 5) / 2.0)),
             )
             for ans in answers
         ]
@@ -339,12 +314,18 @@ def avaliar_teste(request):
         UserVarianteLevel.objects.update_or_create(
             user=user,
             variante=variante,
-            defaults={"nivel": new_level},
+            defaults={"nivel": new_level, "calculated_theta": theta},
         )
 
-        # Se a variante testada for a variante ativa do usuário, sincroniza também
-        if user.variante_ativa_id == variante.id:
-            user.save(update_fields=["updated_at"])
+        # Define imediatamente esta variante como a variante ativa do usuário
+        user.variante_ativa = variante
+        user.save(update_fields=["variante_ativa", "updated_at"])
+
+        # Invalidação imediata de caches para sincronização perfeita no app
+        from users.services.progress_service import ProgressService
+        from users.services.statistics_service import StatisticsService
+        ProgressService.invalidate_user_trail_cache(user.id, variante.id)
+        StatisticsService.invalidate_user_stats_cache(user.id)
 
     except Exception:
         logger.error("Erro ao salvar avaliação de teste para uid=%s", user.supabase_uid, exc_info=True)
@@ -440,6 +421,14 @@ def definir_nivel_inicial(request):
 
     user.variante_ativa = variante
     user.save(update_fields=['variante_ativa', 'updated_at'])
+
+    try:
+        from users.services.progress_service import ProgressService
+        from users.services.statistics_service import StatisticsService
+        ProgressService.invalidate_user_trail_cache(user.id, variante.id)
+        StatisticsService.invalidate_user_stats_cache(user.id)
+    except Exception:
+        pass
 
     return JsonResponse({
         "success": True,
