@@ -11,7 +11,7 @@ import 'package:tupi_lingo/features/home/presentation/widgets/select_level_scree
 import 'package:tupi_lingo/features/dashboard/presentation/pages/progress_dashboard_screen.dart';
 import 'package:tupi_lingo/features/rewards/presentation/widgets/indigenous_artifact_chest.dart';
 import 'package:tupi_lingo/features/rewards/domain/entities/indigenous_reward.dart';
-import 'package:tupi_lingo/features/historical_map/presentation/widgets/lazy_map_loader.dart';
+import 'package:tupi_lingo/features/historical_map/presentation/pages/pindorama_map_screen.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:tupi_lingo/features/historical_map/data/datasources/historical_map_remote_data_source.dart';
@@ -1324,37 +1324,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _showInteractiveMapModal() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => Container(
-        height: MediaQuery.of(context).size.height * 0.85,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppTheme.bg(context),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
-        child: Column(
-          children: [
-            Center(
-              child: Container(
-                width: 44,
-                height: 5,
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  color: AppTheme.border(context),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            Expanded(
-              child: LazyHistoricalMapLoader(
-                capitulos: _capitulos,
-              ),
-            ),
-          ],
-        ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const PindoramaMapScreen(),
       ),
     );
   }

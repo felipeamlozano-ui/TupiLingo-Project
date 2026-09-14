@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/features/auth/presentation/register.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tupi_lingo/core/render/shader_warmup_engine.dart';
 import 'package:tupi_lingo/core/concurrency/ten_isolates_engine.dart';
 import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
@@ -16,6 +17,8 @@ import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
 import 'package:tupi_lingo/core/telemetry/performance_telemetry_engine.dart';
 import 'package:tupi_lingo/core/platform/platform_web_bridge.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
+import 'package:tupi_lingo/core/world_engine/hud/developer_hud.dart';
+import 'package:tupi_lingo/features/admin/presentation/platform_suite/platform_suite_shell.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,7 +87,7 @@ API_URL=${const String.fromEnvironment('API_URL')}
     }
   });
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class AuthGate extends StatefulWidget {
@@ -405,12 +408,19 @@ class MyApp extends StatelessWidget {
           themeMode: currentMode,
           initialRoute: '/',
           navigatorObservers: [InstantLoadingRouteObserver()],
+          builder: (context, child) {
+            return DeveloperHudOverlay(child: child ?? const SizedBox.shrink());
+          },
           routes: {
             '/': (_) => const AuthGate(),
             '/login': (_) => const LoginScreen(),
             '/home': (_) => const HomeScreen(),
             '/register': (_) => const RegisterScreen(),
             '/welcome': (_) => const WelcomeScreen(),
+            '/admin/platform': (_) => const PlatformSuiteShell(initialIndex: 0),
+            '/admin/world-builder': (_) => const PlatformSuiteShell(initialIndex: 0),
+            '/admin/developer': (_) => const PlatformSuiteShell(initialIndex: 1),
+            '/admin/security': (_) => const PlatformSuiteShell(initialIndex: 2),
           },
           onGenerateRoute: (settings) {
             if (settings.name != null && settings.name!.startsWith('/?')) {

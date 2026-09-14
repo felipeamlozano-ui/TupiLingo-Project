@@ -8,6 +8,7 @@ import 'capitulos_admin.dart';
 import 'licoes_admin.dart';
 import 'exercicios_admin.dart';
 import 'map_admin/historical_regions_admin_tab.dart';
+import 'platform_suite/platform_suite_shell.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -115,6 +116,15 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.hub_rounded, color: Color(0xFF10B981)),
+            tooltip: 'Abrir Platform Suite (World Builder & Consoles)',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const PlatformSuiteShell(initialIndex: 0)),
+              );
+            },
+          ),
           IconButton(
             icon: Icon(Icons.refresh_rounded, color: accentColor),
             tooltip: 'Atualizar Dados',

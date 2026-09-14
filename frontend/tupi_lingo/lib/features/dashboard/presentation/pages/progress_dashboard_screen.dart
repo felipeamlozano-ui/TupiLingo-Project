@@ -7,6 +7,8 @@ import '../../domain/repositories/dashboard_repository.dart';
 import '../../data/repositories/dashboard_repository_impl.dart';
 import '../widgets/progress_3d_bar_chart.dart';
 import '../widgets/vocabulary_mastery_card.dart';
+import '../widgets/mastery_radar_chart.dart';
+import '../../../historical_map/presentation/pages/pindorama_map_screen.dart';
 
 class ProgressDashboardScreen extends StatefulWidget {
   final DashboardRepository? repository;
@@ -132,6 +134,18 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                               totalWords: _stats!.totalWords,
                             ),
                           ),
+                          const SizedBox(height: 20),
+
+                          // 8-Axis Radar Chart (Domínio Multidimensional BKT)
+                          RepaintBoundary(
+                            child: MasteryRadarChart(
+                              dimensions: MasteryRadarChart.defaultDimensions,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+
+                          // Banner de Acesso Rápido ao Pindorama Histórico
+                          _buildPindoramaExplorerBanner(context),
                           const SizedBox(height: 32),
                         ],
                       ),
@@ -327,6 +341,106 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
             style: TextStyle(
               color: AppTheme.textSecondary(context),
               fontSize: 11,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPindoramaExplorerBanner(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF0F2B20), Color(0xFF1B4332)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(24.0),
+        border: Border.all(
+          color: const Color(0x66E5A93C),
+          width: 1.5,
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 12.0,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE5A93C).withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFFE5A93C), width: 1.5),
+                ),
+                child: const Icon(
+                  Icons.explore,
+                  color: Color(0xFFFFD54F),
+                  size: 24.0,
+                ),
+              ),
+              const SizedBox(width: 14.0),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pindorama Histórico 3D',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Explore rios, aldeias e trilhas ancestrais em tempo real',
+                      style: TextStyle(
+                        color: Color(0xFFCFD8DC),
+                        fontSize: 12.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16.0),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const PindoramaMapScreen(),
+                  ),
+                );
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFFE5A93C),
+                foregroundColor: const Color(0xFF0F1B22),
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+              ),
+              icon: const Icon(Icons.travel_explore, size: 20.0),
+              label: const Text(
+                'Abrir Mapa Exploratório',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.0,
+                ),
+              ),
             ),
           ),
         ],

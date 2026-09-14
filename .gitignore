@@ -1,180 +1,212 @@
-############################
-# 🐍 PYTHON / DJANGO
-############################
+# ==============================================================================
+# TupiLingo — Root .gitignore (Enterprise Production & Development)
+# Covers: Python / Django, Flutter / Dart, Node / Web, QA & Testing, IDEs & OS
+# ==============================================================================
 
+# ------------------------------------------------------------------------------
+# 🐍 Python / Django Backend
+# ------------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-
-.Python
-build/
-develop-eggs/
+*.egg
+*.egg-info/
 dist/
-downloads/
+build/
 eggs/
 .eggs/
-# lib/ e lib64/ removidos para não ignorar lib/ do Flutter
-lib64/
 parts/
-sdist/
 var/
-wheels/
-share/python-wheels/
-*.egg-info/
+sdist/
+develop-eggs/
 .installed.cfg
-*.egg
+share/python-wheels/
 MANIFEST
-
 *.manifest
 *.spec
 
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+backend/venv/
+backend/env/
+
+# Django Databases, Logs & Runtime State
+*.sqlite3
+*.sqlite3-journal
+db.sqlite3
+db.sqlite3-journal
+backend/db.sqlite3
+backend/db.sqlite3-journal
+backend/rag_vectors.sqlite3
+backend/rag_vectors.sqlite3-journal
+local_settings.py
+*.log
 pip-log.txt
 pip-delete-this-directory.txt
 
-htmlcov/
+# Media, Uploads & Scraping
+media/
+backend/media/
+backend/pdfs/
+static_collected/
+staticfiles/
+.webassets-cache
+.scrapy
+
+# Testing & Type Checking (Python)
 .tox/
 .nox/
 .coverage
 .coverage.*
-.cache
+htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
 *.py.cover
 .hypothesis/
 .pytest_cache/
-cover/
-
-*.mo
-*.pot
-
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-*.sqlite3
-*.sqlite3-journal
-
-venv/
-env/
-
-instance/
-.webassets-cache
-
-.scrapy
-
-docs/_build/
-
-.pybuilder/
-target/
-
-.ipynb_checkpoints
-
-profile_default/
-ipython_config.py
-
-.pytest_cache/
+backend/.pytest_cache/
 .mypy_cache/
 .dmypy.json
 dmypy.json
 .pyre/
 .pytype/
+.ipynb_checkpoints
 
-cython_debug/
-
-.ropeproject/
-.spyderproject
-.spyproject
-
-/site
-
-############################
-# 🔐 ENV / SECRETS
-############################
-
-.env
-.env.*
-*.env
-.env.local
-.env.production
-
-*.pem
-*.key
-*.p12
-*.keystore
-
-############################
-# 📱 FLUTTER (CORRETO)
-############################
-
-# Flutter core
+# ------------------------------------------------------------------------------
+# 📱 Flutter & Dart (frontend/tupi_lingo)
+# ------------------------------------------------------------------------------
+# Core Dart & Flutter Build Outputs
 .dart_tool/
-build/
+frontend/tupi_lingo/.dart_tool/
+frontend/tupi_lingo/build/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
+frontend/tupi_lingo/.pub-cache/
+frontend/tupi_lingo/.pub/
 
-# Flutter metadata (não versionar gerados)
-.metadata
+# Flutter Metadata & Symbols
+frontend/tupi_lingo/.metadata
+app.*.symbols
+app.*.map.json
 
-# Android Flutter
-android/.gradle/
-android/local.properties
-android/app/build/
+# Android Platform Builds & Secrets
+**/android/.gradle/
+**/android/local.properties
+**/android/app/build/
+**/android/captures/
+**/android/.cxx/
+**/android/app/src/main/assets/
 
-# iOS Flutter
-ios/Pods/
-ios/Flutter/ephemeral/
-ios/Flutter/Generated.xcconfig
-ios/Runner/GeneratedPluginRegistrant.*
+# iOS Platform Builds & Ephemeral
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/*.xcworkspace/
+**/ios/*.mode1v3
+**/ios/*.mode2v3
+**/ios/*.moved-aside
+**/ios/*.pbxuser
+**/ios/*.perspectivev3
 
-# macOS Flutter
-macos/Flutter/ephemeral/
+# Web, Windows & Desktop Ephemeral
+**/web/build/
+**/windows/flutter/ephemeral/
+**/linux/flutter/ephemeral/
+**/macos/Flutter/ephemeral/
 
-# Linux / Windows / Web builds
-linux/flutter/ephemeral/
-windows/flutter/ephemeral/
-web/build/
+# ------------------------------------------------------------------------------
+# 🔐 Environment Variables & Secrets (CRITICAL ZERO-PII / ZERO-LEAK)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/tupi_lingo/.env
+frontend/tupi_lingo/.env.*
+!frontend/tupi_lingo/.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-############################
-# 💻 IDE / EDITORES
-############################
+# SSL & Encryption Keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
 
+# ------------------------------------------------------------------------------
+# 📦 Node.js, NPM & Web Tooling
+# ------------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.eslintcache
+
+# ------------------------------------------------------------------------------
+# 🧪 QA, Playwright & Browser Automation
+# ------------------------------------------------------------------------------
+qa/node_modules/
+qa/.chrome_profile/
+qa/results/
+qa/results/screenshots/
+qa/results/video/
+qa/results/*.json
+qa/results/*.webm
+qa/results/*.png
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.playwright/
+
+# ------------------------------------------------------------------------------
+# 💻 IDEs & Editors
+# ------------------------------------------------------------------------------
 .idea/
 .vscode/
-*.iml
 *.swp
 *.swo
+*.swn
+*~
+*.iml
+*.ipr
+*.iws
 
-############################
-# 🧹 SISTEMA
-############################
-
+# ------------------------------------------------------------------------------
+# 🖥️ Operating System Metadata & Temp
+# ------------------------------------------------------------------------------
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-
-############################
-# 📦 NODE (caso use junto)
-############################
-
-node_modules/
-
-############################
-# 🧪 TEMP / CACHE
-############################
-
+[Dd]esktop.ini
 *.tmp
-*.cache
-
-############################
-# 📂 PROJECT SPECIFIC
-############################
-
-backend/pdfs/
-backend/rag_vectors.sqlite3
-backend/rag_vectors.sqlite3-journal
-frontend/tupi_lingo/build/
-frontend/tupi_lingo/.dart_tool/
+*.temp
+*.bak

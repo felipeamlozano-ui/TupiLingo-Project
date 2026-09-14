@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'users',
     'nivelamento',
     'trilha',
+    'world_builder',
+    'platform_telemetry',
 ]
 
 MIDDLEWARE = [

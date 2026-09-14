@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import logging
+import random
 import time
 from typing import Any
 
@@ -158,17 +159,20 @@ def gerar_pratica_tematica(request):
 
     variante_nome = variante.nome if variante else "Tupi Antigo"
     variante_codigo = variante.codigo if variante else "tupi"
+    bypass_cache = bool(body.get("bypass_cache", False))
 
-    # 1. RAG Semântico & Cache Semântico via pgvector
+    # 1. RAG Semântico com Jitter Probabilístico (RFC-012A / ADR-004)
     t_vec = time.monotonic()
-    vector = _get_embedding_vector(f"{tema} vocabulário cultura Tupi")
+    jitters = ["vocabulário", "saberes", "conversação", "cultura e costumes", "natureza", "expressões tradicionais"]
+    query_jitter = random.choice(jitters)
+    vector = _get_embedding_vector(f"{tema} {query_jitter} cultura Tupi")
 
-    # 1.1 Consulta Cache Semântico vetorial (pgvector > 0.95 similaridade)
-    if vector:
+    # 1.1 Consulta Cache Semântico vetorial com bypass e jitter probabilístico
+    if vector and not bypass_cache and random.random() < 0.25:
         cache_hit = supabase_service.buscar_cache_semantico(
             embedding=vector,
             variante_id=variante.id if variante else None,
-            threshold=0.95,
+            threshold=0.96,
         )
         if cache_hit:
             questoes_cached = cache_hit.get("questoes", [])
