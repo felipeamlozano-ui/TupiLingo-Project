@@ -78,17 +78,19 @@ class PindoramaExpressiveHud extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                currentTerritory?.name ?? 'Pindorama Histórico',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Color(0xFFFFD54F),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13.0,
+                              Expanded(
+                                child: Text(
+                                  currentTerritory?.name ?? 'Pindorama Histórico',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: Color(0xFFFFD54F),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13.0,
+                                  ),
                                 ),
                               ),
-                              const Spacer(),
+                              const SizedBox(width: 8.0),
                               const Icon(Icons.stars, color: Color(0xFFFFD54F), size: 14.0),
                               const SizedBox(width: 4.0),
                               Text(
@@ -104,27 +106,35 @@ class PindoramaExpressiveHud extends StatelessWidget {
                           const SizedBox(height: 2.0),
                           Row(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 1.5),
-                                decoration: BoxDecoration(
-                                  color: const Color(0x3300897B),
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                child: Text(
-                                  currentTerritory?.primaryDialect ?? 'Tupi Clássico',
-                                  style: const TextStyle(
-                                    color: Color(0xFF80CBC4),
-                                    fontSize: 10.0,
-                                    fontWeight: FontWeight.w600,
+                              Flexible(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 1.5),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0x3300897B),
+                                    borderRadius: BorderRadius.circular(6.0),
+                                  ),
+                                  child: Text(
+                                    currentTerritory?.primaryDialect ?? 'Tupi Clássico',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color(0xFF80CBC4),
+                                      fontSize: 10.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 6.0),
-                              Text(
-                                '• ${currentEpoch.label}',
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 10.5,
+                              Flexible(
+                                child: Text(
+                                  '• ${currentEpoch.label}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 10.5,
+                                  ),
                                 ),
                               ),
                             ],

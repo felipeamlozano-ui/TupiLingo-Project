@@ -129,7 +129,8 @@ class _InteractiveBrazilTupiMapState extends State<InteractiveBrazilTupiMap>
                   InteractiveViewer(
                     transformationController: _transformController,
                     minScale: 0.8,
-                    maxScale: 3.5,
+                    maxScale: 2.5,
+                    interactionEndFrictionCoefficient: 0.00004,
                     boundaryMargin: const EdgeInsets.all(40),
                     child: Center(
                       child: AnimatedBuilder(

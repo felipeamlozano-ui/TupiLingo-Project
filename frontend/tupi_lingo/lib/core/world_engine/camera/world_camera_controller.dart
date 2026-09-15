@@ -14,13 +14,13 @@ import 'camera_state.dart';
 class WorldCameraController extends ChangeNotifier {
   CameraState _state;
 
-  // Spring & inertia parameters
-  static const double friction = 0.92;
-  static const double springStiffness = 12.0;
-  static const double zoomSpringStiffness = 14.0;
-  static const double boundarySpringStiffness = 18.0;
+  // Spring & inertia parameters (suavizados para movimentação orgânica)
+  static const double friction = 0.86;
+  static const double springStiffness = 10.0;
+  static const double zoomSpringStiffness = 11.0;
+  static const double boundarySpringStiffness = 14.0;
   static const double stopThreshold = 0.05;
-  static const double maxOvershoot = 350.0;
+  static const double maxOvershoot = 300.0;
 
   WorldCameraController({CameraState? initialState})
       : _state = initialState ?? const CameraState();
@@ -61,8 +61,8 @@ class WorldCameraController extends ChangeNotifier {
     final isOutOfBounds = (_state.x != targetX) || (_state.y != targetY);
 
     // Convert screen velocity (px/s) to world velocity units with adaptive damping
-    final worldVx = isOutOfBounds ? 0.0 : (velocity.dx / _state.zoom) * 0.12;
-    final worldVy = isOutOfBounds ? 0.0 : (velocity.dy / _state.zoom) * 0.12;
+    final worldVx = isOutOfBounds ? 0.0 : (velocity.dx / _state.zoom) * 0.045;
+    final worldVy = isOutOfBounds ? 0.0 : (velocity.dy / _state.zoom) * 0.045;
 
     _state = _state.copyWith(
       isInteracting: false,
@@ -160,7 +160,7 @@ class WorldCameraController extends ChangeNotifier {
     required Size screenSize,
   }) {
     // scrollDelta > 0 means scroll down (zoom out), < 0 means scroll up (zoom in)
-    final factor = math.exp(-scrollDelta * 0.0018).clamp(0.80, 1.25);
+    final factor = math.exp(-scrollDelta * 0.0007).clamp(0.94, 1.06);
     zoomAt(
       focalPointScreen: focalPointScreen,
       scaleMultiplier: factor,

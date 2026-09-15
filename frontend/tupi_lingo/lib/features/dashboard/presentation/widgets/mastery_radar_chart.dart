@@ -61,31 +61,38 @@ class MasteryRadarChart extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE5A93C).withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE5A93C).withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.radar,
+                        color: Color(0xFFE5A93C),
+                        size: 20.0,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.radar,
-                      color: Color(0xFFE5A93C),
-                      size: 20.0,
+                    const SizedBox(width: 10.0),
+                    Flexible(
+                      child: Text(
+                        'Domínio Multidimensional',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.textPrimary(context),
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10.0),
-                  Text(
-                    'Domínio Multidimensional',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary(context),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 8.0),
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10.0,

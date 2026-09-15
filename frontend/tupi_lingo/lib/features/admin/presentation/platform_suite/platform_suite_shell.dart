@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'developer_console/developer_console_screen.dart';
 import 'security_console/security_console_screen.dart';
 import 'shared/glass_sidebar.dart';
@@ -34,7 +33,7 @@ class _PlatformSuiteShellState extends State<PlatformSuiteShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF060B15),
+      backgroundColor: const Color(0xFF071B16),
       body: Row(
         children: [
           // Barra de Navegação Lateral
@@ -44,10 +43,11 @@ class _PlatformSuiteShellState extends State<PlatformSuiteShell> {
               setState(() => _currentIndex = index);
             },
             onBackToApp: () {
-              if (context.canPop()) {
-                context.pop();
+              final nav = Navigator.of(context);
+              if (nav.canPop()) {
+                nav.pop();
               } else {
-                context.go('/home');
+                nav.pushReplacementNamed('/home');
               }
             },
           ),

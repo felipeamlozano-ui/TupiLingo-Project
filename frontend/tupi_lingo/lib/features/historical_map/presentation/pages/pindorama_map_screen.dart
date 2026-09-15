@@ -233,26 +233,73 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
   }
 
   Future<void> _startLesson(LessonNode lesson) async {
-    if (lesson.licaoId != null) {
-      await Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => LessonPlayerScreen(licaoId: lesson.licaoId!),
-        ),
-      );
-    } else if (lesson.practiceTheme != null) {
-      await Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => ThematicPracticeScreen(
-            tema: lesson.practiceTheme!,
-            varianteId: _selectedVillage?.variantId ?? 1,
-            varianteNome: _selectedVillage?.dialectVariant ?? 'Tupi Antigo',
-            initialConchas: 5,
+    if (_selectedVillage == null) return;
+
+    final villageId = _selectedVillage!.id;
+    final previousStatus = lesson.status;
+    final previousProgress = lesson.progressPercentage;
+
+    dynamic result;
+    bool hadError = false;
+
+    try {
+      if (lesson.licaoId != null) {
+        result = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => LessonPlayerScreen(licaoId: lesson.licaoId!),
           ),
-        ),
-      );
+        );
+      } else if (lesson.practiceTheme != null) {
+        result = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ThematicPracticeScreen(
+              tema: lesson.practiceTheme!,
+              varianteId: _selectedVillage?.variantId ?? 1,
+              varianteNome: _selectedVillage?.dialectVariant ?? 'Tupi Antigo',
+              initialConchas: 5,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      hadError = true;
+      debugPrint('[PindoramaMap] Erro ao carregar ou executar lição: $e');
     }
 
-    if (mounted && _selectedVillage != null) {
+    if (!mounted) return;
+
+    // Se a requisição/execução falhou, efetua rollback explícito do estado visual antes da mensagem
+    if (hadError) {
+      setState(() {
+        _curriculumGraph = _curriculumGraph.updateLessonStatus(
+          villageId: villageId,
+          lessonId: lesson.id,
+          newStatus: previousStatus == LessonStatus.completed
+              ? LessonStatus.available
+              : previousStatus,
+          newProgress: previousProgress,
+        );
+        _selectedVillage = _curriculumGraph.getVillageById(villageId);
+        _villages = _curriculumGraph.getVillagesForEpoch(_currentEpoch.id);
+        _fogState = FogEngine.computeFromWorld(
+          villages: _villages,
+          trails: _trails,
+          bktMasteryMap: widget.bktMasteryMap,
+        );
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao carregar lição. Tente novamente.'),
+          backgroundColor: Color(0xFFEF4444),
+        ),
+      );
+      return;
+    }
+
+    final isCompleted = result == true || (result is Map && result['completed'] != false);
+
+    if (isCompleted && _selectedVillage != null) {
       setState(() {
         _curriculumGraph = _curriculumGraph.updateLessonStatus(
           villageId: _selectedVillage!.id,
@@ -266,6 +313,18 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
           trails: _trails,
           bktMasteryMap: widget.bktMasteryMap,
         );
+      });
+    } else if (mounted && _selectedVillage != null) {
+      // Usuário cancelou ou voltou antes de concluir: garante rollback/preservação do status anterior
+      setState(() {
+        _curriculumGraph = _curriculumGraph.updateLessonStatus(
+          villageId: villageId,
+          lessonId: lesson.id,
+          newStatus: previousStatus,
+          newProgress: previousProgress,
+        );
+        _selectedVillage = _curriculumGraph.getVillageById(villageId);
+        _villages = _curriculumGraph.getVillagesForEpoch(_currentEpoch.id);
       });
     }
   }

@@ -18,9 +18,9 @@ class GlassSidebar extends StatelessWidget {
     return Container(
       width: 260,
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A).withValues(alpha: 0.92),
+        color: const Color(0xFF071B16).withValues(alpha: 0.95),
         border: const Border(
-          right: BorderSide(color: Color(0xFF334155), width: 1),
+          right: BorderSide(color: Color(0xFF1D4A3E), width: 1),
         ),
       ),
       child: Column(
@@ -157,7 +157,7 @@ class GlassSidebar extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFF334155)),
+                      border: Border.all(color: const Color(0xFF1D4A3E)),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Row(

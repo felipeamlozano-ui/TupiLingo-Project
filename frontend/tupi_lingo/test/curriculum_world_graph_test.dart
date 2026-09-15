@@ -83,6 +83,34 @@ void main() {
       expect(masteredVillage.completionPercentage, equals(1.0));
     });
 
+    test('Rolls back lesson status cleanly when fetch/execution fails', () {
+      final piratininga = graph.getVillageById('piratininga')!;
+      final l02 = piratininga.lessons.firstWhere((l) => l.id == 'piratininga_02');
+      expect(l02.status, equals(LessonStatus.inProgress));
+
+      // Simulate a tentative attempt that encountered an error and rolled back to inProgress
+      final rolledBackGraph = graph.updateLessonStatus(
+        villageId: 'piratininga',
+        lessonId: l02.id,
+        newStatus: LessonStatus.inProgress,
+        newProgress: 0.4,
+      );
+
+      final rolledBackLesson = rolledBackGraph
+          .getVillageById('piratininga')!
+          .lessons
+          .firstWhere((l) => l.id == 'piratininga_02');
+      expect(rolledBackLesson.status, equals(LessonStatus.inProgress));
+      expect(rolledBackLesson.progressPercentage, equals(0.4));
+
+      // Downstream boss lesson (piratininga_boss) must remain locked
+      final boss = rolledBackGraph
+          .getVillageById('piratininga')!
+          .lessons
+          .firstWhere((l) => l.id == 'piratininga_boss');
+      expect(boss.status, equals(LessonStatus.locked));
+    });
+
     test('Finds active main quest correctly', () {
       final activeQuest = graph.getActiveMainQuest();
       expect(activeQuest, isNotNull);
@@ -91,3 +119,4 @@ void main() {
     });
   });
 }
+

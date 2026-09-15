@@ -42,8 +42,9 @@ class _WorldBuilderCanvasState extends State<WorldBuilderCanvas> {
         return InteractiveViewer(
           transformationController: widget.transformationController,
           boundaryMargin: const EdgeInsets.all(2000),
-          minScale: 0.15,
-          maxScale: 4.0,
+          minScale: 0.3,
+          maxScale: 2.8,
+          interactionEndFrictionCoefficient: 0.00004,
           constrained: false,
           child: GestureDetector(
             onTapUp: (details) {

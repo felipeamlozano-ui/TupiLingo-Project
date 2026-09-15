@@ -23,6 +23,15 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
   bool _isLoading = false;
   List<dynamic> _auditLogs = [];
   bool _isMerkleChainValid = true;
+  String _threatsMitigatedValue = '0 Ativas';
+  String _threatsSubtitle = 'WAF & Rate Limiter ativos';
+  String _zeroPiiValue = '100% PURIFIED';
+  Map<String, String> _regionalPresence = {
+    'mata_atlantica': '1.420 s/h',
+    'cerrado_sagrado': '980 s/h',
+    'floresta_amazonica': '2.150 s/h',
+    'pampa_sulista': '410 s/h',
+  };
 
   @override
   void initState() {
@@ -44,8 +53,19 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
       final res = await http.get(url).timeout(const Duration(seconds: 4));
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
+        final secOverview = data['security_overview'] as Map<String, dynamic>?;
+        final totalMitigated = secOverview?['mitigated_threats_total'] ?? 18;
+        final activeThreats = secOverview?['active_threats'] ?? 0;
+        final rawRegional = secOverview?['regional_presence'] as Map<String, dynamic>?;
+
         setState(() {
           _auditLogs = data['recent_audit_logs'] ?? [];
+          _threatsMitigatedValue = '$activeThreats Ativas ($totalMitigated Mitigadas)';
+          _threatsSubtitle = secOverview?['waf_status'] ?? 'WAF & Rate Limiter ativos';
+          _zeroPiiValue = secOverview?['zero_pii_assurance'] ?? '100% PURIFIED';
+          if (rawRegional != null) {
+            _regionalPresence = rawRegional.map((k, v) => MapEntry(k, v.toString()));
+          }
         });
       }
     } catch (_) {
@@ -105,13 +125,13 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0F1D),
+      backgroundColor: const Color(0xFF071B16),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: const Color(0xFF0E2E27),
         elevation: 0,
         title: const Row(
           children: [
-            Icon(Icons.shield, color: Color(0xFF10B981), size: 24),
+            Icon(Icons.shield, color: Color(0xFF1EC9A5), size: 24),
             SizedBox(width: 12),
             Text(
               'Security & Observability Console',
@@ -129,7 +149,7 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                 ? const SizedBox(
                     width: 18,
                     height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF10B981)),
+                    child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF1EC9A5)),
                   )
                 : const Icon(Icons.refresh, color: Colors.white70),
             tooltip: 'Recarregar Auditoria',
@@ -139,10 +159,10 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
         ],
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: const Color(0xFF10B981),
+          indicatorColor: const Color(0xFF1EC9A5),
           indicatorWeight: 3,
-          labelColor: const Color(0xFF10B981),
-          unselectedLabelColor: const Color(0xFF94A3B8),
+          labelColor: const Color(0xFF1EC9A5),
+          unselectedLabelColor: const Color(0xFF8FA89B),
           tabs: const [
             Tab(icon: Icon(Icons.security), text: 'SOC Overview'),
             Tab(icon: Icon(Icons.history_edu), text: 'Audit Trail'),
@@ -182,8 +202,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                         width: 220,
                         child: MetricCard(
                           title: 'Ameaças Mitigadas',
-                          value: '0 Ativas',
-                          subtitle: 'WAF & Rate Limiter ativos',
+                          value: _threatsMitigatedValue,
+                          subtitle: _threatsSubtitle,
                           icon: Icons.verified_user,
                           accentColor: const Color(0xFF10B981),
                         ),
@@ -196,7 +216,7 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                           value: _isMerkleChainValid ? '100% VÁLIDA' : 'ATENÇÃO',
                           subtitle: 'SHA-256 Tamper-Evident Hash',
                           icon: Icons.link,
-                          accentColor: _isMerkleChainValid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                          accentColor: _isMerkleChainValid ? const Color(0xFF1EC9A5) : const Color(0xFFEF4444),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -204,10 +224,10 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                         width: 220,
                         child: MetricCard(
                           title: 'Zero-PII Assurance',
-                          value: '100% PURIFIED',
+                          value: _zeroPiiValue,
                           subtitle: 'Sem IPs, UIDs ou Emails no pipeline',
                           icon: Icons.visibility_off,
-                          accentColor: const Color(0xFF38BDF8),
+                          accentColor: const Color(0xFFD08A45),
                         ),
                       ),
                     ],
@@ -219,8 +239,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                   Expanded(
                     child: MetricCard(
                       title: 'Ameaças Mitigadas',
-                      value: '0 Ativas',
-                      subtitle: 'WAF & Rate Limiter ativos',
+                      value: _threatsMitigatedValue,
+                      subtitle: _threatsSubtitle,
                       icon: Icons.verified_user,
                       accentColor: const Color(0xFF10B981),
                     ),
@@ -232,17 +252,17 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                       value: _isMerkleChainValid ? '100% VÁLIDA' : 'ATENÇÃO',
                       subtitle: 'SHA-256 Tamper-Evident Hash',
                       icon: Icons.link,
-                      accentColor: _isMerkleChainValid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                      accentColor: _isMerkleChainValid ? const Color(0xFF1EC9A5) : const Color(0xFFEF4444),
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: MetricCard(
                       title: 'Zero-PII Assurance',
-                      value: '100% PURIFIED',
+                      value: _zeroPiiValue,
                       subtitle: 'Sem IPs, UIDs ou Emails no pipeline',
                       icon: Icons.visibility_off,
-                      accentColor: const Color(0xFF38BDF8),
+                      accentColor: const Color(0xFFD08A45),
                     ),
                   ),
                 ],
@@ -258,17 +278,17 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E293B).withValues(alpha: 0.6),
+              color: const Color(0xFF0F2620),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF334155)),
+              border: Border.all(color: const Color(0xFF1D4A3E)),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _PresenceIndicator(label: 'Mata Atlântica', count: '1.420 s/h', color: Color(0xFF10B981)),
-                _PresenceIndicator(label: 'Cerrado Sagrado', count: '980 s/h', color: Color(0xFFF59E0B)),
-                _PresenceIndicator(label: 'Floresta Amazônica', count: '2.150 s/h', color: Color(0xFF38BDF8)),
-                _PresenceIndicator(label: 'Pampa Sulista', count: '410 s/h', color: Color(0xFFA78BFA)),
+                _PresenceIndicator(label: 'Mata Atlântica', count: _regionalPresence['mata_atlantica'] ?? '1.420 s/h', color: const Color(0xFF10B981)),
+                _PresenceIndicator(label: 'Cerrado Sagrado', count: _regionalPresence['cerrado_sagrado'] ?? '980 s/h', color: const Color(0xFFE5A93C)),
+                _PresenceIndicator(label: 'Floresta Amazônica', count: _regionalPresence['floresta_amazonica'] ?? '2.150 s/h', color: const Color(0xFF1EC9A5)),
+                _PresenceIndicator(label: 'Pampa Sulista', count: _regionalPresence['pampa_sulista'] ?? '410 s/h', color: const Color(0xFFD08A45)),
               ],
             ),
           ),
@@ -300,15 +320,15 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
           const SizedBox(height: 16),
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF1E293B).withValues(alpha: 0.6),
+              color: const Color(0xFF0F2620),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF334155)),
+              border: Border.all(color: const Color(0xFF1D4A3E)),
             ),
             child: ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: _auditLogs.length,
-              separatorBuilder: (_, _) => const Divider(color: Color(0xFF334155), height: 1),
+              separatorBuilder: (_, _) => const Divider(color: Color(0xFF1D4A3E), height: 1),
               itemBuilder: (context, index) {
                 final log = _auditLogs[index];
                 return ListTile(
@@ -323,7 +343,7 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF334155),
+                          color: const Color(0xFF163E33),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
@@ -407,9 +427,9 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.6),
+        color: const Color(0xFF0F2620),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF334155)),
+        border: Border.all(color: const Color(0xFF1D4A3E)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -456,9 +476,9 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E293B).withValues(alpha: 0.6),
+              color: const Color(0xFF0F2620),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF334155)),
+              border: Border.all(color: const Color(0xFF1D4A3E)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -483,7 +503,7 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Divider(color: Color(0xFF334155)),
+                const Divider(color: Color(0xFF1D4A3E)),
                 const SizedBox(height: 16),
                 Row(
                   children: [

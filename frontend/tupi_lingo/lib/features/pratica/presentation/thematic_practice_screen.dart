@@ -975,7 +975,7 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
                   width: double.infinity,
                   height: 52,
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.pop(context, true),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF0E5D4E),
                       foregroundColor: Colors.white,
