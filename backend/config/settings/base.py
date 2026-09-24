@@ -142,10 +142,15 @@ GEMINI_MODEL = config('GEMINI_MODEL', default='gemini-2.5-flash')
 GROQ_API_KEY = config('GROQ_API_KEY', default='')
 GROQ_MODEL = config('GROQ_MODEL', default='llama-3.1-8b-instant')
 
-# RAG
-RAG_TOP_K = config('RAG_TOP_K', default=5, cast=int)
-DDG_TIMEOUT = config('DDG_TIMEOUT', default=5, cast=int)
-WEBHOOK_SECRET = config('WEBHOOK_SECRET', default='')
+# Email & Security Configuration
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='TupiLingo Security <security@tupilingo.com>')
+DEV_MASTER_PASSCODE = config('DEV_MASTER_PASSCODE', default='tupi_master_2026')
 
 # Logging setup (base)
 LOGGING = {

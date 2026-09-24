@@ -1,0 +1,183 @@
+"""
+Catálogo Canônico da Loja de Conchas do TupiLingo (Demanda 2).
+Contém temas, avatares, molduras e lições especiais com preços, metadados e pré-visualizações.
+"""
+
+STORE_CATALOG = {
+    'themes': [
+        {
+            'id': 'theme_floresta_jade',
+            'type': 'theme',
+            'name': 'Floresta de Jade',
+            'description': 'Paleta verde esmeralda clássica com raízes ancestrais da Mata Atlântica.',
+            'price': 0,
+            'is_default': True,
+            'preview_colors': ['#0E5D4E', '#10B981', '#F59E0B'],
+            'icon': '🌿',
+        },
+        {
+            'id': 'theme_areia_sagrada',
+            'type': 'theme',
+            'name': 'Areia Sagrada de Pindorama',
+            'description': 'Dourado ocre caloroso inspirado nas dunas e praias intocadas da costa brasileira.',
+            'price': 40,
+            'is_default': False,
+            'preview_colors': ['#D08A45', '#F59E0B', '#FFFBEB'],
+            'icon': '🏖️',
+        },
+        {
+            'id': 'theme_noite_tupa',
+            'type': 'theme',
+            'name': 'Noite Estrelada de Tupã',
+            'description': 'Tema escuro profundo com constelações indígenas (Homem Velho, Ema) e ciano estelar.',
+            'price': 80,
+            'is_default': False,
+            'preview_colors': ['#060B15', '#0284C7', '#38BDF8'],
+            'icon': '🌌',
+        },
+        {
+            'id': 'theme_fogo_caapora',
+            'type': 'theme',
+            'name': 'Chama Sagrada da Caapora',
+            'description': 'Rubi e urucum flamejante com a energia protetora dos espíritos guardiões.',
+            'price': 120,
+            'is_default': False,
+            'preview_colors': ['#7F1D1D', '#DC2626', '#F97316'],
+            'icon': '🔥',
+        },
+    ],
+    'avatars': [
+        {
+            'id': 'avatar_arara',
+            'type': 'avatar',
+            'name': 'Arara Canindé',
+            'description': 'O mensageiro alado das altas copas da floresta.',
+            'price': 0,
+            'is_default': True,
+            'icon': '🦜',
+            'asset_url': 'assets/avatars/arara.png',
+        },
+        {
+            'id': 'avatar_maraka',
+            'type': 'avatar',
+            'name': 'Guerreiro Maraká',
+            'description': 'Marcado com pinturas de urucum e o chocalho cerimonial de guerra.',
+            'price': 50,
+            'is_default': False,
+            'icon': '🏹',
+            'asset_url': 'assets/avatars/guerreiro.png',
+        },
+        {
+            'id': 'avatar_xama',
+            'type': 'avatar',
+            'name': 'Xamã da Floresta',
+            'description': 'Mestre dos cantos de cura e conexão com os espíritos da mata.',
+            'price': 75,
+            'is_default': False,
+            'icon': '🧙‍♂️',
+            'asset_url': 'assets/avatars/xama.png',
+        },
+        {
+            'id': 'avatar_onca',
+            'type': 'avatar',
+            'name': 'Onça Pintada Mística',
+            'description': 'O predador supremo e guardião da sabedoria silenciosa.',
+            'price': 100,
+            'is_default': False,
+            'icon': '🐆',
+            'asset_url': 'assets/avatars/onca.png',
+        },
+        {
+            'id': 'avatar_tamandua',
+            'type': 'avatar',
+            'name': 'Tamanduá Guardião',
+            'description': 'Símbolo de persistência e raízes na terra.',
+            'price': 60,
+            'is_default': False,
+            'icon': '🦔',
+            'asset_url': 'assets/avatars/tamandua.png',
+        },
+    ],
+    'frames': [
+        {
+            'id': 'frame_madeira',
+            'type': 'frame',
+            'name': 'Madeira Rústica',
+            'description': 'Borda clássica entalhada em madeira nobre da mata.',
+            'price': 0,
+            'is_default': True,
+            'border_color': '#854D0E',
+            'icon': '🪵',
+        },
+        {
+            'id': 'frame_penas',
+            'type': 'frame',
+            'name': 'Diadema de Penas Sagradas',
+            'description': 'Ornamento cerimonial de penas coloridas de gavião e tucano.',
+            'price': 60,
+            'is_default': False,
+            'border_color': '#EF4444',
+            'icon': '🪶',
+        },
+        {
+            'id': 'frame_ouro_sol',
+            'type': 'frame',
+            'name': 'Aura Solar de Guaraci',
+            'description': 'Brilho solar radiante e energia divina do meio-dia.',
+            'price': 90,
+            'is_default': False,
+            'border_color': '#F59E0B',
+            'icon': '☀️',
+        },
+        {
+            'id': 'frame_grafismo',
+            'type': 'frame',
+            'name': 'Grafismo Kadiwéu',
+            'description': 'Padrões geométricos simétricos de pintura corporal tradicional.',
+            'price': 110,
+            'is_default': False,
+            'border_color': '#10B981',
+            'icon': '💠',
+        },
+    ],
+    'special_lessons': [
+        {
+            'id': 'lesson_cantos_sagrados',
+            'type': 'special_lesson',
+            'name': 'Cantos Sagrados dos Pajés',
+            'description': 'Lição especial: estude a métrica, ritmo e o vocabulário cerimonial das preces antigas.',
+            'price': 120,
+            'is_default': False,
+            'icon': '🎶',
+            'xp_bonus': 100,
+        },
+        {
+            'id': 'lesson_taticas_caca',
+            'type': 'special_lesson',
+            'name': 'Táticas de Caça e Rastreamento',
+            'description': 'Lição especial: termos de pegadas, ventos, animais da mata e sobrevivência.',
+            'price': 150,
+            'is_default': False,
+            'icon': '🐾',
+            'xp_bonus': 120,
+        },
+        {
+            'id': 'lesson_ervas_medicinais',
+            'type': 'special_lesson',
+            'name': 'Farmacopeia e Ervas da Cura',
+            'description': 'Lição especial: vocabulário botânico tradicional e as plantas mestras de Pindorama.',
+            'price': 180,
+            'is_default': False,
+            'icon': '🌱',
+            'xp_bonus': 150,
+        },
+    ],
+}
+
+def get_item_by_id(item_id: str):
+    """Localiza qualquer item no catálogo pelo seu ID único."""
+    for category in STORE_CATALOG.values():
+        for item in category:
+            if item['id'] == item_id:
+                return item
+    return None

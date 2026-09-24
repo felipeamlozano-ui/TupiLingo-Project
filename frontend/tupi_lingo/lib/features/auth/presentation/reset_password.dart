@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 
 class _AppColors {
-  static const Color background = Color(0xFFF3F2E8);
-  static const Color subtitle = Color(0xFF565D6D);
   static const Color primary = Color(0xFFD08A45);
   static const Color accent = Color(0xFF0E5D4E);
 }
@@ -45,22 +44,25 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context),
         elevation: 12,
         margin: const EdgeInsets.all(16),
         duration: const Duration(seconds: 4),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: BorderSide(color: AppTheme.border(context)),
+        ),
         content: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: isError ? Colors.red.shade50 : Colors.green.shade50,
+                color: isError ? Colors.red.withValues(alpha: 0.15) : Colors.green.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 isError ? Icons.warning_amber_rounded : Icons.check_circle,
-                color: isError ? Colors.red.shade700 : Colors.green.shade700,
+                color: isError ? Colors.red.shade400 : Colors.green.shade400,
                 size: 20,
               ),
             ),
@@ -68,8 +70,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             Expanded(
               child: Text(
                 message,
-                style: const TextStyle(
-                  color: Colors.black87,
+                style: TextStyle(
+                  color: AppTheme.textPrimary(context),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -143,13 +145,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppTheme.isDark(context);
+
     return Scaffold(
-      backgroundColor: _AppColors.background,
+      backgroundColor: AppTheme.bg(context),
       appBar: AppBar(
-        backgroundColor: _AppColors.background,
+        backgroundColor: AppTheme.bg(context),
         elevation: 0,
-        foregroundColor: _AppColors.accent,
-        title: const Text('Nova Senha', style: TextStyle(fontWeight: FontWeight.bold)),
+        foregroundColor: AppTheme.textPrimary(context),
+        title: Text(
+          'Nova Senha',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppTheme.textPrimary(context),
+          ),
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -174,22 +184,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const Text(
+                      Text(
                         'Redefinir Senha',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: _AppColors.accent,
+                          color: isDark ? const Color(0xFF1EC9A5) : _AppColors.accent,
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const Text(
+                      Text(
                         'Crie uma nova senha de pelo menos 6 caracteres para a sua conta.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,
-                          color: _AppColors.subtitle,
+                          color: AppTheme.textSecondary(context),
                           height: 1.4,
                         ),
                       ),
@@ -198,13 +208,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       TextField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
+                        style: TextStyle(color: AppTheme.textPrimary(context)),
                         decoration: InputDecoration(
                           labelText: 'Nova senha',
-                          border: const OutlineInputBorder(),
+                          labelStyle: TextStyle(color: AppTheme.textSecondary(context)),
+                          filled: true,
+                          fillColor: AppTheme.surface(context),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(color: AppTheme.border(context)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(color: AppTheme.border(context)),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(14)),
+                            borderSide: BorderSide(color: _AppColors.primary, width: 2),
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                              color: Colors.grey,
+                              color: AppTheme.textSecondary(context),
                             ),
                             onPressed: () {
                               setState(() {
@@ -220,13 +245,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       TextField(
                         controller: _confirmPasswordController,
                         obscureText: _obscureConfirmPassword,
+                        style: TextStyle(color: AppTheme.textPrimary(context)),
                         decoration: InputDecoration(
                           labelText: 'Confirmar nova senha',
-                          border: const OutlineInputBorder(),
+                          labelStyle: TextStyle(color: AppTheme.textSecondary(context)),
+                          filled: true,
+                          fillColor: AppTheme.surface(context),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(color: AppTheme.border(context)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(color: AppTheme.border(context)),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(14)),
+                            borderSide: BorderSide(color: _AppColors.primary, width: 2),
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                              color: Colors.grey,
+                              color: AppTheme.textSecondary(context),
                             ),
                             onPressed: () {
                               setState(() {
@@ -271,7 +311,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             if (_isLoading)
               Positioned.fill(
                 child: Container(
-                  color: Colors.black26,
+                  color: Colors.black45,
                   child: const Center(
                     child: CircularProgressIndicator(
                       color: _AppColors.primary,

@@ -141,7 +141,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
           throw Exception(data['error'] ?? 'Erro desconhecido');
         }
       } else {
-        throw Exception('Erro ao buscar lição (HTTP ${response.statusCode})');
+        String msg = 'Erro ao buscar lição (HTTP ${response.statusCode})';
+        try {
+          final errData = jsonDecode(utf8.decode(response.bodyBytes));
+          if (errData is Map && errData['error'] != null) {
+            msg = errData['error'].toString();
+          }
+        } catch (_) {}
+        throw Exception(msg);
       }
     } catch (e) {
       if (mounted) {

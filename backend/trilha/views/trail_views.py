@@ -77,11 +77,11 @@ def listar_capitulos_mapa(request, variante_id: int):
 
     # Garante que capítulos narrativos e lições existentes da trilha fiquem visíveis no mapa
     capitulos_base_qs = trilha.capitulos.filter(numero__lt=900)
-    if not capitulos_base_qs.filter(publicado=True).exists() and capitulos_base_qs.exists():
-        capitulos_base_qs.update(publicado=True)
+    if capitulos_base_qs.exists():
+        capitulos_base_qs.filter(publicado=False).update(publicado=True)
 
-    if not Licao.objects.filter(capitulo__trilha=trilha, publicada=True).exists() and Licao.objects.filter(capitulo__trilha=trilha).exists():
-        Licao.objects.filter(capitulo__trilha=trilha).update(publicada=True)
+    # A lição só deve estar marcada como publicada caso realmente exista na trilha
+    Licao.objects.filter(capitulo__trilha=trilha, publicada=False).update(publicada=True)
 
     # PERF: ProgressService resolve a árvore em O(1) queries com prefetch e estado canônico
     from users.services.progress_service import ProgressService

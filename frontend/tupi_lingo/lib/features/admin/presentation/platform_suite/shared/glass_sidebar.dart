@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 
 /// Barra lateral em Glassmorphism responsiva para navegação entre os 3 consoles do TupiLingo Platform Suite.
 class GlassSidebar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onDestinationSelected;
   final VoidCallback onBackToApp;
+  final double? width;
 
   const GlassSidebar({
     super.key,
     required this.selectedIndex,
     required this.onDestinationSelected,
     required this.onBackToApp,
+    this.width = 260,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 260,
+      width: width,
       decoration: BoxDecoration(
-        color: const Color(0xFF071B16).withValues(alpha: 0.95),
-        border: const Border(
-          right: BorderSide(color: Color(0xFF1D4A3E), width: 1),
+        color: AppTheme.surface(context),
+        border: Border(
+          right: BorderSide(color: AppTheme.border(context), width: 1),
         ),
       ),
       child: Column(
@@ -34,30 +37,30 @@ class GlassSidebar extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF10B981), Color(0xFF065F46)],
+                    gradient: LinearGradient(
+                      colors: [AppTheme.accent(context), AppTheme.accentDark(context)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.3),
+                        color: AppTheme.accent(context).withValues(alpha: 0.25),
                         blurRadius: 10,
                       ),
                     ],
                   ),
-                  child: const Icon(Icons.hub, color: Colors.white, size: 20),
+                  child: const Icon(Icons.hub_rounded, color: Colors.white, size: 20),
                 ),
                 const SizedBox(width: 10),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'TupiLingo',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppTheme.textPrimary(context),
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                           letterSpacing: -0.5,
@@ -66,7 +69,7 @@ class GlassSidebar extends StatelessWidget {
                       Text(
                         'PLATFORM SUITE',
                         style: TextStyle(
-                          color: Color(0xFF10B981),
+                          color: AppTheme.accent(context),
                           fontSize: 9,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.2,
@@ -78,11 +81,12 @@ class GlassSidebar extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(color: Color(0xFF1E293B), height: 1),
+          Divider(color: AppTheme.border(context), height: 1),
           const SizedBox(height: 16),
 
           // Menu de Navegação dos 3 Consoles
           _buildNavItem(
+            context: context,
             index: 0,
             icon: Icons.map_outlined,
             activeIcon: Icons.map,
@@ -90,6 +94,7 @@ class GlassSidebar extends StatelessWidget {
             subtitle: 'Canvas, Territórios & Snapshots',
           ),
           _buildNavItem(
+            context: context,
             index: 1,
             icon: Icons.developer_board_outlined,
             activeIcon: Icons.developer_board,
@@ -97,6 +102,7 @@ class GlassSidebar extends StatelessWidget {
             subtitle: 'Live Ops, Performance & AI',
           ),
           _buildNavItem(
+            context: context,
             index: 2,
             icon: Icons.shield_outlined,
             activeIcon: Icons.shield,
@@ -105,7 +111,7 @@ class GlassSidebar extends StatelessWidget {
           ),
 
           const Spacer(),
-          const Divider(color: Color(0xFF1E293B), height: 1),
+          Divider(color: AppTheme.border(context), height: 1),
 
           // Rodapé com Voltar ao App e Status de Rede
           Padding(
@@ -115,34 +121,35 @@ class GlassSidebar extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E293B).withValues(alpha: 0.6),
+                    color: AppTheme.surfaceSubtle(context),
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppTheme.border(context)),
                   ),
                   child: Row(
                     children: [
                       Container(
                         width: 8,
                         height: 8,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF10B981),
+                        decoration: BoxDecoration(
+                          color: AppTheme.accent(context),
                           shape: BoxShape.circle,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Expanded(
+                      Expanded(
                         child: Text(
                           'SRE Cluster Online',
                           style: TextStyle(
-                            color: Color(0xFF94A3B8),
+                            color: AppTheme.textSecondary(context),
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
-                      const Text(
+                      Text(
                         '99.9%',
                         style: TextStyle(
-                          color: Color(0xFF10B981),
+                          color: AppTheme.accent(context),
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                         ),
@@ -157,20 +164,21 @@ class GlassSidebar extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFF1D4A3E)),
+                      border: Border.all(color: AppTheme.border(context)),
                       borderRadius: BorderRadius.circular(12),
+                      color: AppTheme.surface(context),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.arrow_back, color: Color(0xFF94A3B8), size: 16),
-                        SizedBox(width: 8),
+                        Icon(Icons.arrow_back, color: AppTheme.textSecondary(context), size: 16),
+                        const SizedBox(width: 8),
                         Flexible(
                           child: Text(
                             'Retornar ao App',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              color: Color(0xFFCBD5E1),
+                              color: AppTheme.textPrimary(context),
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                             ),
@@ -189,6 +197,7 @@ class GlassSidebar extends StatelessWidget {
   }
 
   Widget _buildNavItem({
+    required BuildContext context,
     required int index,
     required IconData icon,
     required IconData activeIcon,
@@ -209,24 +218,25 @@ class GlassSidebar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
               color: isSelected
-                  ? const Color(0xFF10B981).withValues(alpha: 0.15)
+                  ? AppTheme.accent(context).withValues(alpha: 0.12)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: isSelected
-                    ? const Color(0xFF10B981).withValues(alpha: 0.4)
+                    ? AppTheme.accent(context).withValues(alpha: 0.35)
                     : Colors.transparent,
-                width: 1,
               ),
             ),
             child: Row(
               children: [
                 Icon(
                   isSelected ? activeIcon : icon,
-                  color: isSelected ? const Color(0xFF10B981) : const Color(0xFF64748B),
-                  size: 22,
+                  color: isSelected
+                      ? AppTheme.accent(context)
+                      : AppTheme.textSecondary(context),
+                  size: 20,
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,20 +244,17 @@ class GlassSidebar extends StatelessWidget {
                       Text(
                         title,
                         style: TextStyle(
-                          color: isSelected ? Colors.white : const Color(0xFF94A3B8),
+                          color: isSelected
+                              ? AppTheme.accent(context)
+                              : AppTheme.textPrimary(context),
                           fontSize: 13,
                           fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                         ),
                       ),
-                      const SizedBox(height: 2),
                       Text(
                         subtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: isSelected
-                              ? const Color(0xFF10B981).withValues(alpha: 0.8)
-                              : const Color(0xFF475569),
+                          color: AppTheme.textSecondary(context),
                           fontSize: 10,
                         ),
                       ),

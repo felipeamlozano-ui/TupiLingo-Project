@@ -20,12 +20,14 @@ class PerformanceTelemetryEngine {
   double _lastFps = 60.0;
   double _avgBuildMs = 0.0;
   double _avgRasterMs = 0.0;
+  int _lastJankLogMs = 0;
 
   int get totalFrames => _totalFrames;
   int get droppedFrames => _droppedFrames;
   double get currentFps => _lastFps;
   double get averageBuildDurationMs => _avgBuildMs;
   double get averageRasterDurationMs => _avgRasterMs;
+  bool get isMonitoring => _isMonitoring;
 
   /// Inicia o monitoramento de frame timings com zero overhead.
   void start() {
@@ -33,7 +35,9 @@ class PerformanceTelemetryEngine {
     _isMonitoring = true;
 
     WidgetsBinding.instance.addTimingsCallback(_onReportTimings);
-    debugPrint('📊 [TelemetryEngine] Telemetria de Frame Timing ativa (Alvo: Build < 4ms, Raster < 4ms).');
+    if (kDebugMode) {
+      debugPrint('📊 [TelemetryEngine] Telemetria de Frame Timing ativa (Alvo: Build < 4ms, Raster < 4ms).');
+    }
   }
 
   void stop() {
@@ -61,10 +65,14 @@ class PerformanceTelemetryEngine {
       if (isDropped) {
         _droppedFrames++;
         if (kDebugMode && totalSpanMs > 32.0) {
-          debugPrint(
-            '⚠️ [Telemetry Jank Alert] Frame lento: ${totalSpanMs.toStringAsFixed(1)}ms '
-            '(Build: ${buildMs.toStringAsFixed(1)}ms, Raster: ${rasterMs.toStringAsFixed(1)}ms)',
-          );
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (now - _lastJankLogMs > 10000) {
+            _lastJankLogMs = now;
+            debugPrint(
+              '⚠️ [Telemetry Jank Alert] Frame lento: ${totalSpanMs.toStringAsFixed(1)}ms '
+              '(Build: ${buildMs.toStringAsFixed(1)}ms, Raster: ${rasterMs.toStringAsFixed(1)}ms)',
+            );
+          }
         }
       }
 

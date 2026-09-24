@@ -10,13 +10,19 @@ else
 fi
 echo "========================================================"
 
-# Executar migrações do banco — necessário em todos os ambientes para garantir schema atualizado
-echo "[entrypoint] Aplicando migrações..."
-python manage.py migrate --noinput
+# Executar migrações do banco apenas se não estiver desabilitado explicitamente
+if [ "$SKIP_MIGRATIONS" != "true" ] && [ "$SKIP_MIGRATIONS" != "1" ]; then
+    echo "[entrypoint] Aplicando migrações..."
+    python manage.py migrate --noinput
+else
+    echo "[entrypoint] Pulando migrações (SKIP_MIGRATIONS ativo)..."
+fi
 
-# Coletar arquivos estáticos — necessário em todos os ambientes (servidos pelo Nginx/whitenoise)
-echo "[entrypoint] Coletando arquivos estáticos..."
-python manage.py collectstatic --noinput --clear
+# Coletar arquivos estáticos apenas no container da web/API
+if [ "$SKIP_COLLECTSTATIC" != "true" ] && [ "$SKIP_COLLECTSTATIC" != "1" ] && [ "$SKIP_MIGRATIONS" != "true" ]; then
+    echo "[entrypoint] Coletando arquivos estáticos..."
+    python manage.py collectstatic --noinput --clear
+fi
 
 # Executar o comando passado pro container (runserver, gunicorn ou bash)
 exec "$@"

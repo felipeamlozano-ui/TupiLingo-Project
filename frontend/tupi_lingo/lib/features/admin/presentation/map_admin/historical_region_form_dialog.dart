@@ -119,12 +119,14 @@ class _HistoricalRegionFormDialogState extends State<HistoricalRegionFormDialog>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      isEditing ? '✏️ Editar Aldeia / Região' : '🌿 Nova Aldeia / Região',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1F2937),
+                    Expanded(
+                      child: Text(
+                        isEditing ? '✏️ Editar Aldeia / Região' : '🌿 Nova Aldeia / Região',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1F2937),
+                        ),
                       ),
                     ),
                     IconButton(
@@ -221,11 +223,14 @@ class _HistoricalRegionFormDialogState extends State<HistoricalRegionFormDialog>
                         ),
                         const SizedBox(height: 16),
 
-                        // Status Desbloqueado e Nível Mínimo
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Wrap(
+                          spacing: 16,
+                          runSpacing: 8,
+                          alignment: WrapAlignment.spaceBetween,
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Switch(
                                   value: _isUnlocked,
@@ -234,11 +239,12 @@ class _HistoricalRegionFormDialogState extends State<HistoricalRegionFormDialog>
                                 ),
                                 Text(
                                   _isUnlocked ? 'Desbloqueada' : 'Bloqueada por Padrão',
-                                  style: const TextStyle(fontWeight: FontWeight.w600),
+                                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
                                 ),
                               ],
                             ),
                             Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 const Text('Nível Requerido: ', style: TextStyle(fontSize: 12)),
                                 DropdownButton<int>(

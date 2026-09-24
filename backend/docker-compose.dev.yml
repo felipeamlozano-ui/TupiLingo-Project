@@ -17,6 +17,8 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - REDIS_URL=redis://redis:6379/0
       - OLLAMA_API_BASE=http://host.docker.internal:11434
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
     volumes:
       # Hot reload: monta o código local dentro do container
       - .:/app
@@ -33,11 +35,16 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile.dev
+    profiles: ["workers"]
+    restart: "no"
     command: bash -c "python pdf_worker.py"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - REDIS_URL=redis://redis:6379/0
       - OLLAMA_API_BASE=http://host.docker.internal:11434
+      - SKIP_MIGRATIONS=true
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
     volumes:
       - .:/app
       - ./pdfs:/app/pdfs
@@ -52,11 +59,16 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile.dev
+    profiles: ["workers"]
+    restart: "no"
     command: bash -c "python manage.py extract_vocab_from_rag --continuous"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - REDIS_URL=redis://redis:6379/0
       - OLLAMA_API_BASE=http://host.docker.internal:11434
+      - SKIP_MIGRATIONS=true
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
     volumes:
       - .:/app
       - huggingface_cache:/root/.cache/huggingface

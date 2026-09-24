@@ -6,11 +6,12 @@ import 'package:tupi_lingo/features/feature_flags/data/repositories/feature_flag
 
 void main() {
   group('Feature Flag Platform (RFC-012B Ch.47)', () {
-    test('all 18 canonical flags are registered in FlagIds', () {
-      expect(FlagIds.allFlags.length, 18);
+    test('all 19 canonical flags are registered in FlagIds', () {
+      expect(FlagIds.allFlags.length, 19);
       expect(FlagIds.allFlags.contains(FlagIds.morphologyEngineV1), isTrue);
       expect(FlagIds.allFlags.contains(FlagIds.semanticSearchV1), isTrue);
       expect(FlagIds.allFlags.contains(FlagIds.truthLayerV1), isTrue);
+      expect(FlagIds.allFlags.contains(FlagIds.customThemesEnabled), isTrue);
     });
 
     test('FeatureFlag defaults to disabled', () {

@@ -431,3 +431,46 @@ class HistoricoResposta(models.Model):
 
     def __str__(self):
         return f"{self.user.name} - {self.palavra_tupi} ({self.status})"
+
+
+# ─── Cosméticos da Loja de Conchas (RFC Loja Segura) ─────────────────────────
+
+class UserCosmetic(models.Model):
+    """Cosmético desbloqueado pelo usuário com conchas (tema, avatar, moldura ou lição especial)."""
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='cosmeticos')
+    item_id = models.CharField(max_length=64, db_index=True, verbose_name="ID do Item")
+    item_type = models.CharField(max_length=32, verbose_name="Tipo (theme, avatar, frame, special_lesson)")
+    unlocked_at = models.DateTimeField(auto_now_add=True, verbose_name="Desbloqueado em")
+    is_equipped = models.BooleanField(default=False, verbose_name="Equipado Atualmente")
+
+    class Meta:
+        db_table = 'users_cosmetics'
+        verbose_name = 'Cosmético do Usuário'
+        verbose_name_plural = 'Cosméticos dos Usuários'
+        unique_together = ('user', 'item_id')
+        indexes = [
+            models.Index(fields=['user', 'item_type', 'is_equipped']),
+        ]
+
+    def __str__(self):
+        return f"{self.user.name} - {self.item_id} (Equipado: {self.is_equipped})"
+
+
+class CosmeticPurchaseAudit(models.Model):
+    """Registro inviolável de compra na Loja de Conchas para auditoria e prevenção a fraudes."""
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='compras_loja')
+    item_id = models.CharField(max_length=64, verbose_name="ID do Item")
+    item_price = models.IntegerField(verbose_name="Preço em Conchas")
+    balance_before = models.IntegerField(verbose_name="Saldo Anterior")
+    balance_after = models.IntegerField(verbose_name="Saldo Posterior")
+    hmac_receipt = models.CharField(max_length=128, verbose_name="Assinatura HMAC-SHA256 do Servidor")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Data da Compra")
+
+    class Meta:
+        db_table = 'users_cosmetic_purchases'
+        verbose_name = 'Auditoria de Compra de Cosmético'
+        verbose_name_plural = 'Auditorias de Compras de Cosméticos'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Compra {self.item_id} por {self.user.name} (-{self.item_price} conchas)"

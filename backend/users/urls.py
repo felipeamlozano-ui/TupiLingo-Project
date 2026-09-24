@@ -2,6 +2,7 @@
 from django.urls import path
 from . import views
 from . import views_proto
+from . import views_store
 
 urlpatterns = [
     path('auth/check-user', views.check_user, name='check_user'),
@@ -12,4 +13,8 @@ urlpatterns = [
     path('admin/me', views.admin_check, name='admin_check'),
     path('dashboard/stats/', views.dashboard_stats, name='dashboard_stats'),
     path('profile/', views.dashboard_stats, name='profile_stats_compat'),
+    # Loja de Conchas & Cosméticos (Demanda 2)
+    path('store/catalog/', views_store.get_store_catalog, name='store_catalog'),
+    path('store/purchase/', views_store.purchase_cosmetic, name='store_purchase'),
+    path('store/equip/', views_store.equip_cosmetic, name='store_equip'),
 ]

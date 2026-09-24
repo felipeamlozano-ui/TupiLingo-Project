@@ -18,7 +18,10 @@ class FlagLocalDataSource {
 
   void _initializeDefaults() {
     for (final id in FlagIds.allFlags) {
-      _memoryCache[id] = FeatureFlag(id: id, isEnabled: false);
+      _memoryCache[id] = FeatureFlag(
+        id: id,
+        isEnabled: id == FlagIds.customThemesEnabled ? true : false,
+      );
     }
   }
 

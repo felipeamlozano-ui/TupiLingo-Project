@@ -92,8 +92,8 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
             style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1F2937)),
           ),
           content: SingleChildScrollView(
-            child: SizedBox(
-              width: 440,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 440),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -434,10 +434,15 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '${exercicios.length} ${exercicios.length == 1 ? "Exercício" : "Exercícios"}',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1F2937)),
+            Expanded(
+              child: Text(
+                '${exercicios.length} ${exercicios.length == 1 ? "Exercício" : "Exercícios"}',
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1F2937)),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
+            const SizedBox(width: 8),
             ElevatedButton.icon(
               onPressed: () {
                 if (_selectedLicaoId != null) {

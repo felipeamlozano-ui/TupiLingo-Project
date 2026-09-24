@@ -49,13 +49,27 @@ TEMAS_PREDEFINIDOS = [
         "icone": "🌿",
         "descricao": "Águas, florestas, plantas medicinais e fenômenos naturais.",
         "categorias_rag": ["Natureza", "Vocabulário"],
+        "palavras_chave": [
+            {"termo": "'y", "traducao": "água / rio"},
+            {"termo": "ka'a", "traducao": "mata / floresta"},
+            {"termo": "paranã", "traducao": "mar / grande água"},
+            {"termo": "amang", "traducao": "chuva"},
+            {"termo": "ybytyra", "traducao": "montanha / serra"},
+        ],
     },
     {
         "id": "animais",
         "titulo": "Animais e Caça",
         "icone": "🐆",
         "descricao": "Onças, aves sagradas, peixes e fauna da Mata Atlântica.",
-        "categorias_rag": ["Vocabulário", "Fauna"],
+        "categorias_rag": ["Fauna", "Vocabulário"],
+        "palavras_chave": [
+            {"termo": "îagûara", "traducao": "onça / grande felino"},
+            {"termo": "pira", "traducao": "peixe"},
+            {"termo": "gûyrá", "traducao": "ave / pássaro"},
+            {"termo": "so'o", "traducao": "caça / carne"},
+            {"termo": "tapi'ira", "traducao": "anta"},
+        ],
     },
     {
         "id": "mitologia",
@@ -63,13 +77,27 @@ TEMAS_PREDEFINIDOS = [
         "icone": "⚡",
         "descricao": "Divindades celestes, espíritos da floresta e cantos ancestrais.",
         "categorias_rag": ["Mitologia", "História"],
+        "palavras_chave": [
+            {"termo": "Tupã", "traducao": "trovão / divindade celeste"},
+            {"termo": "Anhanga", "traducao": "espírito guardião da mata"},
+            {"termo": "Karai", "traducao": "xamã / mestre espiritual"},
+            {"termo": "Jaci", "traducao": "Lua / protetora noturna"},
+            {"termo": "Kurupira", "traducao": "protetor dos animais silvestres"},
+        ],
     },
     {
         "id": "aldeia",
         "titulo": "Aldeia e Cotidiano",
         "icone": "🏡",
         "descricao": "Habitação comunitária (oka), utensílios e laços familiares.",
-        "categorias_rag": ["Vocabulário", "História"],
+        "categorias_rag": ["História", "Vocabulário"],
+        "palavras_chave": [
+            {"termo": "oka", "traducao": "casa / habitação tradicional"},
+            {"termo": "taba", "traducao": "aldeia / comunidade"},
+            {"termo": "tata", "traducao": "fogo / brasa da oca"},
+            {"termo": "morubixaba", "traducao": "chefe / cacique da taba"},
+            {"termo": "mena", "traducao": "esposo / companheiro"},
+        ],
     },
     {
         "id": "guerra",
@@ -77,6 +105,13 @@ TEMAS_PREDEFINIDOS = [
         "icone": "🏹",
         "descricao": "Táticas, maracás, armas tradicionais e chefias guerreiras.",
         "categorias_rag": ["História", "Vocabulário"],
+        "palavras_chave": [
+            {"termo": "ybyrapema", "traducao": "tacape cerimonial de guerra"},
+            {"termo": "maraká", "traducao": "maracá sagrado do guerreiro"},
+            {"termo": "timbiara", "traducao": "guerreiro / combatente"},
+            {"termo": "pytuna", "traducao": "noite / emboscada"},
+            {"termo": "turuquara", "traducao": "clarim de batalha"},
+        ],
     },
     {
         "id": "culinaria",
@@ -84,6 +119,13 @@ TEMAS_PREDEFINIDOS = [
         "icone": "🍲",
         "descricao": "Mandioca, cauim, moquéns de peixe e preparo comunitário.",
         "categorias_rag": ["Vocabulário", "História"],
+        "palavras_chave": [
+            {"termo": "mani'oka", "traducao": "mandioca"},
+            {"termo": "ka'ũy", "traducao": "cauim (bebida cerimonial)"},
+            {"termo": "moka'ẽ", "traducao": "moquém (assar no moquém)"},
+            {"termo": "mbyju", "traducao": "beiju de mandioca"},
+            {"termo": "jukyra", "traducao": "sal tradicional"},
+        ],
     },
 ]
 
@@ -101,8 +143,10 @@ def _get_user_or_error(request) -> tuple[UserProfile | None, JsonResponse | None
 def _get_embedding_vector(texto: str) -> list[float] | None:
     """Gera embedding local de 384 dimensões via FastEmbed sem custo de API."""
     try:
+        import os
         from fastembed import TextEmbedding
-        embedder = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        cache_path = os.environ.get("FASTEMBED_CACHE_PATH", os.path.expanduser("~/.cache/huggingface/fastembed"))
+        embedder = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2", cache_dir=cache_path)
         embeddings = list(embedder.embed([texto]))
         if embeddings:
             return embeddings[0].tolist()
@@ -123,6 +167,107 @@ def listar_temas_pratica(request):
         "success": True,
         "temas": TEMAS_PREDEFINIDOS,
     })
+
+
+def _gerar_fallback_tematico(tema: str, tema_config: dict | None, quantidade: int = 4) -> list[dict]:
+    """Gera fallback rico e tematicamente estrito caso os provedores de LLM estejam indisponíveis."""
+    if tema_config and "palavras_chave" in tema_config and len(tema_config["palavras_chave"]) >= 4:
+        kw = tema_config["palavras_chave"]
+        p0, p1, p2, p3 = kw[0], kw[1], kw[2], kw[3]
+        extra_term = kw[4]["termo"] if len(kw) > 4 else "taba"
+
+        return [
+            {
+                "id": 1,
+                "tipo": "escolha_multipla",
+                "enunciado": f"Dentro do tema '{tema_config['titulo']}', qual termo em Tupi designa '{p0['traducao']}'?",
+                "alternativas": [
+                    {"letra": "A", "texto": p0["termo"]},
+                    {"letra": "B", "texto": p1["termo"]},
+                    {"letra": "C", "texto": p2["termo"]},
+                    {"letra": "D", "texto": extra_term},
+                ],
+                "resposta_correta": "A",
+                "explicacao": f"'{p0['termo']}' é o termo exato em Tupi para {p0['traducao']}.",
+                "param_a": 1.2, "param_b": -0.4, "param_c": 0.25,
+            },
+            {
+                "id": 2,
+                "tipo": "completar",
+                "enunciado": f"No universo de {tema_config['titulo']}, a expressão para {p1['traducao']} é ___.",
+                "resposta_correta": p1["termo"],
+                "explicacao": f"'{p1['termo']}' significa {p1['traducao']} em Tupi.",
+                "param_a": 1.3, "param_b": 0.1, "param_c": 0.0,
+            },
+            {
+                "id": 3,
+                "tipo": "associacao",
+                "enunciado": f"Associe os termos do tema '{tema_config['titulo']}' com suas traduções:",
+                "pares_associacao": [
+                    {"termo": p0["termo"], "traducao": p0["traducao"]},
+                    {"termo": p1["termo"], "traducao": p1["traducao"]},
+                    {"termo": p2["termo"], "traducao": p2["traducao"]},
+                    {"termo": p3["termo"], "traducao": p3["traducao"]},
+                ],
+                "explicacao": f"Vocabulário canônico do tema {tema_config['titulo']}.",
+                "param_a": 1.2, "param_b": 0.0, "param_c": 0.0,
+            },
+            {
+                "id": 4,
+                "tipo": "traducao_livre",
+                "enunciado": f"Digite a tradução em Tupi para '{p2['traducao']}':",
+                "resposta_correta": p2["termo"],
+                "explicacao": f"'{p2['termo']}' é a forma tradicional para {p2['traducao']}.",
+                "param_a": 1.4, "param_b": 0.3, "param_c": 0.0,
+            },
+        ][:quantidade]
+
+    # Fallback genérico adaptado ao tema livre
+    return [
+        {
+            "id": 1,
+            "tipo": "escolha_multipla",
+            "enunciado": f"No vocabulário relacionado a '{tema}', qual termo em Tupi representa 'vida / essência cultural'?",
+            "alternativas": [
+                {"letra": "A", "texto": "teko"},
+                {"letra": "B", "texto": "angaturama"},
+                {"letra": "C", "texto": "marangatu"},
+                {"letra": "D", "texto": "katu"},
+            ],
+            "resposta_correta": "A",
+            "explicacao": "'teko' designa o modo de ser, vida e essência cultural do povo Tupi.",
+            "param_a": 1.2, "param_b": -0.2, "param_c": 0.25,
+        },
+        {
+            "id": 2,
+            "tipo": "completar",
+            "enunciado": f"Em reflexão sobre '{tema}', o modo de ser harmonioso é chamado de ___ katu.",
+            "resposta_correta": "teko",
+            "explicacao": "'teko katu' é o viver bem segundo os costumes ancestrais.",
+            "param_a": 1.3, "param_b": 0.0, "param_c": 0.0,
+        },
+        {
+            "id": 3,
+            "tipo": "associacao",
+            "enunciado": f"Relacione os conceitos culturais ligados a '{tema}':",
+            "pares_associacao": [
+                {"termo": "teko", "traducao": "modo de ser / cultura"},
+                {"termo": "maranduba", "traducao": "história / saber"},
+                {"termo": "nhe'ẽ", "traducao": "língua / alma"},
+                {"termo": "porang", "traducao": "belo / bonito"},
+            ],
+            "explicacao": "Pilares linguísticos e filosóficos Tupi.",
+            "param_a": 1.1, "param_b": -0.1, "param_c": 0.0,
+        },
+        {
+            "id": 4,
+            "tipo": "traducao_livre",
+            "enunciado": f"Digite a palavra em Tupi que significa 'língua / voz / alma' (tema: {tema}):",
+            "resposta_correta": "nhe'ẽ",
+            "explicacao": "'nhe'ẽ' abrange fala, espírito e identidade cósmica.",
+            "param_a": 1.4, "param_b": 0.4, "param_c": 0.0,
+        },
+    ][:quantidade]
 
 
 # ── 2. GERAR PRÁTICA TEMÁTICA COM PGVECTOR & PING RACE ───────────────────────
@@ -147,6 +292,7 @@ def gerar_pratica_tematica(request):
         return JsonResponse({"error": "JSON inválido."}, status=400)
 
     tema = (body.get("tema") or "Natureza e Floresta").strip()
+    tema_id = (body.get("tema_id") or "").strip()
     variante_id = body.get("variante_id")
     dificuldade = body.get("dificuldade", "media").lower()
     quantidade = min(max(int(body.get("quantidade", 4)), 3), 8)
@@ -161,53 +307,71 @@ def gerar_pratica_tematica(request):
     variante_codigo = variante.codigo if variante else "tupi"
     bypass_cache = bool(body.get("bypass_cache", False))
 
-    # 1. RAG Semântico com Jitter Probabilístico (RFC-012A / ADR-004)
-    t_vec = time.monotonic()
-    jitters = ["vocabulário", "saberes", "conversação", "cultura e costumes", "natureza", "expressões tradicionais"]
-    query_jitter = random.choice(jitters)
-    vector = _get_embedding_vector(f"{tema} {query_jitter} cultura Tupi")
+    # Identifica configuração canônica do tema para segmentação do RAG e vocabulário
+    tema_config = next(
+        (t for t in TEMAS_PREDEFINIDOS if (tema_id and t["id"] == tema_id) or t["titulo"].lower() == tema.lower() or t["id"] == tema.lower()),
+        None,
+    )
+    categorias_rag = tema_config["categorias_rag"] if tema_config else ["Vocabulário", "História"]
+    canonical_id = tema_config["id"] if tema_config else (tema_id or "custom")
+    descricao_tema = tema_config["descricao"] if tema_config else f"Prática temática sobre {tema}."
+    vocab_sugerido = tema_config.get("palavras_chave", []) if tema_config else []
 
-    # 1.1 Consulta Cache Semântico vetorial com bypass e jitter probabilístico
-    if vector and not bypass_cache and random.random() < 0.25:
+    # 1. RAG Semântico com Jitter e Discriminador Temático Estrito
+    t_vec = time.monotonic()
+    jitters = ["vocabulário", "saberes", "conversação", "cultura e costumes", "expressões tradicionais"]
+    query_jitter = random.choice(jitters)
+    query_vector = f"Tema {canonical_id}: {tema}. {descricao_tema}. {query_jitter} vocabulário língua Tupi"
+    vector = _get_embedding_vector(query_vector)
+
+    # 1.1 Consulta Cache Semântico vetorial com verificação estrita de tema
+    if vector and not bypass_cache:
         cache_hit = supabase_service.buscar_cache_semantico(
             embedding=vector,
             variante_id=variante.id if variante else None,
-            threshold=0.96,
+            threshold=0.88,
         )
         if cache_hit:
-            questoes_cached = cache_hit.get("questoes", [])
-            # Inicia sessão com freeze_theta=True (revisão pura, sem alterar proficiência)
-            from nivelamento.models import UserVarianteLevel
-            lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=variante).first()
-            user_level = lvl_obj.nivel if lvl_obj else 1
+            cached_tema = (cache_hit.get("tema") or "").strip().lower()
+            target_tema = tema.strip().lower()
+            # Valida correspondência de tema para não retornar quiz de outro tema
+            tema_matches = (cached_tema == target_tema) or (tema_config and (cached_tema == tema_config["id"].lower() or cached_tema == tema_config["titulo"].lower()))
+            if tema_matches:
+                questoes_cached = cache_hit.get("questoes", [])
+                from nivelamento.models import UserVarianteLevel
+                lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=variante).first()
+                user_level = lvl_obj.nivel if lvl_obj else 1
 
-            session_state = TRIProgressiveSessionManager.iniciar_sessao(
-                user_id=user.id,
-                variante_id=variante.id if variante else 1,
-                nivel_inicial=user_level,
-                freeze_theta=True,
-            )
-            total_ms = int((time.monotonic() - t_start) * 1000)
-            logger.info("[PraticaTematica] HIT no Cache Semântico (%d ms)! Tema: '%s'", total_ms, tema)
-            return JsonResponse({
-                "success": True,
-                "session_id": session_state.session_id,
-                "tema": tema,
-                "variante_nome": variante_nome,
-                "nivel_usuario": user_level,
-                "conchas_usuario": getattr(user, "conchas", 0),
-                "questoes": questoes_cached,
-                "termos_srs": cache_hit.get("termos_srs", []),
-                "from_cache": True,
-                "similaridade_cache": cache_hit.get("similaridade", 1.0),
-                "tempo_geracao_ms": total_ms,
-            })
+                session_state = TRIProgressiveSessionManager.iniciar_sessao(
+                    user_id=user.id,
+                    variante_id=variante.id if variante else 1,
+                    nivel_inicial=user_level,
+                    freeze_theta=True,
+                )
+                total_ms = int((time.monotonic() - t_start) * 1000)
+                logger.info("[PraticaTematica] HIT no Cache Semântico (%d ms)! Tema: '%s'", total_ms, tema)
+                return JsonResponse({
+                    "success": True,
+                    "session_id": session_state.session_id,
+                    "tema": tema,
+                    "tema_id": canonical_id,
+                    "variante_nome": variante_nome,
+                    "nivel_usuario": user_level,
+                    "conchas_usuario": getattr(user, "conchas", 0),
+                    "questoes": questoes_cached,
+                    "termos_srs": cache_hit.get("termos_srs", []),
+                    "from_cache": True,
+                    "similaridade_cache": cache_hit.get("similaridade", 1.0),
+                    "tempo_geracao_ms": total_ms,
+                })
+            else:
+                logger.info("[PraticaTematica] Cache rejeitado por mismatch de tema (cached='%s' != target='%s')", cached_tema, target_tema)
 
     rag_chunks = supabase_service.buscar_chunks_rag_semantico(
         embedding=vector,
-        categorias=None,
-        limite=3,
-        threshold=0.30,
+        categorias=categorias_rag,
+        limite=4,
+        threshold=0.25,
     )
     vec_ms = int((time.monotonic() - t_vec) * 1000)
 
@@ -230,27 +394,37 @@ def gerar_pratica_tematica(request):
         srs_linhas.append(f"{idx}. '{s['palavra_tupi']}' ({s.get('traducao_pt', '')})")
     srs_bloco = "\n".join(srs_linhas) if srs_linhas else "Nenhum termo crítico identificado."
 
+    vocab_bloco = "\n".join([f"- '{p['termo']}': {p['traducao']}" for p in vocab_sugerido]) if vocab_sugerido else "Vocabulário extraído do RAG."
+
     # 2. Prompt Estruturado Multi-formato
     system_prompt = (
-        "Você é um professor catedrático de língua Tupi. Crie questões que combinem rigor linguístico "
-        "com o tema escolhido pelo aluno. Varie os formatos entre múltipla escolha, completar lacuna, "
-        "ligação de colunas e digitação livre. Retorne ESTRITAMENTE JSON."
+        "Você é um professor catedrático de língua Tupi. Crie questões 100% EXCLUSIVAS e DIRETAMENTE conectadas "
+        "ao tema escolhido pelo aluno. Varie os formatos entre múltipla escolha, completar lacuna, "
+        "ligação de colunas e digitação livre. NUNCA reutilize exemplos genéricos. Retorne ESTRITAMENTE JSON."
     )
 
     user_prompt = f"""\
 Língua Alvo: {variante_nome} ({variante_codigo})
-Tema Escolhido: {tema}
+Tema Escolhido: {tema} (ID Canônico: {canonical_id})
+Descrição do Foco Temático: {descricao_tema}
+Categorias Lexicais RAG: {', '.join(categorias_rag)}
 Dificuldade: {dificuldade}
 Quantidade de Questões: {quantidade}
+
+VOCABULÁRIO SUGERIDO DO TEMA '{tema}':
+{vocab_bloco}
 
 DOCUMENTOS HISTÓRICOS (FONTE VERIFICADA RAG PGVECTOR):
 {rag_context}
 
 Gere um JSON com o campo "questoes", contendo {quantidade} itens variados cobrindo os seguintes tipos:
 1. "escolha_multipla": alternativas com letras A, B, C, D e resposta_correta indicada.
-2. "completar": enunciado com lacuna "___" e resposta_correta contendo o termo correto em Tupi.
-3. "associacao": array "pares_associacao" com 4 objetos {{"termo": "...", "traducao": "..."}}.
+2. "completar": enunciado temático com lacuna "___" e resposta_correta contendo o termo em Tupi.
+3. "associacao": array "pares_associacao" com 4 objetos {{"termo": "...", "traducao": "..."}} todos pertencentes ao tema '{tema}'.
 4. "traducao_livre": frase em português ou Tupi para o usuário digitar a resposta livremente.
+
+DIRETRIZ MANDATÓRIA DE ORIGINALIDADE:
+O schema JSON abaixo é APENAS o modelo estrutural de campos. NUNCA copie palavras de exemplos. Todas as questões devem ser 100% sobre o tema '{tema}'.
 
 SCHEMA CONTRATUAL ESPERADO:
 {{
@@ -258,10 +432,10 @@ SCHEMA CONTRATUAL ESPERADO:
     {{
       "id": 1,
       "tipo": "escolha_multipla",
-      "enunciado": "...",
+      "enunciado": "Pergunta temática...",
       "alternativas": [{{"letra": "A", "texto": "..."}}, {{"letra": "B", "texto": "..."}}, {{"letra": "C", "texto": "..."}}, {{"letra": "D", "texto": "..."}}],
       "resposta_correta": "A",
-      "explicacao": "...",
+      "explicacao": "Explicação linguística...",
       "param_a": 1.3,
       "param_b": 0.2,
       "param_c": 0.25
@@ -269,9 +443,9 @@ SCHEMA CONTRATUAL ESPERADO:
     {{
       "id": 2,
       "tipo": "completar",
-      "enunciado": "Nas matas sagradas, o caçador respeita a ___ (mata).",
-      "resposta_correta": "ka'a",
-      "explicacao": "'ka'a' significa mata ou floresta.",
+      "enunciado": "Frase sobre o tema com ___.",
+      "resposta_correta": "termo_tupi",
+      "explicacao": "Explicação do termo...",
       "param_a": 1.4,
       "param_b": 0.4,
       "param_c": 0.0
@@ -279,14 +453,14 @@ SCHEMA CONTRATUAL ESPERADO:
     {{
       "id": 3,
       "tipo": "associacao",
-      "enunciado": "Ligue cada termo do cotidiano com sua respectiva tradução:",
+      "enunciado": "Relacione os termos temáticos com suas traduções:",
       "pares_associacao": [
-        {{"termo": "oka", "traducao": "casa"}},
-        {{"termo": "taba", "traducao": "aldeia"}},
-        {{"termo": "tata", "traducao": "fogo"}},
-        {{"termo": "'y", "traducao": "rio / água"}}
+        {{"termo": "termo1", "traducao": "traducao1"}},
+        {{"termo": "termo2", "traducao": "traducao2"}},
+        {{"termo": "termo3", "traducao": "traducao3"}},
+        {{"termo": "termo4", "traducao": "traducao4"}}
       ],
-      "explicacao": "Vocabulário fundamental da aldeia.",
+      "explicacao": "Vocabulário temático.",
       "param_a": 1.2,
       "param_b": -0.2,
       "param_c": 0.0
@@ -294,9 +468,9 @@ SCHEMA CONTRATUAL ESPERADO:
     {{
       "id": 4,
       "tipo": "traducao_livre",
-      "enunciado": "Digite a tradução em Tupi para a palavra 'onça / fera':",
-      "resposta_correta": "îagûara",
-      "explicacao": "'îagûara' refere-se à onça-pintada e grandes carnívoros.",
+      "enunciado": "Digite a tradução em Tupi para...",
+      "resposta_correta": "termo_tupi",
+      "explicacao": "Explicação...",
       "param_a": 1.5,
       "param_b": 0.6,
       "param_c": 0.0
@@ -305,16 +479,9 @@ SCHEMA CONTRATUAL ESPERADO:
 }}
 
 TERMOS DE REVISÃO ESPAÇADA OBRIGATÓRIOS (SRS IMPLÍCITO):
-O aluno errou recentemente os seguintes termos em Tupi e necessita revisá-los:
 {srs_bloco}
 
-DIRETRIZ MANDATÓRIA DE ENGENHARIA PEDAGÓGICA (SRS):
-Você DEVE OBRIGATORIAMENTE incluir esses {len(termos_srs)} termos de revisão nas questões geradas sobre o tema '{tema}'.
-Cada um desses termos deve aparecer como:
-- Resposta correta de uma questão de preenchimento ou tradução; OU
-- Um dos pares de associação; OU
-- Distrator plausível ou termo no enunciado temático.
-A integração com o tema '{tema}' deve ser elegante, fluida e contextualizada, sem parecer uma repetição forçada.
+Integre esses termos de SRS organicamente nas questões sobre '{tema}', se possível como alternativas ou enunciados.
 """
 
     # 3. Execução Concorrente com Ping Race
@@ -328,11 +495,11 @@ A integração com o tema '{tema}' deve ser elegante, fluida e contextualizada, 
         raw_response = FallbackOrchestrator.execute_text(
             prompt=f"{system_prompt}\n\n{user_prompt}",
             chain=chain,
-            temperature=0.3,
+            temperature=0.35,
             max_tokens=1200,
         )
         parsed = json.loads(raw_response)
-        
+
         # 4. Validação com pg_jsonschema no PostgreSQL
         is_valid, schema_err = supabase_service.validar_quiz_payload_jsonschema(parsed)
         if is_valid:
@@ -354,53 +521,9 @@ A integração com o tema '{tema}' deve ser elegante, fluida e contextualizada, 
     except Exception as exc:
         logger.error("[PraticaTematica] Falha no pipeline LLM (%s). Ativando fallback temático determinístico.", exc)
 
-    # 5. Fallback Heurístico Determinístico se a IA falhar
+    # 5. Fallback Heurístico Específico por Tema se a IA falhar
     if not questoes_geradas:
-        questoes_geradas = [
-            {
-                "id": 1,
-                "tipo": "escolha_multipla",
-                "enunciado": f"Dentro do tema '{tema}', qual termo em Tupi designa 'fogo'?",
-                "alternativas": [
-                    {"letra": "A", "texto": "tata"},
-                    {"letra": "B", "texto": "'y"},
-                    {"letra": "C", "texto": "ka'a"},
-                    {"letra": "D", "texto": "taba"},
-                ],
-                "resposta_correta": "A",
-                "explicacao": "'tata' é o substantivo fundamental para fogo.",
-                "param_a": 1.2, "param_b": -0.5, "param_c": 0.25,
-            },
-            {
-                "id": 2,
-                "tipo": "completar",
-                "enunciado": f"No contexto de {tema}, as águas dos rios são chamadas de ___.",
-                "resposta_correta": "'y",
-                "explicacao": "''y' significa água ou rio em Tupi.",
-                "param_a": 1.3, "param_b": 0.0, "param_c": 0.0,
-            },
-            {
-                "id": 3,
-                "tipo": "associacao",
-                "enunciado": f"Relacione os termos temáticos de {tema}:",
-                "pares_associacao": [
-                    {"termo": "ka'a", "traducao": "mata / floresta"},
-                    {"termo": "pira", "traducao": "peixe"},
-                    {"termo": "gûyrá", "traducao": "pássaro"},
-                    {"termo": "îagûara", "traducao": "onça / fera"},
-                ],
-                "explicacao": "Termos de fauna e flora autênticos.",
-                "param_a": 1.2, "param_b": 0.2, "param_c": 0.0,
-            },
-            {
-                "id": 4,
-                "tipo": "traducao_livre",
-                "enunciado": "Digite a tradução em Tupi para 'casa / habitação':",
-                "resposta_correta": "oka",
-                "explicacao": "'oka' é a habitação tradicional.",
-                "param_a": 1.4, "param_b": 0.4, "param_c": 0.0,
-            },
-        ]
+        questoes_geradas = _gerar_fallback_tematico(tema, tema_config, quantidade)
 
     # 6. Inicia Sessão de TRI Progressiva com freeze_theta=True (revisão)
     user_level = 1
@@ -423,6 +546,7 @@ A integração com o tema '{tema}' deve ser elegante, fluida e contextualizada, 
         "success": True,
         "session_id": session_state.session_id,
         "tema": tema,
+        "tema_id": canonical_id,
         "variante_nome": variante_nome,
         "nivel_usuario": user_level,
         "conchas_usuario": getattr(user, "conchas", 0),

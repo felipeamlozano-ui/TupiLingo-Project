@@ -90,4 +90,46 @@ class TupiNativeBridge {
     }
     _dartFallbackTrie.clear();
   }
+
+  /// Ofusca e cifra um buffer de Protocol Buffers com salt dinâmico
+  Uint8List obfuscateBinaryPayload(Uint8List payload, {int salt = 0x5A3C}) {
+    final length = payload.length;
+    final output = Uint8List(length);
+    final keyByte = salt & 0xFF;
+    final shift = (salt >> 8) & 0x07;
+
+    for (int i = 0; i < length; i++) {
+      final b = payload[i];
+      final rotated = ((b << shift) | (b >> (8 - shift))) & 0xFF;
+      output[i] = rotated ^ ((keyByte + (i * 31)) & 0xFF);
+    }
+    return output;
+  }
+
+  /// Desfaz a ofuscação e cifra restaurando o payload binário original do Protobuf
+  Uint8List deobfuscateBinaryPayload(Uint8List obfuscated, {int salt = 0x5A3C}) {
+    final length = obfuscated.length;
+    final output = Uint8List(length);
+    final keyByte = salt & 0xFF;
+    final shift = (salt >> 8) & 0x07;
+
+    for (int i = 0; i < length; i++) {
+      final masked = obfuscated[i];
+      final rotated = masked ^ ((keyByte + (i * 31)) & 0xFF);
+      final b = ((rotated >> shift) | (rotated << (8 - shift))) & 0xFF;
+      output[i] = b;
+    }
+    return output;
+  }
+
+  /// Calcula checksum de integridade FNV-1a
+  int calculateChecksum(Uint8List data) {
+    int hash = 2166136261;
+    for (int i = 0; i < data.length; i++) {
+      hash ^= data[i];
+      hash = (hash * 16777619) & 0xFFFFFFFF;
+    }
+    return hash;
+  }
 }
+

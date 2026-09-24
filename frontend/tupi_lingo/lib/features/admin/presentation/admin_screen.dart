@@ -105,12 +105,15 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
           children: [
             const Text('⚙️', style: TextStyle(fontSize: 20)),
             const SizedBox(width: 8),
-            Text(
-              'Gerenciador de Conteúdo',
-              style: TextStyle(
-                color: AppTheme.textPrimary(context),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Text(
+                'Gerenciador de Conteúdo',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppTheme.textPrimary(context),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -133,6 +136,8 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
         ],
         bottom: TabBar(
           controller: _tabController,
+          isScrollable: true,
+          tabAlignment: TabAlignment.start,
           labelColor: accentColor,
           unselectedLabelColor: AppTheme.textSecondary(context),
           indicatorColor: accentColor,

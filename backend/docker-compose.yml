@@ -15,6 +15,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
     volumes:
       - pdfs_data:/app/pdfs                    # PDFs para ingestão
       - static_files:/app/staticfiles          # Estáticos coletados
@@ -25,11 +27,15 @@ services:
 
   # ---- PDF Worker (ingestão) ----
   pdf_worker:
-    restart: on-failure   # Termina após processar; reinicia apenas em caso de erro
+    profiles: ["workers"]
+    restart: "no"
     env_file:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - SKIP_MIGRATIONS=true
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
     volumes:
       - pdfs_data:/app/pdfs
       - huggingface_cache:/root/.cache/huggingface
@@ -38,11 +44,15 @@ services:
 
   # ---- Vocab Worker (extração) ----
   vocab_worker:
-    restart: on-failure
+    profiles: ["workers"]
+    restart: "no"
     env_file:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - SKIP_MIGRATIONS=true
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
     volumes:
       - huggingface_cache:/root/.cache/huggingface
     networks:

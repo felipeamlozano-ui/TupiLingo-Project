@@ -43,36 +43,49 @@ logging.basicConfig(
 )
 logger = logging.getLogger("pdf_worker")
 
-try:
-    import PyPDF2
-    logger.info("PyPDF2 carregado.")
-except ImportError:
-    logger.error("PyPDF2 nao encontrado. Execute: pip install PyPDF2")
+# Lazy loaders para bibliotecas pesadas (PyPDF2, Tesseract, PIL, FastEmbed)
+# Startup do worker agora leva < 100ms em vez de 3-5s travando o interpretador.
+_pypdf2_module = None
+def _get_pypdf2():
+    global _pypdf2_module
+    if _pypdf2_module is None:
+        try:
+            import PyPDF2
+            _pypdf2_module = PyPDF2
+            logger.info("PyPDF2 carregado sob demanda.")
+        except ImportError:
+            logger.error("PyPDF2 nao encontrado. Execute: pip install PyPDF2")
+    return _pypdf2_module
 
-try:
-    import numpy as np
-    logger.info("NumPy carregado.")
-except ImportError:
-    logger.error("NumPy nao encontrado. Execute: pip install numpy")
+_tesseract_status = None
+_pytesseract_module = None
+_pil_image_module = None
 
-TESSERACT_AVAILABLE = False
-try:
-    import pytesseract
-    from PIL import Image
-    pytesseract.pytesseract.tesseract_cmd = TESSERACT_CMD
-    pytesseract.get_tesseract_version()
-    TESSERACT_AVAILABLE = True
-    logger.info("Tesseract carregado.")
-except Exception as e:
-    logger.warning(f"Tesseract indisponivel: {e}. OCR de imagens desabilitado.")
+def _get_tesseract_and_pil():
+    global _tesseract_status, _pytesseract_module, _pil_image_module
+    if _tesseract_status is None:
+        try:
+            import pytesseract
+            from PIL import Image
+            pytesseract.pytesseract.tesseract_cmd = TESSERACT_CMD
+            pytesseract.get_tesseract_version()
+            _pytesseract_module = pytesseract
+            _pil_image_module = Image
+            _tesseract_status = True
+            logger.info("Tesseract e PIL carregados sob demanda.")
+        except Exception as e:
+            logger.warning(f"Tesseract indisponivel: {e}. OCR de imagens desabilitado.")
+            _tesseract_status = False
+    return _tesseract_status, _pytesseract_module, _pil_image_module
 
-def _ocr_image_with_auto_orientation(img: Image.Image) -> str:
+def _ocr_image_with_auto_orientation(img) -> str:
     """
     Executa OCR aplicando correcao automatica de orientacao caso a pagina
     esteja digitalizada de cabeca para baixo (180 graus) ou invertida.
     Valida a legibilidade do texto em lingua portuguesa/tupi.
     """
-    if not TESSERACT_AVAILABLE:
+    tess_available, pytesseract, _ = _get_tesseract_and_pil()
+    if not tess_available or pytesseract is None:
         return ""
     
     # 1. Tenta deteccao automatica rapida via OSD
@@ -175,8 +188,12 @@ def get_worker_embedder():
     if _embedder_model is None:
         try:
             from fastembed import TextEmbedding
-            logger.info("Carregando modelo FastEmbed para Embeddings no Worker...")
-            _embedder_model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+            cache_path = os.environ.get("FASTEMBED_CACHE_PATH", os.path.expanduser("~/.cache/huggingface/fastembed"))
+            logger.info(f"Carregando modelo FastEmbed para Embeddings no Worker (cache_dir={cache_path})...")
+            _embedder_model = TextEmbedding(
+                model_name="sentence-transformers/all-MiniLM-L6-v2",
+                cache_dir=cache_path,
+            )
         except Exception as e:
             logger.error(f"Erro ao carregar modelo FastEmbed: {e}")
     return _embedder_model
@@ -242,9 +259,14 @@ def process_pdf(pdf_path: Path, file_hash: str, progress: dict) -> int:
     if last_page > 0:
         logger.info(f"Retomando da pagina {last_page + 1}...")
 
+    pypdf2 = _get_pypdf2()
+    if pypdf2 is None:
+        logger.error(f"PyPDF2 nao disponivel para abrir {filename}")
+        return 0
+
     try:
         with open(pdf_path, "rb") as f:
-            reader = PyPDF2.PdfReader(f)
+            reader = pypdf2.PdfReader(f)
             total_pages = len(reader.pages)
         logger.info(f"Total de paginas: {total_pages}")
     except Exception as e:
@@ -259,9 +281,11 @@ def process_pdf(pdf_path: Path, file_hash: str, progress: dict) -> int:
     pending_pages = []
     pending_indices = []
 
+    tess_avail, _, Image_lib = _get_tesseract_and_pil()
+
     try:
         with open(pdf_path, "rb") as f:
-            reader = PyPDF2.PdfReader(f)
+            reader = pypdf2.PdfReader(f)
             for page_num in range(last_page, total_pages):
                 page = reader.pages[page_num]
                 page_text = ""
@@ -273,11 +297,11 @@ def process_pdf(pdf_path: Path, file_hash: str, progress: dict) -> int:
                     logger.warning(f"  Erro extraindo texto pagina {page_num+1}: {e}")
 
                 # Fallback OCR se texto insuficiente
-                if len(page_text.strip()) < 20 and TESSERACT_AVAILABLE:
+                if len(page_text.strip()) < 20 and tess_avail and Image_lib is not None:
                     try:
                         for img_obj in page.images:
                             try:
-                                img = Image.open(io.BytesIO(img_obj.data))
+                                img = Image_lib.open(io.BytesIO(img_obj.data))
                                 ocr_text = _ocr_image_with_auto_orientation(img)
                                 page_text += ocr_text + "\n"
                                 img.close()

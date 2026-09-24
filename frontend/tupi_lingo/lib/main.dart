@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/features/home/presentation/home.dart';
@@ -18,10 +19,15 @@ import 'package:tupi_lingo/core/telemetry/performance_telemetry_engine.dart';
 import 'package:tupi_lingo/core/platform/platform_web_bridge.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/core/world_engine/hud/developer_hud.dart';
+import 'package:tupi_lingo/core/logging/app_logger.dart';
+import 'package:tupi_lingo/core/world_engine/world_sync_service.dart';
 import 'package:tupi_lingo/features/admin/presentation/platform_suite/platform_suite_shell.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ─── Modo Imersivo Completo (Oculta Status Bar e Navigation Bar 100% do tempo) ─
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
   // ─── Instant Loading Engine (P0): Telemetria & Proteção de Memória ──────────
   PerformanceTelemetryEngine.instance.start();
@@ -86,6 +92,10 @@ API_URL=${const String.fromEnvironment('API_URL')}
       // Nunca logar email ou token em produção
     }
   });
+
+  // ─── Zero-Leak Centralized Logger & World Engine Sync ───────────────────────
+  unawaited(AppLogger.instance.init());
+  unawaited(WorldSyncService.instance.init());
 
   runApp(const ProviderScope(child: MyApp()));
 }

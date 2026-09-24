@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/auth/presentation/recovery_otp.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -206,20 +207,22 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context) {
           final TextEditingController dialogEmailController = TextEditingController();
           return AlertDialog(
-            backgroundColor: Colors.white,
+            backgroundColor: AppTheme.surface(context),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            title: const Text('Recuperar Senha', style: TextStyle(color: Color(0xFFB8AF64), fontWeight: FontWeight.bold)),
+            title: Text('Recuperar Senha', style: TextStyle(color: AppTheme.primary(context), fontWeight: FontWeight.bold)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Digite seu e-mail para receber o código de recuperação.', style: TextStyle(color: Color(0xFF565D6D))),
+                Text('Digite seu e-mail para receber o código de recuperação.', style: TextStyle(color: AppTheme.textSecondary(context))),
                 const SizedBox(height: 16),
                 TextField(
                   controller: dialogEmailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
+                  style: TextStyle(color: AppTheme.textPrimary(context)),
+                  decoration: InputDecoration(
                     labelText: 'Email',
-                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(color: AppTheme.textSecondary(context)),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
               ],
@@ -295,17 +298,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = AppTheme.isDark(context);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F2E8),
+      backgroundColor: AppTheme.bg(context),
 
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: const Color(0xFFF3F2E8),
+        backgroundColor: AppTheme.bg(context),
         elevation: 0,
-        foregroundColor: Colors.black,
-        title: const Text(
+        foregroundColor: AppTheme.textPrimary(context),
+        title: Text(
           'TupiLingo',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.textPrimary(context)),
         ),
       ),
 
@@ -319,11 +324,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppTheme.surface(context),
                     borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppTheme.border(context)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.08),
+                        color: Colors.black.withValues(alpha: isDarkMode ? 0.3 : 0.08),
                         blurRadius: 12,
                         offset: const Offset(0, 5),
                       ),
@@ -332,23 +338,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         'Entrar',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppTheme.textPrimary(context),
                         ),
                       ),
 
                       const SizedBox(height: 12),
 
-                      const Text(
+                      Text(
                         'Faça login ou use sua conta Google',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
-                          color: Color(0xFF565D6D),
+                          color: AppTheme.textSecondary(context),
                         ),
                       ),
 
@@ -357,13 +363,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        style: const TextStyle(color: Colors.black87),
-                        decoration: const InputDecoration(
+                        style: TextStyle(color: AppTheme.textPrimary(context)),
+                        decoration: InputDecoration(
                           labelText: 'Email',
-                          labelStyle: TextStyle(color: Colors.black87),
+                          labelStyle: TextStyle(color: AppTheme.textSecondary(context)),
                           hintText: 'Digite seu email',
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: OutlineInputBorder(),
+                          hintStyle: TextStyle(color: AppTheme.textSecondary(context).withValues(alpha: 0.6)),
+                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.border(context))),
+                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.primary(context), width: 2)),
                         ),
                       ),
 
@@ -372,13 +379,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                         controller: _passwordController,
                         obscureText: true,
-                        style: const TextStyle(color: Colors.black87),
-                        decoration: const InputDecoration(
+                        style: TextStyle(color: AppTheme.textPrimary(context)),
+                        decoration: InputDecoration(
                           labelText: 'Senha',
-                          labelStyle: TextStyle(color: Colors.black87),
+                          labelStyle: TextStyle(color: AppTheme.textSecondary(context)),
                           hintText: 'Digite sua senha',
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: OutlineInputBorder(),
+                          hintStyle: TextStyle(color: AppTheme.textSecondary(context).withValues(alpha: 0.6)),
+                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.border(context))),
+                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.primary(context), width: 2)),
                         ),
                       ),
 
@@ -387,7 +395,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextButton(
                           onPressed: _isLoading ? null : _handleForgotPassword,
                           style: TextButton.styleFrom(
-                            foregroundColor: const Color(0xFFD08A45),
+                            foregroundColor: AppTheme.primary(context),
                           ),
                           child: const Text(
                             'Esqueci minha senha',
@@ -411,7 +419,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   await _handleLogin();
                                 },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFD08A45),
+                            backgroundColor: AppTheme.primary(context),
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),
@@ -442,11 +450,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   await _handleGoogleLogin();
                                 },
                           style: OutlinedButton.styleFrom(
-
-                            backgroundColor: Colors.white,
-                            side: const BorderSide(
-                              color: Color(0xFFD0D0D0),
-                              width: 2,
+                            backgroundColor: AppTheme.surface(context),
+                            side: BorderSide(
+                              color: AppTheme.border(context),
+                              width: 1.5,
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),
@@ -461,10 +468,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 22,
                               ),
                               const SizedBox(width: 12),
-                              const Text(
+                              Text(
                                 'ENTRAR COM GOOGLE',
                                 style: TextStyle(
-                                  color: Color(0xFFD08A45),
+                                  color: AppTheme.primary(context),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),

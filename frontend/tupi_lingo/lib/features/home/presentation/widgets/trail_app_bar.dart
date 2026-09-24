@@ -10,6 +10,9 @@ class TrailAppBar extends StatelessWidget {
   final VoidCallback onXpTap;
   final VoidCallback onThemeToggle;
   final VoidCallback onMapTap;
+  final VoidCallback? onConchasTap;
+
+  final bool showThemeToggle;
 
   const TrailAppBar({
     super.key,
@@ -21,6 +24,8 @@ class TrailAppBar extends StatelessWidget {
     required this.onXpTap,
     required this.onThemeToggle,
     required this.onMapTap,
+    this.onConchasTap,
+    this.showThemeToggle = true,
   });
 
   static const Color _accent = Color(0xFFD08A45);
@@ -33,7 +38,7 @@ class TrailAppBar extends StatelessWidget {
     final bool isDark = AppTheme.isDark(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: AppTheme.bg(context),
         border: Border(
@@ -48,7 +53,7 @@ class TrailAppBar extends StatelessWidget {
             child: GestureDetector(
               onTap: onLanguageTap,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 decoration: BoxDecoration(
                   color: AppTheme.surface(context),
                   borderRadius: BorderRadius.circular(20),
@@ -64,7 +69,7 @@ class TrailAppBar extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('🌿', style: TextStyle(fontSize: 13)),
+                    const Text('🌿', style: TextStyle(fontSize: 12)),
                     const SizedBox(width: 4),
                     Flexible(
                       child: Text(
@@ -73,7 +78,7 @@ class TrailAppBar extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: isDark ? const Color(0xFF1EC9A5) : _accent,
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -81,7 +86,7 @@ class TrailAppBar extends StatelessWidget {
                     const SizedBox(width: 2),
                     Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      size: 16,
+                      size: 15,
                       color: isDark ? const Color(0xFF1EC9A5) : _accent,
                     ),
                   ],
@@ -92,65 +97,77 @@ class TrailAppBar extends StatelessWidget {
           const SizedBox(width: 6),
 
           // Métricas de Gamificação: Ofensiva, Conchas, XP + Atalhos Interativos
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildTopStat(context: context, icon: '🔥', label: '$streakDays', color: _streakColor),
-              const SizedBox(width: 5),
-              _buildTopStat(
-                context: context,
-                icon: '🐚',
-                label: '$conchas',
-                color: isDark ? const Color(0xFF1EC9A5) : _shellColor,
-              ),
-              const SizedBox(width: 5),
-              // Toque no XP abre o Dashboard de Progresso
-              GestureDetector(
-                onTap: onXpTap,
-                child: _buildTopStat(context: context, icon: '⭐', label: '$xpTotal', color: _xpColor),
-              ),
-              const SizedBox(width: 5),
-              // Botão de alternância rápida de Tema Ancestral (Sol / Lua)
-              GestureDetector(
-                onTap: onThemeToggle,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surface(context),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppTheme.border(context)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+          Flexible(
+            flex: 2,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              reverse: true,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildTopStat(context: context, icon: '🔥', label: '$streakDays', color: _streakColor),
+                  const SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: onConchasTap,
+                    child: _buildTopStat(
+                      context: context,
+                      icon: '🐚',
+                      label: '$conchas',
+                      color: isDark ? const Color(0xFF1EC9A5) : _shellColor,
+                    ),
                   ),
-                  child: Text(isDark ? '🌙' : '☀️', style: const TextStyle(fontSize: 13)),
-                ),
-              ),
-              const SizedBox(width: 5),
-              // Botão do Mapa Interativo de Aldeias
-              GestureDetector(
-                onTap: onMapTap,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF1EC9A5) : _accent,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: (isDark ? const Color(0xFF1EC9A5) : _accent).withValues(alpha: 0.3),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                  const SizedBox(width: 4),
+                  // Toque no XP abre o Dashboard de Progresso
+                  GestureDetector(
+                    onTap: onXpTap,
+                    child: _buildTopStat(context: context, icon: '⭐', label: '$xpTotal', color: _xpColor),
                   ),
-                  child: const Text('🗺️', style: TextStyle(fontSize: 13)),
-                ),
+                  if (showThemeToggle) ...[
+                    const SizedBox(width: 4),
+                    // Botão de alternância rápida de Tema Ancestral (Sol / Lua)
+                    GestureDetector(
+                      onTap: onThemeToggle,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: AppTheme.surface(context),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: AppTheme.border(context)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(isDark ? '🌙' : '☀️', style: const TextStyle(fontSize: 12)),
+                      ),
+                    ),
+                  ],
+                  const SizedBox(width: 4),
+                  // Botão do Mapa Interativo de Aldeias
+                  GestureDetector(
+                    onTap: onMapTap,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: isDark ? const Color(0xFF1EC9A5) : _accent,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: (isDark ? const Color(0xFF1EC9A5) : _accent).withValues(alpha: 0.3),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Text('🗺️', style: TextStyle(fontSize: 12)),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -165,7 +182,7 @@ class TrailAppBar extends StatelessWidget {
   }) {
     final isDark = AppTheme.isDark(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
       decoration: BoxDecoration(
         color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(14),

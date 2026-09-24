@@ -185,12 +185,16 @@ class _HistoricalRegionsAdminTabState extends State<HistoricalRegionsAdminTab> {
                                         const SizedBox(height: 4),
                                         Row(
                                           children: [
-                                            Text(
-                                              r.indigenousNation,
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xFFD08A45),
+                                            Flexible(
+                                              child: Text(
+                                                r.indigenousNation,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xFFD08A45),
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(width: 8),

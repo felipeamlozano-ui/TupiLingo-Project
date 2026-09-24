@@ -12,6 +12,8 @@ import 'widgets/recent_lessons_list.dart';
 import 'widgets/achievement_gallery.dart';
 import '../../../../core/state/app_progression_notifier.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../feature_flags/application/providers/feature_flag_provider.dart';
+import '../../feature_flags/domain/entities/flag_ids.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -293,8 +295,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildThemeSelectorCard(BuildContext context) {
+    final bool isCustomThemesEnabled = featureFlagRepositoryInstance.isEnabled(FlagIds.customThemesEnabled);
     final isDark = AppTheme.isDark(context);
     final currentMode = ThemeNotifier.instance.value;
+
+    if (!isCustomThemesEnabled) {
+      return Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: AppTheme.surface(context),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFFEF4444).withValues(alpha: 0.35)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFEF4444).withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.lock_rounded, color: Color(0xFFEF4444), size: 20),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Temas Personalizados Desativados',
+                    style: TextStyle(
+                      color: AppTheme.textPrimary(context),
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'O desenvolvedor com acesso de enclave desativou a personalização de temas. O padrão ancestral está ativo.',
+                    style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 11),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     return Container(
       padding: const EdgeInsets.all(18),

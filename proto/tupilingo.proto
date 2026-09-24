@@ -51,3 +51,38 @@ message QuizBlockMessage {
   repeated QuizItemMessage questoes = 5;
   int64 gerado_em_timestamp = 6;
 }
+
+// ─── Envelopes Binários de Segurança e Developer Console (RFC-013 Enterprise) ─
+message DeveloperCommandEnvelope {
+  string command_id = 1;
+  string action = 2;              // ex: "TOGGLE_FEATURE_FLAG", "FLUSH_CACHE"
+  string target_key = 3;          // ex: "pindorama_particles_v2"
+  bool bool_value = 4;
+  int64 timestamp = 5;
+  string nonce = 6;               // Anti-replay
+  string session_token = 7;
+  bytes signature = 8;
+}
+
+message AuthChallengeEnvelope {
+  string email = 1;               // estritamente "felipe.a.m.lozano@gmail.com"
+  string otp_code = 2;
+  string master_passcode_hash = 3;
+  int64 client_timestamp = 4;
+  string client_nonce = 5;
+}
+
+message PresenceTelemetryEnvelope {
+  string anonymous_session_id = 1;
+  string country_code = 2;        // ex: "BR"
+  string country_name = 3;        // ex: "Brasil"
+  int64 ping_timestamp = 4;
+}
+
+message SecureBinaryPayload {
+  string message_type = 1;        // "DeveloperCommand", "AuthChallenge", etc.
+  bytes encrypted_payload = 2;   // Payload ofuscado/cifrado via C++ FFI
+  bytes integrity_hmac = 3;      // Hash de integridade
+  int32 epoch_window = 4;        // Janela de 30s
+}
+

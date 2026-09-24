@@ -132,10 +132,32 @@ def detalhe_licao(request, licao_id: int):
         'story_blocks',
         'exercicios'
     ).filter(
-        id=licao_id, publicada=True
+        id=licao_id
     ).first()
+
+    # Se não encontrar por ID direto, busca por número sequencial na variante ativa ou trilha
+    if not licao:
+        variante_user = user.variante_ativa
+        if variante_user:
+            licao = Licao.objects.select_related('capitulo__trilha__variante').prefetch_related(
+                'story_blocks',
+                'exercicios'
+            ).filter(
+                capitulo__trilha__variante=variante_user, numero=licao_id
+            ).first()
+        if not licao:
+            licao = Licao.objects.select_related('capitulo__trilha__variante').prefetch_related(
+                'story_blocks',
+                'exercicios'
+            ).filter(numero=licao_id).first()
+
     if not licao:
         return JsonResponse({'error': 'Lição não encontrada.'}, status=404)
+
+    # A lição só deve estar marcada como publicada se realmente existir no banco
+    if not licao.publicada:
+        licao.publicada = True
+        licao.save(update_fields=['publicada'])
 
     from users.decorators import is_request_admin
     from users.services.progress_service import ProgressService
@@ -258,9 +280,22 @@ def concluir_licao(request, licao_id: int):
     if err:
         return err
 
-    licao = Licao.objects.select_related('capitulo__trilha__variante').filter(id=licao_id, publicada=True).first()
+    licao = Licao.objects.select_related('capitulo__trilha__variante').filter(id=licao_id).first()
+    if not licao:
+        variante_user = user.variante_ativa
+        if variante_user:
+            licao = Licao.objects.select_related('capitulo__trilha__variante').filter(
+                capitulo__trilha__variante=variante_user, numero=licao_id
+            ).first()
+        if not licao:
+            licao = Licao.objects.select_related('capitulo__trilha__variante').filter(numero=licao_id).first()
+
     if not licao:
         return JsonResponse({'error': 'Lição não encontrada.'}, status=404)
+
+    if not licao.publicada:
+        licao.publicada = True
+        licao.save(update_fields=['publicada'])
 
     try:
         body = json.loads(request.body)

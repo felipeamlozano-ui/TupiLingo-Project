@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:tupi_lingo/features/auth/presentation/otp_verification.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,11 +8,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class _AppColors {
-  static const Color background = Color(0xFFF3F2E8);
   static const Color subtitle = Color(0xFF565D6D);
   static const Color primary = Color(0xFFD08A45);
   static const Color accent = Color(0xFF0E5D4E);
-  static const Color inputBorder = Color(0xFFD0D0D0);
 }
 
 class RegisterScreen extends StatefulWidget {
@@ -247,24 +246,27 @@ class _RegisterScreenState extends State<RegisterScreen>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context),
         elevation: 12,
         margin: const EdgeInsets.all(16),
         duration: const Duration(seconds: 3),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: BorderSide(color: AppTheme.border(context)),
+        ),
         content: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color:
-                    isError ? Colors.red.shade50 : Colors.green.shade50,
+                    isError ? Colors.red.withValues(alpha: 0.15) : Colors.green.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 isError ? Icons.warning_amber_rounded : Icons.check_circle,
                 color:
-                    isError ? Colors.red.shade700 : Colors.green.shade700,
+                    isError ? Colors.red.shade400 : Colors.green.shade400,
                 size: 20,
               ),
             ),
@@ -272,8 +274,8 @@ class _RegisterScreenState extends State<RegisterScreen>
             Expanded(
               child: Text(
                 message,
-                style: const TextStyle(
-                  color: Colors.black87,
+                style: TextStyle(
+                  color: AppTheme.textPrimary(context),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -426,7 +428,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         }
       },
       child: Scaffold(
-        backgroundColor: _AppColors.background,
+        backgroundColor: AppTheme.bg(context),
         body: SafeArea(
           child: Stack(
             children: [
@@ -457,7 +459,7 @@ class _RegisterScreenState extends State<RegisterScreen>
               if (_isLoading)
                 Positioned.fill(
                   child: Container(
-                    color: Colors.black26,
+                    color: Colors.black45,
                     child: const Center(
                       child: CircularProgressIndicator(
                         color: _AppColors.primary,
@@ -492,15 +494,16 @@ class _RegisterScreenState extends State<RegisterScreen>
                     Navigator.pushReplacementNamed(context, '/welcome');
                   }
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back,
                   size: 22,
-                  color: Colors.black54,
+                  color: AppTheme.textPrimary(context),
                 ),
                 tooltip: _currentStep > 0 ? 'Voltar etapa' : 'Voltar',
                 style: IconButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black54,
+                  backgroundColor: AppTheme.surface(context),
+                  foregroundColor: AppTheme.textPrimary(context),
+                  side: BorderSide(color: AppTheme.border(context)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -537,7 +540,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                 child: LinearProgressIndicator(
                   value: _progressAnimation.value,
                   minHeight: 6,
-                  backgroundColor: _AppColors.inputBorder.withValues(alpha: 0.4),
+                  backgroundColor: AppTheme.border(context).withValues(alpha: 0.4),
                   valueColor: const AlwaysStoppedAnimation<Color>(
                     _AppColors.primary,
                   ),
@@ -984,28 +987,31 @@ class _RegisterScreenState extends State<RegisterScreen>
       textInputAction: textInputAction,
       obscureText: obscureText,
       onSubmitted: onSubmitted,
-      style: const TextStyle(fontSize: 16, color: Colors.black87),
+      style: TextStyle(fontSize: 16, color: AppTheme.textPrimary(context)),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-        labelStyle: const TextStyle(
-          color: _AppColors.subtitle,
+        hintStyle: TextStyle(
+          color: AppTheme.textSecondary(context).withValues(alpha: 0.6),
+          fontSize: 14,
+        ),
+        labelStyle: TextStyle(
+          color: AppTheme.textSecondary(context),
           fontWeight: FontWeight.w500,
         ),
         prefixIcon: Icon(icon, color: _AppColors.primary, size: 22),
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppTheme.surface(context),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: _AppColors.inputBorder),
+          borderSide: BorderSide(color: AppTheme.border(context)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: _AppColors.inputBorder),
+          borderSide: BorderSide(color: AppTheme.border(context)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -1048,6 +1054,8 @@ class _SelectableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppTheme.isDark(context);
+
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -1056,11 +1064,11 @@ class _SelectableCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
           color: isSelected
-              ? _AppColors.primary.withValues(alpha: 0.08)
-              : Colors.white,
+              ? _AppColors.primary.withValues(alpha: 0.12)
+              : AppTheme.surface(context),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isSelected ? _AppColors.primary : _AppColors.inputBorder,
+            color: isSelected ? _AppColors.primary : AppTheme.border(context),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected
@@ -1081,12 +1089,12 @@ class _SelectableCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? _AppColors.primary.withValues(alpha: 0.15)
-                    : Colors.grey.shade100,
+                    : (isDark ? const Color(0xFF1C2723) : Colors.grey.shade100),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 icon,
-                color: isSelected ? _AppColors.primary : _AppColors.subtitle,
+                color: isSelected ? _AppColors.primary : AppTheme.textSecondary(context),
                 size: 22,
               ),
             ),
@@ -1099,7 +1107,7 @@ class _SelectableCard extends StatelessWidget {
                   fontSize: 15,
                   fontWeight:
                       isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? _AppColors.primary : Colors.black87,
+                  color: isSelected ? _AppColors.primary : AppTheme.textPrimary(context),
                 ),
               ),
             ),
@@ -1113,7 +1121,7 @@ class _SelectableCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color:
-                      isSelected ? _AppColors.primary : _AppColors.inputBorder,
+                      isSelected ? _AppColors.primary : AppTheme.border(context),
                   width: 2,
                 ),
               ),
@@ -1156,10 +1164,10 @@ class _LevelCard extends StatelessWidget {
         curve: Curves.easeInOut,
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: isSelected ? accentColor.withValues(alpha: 0.08) : Colors.white,
+          color: isSelected ? accentColor.withValues(alpha: 0.12) : AppTheme.surface(context),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? accentColor : _AppColors.inputBorder,
+            color: isSelected ? accentColor : AppTheme.border(context),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected
@@ -1194,7 +1202,7 @@ class _LevelCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
-                      color: isSelected ? accentColor : Colors.black87,
+                      color: isSelected ? accentColor : AppTheme.textPrimary(context),
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -1204,7 +1212,7 @@ class _LevelCard extends StatelessWidget {
                       fontSize: 13,
                       color: isSelected
                           ? accentColor.withValues(alpha: 0.8)
-                          : _AppColors.subtitle,
+                          : AppTheme.textSecondary(context),
                     ),
                   ),
                 ],
@@ -1219,7 +1227,7 @@ class _LevelCard extends StatelessWidget {
                 color: isSelected ? accentColor : Colors.transparent,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? accentColor : _AppColors.inputBorder,
+                  color: isSelected ? accentColor : AppTheme.border(context),
                   width: 2,
                 ),
               ),

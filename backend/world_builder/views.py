@@ -118,6 +118,7 @@ def get_active_world_bundle(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def publish_world_version(request):
     """
     Pipeline de publicação do World Builder CMS (RFC-013 Capítulo 19).
@@ -127,18 +128,23 @@ def publish_world_version(request):
     author_role = request.data.get('author_role', 'Administrator')
     version_tag = request.data.get('version_tag', '1.1.0')
 
-    # Serializa todas as entidades ativas do mundo
-    bundle = {
-        'territories': TerritorySerializer(Territory.objects.all(), many=True).data,
-        'villages': VillageSerializer(Village.objects.all(), many=True).data,
-        'rivers': RiverSerializer(River.objects.all(), many=True).data,
-        'trails': TrailSerializer(Trail.objects.all(), many=True).data,
-        'epochs': TimelineEpochSerializer(TimelineEpoch.objects.all(), many=True).data,
-        'overlays': HistoricalOverlaySerializer(HistoricalOverlay.objects.all(), many=True).data,
-        'quests': QuestSerializer(Quest.objects.all(), many=True).data,
-        'npcs': NPCSerializer(NPC.objects.all(), many=True).data,
-        'artifacts': CulturalArtifactSerializer(CulturalArtifact.objects.all(), many=True).data,
-    }
+    # Se o frontend forneceu o bundle completo modificado no World Builder, utiliza-o diretamente
+    custom_bundle = request.data.get('world_bundle') or request.data.get('snapshot_data')
+    if custom_bundle and isinstance(custom_bundle, dict):
+        bundle = custom_bundle
+    else:
+        # Serializa todas as entidades ativas do mundo do banco
+        bundle = {
+            'territories': TerritorySerializer(Territory.objects.all(), many=True).data,
+            'villages': VillageSerializer(Village.objects.all(), many=True).data,
+            'rivers': RiverSerializer(River.objects.all(), many=True).data,
+            'trails': TrailSerializer(Trail.objects.all(), many=True).data,
+            'epochs': TimelineEpochSerializer(TimelineEpoch.objects.all(), many=True).data,
+            'overlays': HistoricalOverlaySerializer(HistoricalOverlay.objects.all(), many=True).data,
+            'quests': QuestSerializer(Quest.objects.all(), many=True).data,
+            'npcs': NPCSerializer(NPC.objects.all(), many=True).data,
+            'artifacts': CulturalArtifactSerializer(CulturalArtifact.objects.all(), many=True).data,
+        }
 
     world_map, _ = WorldMap.objects.get_or_create(
         is_active=True,

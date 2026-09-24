@@ -11,6 +11,7 @@ import '../../../../core/world_engine/trails/historical_trail.dart';
 import '../../../../core/world_engine/trails/historical_overlay.dart';
 import '../../../../core/world_engine/trails/river_path.dart';
 import '../../../../core/world_engine/villages/village_node.dart';
+import '../../../../core/world_engine/world_sync_service.dart';
 import '../../domain/entities/territory_node.dart';
 import '../../domain/entities/lesson_node.dart';
 import '../../domain/entities/quest_node.dart';
@@ -72,16 +73,41 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
     _particlePool = WorldParticlePool();
     _curriculumGraph = CurriculumWorldGraph();
 
+    WorldSyncService.instance.activeWorldNotifier.addListener(_onWorldSnapshotChanged);
     _initWorldData();
   }
 
+  void _onWorldSnapshotChanged() {
+    if (!mounted) return;
+    setState(() {
+      _initWorldData();
+    });
+  }
+
   void _initWorldData() {
-    _villages = _curriculumGraph.getVillagesForEpoch(_currentEpoch.id);
-    _rivers = [
-      RiverPath.canonicalTiete,
-      RiverPath.canonicalParaiba,
-    ];
-    _trails = HistoricalTrail.canonicalTrails;
+    final activeBundle = WorldSyncService.instance.activeSnapshot;
+    if (activeBundle != null && (activeBundle['villages'] != null || activeBundle['rivers'] != null)) {
+      final customVillages = WorldSyncService.instance.parseVillages(activeBundle);
+      final customRivers = WorldSyncService.instance.parseRivers(activeBundle);
+      final customTrails = WorldSyncService.instance.parseTrails(activeBundle);
+      final customTerritories = WorldSyncService.instance.parseTerritories(activeBundle);
+
+      _curriculumGraph = CurriculumWorldGraph(
+        villages: customVillages,
+        territories: customTerritories,
+      );
+      _villages = customVillages;
+      _rivers = customRivers;
+      _trails = customTrails;
+    } else {
+      _villages = _curriculumGraph.getVillagesForEpoch(_currentEpoch.id);
+      _rivers = [
+        RiverPath.canonicalTiete,
+        RiverPath.canonicalParaiba,
+      ];
+      _trails = HistoricalTrail.canonicalTrails;
+    }
+
     _overlays = HistoricalOverlay.canonicalOverlays
         .where((o) => o.epochId == _currentEpoch.id)
         .toList();
@@ -98,6 +124,7 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
 
   @override
   void dispose() {
+    WorldSyncService.instance.activeWorldNotifier.removeListener(_onWorldSnapshotChanged);
     _cameraController.dispose();
     super.dispose();
   }
@@ -121,6 +148,7 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (ctx) {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24.0)),
@@ -128,56 +156,65 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
             filter: ui.ImageFilter.blur(sigmaX: 16.0, sigmaY: 16.0),
             child: Container(
               padding: const EdgeInsets.all(20.0),
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(ctx).size.height * 0.75,
+              ),
               decoration: BoxDecoration(
                 color: const Color(0xEE0B1519),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24.0)),
                 border: Border.all(color: const Color(0x55E5A93C), width: 1.5),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.shield, color: Color(0xFFFFD54F), size: 24.0),
-                      const SizedBox(width: 10.0),
-                      Text(
-                        'Memória Ancestral: ${village.tupiName}',
-                        style: const TextStyle(
-                          color: Color(0xFFFFD54F),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.shield, color: Color(0xFFFFD54F), size: 24.0),
+                        const SizedBox(width: 10.0),
+                        Expanded(
+                          child: Text(
+                            'Memória Ancestral: ${village.tupiName}',
+                            style: const TextStyle(
+                              color: Color(0xFFFFD54F),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10.0),
-                  Text(
-                    village.historicalContext,
-                    style: const TextStyle(color: Colors.white, fontSize: 13.0, height: 1.4),
-                  ),
-                  const SizedBox(height: 12.0),
-                  Text(
-                    'Líder: ${village.leaderName} (${village.dialectVariant})',
-                    style: const TextStyle(color: Color(0xFF80CBC4), fontSize: 12.0, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 16.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                        _onVillageSelected(village);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE5A93C),
-                        foregroundColor: const Color(0xFF10191F),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                      ),
-                      child: const Text('Explorar Capítulo', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10.0),
+                    Text(
+                      village.historicalContext,
+                      style: const TextStyle(color: Colors.white, fontSize: 13.0, height: 1.4),
+                    ),
+                    const SizedBox(height: 12.0),
+                    Text(
+                      'Líder: ${village.leaderName} (${village.dialectVariant})',
+                      style: const TextStyle(color: Color(0xFF80CBC4), fontSize: 12.0, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 16.0),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                          _onVillageSelected(village);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFE5A93C),
+                          foregroundColor: const Color(0xFF10191F),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                        ),
+                        child: const Text('Explorar Capítulo', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -343,6 +380,7 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (ctx) {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24.0)),
@@ -350,58 +388,67 @@ class _PindoramaMapScreenState extends State<PindoramaMapScreen> {
             filter: ui.ImageFilter.blur(sigmaX: 16.0, sigmaY: 16.0),
             child: Container(
               padding: const EdgeInsets.all(22.0),
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(ctx).size.height * 0.8,
+              ),
               decoration: BoxDecoration(
                 color: const Color(0xEE0B1519),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24.0)),
                 border: Border.all(color: const Color(0x55E5A93C), width: 1.5),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.auto_stories, color: Color(0xFFFFD54F), size: 24.0),
-                      const SizedBox(width: 10.0),
-                      Text(
-                        _currentEpoch.title,
-                        style: const TextStyle(
-                          color: Color(0xFFFFD54F),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12.0),
-                  Text(
-                    _currentEpoch.description,
-                    style: const TextStyle(color: Colors.white, fontSize: 13.5, height: 1.4),
-                  ),
-                  const SizedBox(height: 14.0),
-                  const Text(
-                    'Territórios Históricos Ativos:',
-                    style: TextStyle(color: Color(0xFF80CBC4), fontWeight: FontWeight.bold, fontSize: 13.0),
-                  ),
-                  const SizedBox(height: 6.0),
-                  ..._curriculumGraph.getTerritoriesForEpoch(_currentEpoch.id).map((t) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.arrow_right, color: Color(0xFFFFD54F), size: 18.0),
-                          Expanded(
-                            child: Text(
-                              '${t.name} (${t.primaryDialect})',
-                              style: const TextStyle(color: Colors.white70, fontSize: 12.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.auto_stories, color: Color(0xFFFFD54F), size: 24.0),
+                        const SizedBox(width: 10.0),
+                        Expanded(
+                          child: Text(
+                            _currentEpoch.title,
+                            style: const TextStyle(
+                              color: Color(0xFFFFD54F),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 20.0),
-                ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12.0),
+                    Text(
+                      _currentEpoch.description,
+                      style: const TextStyle(color: Colors.white, fontSize: 13.5, height: 1.4),
+                    ),
+                    const SizedBox(height: 14.0),
+                    const Text(
+                      'Territórios Históricos Ativos:',
+                      style: TextStyle(color: Color(0xFF80CBC4), fontWeight: FontWeight.bold, fontSize: 13.0),
+                    ),
+                    const SizedBox(height: 6.0),
+                    ..._curriculumGraph.getTerritoriesForEpoch(_currentEpoch.id).map((t) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.arrow_right, color: Color(0xFFFFD54F), size: 18.0),
+                            Expanded(
+                              child: Text(
+                                '${t.name} (${t.primaryDialect})',
+                                style: const TextStyle(color: Colors.white70, fontSize: 12.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                    const SizedBox(height: 20.0),
+                  ],
+                ),
               ),
             ),
           ),

@@ -38,20 +38,34 @@ services:
       context: .
       dockerfile: docker/django/Dockerfile
       target: runner
+    profiles: ["workers"]
+    restart: "no"
     command: python /app/pdf_worker.py
     entrypoint: []   # O worker não precisa do entrypoint.sh (migrate/collectstatic)
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
+      - SKIP_MIGRATIONS=true
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
+    volumes:
+      - huggingface_cache:/root/.cache/huggingface
 
   vocab_worker:
     build:
       context: .
       dockerfile: docker/django/Dockerfile
       target: runner
+    profiles: ["workers"]
+    restart: "no"
     command: python manage.py extract_vocab_from_rag --continuous
     entrypoint: []
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
+      - SKIP_MIGRATIONS=true
+      - FASTEMBED_CACHE_PATH=/root/.cache/huggingface/fastembed
+      - HF_HOME=/root/.cache/huggingface
+    volumes:
+      - huggingface_cache:/root/.cache/huggingface
     depends_on:
       - django
 
@@ -96,4 +110,6 @@ services:
 
 volumes:
   redis_data:
+    driver: local
+  huggingface_cache:
     driver: local

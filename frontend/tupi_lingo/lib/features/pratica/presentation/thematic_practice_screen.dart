@@ -8,16 +8,20 @@ import '../data/thematic_outbox_service.dart';
 
 class ThematicPracticeScreen extends StatefulWidget {
   final String tema;
+  final String? temaId;
   final int varianteId;
   final String varianteNome;
   final int? initialConchas;
+  final bool bypassCache;
 
   const ThematicPracticeScreen({
     super.key,
     required this.tema,
+    this.temaId,
     required this.varianteId,
     required this.varianteNome,
     this.initialConchas,
+    this.bypassCache = false,
   });
 
   @override
@@ -79,9 +83,11 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
         '$baseUrl/api/v1/pratica/gerar-tematico/',
         body: {
           'tema': widget.tema,
+          if (widget.temaId != null) 'tema_id': widget.temaId,
           'variante_id': widget.varianteId,
           'dificuldade': 'media',
           'quantidade': 4,
+          'bypass_cache': widget.bypassCache,
         },
       );
 
@@ -303,68 +309,72 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
         borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
       ),
       builder: (ctx) {
-        return Padding(
-          padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + MediaQuery.of(ctx).padding.bottom),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    isCorrect
-                        ? Icons.check_circle_rounded
-                        : (isAlmost ? Icons.lightbulb_rounded : Icons.cancel_rounded),
-                    color: accentColor,
-                    size: 30,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      isCorrect ? 'Mandou bem!' : (isAlmost ? 'Quase lá!' : 'Ops!'),
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: accentColor,
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + MediaQuery.of(ctx).padding.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      isCorrect
+                          ? Icons.check_circle_rounded
+                          : (isAlmost ? Icons.lightbulb_rounded : Icons.cancel_rounded),
+                      color: accentColor,
+                      size: 30,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        isCorrect ? 'Mandou bem!' : (isAlmost ? 'Quase lá!' : 'Ops!'),
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: accentColor,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
-                  if (earnedXp > 0 || earnedConchas > 0)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: accentColor.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(14),
+                    if (earnedXp > 0 || earnedConchas > 0)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: accentColor.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (earnedXp > 0)
+                              Text(
+                                '+$earnedXp XP ',
+                                style: TextStyle(fontWeight: FontWeight.bold, color: accentColor, fontSize: 13),
+                              ),
+                            if (earnedConchas > 0)
+                              Text(
+                                '+$earnedConchas 🐚',
+                                style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E), fontSize: 13),
+                              ),
+                          ],
+                        ),
                       ),
-                      child: Row(
-                        children: [
-                          if (earnedXp > 0)
-                            Text(
-                              '+$earnedXp XP ',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: accentColor, fontSize: 13),
-                            ),
-                          if (earnedConchas > 0)
-                            Text(
-                              '+$earnedConchas 🐚',
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E), fontSize: 13),
-                            ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                message,
-                style: TextStyle(fontSize: 15, color: AppTheme.textPrimary(context), fontWeight: FontWeight.w600),
-              ),
-              if (explicacao.isNotEmpty) ...[
-                const SizedBox(height: 6),
-                Text(
-                  explicacao,
-                  style: TextStyle(fontSize: 13, color: AppTheme.textSecondary(context), height: 1.4),
+                  ],
                 ),
-              ],
+                const SizedBox(height: 12),
+                Text(
+                  message,
+                  style: TextStyle(fontSize: 15, color: AppTheme.textPrimary(context), fontWeight: FontWeight.w600),
+                ),
+                if (explicacao.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    explicacao,
+                    style: TextStyle(fontSize: 13, color: AppTheme.textSecondary(context), height: 1.4),
+                  ),
+                ],
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
@@ -908,6 +918,9 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
                         child: Center(
                           child: Text(
                             trad,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontWeight: isLinked ? FontWeight.bold : FontWeight.normal,
                               color: isLinked ? const Color(0xFF0E5D4E) : AppTheme.textPrimary(context),

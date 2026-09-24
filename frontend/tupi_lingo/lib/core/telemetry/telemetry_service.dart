@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:ui';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/core/config/app_config.dart';
+import 'package:tupi_lingo/core/telemetry/performance_telemetry_engine.dart';
 
 /// Modelo de amostra de telemetria agregada e anônima.
 /// STRICT ZERO-PII GUARANTEE: Jamais armazena ou transmite UIDs, emails, IPs ou dados pessoais.
@@ -93,13 +92,15 @@ class TelemetryState {
 
 /// Serviço de telemetria anônima e observabilidade de desempenho client-side (RFC-013 Capítulo 20/21).
 class TelemetryService extends Notifier<TelemetryState> {
+  Timer? _sampleTimer;
   Timer? _flushTimer;
   final List<double> _latencySamples = [];
-  final int _maxHistoryLength = 40;
+  final int _maxHistoryLength = 20; // Reduzido de 40 para 20 para aliviar memória e GC
 
   @override
   TelemetryState build() {
     ref.onDispose(() {
+      _sampleTimer?.cancel();
       _flushTimer?.cancel();
     });
     return const TelemetryState();
@@ -110,63 +111,46 @@ class TelemetryService extends Notifier<TelemetryState> {
     if (state.isRecording) return;
     state = state.copyWith(isRecording: true);
 
-    // Conecta nos timings da engine do Flutter
-    WidgetsBinding.instance.addTimingsCallback(_onReportTimings);
+    // Garante que o motor singleton de métricas está ativo
+    PerformanceTelemetryEngine.instance.start();
 
-    // Flush periódico a cada 60s
-    _flushTimer = Timer.periodic(const Duration(seconds: 60), (_) => flushTelemetry());
+    // Em vez de chamar a cada frame (60-120x/segundo), faz amostragem em lote a cada 2 segundos
+    // Isso reduz o consumo de CPU e elimina 98% dos rebuilds do Riverpod!
+    _sampleTimer = Timer.periodic(const Duration(seconds: 2), (_) => _collectSample());
+
+    // Flush periódico a cada 120s (2 minutos)
+    _flushTimer = Timer.periodic(const Duration(seconds: 120), (_) => flushTelemetry());
   }
 
   void stopMonitoring() {
     if (!state.isRecording) return;
-    WidgetsBinding.instance.removeTimingsCallback(_onReportTimings);
+    _sampleTimer?.cancel();
     _flushTimer?.cancel();
     state = state.copyWith(isRecording: false);
   }
 
-  void _onReportTimings(List<FrameTiming> timings) {
+  void _collectSample() {
     if (!state.isRecording) return;
 
-    var newTotal = state.totalFrames;
-    var newDropped = state.droppedFrames;
-    var buildSum = 0.0;
-    var rasterSum = 0.0;
-    var lastFps = state.currentFps;
-
-    for (final timing in timings) {
-      newTotal++;
-      final buildMs = timing.buildDuration.inMicroseconds / 1000.0;
-      final rasterMs = timing.rasterDuration.inMicroseconds / 1000.0;
-      final totalMs = timing.totalSpan.inMicroseconds / 1000.0;
-
-      buildSum += buildMs;
-      rasterSum += rasterMs;
-
-      if (totalMs > 16.67) {
-        newDropped++;
-      }
-
-      if (totalMs > 0) {
-        final instantFps = 1000.0 / totalMs;
-        lastFps = (lastFps * 0.9 + instantFps * 0.1).clamp(0.0, 144.0);
-      }
-    }
-
-    final avgBuild = timings.isNotEmpty ? (buildSum / timings.length) : state.avgBuildMs;
-    final avgRaster = timings.isNotEmpty ? (rasterSum / timings.length) : state.avgRasterMs;
-    final dropRate = newTotal > 0 ? ((newDropped / newTotal) * 100.0) : 0.0;
+    final engine = PerformanceTelemetryEngine.instance;
+    final totalFrames = engine.totalFrames;
+    final droppedFrames = engine.droppedFrames;
+    final fps = engine.currentFps;
+    final avgBuild = engine.averageBuildDurationMs;
+    final avgRaster = engine.averageRasterDurationMs;
+    final dropRate = totalFrames > 0 ? ((droppedFrames / totalFrames) * 100.0) : 0.0;
 
     // Estimativa segura de consumo de memória da aplicação
-    final estimatedRam = 140.0 + (min(newTotal / 1000, 45.0));
+    final estimatedRam = 140.0 + (min(totalFrames / 1000, 45.0));
 
     final sample = TelemetryMetricSample(
-      fps: lastFps,
+      fps: fps,
       avgBuildMs: avgBuild,
       avgRasterMs: avgRaster,
       frameDropsPct: dropRate,
       memoryMb: estimatedRam,
       p95LatencyMs: _calculateP95Latency(),
-      deviceClass: _inferDeviceClass(lastFps),
+      deviceClass: _inferDeviceClass(fps),
       timestamp: DateTime.now(),
     );
 
@@ -176,12 +160,12 @@ class TelemetryService extends Notifier<TelemetryState> {
     }
 
     state = state.copyWith(
-      currentFps: lastFps,
+      currentFps: fps,
       avgBuildMs: avgBuild,
       avgRasterMs: avgRaster,
       memoryMb: estimatedRam,
-      totalFrames: newTotal,
-      droppedFrames: newDropped,
+      totalFrames: totalFrames,
+      droppedFrames: droppedFrames,
       history: updatedHistory,
     );
   }

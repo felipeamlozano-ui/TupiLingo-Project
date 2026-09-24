@@ -275,14 +275,19 @@ class _LicoesAdminTabState extends State<LicoesAdminTab> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '${licoes.length} ${licoes.length == 1 ? "Lição" : "Lições"} neste Capítulo',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: Color(0xFF1F2937),
+            Expanded(
+              child: Text(
+                '${licoes.length} ${licoes.length == 1 ? "Lição" : "Lições"} neste Capítulo',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Color(0xFF1F2937),
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
+            const SizedBox(width: 8),
             ElevatedButton.icon(
               onPressed: () {
                 if (_selectedCapituloId != null) {

@@ -65,8 +65,10 @@ def get_embedder():
     global _embedder_instance
     if _embedder_instance is None:
         try:
+            import os
             from fastembed import TextEmbedding  # noqa: PLC0415
-            _embedder_instance = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
+            cache_path = os.environ.get("FASTEMBED_CACHE_PATH", os.path.expanduser("~/.cache/huggingface/fastembed"))
+            _embedder_instance = TextEmbedding(model_name="BAAI/bge-small-en-v1.5", cache_dir=cache_path)
         except Exception as exc:  # noqa: BLE001
             logger.warning("[rag_service] get_embedder() falhou: %s. Retornando None.", exc)
             return None

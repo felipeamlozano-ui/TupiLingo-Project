@@ -23,6 +23,9 @@ import 'package:tupi_lingo/features/home/data/models/trail_map_models.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/flashcard_practice_dialog.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/language_switcher_bottom_sheet.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/trail_app_bar.dart';
+import 'package:tupi_lingo/features/store/presentation/store_screen.dart';
+import 'package:tupi_lingo/features/feature_flags/application/providers/feature_flag_provider.dart';
+import 'package:tupi_lingo/features/feature_flags/domain/entities/flag_ids.dart';
 
 /// Paleta de Cores com Identidade Visual Tupi Ancestral
 class _TupiColors {
@@ -513,13 +516,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  Future<void> _openStore() async {
+    final updatedConchas = await Navigator.push<int>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => StoreScreen(initialConchas: _conchas),
+      ),
+    );
+    if (updatedConchas != null && mounted) {
+      setState(() {
+        _conchas = updatedConchas;
+      });
+    }
+  }
+
   // ─── Barra Superior Global ──────────────────────────────────────────────────
   Widget _buildGlobalTopBar() {
+    final bool isCustomThemesEnabled = featureFlagRepositoryInstance.isEnabled(FlagIds.customThemesEnabled);
     return TrailAppBar(
       varianteNome: _varianteNome,
       streakDays: _streakDays,
       conchas: _conchas,
       xpTotal: _xpTotal,
+      showThemeToggle: isCustomThemesEnabled,
       onLanguageTap: () => _showLanguageSwitcher(context),
       onXpTap: () => Navigator.push(
         context,
@@ -527,6 +546,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
       onThemeToggle: () => ThemeNotifier.instance.toggleTheme(context),
       onMapTap: _showInteractiveMapModal,
+      onConchasTap: _openStore,
     );
   }
 
@@ -1751,12 +1771,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             const SizedBox(height: 24),
             Row(
               children: [
-                Text(
-                  'Treino Temático com IA',
-                  style: TextStyle(
-                    color: AppTheme.textPrimary(context),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    'Treino Temático com IA',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppTheme.textPrimary(context),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -1877,12 +1901,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget _buildThematicPracticeSection() {
     final themes = [
-      {'titulo': 'Natureza e Rios', 'icone': '🌿', 'desc': 'Águas, matas e cosmos', 'xp': 20, 'conchas': 3},
-      {'titulo': 'Animais e Caça', 'icone': '🐆', 'desc': 'Onças, aves e fauna', 'xp': 20, 'conchas': 3},
-      {'titulo': 'Mitologia e Tupã', 'icone': '⚡', 'desc': 'Entidades e cosmologia', 'xp': 25, 'conchas': 4},
-      {'titulo': 'Aldeia e Cotidiano', 'icone': '🏡', 'desc': 'Oka, taba e comunidade', 'xp': 20, 'conchas': 3},
-      {'titulo': 'Guerra e Rituais', 'icone': '🏹', 'desc': 'Armas, chefias e cantos', 'xp': 25, 'conchas': 4},
-      {'titulo': 'Culinária e Roça', 'icone': '🍲', 'desc': 'Mandioca, cauim e peixes', 'xp': 20, 'conchas': 3},
+      {'id': 'natureza', 'titulo': 'Natureza e Rios', 'icone': '🌿', 'desc': 'Águas, matas e cosmos', 'xp': 20, 'conchas': 3},
+      {'id': 'animais', 'titulo': 'Animais e Caça', 'icone': '🐆', 'desc': 'Onças, aves e fauna', 'xp': 20, 'conchas': 3},
+      {'id': 'mitologia', 'titulo': 'Mitologia e Tupã', 'icone': '⚡', 'desc': 'Entidades e cosmologia', 'xp': 25, 'conchas': 4},
+      {'id': 'aldeia', 'titulo': 'Aldeia e Cotidiano', 'icone': '🏡', 'desc': 'Oka, taba e comunidade', 'xp': 20, 'conchas': 3},
+      {'id': 'guerra', 'titulo': 'Guerra e Rituais', 'icone': '🏹', 'desc': 'Armas, chefias e cantos', 'xp': 25, 'conchas': 4},
+      {'id': 'culinaria', 'titulo': 'Culinária e Roça', 'icone': '🍲', 'desc': 'Mandioca, cauim e peixes', 'xp': 20, 'conchas': 3},
     ];
 
     return Column(
@@ -1896,7 +1920,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             itemBuilder: (context, idx) {
               final t = themes[idx];
               return InkWell(
-                onTap: () => _openThematicPractice(t['titulo'] as String),
+                onTap: () => _openThematicPractice(t['titulo'] as String, temaId: t['id'] as String),
                 borderRadius: BorderRadius.circular(18),
                 child: Container(
                   width: 165,
@@ -1977,15 +2001,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Future<void> _openThematicPractice(String tema) async {
+  Future<void> _openThematicPractice(String tema, {String? temaId, bool bypassCache = false}) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => ThematicPracticeScreen(
           tema: tema,
+          temaId: temaId,
           varianteId: _varianteId,
           varianteNome: _varianteNome,
           initialConchas: _conchas,
+          bypassCache: bypassCache,
         ),
       ),
     );

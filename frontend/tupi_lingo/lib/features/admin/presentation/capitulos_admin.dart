@@ -223,14 +223,19 @@ class CapitulosAdminTab extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${v['icone']} ${v['nome']}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF0E5D4E),
+                    Expanded(
+                      child: Text(
+                        '${v['icone']} ${v['nome']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF0E5D4E),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    const SizedBox(width: 8),
                     if (trilhaId != null)
                       ElevatedButton.icon(
                         onPressed: () => _showCapituloDialog(context, trilhaId: trilhaId),

@@ -29,6 +29,9 @@ abstract final class FlagIds {
   static const String abTestingV1 = 'ab_testing_v1';
   static const String performanceBenchmarkV1 = 'performance_benchmark_v1';
 
+  // ── Pillar 6: Personalization & Themes ──────────────────────────────────────
+  static const String customThemesEnabled = 'custom_themes_enabled';
+
   /// Complete list of registered flag IDs in RFC-012B.
   static const List<String> allFlags = [
     morphologyEngineV1,
@@ -49,5 +52,6 @@ abstract final class FlagIds {
     otelFullStack,
     abTestingV1,
     performanceBenchmarkV1,
+    customThemesEnabled,
   ];
 }

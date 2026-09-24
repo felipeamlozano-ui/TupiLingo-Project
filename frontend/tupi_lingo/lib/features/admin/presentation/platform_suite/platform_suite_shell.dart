@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'developer_console/developer_console_screen.dart';
 import 'security_console/security_console_screen.dart';
 import 'shared/glass_sidebar.dart';
@@ -32,39 +33,122 @@ class _PlatformSuiteShellState extends State<PlatformSuiteShell> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF071B16),
-      body: Row(
-        children: [
-          // Barra de Navegação Lateral
-          GlassSidebar(
-            selectedIndex: _currentIndex,
-            onDestinationSelected: (index) {
-              setState(() => _currentIndex = index);
-            },
-            onBackToApp: () {
-              final nav = Navigator.of(context);
-              if (nav.canPop()) {
-                nav.pop();
-              } else {
-                nav.pushReplacementNamed('/home');
-              }
-            },
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isDesktop = constraints.maxWidth >= 768;
 
-          // Console Ativo
-          Expanded(
-            child: IndexedStack(
-              index: _currentIndex,
-              children: const [
-                WorldBuilderScreen(),
-                DeveloperConsoleScreen(),
-                SecurityConsoleScreen(),
+        final titles = [
+          'World Builder CMS',
+          'Developer Console',
+          'Security & Observability',
+        ];
+
+        final activeConsole = IndexedStack(
+          index: _currentIndex,
+          children: const [
+            WorldBuilderScreen(),
+            DeveloperConsoleScreen(),
+            SecurityConsoleScreen(),
+          ],
+        );
+
+        if (isDesktop) {
+          return Scaffold(
+            backgroundColor: AppTheme.bg(context),
+            body: Row(
+              children: [
+                // Barra de Navegação Lateral Desktop
+                GlassSidebar(
+                  selectedIndex: _currentIndex,
+                  onDestinationSelected: (index) {
+                    setState(() => _currentIndex = index);
+                  },
+                  onBackToApp: () {
+                    final nav = Navigator.of(context);
+                    if (nav.canPop()) {
+                      nav.pop();
+                    } else {
+                      nav.pushReplacementNamed('/home');
+                    }
+                  },
+                ),
+
+                // Console Ativo
+                Expanded(child: activeConsole),
               ],
             ),
+          );
+        }
+
+        // Layout Mobile (< 768px):
+        return Scaffold(
+          backgroundColor: AppTheme.bg(context),
+          appBar: AppBar(
+            backgroundColor: AppTheme.surface(context),
+            elevation: 0,
+            leading: Builder(
+              builder: (ctx) => IconButton(
+                icon: Icon(Icons.menu_rounded, color: AppTheme.accent(context)),
+                onPressed: () => Scaffold.of(ctx).openDrawer(),
+                tooltip: 'Menu de Consoles',
+              ),
+            ),
+            title: Text(
+              titles[_currentIndex],
+              style: TextStyle(
+                color: AppTheme.textPrimary(context),
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.2,
+              ),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.arrow_back_rounded, color: AppTheme.textSecondary(context)),
+                onPressed: () {
+                  final nav = Navigator.of(context);
+                  if (nav.canPop()) {
+                    nav.pop();
+                  } else {
+                    nav.pushReplacementNamed('/home');
+                  }
+                },
+                tooltip: 'Voltar ao App',
+              ),
+            ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: Container(
+                color: AppTheme.border(context),
+                height: 1.0,
+              ),
+            ),
           ),
-        ],
-      ),
+          drawer: Drawer(
+            backgroundColor: AppTheme.surface(context),
+            child: SafeArea(
+              child: GlassSidebar(
+                width: double.infinity,
+                selectedIndex: _currentIndex,
+                onDestinationSelected: (index) {
+                  setState(() => _currentIndex = index);
+                  Navigator.of(context).pop();
+                },
+                onBackToApp: () {
+                  Navigator.of(context).pop();
+                  final nav = Navigator.of(context);
+                  if (nav.canPop()) {
+                    nav.pop();
+                  } else {
+                    nav.pushReplacementNamed('/home');
+                  }
+                },
+              ),
+            ),
+          ),
+          body: activeConsole,
+        );
+      },
     );
   }
 }

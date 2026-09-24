@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 
 enum WorldBuilderTool {
   select,
@@ -36,70 +37,79 @@ class FloatingWorldToolbar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A).withValues(alpha: 0.88),
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFF334155), width: 1),
+        border: Border.all(color: AppTheme.border(context), width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 18,
-            spreadRadius: 2,
+            color: Colors.black.withValues(alpha: 0.18),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
         children: [
           _buildToolButton(
+            context: context,
             tool: WorldBuilderTool.select,
             icon: Icons.near_me,
             tooltip: 'Seleção & Inspeção (V)',
           ),
           _buildToolButton(
+            context: context,
             tool: WorldBuilderTool.territory,
             icon: Icons.polyline,
             tooltip: 'Polígono de Território (T)',
           ),
           _buildToolButton(
+            context: context,
             tool: WorldBuilderTool.village,
             icon: Icons.holiday_village,
             tooltip: 'Inserir Aldeia / Oca (A)',
           ),
           _buildToolButton(
+            context: context,
             tool: WorldBuilderTool.river,
             icon: Icons.water,
             tooltip: 'Curva Bézier de Rio (R)',
           ),
           _buildToolButton(
+            context: context,
             tool: WorldBuilderTool.trail,
             icon: Icons.route,
             tooltip: 'Trilha Histórica (P)',
           ),
           _buildToolButton(
+            context: context,
             tool: WorldBuilderTool.quest,
             icon: Icons.explore,
             tooltip: 'Ponto de Interesse / Quest (Q)',
           ),
           _buildToolButton(
+            context: context,
             tool: WorldBuilderTool.overlay,
             icon: Icons.layers,
             tooltip: 'Camadas Históricas (L)',
           ),
           const SizedBox(width: 8),
-          Container(width: 1, height: 28, color: const Color(0xFF334155)),
+          Container(width: 1, height: 28, color: AppTheme.border(context)),
           const SizedBox(width: 8),
           IconButton(
-            icon: const Icon(Icons.zoom_in, color: Colors.white70, size: 20),
+            icon: Icon(Icons.zoom_in, color: AppTheme.textSecondary(context), size: 20),
             tooltip: 'Zoom +',
             onPressed: onZoomIn,
           ),
           IconButton(
-            icon: const Icon(Icons.zoom_out, color: Colors.white70, size: 20),
+            icon: Icon(Icons.zoom_out, color: AppTheme.textSecondary(context), size: 20),
             tooltip: 'Zoom -',
             onPressed: onZoomOut,
           ),
           IconButton(
-            icon: const Icon(Icons.center_focus_strong, color: Colors.white70, size: 20),
+            icon: Icon(Icons.center_focus_strong, color: AppTheme.textSecondary(context), size: 20),
             tooltip: 'Centralizar Câmera',
             onPressed: onResetView,
           ),
@@ -107,7 +117,7 @@ class FloatingWorldToolbar extends StatelessWidget {
           IconButton(
             icon: Icon(
               showFogPreview ? Icons.cloud : Icons.cloud_off,
-              color: showFogPreview ? const Color(0xFF38BDF8) : Colors.white38,
+              color: showFogPreview ? AppTheme.accent(context) : AppTheme.textSecondary(context).withValues(alpha: 0.5),
               size: 20,
             ),
             tooltip: showFogPreview ? 'Desativar Fog of War' : 'Simular Fog of War',
@@ -115,10 +125,12 @@ class FloatingWorldToolbar extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 
   Widget _buildToolButton({
+    required BuildContext context,
     required WorldBuilderTool tool,
     required IconData icon,
     required String tooltip,
@@ -135,12 +147,12 @@ class FloatingWorldToolbar extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           margin: const EdgeInsets.symmetric(horizontal: 2),
           decoration: BoxDecoration(
-            color: isActive ? const Color(0xFF10B981) : Colors.transparent,
+            color: isActive ? AppTheme.accent(context) : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(
             icon,
-            color: isActive ? Colors.white : const Color(0xFF94A3B8),
+            color: isActive ? Colors.white : AppTheme.textSecondary(context),
             size: 20,
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -8,11 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class _AppColors {
-  static const Color background = Color(0xFFF3F2E8);
-  static const Color subtitle = Color(0xFF565D6D);
   static const Color primary = Color(0xFFD08A45);
   static const Color accent = Color(0xFF0E5D4E);
-  static const Color inputBorder = Color(0xFFD0D0D0);
 }
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -72,22 +70,25 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context),
         elevation: 12,
         margin: const EdgeInsets.all(16),
         duration: const Duration(seconds: 4),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: BorderSide(color: AppTheme.border(context)),
+        ),
         content: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: isError ? Colors.red.shade50 : Colors.green.shade50,
+                color: isError ? Colors.red.withValues(alpha: 0.15) : Colors.green.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 isError ? Icons.warning_amber_rounded : Icons.check_circle,
-                color: isError ? Colors.red.shade700 : Colors.green.shade700,
+                color: isError ? Colors.red.shade400 : Colors.green.shade400,
                 size: 20,
               ),
             ),
@@ -95,8 +96,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             Expanded(
               child: Text(
                 message,
-                style: const TextStyle(
-                  color: Colors.black87,
+                style: TextStyle(
+                  color: AppTheme.textPrimary(context),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -216,15 +217,20 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppTheme.isDark(context);
+
     return Scaffold(
-      backgroundColor: _AppColors.background,
+      backgroundColor: AppTheme.bg(context),
       appBar: AppBar(
-        backgroundColor: _AppColors.background,
+        backgroundColor: AppTheme.bg(context),
         elevation: 0,
-        foregroundColor: _AppColors.accent,
-        title: const Text(
+        foregroundColor: AppTheme.textPrimary(context),
+        title: Text(
           'Verificar E-mail',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppTheme.textPrimary(context),
+          ),
         ),
         centerTitle: true,
       ),
@@ -250,22 +256,22 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const Text(
+                      Text(
                         'Confirme seu E-mail',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: _AppColors.accent,
+                          color: isDark ? const Color(0xFF1EC9A5) : _AppColors.accent,
                         ),
                       ),
                       const SizedBox(height: 12),
                       Text(
                         'Enviamos um código de 6 dígitos para:\n${widget.email}',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
-                          color: _AppColors.subtitle,
+                          color: AppTheme.textSecondary(context),
                           height: 1.4,
                         ),
                       ),
@@ -276,21 +282,21 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         keyboardType: TextInputType.number,
                         maxLength: 6,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 24,
                           letterSpacing: 8,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppTheme.textPrimary(context),
                         ),
                         decoration: InputDecoration(
                           hintText: '000000',
                           counterText: '',
                           hintStyle: TextStyle(
-                            color: Colors.grey.shade400,
+                            color: AppTheme.textSecondary(context).withValues(alpha: 0.5),
                             letterSpacing: 8,
                           ),
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: AppTheme.surface(context),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                             vertical: 18,
@@ -298,16 +304,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
                             borderSide:
-                                const BorderSide(color: _AppColors.inputBorder),
+                                BorderSide(color: AppTheme.border(context)),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
                             borderSide:
-                                const BorderSide(color: _AppColors.inputBorder),
+                                BorderSide(color: AppTheme.border(context)),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                            borderSide: const BorderSide(
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(14)),
+                            borderSide: BorderSide(
                                 color: _AppColors.primary, width: 2),
                           ),
                         ),
@@ -354,7 +360,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           style: TextStyle(
                             color: _resendCooldown > 0
                                 ? Colors.grey
-                                : _AppColors.accent,
+                                : (isDark ? const Color(0xFF1EC9A5) : _AppColors.accent),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -368,7 +374,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             if (_isLoading)
               Positioned.fill(
                 child: Container(
-                  color: Colors.black26,
+                  color: Colors.black45,
                   child: const Center(
                     child: CircularProgressIndicator(color: _AppColors.primary),
                   ),

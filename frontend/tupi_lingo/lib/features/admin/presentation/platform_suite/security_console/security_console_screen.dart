@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/core/security/encryption_center.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 import '../shared/metric_card.dart';
 import '../shared/status_badge.dart';
 
@@ -20,30 +23,56 @@ class SecurityConsoleScreen extends ConsumerStatefulWidget {
 class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  Timer? _refreshTimer;
   bool _isLoading = false;
   List<dynamic> _auditLogs = [];
   bool _isMerkleChainValid = true;
   String _threatsMitigatedValue = '0 Ativas';
   String _threatsSubtitle = 'WAF & Rate Limiter ativos';
   String _zeroPiiValue = '100% PURIFIED';
-  Map<String, String> _regionalPresence = {
-    'mata_atlantica': '1.420 s/h',
-    'cerrado_sagrado': '980 s/h',
-    'floresta_amazonica': '2.150 s/h',
-    'pampa_sulista': '410 s/h',
-  };
+  PqcBenchmarkResult? _pqcBenchmarkResult;
+  bool _isRunningPqcBenchmark = false;
+
+  // Monitor de Presença Dinâmico (Zero-PII por País)
+  int _totalOnlineUsers = 1;
+  List<Map<String, dynamic>> _onlineCountries = [
+    {'country_code': 'BR', 'country_name': 'Brasil', 'online_count': 1},
+  ];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     _loadSecurityData();
+    _pingPresence();
+    // Atualização em tempo real periódica (10s) para manter os dados dinâmicos
+    _refreshTimer = Timer.periodic(const Duration(seconds: 10), (_) {
+      if (mounted) {
+        _loadSecurityData();
+        _pingPresence();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _refreshTimer?.cancel();
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pingPresence() async {
+    try {
+      final url = Uri.parse('${AppConfig.backendBaseUrl}/api/v1/platform/presence/ping/');
+      await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'country_code': 'BR',
+          'country_name': 'Brasil',
+        }),
+      ).timeout(const Duration(seconds: 3));
+    } catch (_) {}
   }
 
   Future<void> _loadSecurityData() async {
@@ -56,20 +85,24 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
         final secOverview = data['security_overview'] as Map<String, dynamic>?;
         final totalMitigated = secOverview?['mitigated_threats_total'] ?? 18;
         final activeThreats = secOverview?['active_threats'] ?? 0;
-        final rawRegional = secOverview?['regional_presence'] as Map<String, dynamic>?;
+        final onlinePresence = secOverview?['online_presence'] as Map<String, dynamic>?;
 
         setState(() {
           _auditLogs = data['recent_audit_logs'] ?? [];
           _threatsMitigatedValue = '$activeThreats Ativas ($totalMitigated Mitigadas)';
           _threatsSubtitle = secOverview?['waf_status'] ?? 'WAF & Rate Limiter ativos';
           _zeroPiiValue = secOverview?['zero_pii_assurance'] ?? '100% PURIFIED';
-          if (rawRegional != null) {
-            _regionalPresence = rawRegional.map((k, v) => MapEntry(k, v.toString()));
+          if (onlinePresence != null) {
+            _totalOnlineUsers = onlinePresence['total_online'] ?? 1;
+            final rawCountries = onlinePresence['countries'] as List<dynamic>?;
+            if (rawCountries != null && rawCountries.isNotEmpty) {
+              _onlineCountries = rawCountries.map((e) => Map<String, dynamic>.from(e)).toList();
+            }
           }
         });
       }
     } catch (_) {
-      // Fallback com auditoria de exemplo
+      // Fallback local caso offline
       setState(() {
         _auditLogs = [
           {
@@ -99,7 +132,6 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
         ];
       });
     } finally {
-      // Valida Merkle chain localmente
       final isValid = EncryptionCenter.instance.verifyAuditChainIntegrity(
         _auditLogs.cast<Map<String, dynamic>>(),
       );
@@ -115,30 +147,59 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
   void _triggerKeyRotation() {
     EncryptionCenter.instance.rotateEphemeralKeys();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Chaves efêmeras rotacionadas com sucesso e higienizadas da memória!'),
-        backgroundColor: Color(0xFF10B981),
+      SnackBar(
+        content: const Text('Chaves efêmeras e reticulados pós-quânticos rotacionados com sucesso!'),
+        backgroundColor: AppTheme.accent(context),
       ),
     );
+  }
+
+  void _runPqcDiagnostic() {
+    setState(() => _isRunningPqcBenchmark = true);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      final res = EncryptionCenter.instance.runPqcSelfTest();
+      if (mounted) {
+        setState(() {
+          _pqcBenchmarkResult = res;
+          _isRunningPqcBenchmark = false;
+        });
+      }
+    });
+  }
+
+  /// Gera selo efêmero dinâmico rotativo a cada 30 minutos (1800s)
+  String _getEphemeralSeal(String? rawHash) {
+    if (rawHash == null || rawHash.isEmpty) return '0x0000...0000';
+    final epoch30m = DateTime.now().millisecondsSinceEpoch ~/ (30 * 60 * 1000);
+    final keyBytes = utf8.encode('tupi_seal_epoch_$epoch30m');
+    final messageBytes = utf8.encode(rawHash);
+    final hmac = Hmac(sha256, keyBytes);
+    final digest = hmac.convert(messageBytes).toString();
+    final masked = '${digest.substring(0, 8)}...${digest.substring(digest.length - 8)}';
+    final remainingMinutes = 30 - ((DateTime.now().minute) % 30);
+    return 'Selo Efêmero (30m): 0x$masked (Expira em ${remainingMinutes}m)';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF071B16),
+      backgroundColor: AppTheme.bg(context),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0E2E27),
+        backgroundColor: AppTheme.surface(context),
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.shield, color: Color(0xFF1EC9A5), size: 24),
-            SizedBox(width: 12),
-            Text(
-              'Security & Observability Console',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 20,
+            Icon(Icons.shield_rounded, color: AppTheme.accent(context), size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Security & Observability Console',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppTheme.textPrimary(context),
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18,
+                ),
               ),
             ),
           ],
@@ -146,12 +207,12 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
         actions: [
           IconButton(
             icon: _isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     width: 18,
                     height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF1EC9A5)),
+                    child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.accent(context)),
                   )
-                : const Icon(Icons.refresh, color: Colors.white70),
+                : Icon(Icons.refresh_rounded, color: AppTheme.textSecondary(context)),
             tooltip: 'Recarregar Auditoria',
             onPressed: _loadSecurityData,
           ),
@@ -159,15 +220,17 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
         ],
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: const Color(0xFF1EC9A5),
+          isScrollable: true,
+          tabAlignment: TabAlignment.start,
+          indicatorColor: AppTheme.accent(context),
           indicatorWeight: 3,
-          labelColor: const Color(0xFF1EC9A5),
-          unselectedLabelColor: const Color(0xFF8FA89B),
+          labelColor: AppTheme.accent(context),
+          unselectedLabelColor: AppTheme.textSecondary(context),
           tabs: const [
-            Tab(icon: Icon(Icons.security), text: 'SOC Overview'),
-            Tab(icon: Icon(Icons.history_edu), text: 'Audit Trail'),
-            Tab(icon: Icon(Icons.privacy_tip), text: 'Privacy & LGPD'),
-            Tab(icon: Icon(Icons.lock), text: 'Encryption Center'),
+            Tab(icon: Icon(Icons.security_rounded), text: 'SOC Overview'),
+            Tab(icon: Icon(Icons.history_edu_rounded), text: 'Audit Trail'),
+            Tab(icon: Icon(Icons.privacy_tip_rounded), text: 'Privacy & LGPD'),
+            Tab(icon: Icon(Icons.lock_rounded), text: 'Encryption Center'),
           ],
         ),
       ),
@@ -204,8 +267,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                           title: 'Ameaças Mitigadas',
                           value: _threatsMitigatedValue,
                           subtitle: _threatsSubtitle,
-                          icon: Icons.verified_user,
-                          accentColor: const Color(0xFF10B981),
+                          icon: Icons.verified_user_rounded,
+                          accentColor: AppTheme.accent(context),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -215,8 +278,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                           title: 'Integridade Merkle Chain',
                           value: _isMerkleChainValid ? '100% VÁLIDA' : 'ATENÇÃO',
                           subtitle: 'SHA-256 Tamper-Evident Hash',
-                          icon: Icons.link,
-                          accentColor: _isMerkleChainValid ? const Color(0xFF1EC9A5) : const Color(0xFFEF4444),
+                          icon: Icons.link_rounded,
+                          accentColor: _isMerkleChainValid ? AppTheme.accent(context) : const Color(0xFFEF4444),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -226,8 +289,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                           title: 'Zero-PII Assurance',
                           value: _zeroPiiValue,
                           subtitle: 'Sem IPs, UIDs ou Emails no pipeline',
-                          icon: Icons.visibility_off,
-                          accentColor: const Color(0xFFD08A45),
+                          icon: Icons.visibility_off_rounded,
+                          accentColor: AppTheme.primary(context),
                         ),
                       ),
                     ],
@@ -241,8 +304,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                       title: 'Ameaças Mitigadas',
                       value: _threatsMitigatedValue,
                       subtitle: _threatsSubtitle,
-                      icon: Icons.verified_user,
-                      accentColor: const Color(0xFF10B981),
+                      icon: Icons.verified_user_rounded,
+                      accentColor: AppTheme.accent(context),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -251,8 +314,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                       title: 'Integridade Merkle Chain',
                       value: _isMerkleChainValid ? '100% VÁLIDA' : 'ATENÇÃO',
                       subtitle: 'SHA-256 Tamper-Evident Hash',
-                      icon: Icons.link,
-                      accentColor: _isMerkleChainValid ? const Color(0xFF1EC9A5) : const Color(0xFFEF4444),
+                      icon: Icons.link_rounded,
+                      accentColor: _isMerkleChainValid ? AppTheme.accent(context) : const Color(0xFFEF4444),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -261,8 +324,8 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                       title: 'Zero-PII Assurance',
                       value: _zeroPiiValue,
                       subtitle: 'Sem IPs, UIDs ou Emails no pipeline',
-                      icon: Icons.visibility_off,
-                      accentColor: const Color(0xFFD08A45),
+                      icon: Icons.visibility_off_rounded,
+                      accentColor: AppTheme.primary(context),
                     ),
                   ),
                 ],
@@ -270,25 +333,121 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
             },
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Monitor de Presença Anônima e Concorrência',
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  'Monitor de Presença Anônima e Concorrência',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.accent(context).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppTheme.accent(context).withValues(alpha: 0.3)),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: AppTheme.accent(context),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '$_totalOnlineUsers online agora',
+                      style: TextStyle(
+                        color: AppTheme.accent(context),
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFF0F2620),
+              color: AppTheme.surface(context),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF1D4A3E)),
+              border: Border.all(color: AppTheme.border(context)),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _PresenceIndicator(label: 'Mata Atlântica', count: _regionalPresence['mata_atlantica'] ?? '1.420 s/h', color: const Color(0xFF10B981)),
-                _PresenceIndicator(label: 'Cerrado Sagrado', count: _regionalPresence['cerrado_sagrado'] ?? '980 s/h', color: const Color(0xFFE5A93C)),
-                _PresenceIndicator(label: 'Floresta Amazônica', count: _regionalPresence['floresta_amazonica'] ?? '2.150 s/h', color: const Color(0xFF1EC9A5)),
-                _PresenceIndicator(label: 'Pampa Sulista', count: _regionalPresence['pampa_sulista'] ?? '410 s/h', color: const Color(0xFFD08A45)),
+                Row(
+                  children: [
+                    Icon(Icons.public_rounded, color: AppTheme.accent(context), size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Usuários Concorrentes por País (Zero-PII)',
+                      style: TextStyle(
+                        color: AppTheme.textSecondary(context),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 16,
+                  children: _onlineCountries.map((c) {
+                    final countryName = c['country_name'] ?? 'Desconhecido';
+                    final onlineCount = c['online_count'] ?? 1;
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: AppTheme.surfaceSubtle(context),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppTheme.border(context)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('🇧🇷', style: TextStyle(fontSize: 22)),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                countryName,
+                                style: TextStyle(
+                                  color: AppTheme.textPrimary(context),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                '$onlineCount usuário(s) ativo(s)',
+                                style: TextStyle(
+                                  color: AppTheme.accent(context),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
               ],
             ),
           ),
@@ -297,7 +456,7 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
     );
   }
 
-  // 2. Immutable Audit Trail (Merkle Chain)
+  // 2. Immutable Audit Trail (Merkle Chain com Selo Rotativo a cada 30 minutos)
   Widget _buildAuditTrailTab() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -307,48 +466,69 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Trilha de Auditoria Criptográfica Imutável',
-                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              Expanded(
+                child: Text(
+                  'Trilha de Auditoria Criptográfica Imutável',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
+              const SizedBox(width: 10),
               StatusBadge(
                 label: _isMerkleChainValid ? 'MERKLE CHAIN ÍNTEGRA' : 'HASH INVÁLIDO',
-                color: _isMerkleChainValid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                color: _isMerkleChainValid ? AppTheme.accent(context) : const Color(0xFFEF4444),
               ),
             ],
           ),
           const SizedBox(height: 16),
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF0F2620),
+              color: AppTheme.surface(context),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF1D4A3E)),
+              border: Border.all(color: AppTheme.border(context)),
             ),
             child: ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: _auditLogs.length,
-              separatorBuilder: (_, _) => const Divider(color: Color(0xFF1D4A3E), height: 1),
+              separatorBuilder: (_, _) => Divider(color: AppTheme.border(context), height: 1),
               itemBuilder: (context, index) {
                 final log = _auditLogs[index];
+                final ephemeralSeal = _getEphemeralSeal(log['signature_hash']?.toString());
+
                 return ListTile(
-                  leading: const Icon(Icons.fingerprint, color: Color(0xFF10B981), size: 28),
+                  leading: Icon(Icons.fingerprint_rounded, color: AppTheme.accent(context), size: 28),
                   title: Row(
                     children: [
-                      Text(
-                        log['action'] ?? 'ACTION',
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                      Expanded(
+                        child: Text(
+                          log['action'] ?? 'ACTION',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: AppTheme.textPrimary(context),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF163E33),
+                          color: AppTheme.accent(context).withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: AppTheme.accent(context).withValues(alpha: 0.3)),
                         ),
                         child: Text(
                           log['actor_role'] ?? 'Actor',
-                          style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 10),
+                          style: TextStyle(
+                            color: AppTheme.accent(context),
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -359,16 +539,26 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                       const SizedBox(height: 4),
                       Text(
                         'Entidade: ${log['entity_type']} (${log['entity_id']}) • ${log['timestamp']}',
-                        style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 12),
+                        style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
                       ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Hash: ${log['signature_hash'] ?? ''}',
-                        style: const TextStyle(
-                          color: Color(0xFF64748B),
-                          fontSize: 10,
-                          fontFamily: 'monospace',
-                        ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Icon(Icons.lock_clock_rounded, color: AppTheme.primary(context), size: 14),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              ephemeralSeal,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppTheme.primary(context),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'monospace',
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -388,9 +578,13 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Políticas de Privacidade & Conformidade LGPD',
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: AppTheme.textPrimary(context),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 16),
           _buildPrivacyCheckItem(
@@ -427,16 +621,16 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F2620),
+        color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF1D4A3E)),
+        border: Border.all(color: AppTheme.border(context)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
-            isCompliant ? Icons.check_circle : Icons.warning,
-            color: isCompliant ? const Color(0xFF10B981) : const Color(0xFFF59E0B),
+            isCompliant ? Icons.check_circle_rounded : Icons.warning_rounded,
+            color: isCompliant ? AppTheme.accent(context) : const Color(0xFFF59E0B),
             size: 24,
           ),
           const SizedBox(width: 14),
@@ -446,12 +640,16 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
               children: [
                 Text(
                   title,
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 12),
+                  style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
                 ),
               ],
             ),
@@ -468,70 +666,216 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Centro Criptográfico e Enclave de Hardware',
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: AppTheme.textPrimary(context),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFF0F2620),
+              color: AppTheme.surface(context),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF1D4A3E)),
+              border: Border.all(color: AppTheme.border(context)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.key, color: Color(0xFF10B981), size: 28),
-                    SizedBox(width: 14),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hardware Security Module (HSM) / TEE',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                        Text(
-                          'AES-256-GCM + Ed25519 digital signatures ativas',
-                          style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12),
-                        ),
-                      ],
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.accent(context).withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(Icons.security_rounded, color: AppTheme.accent(context), size: 28),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Criptografia Pós-Quântica (PQC)',
+                                style: TextStyle(
+                                  color: AppTheme.textPrimary(context),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: const Color(0xFF10B981)),
+                                ),
+                                child: const Text(
+                                  'FIPS 203 / 204',
+                                  style: TextStyle(
+                                    color: Color(0xFF10B981),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'ML-KEM-768 (Kyber) + ML-DSA-65 (Dilithium) + AES-256-CTR',
+                            style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                const Divider(color: Color(0xFF1D4A3E)),
                 const SizedBox(height: 16),
-                Row(
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.bg(context),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppTheme.border(context)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.fingerprint_rounded, size: 20, color: Color(0xFFD08A45)),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Enclave PQC Key Fingerprint: 0x${EncryptionCenter.instance.activeFingerprint}',
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.textPrimary(context),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Benchmark e diagnóstico PQC
+                if (_pqcBenchmarkResult != null) ...[
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF10B981).withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.3)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 18),
+                            const SizedBox(width: 8),
+                            Text(
+                              _pqcBenchmarkResult!.statusMessage,
+                              style: const TextStyle(
+                                color: Color(0xFF10B981),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Wrap(
+                          spacing: 12,
+                          runSpacing: 6,
+                          children: [
+                            Text(
+                              '• KeyGen: ${_pqcBenchmarkResult!.keyGenMs}ms',
+                              style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context)),
+                            ),
+                            Text(
+                              '• Encaps: ${_pqcBenchmarkResult!.encapsMs}ms',
+                              style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context)),
+                            ),
+                            Text(
+                              '• Decaps: ${_pqcBenchmarkResult!.decapsMs}ms',
+                              style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context)),
+                            ),
+                            Text(
+                              '• Sign: ${_pqcBenchmarkResult!.signMs}ms',
+                              style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context)),
+                            ),
+                            Text(
+                              '• Total: ${_pqcBenchmarkResult!.totalLatencyMs}ms',
+                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '• Força: ${_pqcBenchmarkResult!.securityStrengthBits}-bit Quantum-Safe',
+                              style: const TextStyle(fontSize: 11, color: Color(0xFF10B981), fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                Divider(color: AppTheme.border(context)),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 10,
                   children: [
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF10B981),
+                        backgroundColor: const Color(0xFF0E5D4E),
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
-                      icon: const Icon(Icons.sync, size: 18),
-                      label: const Text('Rotacionar Chaves Efêmeras Agora'),
+                      icon: _isRunningPqcBenchmark
+                          ? const SizedBox(
+                              width: 14,
+                              height: 14,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            )
+                          : const Icon(Icons.bolt_rounded, size: 16),
+                      label: Text(_isRunningPqcBenchmark ? 'Processando Reticulados...' : 'Executar Autoteste PQC'),
+                      onPressed: _isRunningPqcBenchmark ? null : _runPqcDiagnostic,
+                    ),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.accent(context),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      icon: const Icon(Icons.sync_rounded, size: 16),
+                      label: const Text('Rotacionar Reticulados Agora'),
                       onPressed: _triggerKeyRotation,
                     ),
-                    const SizedBox(width: 16),
                     OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
                         foregroundColor: const Color(0xFFEF4444),
                         side: const BorderSide(color: Color(0xFFEF4444)),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
-                      icon: const Icon(Icons.delete_forever, size: 18),
-                      label: const Text('Higienizar Memória (Zero-Key Wipe)'),
+                      icon: const Icon(Icons.delete_forever_rounded, size: 16),
+                      label: const Text('Higienizar Memória (Zero-Key)'),
                       onPressed: () {
                         EncryptionCenter.instance.emergencyMemoryWipe();
+                        setState(() => _pqcBenchmarkResult = null);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Memória de chaves higienizada.')),
+                          const SnackBar(content: Text('Memória e registradores quânticos higienizados.')),
                         );
                       },
                     ),
@@ -542,55 +886,6 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
           ),
         ],
       ),
-    );
-  }
-}
-
-class _PresenceIndicator extends StatelessWidget {
-  final String label;
-  final String count;
-  final Color color;
-
-  const _PresenceIndicator({
-    required this.label,
-    required this.count,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 12,
-          height: 12,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: color.withValues(alpha: 0.5),
-                blurRadius: 8,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          count,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'monospace',
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 11),
-        ),
-      ],
     );
   }
 }

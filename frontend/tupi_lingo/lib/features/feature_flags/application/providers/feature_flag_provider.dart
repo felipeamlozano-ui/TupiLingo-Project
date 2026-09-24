@@ -87,3 +87,8 @@ final isSceneGraphEnabledProvider = Provider<bool>((ref) {
 final isWorldStreamingEnabledProvider = Provider<bool>((ref) {
   return ref.watch(isFlagEnabledProvider(FlagIds.worldStreamingV1));
 });
+
+final isCustomThemesEnabledProvider = Provider<bool>((ref) {
+  return ref.watch(isFlagEnabledProvider(FlagIds.customThemesEnabled));
+});
+
