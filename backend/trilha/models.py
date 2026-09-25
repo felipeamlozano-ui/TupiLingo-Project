@@ -479,7 +479,7 @@ class ExercicioCompletar(ExercicioBase):
         verbose_name="Tolerância a Erros (Levenshtein)",
         help_text="Distância máxima permitida. 0=exato, 1=1 erro, 2=2 erros."
     )
-
+    # Aba -> iba,       uuuurrraaa - > bbbbbbbkkkkkkkaaaaaa
     class Meta:
         verbose_name = "Exercício de Completar"
         verbose_name_plural = "Exercícios de Completar"

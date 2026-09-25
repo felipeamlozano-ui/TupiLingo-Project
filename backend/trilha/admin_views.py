@@ -42,15 +42,20 @@ def admin_listar_dados(request):
     para que o painel do aplicativo possa listar e selecionar facilmente.
     """
     variantes_data = []
-    for v in VarianteTupi.objects.all().order_by("ordem"):
+    variantes_qs = (
+        VarianteTupi.objects.select_related("trilha")
+        .prefetch_related("trilha__capitulos__licoes__exercicios")
+        .order_by("ordem")
+    )
+    for v in variantes_qs:
         trilha = getattr(v, "trilha", None)
         capitulos_data = []
         if trilha:
-            for cap in trilha.capitulos.all().order_by("numero"):
+            for cap in trilha.capitulos.all():
                 licoes_data = []
-                for lic in cap.licoes.all().order_by("numero"):
+                for lic in cap.licoes.all():
                     exs_data = []
-                    for ex in lic.exercicios.all().order_by("ordem"):
+                    for ex in lic.exercicios.all():
                         exs_data.append({
                             "id": ex.id,
                             "tipo": ex.tipo,

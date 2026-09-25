@@ -11,6 +11,7 @@ import 'package:tupi_lingo/features/auth/presentation/register.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tupi_lingo/core/render/shader_warmup_engine.dart';
 import 'package:tupi_lingo/core/concurrency/ten_isolates_engine.dart';
 import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
@@ -22,9 +23,19 @@ import 'package:tupi_lingo/core/world_engine/hud/developer_hud.dart';
 import 'package:tupi_lingo/core/logging/app_logger.dart';
 import 'package:tupi_lingo/core/world_engine/world_sync_service.dart';
 import 'package:tupi_lingo/features/admin/presentation/platform_suite/platform_suite_shell.dart';
+import 'package:tupi_lingo/features/store/services/store_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ─── Inicialização Instantânea de Cache de Tema, Cosméticos e Endpoint ──────
+  final prefs = await SharedPreferences.getInstance();
+  ThemeNotifier.instance.init(prefs);
+  StoreService.instance.init(prefs);
+  final cachedWinnerApi = prefs.getString('tupilingo_last_winning_api_url')?.trim();
+  if (cachedWinnerApi != null && cachedWinnerApi.isNotEmpty) {
+    dotenv.env['API_URL'] = cachedWinnerApi;
+  }
 
   // ─── Modo Imersivo Completo (Oculta Status Bar e Navigation Bar 100% do tempo) ─
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -147,12 +158,17 @@ class _AuthGateState extends State<AuthGate> {
           ? dotenv.env['API_URL']!.trim()
           : 'http://127.0.0.1:8000';
 
+      final prefs = await SharedPreferences.getInstance();
+      final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
+
       // Lista de candidatos de rede testados SIMULTANEAMENTE (Parallel Race):
-      // 1. 127.0.0.1:8000 (ADB reverse via USB - ultra veloz ~10ms quando plugado)
-      // 2. configuredUrl (URL definida no .env ou --dart-define)
-      // 3. 10.12.229.10:8000 (IP da máquina na rede Wi-Fi local)
-      // 4. 10.0.2.2:8000 (Gateway padrão do emulador Android)
+      // 1. cachedWinningUrl (se já conectou antes com sucesso, testa primeiro)
+      // 2. 127.0.0.1:8000 (ADB reverse via USB - ultra veloz ~10ms quando plugado)
+      // 3. configuredUrl (URL definida no .env ou --dart-define)
+      // 4. 10.12.229.10:8000 (IP da máquina na rede Wi-Fi local)
+      // 5. 10.0.2.2:8000 (Gateway padrão do emulador Android)
       final candidateUrls = <String>{
+        if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) cachedWinningUrl,
         'http://127.0.0.1:8000',
         configuredUrl,
         'http://10.12.229.10:8000',
@@ -179,12 +195,13 @@ class _AuthGateState extends State<AuthGate> {
         if (winner != null) {
           response = winner.response;
           dotenv.env['API_URL'] = winner.url; // Sincroniza o endpoint vencedor
+          await prefs.setString('tupilingo_last_winning_api_url', winner.url);
           break;
         }
 
         // Aguarda backoff progressivo apenas se nenhum candidato respondeu (ex: Django ainda subindo)
         if (attempt < maxAttempts - 1) {
-          await Future.delayed(Duration(milliseconds: 500 * (attempt + 1)));
+          await Future.delayed(Duration(milliseconds: 300 * (attempt + 1)));
         }
       }
 
@@ -245,16 +262,62 @@ class _AuthGateState extends State<AuthGate> {
     }
   }
 
-  /// Dispara requisições simultâneas para todos os endpoints candidatos em paralelo (Race).
-  /// O primeiro que responder com status válido (200, 401 ou 403) vence imediatamente,
-  /// eliminando qualquer espera de timeout sequencial (USB, Wi-Fi e Emulador).
+  /// Dispara requisições simultâneas para todos os endpoints candidatos em paralelo (Parallel Race).
+  /// Fase 1: Healthcheck ultrarrápido (/api/health/) para descobrir instantaneamente (~10ms)
+  /// se o servidor está acessível via ADB USB, Wi-Fi ou Gateway.
+  /// Fase 2: Com o endpoint ativo confirmado, consulta check-user de forma direta e limpa.
   Future<({String url, http.Response response})?> _raceCandidateEndpoints(
     List<String> candidates,
     String token, {
-    Duration candidateTimeout = const Duration(seconds: 3),
+    Duration candidateTimeout = const Duration(seconds: 4),
   }) async {
     if (candidates.isEmpty) return null;
 
+    // FASE 1: Dispara health check ultra rápido em paralelo (~10ms via ADB USB ou Wi-Fi local).
+    final healthCompleter = Completer<String?>();
+    int healthPending = candidates.length;
+
+    for (final candidate in candidates) {
+      http
+          .get(Uri.parse('$candidate/api/health/'))
+          .timeout(const Duration(milliseconds: 1500))
+          .then((res) {
+            if (!healthCompleter.isCompleted && res.statusCode == 200) {
+              healthCompleter.complete(candidate);
+              return;
+            }
+            healthPending--;
+            if (healthPending <= 0 && !healthCompleter.isCompleted) {
+              healthCompleter.complete(null);
+            }
+          })
+          .catchError((_) {
+            healthPending--;
+            if (healthPending <= 0 && !healthCompleter.isCompleted) {
+              healthCompleter.complete(null);
+            }
+          });
+    }
+
+    final fastWinner = await healthCompleter.future;
+
+    if (fastWinner != null) {
+      try {
+        final res = await http.post(
+          Uri.parse('$fastWinner/api/v1/auth/check-user'),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ).timeout(const Duration(seconds: 6));
+
+        if (res.statusCode == 200 || res.statusCode == 401 || res.statusCode == 403) {
+          return (url: fastWinner, response: res);
+        }
+      } catch (_) {}
+    }
+
+    // FASE 2 (Fallback): Race concorrente direto no check-user caso o healthcheck falhe
     final completer = Completer<({String url, http.Response response})?>();
     int pending = candidates.length;
 

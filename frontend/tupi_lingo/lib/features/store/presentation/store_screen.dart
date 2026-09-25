@@ -25,10 +25,10 @@ class _StoreScreenState extends State<StoreScreen> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    _conchas = widget.initialConchas ?? 0;
+    _conchas = widget.initialConchas ?? _storeService.cachedConchas;
     _tabController = TabController(length: 3, vsync: this);
     _allItems = StoreService.getInitialCanonicalItems();
-    _equippedItems = Map.from(StoreService.defaultEquippedMap);
+    _equippedItems = Map.from(_storeService.cachedEquipped);
     _isLoading = false;
     _loadStoreData();
   }

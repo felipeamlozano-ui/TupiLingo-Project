@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/security/secure_vault.dart';
+import 'package:tupi_lingo/core/theme/app_theme.dart';
 import '../models/store_item.dart';
 
 class StoreCatalogResult {
@@ -46,6 +48,59 @@ class StoreService {
   static const String _keyEquippedFrame = 'tupilingo_cosmetic_equipped_frame';
   static const String _keyUnlockedItems = 'tupilingo_cosmetics_unlocked_set';
   static const String _keyUserBalanceConchas = 'tupilingo_user_balance_conchas';
+
+  static final Set<String> _cachedUnlockedIds = {'theme_floresta_jade', 'avatar_arara', 'frame_madeira'};
+  static final Map<String, String> _cachedEquipped = Map.from(defaultEquippedMap);
+  static int _cachedConchas = 0;
+  static bool _isInitialized = false;
+
+  void init(SharedPreferences prefs) {
+    try {
+      final savedUnlockedStr = prefs.getString(_keyUnlockedItems);
+      if (savedUnlockedStr != null && savedUnlockedStr.isNotEmpty) {
+        final decoded = jsonDecode(savedUnlockedStr);
+        if (decoded is List) {
+          _cachedUnlockedIds.addAll(decoded.map((e) => e.toString()));
+        }
+      }
+    } catch (_) {}
+
+    final equippedTheme = prefs.getString(_keyEquippedTheme);
+    if (equippedTheme != null && equippedTheme.isNotEmpty) {
+      _cachedEquipped['theme'] = equippedTheme;
+    }
+    final equippedAvatar = prefs.getString(_keyEquippedAvatar);
+    if (equippedAvatar != null && equippedAvatar.isNotEmpty) {
+      _cachedEquipped['avatar'] = equippedAvatar;
+    }
+    final equippedFrame = prefs.getString(_keyEquippedFrame);
+    if (equippedFrame != null && equippedFrame.isNotEmpty) {
+      _cachedEquipped['frame'] = equippedFrame;
+    }
+
+    _cachedConchas = prefs.getInt(_keyUserBalanceConchas) ?? 0;
+    _isInitialized = true;
+  }
+
+  Set<String> get cachedUnlockedIds => Set.unmodifiable(_cachedUnlockedIds);
+  Map<String, String> get cachedEquipped => Map.unmodifiable(_cachedEquipped);
+  int get cachedConchas => _cachedConchas;
+  bool get isInitialized => _isInitialized;
+
+  List<StoreItem> getCachedItems() {
+    return canonicalCatalogJson.map((map) {
+      final id = map['id']?.toString() ?? '';
+      final type = map['type']?.toString() ?? '';
+      final isUnlocked = _cachedUnlockedIds.contains(id) || map['is_default'] == true;
+      final isEquipped = _cachedEquipped[type] == id;
+
+      return StoreItem.fromJson(
+        map,
+        isUnlocked: isUnlocked,
+        isEquipped: isEquipped,
+      );
+    }).toList();
+  }
 
   String get _baseUrl => dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
 
@@ -277,10 +332,36 @@ class StoreService {
         final security = (data['security'] as Map<String, dynamic>?) ?? {};
         final signature = security['signature'] as String?;
 
-        // Salva assinatura e equipados no cofre protegido por hardware
+        // Salva assinatura e equipados no cofre protegido por hardware e SharedPreferences
         if (signature != null && signature.isNotEmpty) {
           await SecureVault.writeSecret(_keyLastStoreSignature, signature);
         }
+
+        _cachedUnlockedIds.addAll(unlockedList);
+        _cachedEquipped.addAll(equippedMap);
+        final conchas = (balance['conchas'] as num?)?.toInt() ?? 0;
+        _cachedConchas = conchas;
+
+        try {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setInt(_keyUserBalanceConchas, conchas);
+          if (_cachedUnlockedIds.isNotEmpty) {
+            await prefs.setString(_keyUnlockedItems, jsonEncode(_cachedUnlockedIds.toList()));
+          }
+          if (equippedMap.containsKey('theme')) {
+            await prefs.setString(_keyEquippedTheme, equippedMap['theme']!);
+            if (equippedMap['theme'] != ThemeNotifier.instance.equippedTheme) {
+              await ThemeNotifier.instance.setEquippedTheme(equippedMap['theme']!);
+            }
+          }
+          if (equippedMap.containsKey('avatar')) {
+            await prefs.setString(_keyEquippedAvatar, equippedMap['avatar']!);
+          }
+          if (equippedMap.containsKey('frame')) {
+            await prefs.setString(_keyEquippedFrame, equippedMap['frame']!);
+          }
+        } catch (_) {}
+
         if (equippedMap.containsKey('theme')) {
           await SecureVault.writeSecret(_keyEquippedTheme, equippedMap['theme']!);
         }
@@ -292,10 +373,9 @@ class StoreService {
         }
 
         // Cache local de desbloqueios e saldo
-        if (unlockedList.isNotEmpty) {
-          await SecureVault.writeSecret(_keyUnlockedItems, jsonEncode(unlockedList.toList()));
+        if (_cachedUnlockedIds.isNotEmpty) {
+          await SecureVault.writeSecret(_keyUnlockedItems, jsonEncode(_cachedUnlockedIds.toList()));
         }
-        final conchas = (balance['conchas'] as num?)?.toInt() ?? 0;
         await SecureVault.writeSecret(_keyUserBalanceConchas, conchas.toString());
 
         final sourceList = rawCatalog.isNotEmpty ? rawCatalog : canonicalCatalogJson;
@@ -304,8 +384,8 @@ class StoreService {
           final map = itemJson as Map<String, dynamic>;
           final id = map['id']?.toString() ?? '';
           final type = map['type']?.toString() ?? '';
-          final isUnlocked = unlockedList.contains(id) || map['is_default'] == true;
-          final isEquipped = equippedMap[type] == id;
+          final isUnlocked = _cachedUnlockedIds.contains(id) || map['is_default'] == true;
+          final isEquipped = _cachedEquipped[type] == id;
 
           return StoreItem.fromJson(
             map,
@@ -318,7 +398,7 @@ class StoreService {
           items: items,
           conchas: conchas,
           xpTotal: (balance['xp_total'] as num?)?.toInt() ?? 0,
-          equippedItems: equippedMap,
+          equippedItems: Map.from(_cachedEquipped),
           signature: signature,
         );
       }
@@ -331,53 +411,45 @@ class StoreService {
 
   /// Retorna o catálogo canônico local com estado de cosméticos e conchas salvos em cache
   Future<StoreCatalogResult> getLocalCatalogFallback() async {
-    final equippedTheme = await SecureVault.readSecret(_keyEquippedTheme) ?? 'theme_floresta_jade';
-    final equippedAvatar = await SecureVault.readSecret(_keyEquippedAvatar) ?? 'avatar_arara';
-    final equippedFrame = await SecureVault.readSecret(_keyEquippedFrame) ?? 'frame_madeira';
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      init(prefs);
+    } catch (_) {}
 
-    final equippedMap = {
-      'theme': equippedTheme,
-      'avatar': equippedAvatar,
-      'frame': equippedFrame,
-    };
+    final equippedTheme = _cachedEquipped['theme'] ?? await SecureVault.readSecret(_keyEquippedTheme) ?? 'theme_floresta_jade';
+    final equippedAvatar = _cachedEquipped['avatar'] ?? await SecureVault.readSecret(_keyEquippedAvatar) ?? 'avatar_arara';
+    final equippedFrame = _cachedEquipped['frame'] ?? await SecureVault.readSecret(_keyEquippedFrame) ?? 'frame_madeira';
 
-    final Set<String> unlockedSet = {'theme_floresta_jade', 'avatar_arara', 'frame_madeira'};
+    _cachedEquipped['theme'] = equippedTheme;
+    _cachedEquipped['avatar'] = equippedAvatar;
+    _cachedEquipped['frame'] = equippedFrame;
+
+    final Set<String> unlockedSet = Set.from(_cachedUnlockedIds);
     try {
       final savedUnlockedStr = await SecureVault.readSecret(_keyUnlockedItems);
       if (savedUnlockedStr != null && savedUnlockedStr.isNotEmpty) {
         final decoded = jsonDecode(savedUnlockedStr);
         if (decoded is List) {
           unlockedSet.addAll(decoded.map((e) => e.toString()));
+          _cachedUnlockedIds.addAll(unlockedSet);
         }
       }
     } catch (_) {}
 
-    int savedConchas = 0;
+    int savedConchas = _cachedConchas;
     try {
       final savedConchasStr = await SecureVault.readSecret(_keyUserBalanceConchas);
       if (savedConchasStr != null) {
-        savedConchas = int.tryParse(savedConchasStr) ?? 0;
+        savedConchas = int.tryParse(savedConchasStr) ?? savedConchas;
+        _cachedConchas = savedConchas;
       }
     } catch (_) {}
 
-    final items = canonicalCatalogJson.map((map) {
-      final id = map['id']?.toString() ?? '';
-      final type = map['type']?.toString() ?? '';
-      final isUnlocked = unlockedSet.contains(id) || map['is_default'] == true;
-      final isEquipped = equippedMap[type] == id;
-
-      return StoreItem.fromJson(
-        map,
-        isUnlocked: isUnlocked,
-        isEquipped: isEquipped,
-      );
-    }).toList();
-
     return StoreCatalogResult(
-      items: items,
+      items: getCachedItems(),
       conchas: savedConchas,
       xpTotal: 0,
-      equippedItems: equippedMap,
+      equippedItems: Map.from(_cachedEquipped),
     );
   }
 
@@ -431,10 +503,10 @@ class StoreService {
       }
 
       final price = (item['price'] as num?)?.toInt() ?? 0;
-      int currentConchas = 0;
+      int currentConchas = _cachedConchas;
       try {
         final savedStr = await SecureVault.readSecret(_keyUserBalanceConchas);
-        if (savedStr != null) currentConchas = int.tryParse(savedStr) ?? 0;
+        if (savedStr != null) currentConchas = int.tryParse(savedStr) ?? _cachedConchas;
       } catch (_) {}
 
       final newBalance = currentConchas >= price ? currentConchas - price : 0;
@@ -449,19 +521,17 @@ class StoreService {
   }
 
   Future<void> _recordLocalUnlock(String itemId, int newBalance) async {
-    await SecureVault.writeSecret(_keyUserBalanceConchas, newBalance.toString());
-    final Set<String> unlockedSet = {'theme_floresta_jade', 'avatar_arara', 'frame_madeira'};
+    _cachedConchas = newBalance;
+    _cachedUnlockedIds.add(itemId);
+
     try {
-      final savedUnlockedStr = await SecureVault.readSecret(_keyUnlockedItems);
-      if (savedUnlockedStr != null && savedUnlockedStr.isNotEmpty) {
-        final decoded = jsonDecode(savedUnlockedStr);
-        if (decoded is List) {
-          unlockedSet.addAll(decoded.map((e) => e.toString()));
-        }
-      }
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt(_keyUserBalanceConchas, newBalance);
+      await prefs.setString(_keyUnlockedItems, jsonEncode(_cachedUnlockedIds.toList()));
     } catch (_) {}
-    unlockedSet.add(itemId);
-    await SecureVault.writeSecret(_keyUnlockedItems, jsonEncode(unlockedSet.toList()));
+
+    await SecureVault.writeSecret(_keyUserBalanceConchas, newBalance.toString());
+    await SecureVault.writeSecret(_keyUnlockedItems, jsonEncode(_cachedUnlockedIds.toList()));
   }
 
   // Envia requisição para equipar o cosmético e salva a escolha no cofre seguro local
@@ -477,6 +547,20 @@ class StoreService {
     }
 
     if (itemType != null) {
+      _cachedEquipped[itemType] = itemId;
+
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        if (itemType == 'theme') {
+          await prefs.setString(_keyEquippedTheme, itemId);
+          await ThemeNotifier.instance.setEquippedTheme(itemId);
+        } else if (itemType == 'avatar') {
+          await prefs.setString(_keyEquippedAvatar, itemId);
+        } else if (itemType == 'frame') {
+          await prefs.setString(_keyEquippedFrame, itemId);
+        }
+      } catch (_) {}
+
       if (itemType == 'theme') {
         await SecureVault.writeSecret(_keyEquippedTheme, itemId);
       } else if (itemType == 'avatar') {
@@ -496,12 +580,9 @@ class StoreService {
         final data = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
         final returnedType = data['item_type'] as String?;
         if (returnedType != null) {
+          _cachedEquipped[returnedType] = itemId;
           if (returnedType == 'theme') {
-            await SecureVault.writeSecret(_keyEquippedTheme, itemId);
-          } else if (returnedType == 'avatar') {
-            await SecureVault.writeSecret(_keyEquippedAvatar, itemId);
-          } else if (returnedType == 'frame') {
-            await SecureVault.writeSecret(_keyEquippedFrame, itemId);
+            await ThemeNotifier.instance.setEquippedTheme(itemId);
           }
         }
       }
@@ -512,6 +593,9 @@ class StoreService {
 
   // Lê do cofre seguro o identificador do cosmético que está ativo
   Future<String?> getEquippedCosmetic(String type) async {
+    if (_cachedEquipped.containsKey(type)) {
+      return _cachedEquipped[type];
+    }
     if (type == 'theme') return await SecureVault.readSecret(_keyEquippedTheme);
     if (type == 'avatar') return await SecureVault.readSecret(_keyEquippedAvatar);
     if (type == 'frame') return await SecureVault.readSecret(_keyEquippedFrame);
@@ -526,17 +610,6 @@ class StoreService {
 
   /// Constrói a lista canônica inicial em memória com os 16 itens oficiais
   static List<StoreItem> getInitialCanonicalItems() {
-    return canonicalCatalogJson.map((map) {
-      final id = map['id']?.toString() ?? '';
-      final type = map['type']?.toString() ?? '';
-      final isDefault = map['is_default'] == true;
-      final isEquipped = defaultEquippedMap[type] == id;
-
-      return StoreItem.fromJson(
-        map,
-        isUnlocked: isDefault,
-        isEquipped: isEquipped,
-      );
-    }).toList();
+    return instance.getCachedItems();
   }
 }

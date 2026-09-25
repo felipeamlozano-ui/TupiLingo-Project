@@ -209,5 +209,76 @@ void main() {
       expect(find.text('Avatares & Molduras'), findsOneWidget);
       expect(tester.takeException(), isNull, reason: 'No RenderFlex overflow in StoreScreen on narrow screen');
     });
+
+    testWidgets('Thematic practice question header badges render on narrow screen (320x600) without RenderFlex overflow', (tester) async {
+      tester.view.physicalSize = const Size(320, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD08A45).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          'Múltipla Escolha',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD08A45)),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0E5D4E).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.psychology_rounded, size: 13, color: Color(0xFF0E5D4E)),
+                            SizedBox(width: 4),
+                            Text(
+                              'Reforço Inteligente',
+                              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    'Questão 1 de 5',
+                    style: TextStyle(fontSize: 13, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.text('Múltipla Escolha'), findsOneWidget);
+      expect(find.text('Reforço Inteligente'), findsOneWidget);
+      expect(find.text('Questão 1 de 5'), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'Zero RenderFlex overflow on narrow device');
+    });
   });
 }
+

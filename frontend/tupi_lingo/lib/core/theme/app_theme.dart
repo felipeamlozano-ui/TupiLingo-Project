@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tupi_lingo/core/security/secure_vault.dart';
 
-/// Gerenciador reativo de modo de tema com persistência segura
+/// Gerenciador reativo de modo de tema e cosmético equipado com persistência segura
 class ThemeNotifier extends ValueNotifier<ThemeMode> {
   static final ThemeNotifier instance = ThemeNotifier._();
 
   static const String _storageKey = 'tupilingo_theme_mode';
+  static const String _keyEquippedTheme = 'tupilingo_cosmetic_equipped_theme';
+
+  String _equippedTheme = 'theme_floresta_jade';
+  String get equippedTheme => _equippedTheme;
 
   ThemeNotifier._() : super(ThemeMode.system) {
     _loadPersistedTheme();
+  }
+
+  /// Inicialização síncrona a partir do SharedPreferences em cold-boot
+  void init(SharedPreferences prefs) {
+    final savedMode = prefs.getString(_storageKey);
+    if (savedMode == 'dark') {
+      value = ThemeMode.dark;
+    } else if (savedMode == 'light') {
+      value = ThemeMode.light;
+    } else {
+      value = ThemeMode.system;
+    }
+
+    final savedTheme = prefs.getString(_keyEquippedTheme);
+    if (savedTheme != null && savedTheme.isNotEmpty) {
+      _equippedTheme = savedTheme;
+    }
+    notifyListeners();
   }
 
   bool isDark(BuildContext context) {
@@ -20,26 +43,47 @@ class ThemeNotifier extends ValueNotifier<ThemeMode> {
 
   Future<void> _loadPersistedTheme() async {
     try {
-      final saved = await SecureVault.readSecret(_storageKey);
-      if (saved == 'dark') {
+      final prefs = await SharedPreferences.getInstance();
+      final savedMode = prefs.getString(_storageKey) ?? await SecureVault.readSecret(_storageKey);
+      if (savedMode == 'dark') {
         value = ThemeMode.dark;
-      } else if (saved == 'light') {
+      } else if (savedMode == 'light') {
         value = ThemeMode.light;
       } else {
         value = ThemeMode.system;
       }
+
+      final savedTheme = prefs.getString(_keyEquippedTheme) ?? await SecureVault.readSecret(_keyEquippedTheme);
+      if (savedTheme != null && savedTheme.isNotEmpty) {
+        _equippedTheme = savedTheme;
+      }
+      notifyListeners();
     } catch (_) {
-      // Degradação graciosa mantendo ThemeMode.system
+      // Degradação graciosa mantendo ThemeMode.system e tema padrão
     }
   }
 
   Future<void> setThemeMode(ThemeMode mode) async {
     value = mode;
+    notifyListeners();
     try {
       final str = mode == ThemeMode.dark
           ? 'dark'
           : (mode == ThemeMode.light ? 'light' : 'system');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_storageKey, str);
       await SecureVault.writeSecret(_storageKey, str);
+    } catch (_) {}
+  }
+
+  /// Equipa um tema cosmético da Loja e atualiza o aplicativo instantaneamente
+  Future<void> setEquippedTheme(String themeId) async {
+    _equippedTheme = themeId;
+    notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_keyEquippedTheme, themeId);
+      await SecureVault.writeSecret(_keyEquippedTheme, themeId);
     } catch (_) {}
   }
 
@@ -51,33 +95,232 @@ class ThemeNotifier extends ValueNotifier<ThemeMode> {
 
 /// Sistema Central de Temas e Identidade Visual Ancestral Tupi
 class AppTheme {
-  // ─── Paleta Clara (Areia Sagrada & Floresta Diurna) ───────────────────────────
-  static const Color lightBackground = Color(0xFFF3F2E8);
-  static const Color lightCardSurface = Colors.white;
-  static const Color lightSurfaceSubtle = Color(0xFFFAF9F5);
-  static const Color lightPrimary = Color(0xFFD08A45);
-  static const Color lightPrimaryDark = Color(0xFFA56627);
-  static const Color lightAccent = Color(0xFF0E5D4E);
-  static const Color lightAccentDark = Color(0xFF083C32);
-  static const Color lightTextPrimary = Color(0xFF1F2937);
-  static const Color lightTextSecondary = Color(0xFF565D6D);
-  static const Color lightBorder = Color(0xFFD0D0D0);
-  static const Color lightNodeLocked = Color(0xFFE2DFD4);
-  static const Color lightNodeLockedBorder = Color(0xFFC7C3B6);
+  // ─── Paletas Dinâmicas por Tema Cosmético Equipado ───────────────────────────
 
-  // ─── Paleta Noturna Ancestral (Obsidiana da Floresta & Jade Polido) ───────────
-  static const Color darkBackground = Color(0xFF0C1210);       // Obsidiana da Noite Amazônica
-  static const Color darkCardSurface = Color(0xFF151E1B);      // Jade Escuro Polido
-  static const Color darkSurfaceSubtle = Color(0xFF1C2723);    // Camada de elevação
-  static const Color darkPrimary = Color(0xFFE69A56);          // Âmbar Flamejante Ancestral
-  static const Color darkPrimaryDark = Color(0xFFB87030);      // Sombra 3D Âmbar
-  static const Color darkAccent = Color(0xFF1EC9A5);           // Esmeralda Radiante
-  static const Color darkAccentDark = Color(0xFF0E6955);       // Sombra 3D Esmeralda
-  static const Color darkTextPrimary = Color(0xFFF3F4F6);      // Luar Noturno
-  static const Color darkTextSecondary = Color(0xFF9CA3AF);    // Névoa Prateada
-  static const Color darkBorder = Color(0xFF263833);           // Rocha de Jade
-  static const Color darkNodeLocked = Color(0xFF19231F);       // Pedra Noturna Adormecida
-  static const Color darkNodeLockedBorder = Color(0xFF23322C); // Sombra Pedra Noturna
+  static Color get lightBackground {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFFBF7EE);
+      case 'theme_noite_tupa':
+        return const Color(0xFFF0F6FA);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFFDF2F0);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFFF3F2E8);
+    }
+  }
+
+  static Color get darkBackground {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFF18130C);
+      case 'theme_noite_tupa':
+        return const Color(0xFF060B15);
+      case 'theme_fogo_caapora':
+        return const Color(0xFF150808);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF0C1210);
+    }
+  }
+
+  static Color get lightCardSurface => Colors.white;
+
+  static Color get darkCardSurface {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFF241C13);
+      case 'theme_noite_tupa':
+        return const Color(0xFF0F172A);
+      case 'theme_fogo_caapora':
+        return const Color(0xFF220D0D);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF151E1B);
+    }
+  }
+
+  static Color get lightSurfaceSubtle {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFFFFDF7);
+      case 'theme_noite_tupa':
+        return const Color(0xFFF7FAFC);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFFFF8F7);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFFFAF9F5);
+    }
+  }
+
+  static Color get darkSurfaceSubtle {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFF2E2419);
+      case 'theme_noite_tupa':
+        return const Color(0xFF1E293B);
+      case 'theme_fogo_caapora':
+        return const Color(0xFF2E1212);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF1C2723);
+    }
+  }
+
+  static Color get lightPrimary {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFD08A45);
+      case 'theme_noite_tupa':
+        return const Color(0xFF0284C7);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFDC2626);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFFD08A45);
+    }
+  }
+
+  static Color get lightPrimaryDark {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFA56627);
+      case 'theme_noite_tupa':
+        return const Color(0xFF0369A1);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFB91C1C);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFFA56627);
+    }
+  }
+
+  static Color get darkPrimary {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFF59E0B);
+      case 'theme_noite_tupa':
+        return const Color(0xFF38BDF8);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFF87171);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFFE69A56);
+    }
+  }
+
+  static Color get darkPrimaryDark {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFD97706);
+      case 'theme_noite_tupa':
+        return const Color(0xFF0284C7);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFDC2626);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFFB87030);
+    }
+  }
+
+  static Color get lightAccent {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFC27803);
+      case 'theme_noite_tupa':
+        return const Color(0xFF0284C7);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFEA580C);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF0E5D4E);
+    }
+  }
+
+  static Color get lightAccentDark {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFF8D5500);
+      case 'theme_noite_tupa':
+        return const Color(0xFF075985);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFC2410C);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF083C32);
+    }
+  }
+
+  static Color get darkAccent {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFE08B38);
+      case 'theme_noite_tupa':
+        return const Color(0xFF38BDF8);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFFB923C);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF1EC9A5);
+    }
+  }
+
+  static Color get darkAccentDark {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFB46318);
+      case 'theme_noite_tupa':
+        return const Color(0xFF0369A1);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFEA580C);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF0E6955);
+    }
+  }
+
+  static Color get lightTextPrimary => const Color(0xFF1F2937);
+
+  static Color get lightTextSecondary => const Color(0xFF565D6D);
+
+  static Color get darkTextPrimary => const Color(0xFFF3F4F6);
+
+  static Color get darkTextSecondary => const Color(0xFF9CA3AF);
+
+  static Color get lightBorder {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFFEADFC9);
+      case 'theme_noite_tupa':
+        return const Color(0xFFCFE2EE);
+      case 'theme_fogo_caapora':
+        return const Color(0xFFF2D2CE);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFFD0D0D0);
+    }
+  }
+
+  static Color get darkBorder {
+    switch (ThemeNotifier.instance.equippedTheme) {
+      case 'theme_areia_sagrada':
+        return const Color(0xFF3D2E1F);
+      case 'theme_noite_tupa':
+        return const Color(0xFF1E293B);
+      case 'theme_fogo_caapora':
+        return const Color(0xFF3D1818);
+      case 'theme_floresta_jade':
+      default:
+        return const Color(0xFF263833);
+    }
+  }
+
+  static Color get lightNodeLocked => const Color(0xFFE2DFD4);
+  static Color get lightNodeLockedBorder => const Color(0xFFC7C3B6);
+  static Color get darkNodeLocked => const Color(0xFF19231F);
+  static Color get darkNodeLockedBorder => const Color(0xFF23322C);
 
   // ─── Gamificação Comum ────────────────────────────────────────────────────────
   static const Color xpColor = Color(0xFFD08A45);
@@ -134,7 +377,7 @@ class AppTheme {
       scaffoldBackgroundColor: lightBackground,
       cardColor: lightCardSurface,
       dividerColor: lightBorder,
-      colorScheme: const ColorScheme.light(
+      colorScheme: ColorScheme.light(
         primary: lightPrimary,
         secondary: lightAccent,
         surface: lightCardSurface,
@@ -143,12 +386,12 @@ class AppTheme {
         onSecondary: Colors.white,
         onSurface: lightTextPrimary,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: lightBackground,
         foregroundColor: lightTextPrimary,
         elevation: 0,
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: lightCardSurface,
         selectedItemColor: lightPrimary,
         unselectedItemColor: lightTextSecondary,
@@ -165,7 +408,7 @@ class AppTheme {
       scaffoldBackgroundColor: darkBackground,
       cardColor: darkCardSurface,
       dividerColor: darkBorder,
-      colorScheme: const ColorScheme.dark(
+      colorScheme: ColorScheme.dark(
         primary: darkPrimary,
         secondary: darkAccent,
         surface: darkCardSurface,
@@ -174,12 +417,12 @@ class AppTheme {
         onSecondary: Colors.white,
         onSurface: darkTextPrimary,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: darkBackground,
         foregroundColor: darkTextPrimary,
         elevation: 0,
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: darkCardSurface,
         selectedItemColor: darkPrimary,
         unselectedItemColor: darkTextSecondary,

@@ -507,41 +507,49 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
                 children: [
-                  Row(
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 8,
+                    runSpacing: 8,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFD08A45).withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          _getTipoLabel(tipo),
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD08A45)),
-                        ),
-                      ),
-                      if (_srsTerms.isNotEmpty) ...[
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF0E5D4E).withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(10),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD08A45).withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              _getTipoLabel(tipo),
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD08A45)),
+                            ),
                           ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.psychology_rounded, size: 13, color: Color(0xFF0E5D4E)),
-                              SizedBox(width: 4),
-                              Text(
-                                'Reforço Inteligente',
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E)),
+                          if (_srsTerms.isNotEmpty)
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF0E5D4E).withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
-                      const Spacer(),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.psychology_rounded, size: 13, color: Color(0xFF0E5D4E)),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    'Reforço Inteligente',
+                                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
                       Text(
                         'Questão ${_currentIndex + 1} de ${_questions.length}',
                         style: TextStyle(fontSize: 13, color: AppTheme.textSecondary(context)),

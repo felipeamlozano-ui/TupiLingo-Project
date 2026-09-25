@@ -80,6 +80,7 @@ _VARIANTE_NOME_MAP: dict[str, str] = {
     "tupi":                "Tupi Antigo (língua dos Tupinambás, séc. XVI)",
     "tupi_contemporaneo":  "Tupi Contemporâneo",
     "tupinamba":           "Tupinambá",
+    "kamaiurá":            "Kamaiurá",
 }
 
 _NIVEL_TEMAS: dict[int, tuple[str, str]] = {
