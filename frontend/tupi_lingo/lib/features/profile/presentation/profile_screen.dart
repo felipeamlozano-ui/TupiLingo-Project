@@ -143,41 +143,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('🎉', style: TextStyle(fontSize: 48)),
-            const SizedBox(height: 12),
-            const Text(
-              'SUBIDA DE NÍVEL!',
-              style: TextStyle(
-                color: Color(0xFFD08A45),
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.2,
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('🎉', style: TextStyle(fontSize: 48)),
+              const SizedBox(height: 12),
+              const Text(
+                'SUBIDA DE NÍVEL!',
+                style: TextStyle(
+                  color: Color(0xFFD08A45),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.2,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              'Parabéns! Sua precisão nas últimas lições elevou seu nível real para $novoNivel.',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF1F2937),
-                fontSize: 14,
-                height: 1.3,
+              const SizedBox(height: 6),
+              Text(
+                'Parabéns! Sua precisão nas últimas lições elevou seu nível real para $novoNivel.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF1F2937),
+                  fontSize: 14,
+                  height: 1.3,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0E5D4E),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0E5D4E),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                ),
+                child: const Text('Continuar Rumo à Mestria', style: TextStyle(color: Colors.white)),
               ),
-              child: const Text('Continuar Rumo à Mestria', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

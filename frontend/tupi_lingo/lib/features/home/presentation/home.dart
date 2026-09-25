@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -26,22 +25,17 @@ import 'package:tupi_lingo/features/home/presentation/widgets/trail_app_bar.dart
 import 'package:tupi_lingo/features/store/presentation/store_screen.dart';
 import 'package:tupi_lingo/features/feature_flags/application/providers/feature_flag_provider.dart';
 import 'package:tupi_lingo/features/feature_flags/domain/entities/flag_ids.dart';
+import 'widgets/chapter_banner_card.dart';
+import 'widgets/home_bottom_bar.dart';
+import 'widgets/lesson_start_modal.dart';
+import 'widgets/trail_canvas_view.dart';
 
-/// Paleta de Cores com Identidade Visual Tupi Ancestral
+// Paleta de cores com identidade visual Tupi para a tela inicial
 class _TupiColors {
-  static const backgroundSecondary = Color(0xFFEAE7DC); // Areia suave de contraste
-  static const surfaceCard = Colors.white;            // Cards em branco puro
-  static const primary = Color(0xFFD08A45);           // Âmbar / Terracota Tupi (Ação principal)
-  static const primaryDark = Color(0xFFA56627);       // Borda 3D botão terracota
-  static const accent = Color(0xFF0E5D4E);            // Verde Floresta Profundo (Ancestral)
-  static const accentDark = Color(0xFF083C32);        // Borda 3D botão verde
-  static const textDark = Color(0xFF1F2937);          // Texto principal escuro (alto contraste)
-  static const textMuted = Color(0xFF565D6D);         // Subtítulos e textos secundários (AppColors.subtitle)
-  static const border = Color(0xFFD0D0D0);            // Bordas padrão do app (AppColors.inputBorder)
-  static const nodeLocked = Color(0xFFE2DFD4);        // Pedra clara para nós bloqueados
-  static const nodeLockedBorder = Color(0xFFC7C3B6);  // Borda 3D nó bloqueado
-  static const xpColor = Color(0xFFD08A45);           // Âmbar/Dourado Tupi
-  static const shellColor = Color(0xFF0E5D4E);        // Conchas / Moedas do Pindorama
+  static const primary = Color(0xFFD08A45);
+  static const accent = Color(0xFF0E5D4E);
+  static const textDark = Color(0xFF1F2937);
+  static const textMuted = Color(0xFF565D6D);
 }
 
 class HomeScreen extends StatefulWidget {
@@ -95,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     AppProgressionNotifier.instance.addListener(_onProgressionUpdated);
   }
 
+  // Configura o preloader preditivo pra adiantar dados da lição em segundo plano
   void _setupPredictivePreloading() {
     PredictivePreloadingEngine.instance.setPreloadHandler((route, params) async {
       if (route == '/lesson' && params != null && params['licao_id'] != null) {
@@ -114,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
+  // Identifica a próxima lição liberada e já aquece em cache antes do clique
   void _preheatNextLesson() {
     for (final cap in _capitulos) {
       for (final lic in cap.licoes) {
@@ -128,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  // Atualiza conchas locais e recarrega os dados quando o progresso global é notificado
   void _onProgressionUpdated() {
     if (mounted) {
       final gained = AppProgressionNotifier.instance.lastConchasGained;
@@ -140,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  // Instancia controladores de animação para os efeitos de pulso e flutuação da trilha
   void _initAnimControllers() {
     _pulseController ??= AnimationController(
       vsync: this,
@@ -166,6 +164,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  // Destrava a próxima lição otimisticamente na memória para dar feedback instantâneo ao aluno
   void _optimisticallyUnlockLesson(int completedLessonId, {int? unlockedNextLessonId}) {
     if (!mounted || _capitulos.isEmpty) return;
     setState(() {
@@ -233,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }).toList();
   }
 
+  // Bate na API pra trazer perfil do aluno, dias de ofensiva, conchas e lista de capítulos
   Future<void> _loadUserDataAndTrail() async {
     // Silent background refresh se já houver capítulos carregados (zero spinner)
     if (_capitulos.isEmpty) {
@@ -473,6 +473,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  // Converte a string de status vinda da API para o enum tipado da trilha
   LicaoStatus _parseLicaoStatus(String raw) {
     switch (raw) {
       case 'concluida': return LicaoStatus.concluida;
@@ -482,6 +483,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  // Monta a tela principal com topbar persistente, alternância de abas e bottom bar
   @override
   Widget build(BuildContext context) {
     _initAnimControllers();
@@ -516,6 +518,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Abre a Oca de Trocas com saldo de conchas e atualiza a carteira no retorno
   Future<void> _openStore() async {
     final updatedConchas = await Navigator.push<int>(
       context,
@@ -531,6 +534,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // ─── Barra Superior Global ──────────────────────────────────────────────────
+  // Barra superior com ofensiva, XP, conchas e botão de troca de idioma
   Widget _buildGlobalTopBar() {
     final bool isCustomThemesEnabled = featureFlagRepositoryInstance.isEnabled(FlagIds.customThemesEnabled);
     return TrailAppBar(
@@ -551,6 +555,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // ─── ABA 1: TRILHA (Caminho Interativo de Aventura) ──────────────────────────
+  // Aba principal com o caminho vertical da trilha e seletor de capítulos
   Widget _buildTrilhaTab() {
     if (_capitulos.isEmpty) {
       return Center(
@@ -586,17 +591,49 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             const SizedBox(height: 14),
 
             // Card Principal da Unidade / Capítulo (Banner TupiLingo)
-            _buildChapterBannerCard(cap),
+            ChapterBannerCard(
+              cap: cap,
+              onCulturalGuideTap: () => _showCulturalGuideDialog(cap),
+            ),
             const SizedBox(height: 24),
 
             // O Caminho de Lições Serpenteante
-            _buildWindingLessonPath(cap),
+            TrailCanvasView(
+              cap: cap,
+              isCurrentActiveChapter: (safeIndex < _capitulos.length && _capitulos[safeIndex].id == cap.id),
+              pulseController: _pulseController,
+              floatController: _floatController,
+              onLessonTap: _onLessonNodeTapped,
+              onChestTap: (c, chest) => _openIndigenousChestModal(c, chest),
+              onCollectedChestTap: (c, chest) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: _TupiColors.accent,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    content: Row(
+                      children: [
+                        const Text('✨', style: TextStyle(fontSize: 18)),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            'Baú do Capítulo ${c.numero} já resgatado! (+${chest?.recompensaXp ?? 75} XP)',
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
+  // Pílulas horizontais navegáveis com os capítulos disponíveis da variante
   Widget _buildChapterTabsHeader() {
     return SizedBox(
       height: 38,
@@ -642,577 +679,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildChapterBannerCard(CapituloMapData cap) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0E5D4E), Color(0xFF134E41)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF0E5D4E).withValues(alpha: 0.25),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'CAPÍTULO ${cap.numero} • UNIDADE BÁSICA',
-                style: const TextStyle(
-                  color: Color(0xFFFFD166),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.2,
-                ),
-              ),
-              GestureDetector(
-                onTap: () => _showCulturalGuideDialog(cap),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('', style: TextStyle(fontSize: 12)),
-                      SizedBox(width: 4),
-                      Text(
-                        'Guia Cultural',
-                        style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            cap.titulo,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            cap.descricao,
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.85),
-              fontSize: 13,
-              height: 1.35,
-            ),
-          ),
-          const SizedBox(height: 12),
-          // Barra de progresso real do capítulo
-          Row(
-            children: [
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: (cap.moduleProgressPercentage / 100).clamp(0.0, 1.0),
-                    backgroundColor: Colors.white.withValues(alpha: 0.2),
-                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFFD166)),
-                    minHeight: 6,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                '${cap.moduleProgressPercentage.toInt()}%',
-                style: const TextStyle(
-                  color: Color(0xFFFFD166),
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
-  /// Constrói o caminho de lições ondulado verticalmente com baú cultural
-  Widget _buildWindingLessonPath(CapituloMapData cap) {
-    final licoes = cap.licoes;
-    if (licoes.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(32),
-        child: Center(
-          child: Text('Nenhuma lição neste capítulo.', style: TextStyle(color: _TupiColors.textMuted)),
-        ),
-      );
-    }
-
-    // Padrão de zigue-zague harmônico para os botões (-0.5 = esq, 0.0 = centro, 0.5 = dir)
-    final offsets = [0.0, -0.45, 0.45, 0.0, -0.45, 0.45];
-
-    // Localiza a lição prioritária que o aluno deve fazer agora
-    // Só destaca se este capítulo for o capítulo ativo sendo exibido
-    final isCurrentActiveChapter =
-        (_selectedCapituloIndex < _capitulos.length && _capitulos[_selectedCapituloIndex].id == cap.id);
-    final targetIndex = isCurrentActiveChapter
-        ? licoes.indexWhere(
-            (l) => l.status == LicaoStatus.disponivel || l.status == LicaoStatus.emAndamento,
-          )
-        : -1;
-
-    return Column(
-      children: List.generate(licoes.length, (index) {
-        final licao = licoes[index];
-        final dx = offsets[index % offsets.length];
-
-        final isTarget = (index == targetIndex);
-        final isInProgress = licao.status == LicaoStatus.emAndamento;
-
-        return Column(
-          children: [
-            if (index > 0) _buildTrailConnector(index),
-
-            // Nó da Lição com posicionamento ondulado
-            Align(
-              alignment: Alignment(dx, 0),
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.center,
-                children: [
-                  // Aura pulsante radiante isolada por RepaintBoundary para fluidez 120 FPS
-                  if (isTarget && _pulseController != null)
-                    RepaintBoundary(
-                      child: AnimatedBuilder(
-                        animation: _pulseController!,
-                        builder: (context, _) {
-                          final val = _pulseController?.value ?? 0.0;
-                          return Container(
-                            width: 86 + (val * 18),
-                            height: 86 + (val * 18),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: const Color(0xFFFFB300).withValues(alpha: 0.32 - (val * 0.18)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFFFFD54F).withValues(alpha: 0.40 - (val * 0.20)),
-                                  blurRadius: 18 + (val * 8),
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                  // Balãozinho de destaque "SUA VEZ / CONTINUAR" flutuante animado
-                  if (isTarget && _floatController != null)
-                    Positioned(
-                      top: -36,
-                      child: RepaintBoundary(
-                        child: AnimatedBuilder(
-                          animation: _floatController!,
-                          builder: (context, _) {
-                            final val = _floatController?.value ?? 0.0;
-                            final dy = math.sin(val * math.pi) * 3.5;
-                            return Transform.translate(
-                              offset: Offset(0, dy),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xFF0E5D4E), Color(0xFF1B4332)],
-                                  ),
-                                  borderRadius: BorderRadius.circular(14),
-                                  border: Border.all(color: const Color(0xFFFFD166), width: 1.5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color(0xFFFFD166).withValues(alpha: 0.45),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(isInProgress ? '' : ' ', style: const TextStyle(fontSize: 11)),
-                                    Text(
-                                      isInProgress ? 'CONTINUAR' : 'SUA VEZ',
-                                      style: const TextStyle(
-                                        color: Color(0xFFFFD166),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w900,
-                                        letterSpacing: 0.9,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-
-                  // Botão 3D Tátil com suporte a destaque e brilho
-                  _build3DNodeButton(licao, isTarget: isTarget),
-                ],
-              ),
-            ),
-
-            // Se for após a Lição 2, insere o baú de recompensa cultural do capítulo
-            if (index == 1 && licoes.length > 2) ...[
-              const SizedBox(height: 16),
-              _buildTrailConnector(99),
-              _buildChestRewardNode(cap, cap.chestReward),
-            ],
-          ],
-        );
-      }),
-    );
-  }
-
-  Widget _build3DNodeButton(LicaoMapData licao, {bool isTarget = false}) {
-    final isCompleted = licao.status == LicaoStatus.concluida;
-    final isInProgress = licao.status == LicaoStatus.emAndamento;
-    final isAvailable = licao.status == LicaoStatus.disponivel;
-    final isPlayable = isAvailable || isInProgress;
-    final isLocked = licao.status == LicaoStatus.bloqueada;
-
-    Widget iconWidget;
-    Gradient? bgGradient;
-    Color? solidColor;
-    Color bottomColor;
-    List<BoxShadow> shadows;
-
-    final isDark = AppTheme.isDark(context);
-
-    if (isCompleted) {
-      solidColor = isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent;
-      bottomColor = isDark ? const Color(0xFF0E6955) : _TupiColors.accentDark;
-      iconWidget = const Text('👑', style: TextStyle(fontSize: 28));
-      shadows = [
-        BoxShadow(
-          color: (isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent).withValues(alpha: 0.35),
-          blurRadius: 10,
-          offset: const Offset(0, 4),
-        ),
-      ];
-    } else if (isTarget) {
-      // 🌟 LIÇÃO QUE ELE DEVE FAZER: Super brilhante, dourada radiante, efeito glossy
-      bgGradient = const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFFFFDF70), // Dourado brilhante no topo
-          Color(0xFFFFB300), // Ouro vivo
-          Color(0xFFF57C00), // Âmbar solar na base
-        ],
-      );
-      bottomColor = const Color(0xFFC67D00);
-      iconWidget = Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
-        children: [
-          const Text('⭐', style: TextStyle(fontSize: 32)),
-          Positioned(
-            right: -6,
-            top: -4,
-            child: const Text('✨', style: TextStyle(fontSize: 14)),
-          ),
-        ],
-      );
-      shadows = [
-        BoxShadow(
-          color: const Color(0xFFFFB300).withValues(alpha: 0.60),
-          blurRadius: 18,
-          spreadRadius: 2,
-          offset: const Offset(0, 4),
-        ),
-        BoxShadow(
-          color: const Color(0xFFFFD54F).withValues(alpha: 0.40),
-          blurRadius: 8,
-          offset: const Offset(0, 1),
-        ),
-      ];
-    } else if (isPlayable) {
-      // Outra lição disponível ou em andamento (não é a lição alvo primária)
-      solidColor = _TupiColors.primary;
-      bottomColor = _TupiColors.primaryDark;
-      iconWidget = Text(isInProgress ? '🏹' : '⭐', style: const TextStyle(fontSize: 28));
-      shadows = [
-        BoxShadow(
-          color: _TupiColors.primary.withValues(alpha: 0.35),
-          blurRadius: 10,
-          offset: const Offset(0, 4),
-        ),
-      ];
-    } else {
-      // Bloqueada: pedra clara ou obsidiana escura com cadeado
-      solidColor = isDark ? const Color(0xFF19231F) : _TupiColors.nodeLocked;
-      bottomColor = isDark ? const Color(0xFF23322C) : _TupiColors.nodeLockedBorder;
-      iconWidget = Icon(Icons.lock_rounded, color: AppTheme.textSecondary(context), size: 26);
-      shadows = [
-        BoxShadow(
-          color: isDark ? Colors.black.withValues(alpha: 0.3) : const Color(0xFFC7C3B6).withValues(alpha: 0.35),
-          blurRadius: 6,
-          offset: const Offset(0, 3),
-        ),
-      ];
-    }
-
-    return GestureDetector(
-      onTap: () => _onLessonNodeTapped(licao),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 74,
-            height: 74,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: solidColor,
-              gradient: bgGradient,
-              border: Border(
-                bottom: BorderSide(color: bottomColor, width: 6),
-              ),
-              boxShadow: shadows,
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Reflexo glossy curvo (efeito botão vítreo brilhante 3D)
-                if (isTarget || isPlayable)
-                  Positioned(
-                    top: 4,
-                    left: 10,
-                    right: 10,
-                    height: 22,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white.withValues(alpha: isTarget ? 0.70 : 0.35),
-                            Colors.white.withValues(alpha: 0.0),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                Center(child: iconWidget),
-              ],
-            ),
-          ),
-          const SizedBox(height: 6),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: AppTheme.surface(context),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: isTarget ? const Color(0xFFFFB300) : AppTheme.border(context),
-                width: isTarget ? 1.5 : 1.0,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: isTarget
-                      ? const Color(0xFFFFB300).withValues(alpha: 0.18)
-                      : Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Text(
-              licao.titulo,
-              style: TextStyle(
-                color: isLocked
-                    ? AppTheme.textSecondary(context)
-                    : isTarget
-                        ? const Color(0xFFFFB300)
-                        : AppTheme.textPrimary(context),
-                fontSize: 11,
-                fontWeight: isTarget ? FontWeight.w900 : FontWeight.bold,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTrailConnector(int index) {
-    final isDark = AppTheme.isDark(context);
-    return Container(
-      width: 6,
-      height: 36,
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF263833) : const Color(0xFFDCD8CB),
-        borderRadius: BorderRadius.circular(3),
-      ),
-    );
-  }
-
-  Widget _buildChestRewardNode(CapituloMapData cap, ChestRewardMapData? chest) {
-    final status = chest?.status ?? 'bloqueado';
-    final isUnlocked = status == 'disponivel';
-    final isCollected = status == 'concluido';
-    final isDark = AppTheme.isDark(context);
-
-    Color bgColor;
-    Border border;
-    List<BoxShadow> shadows;
-    Widget icon;
-    String badgeText;
-
-    if (isCollected) {
-      bgColor = isDark ? const Color(0xFF172420) : const Color(0xFFFAF9F5);
-      border = Border.all(color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent, width: 2.5);
-      shadows = [
-        BoxShadow(
-          color: (isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent).withValues(alpha: 0.2),
-          blurRadius: 8,
-          spreadRadius: 1,
-        ),
-      ];
-      icon = const Text('✨', style: TextStyle(fontSize: 26));
-      badgeText = 'COLETADO';
-    } else if (isUnlocked) {
-      bgColor = AppTheme.surface(context);
-      border = Border.all(color: _TupiColors.xpColor, width: 3);
-      shadows = [
-        BoxShadow(
-          color: _TupiColors.xpColor.withValues(alpha: 0.45),
-          blurRadius: 14,
-          spreadRadius: 3,
-        ),
-      ];
-      icon = const Text('🏺', style: TextStyle(fontSize: 28));
-      badgeText = 'ABRIR BAÚ';
-    } else {
-      bgColor = isDark ? const Color(0xFF19231F) : _TupiColors.nodeLocked;
-      border = Border.all(color: isDark ? const Color(0xFF23322C) : _TupiColors.nodeLockedBorder, width: 2);
-      shadows = [
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.05),
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ];
-      icon = const Text('🔒', style: TextStyle(fontSize: 22));
-      badgeText = 'BLOQUEADO';
-    }
-
-    return GestureDetector(
-      onTap: () {
-        if (isCollected) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: _TupiColors.accent,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              content: Row(
-                children: [
-                  const Text('✨', style: TextStyle(fontSize: 18)),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Baú do Capítulo ${cap.numero} já resgatado! (+${chest?.recompensaXp ?? 75} XP)',
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        } else if (isUnlocked) {
-          _openIndigenousChestModal(cap, chest!);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: _TupiColors.textDark,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              content: const Row(
-                children: [
-                  Text('🔒', style: TextStyle(fontSize: 18)),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Conclua as lições anteriores do capítulo para abrir este baú cultural.',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-      },
-      child: Column(
-        children: [
-          RepaintBoundary(
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: bgColor,
-                shape: BoxShape.circle,
-                border: border,
-                boxShadow: shadows,
-              ),
-              child: Center(child: icon),
-            ),
-          ),
-          const SizedBox(height: 6),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            decoration: BoxDecoration(
-              color: isCollected
-                  ? _TupiColors.accent.withValues(alpha: 0.15)
-                  : isUnlocked
-                      ? _TupiColors.primary.withValues(alpha: 0.2)
-                      : const Color(0xFFE2DFD4),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              badgeText,
-              style: TextStyle(
-                color: isCollected
-                    ? _TupiColors.accent
-                    : isUnlocked
-                        ? _TupiColors.primaryDark
-                        : _TupiColors.textMuted,
-                fontSize: 9,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.6,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
+  // Dispara o diálogo de abertura de baú de artefato e credita recompensas de XP e conchas
   void _openIndigenousChestModal(CapituloMapData cap, ChestRewardMapData chest) {
     showDialog(
       context: context,
@@ -1343,6 +811,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Abre o mapa histórico interativo do Pindorama com as aldeias ancestrais
   void _showInteractiveMapModal() {
     Navigator.push(
       context,
@@ -1352,6 +821,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Trata o toque em um nó de lição verificando se está bloqueada antes de abrir o modal
   void _onLessonNodeTapped(LicaoMapData licao) {
     if (licao.status == LicaoStatus.bloqueada) {
       if (!_isAdmin) {
@@ -1400,191 +870,64 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       );
     }
 
-    // Abre BottomSheet de Início da Lição
+    // Abre modal com detalhes da lição e inicia o player ao confirmar
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (ctx) => _buildLessonModal(licao),
-    );
-  }
-
-  Widget _buildLessonModal(LicaoMapData licao) {
-    final isCompleted = licao.status == LicaoStatus.concluida;
-
-    return Container(
-      padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
-      decoration: const BoxDecoration(
-        color: _TupiColors.surfaceCard,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Center(
-            child: Container(
-              width: 44,
-              height: 5,
-              decoration: BoxDecoration(
-                color: _TupiColors.border,
-                borderRadius: BorderRadius.circular(2.5),
-              ),
+      builder: (ctx) => LessonStartModal(
+        licao: licao,
+        onStart: () async {
+          Navigator.pop(ctx);
+          final dynamic result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => LessonPlayerScreen(licaoId: licao.id),
             ),
-          ),
-          const SizedBox(height: 20),
+          );
 
-          Row(
-            children: [
-              Text(isCompleted ? '👑' : '🏹', style: const TextStyle(fontSize: 32)),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'LIÇÃO ${licao.numero}',
-                      style: const TextStyle(
-                        color: _TupiColors.xpColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    Text(
-                      licao.titulo,
-                      style: const TextStyle(
-                        color: _TupiColors.textDark,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            licao.descricao,
-            style: const TextStyle(color: _TupiColors.textMuted, fontSize: 14, height: 1.4),
-          ),
-          const SizedBox(height: 20),
-
-          // Recompensas
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: _TupiColors.backgroundSecondary,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: _TupiColors.border),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  children: [
-                    const Text('⭐', style: TextStyle(fontSize: 16)),
-                    const SizedBox(width: 6),
-                    Text(
-                      '+${licao.xpBase} XP',
-                      style: const TextStyle(
-                        color: _TupiColors.xpColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('🐚', style: TextStyle(fontSize: 16)),
-                    const SizedBox(width: 6),
-                    const Text(
-                      '+10 Conchas',
-                      style: TextStyle(
-                        color: _TupiColors.shellColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Botão Grande Começar
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              final dynamic result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => LessonPlayerScreen(licaoId: licao.id),
-                ),
-              );
-
-              // Atualização otimista instantânea (0ms) na interface
-              if (result != null && (result is Map<String, dynamic> || result == true)) {
-                int? nextLicaoId;
-                if (result is Map<String, dynamic>) {
-                  nextLicaoId = (result['proxima_licao_id'] as num?)?.toInt();
-                  final earnedXp = (result['earned_xp'] as num?)?.toInt() ?? 0;
-                  final totalXp = (result['xp_total'] as num?)?.toInt();
-                  final streak = (result['streak_atual'] as num?)?.toInt() ??
-                      (result['dias_ofensiva'] as num?)?.toInt();
-                  if (totalXp != null && totalXp > 0) {
-                    _xpTotal = totalXp;
-                  } else if (earnedXp > 0) {
-                    _xpTotal += earnedXp;
-                  }
-                  if (streak != null && streak > 0) {
-                    _streakDays = streak;
-                  }
-                  final returnedVid = (result['variante_id'] as num?)?.toInt();
-                  if (returnedVid != null && returnedVid > 0) {
-                    _varianteId = returnedVid;
-                    if (result['variante_nome'] != null) {
-                      _varianteNome = result['variante_nome'].toString();
-                    }
-                  }
-                }
-                _optimisticallyUnlockLesson(licao.id, unlockedNextLessonId: nextLicaoId);
-
-                DashboardRepositoryImpl.invalidateCache();
-                AppProgressionNotifier.instance.notifyProgressUpdated(
-                  completedLessonId: licao.id,
-                  unlockedLessonId: nextLicaoId,
-                  newStreak: _streakDays,
-                );
-              } else {
-                DashboardRepositoryImpl.invalidateCache();
-                AppProgressionNotifier.instance.notifyProgressUpdated();
+          if (result != null && (result is Map<String, dynamic> || result == true)) {
+            int? nextLicaoId;
+            if (result is Map<String, dynamic>) {
+              nextLicaoId = (result['proxima_licao_id'] as num?)?.toInt();
+              final earnedXp = (result['earned_xp'] as num?)?.toInt() ?? 0;
+              final totalXp = (result['xp_total'] as num?)?.toInt();
+              final streak = (result['streak_atual'] as num?)?.toInt() ??
+                  (result['dias_ofensiva'] as num?)?.toInt();
+              if (totalXp != null && totalXp > 0) {
+                _xpTotal = totalXp;
+              } else if (earnedXp > 0) {
+                _xpTotal += earnedXp;
               }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isCompleted ? _TupiColors.accent : _TupiColors.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-              elevation: 4,
-            ),
-            child: Text(
-              isCompleted
-                  ? 'REVISAR LIÇÃO'
-                  : licao.status == LicaoStatus.emAndamento
-                      ? 'CONTINUAR LIÇÃO'
-                      : 'COMEÇAR LIÇÃO',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 0.8),
-            ),
-          ),
-        ],
+              if (streak != null && streak > 0) {
+                _streakDays = streak;
+              }
+              final returnedVid = (result['variante_id'] as num?)?.toInt();
+              if (returnedVid != null && returnedVid > 0) {
+                _varianteId = returnedVid;
+                if (result['variante_nome'] != null) {
+                  _varianteNome = result['variante_nome'].toString();
+                }
+              }
+            }
+            _optimisticallyUnlockLesson(licao.id, unlockedNextLessonId: nextLicaoId);
+
+            DashboardRepositoryImpl.invalidateCache();
+            AppProgressionNotifier.instance.notifyProgressUpdated(
+              completedLessonId: licao.id,
+              unlockedLessonId: nextLicaoId,
+              newStreak: _streakDays,
+            );
+          } else {
+            DashboardRepositoryImpl.invalidateCache();
+            AppProgressionNotifier.instance.notifyProgressUpdated();
+          }
+        },
       ),
     );
   }
 
+  // Exibe modal com contexto cultural, etnográfico e saberes tradicionais do capítulo
   void _showCulturalGuideDialog(CapituloMapData cap) {
     showDialog(
       context: context,
@@ -1606,22 +949,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              cap.titulo,
-              style: const TextStyle(color: _TupiColors.primary, fontWeight: FontWeight.bold, fontSize: 15),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'No Tupi Antigo, a fala expressava conexão íntima com a terra e com os ancestrais. '
-              'As palavras tinham sonoridade rica em vogais nasais e guturais (como o som de "Y"). '
-              'Pratique os termos e preste atenção aos animais sagrados da floresta.',
-              style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13, height: 1.45),
-            ),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                cap.titulo,
+                style: const TextStyle(color: _TupiColors.primary, fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'No Tupi Antigo, a fala expressava conexão íntima com a terra e com os ancestrais. '
+                'As palavras tinham sonoridade rica em vogais nasais e guturais (como o som de "Y"). '
+                'Pratique os termos e preste atenção aos animais sagrados da floresta.',
+                style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13, height: 1.45),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -1639,6 +984,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Abre o bottomsheet para alternar a variante linguística indígena ativa
   void _showLanguageSwitcher(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -1679,6 +1025,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // ─── ABA 2: PRÁTICA (Hub de Treino e Revisão Espaçada) ────────────────────────
+  // Hub de prática com cards de treino diário, flashcards e módulos temáticos
   Widget _buildPraticaTab() {
     return Center(
       child: ConstrainedBox(
@@ -1892,6 +1239,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Inicia diálogo interativo de flashcards com o vocabulário local
   void _startFlashcardSession() {
     showDialog(
       context: context,
@@ -1899,6 +1247,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Grade horizontal de temas (Natureza, Animais, Mitologia, etc.) gerados dinamicamente
   Widget _buildThematicPracticeSection() {
     final themes = [
       {'id': 'natureza', 'titulo': 'Natureza e Rios', 'icone': '🌿', 'desc': 'Águas, matas e cosmos', 'xp': 20, 'conchas': 3},
@@ -2001,6 +1350,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Navega para a tela de treino temático passando a variante e o tema selecionado
   Future<void> _openThematicPractice(String tema, {String? temaId, bool bypassCache = false}) async {
     await Navigator.push(
       context,
@@ -2020,6 +1370,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  // Diálogo para o aluno digitar um tema livre e gerar treino por inteligência artificial
   void _showCustomThemeDialog() {
     final controller = TextEditingController();
     showDialog(
@@ -2030,27 +1381,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           title: const Row(
             children: [
               Text('🏹 ', style: TextStyle(fontSize: 22)),
-              Text('Tema Personalizado', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Escolha qualquer assunto. A inteligência da aldeia buscará os saberes e vocabulários adequados:',
-                style: TextStyle(fontSize: 13, color: Colors.grey),
-              ),
-              const SizedBox(height: 14),
-              TextField(
-                controller: controller,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: 'Ex: Constelações, Pesca, Pintura corporal...',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+              Expanded(
+                child: Text(
+                  'Tema Personalizado',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Escolha qualquer assunto. A inteligência da aldeia buscará os saberes e vocabulários adequados:',
+                  style: TextStyle(fontSize: 13, color: Colors.grey),
+                ),
+                const SizedBox(height: 14),
+                TextField(
+                  controller: controller,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: 'Ex: Constelações, Pesca, Pintura corporal...',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -2078,56 +1437,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // ─── Barra de Navegação Inferior (BottomNavigationBar) ───────────────────────
+  // Barra de navegação inferior com abas de Trilha, Prática, Perfil e Admin
   Widget _buildBottomNavigationBar() {
-    final maxTabs = _isAdmin ? 4 : 3;
-    final safeIndex = _currentTabIndex < maxTabs ? _currentTabIndex : 0;
-    final isDark = AppTheme.isDark(context);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.surface(context),
-        border: Border(
-          top: BorderSide(color: AppTheme.border(context), width: 1),
-        ),
-      ),
-      child: BottomNavigationBar(
-        currentIndex: safeIndex,
-        onTap: (index) => setState(() => _currentTabIndex = index),
-        backgroundColor: AppTheme.surface(context),
-        elevation: 0,
-        selectedItemColor: isDark ? const Color(0xFFE69A56) : _TupiColors.primary,
-        unselectedItemColor: AppTheme.textSecondary(context),
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-        unselectedLabelStyle: const TextStyle(fontSize: 11),
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.explore_rounded),
-            activeIcon: Icon(Icons.explore_rounded, color: isDark ? const Color(0xFFE69A56) : _TupiColors.primary),
-            label: 'Trilha',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.fitness_center_rounded),
-            activeIcon: Icon(Icons.fitness_center_rounded, color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent),
-            label: 'Prática',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.person_rounded),
-            activeIcon: Icon(Icons.person_rounded, color: isDark ? const Color(0xFFE69A56) : _TupiColors.primary),
-            label: 'Perfil',
-          ),
-          if (_isAdmin)
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.admin_panel_settings_rounded),
-              activeIcon: Icon(Icons.admin_panel_settings_rounded, color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)),
-              label: 'Admin',
-            ),
-        ],
-      ),
+    return HomeBottomBar(
+      currentTabIndex: _currentTabIndex,
+      isAdmin: _isAdmin,
+      onTabSelected: (index) => setState(() => _currentTabIndex = index),
     );
   }
 
+  // Tela de erro com botão de recarregar caso a conexão falhe
   Widget _buildErrorView() {
     return Center(
       child: Padding(

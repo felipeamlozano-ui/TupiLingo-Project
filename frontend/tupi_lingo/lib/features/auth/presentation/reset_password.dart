@@ -39,6 +39,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     super.dispose();
   }
 
+  // Exibe snackbar com ícone indicativo de sucesso ou erro seguindo as cores do tema
   void _showSnackBar(String message, {bool isError = true}) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -83,6 +84,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
+  // Valida a força da nova senha e salva no Supabase Auth deslogando a sessão temporária
   Future<void> _updatePassword() async {
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
@@ -143,6 +145,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     }
   }
 
+  // Renderiza os campos de senha com botões de alternar visualização do texto
   @override
   Widget build(BuildContext context) {
     final isDark = AppTheme.isDark(context);

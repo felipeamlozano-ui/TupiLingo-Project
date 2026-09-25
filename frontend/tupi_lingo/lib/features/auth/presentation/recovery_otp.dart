@@ -37,6 +37,7 @@ class _RecoveryOtpScreenState extends State<RecoveryOtpScreen> {
     super.dispose();
   }
 
+  // Temporizador de 60s pra evitar spam de solicitação de código de recuperação
   void _startCooldown() {
     setState(() {
       _canResend = false;
@@ -60,6 +61,7 @@ class _RecoveryOtpScreenState extends State<RecoveryOtpScreen> {
     });
   }
 
+  // Mostra feedback flutuante estilizado de acordo com o tema
   void _showSnackBar(String message, {bool isError = true}) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -104,6 +106,7 @@ class _RecoveryOtpScreenState extends State<RecoveryOtpScreen> {
     );
   }
 
+  // Checa se o OTP de recuperação é válido para liberar a tela de nova senha
   Future<void> _verifyOtp() async {
     final token = _otpController.text.trim();
 
@@ -156,6 +159,7 @@ class _RecoveryOtpScreenState extends State<RecoveryOtpScreen> {
     }
   }
 
+  // Pede novo disparo de código de recuperação para o email informado
   Future<void> _resendCode() async {
     if (!_canResend) return;
 
@@ -179,6 +183,7 @@ class _RecoveryOtpScreenState extends State<RecoveryOtpScreen> {
     }
   }
 
+  // Oculta parte do e-mail na interface pra preservar privacidade visual do usuário
   String _maskEmail(String email) {
     if (!email.contains('@')) return email;
     final parts = email.split('@');
@@ -190,6 +195,7 @@ class _RecoveryOtpScreenState extends State<RecoveryOtpScreen> {
     return '${name.substring(0, 2)}***@$domain';
   }
 
+  // Constrói a tela de digitação do OTP com contador e botão de envio
   @override
   Widget build(BuildContext context) {
     final isDark = AppTheme.isDark(context);

@@ -42,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // Alerta flutuante com visual personalizado pra avisar quando o auth falhou
   void _showErrorSnackBar({
     required String title,
     required String message,
@@ -108,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // Bate a autenticação de email/senha no Supabase e trata erros comuns amigavelmente
   Future<void> _handleLogin() async {
     // validação rápida no front pra economizar round-trip
     if (_emailController.text.trim().isEmpty) {
@@ -167,6 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // Dispara login social via OAuth do Google respeitando web vs app nativo
   Future<void> _handleGoogleLogin() async {
     try {
       // no web é só redirect normal, no app precisa do deep link customizado
@@ -198,6 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
+  // Pede o e-mail (caso vazio) e manda o link/código de recuperação pelo Supabase
   Future<void> _handleForgotPassword() async {
     String email = _emailController.text.trim();
     
@@ -210,22 +214,24 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: AppTheme.surface(context),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             title: Text('Recuperar Senha', style: TextStyle(color: AppTheme.primary(context), fontWeight: FontWeight.bold)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Digite seu e-mail para receber o código de recuperação.', style: TextStyle(color: AppTheme.textSecondary(context))),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: dialogEmailController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(color: AppTheme.textPrimary(context)),
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: TextStyle(color: AppTheme.textSecondary(context)),
-                    border: const OutlineInputBorder(),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Digite seu e-mail para receber o código de recuperação.', style: TextStyle(color: AppTheme.textSecondary(context))),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: dialogEmailController,
+                    keyboardType: TextInputType.emailAddress,
+                    style: TextStyle(color: AppTheme.textPrimary(context)),
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: TextStyle(color: AppTheme.textSecondary(context)),
+                      border: const OutlineInputBorder(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             actions: [
               TextButton(
@@ -296,6 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // Monta o formulário centralizado com suporte automático ao tema escuro e claro
   @override
   Widget build(BuildContext context) {
     final isDarkMode = AppTheme.isDark(context);

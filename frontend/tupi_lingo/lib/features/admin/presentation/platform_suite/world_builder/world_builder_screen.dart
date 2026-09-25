@@ -5,14 +5,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
+import 'package:tupi_lingo/core/world_engine/world_sync_service.dart';
 import '../shared/floating_toolbar.dart';
-import '../shared/status_badge.dart';
 import 'entity_property_panel.dart';
 import 'publish_pipeline_dialog.dart';
+import 'widgets/pindorama_world_defaults.dart';
+import 'widgets/river_geometry_panel.dart';
+import 'widgets/shape_selector_bar.dart';
+import 'widgets/territory_geometry_panel.dart';
+import 'widgets/world_builder_top_bar.dart';
+import 'widgets/world_overlay_manager_sheet.dart';
 import 'world_builder_canvas.dart';
-import 'package:tupi_lingo/core/world_engine/world_sync_service.dart';
 
-/// Tela Mestre do World Builder CMS (RFC-013 Capítulo 19).
+// Tela Mestre do World Builder CMS (RFC-013 Capítulo 19).
 class WorldBuilderScreen extends ConsumerStatefulWidget {
   const WorldBuilderScreen({super.key});
 
@@ -23,30 +28,37 @@ class WorldBuilderScreen extends ConsumerStatefulWidget {
 class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
   final TransformationController _transformationController = TransformationController();
   WorldBuilderTool _activeTool = WorldBuilderTool.select;
-  bool _showFogPreview = false;
-  double _fogOpacity = 0.85;
+
+  // Presets de Criação Rápida
+  String _selectedRiverShapePreset = 's_curve';
+  String _selectedTerritoryShapePreset = 'free';
+
+  // Entidade Selecionada no Painel de Propriedades
+  Map<String, dynamic>? _selectedEntity;
+  String _selectedEntityType = '';
+
+  // Modo de Conexão Universal de Trilha
+  Map<String, dynamic>? _connectionStartEntity;
+  String _connectionStartType = '';
+
+  // Simulação de Fog of War
+  bool _showFogPreview = true;
+  double _fogOpacity = 0.88;
   Color _fogColor = const Color(0xFF060B15);
-  bool _isLoading = false;
+
+  // Época Histórica Ativa
   String _selectedEpoch = '1500: Primeiro Contato';
 
-  // Entidades do Mundo
+  // Listas de Entidades Cartográficas em Memória
   List<Map<String, dynamic>> _territories = [];
   List<Map<String, dynamic>> _villages = [];
   List<Map<String, dynamic>> _rivers = [];
   List<Map<String, dynamic>> _trails = [];
   List<Map<String, dynamic>> _quests = [];
 
-  // Seleção e Conexão Universal de Nós (Aldeias, Rios, Territórios, Quests)
-  Map<String, dynamic>? _selectedEntity;
-  String _selectedEntityType = '';
-  Map<String, dynamic>? _connectionStartEntity;
-  String _connectionStartType = '';
+  bool _isLoading = false;
 
-  // Presets de Formato Geométrico (Demanda 1: Edição Total)
-  String _selectedRiverShapePreset = 'line';
-  String _selectedTerritoryShapePreset = 'free';
-
-  // Gerenciador de Camadas (Overlays)
+  // Toggle de Camadas
   bool _layerTerritories = true;
   bool _layerVillages = true;
   bool _layerRivers = true;
@@ -55,6 +67,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
   bool _layerGrid = true;
   bool _layerLabels = true;
 
+  // Inicializa a tela centralizando a visão cartográfica e carregando os dados do mundo.
   @override
   void initState() {
     super.initState();
@@ -62,114 +75,22 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     _loadWorldData();
   }
 
+  // Libera o TransformationController do canvas ao destruir o widget.
   @override
   void dispose() {
     _transformationController.dispose();
     super.dispose();
   }
 
+  // Reposiciona e ajusta o zoom da câmera do canvas nas coordenadas centrais do mapa.
   void _centerCanvas() {
     _transformationController.value = Matrix4.identity()
       ..setTranslationRaw(-1200.0, -1200.0, 0.0)
       ..scaleByDouble(0.85, 0.85, 1.0, 1.0);
   }
 
-  // ─── Geradores Paramétricos de Formas (Demanda 1) ──────────────────────────
-  List<List<double>> _generateRiverPoints(String preset, Offset center, [double size = 150.0]) {
-    final cx = center.dx;
-    final cy = center.dy;
-    switch (preset) {
-      case 'l_curve':
-        return [
-          [cx - size * 0.8, cy - size * 0.8],
-          [cx, cy - size * 0.8],
-          [cx, cy],
-          [cx, cy + size * 0.8],
-        ];
-      case 's_curve':
-        return [
-          [cx - size, cy - size * 0.45],
-          [cx - size * 0.35, cy + size * 0.45],
-          [cx + size * 0.35, cy - size * 0.45],
-          [cx + size, cy + size * 0.45],
-        ];
-      case 'circle':
-        final r = size * 0.75;
-        final pts = <List<double>>[];
-        for (var i = 0; i <= 8; i++) {
-          final angle = (i % 8) * 2 * pi / 8;
-          pts.add([cx + r * cos(angle), cy + r * sin(angle)]);
-        }
-        return pts;
-      case 'zigzag':
-        return [
-          [cx - size, cy - size * 0.4],
-          [cx - size * 0.6, cy + size * 0.4],
-          [cx - size * 0.2, cy - size * 0.4],
-          [cx + size * 0.2, cy + size * 0.4],
-          [cx + size * 0.6, cy - size * 0.4],
-          [cx + size, cy + size * 0.4],
-        ];
-      case 'meander':
-        return [
-          [cx - size * 1.2, cy - size * 0.3],
-          [cx - size * 0.8, cy + size * 0.5],
-          [cx - size * 0.4, cy - size * 0.4],
-          [cx, cy + size * 0.5],
-          [cx + size * 0.4, cy - size * 0.4],
-          [cx + size * 0.8, cy + size * 0.5],
-          [cx + size * 1.2, cy - size * 0.3],
-        ];
-      case 'line':
-      default:
-        return [
-          [cx - size, cy],
-          [cx - size / 3, cy],
-          [cx + size / 3, cy],
-          [cx + size, cy],
-        ];
-    }
-  }
-
-  List<List<double>> _generateTerritoryPoints(String preset, Offset center, [double size = 180.0]) {
-    final cx = center.dx;
-    final cy = center.dy;
-    switch (preset) {
-      case 'circle':
-        final pts = <List<double>>[];
-        for (var i = 0; i < 12; i++) {
-          final angle = i * 2 * pi / 12;
-          pts.add([cx + size * cos(angle), cy + size * sin(angle)]);
-        }
-        return pts;
-      case 'rect':
-        return [
-          [cx - size, cy - size * 0.7],
-          [cx + size, cy - size * 0.7],
-          [cx + size, cy + size * 0.7],
-          [cx - size, cy + size * 0.7],
-        ];
-      case 'hex':
-        final pts = <List<double>>[];
-        for (var i = 0; i < 6; i++) {
-          final angle = i * 2 * pi / 6;
-          pts.add([cx + size * cos(angle), cy + size * sin(angle)]);
-        }
-        return pts;
-      case 'free':
-      default:
-        return [
-          [cx - size, cy - size * 0.65],
-          [cx + size * 0.85, cy - size * 0.8],
-          [cx + size * 1.1, cy + size * 0.55],
-          [cx + size * 0.1, cy + size],
-          [cx - size * 0.9, cy + size * 0.65],
-        ];
-    }
-  }
-
+  // Carrega os nós geográficos da API ou do cache sincronizado, com fallback para o mundo padrão.
   Future<void> _loadWorldData() async {
-    // 1. Carrega imediatamente o snapshot ativo do WorldSyncService se existir
     final active = WorldSyncService.instance.activeSnapshot;
     if (active != null) {
       setState(() {
@@ -208,162 +129,18 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     }
   }
 
+  // Popula os arrays do mapa com o cenário histórico padrão de Pindorama.
   void _populateDefaultPindoramaWorld() {
     setState(() {
-      _territories = [
-        {
-          'id': 1,
-          'name_tupi': 'Tupinambá',
-          'name_portuguese': 'Costa da Guanabara e Ubatuba',
-          'biome': 'Mata Atlântica',
-          'center_x': 2000.0,
-          'center_y': 2000.0,
-          'is_unlocked_default': true,
-          'fog_reveal_radius': 240.0,
-          'polygon_coordinates': [
-            [1700.0, 1800.0],
-            [2300.0, 1750.0],
-            [2400.0, 2200.0],
-            [2100.0, 2400.0],
-            [1650.0, 2250.0],
-          ],
-        },
-        {
-          'id': 2,
-          'name_tupi': 'Tupiniquim',
-          'name_portuguese': 'Planalto de Piratininga',
-          'biome': 'Mata Atlântica',
-          'center_x': 2600.0,
-          'center_y': 2000.0,
-          'is_unlocked_default': false,
-          'fog_reveal_radius': 240.0,
-          'polygon_coordinates': [
-            [2450.0, 1800.0],
-            [2850.0, 1750.0],
-            [2900.0, 2300.0],
-            [2500.0, 2250.0],
-          ],
-        },
-      ];
-
-      _villages = [
-        {
-          'id': 1,
-          'name_tupi': 'Ubatuba',
-          'name_portuguese': 'Lugar de Muitas Canoas',
-          'biome': 'Mata Atlântica',
-          'village_style': 'canoas',
-          'village_color': '#F59E0B',
-          'x': 1950.0,
-          'y': 1950.0,
-          'is_unlocked_default': true,
-          'fog_reveal_radius': 190.0,
-          'description': 'Principal centro da Confederação dos Tamoios sob liderança de Cunhambebe.',
-        },
-        {
-          'id': 2,
-          'name_tupi': 'Karióka',
-          'name_portuguese': 'Casa do Homem Branco',
-          'biome': 'Mata Atlântica',
-          'village_style': 'taba_fort',
-          'village_color': '#10B981',
-          'x': 2250.0,
-          'y': 2100.0,
-          'is_unlocked_default': true,
-          'fog_reveal_radius': 180.0,
-          'description': 'Aldeia histórica na foz do rio Carioca na baía de Guanabara.',
-        },
-        {
-          'id': 3,
-          'name_tupi': 'Piratininga',
-          'name_portuguese': 'Peixe Seco ao Sol',
-          'biome': 'Mata Atlântica',
-          'village_style': 'maloca',
-          'village_color': '#DC2626',
-          'x': 2650.0,
-          'y': 1980.0,
-          'is_unlocked_default': false,
-          'fog_reveal_radius': 170.0,
-          'description': 'Aldeia liderada por Tibiriçá no planalto paulista.',
-        },
-      ];
-
-      _rivers = [
-        {
-          'id': 1,
-          'name_tupi': 'Paranapanema',
-          'name_portuguese': 'Rio da Água Ruim / Larga',
-          'river_width': 6.0,
-          'water_color': '#38BDF8',
-          'flow_style': 'currents',
-          'bezier_points': [
-            [1600.0, 1700.0],
-            [1850.0, 1900.0],
-            [2200.0, 2050.0],
-            [2600.0, 2150.0],
-            [2850.0, 2400.0],
-          ],
-        },
-      ];
-
-      _trails = [
-        {
-          'id': 1,
-          'name_tupi': 'Peabiru Histórico',
-          'name_portuguese': 'Caminho Ancestral Transcontinental',
-          'connection_type': 'terrestre',
-          'trail_color': '#F59E0B',
-          'trail_style': 'dotted',
-          'trail_width': 3.0,
-          'from_id': 1,
-          'from_type': 'Aldeia',
-          'from_name': 'Ubatuba',
-          'to_id': 2,
-          'to_type': 'Aldeia',
-          'to_name': 'Karióka',
-          'waypoints': [
-            [1950.0, 1950.0],
-            [2100.0, 2020.0],
-            [2250.0, 2100.0],
-          ],
-        },
-      ];
-
-      _quests = [
-        {
-          'id': 1,
-          'name_tupi': 'Sambaqui de Guaratiba',
-          'name_portuguese': 'Sítio Concheiro Arqueológico',
-          'biome': 'Mata Atlântica',
-          'quest_icon': 'relic',
-          'marker_color': '#EAB308',
-          'x': 2100.0,
-          'y': 2250.0,
-          'type': 'ancient_relic',
-          'xp_reward': 75,
-          'is_unlocked_default': true,
-          'fog_reveal_radius': 130.0,
-          'description': 'Montículo de conchas e vestígios pré-colombianos de extrema importância arqueológica.',
-        },
-        {
-          'id': 2,
-          'name_tupi': 'Itacoatiara do Peabiru',
-          'name_portuguese': 'Inscrições Rupestres Sagradas',
-          'biome': 'Mata Atlântica',
-          'quest_icon': 'scroll',
-          'marker_color': '#8B5CF6',
-          'x': 2450.0,
-          'y': 2040.0,
-          'type': 'curiosity',
-          'xp_reward': 50,
-          'is_unlocked_default': false,
-          'fog_reveal_radius': 110.0,
-          'description': 'Petroglifos entalhados na rocha ao longo da antiga rota milenar indígena.',
-        },
-      ];
+      _territories = PindoramaWorldDefaults.defaultTerritories();
+      _villages = PindoramaWorldDefaults.defaultVillages();
+      _rivers = PindoramaWorldDefaults.defaultRivers();
+      _trails = PindoramaWorldDefaults.defaultTrails();
+      _quests = PindoramaWorldDefaults.defaultQuests();
     });
   }
 
+  // Calcula o ponto médio ou centroide de qualquer entidade para ancorar conexões e trilhas.
   Offset _getEntityCenter(Map<String, dynamic> entity) {
     if (entity.containsKey('x') && entity.containsKey('y')) {
       return Offset((entity['x'] as num).toDouble(), (entity['y'] as num).toDouble());
@@ -388,6 +165,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     return const Offset(2000, 2000);
   }
 
+  // Gerencia a seleção sequencial do nó de origem e nó de destino para traçar caminhos topológicos.
   void _handleEntityTapForConnection(Map<String, dynamic> entity, String type) {
     if (_connectionStartEntity == null) {
       setState(() {
@@ -447,7 +225,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
         connColor = '#10B981';
         connStyle = 'solid';
       } else if (startType.contains('Quest') || type.contains('Quest')) {
-        connType = 'terrestre'; // 'expedicao' não existe no dropdown — usa terrestre como fallback válido
+        connType = 'terrestre';
         connColor = '#FBBF24';
         connStyle = 'dashed';
       }
@@ -504,6 +282,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     }
   }
 
+  // Cria uma nova entidade no ponto exato onde o desenvolvedor tocou dependendo da ferramenta ativa.
   void _handleCanvasTap(Offset pos) {
     setState(() {
       if (_activeTool == WorldBuilderTool.village) {
@@ -534,7 +313,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
         );
       } else if (_activeTool == WorldBuilderTool.river) {
         final newId = DateTime.now().millisecondsSinceEpoch;
-        final pts = _generateRiverPoints(_selectedRiverShapePreset, pos);
+        final pts = RiverGeometryPanel.generateRiverPoints(_selectedRiverShapePreset, pos);
         final isClosed = _selectedRiverShapePreset == 'circle';
         final newRiver = {
           'id': newId,
@@ -560,7 +339,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
         );
       } else if (_activeTool == WorldBuilderTool.territory) {
         final newId = DateTime.now().millisecondsSinceEpoch;
-        final poly = _generateTerritoryPoints(_selectedTerritoryShapePreset, pos);
+        final poly = TerritoryGeometryPanel.generateTerritoryPoints(_selectedTerritoryShapePreset, pos);
         final newTerritory = {
           'id': newId,
           'name_tupi': 'Novo Território $newId',
@@ -599,42 +378,22 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
           'y': pos.dy,
           'type': 'curiosity',
           'xp_reward': 50,
+          'conchas_reward': 20,
           'is_unlocked_default': false,
           'fog_reveal_radius': 120.0,
-          'description': 'Ponto de interesse histórico com artefato ou desafio etnográfico.',
+          'description': 'Novo ponto de interesse histórico-cultural.',
         };
         _quests.add(newQuest);
         _selectedEntity = newQuest;
-        _selectedEntityType = 'Ponto de Interesse / Quest';
+        _selectedEntityType = 'Ponto de Interesse';
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Nova Quest criada em (${pos.dx.toInt()}, ${pos.dy.toInt()})!'),
-            backgroundColor: const Color(0xFF854D0E),
+            content: Text('Novo Ponto de Interesse criado em (${pos.dx.toInt()}, ${pos.dy.toInt()})!'),
+            backgroundColor: const Color(0xFF78350F),
             duration: const Duration(seconds: 2),
           ),
         );
-      } else if (_activeTool == WorldBuilderTool.trail) {
-        if (_connectionStartEntity != null) {
-          final startName = _connectionStartEntity!['name_tupi'] ?? _connectionStartEntity!['name'] ?? _connectionStartType;
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Para ligar, toque em outro elemento! (Origem: $_connectionStartType "$startName")'),
-              backgroundColor: const Color(0xFFB45309),
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Toque em uma aldeia, rio, território ou quest como origem da conexão!'),
-              backgroundColor: Color(0xFF1E293B),
-              duration: Duration(seconds: 2),
-            ),
-          );
-        }
       } else if (_activeTool == WorldBuilderTool.select) {
         _selectedEntity = null;
         _selectedEntityType = '';
@@ -642,6 +401,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     });
   }
 
+  // Aplica translação cartesiana à entidade selecionada mantendo-a dentro dos limites do canvas.
   void _translateSelectedEntity(double dx, double dy) {
     if (_selectedEntity == null) return;
     setState(() {
@@ -696,6 +456,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     });
   }
 
+  // Aplica rotação angular aos vértices do curso do rio selecionado.
   void _rotateRiver(double targetAngleDegrees) {
     if (_selectedEntity == null) return;
     final ent = _selectedEntity!;
@@ -714,7 +475,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     final cy = sumY / rawPts.length;
 
     final currentAngle = (ent['angle_degrees'] as num?)?.toDouble() ?? 0.0;
-    final deltaRad = (targetAngleDegrees - currentAngle) * (pi / 180.0);
+    final deltaRad = (targetAngleDegrees - currentAngle) * (3.141592653589793 / 180.0);
     final cosT = cos(deltaRad);
     final sinT = sin(deltaRad);
 
@@ -734,255 +495,38 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     });
   }
 
+  // Exibe o modal inferior de controle de camadas cartográficas e simulação de névoa.
   void _openOverlayManager() {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (ctx) => StatefulBuilder(
-        builder: (context, setModalState) {
-          return Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppTheme.surface(context),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-              border: Border.all(color: AppTheme.border(context)),
-            ),
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Icon(Icons.layers, color: AppTheme.accent(context)),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Gerenciador de Camadas & Fog of War',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.textPrimary(context),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () => Navigator.of(ctx).pop(),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Ative ou desative as camadas cartográficas e personalize o Fog of War.',
-                      style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 11),
-                    ),
-                    const SizedBox(height: 14),
-
-                    // ==================== SEÇÃO DE CAMADAS ====================
-                    _buildSectionHeader('CAMADAS CARTOGRÁFICAS'),
-                    _buildLayerTile(
-                      title: 'Territórios e Fronteiras Tribais',
-                      icon: Icons.polyline,
-                      color: const Color(0xFF10B981),
-                      value: _layerTerritories,
-                      onChanged: (val) {
-                        setState(() => _layerTerritories = val);
-                        setModalState(() {});
-                      },
-                    ),
-                    _buildLayerTile(
-                      title: 'Aldeias e Centros Populacionais',
-                      icon: Icons.holiday_village,
-                      color: const Color(0xFFF59E0B),
-                      value: _layerVillages,
-                      onChanged: (val) {
-                        setState(() => _layerVillages = val);
-                        setModalState(() {});
-                      },
-                    ),
-                    _buildLayerTile(
-                      title: 'Rios e Bacias Hidrográficas',
-                      icon: Icons.water,
-                      color: const Color(0xFF0284C7),
-                      value: _layerRivers,
-                      onChanged: (val) {
-                        setState(() => _layerRivers = val);
-                        setModalState(() {});
-                      },
-                    ),
-                    _buildLayerTile(
-                      title: 'Trilhas & Conexões (Peabiru)',
-                      icon: Icons.route,
-                      color: const Color(0xFFD97706),
-                      value: _layerTrails,
-                      onChanged: (val) {
-                        setState(() => _layerTrails = val);
-                        setModalState(() {});
-                      },
-                    ),
-                    _buildLayerTile(
-                      title: 'Missões e Pontos de Interesse (Quests)',
-                      icon: Icons.explore,
-                      color: const Color(0xFFEAB308),
-                      value: _layerQuests,
-                      onChanged: (val) {
-                        setState(() => _layerQuests = val);
-                        setModalState(() {});
-                      },
-                    ),
-                    _buildLayerTile(
-                      title: 'Grid Cartográfico (100m / 500m)',
-                      icon: Icons.grid_4x4,
-                      color: const Color(0xFF64748B),
-                      value: _layerGrid,
-                      onChanged: (val) {
-                        setState(() => _layerGrid = val);
-                        setModalState(() {});
-                      },
-                    ),
-                    _buildLayerTile(
-                      title: 'Rótulos e Nomes em Tupi',
-                      icon: Icons.label,
-                      color: const Color(0xFFA855F7),
-                      value: _layerLabels,
-                      onChanged: (val) {
-                        setState(() => _layerLabels = val);
-                        setModalState(() {});
-                      },
-                    ),
-
-                    const SizedBox(height: 14),
-                    // ==================== PERSONALIZAÇÃO DO FOG OF WAR ====================
-                    _buildSectionHeader('PERSONALIZAÇÃO DO FOG OF WAR'),
-                    _buildLayerTile(
-                      title: 'Simulação do Fog of War',
-                      icon: Icons.cloud,
-                      color: const Color(0xFF38BDF8),
-                      value: _showFogPreview,
-                      onChanged: (val) {
-                        setState(() => _showFogPreview = val);
-                        setModalState(() {});
-                      },
-                    ),
-
-                    if (_showFogPreview) ...[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 4),
-                        child: Text(
-                          'Densidade da Névoa: ${(_fogOpacity * 100).toInt()}%',
-                          style: TextStyle(color: AppTheme.textPrimary(context), fontSize: 12, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Slider(
-                        value: _fogOpacity,
-                        min: 0.20,
-                        max: 0.98,
-                        divisions: 15,
-                        activeColor: const Color(0xFF38BDF8),
-                        onChanged: (v) {
-                          setState(() => _fogOpacity = v);
-                          setModalState(() {});
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 6, bottom: 6),
-                        child: Text(
-                          'Tom / Atmosfera da Névoa:',
-                          style: TextStyle(color: AppTheme.textPrimary(context), fontSize: 12, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          _buildFogColorChip('Abismo Noturno', const Color(0xFF060B15), setModalState),
-                          _buildFogColorChip('Neblina Selva', const Color(0xFF0A2118), setModalState),
-                          _buildFogColorChip('Pergaminho', const Color(0xFF24180C), setModalState),
-                          _buildFogColorChip('Crepúsculo Místico', const Color(0xFF151226), setModalState),
-                        ],
-                      ),
-                    ],
-
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+      builder: (ctx) => WorldOverlayManagerSheet(
+        layerTerritories: _layerTerritories,
+        onLayerTerritoriesChanged: (val) => setState(() => _layerTerritories = val),
+        layerVillages: _layerVillages,
+        onLayerVillagesChanged: (val) => setState(() => _layerVillages = val),
+        layerRivers: _layerRivers,
+        onLayerRiversChanged: (val) => setState(() => _layerRivers = val),
+        layerTrails: _layerTrails,
+        onLayerTrailsChanged: (val) => setState(() => _layerTrails = val),
+        layerQuests: _layerQuests,
+        onLayerQuestsChanged: (val) => setState(() => _layerQuests = val),
+        layerGrid: _layerGrid,
+        onLayerGridChanged: (val) => setState(() => _layerGrid = val),
+        layerLabels: _layerLabels,
+        onLayerLabelsChanged: (val) => setState(() => _layerLabels = val),
+        showFogPreview: _showFogPreview,
+        onShowFogPreviewChanged: (val) => setState(() => _showFogPreview = val),
+        fogOpacity: _fogOpacity,
+        onFogOpacityChanged: (val) => setState(() => _fogOpacity = val),
+        fogColor: _fogColor,
+        onFogColorChanged: (val) => setState(() => _fogColor = val),
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8, top: 4),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: AppTheme.accent(context),
-          fontSize: 10,
-          fontWeight: FontWeight.w900,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFogColorChip(String label, Color color, StateSetter setModalState) {
-    final isSelected = _fogColor == color;
-    return ChoiceChip(
-      label: Text(label, style: TextStyle(fontSize: 11, color: isSelected ? Colors.white : AppTheme.textPrimary(context))),
-      avatar: CircleAvatar(backgroundColor: color, radius: 7),
-      selected: isSelected,
-      selectedColor: AppTheme.accent(context),
-      backgroundColor: AppTheme.surfaceSubtle(context),
-      onSelected: (_) {
-        setState(() => _fogColor = color);
-        setModalState(() {});
-      },
-    );
-  }
-
-  Widget _buildLayerTile({
-    required String title,
-    required IconData icon,
-    required Color color,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return SwitchListTile(
-      dense: true,
-      contentPadding: EdgeInsets.zero,
-      secondary: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(icon, color: color, size: 18),
-      ),
-      title: Text(
-        title,
-        style: TextStyle(color: AppTheme.textPrimary(context), fontSize: 13, fontWeight: FontWeight.w600),
-      ),
-      value: value,
-      activeThumbColor: AppTheme.accent(context),
-      onChanged: onChanged,
-    );
-  }
-
+  // Salva o snapshot do mundo no storage local e sincroniza com o backend para refletir no jogo.
   Future<void> _saveAndApplyWorld({bool showFeedback = true}) async {
     final bundle = {
       'territories': _territories,
@@ -1027,6 +571,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     }
   }
 
+  // Abre o diálogo de publicação de versão com pipeline de validação e tag de release.
   Future<void> _openPublishDialog() async {
     final bundle = {
       'territories': _territories,
@@ -1066,6 +611,7 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
     }
   }
 
+  // Monta o layout com barra superior, canvas interativo com suporte a drag-and-drop e painel de propriedades.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1073,7 +619,35 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
       body: Column(
         children: [
           // Barra Superior do World Builder
-          _buildTopBar(),
+          WorldBuilderTopBar(
+            selectedEpoch: _selectedEpoch,
+            onEpochChanged: (val) => setState(() => _selectedEpoch = val),
+            isLoading: _isLoading,
+            onSyncBackend: _loadWorldData,
+            onAddVillage: () {
+              final newId = DateTime.now().millisecondsSinceEpoch;
+              final newVillage = {
+                'id': newId,
+                'name_tupi': 'Nova Oca $newId',
+                'name_portuguese': 'Nova Aldeia',
+                'biome': 'Mata Atlântica',
+                'village_style': 'oca',
+                'village_color': '#F59E0B',
+                'x': 2000.0,
+                'y': 2000.0,
+                'is_unlocked_default': true,
+                'fog_reveal_radius': 180.0,
+                'description': 'Nova aldeia adicionada pelo World Builder CMS',
+              };
+              setState(() {
+                _villages.add(newVillage);
+                _selectedEntity = newVillage;
+                _selectedEntityType = 'Aldeia';
+              });
+            },
+            onSaveAndApply: () => _saveAndApplyWorld(showFeedback: true),
+            onPublishSnapshot: _openPublishDialog,
+          ),
 
           // Área Principal com Canvas e Painel Lateral
           Expanded(
@@ -1220,10 +794,16 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
                           ),
                           if (_activeTool == WorldBuilderTool.river) ...[
                             const SizedBox(height: 8),
-                            _buildRiverShapeSelector(context),
+                            RiverShapeSelector(
+                              selectedPreset: _selectedRiverShapePreset,
+                              onPresetSelected: (val) => setState(() => _selectedRiverShapePreset = val),
+                            ),
                           ] else if (_activeTool == WorldBuilderTool.territory) ...[
                             const SizedBox(height: 8),
-                            _buildTerritoryShapeSelector(context),
+                            TerritoryShapeSelector(
+                              selectedPreset: _selectedTerritoryShapePreset,
+                              onPresetSelected: (val) => setState(() => _selectedTerritoryShapePreset = val),
+                            ),
                           ],
                         ],
                       ),
@@ -1366,295 +946,6 @@ class _WorldBuilderScreenState extends ConsumerState<WorldBuilderScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildTopBar() {
-    return Container(
-      height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: AppTheme.surface(context),
-        border: Border(bottom: BorderSide(color: AppTheme.border(context))),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            Icon(Icons.public, color: AppTheme.accent(context), size: 26),
-            const SizedBox(width: 12),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Pindorama World Builder',
-                  style: TextStyle(
-                    color: AppTheme.textPrimary(context),
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
-                  ),
-                ),
-                Text(
-                  'CMS Topológico & Curadoria Curricular',
-                  style: TextStyle(
-                    color: AppTheme.textSecondary(context),
-                    fontSize: 11,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(width: 16),
-            StatusBadge.draft(label: 'DRAFT v1.3.0'),
-            const SizedBox(width: 24),
-
-            // Seletor de Época na Timeline
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: AppTheme.surfaceSubtle(context),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppTheme.border(context)),
-              ),
-              child: DropdownButton<String>(
-                value: _selectedEpoch,
-                dropdownColor: AppTheme.surface(context),
-                underline: const SizedBox(),
-                style: TextStyle(
-                  color: AppTheme.textPrimary(context),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-                items: const [
-                  DropdownMenuItem(value: '1500: Primeiro Contato', child: Text('1500: Primeiro Contato')),
-                  DropdownMenuItem(value: '1554: Confederação dos Tamoios', child: Text('1554: Confederação dos Tamoios')),
-                  DropdownMenuItem(value: '1567: Fundação do Rio de Janeiro', child: Text('1567: Fundação do Rio de Janeiro')),
-                ],
-                onChanged: (val) {
-                  if (val != null) setState(() => _selectedEpoch = val);
-                },
-              ),
-            ),
-
-            const SizedBox(width: 24),
-
-            // Botões de Ação
-            IconButton(
-              icon: _isLoading
-                  ? SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.accent(context)),
-                    )
-                  : Icon(Icons.sync, color: AppTheme.textSecondary(context)),
-              tooltip: 'Sincronizar do Backend',
-              onPressed: _isLoading ? null : _loadWorldData,
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppTheme.accent(context),
-                side: BorderSide(color: AppTheme.accent(context)),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              icon: const Icon(Icons.add_location_alt_rounded, size: 18),
-              label: const Text(
-                '+ Nova Aldeia',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onPressed: () {
-                final newId = DateTime.now().millisecondsSinceEpoch;
-                final newVillage = {
-                  'id': newId,
-                  'name_tupi': 'Nova Oca $newId',
-                  'name_portuguese': 'Nova Aldeia',
-                  'biome': 'Mata Atlântica',
-                  'village_style': 'oca',
-                  'village_color': '#F59E0B',
-                  'x': 2000.0,
-                  'y': 2000.0,
-                  'is_unlocked_default': true,
-                  'fog_reveal_radius': 180.0,
-                  'description': 'Nova aldeia adicionada pelo World Builder CMS',
-                };
-                setState(() {
-                  _villages.add(newVillage);
-                  _selectedEntity = newVillage;
-                  _selectedEntityType = 'Aldeia';
-                });
-              },
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF10B981),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              icon: const Icon(Icons.save_rounded, size: 18),
-              label: const Text(
-                'Salvar & Aplicar no Jogo',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onPressed: () => _saveAndApplyWorld(showFeedback: true),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.accent(context),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              icon: const Icon(Icons.cloud_upload, size: 18),
-              label: const Text(
-                'Publicar Snapshot',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onPressed: _openPublishDialog,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ─── Seletores Flutuantes de Formas Paramétricas ───────────────────────────
-  Widget _buildRiverShapeSelector(BuildContext context) {
-    final presets = [
-      {'id': 'line', 'label': 'Reta', 'icon': Icons.horizontal_rule},
-      {'id': 'l_curve', 'label': 'Curva L', 'icon': Icons.turn_right},
-      {'id': 's_curve', 'label': 'Curva S', 'icon': Icons.waves},
-      {'id': 'circle', 'label': 'Lago / Círculo', 'icon': Icons.circle_outlined},
-      {'id': 'zigzag', 'label': 'Zigue-Zague', 'icon': Icons.ssid_chart},
-      {'id': 'meander', 'label': 'Meandro', 'icon': Icons.water},
-    ];
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppTheme.surface(context),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF38BDF8).withValues(alpha: 0.5)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                'Formato:',
-                style: TextStyle(
-                  color: Color(0xFF38BDF8),
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ...presets.map((p) {
-              final isSel = _selectedRiverShapePreset == p['id'];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: ChoiceChip(
-                  avatar: Icon(p['icon'] as IconData, size: 14, color: isSel ? Colors.white : const Color(0xFF38BDF8)),
-                  label: Text(p['label'] as String),
-                  labelStyle: TextStyle(
-                    fontSize: 11,
-                    fontWeight: isSel ? FontWeight.bold : FontWeight.w500,
-                    color: isSel ? Colors.white : AppTheme.textPrimary(context),
-                  ),
-                  selected: isSel,
-                  selectedColor: const Color(0xFF0284C7),
-                  backgroundColor: AppTheme.surfaceSubtle(context),
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  onSelected: (val) {
-                    if (val) setState(() => _selectedRiverShapePreset = p['id'] as String);
-                  },
-                ),
-              );
-            }),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTerritoryShapeSelector(BuildContext context) {
-    final presets = [
-      {'id': 'free', 'label': 'Livre', 'icon': Icons.polyline},
-      {'id': 'circle', 'label': 'Círculo Tribal', 'icon': Icons.circle_outlined},
-      {'id': 'rect', 'label': 'Retângulo', 'icon': Icons.crop_square},
-      {'id': 'hex', 'label': 'Hexágono', 'icon': Icons.hexagon_outlined},
-    ];
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppTheme.surface(context),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.5)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                'Polígono:',
-                style: TextStyle(
-                  color: Color(0xFF10B981),
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ...presets.map((p) {
-              final isSel = _selectedTerritoryShapePreset == p['id'];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: ChoiceChip(
-                  avatar: Icon(p['icon'] as IconData, size: 14, color: isSel ? Colors.white : const Color(0xFF10B981)),
-                  label: Text(p['label'] as String),
-                  labelStyle: TextStyle(
-                    fontSize: 11,
-                    fontWeight: isSel ? FontWeight.bold : FontWeight.w500,
-                    color: isSel ? Colors.white : AppTheme.textPrimary(context),
-                  ),
-                  selected: isSel,
-                  selectedColor: const Color(0xFF059669),
-                  backgroundColor: AppTheme.surfaceSubtle(context),
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  onSelected: (val) {
-                    if (val) setState(() => _selectedTerritoryShapePreset = p['id'] as String);
-                  },
-                ),
-              );
-            }),
-          ],
-        ),
       ),
     );
   }

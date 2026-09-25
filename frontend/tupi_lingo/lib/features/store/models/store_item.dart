@@ -78,7 +78,14 @@ class StoreItem {
     bool isUnlocked = false,
     bool isEquipped = false,
   }) {
-    final hexColor = json['preview_color'] as String? ?? '#0E5D4E';
+    String? hexColor = json['preview_color'] as String?;
+    if (hexColor == null && json['preview_colors'] is List && (json['preview_colors'] as List).isNotEmpty) {
+      hexColor = (json['preview_colors'] as List).first.toString();
+    }
+    if (hexColor == null && json['border_color'] != null) {
+      hexColor = json['border_color'].toString();
+    }
+    hexColor ??= '#0E5D4E';
     final parsedColor = _parseColor(hexColor);
 
     return StoreItem(
@@ -90,7 +97,7 @@ class StoreItem {
       icon: json['icon'] as String? ?? '🐚',
       lore: json['lore'] as String? ?? '',
       previewColor: parsedColor,
-      isUnlocked: isUnlocked,
+      isUnlocked: isUnlocked || json['is_default'] == true,
       isEquipped: isEquipped,
     );
   }

@@ -47,6 +47,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     super.dispose();
   }
 
+  // Trava o botão de reenviar por 60s pra não estourar limite de envio de e-mails
   void _startCooldown() {
     setState(() => _resendCooldown = 60);
     _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -64,6 +65,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     });
   }
 
+  // Exibe toast de alerta respeitando as cores e tema ativo
   void _showSnackBar(String message, {bool isError = true}) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -143,6 +145,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     }
   }
 
+  // Valida o token numérico de 6 dígitos no Supabase e cria o usuário no Django
   Future<void> _verifyOtp() async {
     final token = _otpController.text.trim();
 
@@ -193,6 +196,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     }
   }
 
+  // Solicita ao Supabase o reenvio do token de cadastro por e-mail
   Future<void> _resendCode() async {
     if (_resendCooldown > 0 || _isLoading) return;
 
@@ -215,6 +219,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     }
   }
 
+  // Constrói a tela de confirmação de código com campo de texto e ações
   @override
   Widget build(BuildContext context) {
     final isDark = AppTheme.isDark(context);

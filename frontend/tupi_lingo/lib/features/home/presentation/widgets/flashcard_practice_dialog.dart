@@ -26,8 +26,9 @@ class _FlashcardPracticeDialogState extends State<FlashcardPracticeDialog> {
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(color: AppTheme.border(context)),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
           children: [
             const Text('🎉', style: TextStyle(fontSize: 44)),
             const SizedBox(height: 12),
@@ -51,8 +52,9 @@ class _FlashcardPracticeDialogState extends State<FlashcardPracticeDialog> {
             ),
           ],
         ),
-      );
-    }
+      ),
+    );
+  }
 
     final item = widget.vocabulary[_currentIndex];
 
@@ -75,8 +77,9 @@ class _FlashcardPracticeDialogState extends State<FlashcardPracticeDialog> {
           ),
         ],
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
         children: [
           GestureDetector(
             onTap: () => setState(() => _revealed = !_revealed),
@@ -168,6 +171,7 @@ class _FlashcardPracticeDialogState extends State<FlashcardPracticeDialog> {
           ),
         ],
       ),
-    );
+    ),
+  );
   }
 }

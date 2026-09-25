@@ -302,41 +302,48 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       backgroundColor: bgColor,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
       builder: (context) {
-        final bottomPadding = MediaQuery.of(context).padding.bottom;
-        return Padding(
-          padding: EdgeInsets.only(left: 24.0, right: 24.0, top: 24.0, bottom: 24.0 + bottomPadding),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  Icon(icon, color: fgColor, size: 28),
-                  const SizedBox(width: 12),
-                  Text(title, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: fgColor)),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(message, style: const TextStyle(fontSize: 16, color: _TupiColors.subtitle, height: 1.4)),
-              const SizedBox(height: 28),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context); // Fechar bottom sheet
-                    _nextItem(); // Avança para a próxima questão independente se acertou ou não
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: fgColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    elevation: 0,
-                  ),
-                  child: const Text('CONTINUAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        return SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Icon(icon, color: fgColor, size: 28),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: fgColor),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            ],
+                const SizedBox(height: 16),
+                Text(message, style: const TextStyle(fontSize: 16, color: _TupiColors.subtitle, height: 1.4)),
+                const SizedBox(height: 28),
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Fechar bottom sheet
+                      _nextItem(); // Avança para a próxima questão independente se acertou ou não
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: fgColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 0,
+                    ),
+                    child: const Text('CONTINUAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
@@ -423,7 +430,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       builder: (_) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         backgroundColor: Colors.white,
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,

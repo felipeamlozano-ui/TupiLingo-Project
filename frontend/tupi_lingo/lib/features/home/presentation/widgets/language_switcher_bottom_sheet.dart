@@ -155,51 +155,59 @@ class _LanguageSwitcherBottomSheetState extends State<LanguageSwitcherBottomShee
         color: AppTheme.surface(context),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: EdgeInsets.fromLTRB(
-        20,
-        16,
-        20,
-        24 + MediaQuery.of(context).padding.bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Handle
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppTheme.border(context),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
+      child: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(
+            20,
+            16,
+            20,
+            24 + MediaQuery.of(context).padding.bottom,
           ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppTheme.border(context),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('🌿', style: TextStyle(fontSize: 22)),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Selecione o Idioma',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary(context),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        const Text('🌿', style: TextStyle(fontSize: 22)),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Selecione o Idioma',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.textPrimary(context),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close_rounded, color: AppTheme.textSecondary(context)),
+                    onPressed: () => Navigator.pop(context),
                   ),
                 ],
               ),
-              IconButton(
-                icon: Icon(Icons.close_rounded, color: AppTheme.textSecondary(context)),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
           const SizedBox(height: 4),
           Text(
             'Explore diferentes troncos e variações históricas das línguas Tupi.',
@@ -346,6 +354,8 @@ class _LanguageSwitcherBottomSheetState extends State<LanguageSwitcherBottomShee
           ],
         ],
       ),
-    );
+    ),
+  ),
+);
   }
 }

@@ -393,12 +393,14 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                   children: [
                     Icon(Icons.public_rounded, color: AppTheme.accent(context), size: 20),
                     const SizedBox(width: 8),
-                    Text(
-                      'Usuários Concorrentes por País (Zero-PII)',
-                      style: TextStyle(
-                        color: AppTheme.textSecondary(context),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                    Expanded(
+                      child: Text(
+                        'Usuários Concorrentes por País (Zero-PII)',
+                        style: TextStyle(
+                          color: AppTheme.textSecondary(context),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
@@ -422,26 +424,30 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                         children: [
                           const Text('🇧🇷', style: TextStyle(fontSize: 22)),
                           const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                countryName,
-                                style: TextStyle(
-                                  color: AppTheme.textPrimary(context),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  countryName,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: AppTheme.textPrimary(context),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                '$onlineCount usuário(s) ativo(s)',
-                                style: TextStyle(
-                                  color: AppTheme.accent(context),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
+                                Text(
+                                  '$onlineCount usuário(s) ativo(s)',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: AppTheme.accent(context),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -700,7 +706,10 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 8,
+                            runSpacing: 4,
                             children: [
                               Text(
                                 'Criptografia Pós-Quântica (PQC)',
@@ -710,7 +719,6 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                                   fontSize: 16,
                                 ),
                               ),
-                              const SizedBox(width: 8),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                 decoration: BoxDecoration(
@@ -782,12 +790,14 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
                           children: [
                             const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 18),
                             const SizedBox(width: 8),
-                            Text(
-                              _pqcBenchmarkResult!.statusMessage,
-                              style: const TextStyle(
-                                color: Color(0xFF10B981),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                            Expanded(
+                              child: Text(
+                                _pqcBenchmarkResult!.statusMessage,
+                                style: const TextStyle(
+                                  color: Color(0xFF10B981),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
                           ],

@@ -5,7 +5,11 @@ import '../../../../core/network/api_client.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/state/app_progression_notifier.dart';
 import '../data/thematic_outbox_service.dart';
+import 'widgets/thematic_feedback_sheet.dart';
+import 'widgets/thematic_question_views.dart';
+import 'widgets/thematic_summary_view.dart';
 
+// Tela principal de prática temática com geração dinâmica de questões e telemetria psicométrica
 class ThematicPracticeScreen extends StatefulWidget {
   final String tema;
   final String? temaId;
@@ -35,7 +39,7 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
   List<Map<String, dynamic>> _questions = [];
   int _currentIndex = 0;
 
-  // Métricas psicométricas TRI em tempo real (< 50ms)
+  // Métricas psicométricas TRI em tempo real
   double _currentTheta = 0.0;
   int _currentLevel = 1;
   int _accumulatedXp = 0;
@@ -50,9 +54,9 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
   List<dynamic> _srsTerms = [];
 
   // Controladores para formatos de resposta
-  String? _selectedOption; // múltipla escolha
-  final TextEditingController _textController = TextEditingController(); // completar & tradução livre
-  final Map<String, String> _userAssociations = {}; // associação
+  String? _selectedOption;
+  final TextEditingController _textController = TextEditingController();
+  final Map<String, String> _userAssociations = {};
   String? _selectedAssociationTerm;
 
   // Estado de finalização
@@ -71,6 +75,7 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
     super.dispose();
   }
 
+  // Consulta o backend pra buscar a bateria de questões geradas pro tema ou recupera erro
   Future<void> _startThematicSession() async {
     setState(() {
       _isLoading = true;
@@ -121,6 +126,7 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
     }
   }
 
+  // Submete a resposta da questão com fallback offline caso a conexão falhe
   Future<void> _submitAnswer() async {
     if (_isEvaluating || _questions.isEmpty || _currentIndex >= _questions.length) return;
     final currentQ = _questions[_currentIndex];
@@ -207,14 +213,13 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
           _isEvaluating = false;
         });
 
-        // Notifica dashboard global
         AppProgressionNotifier.instance.notifyProgressUpdated(
           xpGained: earnedXp,
           conchasGained: earnedConchas,
         );
 
         if (mounted) {
-          _showFeedbackModal(
+          _showFeedback(
             isCorrect: isCorrect,
             status: status,
             message: message,
@@ -228,7 +233,6 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
         throw Exception('Erro na validação.');
       }
     } catch (_) {
-      // Fila Outbox Offline-First: salva localmente se a conexão oscilar
       setState(() {
         _isEvaluating = false;
         _isOfflineMode = true;
@@ -236,7 +240,6 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
 
       await ThematicOutboxService.instance.enqueueInteraction(interactionPayload);
 
-      // Avaliação otimista local imediata
       bool isLocalCorrect = false;
       if (tipo == 'escolha_multipla') {
         isLocalCorrect = (respostaPayload.toString().trim().toUpperCase() ==
@@ -270,7 +273,7 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
           ),
         );
 
-        _showFeedbackModal(
+        _showFeedback(
           isCorrect: isLocalCorrect,
           status: isLocalCorrect ? 'correct' : 'wrong',
           message: isLocalCorrect ? 'Correto! (Guardado na fila da aldeia)' : 'Incorreto. (Guardado na fila da aldeia)',
@@ -283,7 +286,8 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
     }
   }
 
-  void _showFeedbackModal({
+  // Aciona o modal inferior de feedback e avança a questão ou conclui a sessão
+  void _showFeedback({
     required bool isCorrect,
     required String status,
     required String message,
@@ -292,133 +296,57 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
     required int earnedConchas,
     required bool isLastItem,
   }) {
-    final bool isAlmost = status == 'almost';
-    final Color bgColor = isCorrect
-        ? const Color(0xFFEAF3F1)
-        : (isAlmost ? const Color(0xFFFFF9E6) : const Color(0xFFFDECEE));
-    final Color accentColor = isCorrect
-        ? const Color(0xFF0E5D4E)
-        : (isAlmost ? const Color(0xFFD08A45) : const Color(0xFFE05638));
-
-    showModalBottomSheet(
+    ThematicFeedbackSheet.show(
       context: context,
-      isDismissible: false,
-      enableDrag: false,
-      backgroundColor: bgColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
-      ),
-      builder: (ctx) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + MediaQuery.of(ctx).padding.bottom),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      isCorrect
-                          ? Icons.check_circle_rounded
-                          : (isAlmost ? Icons.lightbulb_rounded : Icons.cancel_rounded),
-                      color: accentColor,
-                      size: 30,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        isCorrect ? 'Mandou bem!' : (isAlmost ? 'Quase lá!' : 'Ops!'),
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: accentColor,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    if (earnedXp > 0 || earnedConchas > 0)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: accentColor.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (earnedXp > 0)
-                              Text(
-                                '+$earnedXp XP ',
-                                style: TextStyle(fontWeight: FontWeight.bold, color: accentColor, fontSize: 13),
-                              ),
-                            if (earnedConchas > 0)
-                              Text(
-                                '+$earnedConchas 🐚',
-                                style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E), fontSize: 13),
-                              ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  message,
-                  style: TextStyle(fontSize: 15, color: AppTheme.textPrimary(context), fontWeight: FontWeight.w600),
-                ),
-                if (explicacao.isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    explicacao,
-                    style: TextStyle(fontSize: 13, color: AppTheme.textSecondary(context), height: 1.4),
-                  ),
-                ],
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                  if (isLastItem) {
-                    if (_sessionId != null) {
-                      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-                      ThematicOutboxService.instance.syncBatch(
-                        sessionId: _sessionId!,
-                        baseUrl: baseUrl,
-                      );
-                    }
-                    setState(() => _isFinished = true);
-                  } else {
-                    setState(() {
-                      _currentIndex++;
-                      _selectedOption = null;
-                      _textController.clear();
-                      _userAssociations.clear();
-                      _selectedAssociationTerm = null;
-                      _questionStartTime = DateTime.now();
-                      _presentedAtMs = DateTime.now().millisecondsSinceEpoch;
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: accentColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  elevation: 0,
-                ),
-                child: Text(
-                  isLastItem ? 'VER RESULTADO CONSOLIDADO' : 'CONTINUAR',
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, letterSpacing: 0.5),
-                ),
-              ),
-            ],
-          ),
-        );
+      isCorrect: isCorrect,
+      status: status,
+      message: message,
+      explicacao: explicacao,
+      earnedXp: earnedXp,
+      earnedConchas: earnedConchas,
+      isLastItem: isLastItem,
+      onContinue: () {
+        if (isLastItem) {
+          if (_sessionId != null) {
+            final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+            ThematicOutboxService.instance.syncBatch(
+              sessionId: _sessionId!,
+              baseUrl: baseUrl,
+            );
+          }
+          setState(() => _isFinished = true);
+        } else {
+          setState(() {
+            _currentIndex++;
+            _selectedOption = null;
+            _textController.clear();
+            _userAssociations.clear();
+            _selectedAssociationTerm = null;
+            _questionStartTime = DateTime.now();
+            _presentedAtMs = DateTime.now().millisecondsSinceEpoch;
+          });
+        }
       },
     );
   }
 
+  // Converte a chave interna do tipo de pergunta para nome legível na interface
+  String _getTipoLabel(String tipo) {
+    switch (tipo) {
+      case 'escolha_multipla':
+        return 'Múltipla Escolha';
+      case 'completar':
+        return 'Completar Lacuna';
+      case 'associacao':
+        return 'Ligar Colunas';
+      case 'traducao_livre':
+        return 'Digitação Livre';
+      default:
+        return 'Prática Temática';
+    }
+  }
+
+  // Renderiza a estrutura da tela com barra de progresso, corpo da questão e botão de envio
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -454,13 +382,18 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.error_outline_rounded, color: Colors.red, size: 48),
+                const Icon(Icons.cloud_off_rounded, size: 54, color: Color(0xFFD08A45)),
                 const SizedBox(height: 16),
-                Text(_errorMessage!, textAlign: TextAlign.center),
+                Text(
+                  _errorMessage!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 15, color: AppTheme.textPrimary(context)),
+                ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _startThematicSession,
-                  child: const Text('TENTAR NOVAMENTE'),
+                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF0E5D4E)),
+                  child: const Text('TENTAR NOVAMENTE', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -470,7 +403,12 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
     }
 
     if (_isFinished) {
-      return _buildFinishedScreen();
+      return ThematicSummaryView(
+        accumulatedXp: _accumulatedXp,
+        accumulatedConchas: _accumulatedConchas,
+        currentLevel: _currentLevel,
+        onFinish: () => Navigator.pop(context, true),
+      );
     }
 
     final currentQ = _questions[_currentIndex];
@@ -481,7 +419,6 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
         title: Text(widget.tema, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         elevation: 0,
         actions: [
-          // HUD de Progresso e Moedas em Tempo Real
           Center(
             child: Builder(
               builder: (ctx) {
@@ -536,7 +473,6 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
       body: SafeArea(
         child: Column(
           children: [
-            // Barra de Progresso Superior
             LinearProgressIndicator(
               value: (_currentIndex + 1) / _questions.length,
               backgroundColor: Colors.grey.withValues(alpha: 0.2),
@@ -571,7 +507,6 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
                 children: [
-                  // Header da Questão
                   Row(
                     children: [
                       Container(
@@ -614,7 +549,6 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
                     ],
                   ),
                   const SizedBox(height: 16),
-                  // Enunciado
                   Text(
                     currentQ['enunciado'] ?? '',
                     style: TextStyle(
@@ -625,19 +559,36 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
                     ),
                   ),
                   const SizedBox(height: 24),
-                  // Corpo Interativo da Questão dependente do Tipo
                   if (tipo == 'escolha_multipla')
-                    _buildMultipleChoice(currentQ)
+                    ThematicMultipleChoiceView(
+                      question: currentQ,
+                      selectedOption: _selectedOption,
+                      onSelect: (letra) => setState(() => _selectedOption = letra),
+                    )
                   else if (tipo == 'completar')
-                    _buildFillInTheBlank(currentQ)
+                    ThematicFillBlankView(
+                      controller: _textController,
+                    )
                   else if (tipo == 'associacao')
-                    _buildMatchingColumns(currentQ)
+                    ThematicMatchingView(
+                      question: currentQ,
+                      userAssociations: _userAssociations,
+                      selectedTerm: _selectedAssociationTerm,
+                      onSelectTerm: (t) => setState(() => _selectedAssociationTerm = t),
+                      onLinkPair: (term, trad) {
+                        setState(() {
+                          _userAssociations[term] = trad;
+                          _selectedAssociationTerm = null;
+                        });
+                      },
+                    )
                   else if (tipo == 'traducao_livre')
-                    _buildFreeText(currentQ),
+                    ThematicFreeTextView(
+                      controller: _textController,
+                    ),
                 ],
               ),
             ),
-            // Botão Inferior de Verificação
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: SizedBox(
@@ -666,359 +617,6 @@ class _ThematicPracticeScreenState extends State<ThematicPracticeScreen> with Si
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  String _getTipoLabel(String tipo) {
-    switch (tipo) {
-      case 'escolha_multipla':
-        return 'Múltipla Escolha';
-      case 'completar':
-        return 'Completar Lacuna';
-      case 'associacao':
-        return 'Ligar Colunas';
-      case 'traducao_livre':
-        return 'Digitação Livre';
-      default:
-        return 'Prática Temática';
-    }
-  }
-
-  Widget _buildMultipleChoice(Map<String, dynamic> q) {
-    final alts = (q['alternativas'] as List?) ?? [];
-    return Column(
-      children: alts.map((alt) {
-        final letra = alt['letra'] ?? '';
-        final texto = alt['texto'] ?? '';
-        final isSelected = _selectedOption == letra;
-
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: InkWell(
-            onTap: () => setState(() => _selectedOption = letra),
-            borderRadius: BorderRadius.circular(16),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? const Color(0xFF0E5D4E).withValues(alpha: 0.12)
-                    : AppTheme.surface(context),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: isSelected ? const Color(0xFF0E5D4E) : AppTheme.border(context),
-                  width: isSelected ? 2 : 1,
-                ),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF0E5D4E) : Colors.grey.withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        letra,
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : AppTheme.textPrimary(context),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Text(
-                      texto,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: AppTheme.textPrimary(context),
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildFillInTheBlank(Map<String, dynamic> q) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Preencha o termo correto em Tupi que completa a frase:',
-          style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 14),
-        ),
-        const SizedBox(height: 14),
-        TextField(
-          controller: _textController,
-          autofocus: true,
-          style: TextStyle(fontSize: 16, color: AppTheme.textPrimary(context), fontWeight: FontWeight.bold),
-          decoration: InputDecoration(
-            hintText: 'Digite o termo...',
-            filled: true,
-            fillColor: AppTheme.surface(context),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: AppTheme.border(context)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFF0E5D4E), width: 2),
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            const Icon(Icons.spellcheck_rounded, size: 16, color: Color(0xFF0E5D4E)),
-            const SizedBox(width: 6),
-            Text(
-              'Compreensão de variações ortográficas ativada',
-              style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context)),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFreeText(Map<String, dynamic> q) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Digite livremente a tradução solicitada:',
-          style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 14),
-        ),
-        const SizedBox(height: 14),
-        TextField(
-          controller: _textController,
-          autofocus: true,
-          style: TextStyle(fontSize: 16, color: AppTheme.textPrimary(context), fontWeight: FontWeight.bold),
-          decoration: InputDecoration(
-            hintText: 'Sua tradução...',
-            filled: true,
-            fillColor: AppTheme.surface(context),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFF0E5D4E), width: 2),
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            const Icon(Icons.verified_rounded, size: 16, color: Color(0xFFD08A45)),
-            const SizedBox(width: 6),
-            Text(
-              'Avaliação inteligente de tradução contextual',
-              style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context)),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMatchingColumns(Map<String, dynamic> q) {
-    final pares = (q['pares_associacao'] as List?) ?? [];
-    final termos = pares.map((p) => p['termo'].toString()).toList();
-    final traducoes = pares.map((p) => p['traducao'].toString()).toList();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Toque em um termo em Tupi e em seguida na sua respectiva tradução:',
-          style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Coluna Tupi
-            Expanded(
-              child: Column(
-                children: termos.map((t) {
-                  final isLinked = _userAssociations.containsKey(t);
-                  final isSelected = _selectedAssociationTerm == t;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: InkWell(
-                      onTap: () => setState(() => _selectedAssociationTerm = t),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? const Color(0xFFD08A45).withValues(alpha: 0.2)
-                              : (isLinked ? const Color(0xFF0E5D4E).withValues(alpha: 0.12) : AppTheme.surface(context)),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: isSelected
-                                ? const Color(0xFFD08A45)
-                                : (isLinked ? const Color(0xFF0E5D4E) : AppTheme.border(context)),
-                            width: (isSelected || isLinked) ? 2 : 1,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            t,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: isLinked ? const Color(0xFF0E5D4E) : AppTheme.textPrimary(context),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-            const SizedBox(width: 14),
-            // Coluna Tradução
-            Expanded(
-              child: Column(
-                children: traducoes.map((trad) {
-                  final isLinked = _userAssociations.containsValue(trad);
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: InkWell(
-                      onTap: () {
-                        if (_selectedAssociationTerm != null) {
-                          setState(() {
-                            _userAssociations[_selectedAssociationTerm!] = trad;
-                            _selectedAssociationTerm = null;
-                          });
-                        }
-                      },
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: isLinked ? const Color(0xFF0E5D4E).withValues(alpha: 0.12) : AppTheme.surface(context),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: isLinked ? const Color(0xFF0E5D4E) : AppTheme.border(context),
-                            width: isLinked ? 2 : 1,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            trad,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: isLinked ? FontWeight.bold : FontWeight.normal,
-                              color: isLinked ? const Color(0xFF0E5D4E) : AppTheme.textPrimary(context),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFinishedScreen() {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0E5D4E).withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(child: Text('🏆', style: TextStyle(fontSize: 46))),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Treino Temático Concluído!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary(context),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Seus ganhos e aprendizados foram consolidados com sucesso.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 14),
-                ),
-                const SizedBox(height: 28),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildStatCard('Experiência', '+$_accumulatedXp XP', const Color(0xFFD08A45)),
-                    const SizedBox(width: 14),
-                    _buildStatCard('Conchas', '+$_accumulatedConchas 🐚', const Color(0xFF0E5D4E)),
-                    const SizedBox(width: 14),
-                    _buildStatCard('Seu Nível', 'Nível $_currentLevel', const Color(0xFF1EC9A5)),
-                  ],
-                ),
-                const SizedBox(height: 36),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0E5D4E),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    ),
-                    child: const Text('VOLTAR AO CENTRO DE PRÁTICA', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard(String label, String value, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
-      ),
-      child: Column(
-        children: [
-          Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
-          const SizedBox(height: 4),
-          Text(label, style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context))),
-        ],
       ),
     );
   }

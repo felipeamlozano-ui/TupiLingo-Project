@@ -9,6 +9,7 @@ import 'package:tupi_lingo/features/dashboard/presentation/widgets/mastery_radar
 import 'package:tupi_lingo/features/historical_map/domain/services/curriculum_world_graph.dart';
 import 'package:tupi_lingo/features/historical_map/presentation/widgets/historical_timeline_slider.dart';
 import 'package:tupi_lingo/features/historical_map/presentation/widgets/pindorama_expressive_hud.dart';
+import 'package:tupi_lingo/features/store/presentation/store_screen.dart';
 
 void main() {
   group('UI Overflow Resilience Tests', () {
@@ -148,6 +149,65 @@ void main() {
 
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull, reason: 'No RenderFlex overflow in PlatformSuiteShell on desktop');
+    });
+
+    testWidgets('StoreScreen renders cleanly on mobile screen (360x640) without overflow', (tester) async {
+      tester.view.physicalSize = const Size(360, 640);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: StoreScreen(initialConchas: 33),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Verifica título e badge de conchas
+      expect(find.text('Oca das Trocas & Conchas'), findsOneWidget);
+      expect(find.text('33'), findsOneWidget);
+
+      // Verifica abas
+      expect(find.text('Temas'), findsOneWidget);
+      expect(find.text('Avatares & Molduras'), findsOneWidget);
+      expect(find.text('Lições'), findsOneWidget);
+
+      // Verifica que itens aparecem na aba inicial (Temas)
+      expect(find.text('Floresta de Jade'), findsOneWidget);
+      expect(find.text('Areia Sagrada de Pindorama'), findsOneWidget);
+
+      // Navega para aba de Avatares & Molduras
+      await tester.tap(find.text('Avatares & Molduras'));
+      await tester.pumpAndSettle();
+      expect(find.text('Arara Canindé'), findsOneWidget);
+      expect(find.text('Guerreiro Maraká'), findsOneWidget);
+
+      // Navega para aba de Lições
+      await tester.tap(find.text('Lições'));
+      await tester.pumpAndSettle();
+      expect(find.text('Cantos Sagrados dos Pajés'), findsOneWidget);
+
+      expect(tester.takeException(), isNull, reason: 'No RenderFlex overflow in StoreScreen on mobile');
+    });
+
+    testWidgets('StoreScreen renders cleanly on narrow screen (320x600) without overflow', (tester) async {
+      tester.view.physicalSize = const Size(320, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: StoreScreen(initialConchas: 150),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Oca das Trocas & Conchas'), findsOneWidget);
+      expect(find.text('Temas'), findsOneWidget);
+      expect(find.text('Avatares & Molduras'), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'No RenderFlex overflow in StoreScreen on narrow screen');
     });
   });
 }
