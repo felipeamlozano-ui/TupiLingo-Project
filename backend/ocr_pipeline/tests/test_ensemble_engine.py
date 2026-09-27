@@ -24,7 +24,7 @@ class TestForensicEnsembleEngine(unittest.TestCase):
         first = candidates[0]
         self.assertTrue(len(first.text) > 0)
         self.assertGreater(first.confidence, 0.0)
-        self.assertIn("tesseract", first.engine) if "tesseract" in first.engine else self.assertEqual(first.engine, "rapidocr")
+        self.assertTrue("tesseract" in first.engine or "rapidocr" in first.engine)
 
         # Segunda chamada deve atingir o cache
         candidates_cached = self.engine.run_ensemble(img, psms=[6])

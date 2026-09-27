@@ -10,7 +10,7 @@ from decouple import config
 # BASE_DIR should point to backend/ (which is 3 levels up from this file)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-tupilingo-dev-key-change-in-prod-2026')
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
@@ -73,21 +73,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='tupilingo'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='6543'),
-        'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=0, cast=int),
-        'CONN_HEALTH_CHECKS': True,
-        'OPTIONS': {
-            'options': '-c statement_timeout=30000',
-        },
+DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
+
+if 'sqlite' in DB_ENGINE:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / config('DB_NAME', default='db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME', default='tupilingo'),
+            'USER': config('DB_USER', default='postgres'),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default='localhost'),
+            'PORT': config('DB_PORT', default='6543'),
+            'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=0, cast=int),
+            'CONN_HEALTH_CHECKS': True,
+            'OPTIONS': {
+                'options': '-c statement_timeout=30000',
+            },
+        }
+    }
 
 # Cache configuration (PERF-004)
 CACHES = {

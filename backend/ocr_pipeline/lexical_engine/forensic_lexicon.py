@@ -19,6 +19,7 @@ from __future__ import annotations
 import logging
 import re
 from pathlib import Path
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
@@ -40,6 +41,8 @@ class MorphologicalDecomposition(BaseModel):
     particle: str | None = None
     is_valid_tupi: bool = False
     confidence_bonus: float = 0.0
+    linguistic_variant: str = "Tupi Antigo"  # Tupi Antigo, Tupinambá, Kamaiurá, Tupi Contemporâneo
+    morphology_status: str = "morfologia_nao_verificada"  # validado_corpus | morfologia_nao_verificada
 
 
 class LexicalCorrection(BaseModel):
@@ -57,6 +60,7 @@ class LexicalCorrection(BaseModel):
     )
     rollback_applied: bool = False
     reason: str = ""
+    rag_provenance_id: str | None = None
 
 
 class ForensicLexicalResult(BaseModel):
@@ -66,6 +70,8 @@ class ForensicLexicalResult(BaseModel):
     corrected_text: str
     corrections_applied: list[LexicalCorrection] = Field(default_factory=list)
     corrections_rolled_back: list[LexicalCorrection] = Field(default_factory=list)
+    rejected_candidates: list[dict[str, Any]] = Field(default_factory=list)
+    magnet_word_audit: dict[str, Any] = Field(default_factory=dict)
     tupi_tokens_count: int = 0
     tupi_morphological_matches: int = 0
     invariants_checked: int = 0
@@ -265,16 +271,34 @@ ROMAN_NUMERALS_PATTERN = re.compile(
 
 
 class TupiMorphologicalParser:
-    """Parser morfológico determinístico para Tupi Antigo."""
+    """Parser morfológico determinístico para Tupi Antigo, Tupinambá, Kamaiurá e Tupi Contemporâneo."""
 
     def __init__(self, canonical_stems: set[str]):
         self.stems = {s.lower() for s in canonical_stems if len(s) >= 2}
 
-    def parse(self, token: str) -> MorphologicalDecomposition:
-        """Decompõe o token em prefixo + radical + sufixo, se aplicável."""
+    def _determine_variant(self, clean: str) -> str:
+        """Classifica a variante linguística (Capítulo 11)."""
+        if any(marker in clean for marker in ("kamaiur", "awy", "ywy", "wer")):
+            return "Kamaiurá"
+        if any(marker in clean for marker in ("nheeng", "wa", "ana")):
+            return "Tupi Contemporâneo"
+        if any(marker in clean for marker in ("tupinamb", "katu", "ko")):
+            return "Tupinambá"
+        return "Tupi Antigo"
+
+    def parse(self, token: str, rag_validator: Any = None) -> MorphologicalDecomposition:
+        """Decompõe o token em prefixo + radical + sufixo e valida contra corpus/RAG."""
         clean = token.lower().strip("'-")
         if not clean:
             return MorphologicalDecomposition(original=token, stem="", is_valid_tupi=False)
+
+        variant = self._determine_variant(clean)
+
+        def check_status(t: str) -> str:
+            if rag_validator:
+                val = rag_validator.validate_term(t)
+                return "validado_corpus" if (val.exists_in_corpus or val.exists_in_lexicon) else "morfologia_nao_verificada"
+            return "validado_corpus"
 
         # 1. Checagem direta de radical exato
         if clean in self.stems:
@@ -283,12 +307,13 @@ class TupiMorphologicalParser:
                 stem=clean,
                 is_valid_tupi=True,
                 confidence_bonus=0.15,
+                linguistic_variant=variant,
+                morphology_status=check_status(clean),
             )
 
         # 2. Decomposição Prefixal + Stem
         for pfx in TUPI_PREFIXES:
             pfx_clean = pfx.replace("-", "")
-            # Checar se começa com o prefixo (com ou sem hífen: 'xe-', 'xe')
             has_pfx = False
             rest = ""
             if clean.startswith(pfx + "-") or clean.startswith(pfx_clean + "-"):
@@ -307,6 +332,8 @@ class TupiMorphologicalParser:
                         stem=potential_stem,
                         is_valid_tupi=True,
                         confidence_bonus=0.20,
+                        linguistic_variant=variant,
+                        morphology_status=check_status(potential_stem),
                     )
 
         # 3. Decomposição Stem + Suffixal
@@ -330,6 +357,8 @@ class TupiMorphologicalParser:
                         suffix=sfx,
                         is_valid_tupi=True,
                         confidence_bonus=0.20,
+                        linguistic_variant=variant,
+                        morphology_status=check_status(potential_stem),
                     )
 
         # 4. Decomposição Circunfixal (Prefix + Stem + Suffix)
@@ -349,9 +378,17 @@ class TupiMorphologicalParser:
                                 suffix=sfx,
                                 is_valid_tupi=True,
                                 confidence_bonus=0.25,
+                                linguistic_variant=variant,
+                                morphology_status=check_status(potential_stem),
                             )
 
-        return MorphologicalDecomposition(original=token, stem=clean, is_valid_tupi=False)
+        return MorphologicalDecomposition(
+            original=token,
+            stem=clean,
+            is_valid_tupi=False,
+            linguistic_variant=variant,
+            morphology_status="morfologia_nao_verificada",
+        )
 
 
 class ForensicLexicalEngine:
@@ -471,19 +508,47 @@ class ForensicLexicalEngine:
         # Se misto, usar mapeamento canônico ou target
         return self.tupi_case_map.get(target.lower(), target)
 
+    def audit_magnet_words(self, corrections: list[LexicalCorrection]) -> dict[str, Any]:
+        """
+        Auditoria de palavras-ímã obrigatória (Capítulo 10):
+        Tabela de frequência de cada palavra usada como alvo de correção.
+        Sinaliza qualquer uma cuja frequência destoe do esperado (esá/oka/îasy engolindo ruído).
+        """
+        freq: dict[str, int] = {}
+        for c in corrections:
+            if not c.rollback_applied:
+                target = c.corrected.lower()
+                freq[target] = freq.get(target, 0) + 1
+
+        total = sum(freq.values())
+        flagged: list[str] = []
+        for word, count in freq.items():
+            if total >= 5 and (count / total > 0.20) and count >= 3:
+                flagged.append(word)
+
+        return {
+            "frequencies": freq,
+            "total_applied": total,
+            "flagged_suspicious_magnets": flagged,
+            "has_suspicious_magnet": len(flagged) > 0,
+        }
+
     def process_text(
         self,
         text: str,
         token_confidences: list[float] | None = None,
+        rag_validator: Any = None,
     ) -> ForensicLexicalResult:
         """
-        Processa o texto linha por linha aplicando salvaguarda morfológica e rollback gate.
+        Processa o texto linha por linha aplicando salvaguarda morfológica,
+        validação RAG (Capítulo 12) e rollback gate.
         """
         if not text:
             return ForensicLexicalResult(original_text="", corrected_text="")
 
         applied_corrections: list[LexicalCorrection] = []
         rolled_back_corrections: list[LexicalCorrection] = []
+        rejected_candidates: list[dict[str, Any]] = []
         tupi_tokens_count = 0
         morph_matches = 0
         invariants_checked = 0
@@ -494,7 +559,6 @@ class ForensicLexicalEngine:
         global_tok_idx = 0
 
         for tok in tokens:
-            # Se for espaço ou pura pontuação, passa direto
             if not re.search(r"\w", tok):
                 corrected_tokens.append(tok)
                 continue
@@ -528,7 +592,7 @@ class ForensicLexicalEngine:
                 continue
 
             # INVARIANTE 4: Análise Morfológica Tupi (prefixos, sufixos, clíticos)
-            morph_res = self.morph_parser.parse(tok_clean)
+            morph_res = self.morph_parser.parse(tok_clean, rag_validator=rag_validator)
             if morph_res.is_valid_tupi:
                 morph_matches += 1
                 tupi_tokens_count += 1
@@ -545,11 +609,16 @@ class ForensicLexicalEngine:
             # INVARIANTE 6: Confidence Gate
             # Se o token já tiver alta confiança do OCR (>= 0.90), não alterar
             if orig_conf >= 0.90:
+                rejected_candidates.append({
+                    "token_idx": global_tok_idx,
+                    "original": tok,
+                    "reason": "confidence_gate_high_confidence",
+                    "confidence": orig_conf,
+                })
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
                 continue
 
-            # Se não temos SymSpell, mantemos o original
             if self.sym_spell is None:
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
@@ -558,6 +627,11 @@ class ForensicLexicalEngine:
             # Distância adaptativa
             allowed_dist = self._get_adaptive_edit_distance(len(tok_clean))
             if allowed_dist == 0:
+                rejected_candidates.append({
+                    "token_idx": global_tok_idx,
+                    "original": tok,
+                    "reason": "proportional_distance_zero_for_short_token",
+                })
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
                 continue
@@ -579,27 +653,54 @@ class ForensicLexicalEngine:
             edit_dist = best.distance
 
             # Invariante de Deformação de Tamanho: Rejeita truncamentos em palavras-ímã curtas
-            # (Ex: Potira->Pira, Vokal->Oka, piorar->pira, opera->pira)
             if abs(len(cand_term) - len(tok_clean)) >= 2:
+                rejected_candidates.append({
+                    "token_idx": global_tok_idx,
+                    "original": tok,
+                    "proposed": cand_term,
+                    "reason": "size_deformation_discrepancy",
+                })
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
                 continue
 
-            # Decisão de aceitação
             is_cand_tupi = cand_term in self.tupi_vocab
             is_cand_pt = cand_term in HISTORICAL_PORTUGUESE_WHITELIST
 
             if not (is_cand_tupi or is_cand_pt):
-                # Candidato desconhecido: rejeita
+                rejected_candidates.append({
+                    "token_idx": global_tok_idx,
+                    "original": tok,
+                    "proposed": cand_term,
+                    "reason": "unknown_candidate_target",
+                })
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
                 continue
 
-            # Preserva a caixa original
             final_token = self._preserve_original_casing(tok, cand_term)
 
-            # ROLLBACK GATE 1:
-            # Não permitir que uma palavra Tupi conhecida seja convertida em português!
+            # Validação RAG obrigatória (Capítulo 12)
+            rag_chunk_id = None
+            if rag_validator is not None:
+                rag_res = rag_validator.validate_term(cand_term)
+                if not rag_res.exists_in_corpus and not rag_res.exists_in_lexicon:
+                    rejected_candidates.append({
+                        "token_idx": global_tok_idx,
+                        "original": tok,
+                        "proposed": final_token,
+                        "reason": "rejected_no_rag_provenance",
+                    })
+                    corrected_tokens.append(tok)
+                    global_tok_idx += 1
+                    continue
+                rag_chunk_id = (
+                    rag_res.evidence_samples[0].chunk_id
+                    if rag_res.evidence_samples
+                    else "lexicon_canonical"
+                )
+
+            # ROLLBACK GATE 1: Não permitir que Tupi vire português
             if tok_lower in self.tupi_vocab and is_cand_pt and not is_cand_tupi:
                 rollback_record = LexicalCorrection(
                     token_idx=global_tok_idx,
@@ -611,14 +712,14 @@ class ForensicLexicalEngine:
                     category="rejected_invariant",
                     rollback_applied=True,
                     reason="Tentativa ilegal de aportuguesamento de radical Tupi",
+                    rag_provenance_id=rag_chunk_id,
                 )
                 rolled_back_corrections.append(rollback_record)
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
                 continue
 
-            # ROLLBACK GATE 2:
-            # Não permitir que uma palavra em português válida seja convertida em Tupi!
+            # ROLLBACK GATE 2: Não permitir que português vire Tupi
             if tok_lower in HISTORICAL_PORTUGUESE_WHITELIST and is_cand_tupi and not is_cand_pt:
                 rollback_record = LexicalCorrection(
                     token_idx=global_tok_idx,
@@ -630,19 +731,18 @@ class ForensicLexicalEngine:
                     category="rejected_invariant",
                     rollback_applied=True,
                     reason="Tentativa ilegal de conversão de palavra em português para Tupi",
+                    rag_provenance_id=rag_chunk_id,
                 )
                 rolled_back_corrections.append(rollback_record)
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
                 continue
 
-            # Se a correção for idêntica ao original, não precisa registrar
             if final_token == tok:
                 corrected_tokens.append(tok)
                 global_tok_idx += 1
                 continue
 
-            # Correção válida aprovada
             cat = "tupi_stem" if is_cand_tupi else "portuguese_whitelist"
             corr_record = LexicalCorrection(
                 token_idx=global_tok_idx,
@@ -654,17 +754,22 @@ class ForensicLexicalEngine:
                 category=cat,
                 rollback_applied=False,
                 reason=f"Correção validada por {cat} (dist={edit_dist})",
+                rag_provenance_id=rag_chunk_id,
             )
             applied_corrections.append(corr_record)
             corrected_tokens.append(final_token)
             global_tok_idx += 1
 
         final_text = "".join(corrected_tokens)
+        magnet_audit = self.audit_magnet_words(applied_corrections)
+
         return ForensicLexicalResult(
             original_text=text,
             corrected_text=final_text,
             corrections_applied=applied_corrections,
             corrections_rolled_back=rolled_back_corrections,
+            rejected_candidates=rejected_candidates,
+            magnet_word_audit=magnet_audit,
             tupi_tokens_count=tupi_tokens_count,
             tupi_morphological_matches=morph_matches,
             invariants_checked=invariants_checked,

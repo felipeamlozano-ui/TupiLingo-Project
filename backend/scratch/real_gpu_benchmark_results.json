@@ -1,0 +1,202 @@
+{
+  "gpu_info": {
+    "cuda_available": false,
+    "device_name": "N/A",
+    "vram_mb": 0,
+    "error": "[WinError 127] Não foi possível encontrar o procedimento especificado. Error loading \"C:\\Users\\Felipe\\Downloads\\Tupilingo\\backend\\venv\\Lib\\site-packages\\torch\\lib\\cudnn_cnn64_9.dll\" or one of its dependencies."
+  },
+  "crops_tested": [
+    {
+      "crop_name": "Ayrosa_p1_Crop",
+      "dimensions": "900x600",
+      "steps": [
+        {
+          "filter": "clahe",
+          "engine": "rapidocr",
+          "scale": 1.0,
+          "filter_ms": 7.37,
+          "scale_ms": 0.0,
+          "ocr_ms": 16732.39,
+          "total_ms": 16739.77,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        },
+        {
+          "filter": "sauvola",
+          "engine": "tesseract_psm6",
+          "scale": 1.5,
+          "filter_ms": 7.14,
+          "scale_ms": 10.22,
+          "ocr_ms": 13436.76,
+          "total_ms": 13454.12,
+          "chars_detected": 81,
+          "conf_achieved": 0.6349
+        },
+        {
+          "filter": "retinex",
+          "engine": "rapidocr",
+          "scale": 2.0,
+          "filter_ms": 1.79,
+          "scale_ms": 2.21,
+          "ocr_ms": 4550.18,
+          "total_ms": 4554.18,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        },
+        {
+          "filter": "morph_reconstruction",
+          "engine": "tesseract_psm4",
+          "scale": 2.0,
+          "filter_ms": 106.36,
+          "scale_ms": 2.26,
+          "ocr_ms": 115.91,
+          "total_ms": 224.54,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        },
+        {
+          "filter": "niblack",
+          "engine": "rapidocr",
+          "scale": 2.0,
+          "filter_ms": 2.77,
+          "scale_ms": 2.17,
+          "ocr_ms": 125.37,
+          "total_ms": 130.31,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        }
+      ],
+      "total_5steps_ms": 35104.45,
+      "step_1_ms": 16739.77,
+      "ratio_5_vs_1": 2.1
+    },
+    {
+      "crop_name": "Dicionario_p11_Crop",
+      "dimensions": "700x600",
+      "steps": [
+        {
+          "filter": "clahe",
+          "engine": "rapidocr",
+          "scale": 1.0,
+          "filter_ms": 1.44,
+          "scale_ms": 0.0,
+          "ocr_ms": 11050.87,
+          "total_ms": 11052.31,
+          "chars_detected": 848,
+          "conf_achieved": 0.9737
+        },
+        {
+          "filter": "sauvola",
+          "engine": "tesseract_psm6",
+          "scale": 1.5,
+          "filter_ms": 1.89,
+          "scale_ms": 1.25,
+          "ocr_ms": 11142.62,
+          "total_ms": 11145.76,
+          "chars_detected": 955,
+          "conf_achieved": 0.9584
+        },
+        {
+          "filter": "retinex",
+          "engine": "rapidocr",
+          "scale": 2.0,
+          "filter_ms": 0.83,
+          "scale_ms": 2.12,
+          "ocr_ms": 11199.42,
+          "total_ms": 11202.37,
+          "chars_detected": 768,
+          "conf_achieved": 0.9371
+        },
+        {
+          "filter": "morph_reconstruction",
+          "engine": "tesseract_psm4",
+          "scale": 2.0,
+          "filter_ms": 0.66,
+          "scale_ms": 1.7,
+          "ocr_ms": 10367.05,
+          "total_ms": 10369.41,
+          "chars_detected": 941,
+          "conf_achieved": 0.9328
+        },
+        {
+          "filter": "niblack",
+          "engine": "rapidocr",
+          "scale": 2.0,
+          "filter_ms": 0.61,
+          "scale_ms": 1.56,
+          "ocr_ms": 6989.1,
+          "total_ms": 6991.27,
+          "chars_detected": 798,
+          "conf_achieved": 0.9658
+        }
+      ],
+      "total_5steps_ms": 50761.97,
+      "step_1_ms": 11052.31,
+      "ratio_5_vs_1": 4.59
+    },
+    {
+      "crop_name": "Barbosa_p2_Crop",
+      "dimensions": "800x600",
+      "steps": [
+        {
+          "filter": "clahe",
+          "engine": "rapidocr",
+          "scale": 1.0,
+          "filter_ms": 1.1,
+          "scale_ms": 0.0,
+          "ocr_ms": 2033.05,
+          "total_ms": 2034.15,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        },
+        {
+          "filter": "sauvola",
+          "engine": "tesseract_psm6",
+          "scale": 1.5,
+          "filter_ms": 2.48,
+          "scale_ms": 1.81,
+          "ocr_ms": 4670.09,
+          "total_ms": 4674.38,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        },
+        {
+          "filter": "retinex",
+          "engine": "rapidocr",
+          "scale": 2.0,
+          "filter_ms": 0.83,
+          "scale_ms": 2.09,
+          "ocr_ms": 4280.81,
+          "total_ms": 4283.73,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        },
+        {
+          "filter": "morph_reconstruction",
+          "engine": "tesseract_psm4",
+          "scale": 2.0,
+          "filter_ms": 0.68,
+          "scale_ms": 2.28,
+          "ocr_ms": 90.26,
+          "total_ms": 93.22,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        },
+        {
+          "filter": "niblack",
+          "engine": "rapidocr",
+          "scale": 2.0,
+          "filter_ms": 0.71,
+          "scale_ms": 2.07,
+          "ocr_ms": 88.98,
+          "total_ms": 91.77,
+          "chars_detected": 0,
+          "conf_achieved": 0.0
+        }
+      ],
+      "total_5steps_ms": 11178.13,
+      "step_1_ms": 2034.15,
+      "ratio_5_vs_1": 5.49
+    }
+  ]
+}

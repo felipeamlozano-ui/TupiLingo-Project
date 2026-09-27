@@ -5,7 +5,7 @@ Implementa:
   - Remoção robusta de bleed-through via Binarização Multiescala de Sauvola.
   - Super-resolução clássica via interpolação Lanczos + Máscara de Nitidez (Unsharp Mask).
 """
-from typing import Any
+from typing import Any, Optional
 
 import cv2
 import numpy as np

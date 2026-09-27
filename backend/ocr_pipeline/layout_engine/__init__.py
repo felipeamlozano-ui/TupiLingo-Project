@@ -1,6 +1,6 @@
 """
-Pacote Layout Engine — TupiLingo OCR Forense v3.0
+Pacote Layout Engine — TupiLingo OCR Forense v5
 """
-from .doc_layout import ForensicLayoutEngine, LayoutRegion
+from .doc_layout import ForensicLayoutEngine, LayoutRegion, ReadingOrderGraph
 
-__all__ = ["ForensicLayoutEngine", "LayoutRegion"]
+__all__ = ["ForensicLayoutEngine", "LayoutRegion", "ReadingOrderGraph"]

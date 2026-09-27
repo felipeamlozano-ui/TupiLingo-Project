@@ -83,12 +83,22 @@ class SupabaseService:
             self._setup()
             self._initialized = True
 
+    @property
+    def client(self) -> httpx.Client:
+        if self._client is None:
+            raise SupabaseAuthError("SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY são obrigatórios para executar operações no Supabase.")
+        return self._client
+
     def _setup(self) -> None:
         """Configura o cliente HTTP com connection pooling."""
         if not settings.SUPABASE_URL or not settings.SUPABASE_SERVICE_ROLE_KEY:
-            raise SupabaseAuthError(
-                "SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY são obrigatórios."
+            logger.warning(
+                "[SupabaseService] SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY não configurados. Cliente HTTP operará sob demanda."
             )
+            self._base_url = (settings.SUPABASE_URL or "").rstrip("/")
+            self._rpc_url = f"{self._base_url}/rest/v1/rpc/gerar_esqueleto_quiz" if self._base_url else ""
+            self._client = None
+            return
 
         self._base_url = settings.SUPABASE_URL.rstrip("/")
         self._rpc_url = f"{self._base_url}/rest/v1/rpc/gerar_esqueleto_quiz"
@@ -167,7 +177,7 @@ class SupabaseService:
         response = None
         for attempt in range(2):
             try:
-                response = self._client.post(self._rpc_url, json=payload)
+                response = self.client.post(self._rpc_url, json=payload)
                 break
             except httpx.TimeoutException as exc:
                 if attempt == 0:
@@ -297,7 +307,7 @@ class SupabaseService:
         # ── 1. Tentativa Primária: Chamada RPC ────────────────────────────────
         try:
             url_rpc = f"{self._base_url}/rest/v1/rpc/obter_chunks_rag"
-            response = self._client.post(url_rpc, json=payload)
+            response = self.client.post(url_rpc, json=payload)
             if response.status_code == 200:
                 data = response.json()
                 if isinstance(data, list) and data:
@@ -325,7 +335,7 @@ class SupabaseService:
                 "offset": str(offset_aleatorio),
             }
             url_table = f"{self._base_url}/rest/v1/rag_document_categories"
-            response = self._client.get(url_table, params=params)
+            response = self.client.get(url_table, params=params)
 
             if response.status_code == 200:
                 data = response.json()
@@ -361,7 +371,7 @@ class SupabaseService:
         }
         try:
             url_rpc = f"{self._base_url}/rest/v1/rpc/buscar_chunks_rag_semantico"
-            response = self._client.post(url_rpc, json=payload)
+            response = self.client.post(url_rpc, json=payload)
             if response.status_code == 200:
                 data = response.json()
                 if isinstance(data, list) and data:
@@ -396,7 +406,7 @@ class SupabaseService:
         }
         try:
             url_rpc = f"{self._base_url}/rest/v1/rpc/validar_resposta_fuzzy_trgm"
-            response = self._client.post(url_rpc, json=payload)
+            response = self.client.post(url_rpc, json=payload)
             if response.status_code == 200:
                 data = response.json()
                 if isinstance(data, list) and len(data) > 0:
@@ -421,7 +431,7 @@ class SupabaseService:
         """
         try:
             url_rpc = f"{self._base_url}/rest/v1/rpc/validar_quiz_payload_jsonschema"
-            response = self._client.post(url_rpc, json={"p_payload": payload})
+            response = self.client.post(url_rpc, json={"p_payload": payload})
             if response.status_code == 200:
                 data = response.json()
                 if isinstance(data, list) and len(data) > 0:
@@ -438,7 +448,7 @@ class SupabaseService:
         """Executa uma RPC genérica no Supabase via REST API."""
         try:
             url_rpc = f"{self._base_url}/rest/v1/rpc/{function_name}"
-            response = self._client.post(url_rpc, json=payload or {})
+            response = self.client.post(url_rpc, json=payload or {})
             if response.status_code in (200, 201):
                 return response.json()
             elif response.status_code == 204:
@@ -499,7 +509,7 @@ class SupabaseService:
                 "termos_srs": termos_srs or [],
                 "hit_count": 1,
             }
-            res = self._client.post(url, json=row)
+            res = self.client.post(url, json=row)
             return res.status_code in (200, 201)
         except Exception as exc:
             logger.debug("[SupabaseService] Falha ao salvar no cache semântico: %s", exc)

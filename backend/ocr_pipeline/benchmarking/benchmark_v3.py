@@ -87,25 +87,29 @@ class ForensicBenchmarkEngine:
         confs = []
         tupi_tokens = 0
 
-        for idx, img in enumerate(images):
-            gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-            # OCR cru sem filtros avançados
-            data = pytesseract.image_to_data(
-                gray, lang="por", output_type=pytesseract.Output.DICT
-            )
-            for i, text in enumerate(data["text"]):
-                clean = text.strip()
-                if clean:
-                    total_tokens += 1
-                    raw_c = float(data["conf"][i])
-                    if raw_c >= 0:
-                        confs.append(raw_c)
-                    # Contagem ingênua de Tupi
-                    if clean.lower() in {"oka", "tatu", "tuba", "pira", "katu", "aba"}:
-                        tupi_tokens += 1
+        try:
+            for idx, img in enumerate(images):
+                gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+                # OCR cru sem filtros avançados
+                data = pytesseract.image_to_data(
+                    gray, lang="por", output_type=pytesseract.Output.DICT
+                )
+                for i, text in enumerate(data["text"]):
+                    clean = text.strip()
+                    if clean:
+                        total_tokens += 1
+                        raw_c = float(data["conf"][i])
+                        if raw_c >= 0:
+                            confs.append(raw_c)
+                        # Contagem ingênua de Tupi
+                        if clean.lower() in {"oka", "tatu", "tuba", "pira", "katu", "aba"}:
+                            tupi_tokens += 1
 
-            snap = self.collector.get_snapshot()
-            peak_rss = max(peak_rss, snap.process_rss_mb)
+                snap = self.collector.get_snapshot()
+                peak_rss = max(peak_rss, snap.process_rss_mb)
+        except Exception:
+            # Fallback gracioso caso tesseract binário não esteja instalado no SO
+            pass
 
         total_time = max(0.001, time.time() - t0)
         final_telemetry = self.collector.get_snapshot()

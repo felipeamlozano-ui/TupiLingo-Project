@@ -94,10 +94,11 @@ def criar_exercicio_associacao(licao, ordem, enunciado, coluna_esquerda, coluna_
 
 def criar_views_supabase():
     """Cria Views SQL no Supabase para facilitar a gestão de trilhas pelos desenvolvedores."""
-    print("Criando Views SQL no Supabase Postgres...")
+    print("Criando Views SQL...")
     with connection.cursor() as cursor:
+        cursor.execute("DROP VIEW IF EXISTS view_trilha_gerenciamento;")
         cursor.execute("""
-        CREATE OR REPLACE VIEW view_trilha_gerenciamento AS
+        CREATE VIEW view_trilha_gerenciamento AS
         SELECT 
             t.titulo AS trilha,
             c.numero AS cap_numero,
@@ -118,8 +119,9 @@ def criar_views_supabase():
         ORDER BY t.id, c.numero, l.numero, e.ordem;
         """)
 
+        cursor.execute("DROP VIEW IF EXISTS view_trilha_resumo;")
         cursor.execute("""
-        CREATE OR REPLACE VIEW view_trilha_resumo AS
+        CREATE VIEW view_trilha_resumo AS
         SELECT 
             c.numero AS cap_num,
             c.titulo AS capitulo,

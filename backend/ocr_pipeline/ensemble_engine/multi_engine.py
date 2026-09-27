@@ -1,8 +1,8 @@
 """
-Engine de OCR Ensemble Multi-Motor — TupiLingo OCR Forense v3.0
+Engine de OCR Ensemble Multi-Motor GPU — TupiLingo OCR Forense v5
 Combina múltiplos motores de reconhecimento, múltiplos PSMs e múltiplos níveis de resolução:
-  - RapidOCR (ONNX Runtime PP-OCRv4 em CPU com limitação de threads)
-  - Tesseract OCR (LSTM com user-words Tupi e múltiplos PSMs: 3, 4, 6, 11)
+  - RapidOCR GPU (CUDAExecutionProvider via ONNX Runtime com fallback para CPU)
+  - Tesseract OCR (LSTM com user-words Tupi e múltiplos PSMs validados: 3, 6, 11, 4)
   - Multi-DPI scaling (300 e 450 DPI)
   - Cache determinístico por hash de imagem e parâmetros de motor
 """
@@ -11,7 +11,8 @@ import json
 import os
 import platform
 import unicodedata
-from typing import Any
+from pathlib import Path
+from typing import Any, Optional
 
 import numpy as np
 from PIL import Image
@@ -24,16 +25,17 @@ if platform.system() == "Windows":
 else:
     DEFAULT_TESSERACT_CMD = "tesseract"
 
-class OCRCandidate(BaseModel if False else object):
+
+class OCRCandidate:
     def __init__(
         self,
         text: str,
         confidence: float,
         engine: str,
         bbox: BoundingBox,
-        psm: int | None = None,
+        psm: Optional[int] = None,
         dpi: int = 300,
-        branch: str = "default"
+        branch: str = "default",
     ):
         self.text = text
         self.confidence = confidence
@@ -51,24 +53,42 @@ class OCRCandidate(BaseModel if False else object):
             "bbox": (self.bbox.x1, self.bbox.y1, self.bbox.x2, self.bbox.y2),
             "psm": self.psm,
             "dpi": self.dpi,
-            "branch": self.branch
+            "branch": self.branch,
         }
+
 
 class ForensicEnsembleEngine:
     def __init__(
         self,
-        tupi_words_path: str | None = None,
+        tupi_words_path: Optional[str] = None,
         cpu_threads: int = 6,
-        tesseract_cmd: str | None = None
+        tesseract_cmd: Optional[str] = None,
+        use_gpu: bool = True,
     ):
         self.tupi_words_path = tupi_words_path or str(GLOBAL_CONFIG.tupi_words_file)
         self.cpu_threads = cpu_threads
         self.tesseract_cmd = tesseract_cmd or DEFAULT_TESSERACT_CMD
+        self.use_gpu = use_gpu
         self.cache_dir = GLOBAL_CONFIG.cache_dir / "ensemble_cache"
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
+        self._init_cuda_environment()
         self._init_tesseract()
         self._init_rapidocr()
+
+    def _init_cuda_environment(self):
+        """Carrega DLLs CUDA/cuDNN do ambiente virtual."""
+        if not self.use_gpu or platform.system() != "Windows":
+            return
+        venv_nvidia = Path(__file__).resolve().parent.parent.parent / "venv" / "Lib" / "site-packages" / "nvidia"
+        if venv_nvidia.exists():
+            for sub in venv_nvidia.iterdir():
+                bin_dir = sub / "bin"
+                if bin_dir.exists():
+                    try:
+                        os.add_dll_directory(str(bin_dir))
+                    except Exception:
+                        pass
 
     def _init_tesseract(self):
         try:
@@ -85,6 +105,7 @@ class ForensicEnsembleEngine:
             from rapidocr_onnxruntime import RapidOCR
             os.environ["OMP_NUM_THREADS"] = str(self.cpu_threads)
             os.environ["MKL_NUM_THREADS"] = str(self.cpu_threads)
+            # Inicializa RapidOCR (CUDAExecutionProvider selecionado automaticamente pelo onnxruntime-gpu)
             self.rapidocr = RapidOCR()
             self.rapidocr_available = True
         except Exception:
@@ -100,15 +121,18 @@ class ForensicEnsembleEngine:
     def run_ensemble(
         self,
         pil_img: Image.Image,
-        psms: list[int] | None = None,
+        psms: Optional[list[int]] = None,
         branch: str = "default",
-        dpi: int = 300
+        dpi: int = 300,
     ) -> list[OCRCandidate]:
-        """Executa RapidOCR e múltiplos modos de Tesseract sobre a imagem, utilizando cache."""
-        psms = psms or [6, 4] # Modos mais frequentes para blocos de leitura
+        """
+        Executa ensemble com RapidOCR GPU e múltiplos modos de Tesseract (PSMs 3, 6, 11).
+        Utiliza cache determinístico para evitar reprocessamento desnecessário.
+        """
+        psms = psms or [6, 3, 11]  # Modos homologados no Capítulo 7.3
         candidates: list[OCRCandidate] = []
 
-        # 1. Execução RapidOCR (Motor primário de alta precisão em texto antigo)
+        # 1. Execução RapidOCR GPU
         rapid_cand = self._run_rapidocr_cached(pil_img, branch=branch, dpi=dpi)
         if rapid_cand:
             candidates.extend(rapid_cand)
@@ -125,7 +149,7 @@ class ForensicEnsembleEngine:
         if not self.rapidocr_available or self.rapidocr is None:
             return []
 
-        cache_key = self._compute_hash(pil_img, {"engine": "rapidocr", "branch": branch, "dpi": dpi})
+        cache_key = self._compute_hash(pil_img, {"engine": "rapidocr_gpu", "branch": branch, "dpi": dpi})
         cache_path = self.cache_dir / f"{cache_key}.json"
 
         if cache_path.exists():
@@ -139,12 +163,11 @@ class ForensicEnsembleEngine:
                         bbox=BoundingBox(x1=item["bbox"][0], y1=item["bbox"][1], x2=item["bbox"][2], y2=item["bbox"][3]),
                         psm=item.get("psm"),
                         dpi=item.get("dpi", dpi),
-                        branch=item.get("branch", branch)
+                        branch=item.get("branch", branch),
                     ) for item in data]
             except Exception:
                 pass
 
-        # Execução Real
         try:
             img_np = np.array(pil_img)
             result, _ = self.rapidocr(img_np)
@@ -159,10 +182,10 @@ class ForensicEnsembleEngine:
                         cand = OCRCandidate(
                             text=unicodedata.normalize("NFC", text),
                             confidence=round(conf * 100.0, 2),
-                            engine="rapidocr",
+                            engine="rapidocr_gpu",
                             bbox=bbox,
                             dpi=dpi,
-                            branch=branch
+                            branch=branch,
                         )
                         candidates.append(cand)
 
@@ -190,12 +213,11 @@ class ForensicEnsembleEngine:
                         bbox=BoundingBox(x1=item["bbox"][0], y1=item["bbox"][1], x2=item["bbox"][2], y2=item["bbox"][3]),
                         psm=item.get("psm"),
                         dpi=item.get("dpi", dpi),
-                        branch=item.get("branch", branch)
+                        branch=item.get("branch", branch),
                     ) for item in data]
             except Exception:
                 pass
 
-        # Execução Real
         config_parts = [f"--oem 1 --psm {psm}"]
         if self.tupi_words_path and os.path.exists(self.tupi_words_path):
             config_parts.append(f'--user-words "{self.tupi_words_path}"')
@@ -206,7 +228,7 @@ class ForensicEnsembleEngine:
                 pil_img,
                 lang="por+eng",
                 config=tess_config,
-                output_type=self.pytesseract.Output.DICT
+                output_type=self.pytesseract.Output.DICT,
             )
             candidates = []
             for i in range(len(data["text"])):
@@ -217,7 +239,7 @@ class ForensicEnsembleEngine:
                         x1=data["left"][i],
                         y1=data["top"][i],
                         x2=data["left"][i] + data["width"][i],
-                        y2=data["top"][i] + data["height"][i]
+                        y2=data["top"][i] + data["height"][i],
                     )
                     cand = OCRCandidate(
                         text=unicodedata.normalize("NFC", word),
@@ -226,7 +248,7 @@ class ForensicEnsembleEngine:
                         bbox=bbox,
                         psm=psm,
                         dpi=dpi,
-                        branch=branch
+                        branch=branch,
                     )
                     candidates.append(cand)
 

@@ -64,9 +64,18 @@ echo ===========================================================================
 echo   INICIANDO MODO COMPLETO (DJANGO + FLUTTER DEBUG + TODOS OS WORKERS)
 echo ===============================================================================
 call :setup_adb
-echo [*] Iniciando Docker (Django + Redis + Nginx + PDF Worker + Vocab Worker)...
-cd /d "%PROJECT_DIR%backend"
-start "Docker Backend (Completo)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up"
+where docker >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [!] Docker nao detectado no sistema. Iniciando Backend e Workers via Python local (venv)...
+    cd /d "%PROJECT_DIR%backend"
+    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+    start "PDF Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe pdf_worker.py"
+    start "Vocab Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py extract_vocab_from_rag --continuous"
+) else (
+    echo [*] Iniciando Docker (Django + Redis + Nginx + PDF Worker + Vocab Worker)...
+    cd /d "%PROJECT_DIR%backend"
+    start "Docker Backend (Completo)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up"
+)
 call :wait_django
 call :start_flutter_debug
 goto end
@@ -80,9 +89,16 @@ echo ===========================================================================
 echo   INICIANDO MODO DEV RAPIDO (DJANGO + FLUTTER DEBUG - SEM WORKERS)
 echo ===============================================================================
 call :setup_adb
-echo [*] Iniciando Docker (Apenas Django + Redis - zero consumo de cota de IA)...
-cd /d "%PROJECT_DIR%backend"
-start "Docker Backend (Dev Rapido)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
+where docker >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [!] Docker nao detectado no sistema. Iniciando Backend via Python local (venv)...
+    cd /d "%PROJECT_DIR%backend"
+    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+) else (
+    echo [*] Iniciando Docker (Apenas Django + Redis - zero consumo de cota de IA)...
+    cd /d "%PROJECT_DIR%backend"
+    start "Docker Backend (Dev Rapido)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
+)
 call :wait_django
 call :start_flutter_debug
 goto end
@@ -257,12 +273,19 @@ goto end
 :opt_backend_only
 cls
 echo ===============================================================================
-echo   INICIANDO APENAS BACKEND CORE (DJANGO + REDIS)
+echo   INICIANDO APENAS BACKEND CORE (DJANGO)
 echo ===============================================================================
 call :setup_adb
-echo [*] Iniciando Docker Django + Redis na porta 8000...
-cd /d "%PROJECT_DIR%backend"
-start "Docker Backend Core" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
+where docker >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [!] Docker nao detectado no sistema. Iniciando Backend via Python local (venv)...
+    cd /d "%PROJECT_DIR%backend"
+    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+) else (
+    echo [*] Iniciando Docker Django + Redis na porta 8000...
+    cd /d "%PROJECT_DIR%backend"
+    start "Docker Backend Core" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
+)
 call :wait_django
 echo.
 echo [OK] Backend rodando em http://127.0.0.1:8000/
@@ -278,9 +301,17 @@ cls
 echo ===============================================================================
 echo   INICIANDO APENAS WORKERS DE IA (PDF WORKER + VOCAB WORKER)
 echo ===============================================================================
-echo [*] Iniciando PDF Worker e Vocab Worker via Docker...
-cd /d "%PROJECT_DIR%backend"
-start "Docker Workers de IA" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up pdf_worker vocab_worker"
+where docker >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [!] Docker nao detectado no sistema. Iniciando Workers via Python local (venv)...
+    cd /d "%PROJECT_DIR%backend"
+    start "PDF Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe pdf_worker.py"
+    start "Vocab Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py extract_vocab_from_rag --continuous"
+) else (
+    echo [*] Iniciando PDF Worker e Vocab Worker via Docker...
+    cd /d "%PROJECT_DIR%backend"
+    start "Docker Workers de IA" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up pdf_worker vocab_worker"
+)
 echo.
 echo [OK] Janela dos Workers iniciada!
 echo     Acompanhe o log na janela que foi aberta.

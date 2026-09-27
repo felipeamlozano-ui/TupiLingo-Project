@@ -1,0 +1,194 @@
+<USER_REQUEST>
+RFC — TupiLingo OCR v5: Pipeline Arquivístico Distribuído (Desktop GPU ↔ Notebook)
+Status: Proposta para implementação Ambiente de execução principal: Desktop — Intel i5-12400F, RTX 5060 8GB VRAM, 16GB RAM, 1TB SSD Ambiente secundário: Notebook — roda apenas vocab_worker (categorização), nunca OCR Substitui: v3.0 (homologada parcialmente), v4.0 (revisado), v4.1 (sincronização inicial)
+
+
+Como usar este documento
+Cada capítulo é uma unidade de trabalho independente. Implementar um capítulo por vez, com checkpoint e evidência bruta antes de avançar para o próximo — nunca construir os 18 capítulos numa sequência ininterrupta sem pontos de verificação. Se um capítulo esbarrar num limite físico real (VRAM, incompatibilidade de biblioteca, tempo inviável), isso é reportado como bloqueio explícito com o erro literal colado, nunca contornado silenciosamente.
+
+
+Capítulo 0 — Pré-requisito bloqueante (não pular)
+Antes de iniciar qualquer capítulo abaixo, fechar estes três itens com evidência bruta, usando a máquina desktop:
+
+Ayrosa página 1: a confiança subiu de 34,73% para 59,13% com o texto de saída idêntico ao ruído de entrada (zero correções aplicadas). Decompor os 4 componentes da fórmula de confiança para esta página específica e confirmar explicitamente se ela continua roteada para revisão humana apesar da nota alta.
+Dicionário Tupi página 11: confirmar, com o mesmo trecho exato mostrado antes/depois (não trechos diferentes), se o texto corrigido forma sequência com sentido em português ou Tupi, ou se é apenas palavras válidas isoladas sem coesão.
+Benchmark do motor de recuperação iterativa: o resultado anterior (5 passos = exatamente 5,00× o tempo de 1 passo) é suspeito de ser um mock. Medir tempo por passo individual, em pelo menos 3 crops reais diferentes, na GPU.
+
+Nenhum capítulo deste RFC deve ser considerado "concluído" se este Capítulo 0 não estiver fechado primeiro — os capítulos seguintes constroem em cima da mesma base de confiança, e se ela estiver quebrada, tudo que vier depois herda o problema.
+
+
+Capítulo 1 — Arquitetura Distribuída Desktop ↔ Notebook
+1.1 Divisão de responsabilidade
+Desktop (GPU): Capítulos 2 a 15 (todo o pipeline de OCR forense, do diagnóstico à exportação).
+Notebook: só o vocab_worker, consumindo o artefato exportado pelo desktop. Nunca roda OCR, nunca escreve no vector_store.db de origem.
+1.2 Artifact Bundle (substitui a ideia de versionar o banco inteiro no Git)
+Em vez de sincronizar o vector_store.db binário via Git (não diffável, incha o repositório a cada reprocessamento), o desktop produz, ao final de cada lote, um Artifact Bundle: uma pasta autocontida, versionada por timestamp, com esta estrutura:
+
+artifact_bundle_2026-09-27T03-14-00/
+
+  manifest.json
+
+  chunks.parquet
+
+  audit_log.jsonl
+
+  confidence_components.parquet
+
+  checksums.sha256
+
+chunks.parquet: um chunk por linha — colunas: chunk_id (UUID), pdf_source, page, text_final, confidence_final, rollback_applied (bool), rag_provenance_ids (lista), needs_review (bool), engine_versions (dict serializado). Parquet em vez de JSONL porque é tipado, comprimido e lido nativamente por pandas/PyArrow no vocab_worker, sem parsing manual.
+audit_log.jsonl: log bruto de todas as correções aplicadas e rejeitadas (seção 10), preservado integralmente para auditoria futura — nunca descartado, mesmo que grande.
+confidence_components.parquet: decomposição dos 4 (ou mais) componentes da fórmula de confiança por chunk, para permitir reauditoria sem reprocessar (resolve o problema do Capítulo 0, item 1, de forma permanente — a decomposição fica sempre disponível, não precisa ser gerada sob demanda).
+checksums.sha256: hash de cada arquivo do bundle, para o vocab_worker confirmar integridade antes de consumir (detecta corrupção de transferência via Drive).
+manifest.json: metadados do lote — timestamp, versão do pipeline, quantidade de páginas processadas, quantidade de PDFs, hash do commit do código que gerou o bundle (rastreabilidade de qual versão do código produziu qual resultado).
+1.3 Transporte
+O .db bruto e o Artifact Bundle completo trafegam via Google Drive (ou equivalente), não via Git — arquivos grandes e binários não pertencem ao histórico de um repositório de código.
+O Git versiona apenas código (ocr_pipeline/, vocab_worker/, scripts .bat) e, opcionalmente, uma cópia do manifest.json de cada bundle gerado (pequeno, textual, útil para rastrear qual bundle corresponde a qual versão de código).
+1.4 Versionamento incremental
+Cada bundle é imutável uma vez gerado (nunca sobrescrito). Bundles antigos podem ser apagados manualmente depois de confirmado que o vocab_worker já consumiu e persistiu o resultado localmente no notebook — não há necessidade de reter todos para sempre.
+Reprocessamentos parciais (ex.: só as páginas que mudaram) geram um bundle incremental separado, com um campo base_bundle_id no manifest apontando para o bundle anterior que ele complementa.
+
+
+Capítulo 2 — Instalação Zero-Configuração
+2.1 install_gpu_pipeline.bat (desktop)
+Responsabilidades, em ordem, cada uma com verificação de sucesso antes de seguir para a próxima (não instalar tudo às cegas e só descobrir o que falhou no final):
+
+Verificar presença de driver NVIDIA compatível (nvidia-smi, capturar stdout).
+Instalar uv se ausente.
+Criar ambiente virtual via uv venv.
+Instalar CUDA Toolkit / onnxruntime-gpu / torch com build CUDA correspondente à versão de driver detectada — verificar explicitamente a compatibilidade de versões antes de instalar (CUDA, cuDNN, onnxruntime-gpu e torch precisam ser mutuamente compatíveis; instalar a combinação errada é a causa mais comum de "GPU não detectada" silenciosa).
+Instalar dependências restantes (opencv-python, scikit-image, pypdfium2, pytesseract, rapidocr_onnxruntime, pydantic, pyarrow, lmdb).
+Baixar pesos de modelo (DocLayout-YOLO, Real-ESRGAN) para uma pasta local models/, com verificação de checksum de cada download.
+Rodar um smoke test final: importar todas as bibliotecas, confirmar torch.cuda.is_available() == True e onnxruntime.get_device() == 'GPU', colar esse stdout no log de instalação.
+2.2 run_full_pipeline.bat (desktop)
+Orquestra: diagnóstico → pré-processamento → layout → super-resolução → OCR ensemble → votação → confiança → correção léxica → RAG → rollback → exportação do Artifact Bundle. Cada etapa grava checkpoint (Capítulo 15) antes de passar para a próxima, permitindo retomar de onde parou se a máquina precisar ser desligada.
+2.3 import_processed_chunks.bat (notebook)
+Lê o Artifact Bundle mais recente (localmente, já baixado do Drive), verifica os checksums, carrega chunks.parquet e entrega ao vocab_worker. Nunca inicializa nenhum motor de OCR — se alguma dependência de OCR estiver ausente no notebook, isso é esperado e correto, não um erro a corrigir.
+
+
+Capítulo 3 — Diagnóstico Forense de PDFs
+Extrair, por página, antes de qualquer processamento:
+
+Qualidade visual: variância Laplaciana (blur), motion blur, gaussian blur, focus score, contraste RMS. Estrutura: número de colunas, margens, presença de cabeçalho/rodapé, presença de ilustrações/tabelas. Papel: amarelamento (espaço LAB), manchas, bleed-through, oxidação, foxing. Texto: stroke width transform, densidade de componentes conectados, desbotamento de tinta. Geometria: ângulo de inclinação (Hough/PCA), necessidade de dewarp.
+
+Salvar como page_profile.json por página — esse arquivo é o que decide, mais adiante, quais das 40 branches do Capítulo 4 valem a pena tentar para aquela página específica (não rodar todas as 40 cegamente em toda página; usar o diagnóstico para podar o que claramente não se aplica, ex.: não rodar remoção de bleed-through numa página sem bleed-through detectado).
+
+
+Capítulo 4 — OpenCV Multi-Branch Engine
+4.1 As 40 branches (grupos)
+Contraste (CLAHE, gamma sweep, contrast stretch, equalização de histograma, Retinex SSR/MSR/MSRCR), Binarização (Otsu, Multi-Otsu, Sauvola, Niblack, Wolf, Bernsen, Bradley, adaptativa média/gaussiana), Morfologia (opening, closing, gradiente, top-hat, black-hat, reconstrução geodésica, esqueletização), Ruído (mediana, gaussiano, bilateral, non-local means, wavelet, FFT), e o restante até completar 40 conforme necessidade específica identificada no Capítulo 3.
+4.2 Regra de persistência (correção sobre a versão anterior)
+Rodar as 40 branches para avaliação, mas persistir em disco apenas as 3–5 melhores por página, segundo a métrica de densidade de tinta espúria já validada em fases anteriores. Com 1TB de SSD isso é bem menos crítico que no notebook, mas ainda assim não há motivo para guardar 40 variantes de imagem por página quando só um punhado é útil — isso só infla tempo de I/O e complica a auditoria manual.
+4.3 BM3D — última instância, não padrão
+BM3D tem custo computacional muito acima das demais técnicas de denoising. Marcar como opcional, acionado só se as demais branches não resolverem uma página específica identificada manualmente — não faz parte do conjunto padrão rodado em toda página do lote.
+
+
+Capítulo 5 — Layout Analysis Engine
+Principal: DocLayout-YOLO (ou YOLOv11 fine-tuned), rodando via GPU.
+Fallback: XY-Cut clássico, já validado nas fases anteriores — não Detectron2. Detectron2 é significativamente mais pesado (dependência de detectron2 + torch + compilação de operadores customizados) para um ganho que, neste projeto, ainda não foi demonstrado superar o fallback simples. Se depois de medido o DocLayout-YOLO+XY-Cut não for suficiente para algum tipo específico de página, avaliar Detectron2 como experimento isolado — não como parte da arquitetura padrão deste RFC.
+Reading Order Graph: para reconstrução de ordem de leitura em layouts complexos (verbetes de dicionário, notas de rodapé, colunas múltiplas) onde XY-Cut simples não é suficiente.
+
+
+Capítulo 6 — Super-Resolução GPU
+Modelo principal: Real-ESRGAN completo (não mais a versão quantizada para CPU) — agora viável com 8GB de VRAM para tiles de tamanho moderado.
+Scheduler de VRAM: medir o consumo de VRAM por tamanho de tile (começar com 512×512, subir para 768×768 ou 1024×1024 só se a medição confirmar folga, nunca por suposição) e implementar fallback automático para CPU (ou para tile menor) se a VRAM disponível cair abaixo de uma margem de segurança durante o lote.
+SwinIR e BSRGAN: avaliar como alternativas depois de o Real-ESRGAN completo ter sido testado e medido em pelo menos 5 páginas problemáticas reais (incluindo a página 1 do Ayrosa). Só integrar um segundo modelo se houver evidência de que ele resolve algo que o primeiro não resolve — não integrar os três de uma vez "porque agora tem GPU para isso".
+
+
+Capítulo 7 — OCR Ensemble Engine
+7.1 Motores já validados (mantidos)
+Tesseract (LSTM), RapidOCR — agora via onnxruntime-gpu.
+7.2 Motores candidatos (avaliação obrigatória antes de promoção)
+EasyOCR, TrOCR, Kraken, PaddleOCR GPU. Cada um destes só entra no ensemble de produção depois de:
+
+Testado isoladamente contra o conjunto de páginas já conhecidas do log (as 10 atencao, Ayrosa p.1, Dicionário p.11).
+Medido o ganho de confiança/legibilidade real que agrega sobre Tesseract+RapidOCR sozinhos.
+Confirmada a compatibilidade de ambiente (para PaddleOCR nativo, especificamente: confirmar com pip install e teste de import, stdout colado, que a versão do Python nesta nova máquina não tem a mesma incompatibilidade já registrada anteriormente).
+
+Nenhum destes motores é assumido como "obrigatório" antes desse processo — a lista de motores de produção final pode ser um subconjunto do listado aqui, e isso é um resultado esperado e aceitável, não uma falha.
+7.3 PSM e DPI
+Usar os já validados como úteis (PSM 3, 6, 11) como ponto de partida; medir se PSMs adicionais (4, 5, 7, 8, 12, 13) agregam algo antes de incluí-los no padrão de produção. DPI nativo do scan mais um upscaling adicional (máximo 450) — evitar 600/900 DPI sem medição específica que justifique o custo de processar imagens dessa ordem de grandeza.
+
+
+Capítulo 8 — Token Voting Científico
+Alinhamento de sequências entre os motores do ensemble usando Needleman-Wunsch (alinhamento global) e Smith-Waterman (alinhamento local, útil para trechos parcialmente corrompidos onde um motor lê só uma parte). Levenshtein para distância token a token. Beam search para selecionar a sequência final mais provável quando há divergência entre 3+ motores. O consenso entre motores deve ser um dos componentes visíveis na decomposição de confiança (Capítulo 9) — não um número interno oculto.
+
+
+Capítulo 9 — Confidence Fusion v5
+9.1 O problema que esta versão precisa resolver de fato (não só declarar resolvido)
+A v3.0 dava 59,13% de confiança para a página 1 do Ayrosa mesmo com o texto de saída idêntico ao ruído de entrada. Isso significa que os componentes não-OCR da fórmula (visual, léxico, RAG) estavam contribuindo pontuação mesmo sem nenhum ganho real de legibilidade.
+9.2 Correção estrutural
+Adicionar uma trava de piso: se o texto de saída for idêntico (ou tiver similaridade acima de um limiar, ex.: 95%) ao texto de entrada, os componentes c_lex e c_rag são zerados para aquele chunk — eles só podem contribuir pontuação proporcional a uma mudança real no texto. Um chunk sem nenhuma correção aplicada não deveria ganhar pontos de "conformidade léxica" só porque o pouco texto que existe por acaso bate com alguma entrada do dicionário.
+Manter needs_review = true de forma independente da confiança composta para qualquer página cujo c_ocr (confiança bruta do OCR) esteja abaixo de um limiar mínimo absoluto (ex.: 50%), mesmo que a confiança composta final fique acima disso — a composição não pode nunca "resgatar" uma página cujo texto extraído continua sendo majoritariamente ilegível.
+Toda decomposição de componentes fica persistida no confidence_components.parquet do Artifact Bundle (Capítulo 1), nunca calculada só sob demanda — isso é o que teria evitado a pergunta em aberto do Capítulo 0, item 1.
+
+
+Capítulo 10 — Corretor Léxico Forense v5
+Mantém integralmente as regras já estabelecidas: distância de edição proporcional ao tamanho da palavra (nunca fixa), gate por confiança do token OCR (nunca corrigir o que já está confiável), exclusão de tokens numéricos e datas, whitelist de português (não substituir palavra portuguesa válida por palavra Tupi só porque a distância de edição permite), blacklist de nomes próprios/topônimos em contexto bibliográfico, parser de abreviações lexicográficas (loc, posp, intr, adj, sm, sf protegidas), rollback se a correção reduzir a confiança da página, e log de candidatos rejeitados (não só aplicados).
+
+Auditoria de palavras-ímã obrigatória antes de qualquer lote: tabela de frequência de cada palavra usada como alvo de correção, sinalizando qualquer uma cuja frequência destoe do esperado (o padrão esá/oka/îasy engolindo ruído não pode se repetir).
+
+
+Capítulo 11 — Parser Morfológico Tupi
+Decomposição de prefixos pronominais/causativos e sufixos, validação de estrutura morfológica contra o corpus real do RAG (não contra regras gramaticais assumidas sem verificação empírica), classificação de variante linguística (Tupi Antigo, Tupinambá, Kamaiurá, Tupi Contemporâneo) e classe gramatical. Toda validação morfológica que não encontrar respaldo direto no corpus do RAG fica marcada como morfologia_nao_verificada, nunca aceita silenciosamente por "parecer certa" segundo regras gerais de outras línguas Tupi-Guarani — mesma diretriz de zero-alucinação aplicada aqui.
+
+
+Capítulo 12 — RAG Validator v5
+Consulta contra os 22.140 chunks / 5.648 páginas indexadas no vector_store.db local (sem qualquer dependência de nuvem). Toda correção lexical (Capítulo 10) e toda validação morfológica (Capítulo 11) precisam citar o ID do chunk do RAG que fundamenta a decisão — sem isso, a correção não é aplicada, fica como candidato rejeitado no log de auditoria.
+
+
+Capítulo 13 — Iterative Recovery Engine
+Reprocessamento adaptativo de regiões com confiança abaixo de 90%, até 5 iterações, trocando filtro/OCR/super-resolução/layout a cada passo, com early exit assim que o limiar for atingido. O benchmark de custo por passo precisa ser refeito na GPU com tempos individuais por passo (Capítulo 0, item 3) antes de assumir qualquer estimativa de tempo total de lote baseada neste motor.
+
+
+Capítulo 14 — Provenance Engine
+Cada token recebe: UUID, bounding box, motor que o leu, filtro/branch de pré-processamento aplicado, modelo de super-resolução usado (se houver), PSM/DPI, confiança individual, candidato(s) considerado(s), correção aplicada (se houver) com ID de proveniência do RAG, e status de rollback. Essa granularidade é o que permite reauditar qualquer chunk específico meses depois sem precisar reprocessar o PDF inteiro.
+
+
+Capítulo 15 — Cache Distribuído
+SQLite (vector_store.db): fonte de verdade para os chunks finais e metadados.
+LMDB: cache de resultados intermediários de OCR por página (hash da imagem pré-processada → resultado bruto do motor), para nunca reprocessar OCR já executado se o pipeline for interrompido e retomado.
+Parquet: formato de exportação do Artifact Bundle (Capítulo 1).
+Checkpoints: um checkpoint por página processada, permitindo desligar a máquina e retomar exatamente do ponto de parada — sem isso, uma interrupção no meio de um lote de horas custaria todo o progresso.
+
+
+Capítulo 16 — Dashboard Arquivístico
+Dashboard HTML local, página por página: imagem antes/depois, heatmap de confiança, motores usados, tempo de processamento, uso de VRAM/RAM durante o processamento daquela página. CER/WER só aparecem no dashboard se o Capítulo 17 tiver o conjunto de verdade fundamental (seção 17.2) — caso contrário, o dashboard mostra a confiança proxy, rotulada explicitamente como proxy, nunca como CER/WER real.
+
+
+Capítulo 17 — Benchmark Científico
+17.1 Métricas
+Recall, Precision, Layout Accuracy, Token Recovery Rate — essas podem ser calculadas sem ground truth externo (comparando contra o próprio log anterior como baseline).
+17.2 CER/WER — exigem ground truth real
+Character Error Rate e Word Error Rate só podem ser reportados com significado real se existir um conjunto de páginas transcritas manualmente por uma pessoa. Antes de qualquer comparação "v3 × v4 × v5" usando CER/WER:
+
+Selecionar 15–20 páginas representativas (incluindo as já conhecidas do Capítulo 0).
+Transcrever manualmente (ou validar uma transcrição semi-automática) essas páginas como verdade fundamental.
+Só então calcular CER/WER reais contra esse conjunto.
+
+Até esse conjunto existir, qualquer "taxa de recuperação" no benchmark é rotulada explicitamente como proxy heurístico, nunca apresentada como CER/WER — repetir esse rótulo incorreto seria reproduzir exatamente o erro da fórmula de confiança da v3.0 (números com aparência de rigor sem lastro real).
+
+
+Capítulo 18 — Execução Overnight Autônoma
+Scheduler que roda o lote completo (559 páginas) com checkpoint por página (Capítulo 15).
+Se uma página falhar (exceção, timeout, CUDA out of memory), registrar o erro literal e pular para a próxima — nunca travar o lote inteiro por uma página, mas também nunca silenciar a falha (ela aparece no log final, marcada como pendente de investigação manual).
+Ao final do lote: gerar o Artifact Bundle (Capítulo 1) e um relatório humano-legível (RELATORIO_LOTE_YYYY-MM-DD.md) com contagem de páginas processadas/falhas/pendentes de revisão, tempo real total (não estimado), e link para o dashboard (Capítulo 16).
+Nenhum relatório desta execução pode declarar "homologado para produção" sem que o Capítulo 0 esteja fechado e sem que a tabela de evidência bruta (páginas nomeadas, não agregados) esteja anexada — mesma regra de todas as fases anteriores deste projeto.
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-27T12:52:26-03:00.
+
+The user's current state is as follows:
+Active Document: c:\Users\Felipe\Downloads\Tupilingo\backend\requirements.txt (LANGUAGE_UNSPECIFIED)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\Felipe\Downloads\Tupilingo\backend\seed_trilha.py (LANGUAGE_PYTHON)
+- c:\Users\Felipe\Downloads\Tupilingo\backend\.env (LANGUAGE_UNSPECIFIED)
+- c:\Users\Felipe\Downloads\Tupilingo\backend\.env.example (LANGUAGE_UNSPECIFIED)
+- c:\Users\Felipe\Downloads\Tupilingo\backend\app\services\supabase_service.py (LANGUAGE_PYTHON)
+- c:\Users\Felipe\Downloads\Tupilingo\backend\users\decorators.py (LANGUAGE_PYTHON)
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.8 Flash (High). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

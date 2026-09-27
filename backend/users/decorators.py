@@ -16,7 +16,7 @@ from decouple import config
 
 logger = logging.getLogger('users.auth')
 
-supabase_url = config('SUPABASE_URL')
+supabase_url = config('SUPABASE_URL', default='https://vkmjefhyjtyxuhhnbnry.supabase.co')
 jwks_url = f"{supabase_url}/auth/v1/.well-known/jwks.json"
 
 # Instância global com cache de chaves para evitar requests repetidos ao Supabase.
