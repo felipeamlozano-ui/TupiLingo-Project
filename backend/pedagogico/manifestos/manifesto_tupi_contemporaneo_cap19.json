@@ -1,0 +1,32 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 19,
+  "timestamp": "2026-09-25T23:02:55.854426+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Potiguara",
+      "traducao": "Comedores de camarão / Guerreiros da Paraíba",
+      "variante": "tupi_contemporaneo",
+      "categoria": "historia",
+      "capitulo_introduzido": 19,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_18",
+      "exemplo_uso": "Yande Potiguara!",
+      "transliteracao": "po-ti-GWA-ra",
+      "status": "completo"
+    },
+    {
+      "palavra": "Baía da Traição",
+      "traducao": "Território histórico de resistência",
+      "variante": "tupi_contemporaneo",
+      "categoria": "toponimia",
+      "capitulo_introduzido": 19,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_20",
+      "exemplo_uso": "Baía da Traição yande terra.",
+      "transliteracao": "ba-I-a da trai-SAO",
+      "status": "completo"
+    }
+  ]
+}

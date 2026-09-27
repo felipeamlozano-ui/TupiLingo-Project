@@ -1,0 +1,32 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 20,
+  "timestamp": "2026-09-25T23:02:56.430945+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Pindorama",
+      "traducao": "Terra das Palmeiras / Brasil indígena",
+      "variante": "tupi_contemporaneo",
+      "categoria": "toponimia",
+      "capitulo_introduzido": 20,
+      "licao_introduzida": 1,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386",
+      "exemplo_uso": "Pindorama yande retama.",
+      "transliteracao": "pin-do-RA-ma",
+      "status": "completo"
+    },
+    {
+      "palavra": "Nheengatu",
+      "traducao": "A língua boa e articulada",
+      "variante": "tupi_contemporaneo",
+      "categoria": "lingua",
+      "capitulo_introduzido": 20,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_240",
+      "exemplo_uso": "A-nhe'eng Nheengatu.",
+      "transliteracao": "nhe-en-ga-TU",
+      "status": "completo"
+    }
+  ]
+}

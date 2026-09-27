@@ -1,0 +1,368 @@
+{
+  "capitulo_numero": 3,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 3: Animais da Mata e da Terra",
+  "descricao": "Domínio temático: Fauna Terrestre. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.1",
+  "dificuldade_relativa_0_100": 15,
+  "scenario": {
+    "nome": "Trilha da Mata Fechada (Fauna Terrestre)",
+    "palette": {
+      "primary": "#1E8449",
+      "secondary": "#935116",
+      "accent": "#52BE80"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Jawat",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Jawat",
+            "traducao": "Onça / Cão",
+            "transliteracao": "ja-WAT",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Jawat ka'a pupé.",
+            "exemplo_pt": "A onça está na mata.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_180"
+          },
+          {
+            "palavra": "Tatu",
+            "traducao": "Tatu",
+            "transliteracao": "ta-TU",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Tatu iwi pupé.",
+            "exemplo_pt": "Tatu na terra.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_180"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Jawat' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Jawat'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça / Cão"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Jawat",
+          "explicacao": "'Jawat' significa 'Onça / Cão' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Jawat"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Tatu'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Tatu"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Tatu",
+          "explicacao": "'Tatu' significa 'Tatu' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Tatu"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Jawat": "Onça / Cão",
+            "Tatu": "Tatu"
+          },
+          "coluna_esquerda": [
+            "Jawat",
+            "Tatu"
+          ],
+          "coluna_direita": [
+            "Onça / Cão",
+            "Tatu"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Jawat",
+            "Tatu"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Jawat",
+          "Tatu"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Kawarai",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Kawarai",
+            "traducao": "Jacaré da lagoa",
+            "transliteracao": "ka-wa-RAI",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Kawarai ypawu pupé.",
+            "exemplo_pt": "Jacaré na lagoa.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_182"
+          },
+          {
+            "palavra": "Moia",
+            "traducao": "Serpente / Cobra",
+            "transliteracao": "moi-A",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Moia ka'a pupé.",
+            "exemplo_pt": "Cobra na mata.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_185"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ypawu pupé.'",
+          "texto_com_lacunas": "______ ypawu pupé.",
+          "respostas_lacunas": [
+            "Kawarai"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kawarai' (Jacaré da lagoa).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kawarai"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Kawarai'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Jacaré da lagoa"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kawarai",
+          "explicacao": "'Kawarai' traduz-se fielmente como 'Jacaré da lagoa'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kawarai"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ka'a pupé.'",
+          "texto_com_lacunas": "______ ka'a pupé.",
+          "respostas_lacunas": [
+            "Moia"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Moia' (Serpente / Cobra).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Moia"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Moia'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Serpente / Cobra"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Moia",
+          "explicacao": "'Moia' traduz-se fielmente como 'Serpente / Cobra'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Moia"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Kawarai",
+          "Moia"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Jawat",
+            "traducao": "Onça / Cão",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_180"
+          },
+          {
+            "palavra": "Tatu",
+            "traducao": "Tatu",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_180"
+          },
+          {
+            "palavra": "Kawarai",
+            "traducao": "Jacaré da lagoa",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_182"
+          },
+          {
+            "palavra": "Moia",
+            "traducao": "Serpente / Cobra",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_185"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 3:",
+          "pares_corretos": {
+            "Jawat": "Onça / Cão",
+            "Tatu": "Tatu",
+            "Kawarai": "Jacaré da lagoa",
+            "Moia": "Serpente / Cobra"
+          },
+          "coluna_esquerda": [
+            "Jawat",
+            "Tatu",
+            "Kawarai",
+            "Moia"
+          ],
+          "coluna_direita": [
+            "Onça / Cão",
+            "Tatu",
+            "Jacaré da lagoa",
+            "Serpente / Cobra"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Jawat",
+            "Tatu",
+            "Kawarai",
+            "Moia"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Jawat' para o Português:",
+          "termo_fonte": "Jawat",
+          "traducao_esperada": "Onça / Cão",
+          "explicacao": "'Jawat' significa 'Onça / Cão'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Jawat"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Jawat",
+          "Tatu",
+          "Kawarai",
+          "Moia"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 3 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 9
+}

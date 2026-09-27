@@ -1,0 +1,806 @@
+{
+  "easy": null,
+  "medium": null,
+  "worst": {
+    "category": "pior_caso",
+    "pdf": "Ayrosa_1943_ApontBibliogrLingTupiGuarani1ed.pdf",
+    "page": 1,
+    "conf_before": 34.73,
+    "conf_after": 37.27,
+    "text_before": "a <\nq:\n=:\nSa\nE\nE\nAe emmerrener amem\nFes",
+    "text_after": ". inĩ - '. + 7 so 7. 7 os no se há, ‘ ne ‘ <. o pe.. MP ln + a abá oe to - ts ta Okar at. Po Mu nq ETÉ nde Oe eS Es. - ‘ > o Vo \" 3. toré PE f So'o. ‘ _ ae bd 0 ” a Sa) EO esá aa oka We ( e. “ -. OE Co e O O IP SE PE AS A ARARA AWA OE SÓ + O ED PI ND PP E PR, RA, eo. Wo. o -. ’ N. -.. é. - — — - ESÁ E de A - ~..., ee. eo eo:.. abá - Ore en Ta % ES 7... e - O - - e.. - os - Lo Je., s., Moia 4 et sa - e - ' “ t.. 4 x -. ‘ an. + “ +:. o é fi: os.. - -: ‘ J. ‘... no ‘., Pe ew tg a t ~. ' | +.. mata ' “ o, o EN 7 7 + -. a -. a. - - o. o o - eo ly eo ne + -., forca a. ‘ t. a.., '... Ve. ‘.. -... - o Ba A ‘. N 7 eo. “ o. '.. “ p -.. - é s “ e. ão. EN So'o, ‘.. º. - Ce “ o. ° © -... “ -,..... «. + -. e. =. i x. ~ 4 os.:.. a:. ': o a jane. ': - og de. -: an). e: a ': - ve. - - -. 1 ne. - Rr. 1. + ' e + -. a, >. N. ‘. ore: os: - -. *.... _ - e. o. so. - -. o - +. +:.. & to 2. a. 4 - Vo. So *. -.. Í E oe te PR A -:. +. ~. - - 7 - 4 ' “ e ‘ - -. 7..... -. + ~... os - 7.. 7 7 Pá.. - 10.. -, toré - - -,, - - -., a. Cu -. no - > -. “ o...,.:. we o Vo.. +,. e « -... -. e.. '..: os A «: so - -. ‘ ha a. a - 7 o - ‘ o o “ -. N. +. - -. ‘. oka. a, - - -. _ 0 - 7:..::... ' - -. ” -. - “ ot 4 abá..: -..",
+    "corrections": [
+      {
+        "line": 1,
+        "original": "ine",
+        "corrected": "inĩ",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "soe",
+        "corrected": "so",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ali",
+        "corrected": "abá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Car",
+        "corrected": "Okar",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ETA",
+        "corrected": "ETÉ",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ndo",
+        "corrected": "nde",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "tos",
+        "corrected": "toré",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Doo",
+        "corrected": "So'o",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "eee",
+        "corrected": "esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "rsa",
+        "corrected": "oka",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "RAR",
+        "corrected": "ARARA",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "AAA",
+        "corrected": "AWA",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "SAE",
+        "corrected": "SÓ",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ERR",
+        "corrected": "ESÁ",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "vce",
+        "corrected": "de",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "avs",
+        "corrected": "abá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Coe",
+        "corrected": "Ore",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Cotia",
+        "corrected": "Moia",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Poe",
+        "corrected": "Pe",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "mta",
+        "corrected": "mata",
+        "distance": 1,
+        "type": "portuguese_typo_fix"
+      },
+      {
+        "line": 1,
+        "original": "Voo",
+        "corrected": "So'o",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "cae",
+        "corrected": "jane",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "bed",
+        "corrected": "de",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ret",
+        "corrected": "ore",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Cos",
+        "corrected": "So",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "too",
+        "corrected": "toré",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "soe",
+        "corrected": "so",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "oot",
+        "corrected": "oka",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "aoe",
+        "corrected": "abá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "coa",
+        "corrected": "oka",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Meee",
+        "corrected": "Kere",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "mon",
+        "corrected": "aman",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "aan",
+        "corrected": "aman",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "aes",
+        "corrected": "esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "coe",
+        "corrected": "ore",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "wort",
+        "corrected": "toré",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "fete",
+        "corrected": "kere",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ote",
+        "corrected": "ore",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "cee",
+        "corrected": "kere",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "etme",
+        "corrected": "eté",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "teste",
+        "corrected": "tesa",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "mim",
+        "corrected": "moia",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "mal",
+        "corrected": "aman",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "nara",
+        "corrected": "iara",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Eos",
+        "corrected": "Esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "noto",
+        "corrected": "so'o",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "oat",
+        "corrected": "katu",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "noe",
+        "corrected": "nde",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Loe",
+        "corrected": "Ore",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "tia",
+        "corrected": "pira",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "woo",
+        "corrected": "so'o",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "korg",
+        "corrected": "toré",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Pao",
+        "corrected": "Po",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "wat",
+        "corrected": "wata",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "sor",
+        "corrected": "so",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "lee",
+        "corrected": "kere",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "oan",
+        "corrected": "oka",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Les",
+        "corrected": "Esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "cet",
+        "corrected": "de",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "nor",
+        "corrected": "toré",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "teca",
+        "corrected": "tesa",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "sont",
+        "corrected": "so'ó",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "vos",
+        "corrected": "so",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "tor",
+        "corrected": "toré",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "eta",
+        "corrected": "eté",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "bho",
+        "corrected": "po",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ale",
+        "corrected": "abá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "vos",
+        "corrected": "so",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ado",
+        "corrected": "abá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "toy",
+        "corrected": "'y",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "aan",
+        "corrected": "aman",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Pad",
+        "corrected": "Pai",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "woe",
+        "corrected": "ore",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "met",
+        "corrected": "de",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "eee",
+        "corrected": "esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "coe",
+        "corrected": "ore",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "raça",
+        "corrected": "roça",
+        "distance": 1,
+        "type": "portuguese_typo_fix"
+      },
+      {
+        "line": 1,
+        "original": "Soe",
+        "corrected": "So",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "nos",
+        "corrected": "so",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Poa",
+        "corrected": "Po",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Tou",
+        "corrected": "Tatu",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "toda",
+        "corrected": "oka",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "hes",
+        "corrected": "esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Looe",
+        "corrected": "Ore",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "aan",
+        "corrected": "aman",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Toma",
+        "corrected": "Oka",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Cel",
+        "corrected": "De",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Toe",
+        "corrected": "Toré",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ste",
+        "corrected": "itá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ots",
+        "corrected": "oka",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "eee",
+        "corrected": "esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "rns",
+        "corrected": "inĩ",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "dad",
+        "corrected": "da",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "elo",
+        "corrected": "esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Dra",
+        "corrected": "Da",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Sook",
+        "corrected": "So'ó",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "rari",
+        "corrected": "arara",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Edo",
+        "corrected": "Esá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "bad",
+        "corrected": "abá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "bol",
+        "corrected": "po",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "nee",
+        "corrected": "nde",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "TAT",
+        "corrected": "TATA",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "wae",
+        "corrected": "jane",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "rare",
+        "corrected": "arara",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "owe",
+        "corrected": "ore",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "END",
+        "corrected": "INĨ",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "aoe",
+        "corrected": "abá",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "hey",
+        "corrected": "'y",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "wee",
+        "corrected": "kere",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "RSI",
+        "corrected": "ESÁ",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "ARA",
+        "corrected": "IARA",
+        "distance": 1,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "Cos",
+        "corrected": "So",
+        "distance": 2,
+        "type": "tupi_restoration"
+      },
+      {
+        "line": 1,
+        "original": "star",
+        "corrected": "okar",
+        "distance": 2,
+        "type": "tupi_restoration"
+      }
+    ]
+  }
+}

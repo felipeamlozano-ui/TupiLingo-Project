@@ -1,0 +1,483 @@
+{
+  "capitulo_numero": 1,
+  "variante": "tupi_contemporaneo",
+  "titulo": "Capítulo 1: Saudações e Boas-Vindas",
+  "descricao": "Domínio temático: Saudacoes Encontros. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.1",
+  "dificuldade_relativa_0_100": 5,
+  "scenario": {
+    "nome": "Praia da Chegada e Orla Atlântica",
+    "palette": {
+      "primary": "#0B5345",
+      "secondary": "#D4AC0D",
+      "accent": "#1ABC9C"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Puranga",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Puranga",
+            "traducao": "Bom / Belo",
+            "transliteracao": "pu-RAN-ga",
+            "classe_gramatical": "adjetivo",
+            "categoria": "saudacoes",
+            "exemplo_uso": "Puranga koema!",
+            "exemplo_pt": "Bom dia!",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_42"
+          },
+          {
+            "palavra": "Puranga koema",
+            "traducao": "Bom dia",
+            "transliteracao": "pu-RAN-ga ko-E-ma",
+            "classe_gramatical": "expressao",
+            "categoria": "saudacoes",
+            "exemplo_uso": "Puranga koema, amigo!",
+            "exemplo_pt": "Bom dia, amigo!",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_42"
+          },
+          {
+            "palavra": "Puranga pituna",
+            "traducao": "Boa noite",
+            "transliteracao": "pu-RAN-ga pi-TU-na",
+            "classe_gramatical": "expressao",
+            "categoria": "saudacoes",
+            "exemplo_uso": "Puranga pituna panhe!",
+            "exemplo_pt": "Boa noite a todos!",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_43"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Puranga' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Puranga'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Bom / Belo"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Puranga",
+          "explicacao": "'Puranga' significa 'Bom / Belo' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Puranga"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Puranga koema'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Bom dia"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Puranga koema",
+          "explicacao": "'Puranga koema' significa 'Bom dia' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Puranga koema"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Puranga pituna'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Boa noite"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Puranga pituna",
+          "explicacao": "'Puranga pituna' significa 'Boa noite' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Puranga pituna"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Puranga": "Bom / Belo",
+            "Puranga koema": "Bom dia",
+            "Puranga pituna": "Boa noite"
+          },
+          "coluna_esquerda": [
+            "Puranga",
+            "Puranga koema",
+            "Puranga pituna"
+          ],
+          "coluna_direita": [
+            "Bom / Belo",
+            "Bom dia",
+            "Boa noite"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Puranga",
+            "Puranga koema",
+            "Puranga pituna"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Puranga",
+          "Puranga koema",
+          "Puranga pituna"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Aweté",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Aweté",
+            "traducao": "Obrigado / Valeu",
+            "transliteracao": "a-we-TE",
+            "classe_gramatical": "interjeicao",
+            "categoria": "saudacoes",
+            "exemplo_uso": "Aweté puranga!",
+            "exemplo_pt": "Muito obrigado!",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_50"
+          },
+          {
+            "palavra": "Kunumĩ",
+            "traducao": "Menino / Garoto",
+            "transliteracao": "ku-nu-MI",
+            "classe_gramatical": "substantivo",
+            "categoria": "pessoas",
+            "exemplo_uso": "Kunumĩ puranga.",
+            "exemplo_pt": "Menino bom.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55"
+          },
+          {
+            "palavra": "Kuñataĩ",
+            "traducao": "Menina / Jovem",
+            "transliteracao": "ku-nya-ta-I",
+            "classe_gramatical": "substantivo",
+            "categoria": "pessoas",
+            "exemplo_uso": "Kuñataĩ puranga.",
+            "exemplo_pt": "Menina formosa.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ puranga!'",
+          "texto_com_lacunas": "______ puranga!",
+          "respostas_lacunas": [
+            "Aweté"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Aweté' (Obrigado / Valeu).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Aweté"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Aweté'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Obrigado / Valeu"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Aweté",
+          "explicacao": "'Aweté' traduz-se fielmente como 'Obrigado / Valeu'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Aweté"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ puranga.'",
+          "texto_com_lacunas": "______ puranga.",
+          "respostas_lacunas": [
+            "Kunumĩ"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kunumĩ' (Menino / Garoto).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kunumĩ"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kunumĩ'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Menino / Garoto"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kunumĩ",
+          "explicacao": "'Kunumĩ' traduz-se fielmente como 'Menino / Garoto'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kunumĩ"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ puranga.'",
+          "texto_com_lacunas": "______ puranga.",
+          "respostas_lacunas": [
+            "Kuñataĩ"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kuñataĩ' (Menina / Jovem).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kuñataĩ"
+          ]
+        },
+        {
+          "ordem": 6,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kuñataĩ'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Menina / Jovem"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kuñataĩ",
+          "explicacao": "'Kuñataĩ' traduz-se fielmente como 'Menina / Jovem'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kuñataĩ"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Aweté",
+          "Kunumĩ",
+          "Kuñataĩ"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Puranga",
+            "traducao": "Bom / Belo",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_42"
+          },
+          {
+            "palavra": "Puranga koema",
+            "traducao": "Bom dia",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_42"
+          },
+          {
+            "palavra": "Puranga pituna",
+            "traducao": "Boa noite",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_43"
+          },
+          {
+            "palavra": "Aweté",
+            "traducao": "Obrigado / Valeu",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_50"
+          },
+          {
+            "palavra": "Kunumĩ",
+            "traducao": "Menino / Garoto",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55"
+          },
+          {
+            "palavra": "Kuñataĩ",
+            "traducao": "Menina / Jovem",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 1:",
+          "pares_corretos": {
+            "Puranga": "Bom / Belo",
+            "Puranga koema": "Bom dia",
+            "Puranga pituna": "Boa noite",
+            "Aweté": "Obrigado / Valeu"
+          },
+          "coluna_esquerda": [
+            "Puranga",
+            "Puranga koema",
+            "Puranga pituna",
+            "Aweté"
+          ],
+          "coluna_direita": [
+            "Bom / Belo",
+            "Bom dia",
+            "Boa noite",
+            "Obrigado / Valeu"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Puranga",
+            "Puranga koema",
+            "Puranga pituna",
+            "Aweté"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Puranga' para o Português:",
+          "termo_fonte": "Puranga",
+          "traducao_esperada": "Bom / Belo",
+          "explicacao": "'Puranga' significa 'Bom / Belo'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Puranga"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Puranga",
+          "Puranga koema",
+          "Puranga pituna",
+          "Aweté",
+          "Kunumĩ",
+          "Kuñataĩ"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 1 de Tupi Contemporaneo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 12
+}

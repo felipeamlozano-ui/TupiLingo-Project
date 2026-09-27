@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import logging
 from typing import Literal
-
+import os
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ OPENROUTER_FREE_TEXT_MODELS = [
     "poolside/laguna-xs-2.1:free",                 # 112B
     "cohere/north-mini-code:free",                  # 115B
     "minimax/minimax-m3:free",                      # 5.77T
-    "minimax/minimax-m2.7:free",                    # 749B
+    # "minimax/minimax-m2.7:free": desativado por erro 404 em 2026-09-25 (movido para tier pago na OpenRouter)
     "google/gemma-4-26b-a4b-it:free",
     "google/gemma-4-31b-it:free",
     "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -50,16 +50,16 @@ OPENROUTER_AUXILIARY_MODELS = {
     ],
 }
 
-# B. Groq (Catálogo dos 14 modelos ativos da chave)
+# B. Groq (Catálogo de modelos ativos da chave - testados via API)
 GROQ_TEXT_MODELS = [
-    "openai/gpt-oss-120b",
-    "openai/gpt-oss-20b",
-    "openai/gpt-oss-safeguard-20b",
-    "qwen/qwen3.8-27b",
-    "qwen/qwen3.6-27b",
-    "groq/compound",
-    "groq/compound-mini",
-    "allam-2-7b",
+    "openai/gpt-oss-120b",           # Ativo, latência ~400ms
+    "openai/gpt-oss-20b",            # Ativo, latência ~250ms
+    "openai/gpt-oss-safeguard-20b",  # Ativo
+    "qwen/qwen3.8-27b",              # Ativo
+    "allam-2-7b",                    # Ativo
+    # "qwen/qwen3.6-27b": desativado por erro 404 em 2026-09-25 (descontinuado na Groq)
+    # "groq/compound": desativado por erro 404 em 2026-09-25
+    # "groq/compound-mini": desativado por erro 404 em 2026-09-25
 ]
 
 GROQ_GUARD_MODELS = [
@@ -76,9 +76,10 @@ GROQ_AUDIO_MODELS = [
 
 # C. Cerebras Cloud
 CEREBRAS_MODELS = [
-    "qwen-3.8-27b",             # Contexto: 131k, 450 RPM
-    "gemma-4-31bPreview",       # Contexto: 131k, 5 RPM
-    "gpt-oss-120bProduction",   # Contexto: 131k, 5 RPM
+    "qwen-3.8-27b",             # Contexto: 131k, 450 RPM - Confirmado via API
+    "gpt-oss-120b",             # Contexto: 131k - Confirmado via API (substituiu gpt-oss-120bProduction desativado por 404 em 2026-09-25)
+    # "gemma-4-31bPreview": desativado por erro 404 em 2026-09-25
+    # "gpt-oss-120bProduction": desativado por erro 404 em 2026-09-25
 ]
 
 # D. Alibaba Cloud (Model Studio / DashScope)
@@ -91,7 +92,8 @@ DASHSCOPE_MODELS = {
     "quiz_fallback": "qwen3.7-max",                     # Fallback para Geração de Quizzes
     "quiz_contingency": "qwen3.7-max-2026-05-17",       # Snapshot de Contingência rag_service
     "psychometric_val": "qwen3.8-max",                  # Validação Psicométrica e Calibração TRI
-    "structured_outputs": "qwen2.5-coder",              # Saídas Estruturadas e Contratos de Dados
+    # "structured_outputs": "qwen2.5-coder": desativado por erro 404 em 2026-09-25 no endpoint OpenAI compatível
+    "structured_outputs": "qwen-coder-plus",            # Confirmado na documentação oficial Alibaba Model Studio
 }
 
 # E. SambaNova Cloud
@@ -111,48 +113,39 @@ SAMBANOVA_MODELS = [
 # ==============================================================================
 
 # VOCAB_EXTRACTION_CLOUD: Esteira de classificação do vocab_worker
-# Prioridade: DashScope (estável, alta cota) -> Groq (chat) -> OpenRouter (free) -> SambaNova -> Cerebras
+# Prioridade configurável: Groq (ativo) -> Gemini (ativo) -> DashScope -> OpenRouter -> SambaNova -> Cerebras
 _CHAIN_VOCAB_EXTRACTION_CLOUD: list[str] = [
-    # 1. Alibaba Cloud / DashScope (Cavalo de Batalha Principal)
-    f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
-    f"dashscope/{DASHSCOPE_MODELS['classifier_secondary']}",
-    f"dashscope/{DASHSCOPE_MODELS['classifier_fast']}",
-    f"dashscope/{DASHSCOPE_MODELS['classifier_contingency']}",
-    f"dashscope/{DASHSCOPE_MODELS['structured_outputs']}",
-
-    # 2. Groq (Modelos ativos de chat)
+    # 1. Groq (Provedor ativo com modelos funcionais e baixa latência)
     f"groq/{GROQ_TEXT_MODELS[0]}",   # openai/gpt-oss-120b
     f"groq/{GROQ_TEXT_MODELS[1]}",   # openai/gpt-oss-20b
     f"groq/{GROQ_TEXT_MODELS[3]}",   # qwen/qwen3.8-27b
-    f"groq/{GROQ_TEXT_MODELS[4]}",   # qwen/qwen3.6-27b
-    f"groq/{GROQ_TEXT_MODELS[7]}",   # allam-2-7b
+    f"groq/{GROQ_TEXT_MODELS[4]}",   # allam-2-7b
     f"groq/{GROQ_TEXT_MODELS[2]}",   # openai/gpt-oss-safeguard-20b
-    f"groq/{GROQ_TEXT_MODELS[5]}",   # groq/compound
-    f"groq/{GROQ_TEXT_MODELS[6]}",   # groq/compound-mini
 
-    # 3. OpenRouter Free Endpoints
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # minimax/minimax-m2.7:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[5]}",  # google/gemma-4-31b-it:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[4]}",  # google/gemma-4-26b-a4b-it:free
+    # 2. Google Gemini (Provedor ativo com suporte multimodal e estruturado)
+    "gemini/gemini-2.5-flash",
+    "gemini/gemini-3.6-flash",
+    "gemini/gemini-2.5-flash-lite",
+
+    # 3. Alibaba Cloud / DashScope (Modelos válidos; atualmente com cota FreeTier esgotada 403, acionados assim que recarregados)
+    f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
+    f"dashscope/{DASHSCOPE_MODELS['classifier_fast']}",
+    f"dashscope/{DASHSCOPE_MODELS['quiz_primary']}",
+    f"dashscope/{DASHSCOPE_MODELS['structured_outputs']}",
+
+    # 4. OpenRouter Free Endpoints
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[4]}",  # google/gemma-4-31b-it:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # google/gemma-4-26b-a4b-it:free
     f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[0]}",  # poolside/laguna-xs-2.1:free
     f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[1]}",  # cohere/north-mini-code:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[2]}",  # minimax/minimax-m3:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[8]}",  # nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[7]}",  # nvidia/nemotron-3-super-120b-a12b:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[6]}",  # nvidia/nemotron-3-ultra-550b-a55b:free
-
-    # 4. Google Gemini
-    "gemini/gemini-2.5-flash",
 
     # 5. SambaNova Cloud
     f"sambanova/{SAMBANOVA_MODELS[1]}",  # DeepSeek-V3.2
     f"sambanova/{SAMBANOVA_MODELS[2]}",  # Meta-Llama-3.3-70B-Instruct
-    f"sambanova/{SAMBANOVA_MODELS[5]}",  # gemma-4-31B-it
-    f"sambanova/{SAMBANOVA_MODELS[6]}",  # gpt-oss-120b
 
     # 6. Cerebras Cloud
     f"cerebras/{CEREBRAS_MODELS[0]}",   # qwen-3.8-27b
-    f"cerebras/{CEREBRAS_MODELS[2]}",   # gpt-oss-120bProduction
+    f"cerebras/{CEREBRAS_MODELS[1]}",   # gpt-oss-120b
 ]
 
 # FAST: Latência crítica — geração de quiz com prompt < 800 tokens (rag_service).
@@ -161,9 +154,8 @@ _CHAIN_FAST: list[str] = [
     # 1. Groq LPU (Baixíssima latência ~200-500ms)
     f"groq/{GROQ_TEXT_MODELS[0]}",   # openai/gpt-oss-120b
     f"groq/{GROQ_TEXT_MODELS[1]}",   # openai/gpt-oss-20b
-    f"groq/{GROQ_TEXT_MODELS[7]}",   # allam-2-7b (alta disponibilidade)
+    f"groq/{GROQ_TEXT_MODELS[4]}",   # allam-2-7b (alta disponibilidade)
     f"groq/{GROQ_TEXT_MODELS[3]}",   # qwen/qwen3.8-27b
-    f"groq/{GROQ_TEXT_MODELS[6]}",   # groq/compound-mini
 
     # 2. Google Gemini & Cerebras (Ultrarrápido)
     "gemini/gemini-2.5-flash",
@@ -174,8 +166,7 @@ _CHAIN_FAST: list[str] = [
     f"sambanova/{SAMBANOVA_MODELS[2]}",  # Meta-Llama-3.3-70B-Instruct
 
     # 4. OpenRouter Free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # minimax/minimax-m2.7:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[5]}",  # google/gemma-4-31b-it:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[4]}",  # google/gemma-4-31b-it:free
     f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[0]}",  # poolside/laguna-xs-2.1:free
 
     # 5. DashScope (Model Studio / Alibaba)
@@ -188,12 +179,11 @@ _CHAIN_FAST: list[str] = [
 
 # LONG_CONTEXT: Prompts extensos (> 30k tokens)
 _CHAIN_LONG_CONTEXT: list[str] = [
+    "gemini/gemini-2.5-flash",
     f"dashscope/{DASHSCOPE_MODELS['quiz_primary']}",
     f"dashscope/{DASHSCOPE_MODELS['classifier_primary']}",
-    "gemini/gemini-2.5-flash",
     f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[2]}",  # minimax/minimax-m3:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[3]}",  # minimax/minimax-m2.7:free
-    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[7]}",  # nvidia/nemotron-3-super-120b-a12b:free
+    f"openrouter/{OPENROUTER_FREE_TEXT_MODELS[6]}",  # nvidia/nemotron-3-super-120b-a12b:free
 ]
 
 # LOCAL_ONLY: Totalmente offline via Ollama
@@ -226,13 +216,20 @@ class ModelRouter:
             )
             return list(_CHAIN_LONG_CONTEXT)
 
+        # Permite override dinâmico da cadeia de extração via variável de ambiente
+        custom_vocab_chain = os.getenv("VOCAB_EXTRACTION_CHAIN")
+        if custom_vocab_chain:
+            vocab_chain = [m.strip() for m in custom_vocab_chain.split(",") if m.strip()]
+        else:
+            vocab_chain = _CHAIN_VOCAB_EXTRACTION_CLOUD
+
         chain_map: dict[str, list[str]] = {
             "fast":                   _CHAIN_FAST,
             "thematic_practice":      _CHAIN_FAST,
             "long_context":           _CHAIN_LONG_CONTEXT,
             "local_only":             _CHAIN_LOCAL_ONLY,
             "balanced":               list(settings.FALLBACK_CHAIN),
-            "vocab_extraction_cloud": _CHAIN_VOCAB_EXTRACTION_CLOUD,
+            "vocab_extraction_cloud": vocab_chain,
         }
 
         chain = chain_map.get(task_type, list(settings.FALLBACK_CHAIN))

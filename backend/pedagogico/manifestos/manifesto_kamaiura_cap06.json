@@ -1,0 +1,44 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 6,
+  "timestamp": "2026-09-25T23:02:49.918777+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Kwarahy",
+      "traducao": "Sol primordial",
+      "variante": "kamaiura",
+      "categoria": "cosmologia",
+      "capitulo_introduzido": 6,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_230",
+      "exemplo_uso": "Kwarahy pykói.",
+      "transliteracao": "kwa-ra-HY",
+      "status": "completo"
+    },
+    {
+      "palavra": "Jahy",
+      "traducao": "Lua",
+      "variante": "kamaiura",
+      "categoria": "cosmologia",
+      "capitulo_introduzido": 6,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_230",
+      "exemplo_uso": "Jahy pituna pupé.",
+      "transliteracao": "ja-HY",
+      "status": "completo"
+    },
+    {
+      "palavra": "Aman",
+      "traducao": "Chuva",
+      "variante": "kamaiura",
+      "categoria": "natureza",
+      "capitulo_introduzido": 6,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_232",
+      "exemplo_uso": "Aman o-ur.",
+      "transliteracao": "a-MAN",
+      "status": "completo"
+    }
+  ]
+}

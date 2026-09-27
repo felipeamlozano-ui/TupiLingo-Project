@@ -219,9 +219,9 @@ class LLMQuizItem(BaseModel):
     Todos os dados lexicais são injetados pelo PromptBuilder.
     """
 
-    item_id: int = Field(default=1, description="ID numérico correspondente do item")
-    enunciado: str = Field(default="", description="Pergunta em português natural")
-    explicacao: str = Field(default="", description="Explicação pedagógica pós-resposta")
+    item_id: int = Field(default=1, ge=1, description="ID numérico correspondente do item")
+    enunciado: str = Field(..., min_length=10, description="Pergunta em português natural")
+    explicacao: str = Field(..., min_length=10, description="Explicação pedagógica pós-resposta")
     curiosidade: str = Field(default="", description="Fato cultural ou etimológico opcional")
 
 

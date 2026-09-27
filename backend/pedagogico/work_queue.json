@@ -1,0 +1,2242 @@
+[
+  {
+    "unit_id": "tupi_contemporaneo_cap01",
+    "variant": "tupi_contemporaneo",
+    "chapter": 1,
+    "title": "Saudações e Boas-Vindas",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.128814+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 1,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 6,
+        "total_tested_items": 12,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 8
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 6,
+    "exercises_count": 12
+  },
+  {
+    "unit_id": "tupi_antigo_cap01",
+    "variant": "tupi_antigo",
+    "chapter": 1,
+    "title": "Saudações e Boas-Vindas",
+    "status": "QA_PASSED",
+    "attempts": 2,
+    "generated_at": "2026-09-25T23:02:47.206450+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 1,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 6,
+        "total_tested_items": 12,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 6
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 6,
+    "exercises_count": 12
+  },
+  {
+    "unit_id": "kamaiura_cap01",
+    "variant": "kamaiura",
+    "chapter": 1,
+    "title": "Saudações e Boas-Vindas",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.276717+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 1,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 6,
+        "total_tested_items": 12,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 7
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 6,
+    "exercises_count": 12
+  },
+  {
+    "unit_id": "tupinamba_cap01",
+    "variant": "tupinamba",
+    "chapter": 1,
+    "title": "Saudações e Boas-Vindas",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.485571+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 1,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 5,
+        "total_tested_items": 11,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 5
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 5,
+    "exercises_count": 11
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap02",
+    "variant": "tupi_contemporaneo",
+    "chapter": 2,
+    "title": "A Casa Comunal e a Família",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.557166+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 2,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 6,
+        "total_tested_items": 12,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 14
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 6,
+    "exercises_count": 12
+  },
+  {
+    "unit_id": "tupi_antigo_cap02",
+    "variant": "tupi_antigo",
+    "chapter": 2,
+    "title": "A Casa Comunal e a Família",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.630869+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 2,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 7,
+        "total_tested_items": 14,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 13
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 7,
+    "exercises_count": 14
+  },
+  {
+    "unit_id": "kamaiura_cap02",
+    "variant": "kamaiura",
+    "chapter": 2,
+    "title": "A Casa Comunal e a Família",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.696541+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 2,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 6,
+        "total_tested_items": 12,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 13
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 6,
+    "exercises_count": 12
+  },
+  {
+    "unit_id": "tupinamba_cap02",
+    "variant": "tupinamba",
+    "chapter": 2,
+    "title": "A Casa Comunal e a Família",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.768317+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 2,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 5,
+        "total_tested_items": 11,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 10
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 5,
+    "exercises_count": 11
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap03",
+    "variant": "tupi_contemporaneo",
+    "chapter": 3,
+    "title": "Animais da Mata e da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.847357+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 3,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 18
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupi_antigo_cap03",
+    "variant": "tupi_antigo",
+    "chapter": 3,
+    "title": "Animais da Mata e da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.922300+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 3,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 17
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "kamaiura_cap03",
+    "variant": "kamaiura",
+    "chapter": 3,
+    "title": "Animais da Mata e da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:47.989933+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 3,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 17
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupinamba_cap03",
+    "variant": "tupinamba",
+    "chapter": 3,
+    "title": "Animais da Mata e da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.061479+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 3,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 13
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap04",
+    "variant": "tupi_contemporaneo",
+    "chapter": 4,
+    "title": "As Águas, os Rios e a Navegação",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.147592+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 4,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 22
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupi_antigo_cap04",
+    "variant": "tupi_antigo",
+    "chapter": 4,
+    "title": "As Águas, os Rios e a Navegação",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.225977+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 4,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 21
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "kamaiura_cap04",
+    "variant": "kamaiura",
+    "chapter": 4,
+    "title": "As Águas, os Rios e a Navegação",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.311043+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 4,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 21
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupinamba_cap04",
+    "variant": "tupinamba",
+    "chapter": 4,
+    "title": "As Águas, os Rios e a Navegação",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.396488+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 4,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 17
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap05",
+    "variant": "tupi_contemporaneo",
+    "chapter": 5,
+    "title": "A Mandioca e os Alimentos da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.489049+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 5,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 26
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupi_antigo_cap05",
+    "variant": "tupi_antigo",
+    "chapter": 5,
+    "title": "A Mandioca e os Alimentos da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.589624+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 5,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 25
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "kamaiura_cap05",
+    "variant": "kamaiura",
+    "chapter": 5,
+    "title": "A Mandioca e os Alimentos da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:48.733988+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 5,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 25
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupinamba_cap05",
+    "variant": "tupinamba",
+    "chapter": 5,
+    "title": "A Mandioca e os Alimentos da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:49.179529+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 5,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 20
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap06",
+    "variant": "tupi_contemporaneo",
+    "chapter": 6,
+    "title": "O Sol, a Lua e o Céu Noturno",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:49.264516+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 6,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 29
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap06",
+    "variant": "tupi_antigo",
+    "chapter": 6,
+    "title": "O Sol, a Lua e o Céu Noturno",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:49.647273+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 6,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 28
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "kamaiura_cap06",
+    "variant": "kamaiura",
+    "chapter": 6,
+    "title": "O Sol, a Lua e o Céu Noturno",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:49.931957+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 6,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 28
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupinamba_cap06",
+    "variant": "tupinamba",
+    "chapter": 6,
+    "title": "O Sol, a Lua e o Céu Noturno",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.049694+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 6,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 22
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap07",
+    "variant": "tupi_contemporaneo",
+    "chapter": 7,
+    "title": "O Fogo, o Barro e os Utensílios",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.144992+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 7,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 32
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap07",
+    "variant": "tupi_antigo",
+    "chapter": 7,
+    "title": "O Fogo, o Barro e os Utensílios",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.255356+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 7,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 31
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "kamaiura_cap07",
+    "variant": "kamaiura",
+    "chapter": 7,
+    "title": "O Fogo, o Barro e os Utensílios",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.328756+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 7,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 31
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupinamba_cap07",
+    "variant": "tupinamba",
+    "chapter": 7,
+    "title": "O Fogo, o Barro e os Utensílios",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.413930+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 7,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 25
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap08",
+    "variant": "tupi_contemporaneo",
+    "chapter": 8,
+    "title": "As Aves e o Canto da Mata",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.506523+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 8,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 35
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap08",
+    "variant": "tupi_antigo",
+    "chapter": 8,
+    "title": "As Aves e o Canto da Mata",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.596169+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 8,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 34
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "kamaiura_cap08",
+    "variant": "kamaiura",
+    "chapter": 8,
+    "title": "As Aves e o Canto da Mata",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.685515+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 8,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 34
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupinamba_cap08",
+    "variant": "tupinamba",
+    "chapter": 8,
+    "title": "As Aves e o Canto da Mata",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.768867+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 8,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 27
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap09",
+    "variant": "tupi_contemporaneo",
+    "chapter": 9,
+    "title": "O Corpo, os Sentidos e a Pintura",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.863259+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 9,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 39
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupi_antigo_cap09",
+    "variant": "tupi_antigo",
+    "chapter": 9,
+    "title": "O Corpo, os Sentidos e a Pintura",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:50.958905+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 9,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 38
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "kamaiura_cap09",
+    "variant": "kamaiura",
+    "chapter": 9,
+    "title": "O Corpo, os Sentidos e a Pintura",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.061384+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 9,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 38
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupinamba_cap09",
+    "variant": "tupinamba",
+    "chapter": 9,
+    "title": "O Corpo, os Sentidos e a Pintura",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.154732+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 9,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 30
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap10",
+    "variant": "tupi_contemporaneo",
+    "chapter": 10,
+    "title": "A Aldeia e a Organização Comunitária",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.244132+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 10,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 42
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap10",
+    "variant": "tupi_antigo",
+    "chapter": 10,
+    "title": "A Aldeia e a Organização Comunitária",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.363522+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 10,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 41
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "kamaiura_cap10",
+    "variant": "kamaiura",
+    "chapter": 10,
+    "title": "A Aldeia e a Organização Comunitária",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.478010+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 10,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 40
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap10",
+    "variant": "tupinamba",
+    "chapter": 10,
+    "title": "A Aldeia e a Organização Comunitária",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.592891+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 10,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 33
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap11",
+    "variant": "tupi_contemporaneo",
+    "chapter": 11,
+    "title": "As Árvores Gigantes e a Floresta Viva",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.700104+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 11,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 45
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap11",
+    "variant": "tupi_antigo",
+    "chapter": 11,
+    "title": "As Árvores Gigantes e a Floresta Viva",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.793622+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 11,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 44
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "kamaiura_cap11",
+    "variant": "kamaiura",
+    "chapter": 11,
+    "title": "As Árvores Gigantes e a Floresta Viva",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.869530+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 11,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 42
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap11",
+    "variant": "tupinamba",
+    "chapter": 11,
+    "title": "As Árvores Gigantes e a Floresta Viva",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:51.935076+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 11,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 35
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap12",
+    "variant": "tupi_contemporaneo",
+    "chapter": 12,
+    "title": "Ações Cotidianas e Verbos do Dia",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:52.046194+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 12,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 49
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupi_antigo_cap12",
+    "variant": "tupi_antigo",
+    "chapter": 12,
+    "title": "Ações Cotidianas e Verbos do Dia",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:52.164886+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 12,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 47
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "kamaiura_cap12",
+    "variant": "kamaiura",
+    "chapter": 12,
+    "title": "Ações Cotidianas e Verbos do Dia",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:52.270411+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 12,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 4,
+        "total_tested_items": 9,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 45
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 4,
+    "exercises_count": 9
+  },
+  {
+    "unit_id": "tupinamba_cap12",
+    "variant": "tupinamba",
+    "chapter": 12,
+    "title": "Ações Cotidianas e Verbos do Dia",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:52.365930+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 12,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 38
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap13",
+    "variant": "tupi_contemporaneo",
+    "chapter": 13,
+    "title": "A Música, os Cantos e o Maracá",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:52.470136+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 13,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 52
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap13",
+    "variant": "tupi_antigo",
+    "chapter": 13,
+    "title": "A Música, os Cantos e o Maracá",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:52.626251+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 13,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 49
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "kamaiura_cap13",
+    "variant": "kamaiura",
+    "chapter": 13,
+    "title": "A Música, os Cantos e o Maracá",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:52.850969+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 13,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 47
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap13",
+    "variant": "tupinamba",
+    "chapter": 13,
+    "title": "A Música, os Cantos e o Maracá",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.056795+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 13,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 40
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap14",
+    "variant": "tupi_contemporaneo",
+    "chapter": 14,
+    "title": "As Entidades Protetoras e o Trovão",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.225168+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 14,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 55
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap14",
+    "variant": "tupi_antigo",
+    "chapter": 14,
+    "title": "As Entidades Protetoras e o Trovão",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.346428+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 14,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 52
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "kamaiura_cap14",
+    "variant": "kamaiura",
+    "chapter": 14,
+    "title": "As Entidades Protetoras e o Trovão",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.476544+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 14,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 49
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap14",
+    "variant": "tupinamba",
+    "chapter": 14,
+    "title": "As Entidades Protetoras e o Trovão",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.586090+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 14,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 42
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap15",
+    "variant": "tupi_contemporaneo",
+    "chapter": 15,
+    "title": "O Pajé e a Medicina da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.706346+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 15,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 57
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_antigo_cap15",
+    "variant": "tupi_antigo",
+    "chapter": 15,
+    "title": "O Pajé e a Medicina da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.865176+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 15,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 54
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "kamaiura_cap15",
+    "variant": "kamaiura",
+    "chapter": 15,
+    "title": "O Pajé e a Medicina da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:53.974904+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 15,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 51
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap15",
+    "variant": "tupinamba",
+    "chapter": 15,
+    "title": "O Pajé e a Medicina da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:54.115560+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 15,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 44
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap16",
+    "variant": "tupi_contemporaneo",
+    "chapter": 16,
+    "title": "A Trilha do Peabiru e os Caminhos",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:54.236452+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 16,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 60
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "tupi_antigo_cap16",
+    "variant": "tupi_antigo",
+    "chapter": 16,
+    "title": "A Trilha do Peabiru e os Caminhos",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:54.378875+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 16,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 3,
+        "total_tested_items": 8,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 57
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 3,
+    "exercises_count": 8
+  },
+  {
+    "unit_id": "kamaiura_cap16",
+    "variant": "kamaiura",
+    "chapter": 16,
+    "title": "A Trilha do Peabiru e os Caminhos",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:54.504759+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 16,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 53
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap16",
+    "variant": "tupinamba",
+    "chapter": 16,
+    "title": "A Trilha do Peabiru e os Caminhos",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:54.626966+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 16,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 46
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap17",
+    "variant": "tupi_contemporaneo",
+    "chapter": 17,
+    "title": "Os Povos Vizinhos e o Escambo",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:54.770776+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 17,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 62
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_antigo_cap17",
+    "variant": "tupi_antigo",
+    "chapter": 17,
+    "title": "Os Povos Vizinhos e o Escambo",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:54.938986+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 17,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 59
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "kamaiura_cap17",
+    "variant": "kamaiura",
+    "chapter": 17,
+    "title": "Os Povos Vizinhos e o Escambo",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:55.066152+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 17,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 55
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap17",
+    "variant": "tupinamba",
+    "chapter": 17,
+    "title": "Os Povos Vizinhos e o Escambo",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:55.200176+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 17,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 48
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap18",
+    "variant": "tupi_contemporaneo",
+    "chapter": 18,
+    "title": "As Narrativas de Origem e Heróis",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:55.319575+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 18,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 64
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_antigo_cap18",
+    "variant": "tupi_antigo",
+    "chapter": 18,
+    "title": "As Narrativas de Origem e Heróis",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:55.439008+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 18,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 63
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "kamaiura_cap18",
+    "variant": "kamaiura",
+    "chapter": 18,
+    "title": "As Narrativas de Origem e Heróis",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:55.594956+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 18,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 57
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap18",
+    "variant": "tupinamba",
+    "chapter": 18,
+    "title": "As Narrativas de Origem e Heróis",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:55.715236+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 18,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 52
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap19",
+    "variant": "tupi_contemporaneo",
+    "chapter": 19,
+    "title": "A Resistência Armada e a Defesa da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:55.865279+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 19,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 68
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_antigo_cap19",
+    "variant": "tupi_antigo",
+    "chapter": 19,
+    "title": "A Resistência Armada e a Defesa da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:56.005050+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 19,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 65
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "kamaiura_cap19",
+    "variant": "kamaiura",
+    "chapter": 19,
+    "title": "A Resistência Armada e a Defesa da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:56.141796+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 19,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 59
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap19",
+    "variant": "tupinamba",
+    "chapter": 19,
+    "title": "A Resistência Armada e a Defesa da Terra",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:56.259828+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 19,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 58
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_contemporaneo_cap20",
+    "variant": "tupi_contemporaneo",
+    "chapter": 20,
+    "title": "A Memória Eterna de Pindorama",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:56.441018+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_contemporaneo",
+      "chapter": 20,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 70
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupi_antigo_cap20",
+    "variant": "tupi_antigo",
+    "chapter": 20,
+    "title": "A Memória Eterna de Pindorama",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:56.625393+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupi_antigo",
+      "chapter": 20,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 67
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "kamaiura_cap20",
+    "variant": "kamaiura",
+    "chapter": 20,
+    "title": "A Memória Eterna de Pindorama",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:56.771536+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "kamaiura",
+      "chapter": 20,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 65
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  },
+  {
+    "unit_id": "tupinamba_cap20",
+    "variant": "tupinamba",
+    "chapter": 20,
+    "title": "A Memória Eterna de Pindorama",
+    "status": "QA_PASSED",
+    "attempts": 1,
+    "generated_at": "2026-09-25T23:02:56.897930+00:00",
+    "qa_status": "APPROVED",
+    "qa_report": {
+      "variant": "tupinamba",
+      "chapter": 20,
+      "status": "APPROVED",
+      "passed": true,
+      "errors_count": 0,
+      "warnings_count": 0,
+      "stats": {
+        "total_taught_items": 2,
+        "total_tested_items": 6,
+        "provenance_coverage_pct": 100.0,
+        "cumulative_taught_items": 62
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "taught_items_count": 2,
+    "exercises_count": 6
+  }
+]

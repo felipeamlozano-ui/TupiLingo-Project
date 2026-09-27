@@ -1,0 +1,56 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 4,
+  "timestamp": "2026-09-25T23:02:48.217445+00:00",
+  "total_itens": 4,
+  "itens_ensinados": [
+    {
+      "palavra": "'Y",
+      "traducao": "Água / Rio",
+      "variante": "tupi_antigo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_198",
+      "exemplo_uso": "'Y katu.",
+      "transliteracao": "Y",
+      "status": "completo"
+    },
+    {
+      "palavra": "Paraná",
+      "traducao": "Mar / Grande caudal",
+      "variante": "tupi_antigo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_198",
+      "exemplo_uso": "Paraná guasu.",
+      "transliteracao": "pa-ra-NA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Pira",
+      "traducao": "Peixe",
+      "variante": "tupi_antigo",
+      "categoria": "fauna",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_200",
+      "exemplo_uso": "Pira 'y pupé.",
+      "transliteracao": "pi-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ygata",
+      "traducao": "Canoa de guerra",
+      "variante": "tupi_antigo",
+      "categoria": "transporte",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_202",
+      "exemplo_uso": "Ygata paraná pupé.",
+      "transliteracao": "y-ga-TA",
+      "status": "completo"
+    }
+  ]
+}

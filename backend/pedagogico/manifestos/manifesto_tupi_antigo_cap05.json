@@ -1,0 +1,56 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 5,
+  "timestamp": "2026-09-25T23:02:48.579326+00:00",
+  "total_itens": 4,
+  "itens_ensinados": [
+    {
+      "palavra": "Mani'oka",
+      "traducao": "Mandioca",
+      "variante": "tupi_antigo",
+      "categoria": "flora",
+      "capitulo_introduzido": 5,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412",
+      "exemplo_uso": "Mani'oka katu.",
+      "transliteracao": "ma-ni-O-ka",
+      "status": "completo"
+    },
+    {
+      "palavra": "Mbyá",
+      "traducao": "Alimento / Comida",
+      "variante": "tupi_antigo",
+      "categoria": "alimentos",
+      "capitulo_introduzido": 5,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412",
+      "exemplo_uso": "Mbyá katu.",
+      "transliteracao": "mby-A",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kãuĩ",
+      "traducao": "Cauim fermentado",
+      "variante": "tupi_antigo",
+      "categoria": "alimentos",
+      "capitulo_introduzido": 5,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_414",
+      "exemplo_uso": "Kãuĩ taba pupé.",
+      "transliteracao": "ka-u-IN",
+      "status": "completo"
+    },
+    {
+      "palavra": "Abati",
+      "traducao": "Milho",
+      "variante": "tupi_antigo",
+      "categoria": "flora",
+      "capitulo_introduzido": 5,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_415",
+      "exemplo_uso": "Abati taba pupé.",
+      "transliteracao": "a-ba-TI",
+      "status": "completo"
+    }
+  ]
+}

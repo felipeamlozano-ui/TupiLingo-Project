@@ -36,12 +36,16 @@ REDIS_KEY_FRESH = "pingrace:fresh"
 REDIS_KEY_LOCK = "pingrace:revalidate_lock"
 REDIS_KEY_COOLDOWN_PREFIX = "pingrace:cooldown:"
 REDIS_KEY_FAIL_COUNT_PREFIX = "pingrace:fail_count:"
+REDIS_KEY_FATAL_PREFIX = "pingrace:fatal:"
+REDIS_KEY_METRICS_PREFIX = "pingrace:metrics:"
 
 # Configurações de TTL
 TTL_FRESH_SECONDS = 60         # Ranking é considerado fresco por 60s
 TTL_RANKING_STORE = 86400      # Ranking stale é mantido por até 24h
 TTL_REVALIDATE_LOCK = 15       # Lock distribuído de revalidação expira em 15s
-BASE_COOLDOWN_SECONDS = 120.0  # 2 minutos base de penalidade progressiva
+BASE_COOLDOWN_SECONDS = 120.0  # 2 minutos base de penalidade progressiva transitória
+# TTL configurável para desativação de modelos com erro fatal (401, 402, 403, 404)
+TTL_FATAL_SECONDS = int(os.getenv("FATAL_BAN_TTL_SECONDS", getattr(settings, "FATAL_BAN_TTL_SECONDS", 86400)))
 
 # Singleton Connection Pool Redis para Gunicorn
 _redis_pool: Optional[redis.ConnectionPool] = None
@@ -76,16 +80,65 @@ class PingRaceRouter:
 
     # Fallbacks locais em memória (caso Redis esteja indisponível em dev)
     _local_cooldown_map: dict[str, float] = {}
+    _local_fatal_map: dict[str, float] = {}
+    _local_metrics: dict[str, dict] = {}
     _local_ranking_cache: list[str] = []
     _local_ranking_ts: float = 0.0
 
     @classmethod
-    def record_failure(cls, target: str) -> None:
-        """Registra falha do modelo e ativa cooldown progressivo (2m -> 5m -> 15m)."""
+    def record_fatal_failure(cls, target: str, reason: str = "") -> None:
+        """
+        Desativa o modelo fatalmente por 24h persistido no Redis (sobrevive a restarts).
+        Aplicável a erros 401, 402, 403, 404 e modelos inexistentes.
+        """
         r = get_redis_client()
         now = time.monotonic()
         if r:
             try:
+                fatal_key = f"{REDIS_KEY_FATAL_PREFIX}{target}"
+                r.set(fatal_key, reason or "fatal_error", ex=TTL_FATAL_SECONDS)
+                r.delete(f"{REDIS_KEY_COOLDOWN_PREFIX}{target}")
+                r.delete(f"{REDIS_KEY_FAIL_COUNT_PREFIX}{target}")
+                r.incr(f"{REDIS_KEY_METRICS_PREFIX}fatal:{target}")
+                logger.error(
+                    "[PingRace] ⛔ Modelo %s DESATIVADO FATALMENTE por 24h [Redis]. Motivo: %s",
+                    target, reason
+                )
+                return
+            except Exception as exc:
+                logger.warning("[PingRace] Falha ao gravar erro fatal no Redis: %s. Usando fallback local.", exc)
+
+        cls._local_fatal_map[target] = now + TTL_FATAL_SECONDS
+        cls._local_cooldown_map.pop(target, None)
+        cls._local_cooldown_map.pop(f"count:{target}", None)
+        metrics = cls._local_metrics.setdefault(target, {"sucessos": 0, "erros_fatais": 0, "erros_transitorios": 0, "latencias": []})
+        metrics["erros_fatais"] += 1
+        logger.error(
+            "[PingRace] ⛔ Modelo %s DESATIVADO FATALMENTE por 24h [Local]. Motivo: %s",
+            target, reason
+        )
+
+    @classmethod
+    def is_fatal_disabled(cls, target: str) -> bool:
+        """Verifica se o modelo está fatalmente desativado (por 24h)."""
+        r = get_redis_client()
+        if r:
+            try:
+                return bool(r.exists(f"{REDIS_KEY_FATAL_PREFIX}{target}"))
+            except Exception:
+                pass
+        now = time.monotonic()
+        expiry = cls._local_fatal_map.get(target, 0.0)
+        return now < expiry
+
+    @classmethod
+    def record_failure(cls, target: str) -> None:
+        """Registra falha transitória do modelo e ativa cooldown progressivo (2m -> 5m -> 15m)."""
+        r = get_redis_client()
+        now = time.monotonic()
+        if r:
+            try:
+                r.incr(f"{REDIS_KEY_METRICS_PREFIX}transient:{target}")
                 count_key = f"{REDIS_KEY_FAIL_COUNT_PREFIX}{target}"
                 count = r.incr(count_key)
                 r.expire(count_key, 3600)  # Histórico mantido por 1 hora
@@ -94,7 +147,7 @@ class PingRaceRouter:
                 cooldown_key = f"{REDIS_KEY_COOLDOWN_PREFIX}{target}"
                 r.set(cooldown_key, "1", ex=int(duration))
                 logger.warning(
-                    "[PingRace] Modelo %s penalizado em cooldown por %ds (%dª falha) [Redis].",
+                    "[PingRace] Modelo %s penalizado em cooldown transitório por %ds (%dª falha) [Redis].",
                     target, int(duration), count
                 )
                 return
@@ -102,32 +155,44 @@ class PingRaceRouter:
                 logger.warning("[PingRace] Falha ao gravar cooldown no Redis: %s. Usando fallback local.", exc)
 
         # Fallback local em memória
+        metrics = cls._local_metrics.setdefault(target, {"sucessos": 0, "erros_fatais": 0, "erros_transitorios": 0, "latencias": []})
+        metrics["erros_transitorios"] += 1
         count = cls._local_cooldown_map.get(f"count:{target}", 0) + 1
         cls._local_cooldown_map[f"count:{target}"] = count
         duration = BASE_COOLDOWN_SECONDS if count == 1 else (300.0 if count == 2 else 900.0)
         cls._local_cooldown_map[target] = now + duration
         logger.warning(
-            "[PingRace] Modelo %s penalizado em cooldown por %ds (%dª falha) [Local].",
+            "[PingRace] Modelo %s penalizado em cooldown transitório por %ds (%dª falha) [Local].",
             target, int(duration), count
         )
 
     @classmethod
-    def record_success(cls, target: str) -> None:
-        """Registra sucesso do modelo e encerra penalidade."""
+    def record_success(cls, target: str, latency_ms: float = 0.0) -> None:
+        """Registra sucesso do modelo, encerra penalidade transitória e atualiza métricas."""
         r = get_redis_client()
         if r:
             try:
                 r.delete(f"{REDIS_KEY_COOLDOWN_PREFIX}{target}")
                 r.delete(f"{REDIS_KEY_FAIL_COUNT_PREFIX}{target}")
+                r.incr(f"{REDIS_KEY_METRICS_PREFIX}success:{target}")
+                if latency_ms > 0:
+                    r.incrbyfloat(f"{REDIS_KEY_METRICS_PREFIX}lat_sum:{target}", latency_ms)
+                    r.incr(f"{REDIS_KEY_METRICS_PREFIX}lat_cnt:{target}")
                 return
             except Exception:
                 pass
         cls._local_cooldown_map.pop(target, None)
         cls._local_cooldown_map.pop(f"count:{target}", None)
+        metrics = cls._local_metrics.setdefault(target, {"sucessos": 0, "erros_fatais": 0, "erros_transitorios": 0, "latencias": []})
+        metrics["sucessos"] += 1
+        if latency_ms > 0:
+            metrics["latencias"].append(latency_ms)
 
     @classmethod
     def is_in_cooldown(cls, target: str) -> bool:
-        """Verifica se o modelo está sob penalidade de circuit breaker."""
+        """Verifica se o modelo está sob penalidade fatal ou transitória."""
+        if cls.is_fatal_disabled(target):
+            return True
         r = get_redis_client()
         if r:
             try:
@@ -137,6 +202,57 @@ class PingRaceRouter:
         now = time.monotonic()
         expiry = cls._local_cooldown_map.get(target, 0.0)
         return now < expiry
+
+    @classmethod
+    def get_circuit_metrics(cls, targets: list[str] | None = None) -> dict[str, dict]:
+        """Retorna métricas consolidadas de telemetria por modelo/provedor."""
+        r = get_redis_client()
+        results: dict[str, dict] = {}
+        target_list = targets or list(cls._local_metrics.keys())
+        if r and not targets:
+            try:
+                keys = r.keys(f"{REDIS_KEY_METRICS_PREFIX}*")
+                for k in keys:
+                    parts = k.split(":", 2)
+                    if len(parts) >= 3 and parts[2] not in target_list:
+                        target_list.append(parts[2])
+            except Exception:
+                pass
+
+        for target in set(target_list):
+            sucessos = 0
+            erros_fatais = 0
+            erros_transitorios = 0
+            tempo_medio_ms = 0.0
+
+            if r:
+                try:
+                    sucessos = int(r.get(f"{REDIS_KEY_METRICS_PREFIX}success:{target}") or 0)
+                    erros_fatais = int(r.get(f"{REDIS_KEY_METRICS_PREFIX}fatal:{target}") or 0)
+                    erros_transitorios = int(r.get(f"{REDIS_KEY_METRICS_PREFIX}transient:{target}") or 0)
+                    lat_sum = float(r.get(f"{REDIS_KEY_METRICS_PREFIX}lat_sum:{target}") or 0.0)
+                    lat_cnt = int(r.get(f"{REDIS_KEY_METRICS_PREFIX}lat_cnt:{target}") or 0)
+                    if lat_cnt > 0:
+                        tempo_medio_ms = round(lat_sum / lat_cnt, 1)
+                except Exception:
+                    pass
+
+            local = cls._local_metrics.get(target, {})
+            sucessos = max(sucessos, local.get("sucessos", 0))
+            erros_fatais = max(erros_fatais, local.get("erros_fatais", 0))
+            erros_transitorios = max(erros_transitorios, local.get("erros_transitorios", 0))
+            if not tempo_medio_ms and local.get("latencias"):
+                tempo_medio_ms = round(sum(local["latencias"]) / len(local["latencias"]), 1)
+
+            status = "fatal_24h" if cls.is_fatal_disabled(target) else ("cooldown" if cls.is_in_cooldown(target) else "ativo")
+            results[target] = {
+                "sucessos": sucessos,
+                "erros_fatais": erros_fatais,
+                "erros_transitorios": erros_transitorios,
+                "tempo_medio_ms": tempo_medio_ms,
+                "status": status,
+            }
+        return results
 
     @classmethod
     def _ping_single_model(cls, target: str) -> tuple[str, float]:
@@ -176,7 +292,27 @@ class PingRaceRouter:
             return target, latency_ms
 
         except Exception as exc:
-            cls.record_failure(target)
+            from app.ai.exceptions import FatalModelError
+            is_fatal = False
+            err_str = str(exc).lower()
+            try:
+                from app.ai.registry import registry
+                if provider_name in registry._providers:
+                    p = registry.get_provider(provider_name)
+                    mapped = p._map_exception(exc)
+                    if isinstance(mapped, FatalModelError):
+                        is_fatal = True
+            except Exception:
+                pass
+
+            if not is_fatal:
+                if any(code in err_str for code in ["401", "402", "403", "404", "payment", "quota", "balance_units"]):
+                    is_fatal = True
+
+            if is_fatal:
+                cls.record_fatal_failure(target, reason=str(exc)[:150])
+            else:
+                cls.record_failure(target)
             raise exc
 
     @classmethod
@@ -188,19 +324,25 @@ class PingRaceRouter:
         if not chain:
             return []
 
-        # 1. Filtra candidatos fora de cooldown
-        active_chain = [m for m in chain if not cls.is_in_cooldown(m)]
+        # 1. Filtra candidatos fora de erro fatal e fora de cooldown transitório
+        active_chain = [m for m in chain if not cls.is_fatal_disabled(m) and not cls.is_in_cooldown(m)]
         if not active_chain:
-            logger.warning("[PingRace] Todos os modelos da cadeia estão em cooldown. Resetando penalidades.")
-            r = get_redis_client()
-            if r:
-                try:
-                    for m in chain:
-                        r.delete(f"{REDIS_KEY_COOLDOWN_PREFIX}{m}")
-                except Exception:
-                    pass
-            cls._local_cooldown_map.clear()
-            active_chain = list(chain)
+            # Apenas modelos que NÃO são fatais podem ter cooldown transitório resetado
+            non_fatal = [m for m in chain if not cls.is_fatal_disabled(m)]
+            if non_fatal:
+                logger.warning("[PingRace] Todos os modelos ativos estão em cooldown transitório. Resetando penalidades transitórias.")
+                r = get_redis_client()
+                if r:
+                    try:
+                        for m in non_fatal:
+                            r.delete(f"{REDIS_KEY_COOLDOWN_PREFIX}{m}")
+                    except Exception:
+                        pass
+                cls._local_cooldown_map.clear()
+                active_chain = list(non_fatal)
+            else:
+                logger.error("[PingRace] ⛔ Todos os modelos da cadeia estão fatalmente desativados (24h).")
+                active_chain = list(chain)
 
         # Limita o pool concorrente a até 6 modelos top para economia de recursos
         race_pool = active_chain[:6]

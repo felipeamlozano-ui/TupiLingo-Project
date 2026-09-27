@@ -1,0 +1,44 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 10,
+  "timestamp": "2026-09-25T23:02:51.585693+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Tuxaua",
+      "traducao": "Comandante de guerra",
+      "variante": "tupinamba",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 10,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_140",
+      "exemplo_uso": "Tuxaua o-nhe'eng.",
+      "transliteracao": "tu-XA-wa",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tamoio",
+      "traducao": "Os antigos da federação",
+      "variante": "tupinamba",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 10,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_142",
+      "exemplo_uso": "Tamoio katu.",
+      "transliteracao": "ta-MOI-o",
+      "status": "completo"
+    },
+    {
+      "palavra": "Okar",
+      "traducao": "Praça de assembléia da taba",
+      "variante": "tupinamba",
+      "categoria": "habitacao",
+      "capitulo_introduzido": 10,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_145",
+      "exemplo_uso": "Abá okar pupé.",
+      "transliteracao": "o-KAR",
+      "status": "completo"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 7,
+  "timestamp": "2026-09-25T23:02:50.248098+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Tata",
+      "traducao": "Fogo",
+      "variante": "tupi_antigo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_215",
+      "exemplo_uso": "Tata oka pupé.",
+      "transliteracao": "ta-TA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tatagûasu",
+      "traducao": "Grande fogueira",
+      "variante": "tupi_antigo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_216",
+      "exemplo_uso": "Tatagûasu okar pupé.",
+      "transliteracao": "ta-ta-gwa-SU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Itá",
+      "traducao": "Pedra / Machado de pedra",
+      "variante": "tupi_antigo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_218",
+      "exemplo_uso": "Itá katu.",
+      "transliteracao": "i-TA",
+      "status": "completo"
+    }
+  ]
+}

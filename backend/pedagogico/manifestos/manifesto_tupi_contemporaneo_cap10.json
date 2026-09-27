@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 10,
+  "timestamp": "2026-09-25T23:02:51.237126+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Tuxaua",
+      "traducao": "Líder / Cacique",
+      "variante": "tupi_contemporaneo",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 10,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_150",
+      "exemplo_uso": "Tuxaua taba pupé.",
+      "transliteracao": "tu-XA-wa",
+      "status": "completo"
+    },
+    {
+      "palavra": "Yande",
+      "traducao": "Nós (inclusivo)",
+      "variante": "tupi_contemporaneo",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 10,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_152",
+      "exemplo_uso": "Yande taba-pora.",
+      "transliteracao": "yan-DE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Taba-eté",
+      "traducao": "Aldeia verdadeira / Principal",
+      "variante": "tupi_contemporaneo",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 10,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_155",
+      "exemplo_uso": "Taba-eté guasu.",
+      "transliteracao": "ta-ba-e-TE",
+      "status": "completo"
+    }
+  ]
+}

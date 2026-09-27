@@ -1,0 +1,68 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 2,
+  "timestamp": "2026-09-25T23:02:47.760318+00:00",
+  "total_itens": 5,
+  "itens_ensinados": [
+    {
+      "palavra": "Oka",
+      "traducao": "Maloca comunal",
+      "variante": "tupinamba",
+      "categoria": "habitacao",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_130",
+      "exemplo_uso": "Oka guasu.",
+      "transliteracao": "O-ka",
+      "status": "completo"
+    },
+    {
+      "palavra": "Taba",
+      "traducao": "Aldeia cercada de paliçada",
+      "variante": "tupinamba",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_130",
+      "exemplo_uso": "Taba Tupinambá.",
+      "transliteracao": "TA-ba",
+      "status": "completo"
+    },
+    {
+      "palavra": "Abá",
+      "traducao": "Guerreiro / Homem livre",
+      "variante": "tupinamba",
+      "categoria": "pessoas",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_132",
+      "exemplo_uso": "Abá katu.",
+      "transliteracao": "a-BA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kunhã",
+      "traducao": "Mulher",
+      "variante": "tupinamba",
+      "categoria": "pessoas",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_132",
+      "exemplo_uso": "Kunhã oka pupé.",
+      "transliteracao": "ku-NYA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tuba",
+      "traducao": "Pai ancestral",
+      "variante": "tupinamba",
+      "categoria": "parentesco",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_135",
+      "exemplo_uso": "Tuba katu.",
+      "transliteracao": "TU-ba",
+      "status": "completo"
+    }
+  ]
+}

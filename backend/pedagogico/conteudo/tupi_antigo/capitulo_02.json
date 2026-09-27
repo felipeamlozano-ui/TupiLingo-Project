@@ -1,0 +1,546 @@
+{
+  "capitulo_numero": 2,
+  "variante": "tupi_antigo",
+  "titulo": "Capítulo 2: A Casa Comunal e a Família",
+  "descricao": "Domínio temático: Casa Parentesco. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.1",
+  "dificuldade_relativa_0_100": 10,
+  "scenario": {
+    "nome": "A Grande Aldeia e as Malocas",
+    "palette": {
+      "primary": "#784212",
+      "secondary": "#BA4A00",
+      "accent": "#F39C12"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Oka",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Oka",
+            "traducao": "Casa / Habitação",
+            "transliteracao": "O-ka",
+            "classe_gramatical": "substantivo",
+            "categoria": "habitacao",
+            "exemplo_uso": "Oka katu.",
+            "exemplo_pt": "Casa espaçosa.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_260"
+          },
+          {
+            "palavra": "Taba",
+            "traducao": "Aldeia cercada",
+            "transliteracao": "TA-ba",
+            "classe_gramatical": "substantivo",
+            "categoria": "comunidade",
+            "exemplo_uso": "Taba guasu.",
+            "exemplo_pt": "Grande aldeia.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_260"
+          },
+          {
+            "palavra": "Abá",
+            "traducao": "Homem / Pessoa humana",
+            "transliteracao": "a-BA",
+            "classe_gramatical": "substantivo",
+            "categoria": "pessoas",
+            "exemplo_uso": "Abá katu taba pupé.",
+            "exemplo_pt": "A pessoa boa está na aldeia.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Oka' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Oka'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Casa / Habitação"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Oka",
+          "explicacao": "'Oka' significa 'Casa / Habitação' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Oka"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Taba'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Aldeia cercada"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Taba",
+          "explicacao": "'Taba' significa 'Aldeia cercada' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Taba"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Abá'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Homem / Pessoa humana"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Abá",
+          "explicacao": "'Abá' significa 'Homem / Pessoa humana' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Abá"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Oka": "Casa / Habitação",
+            "Taba": "Aldeia cercada",
+            "Abá": "Homem / Pessoa humana"
+          },
+          "coluna_esquerda": [
+            "Oka",
+            "Taba",
+            "Abá"
+          ],
+          "coluna_direita": [
+            "Casa / Habitação",
+            "Aldeia cercada",
+            "Homem / Pessoa humana"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Oka",
+            "Taba",
+            "Abá"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Oka",
+          "Taba",
+          "Abá"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Kunhã",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Kunhã",
+            "traducao": "Mulher",
+            "transliteracao": "ku-NYA",
+            "classe_gramatical": "substantivo",
+            "categoria": "pessoas",
+            "exemplo_uso": "Kunhã katu.",
+            "exemplo_pt": "Mulher virtuosa.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262"
+          },
+          {
+            "palavra": "Tuba",
+            "traducao": "Pai",
+            "transliteracao": "TU-ba",
+            "classe_gramatical": "substantivo",
+            "categoria": "parentesco",
+            "exemplo_uso": "Xé ruba katu.",
+            "exemplo_pt": "Meu pai é bom.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262"
+          },
+          {
+            "palavra": "Sy",
+            "traducao": "Mãe",
+            "transliteracao": "SY",
+            "classe_gramatical": "substantivo",
+            "categoria": "parentesco",
+            "exemplo_uso": "Xé sy oka pupé.",
+            "exemplo_pt": "Minha mãe está na casa.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_263"
+          },
+          {
+            "palavra": "Inĩ",
+            "traducao": "Rede de dormir",
+            "transliteracao": "i-NIN",
+            "classe_gramatical": "substantivo",
+            "categoria": "utensilios",
+            "exemplo_uso": "Inĩ katu.",
+            "exemplo_pt": "Rede confortável.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_265"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Kunhã"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kunhã' (Mulher).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kunhã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Kunhã'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Mulher"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kunhã",
+          "explicacao": "'Kunhã' traduz-se fielmente como 'Mulher'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kunhã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: 'Xé ruba katu.'",
+          "texto_com_lacunas": "Xé ruba katu.",
+          "respostas_lacunas": [
+            "Tuba"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Tuba' (Pai).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Tuba"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Tuba'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Pai"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Tuba",
+          "explicacao": "'Tuba' traduz-se fielmente como 'Pai'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Tuba"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: 'Xé sy oka pupé.'",
+          "texto_com_lacunas": "Xé sy oka pupé.",
+          "respostas_lacunas": [
+            "Sy"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Sy' (Mãe).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Sy"
+          ]
+        },
+        {
+          "ordem": 6,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Sy'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Mãe"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Sy",
+          "explicacao": "'Sy' traduz-se fielmente como 'Mãe'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Sy"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Inĩ"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Inĩ' (Rede de dormir).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Inĩ"
+          ]
+        },
+        {
+          "ordem": 8,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Inĩ'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Rede de dormir"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Inĩ",
+          "explicacao": "'Inĩ' traduz-se fielmente como 'Rede de dormir'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Inĩ"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Kunhã",
+          "Tuba",
+          "Sy",
+          "Inĩ"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Oka",
+            "traducao": "Casa / Habitação",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_260"
+          },
+          {
+            "palavra": "Taba",
+            "traducao": "Aldeia cercada",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_260"
+          },
+          {
+            "palavra": "Abá",
+            "traducao": "Homem / Pessoa humana",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262"
+          },
+          {
+            "palavra": "Kunhã",
+            "traducao": "Mulher",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262"
+          },
+          {
+            "palavra": "Tuba",
+            "traducao": "Pai",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262"
+          },
+          {
+            "palavra": "Sy",
+            "traducao": "Mãe",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_263"
+          },
+          {
+            "palavra": "Inĩ",
+            "traducao": "Rede de dormir",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_265"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 2:",
+          "pares_corretos": {
+            "Oka": "Casa / Habitação",
+            "Taba": "Aldeia cercada",
+            "Abá": "Homem / Pessoa humana",
+            "Kunhã": "Mulher"
+          },
+          "coluna_esquerda": [
+            "Oka",
+            "Taba",
+            "Abá",
+            "Kunhã"
+          ],
+          "coluna_direita": [
+            "Casa / Habitação",
+            "Aldeia cercada",
+            "Homem / Pessoa humana",
+            "Mulher"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Oka",
+            "Taba",
+            "Abá",
+            "Kunhã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Oka' para o Português:",
+          "termo_fonte": "Oka",
+          "traducao_esperada": "Casa / Habitação",
+          "explicacao": "'Oka' significa 'Casa / Habitação'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Oka"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Oka",
+          "Taba",
+          "Abá",
+          "Kunhã",
+          "Tuba",
+          "Sy",
+          "Inĩ"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 2 de Tupi Antigo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 14
+}

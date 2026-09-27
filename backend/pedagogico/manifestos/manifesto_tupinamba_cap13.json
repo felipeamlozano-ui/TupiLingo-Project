@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 13,
+  "timestamp": "2026-09-25T23:02:53.048799+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Maraká",
+      "traducao": "Chocalho ritual dos combatentes",
+      "variante": "tupinamba",
+      "categoria": "musica",
+      "capitulo_introduzido": 13,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_170",
+      "exemplo_uso": "Maraká o-puã.",
+      "transliteracao": "ma-ra-KA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Toré",
+      "traducao": "Marcha com passos fortes",
+      "variante": "tupinamba",
+      "categoria": "musica",
+      "capitulo_introduzido": 13,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_172",
+      "exemplo_uso": "Toré okar pupé.",
+      "transliteracao": "to-RE",
+      "status": "completo"
+    }
+  ]
+}

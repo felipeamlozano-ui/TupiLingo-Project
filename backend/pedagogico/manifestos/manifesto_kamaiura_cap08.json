@@ -1,0 +1,44 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 8,
+  "timestamp": "2026-09-25T23:02:50.678927+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Wywawura",
+      "traducao": "Pássaro / Ave",
+      "variante": "kamaiura",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_260",
+      "exemplo_uso": "Wywawura o-wewé.",
+      "transliteracao": "wy-wa-wu-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tukan",
+      "traducao": "Tucano",
+      "variante": "kamaiura",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_261",
+      "exemplo_uso": "Tukan ka'a pupé.",
+      "transliteracao": "tu-KAN",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kamani",
+      "traducao": "Arara vermelha",
+      "variante": "kamaiura",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_263",
+      "exemplo_uso": "Kamani katu.",
+      "transliteracao": "ka-ma-NI",
+      "status": "completo"
+    }
+  ]
+}

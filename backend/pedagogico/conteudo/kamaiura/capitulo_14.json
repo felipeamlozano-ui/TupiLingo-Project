@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 14,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 14: As Entidades Protetoras e o Trovão",
+  "descricao": "Domínio temático: Espiritualidade Mitos. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.2",
+  "dificuldade_relativa_0_100": 70,
+  "scenario": {
+    "nome": "O Espaço Sagrado do Trovão",
+    "palette": {
+      "primary": "#1B2631",
+      "secondary": "#283747",
+      "accent": "#85929E"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Mavutsinim",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Mavutsinim",
+            "traducao": "O Criador primordial xinguano",
+            "transliteracao": "ma-vu-tsi-NIM",
+            "classe_gramatical": "proprio",
+            "categoria": "mitologia",
+            "exemplo_uso": "Mavutsinim awa o-monhang.",
+            "exemplo_pt": "Mavutsinim criou as gentes dos troncos.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_415"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Mavutsinim' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Mavutsinim'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "O Criador primordial xinguano"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Mavutsinim",
+          "explicacao": "'Mavutsinim' significa 'O Criador primordial xinguano' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Mavutsinim"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Mavutsinim": "O Criador primordial xinguano"
+          },
+          "coluna_esquerda": [
+            "Mavutsinim"
+          ],
+          "coluna_direita": [
+            "O Criador primordial xinguano"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Mavutsinim"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Mavutsinim"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Mama'e",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Mama'e",
+            "traducao": "Espírito guardião da mata",
+            "transliteracao": "ma-ma-E",
+            "classe_gramatical": "substantivo",
+            "categoria": "espiritualidade",
+            "exemplo_uso": "Mama'e ka'a pupé.",
+            "exemplo_pt": "O espírito protege as águas.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_418"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ka'a pupé.'",
+          "texto_com_lacunas": "______ ka'a pupé.",
+          "respostas_lacunas": [
+            "Mama'e"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Mama'e' (Espírito guardião da mata).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Mama'e"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Mama'e'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Espírito guardião da mata"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Mama'e",
+          "explicacao": "'Mama'e' traduz-se fielmente como 'Espírito guardião da mata'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Mama'e"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Mama'e"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Mavutsinim",
+            "traducao": "O Criador primordial xinguano",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_415"
+          },
+          {
+            "palavra": "Mama'e",
+            "traducao": "Espírito guardião da mata",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_418"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 14:",
+          "pares_corretos": {
+            "Mavutsinim": "O Criador primordial xinguano",
+            "Mama'e": "Espírito guardião da mata"
+          },
+          "coluna_esquerda": [
+            "Mavutsinim",
+            "Mama'e"
+          ],
+          "coluna_direita": [
+            "O Criador primordial xinguano",
+            "Espírito guardião da mata"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Mavutsinim",
+            "Mama'e"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Mavutsinim' para o Português:",
+          "termo_fonte": "Mavutsinim",
+          "traducao_esperada": "O Criador primordial xinguano",
+          "explicacao": "'Mavutsinim' significa 'O Criador primordial xinguano'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Mavutsinim"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Mavutsinim",
+          "Mama'e"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 14 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

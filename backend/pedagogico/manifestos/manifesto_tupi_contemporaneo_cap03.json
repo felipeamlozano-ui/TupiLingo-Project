@@ -1,0 +1,56 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 3,
+  "timestamp": "2026-09-25T23:02:47.839692+00:00",
+  "total_itens": 4,
+  "itens_ensinados": [
+    {
+      "palavra": "Yawaraté",
+      "traducao": "Onça pintada",
+      "variante": "tupi_contemporaneo",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_115",
+      "exemplo_uso": "Yawaraté ka'a pupé.",
+      "transliteracao": "ya-wa-ra-TE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tatu",
+      "traducao": "Tatu",
+      "variante": "tupi_contemporaneo",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_115",
+      "exemplo_uso": "Tatu yby rupi.",
+      "transliteracao": "ta-TU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Akuti",
+      "traducao": "Cutia",
+      "variante": "tupi_contemporaneo",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_116",
+      "exemplo_uso": "Akuti ka'a.",
+      "transliteracao": "a-ku-TI",
+      "status": "completo"
+    },
+    {
+      "palavra": "So'o",
+      "traducao": "Animal de caça",
+      "variante": "tupi_contemporaneo",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_118",
+      "exemplo_uso": "So'o puranga.",
+      "transliteracao": "so-O",
+      "status": "completo"
+    }
+  ]
+}

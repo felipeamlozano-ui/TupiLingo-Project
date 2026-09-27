@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 16,
+  "variante": "tupinamba",
+  "titulo": "Capítulo 16: A Trilha do Peabiru e os Caminhos",
+  "descricao": "Domínio temático: Caminhos Viagens. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "B1.1",
+  "dificuldade_relativa_0_100": 80,
+  "scenario": {
+    "nome": "A Trilha Milenar do Peabiru",
+    "palette": {
+      "primary": "#4A235A",
+      "secondary": "#7D6608",
+      "accent": "#F5B041"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Pé",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Pé",
+            "traducao": "Trilha litorânea dos guerreiros",
+            "transliteracao": "PE",
+            "classe_gramatical": "substantivo",
+            "categoria": "geografia",
+            "exemplo_uso": "Pé paraná rembé.",
+            "exemplo_pt": "Caminho pela orla.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_190"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Pé' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Pé'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Trilha litorânea dos guerreiros"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Pé",
+          "explicacao": "'Pé' significa 'Trilha litorânea dos guerreiros' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pé"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Pé": "Trilha litorânea dos guerreiros"
+          },
+          "coluna_esquerda": [
+            "Pé"
+          ],
+          "coluna_direita": [
+            "Trilha litorânea dos guerreiros"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pé"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pé"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Ygarapé",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ygarapé",
+            "traducao": "Canal de retirada das canoas",
+            "transliteracao": "i-ga-ra-PE",
+            "classe_gramatical": "substantivo",
+            "categoria": "geografia",
+            "exemplo_uso": "Ygarapé puranga.",
+            "exemplo_pt": "Canal protegido.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_192"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ puranga.'",
+          "texto_com_lacunas": "______ puranga.",
+          "respostas_lacunas": [
+            "Ygarapé"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Ygarapé' (Canal de retirada das canoas).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ygarapé"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Ygarapé'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Canal de retirada das canoas"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Ygarapé",
+          "explicacao": "'Ygarapé' traduz-se fielmente como 'Canal de retirada das canoas'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ygarapé"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ygarapé"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Pé",
+            "traducao": "Trilha litorânea dos guerreiros",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_190"
+          },
+          {
+            "palavra": "Ygarapé",
+            "traducao": "Canal de retirada das canoas",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_192"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 16:",
+          "pares_corretos": {
+            "Pé": "Trilha litorânea dos guerreiros",
+            "Ygarapé": "Canal de retirada das canoas"
+          },
+          "coluna_esquerda": [
+            "Pé",
+            "Ygarapé"
+          ],
+          "coluna_direita": [
+            "Trilha litorânea dos guerreiros",
+            "Canal de retirada das canoas"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Pé",
+            "Ygarapé"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Pé' para o Português:",
+          "termo_fonte": "Pé",
+          "traducao_esperada": "Trilha litorânea dos guerreiros",
+          "explicacao": "'Pé' significa 'Trilha litorânea dos guerreiros'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pé"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pé",
+          "Ygarapé"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 16 de Tupinamba."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

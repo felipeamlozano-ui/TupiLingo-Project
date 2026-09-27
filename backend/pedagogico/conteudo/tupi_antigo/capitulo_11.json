@@ -1,0 +1,312 @@
+{
+  "capitulo_numero": 11,
+  "variante": "tupi_antigo",
+  "titulo": "Capítulo 11: As Árvores Gigantes e a Floresta Viva",
+  "descricao": "Domínio temático: Botanica Floresta. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.1",
+  "dificuldade_relativa_0_100": 55,
+  "scenario": {
+    "nome": "A Floresta de Árvores Gigantes",
+    "palette": {
+      "primary": "#145A32",
+      "secondary": "#196F3D",
+      "accent": "#27AE60"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Ka'a",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ka'a",
+            "traducao": "Mata atlântica virgem",
+            "transliteracao": "ka-A",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Ka'a guasu.",
+            "exemplo_pt": "Grande floresta.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_360"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Ka'a' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Ka'a'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Mata atlântica virgem"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Ka'a",
+          "explicacao": "'Ka'a' significa 'Mata atlântica virgem' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Ka'a": "Mata atlântica virgem"
+          },
+          "coluna_esquerda": [
+            "Ka'a"
+          ],
+          "coluna_direita": [
+            "Mata atlântica virgem"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ka'a"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Ybyrá",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ybyrá",
+            "traducao": "Tronco / Árvore",
+            "transliteracao": "y-by-RA",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Ybyrá ka'a pupé.",
+            "exemplo_pt": "Árvore na mata.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_361"
+          },
+          {
+            "palavra": "Ybyrapytanga",
+            "traducao": "Pau-brasil (madeira vermelha)",
+            "transliteracao": "y-by-ra-py-TAN-ga",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Ybyrapytanga retama.",
+            "exemplo_pt": "Terra do pau-brasil.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_365"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ka'a pupé.'",
+          "texto_com_lacunas": "______ ka'a pupé.",
+          "respostas_lacunas": [
+            "Ybyrá"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Ybyrá' (Tronco / Árvore).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ybyrá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Ybyrá'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Terra firme"
+            },
+            {
+              "letra": "D",
+              "texto": "Tronco / Árvore"
+            }
+          ],
+          "resposta_correta": "D",
+          "resposta_correta_termo": "Ybyrá",
+          "explicacao": "'Ybyrá' traduz-se fielmente como 'Tronco / Árvore'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ybyrá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ retama.'",
+          "texto_com_lacunas": "______ retama.",
+          "respostas_lacunas": [
+            "Ybyrapytanga"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Ybyrapytanga' (Pau-brasil (madeira vermelha)).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ybyrapytanga"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Ybyrapytanga'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Pau-brasil (madeira vermelha)"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Ybyrapytanga",
+          "explicacao": "'Ybyrapytanga' traduz-se fielmente como 'Pau-brasil (madeira vermelha)'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ybyrapytanga"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ybyrá",
+          "Ybyrapytanga"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Ka'a",
+            "traducao": "Mata atlântica virgem",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_360"
+          },
+          {
+            "palavra": "Ybyrá",
+            "traducao": "Tronco / Árvore",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_361"
+          },
+          {
+            "palavra": "Ybyrapytanga",
+            "traducao": "Pau-brasil (madeira vermelha)",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_365"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 11:",
+          "pares_corretos": {
+            "Ka'a": "Mata atlântica virgem",
+            "Ybyrá": "Tronco / Árvore",
+            "Ybyrapytanga": "Pau-brasil (madeira vermelha)"
+          },
+          "coluna_esquerda": [
+            "Ka'a",
+            "Ybyrá",
+            "Ybyrapytanga"
+          ],
+          "coluna_direita": [
+            "Mata atlântica virgem",
+            "Tronco / Árvore",
+            "Pau-brasil (madeira vermelha)"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Ka'a",
+            "Ybyrá",
+            "Ybyrapytanga"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Ka'a' para o Português:",
+          "termo_fonte": "Ka'a",
+          "traducao_esperada": "Mata atlântica virgem",
+          "explicacao": "'Ka'a' significa 'Mata atlântica virgem'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ka'a",
+          "Ybyrá",
+          "Ybyrapytanga"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 11 de Tupi Antigo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 8
+}

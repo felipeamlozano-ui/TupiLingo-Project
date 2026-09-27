@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 19,
+  "timestamp": "2026-09-25T23:02:56.251650+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Cartas de 1645",
+      "traducao": "Epístolas históricas em Tupi puro",
+      "variante": "tupinamba",
+      "categoria": "historia",
+      "capitulo_introduzido": 19,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_210",
+      "exemplo_uso": "Kuatiá Paraupaba.",
+      "transliteracao": "car-tas de mil seis-cen-tos e qua-ren-ta e cin-co",
+      "status": "completo"
+    },
+    {
+      "palavra": "Cabo Frio",
+      "traducao": "Fortaleza Tupinambá contra os invasores",
+      "variante": "tupinamba",
+      "categoria": "toponimia",
+      "capitulo_introduzido": 19,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_215",
+      "exemplo_uso": "Cabo Frio taba.",
+      "transliteracao": "ca-bo FRI-o",
+      "status": "completo"
+    }
+  ]
+}

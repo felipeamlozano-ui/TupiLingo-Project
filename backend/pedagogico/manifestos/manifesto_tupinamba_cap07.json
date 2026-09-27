@@ -1,0 +1,44 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 7,
+  "timestamp": "2026-09-25T23:02:50.406818+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Tata",
+      "traducao": "Fogo da paliçada",
+      "variante": "tupinamba",
+      "categoria": "natureza",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_95",
+      "exemplo_uso": "Tata taba pupé.",
+      "transliteracao": "ta-TA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ibirapema",
+      "traducao": "Tacape de madeira nobre",
+      "variante": "tupinamba",
+      "categoria": "armas",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_98",
+      "exemplo_uso": "Ibirapema katu.",
+      "transliteracao": "i-bi-ra-PE-ma",
+      "status": "completo"
+    },
+    {
+      "palavra": "Uba",
+      "traducao": "Arco de flechas",
+      "variante": "tupinamba",
+      "categoria": "armas",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_99",
+      "exemplo_uso": "Uba abá pó pupé.",
+      "transliteracao": "u-BA",
+      "status": "completo"
+    }
+  ]
+}

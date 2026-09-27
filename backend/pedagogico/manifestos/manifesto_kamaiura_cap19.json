@@ -1,0 +1,32 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 19,
+  "timestamp": "2026-09-25T23:02:56.133013+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Morená",
+      "traducao": "Sítio sagrado ancestral do Xingu",
+      "variante": "kamaiura",
+      "categoria": "toponimia",
+      "capitulo_introduzido": 19,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_8",
+      "exemplo_uso": "Morená y-confluência.",
+      "transliteracao": "mo-re-NA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kuluene",
+      "traducao": "Rio Kuluene (formador do Xingu)",
+      "variante": "kamaiura",
+      "categoria": "toponimia",
+      "capitulo_introduzido": 19,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_96",
+      "exemplo_uso": "Kuluene 'y guasu.",
+      "transliteracao": "ku-lu-E-ne",
+      "status": "completo"
+    }
+  ]
+}

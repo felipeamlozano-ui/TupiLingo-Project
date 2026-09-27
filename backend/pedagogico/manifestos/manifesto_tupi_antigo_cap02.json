@@ -1,0 +1,92 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 2,
+  "timestamp": "2026-09-25T23:02:47.621997+00:00",
+  "total_itens": 7,
+  "itens_ensinados": [
+    {
+      "palavra": "Oka",
+      "traducao": "Casa / Habitação",
+      "variante": "tupi_antigo",
+      "categoria": "habitacao",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_260",
+      "exemplo_uso": "Oka katu.",
+      "transliteracao": "O-ka",
+      "status": "completo"
+    },
+    {
+      "palavra": "Taba",
+      "traducao": "Aldeia cercada",
+      "variante": "tupi_antigo",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_260",
+      "exemplo_uso": "Taba guasu.",
+      "transliteracao": "TA-ba",
+      "status": "completo"
+    },
+    {
+      "palavra": "Abá",
+      "traducao": "Homem / Pessoa humana",
+      "variante": "tupi_antigo",
+      "categoria": "pessoas",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262",
+      "exemplo_uso": "Abá katu taba pupé.",
+      "transliteracao": "a-BA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kunhã",
+      "traducao": "Mulher",
+      "variante": "tupi_antigo",
+      "categoria": "pessoas",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262",
+      "exemplo_uso": "Kunhã katu.",
+      "transliteracao": "ku-NYA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tuba",
+      "traducao": "Pai",
+      "variante": "tupi_antigo",
+      "categoria": "parentesco",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_262",
+      "exemplo_uso": "Xé ruba katu.",
+      "transliteracao": "TU-ba",
+      "status": "completo"
+    },
+    {
+      "palavra": "Sy",
+      "traducao": "Mãe",
+      "variante": "tupi_antigo",
+      "categoria": "parentesco",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_263",
+      "exemplo_uso": "Xé sy oka pupé.",
+      "transliteracao": "SY",
+      "status": "completo"
+    },
+    {
+      "palavra": "Inĩ",
+      "traducao": "Rede de dormir",
+      "variante": "tupi_antigo",
+      "categoria": "utensilios",
+      "capitulo_introduzido": 2,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_265",
+      "exemplo_uso": "Inĩ katu.",
+      "transliteracao": "i-NIN",
+      "status": "completo"
+    }
+  ]
+}

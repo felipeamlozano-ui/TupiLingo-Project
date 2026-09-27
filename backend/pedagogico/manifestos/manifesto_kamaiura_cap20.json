@@ -1,0 +1,32 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 20,
+  "timestamp": "2026-09-25T23:02:56.764209+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Aldeia Ipavu",
+      "traducao": "Aldeia central dos Kamaiurá",
+      "variante": "kamaiura",
+      "categoria": "toponimia",
+      "capitulo_introduzido": 20,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_7",
+      "exemplo_uso": "Tawa Ipavu katu.",
+      "transliteracao": "al-dei-a i-pa-VU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kamaiurá Ze'eng",
+      "traducao": "A língua viva dos Kamaiurá",
+      "variante": "kamaiura",
+      "categoria": "lingua",
+      "capitulo_introduzido": 20,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_500",
+      "exemplo_uso": "Kamaiurá ze'eng katu.",
+      "transliteracao": "ka-mai-u-RA ze-ENG",
+      "status": "completo"
+    }
+  ]
+}

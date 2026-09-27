@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 18,
+  "variante": "tupi_contemporaneo",
+  "titulo": "Capítulo 18: As Narrativas de Origem e Heróis",
+  "descricao": "Domínio temático: Narrativa Origem. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "B1.1",
+  "dificuldade_relativa_0_100": 90,
+  "scenario": {
+    "nome": "A Fogueira Noturna dos Mitos",
+    "palette": {
+      "primary": "#0E1118",
+      "secondary": "#512E5F",
+      "accent": "#E67E22"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Marandu",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Marandu",
+            "traducao": "História / Memória antiga",
+            "transliteracao": "ma-ran-DU",
+            "classe_gramatical": "substantivo",
+            "categoria": "narrativa",
+            "exemplo_uso": "Marandu antigos suí.",
+            "exemplo_pt": "História dos antepassados.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_225"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Marandu' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Marandu'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "História / Memória antiga"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Marandu",
+          "explicacao": "'Marandu' significa 'História / Memória antiga' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Marandu"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Marandu": "História / Memória antiga"
+          },
+          "coluna_esquerda": [
+            "Marandu"
+          ],
+          "coluna_direita": [
+            "História / Memória antiga"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Marandu"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Marandu"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Mba'e-kuaa",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Mba'e-kuaa",
+            "traducao": "Sabedoria ancestral",
+            "transliteracao": "mba-e-kwa-A",
+            "classe_gramatical": "substantivo",
+            "categoria": "narrativa",
+            "exemplo_uso": "Mba'e-kuaa guasu.",
+            "exemplo_pt": "Grande conhecimento.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_226"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ guasu.'",
+          "texto_com_lacunas": "______ guasu.",
+          "respostas_lacunas": [
+            "Mba'e-kuaa"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Mba'e-kuaa' (Sabedoria ancestral).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Mba'e-kuaa"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Mba'e-kuaa'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Sabedoria ancestral"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Mba'e-kuaa",
+          "explicacao": "'Mba'e-kuaa' traduz-se fielmente como 'Sabedoria ancestral'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Mba'e-kuaa"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Mba'e-kuaa"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Marandu",
+            "traducao": "História / Memória antiga",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_225"
+          },
+          {
+            "palavra": "Mba'e-kuaa",
+            "traducao": "Sabedoria ancestral",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_226"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 18:",
+          "pares_corretos": {
+            "Marandu": "História / Memória antiga",
+            "Mba'e-kuaa": "Sabedoria ancestral"
+          },
+          "coluna_esquerda": [
+            "Marandu",
+            "Mba'e-kuaa"
+          ],
+          "coluna_direita": [
+            "História / Memória antiga",
+            "Sabedoria ancestral"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Marandu",
+            "Mba'e-kuaa"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Marandu' para o Português:",
+          "termo_fonte": "Marandu",
+          "traducao_esperada": "História / Memória antiga",
+          "explicacao": "'Marandu' significa 'História / Memória antiga'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Marandu"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Marandu",
+          "Mba'e-kuaa"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 18 de Tupi Contemporaneo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

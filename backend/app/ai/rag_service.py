@@ -75,12 +75,78 @@ def get_embedder():
     return _embedder_instance
 
 
-# Constantes
+# ── NOVO SISTEMA DE NIVELAMENTO ADAPTATIVO (TRI / IRT 3PL) ───────────────────
+# As antigas estruturas estáticas (_VARIANTE_NOME_MAP, _NIVEL_TEMAS, _NIVEL_CATEGORIA_MAP,
+# _NIVEL_RAG_CATEGORIAS, _LETRAS) foram formalmente substituídas pelo:
+#   1. Banco de itens calibrados com parâmetros IRT explícitos por variante (3PL: a, b, c)
+#   2. Motor adaptativo de seleção por Informação de Fisher e critério de parada SE < 0.30
+#   3. Tabela determinística de mapeamento θ -> Capítulo de Entrada na Trilha Única
+#
+# Para garantir compatibilidade com testes existentes e código legado em views.py,
+# mantemos interfaces canônicas e shims retrocompatíveis.
+
+try:
+    from pedagogico.nivelamento.irt_engine import IRTEngine
+except ImportError:
+    from backend.pedagogico.nivelamento.irt_engine import IRTEngine  # type: ignore
+
+_irt_engine_instance: IRTEngine | None = None
+
+
+def get_irt_engine() -> IRTEngine:
+    """Retorna a instância singleton do motor adaptativo TRI (Item Response Theory 3PL)."""
+    global _irt_engine_instance
+    if _irt_engine_instance is None:
+        _irt_engine_instance = IRTEngine()
+    return _irt_engine_instance
+
+
+def _canonical_variant(variant_code: str) -> str:
+    """Normaliza qualquer código de variante para as 4 variantes canônicas do TupiLingo."""
+    v = (variant_code or "tupi").lower().strip()
+    if v in ("tupi", "tupi_antigo", "tupi antigo"):
+        return "tupi_antigo"
+    if v in ("tupi_contemporaneo", "tupi contemporaneo", "tupi contemporâneo", "nheengatu"):
+        return "tupi_contemporaneo"
+    if v in ("kamaiura", "kamaiurá"):
+        return "kamaiura"
+    if v in ("tupinamba", "tupinambá"):
+        return "tupinamba"
+    return "tupi_antigo"
+
+
+# Metadados canônicos por variante
+VARIANTE_METADATA: dict[str, dict[str, Any]] = {
+    "tupi_antigo": {
+        "nome": "Tupi Antigo (língua dos Tupinambás, séc. XVI)",
+        "periodo": "Século XVI",
+        "familia": "Tupi-Guarani, Subfamília I",
+    },
+    "tupi_contemporaneo": {
+        "nome": "Tupi Contemporâneo (Nheengatu / Potiguara)",
+        "periodo": "Século XXI",
+        "familia": "Tupi-Guarani Moderna",
+    },
+    "kamaiura": {
+        "nome": "Kamaiurá (Alto Xingu)",
+        "periodo": "Tradição Viva",
+        "familia": "Tupi-Guarani, Subfamília VII",
+    },
+    "tupinamba": {
+        "nome": "Tupinambá Histórico (Costa & Cartas de 1645)",
+        "periodo": "Século XVI-XVII",
+        "familia": "Tupi-Guarani Clássica",
+    },
+}
+
+# Shims de compatibilidade backward (substituídos arquiteturalmente pelo IRT)
 _VARIANTE_NOME_MAP: dict[str, str] = {
-    "tupi":                "Tupi Antigo (língua dos Tupinambás, séc. XVI)",
-    "tupi_contemporaneo":  "Tupi Contemporâneo",
-    "tupinamba":           "Tupinambá",
-    "kamaiurá":            "Kamaiurá",
+    "tupi":               VARIANTE_METADATA["tupi_antigo"]["nome"],
+    "tupi_antigo":        VARIANTE_METADATA["tupi_antigo"]["nome"],
+    "tupi_contemporaneo": VARIANTE_METADATA["tupi_contemporaneo"]["nome"],
+    "tupinamba":          VARIANTE_METADATA["tupinamba"]["nome"],
+    "kamaiura":           VARIANTE_METADATA["kamaiura"]["nome"],
+    "kamaiurá":           VARIANTE_METADATA["kamaiura"]["nome"],
 }
 
 _NIVEL_TEMAS: dict[int, tuple[str, str]] = {
@@ -97,28 +163,15 @@ _NIVEL_TEMAS: dict[int, tuple[str, str]] = {
 }
 
 _NIVEL_CATEGORIA_MAP: dict[int, str] = {
-    1: "fauna",
-    2: "geral",
-    3: "natureza",
-    4: "mitologia",
-    5: "historia",
-    6: "geral",
-    7: "gramatica",
-    8: "gramatica",
-    9: "geral",
-    10: "geral",
+    1: "fauna", 2: "geral", 3: "natureza", 4: "mitologia", 5: "historia",
+    6: "geral", 7: "gramatica", 8: "gramatica", 9: "geral", 10: "geral",
 }
 
 _NIVEL_RAG_CATEGORIAS: dict[int, list[str]] = {
-    1:  ["Vocabulário"],
-    2:  ["Vocabulário"],
-    3:  ["Vocabulário"],
-    4:  ["Mitologia", "Vocabulário"],
-    5:  ["História", "Vocabulário"],
-    6:  ["História", "Vocabulário"],
-    7:  ["Gramática", "Vocabulário"],
-    8:  ["Gramática", "Vocabulário"],
-    9:  ["História", "Gramática"],
+    1:  ["Vocabulário"], 2: ["Vocabulário"], 3: ["Vocabulário"],
+    4:  ["Mitologia", "Vocabulário"], 5: ["História", "Vocabulário"],
+    6:  ["História", "Vocabulário"], 7: ["Gramática", "Vocabulário"],
+    8:  ["Gramática", "Vocabulário"], 9: ["História", "Gramática"],
     10: ["História", "Gramática", "Vocabulário"],
 }
 
@@ -398,16 +451,18 @@ def _trigger_async_pool_replenishment(
     Lock distribuído: SET repor_lock:{variante}:{nivel} 1 NX EX 30
     """
     r = get_redis_client()
-    if r:
-        lock_key = f"repor_lock:{variante_codigo}:{nivel_atual}"
-        # Lock de 30s evita disparar múltiplos workers simultâneos para o mesmo nível
-        acquired = bool(r.set(lock_key, "1", nx=True, ex=LOCK_TTL_SECONDS))
-        if not acquired:
-            logger.debug(
-                "[RAGService] Lock de reposição já ativo (%s). Job de reabastecimento ignorado para nivel %d.",
-                lock_key, nivel_atual,
-            )
-            return
+    if not r:
+        return
+
+    lock_key = f"repor_lock:{variante_codigo}:{nivel_atual}"
+    # Lock de 30s evita disparar múltiplos workers simultâneos para o mesmo nível
+    acquired = bool(r.set(lock_key, "1", nx=True, ex=LOCK_TTL_SECONDS))
+    if not acquired:
+        logger.debug(
+            "[RAGService] Lock de reposição já ativo (%s). Job de reabastecimento ignorado para nivel %d.",
+            lock_key, nivel_atual,
+        )
+        return
 
     # Tenta usar a fila Celery
     try:
@@ -471,7 +526,78 @@ def replenish_pool_for_variante(variante_codigo: str, nivel_atual: int, count: i
 # ── RAGSERVICE PRINCIPAL ─────────────────────────────────────────────────────
 
 class RAGService:
-    """Gera questões de nivelamento para a interface pública do Flutter."""
+    """
+    Gera questões de nivelamento para a interface pública do Flutter.
+    Suporta tanto o endpoint legado (10 questões fixas) quanto o novo
+    motor adaptativo TRI (Item Response Theory 3PL) com amostragem por
+    Informação de Fisher e critério de parada dinâmico (SE < 0.30).
+    """
+
+    @classmethod
+    def get_irt_engine(cls) -> IRTEngine:
+        """Retorna a instância do motor adaptativo TRI (IRT 3PL)."""
+        return get_irt_engine()
+
+    def generate_adaptive(
+        self,
+        current_theta: float,
+        variante_codigo: str = "tupi",
+        administered_ids: list[str] | None = None,
+        category_counts: dict[str, int] | None = None,
+    ) -> dict[str, Any] | None:
+        """
+        Seleciona adaptativamente o próximo item do banco calibrado 3PL que
+        maximiza a Informação de Fisher no theta atual para a variante especificada.
+        Garante amostragem de vocabulário, gramática e temas culturais.
+        """
+        engine = self.get_irt_engine()
+        var_clean = _canonical_variant(variante_codigo)
+        admin_set = set(administered_ids or [])
+        return engine.select_next_item(
+            current_theta=current_theta,
+            variant=var_clean,
+            administered_item_ids=admin_set,
+            category_counts=category_counts,
+        )
+
+    def evaluate_irt_ability(
+        self,
+        responses: list[dict[str, Any]],
+        prior_declaration: str = "iniciante",
+    ) -> dict[str, Any]:
+        """
+        Estima a habilidade latente (theta) por EAP (Expected A Posteriori),
+        calcula o Erro Padrão SE(theta), diagnostica consistência/chute e
+        determina o capítulo de entrada na trilha única.
+        """
+        engine = self.get_irt_engine()
+        theta_0, sd_0 = engine.initialize_theta_from_self_declaration(prior_declaration)
+        theta_est, se_est = engine.estimate_ability_eap(
+            responses=responses,
+            prior_mean=theta_0,
+            prior_sd=sd_0,
+        )
+        fit_check = engine.detect_inconsistency(responses)
+        entry_map = engine.map_theta_to_entry_chapter(theta_est)
+        stop_criteria = engine.check_stopping_criteria(
+            current_se=se_est,
+            num_items=len(responses),
+        )
+
+        return {
+            "theta_estimado": theta_est,
+            "erro_padrao": se_est,
+            "teste_finalizado": stop_criteria,
+            "capitulo_entrada": entry_map["entry_chapter"],
+            "nivel_descritivo": entry_map["nivel_descritivo"],
+            "subtitulo": entry_map["subtitulo"],
+            "fila_avancada": entry_map["is_advanced_queue"],
+            "diagnostico_consistencia": fit_check,
+        }
+
+    def map_theta_to_entry_chapter(self, theta: float) -> dict[str, Any]:
+        """Mapeia theta contínuo [-3.0, +3.0] para o capítulo de entrada na trilha única."""
+        return self.get_irt_engine().map_theta_to_entry_chapter(theta)
 
     def generate(
         self,

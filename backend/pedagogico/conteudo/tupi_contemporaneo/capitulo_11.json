@@ -1,0 +1,312 @@
+{
+  "capitulo_numero": 11,
+  "variante": "tupi_contemporaneo",
+  "titulo": "Capítulo 11: As Árvores Gigantes e a Floresta Viva",
+  "descricao": "Domínio temático: Botanica Floresta. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.1",
+  "dificuldade_relativa_0_100": 55,
+  "scenario": {
+    "nome": "A Floresta de Árvores Gigantes",
+    "palette": {
+      "primary": "#145A32",
+      "secondary": "#196F3D",
+      "accent": "#27AE60"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Ka'a",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ka'a",
+            "traducao": "Mata / Floresta",
+            "transliteracao": "ka-A",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Ka'a puranga.",
+            "exemplo_pt": "Mata verdejante.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_160"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Ka'a' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Ka'a'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Mata / Floresta"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Ka'a",
+          "explicacao": "'Ka'a' significa 'Mata / Floresta' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Ka'a": "Mata / Floresta"
+          },
+          "coluna_esquerda": [
+            "Ka'a"
+          ],
+          "coluna_direita": [
+            "Mata / Floresta"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ka'a"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Ybyrá",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ybyrá",
+            "traducao": "Árvore / Madeira",
+            "transliteracao": "y-by-RA",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Ybyrá guasu.",
+            "exemplo_pt": "Árvore grande.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_161"
+          },
+          {
+            "palavra": "Kapi'i",
+            "traducao": "Capim / Folhagem",
+            "transliteracao": "ka-pi-I",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Kapi'i oka ári.",
+            "exemplo_pt": "Palha sobre a oca.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_163"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ guasu.'",
+          "texto_com_lacunas": "______ guasu.",
+          "respostas_lacunas": [
+            "Ybyrá"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Ybyrá' (Árvore / Madeira).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ybyrá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Ybyrá'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Terra firme"
+            },
+            {
+              "letra": "D",
+              "texto": "Árvore / Madeira"
+            }
+          ],
+          "resposta_correta": "D",
+          "resposta_correta_termo": "Ybyrá",
+          "explicacao": "'Ybyrá' traduz-se fielmente como 'Árvore / Madeira'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ybyrá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ oka ári.'",
+          "texto_com_lacunas": "______ oka ári.",
+          "respostas_lacunas": [
+            "Kapi'i"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kapi'i' (Capim / Folhagem).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kapi'i"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kapi'i'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Capim / Folhagem"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Kapi'i",
+          "explicacao": "'Kapi'i' traduz-se fielmente como 'Capim / Folhagem'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kapi'i"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ybyrá",
+          "Kapi'i"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Ka'a",
+            "traducao": "Mata / Floresta",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_160"
+          },
+          {
+            "palavra": "Ybyrá",
+            "traducao": "Árvore / Madeira",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_161"
+          },
+          {
+            "palavra": "Kapi'i",
+            "traducao": "Capim / Folhagem",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_163"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 11:",
+          "pares_corretos": {
+            "Ka'a": "Mata / Floresta",
+            "Ybyrá": "Árvore / Madeira",
+            "Kapi'i": "Capim / Folhagem"
+          },
+          "coluna_esquerda": [
+            "Ka'a",
+            "Ybyrá",
+            "Kapi'i"
+          ],
+          "coluna_direita": [
+            "Mata / Floresta",
+            "Árvore / Madeira",
+            "Capim / Folhagem"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Ka'a",
+            "Ybyrá",
+            "Kapi'i"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Ka'a' para o Português:",
+          "termo_fonte": "Ka'a",
+          "traducao_esperada": "Mata / Floresta",
+          "explicacao": "'Ka'a' significa 'Mata / Floresta'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ka'a",
+          "Ybyrá",
+          "Kapi'i"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 11 de Tupi Contemporaneo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 8
+}

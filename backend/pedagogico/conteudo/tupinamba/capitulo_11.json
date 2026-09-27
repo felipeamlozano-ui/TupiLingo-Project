@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 11,
+  "variante": "tupinamba",
+  "titulo": "Capítulo 11: As Árvores Gigantes e a Floresta Viva",
+  "descricao": "Domínio temático: Botanica Floresta. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.1",
+  "dificuldade_relativa_0_100": 55,
+  "scenario": {
+    "nome": "A Floresta de Árvores Gigantes",
+    "palette": {
+      "primary": "#145A32",
+      "secondary": "#196F3D",
+      "accent": "#27AE60"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Ybyrapytanga",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ybyrapytanga",
+            "traducao": "Pau-brasil costeiro",
+            "transliteracao": "y-by-ra-py-TAN-ga",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Ybyrapytanga retama.",
+            "exemplo_pt": "A terra da madeira vermelha.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_150"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Ybyrapytanga' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Ybyrapytanga'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Pau-brasil costeiro"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Ybyrapytanga",
+          "explicacao": "'Ybyrapytanga' significa 'Pau-brasil costeiro' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ybyrapytanga"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Ybyrapytanga": "Pau-brasil costeiro"
+          },
+          "coluna_esquerda": [
+            "Ybyrapytanga"
+          ],
+          "coluna_direita": [
+            "Pau-brasil costeiro"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ybyrapytanga"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ybyrapytanga"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Ka'a",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ka'a",
+            "traducao": "Floresta tropical costeira",
+            "transliteracao": "ka-A",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Ka'a guasu.",
+            "exemplo_pt": "A densa mata atlântica.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_152"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ guasu.'",
+          "texto_com_lacunas": "______ guasu.",
+          "respostas_lacunas": [
+            "Ka'a"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Ka'a' (Floresta tropical costeira).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Ka'a'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Floresta tropical costeira"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Ka'a",
+          "explicacao": "'Ka'a' traduz-se fielmente como 'Floresta tropical costeira'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ka'a"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ka'a"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Ybyrapytanga",
+            "traducao": "Pau-brasil costeiro",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_150"
+          },
+          {
+            "palavra": "Ka'a",
+            "traducao": "Floresta tropical costeira",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_152"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 11:",
+          "pares_corretos": {
+            "Ybyrapytanga": "Pau-brasil costeiro",
+            "Ka'a": "Floresta tropical costeira"
+          },
+          "coluna_esquerda": [
+            "Ybyrapytanga",
+            "Ka'a"
+          ],
+          "coluna_direita": [
+            "Pau-brasil costeiro",
+            "Floresta tropical costeira"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Ybyrapytanga",
+            "Ka'a"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Ybyrapytanga' para o Português:",
+          "termo_fonte": "Ybyrapytanga",
+          "traducao_esperada": "Pau-brasil costeiro",
+          "explicacao": "'Ybyrapytanga' significa 'Pau-brasil costeiro'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ybyrapytanga"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ybyrapytanga",
+          "Ka'a"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 11 de Tupinamba."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

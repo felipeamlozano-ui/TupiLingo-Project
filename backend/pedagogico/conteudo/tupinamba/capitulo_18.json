@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 18,
+  "variante": "tupinamba",
+  "titulo": "Capítulo 18: As Narrativas de Origem e Heróis",
+  "descricao": "Domínio temático: Narrativa Origem. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "B1.1",
+  "dificuldade_relativa_0_100": 90,
+  "scenario": {
+    "nome": "A Fogueira Noturna dos Mitos",
+    "palette": {
+      "primary": "#0E1118",
+      "secondary": "#512E5F",
+      "accent": "#E67E22"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Ywy Marã'ey",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Ywy Marã'ey",
+            "traducao": "A Terra Sem Males",
+            "transliteracao": "y-wy ma-ran-EY",
+            "classe_gramatical": "proprio",
+            "categoria": "mitologia",
+            "exemplo_uso": "Ywy Marã'ey katy a-só.",
+            "exemplo_pt": "Caminho rumo à terra imortal.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5140"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Ywy Marã'ey' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Ywy Marã'ey'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "A Terra Sem Males"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Ywy Marã'ey",
+          "explicacao": "'Ywy Marã'ey' significa 'A Terra Sem Males' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ywy Marã'ey"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Ywy Marã'ey": "A Terra Sem Males"
+          },
+          "coluna_esquerda": [
+            "Ywy Marã'ey"
+          ],
+          "coluna_direita": [
+            "A Terra Sem Males"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ywy Marã'ey"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ywy Marã'ey"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Maíra",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Maíra",
+            "traducao": "O grande ancestral civilizador",
+            "transliteracao": "ma-I-ra",
+            "classe_gramatical": "proprio",
+            "categoria": "mitologia",
+            "exemplo_uso": "Maíra abá mbo'e.",
+            "exemplo_pt": "Maíra instruiu o povo.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5145"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ abá mbo'e.'",
+          "texto_com_lacunas": "______ abá mbo'e.",
+          "respostas_lacunas": [
+            "Maíra"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Maíra' (O grande ancestral civilizador).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Maíra"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Maíra'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "O grande ancestral civilizador"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Maíra",
+          "explicacao": "'Maíra' traduz-se fielmente como 'O grande ancestral civilizador'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Maíra"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Maíra"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Ywy Marã'ey",
+            "traducao": "A Terra Sem Males",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5140"
+          },
+          {
+            "palavra": "Maíra",
+            "traducao": "O grande ancestral civilizador",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5145"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 18:",
+          "pares_corretos": {
+            "Ywy Marã'ey": "A Terra Sem Males",
+            "Maíra": "O grande ancestral civilizador"
+          },
+          "coluna_esquerda": [
+            "Ywy Marã'ey",
+            "Maíra"
+          ],
+          "coluna_direita": [
+            "A Terra Sem Males",
+            "O grande ancestral civilizador"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Ywy Marã'ey",
+            "Maíra"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Ywy Marã'ey' para o Português:",
+          "termo_fonte": "Ywy Marã'ey",
+          "traducao_esperada": "A Terra Sem Males",
+          "explicacao": "'Ywy Marã'ey' significa 'A Terra Sem Males'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ywy Marã'ey"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Ywy Marã'ey",
+          "Maíra"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 18 de Tupinamba."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

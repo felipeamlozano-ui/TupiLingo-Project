@@ -1,0 +1,68 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 1,
+  "timestamp": "2026-09-25T23:02:47.476431+00:00",
+  "total_itens": 5,
+  "itens_ensinados": [
+    {
+      "palavra": "Ereîur",
+      "traducao": "Vieste / Chegaste",
+      "variante": "tupinamba",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_112",
+      "exemplo_uso": "Ereîur katu!",
+      "transliteracao": "e-re-i-UR",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ereîîubé",
+      "traducao": "Chegaste são e salvo?",
+      "variante": "tupinamba",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_112",
+      "exemplo_uso": "Ereîîubé, pa'ĩ?",
+      "transliteracao": "e-re-i-yu-BE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Pa'ĩ",
+      "traducao": "Senhor honrado",
+      "variante": "tupinamba",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_115",
+      "exemplo_uso": "Pa'ĩ katu.",
+      "transliteracao": "pa-IN",
+      "status": "completo"
+    },
+    {
+      "palavra": "Katu",
+      "traducao": "Nobre / Justo / Bom",
+      "variante": "tupinamba",
+      "categoria": "qualidade",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_116",
+      "exemplo_uso": "Abá katu.",
+      "transliteracao": "ka-TU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Oré",
+      "traducao": "Nós (os guerreiros)",
+      "variante": "tupinamba",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_120",
+      "exemplo_uso": "Oré Tupinambá.",
+      "transliteracao": "o-RE",
+      "status": "completo"
+    }
+  ]
+}

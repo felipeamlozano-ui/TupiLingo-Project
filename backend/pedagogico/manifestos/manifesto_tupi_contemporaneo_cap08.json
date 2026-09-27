@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 8,
+  "timestamp": "2026-09-25T23:02:50.497951+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Guyra",
+      "traducao": "Pássaro / Ave",
+      "variante": "tupi_contemporaneo",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_120",
+      "exemplo_uso": "Guyra o-wewé.",
+      "transliteracao": "guy-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tukan",
+      "traducao": "Tucano",
+      "variante": "tupi_contemporaneo",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_121",
+      "exemplo_uso": "Tukan ka'a pupé.",
+      "transliteracao": "tu-KAN",
+      "status": "completo"
+    },
+    {
+      "palavra": "Arara",
+      "traducao": "Arara",
+      "variante": "tupi_contemporaneo",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_122",
+      "exemplo_uso": "Arara puranga.",
+      "transliteracao": "a-RA-ra",
+      "status": "completo"
+    }
+  ]
+}

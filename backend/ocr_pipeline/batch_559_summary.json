@@ -1,0 +1,46 @@
+{
+  "total_processed": 16,
+  "total_time_seconds": 316.02,
+  "total_time_minutes": 5.27,
+  "mean_time_per_page": 19.75,
+  "min_time_per_page": 5.42,
+  "max_time_per_page": 41.26,
+  "mean_confidence_before": 57.42,
+  "mean_confidence_after": 49.98,
+  "mean_delta_confidence": -7.44,
+  "max_rss_mb": 257.7,
+  "min_avail_ram_mb": 1426.8,
+  "distribution_before": {
+    "< 50.0 (Crítico)": 8,
+    "70.0 - 84.9 (Moderado)": 1,
+    "50.0 - 69.9 (Baixo)": 4,
+    "85.0 - 93.9 (Bom)": 3
+  },
+  "distribution_after": {
+    "< 50.0 (Crítico)": 5,
+    "50.0 - 69.9 (Baixo)": 11
+  },
+  "resolution": {
+    "above_85": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "above_90": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "above_94": {
+      "count": 0,
+      "pct": 0.0
+    }
+  },
+  "engines_used_breakdown": {
+    "tesseract": 6,
+    "rapidocr+tesseract": 10
+  },
+  "sanity_status_breakdown": {
+    "sumario_pontilhado": 1,
+    "valido": 12,
+    "excesso_caracteres_nao_alfabeticos": 3
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "description": "Tabela de Mapeamento Contínuo Theta IRT (θ) para Capítulo de Entrada na Trilha Única",
+  "min_theta": -3.0,
+  "max_theta": 3.0,
+  "default_beginner_chapter": 1,
+  "advanced_threshold": 2.75,
+  "ranges": [
+    {"theta_min": -3.00, "theta_max": -2.00, "entry_chapter": 1, "nivel_descritivo": "Iniciante Absoluto", "subtitulo": "Chegada à Aldeia e Primeiros Cumprimentos"},
+    {"theta_min": -2.00, "theta_max": -1.75, "entry_chapter": 2, "nivel_descritivo": "Iniciante (A1.1)", "subtitulo": "A Casa Comunal e o Parentesco"},
+    {"theta_min": -1.75, "theta_max": -1.50, "entry_chapter": 3, "nivel_descritivo": "Iniciante (A1.1)", "subtitulo": "Animais da Mata e da Terra"},
+    {"theta_min": -1.50, "theta_max": -1.25, "entry_chapter": 4, "nivel_descritivo": "Iniciante (A1.2)", "subtitulo": "As Águas e a Navegação"},
+    {"theta_min": -1.25, "theta_max": -1.00, "entry_chapter": 5, "nivel_descritivo": "Iniciante (A1.2)", "subtitulo": "A Mandioca e a Terra"},
+    {"theta_min": -1.00, "theta_max": -0.75, "entry_chapter": 6, "nivel_descritivo": "Iniciante (A1.2)", "subtitulo": "O Sol, a Lua e os Astros"},
+    {"theta_min": -0.75, "theta_max": -0.50, "entry_chapter": 7, "nivel_descritivo": "Iniciante (A1.2)", "subtitulo": "O Fogo e os Utensílios"},
+    {"theta_min": -0.50, "theta_max": -0.25, "entry_chapter": 8, "nivel_descritivo": "Iniciante Superior (A2.1)", "subtitulo": "As Aves da Floresta"},
+    {"theta_min": -0.25, "theta_max": 0.00, "entry_chapter": 9, "nivel_descritivo": "Iniciante Superior (A2.1)", "subtitulo": "O Corpo e os Sentidos"},
+    {"theta_min": 0.00, "theta_max": 0.25, "entry_chapter": 10, "nivel_descritivo": "Iniciante Superior (A2.1)", "subtitulo": "A Aldeia e a Praça Central"},
+    {"theta_min": 0.25, "theta_max": 0.50, "entry_chapter": 11, "nivel_descritivo": "Iniciante Superior (A2.1)", "subtitulo": "As Árvores e a Mata Viva"},
+    {"theta_min": 0.50, "theta_max": 0.75, "entry_chapter": 12, "nivel_descritivo": "Iniciante Consolidado (A2.2)", "subtitulo": "Ações Cotidianas e Verbos"},
+    {"theta_min": 0.75, "theta_max": 1.00, "entry_chapter": 13, "nivel_descritivo": "Iniciante Consolidado (A2.2)", "subtitulo": "A Música e os Ritos"},
+    {"theta_min": 1.00, "theta_max": 1.25, "entry_chapter": 14, "nivel_descritivo": "Iniciante Consolidado (A2.2)", "subtitulo": "Tupã e os Espíritos da Natureza"},
+    {"theta_min": 1.25, "theta_max": 1.50, "entry_chapter": 15, "nivel_descritivo": "Iniciante Consolidado (A2.2)", "subtitulo": "O Pajé e a Medicina Tradicional"},
+    {"theta_min": 1.50, "theta_max": 1.75, "entry_chapter": 16, "nivel_descritivo": "Transição para Intermediário (B1.1)", "subtitulo": "A Trilha do Peabiru"},
+    {"theta_min": 1.75, "theta_max": 2.00, "entry_chapter": 17, "nivel_descritivo": "Transição para Intermediário (B1.1)", "subtitulo": "Alianças e Escambo Ancestral"},
+    {"theta_min": 2.00, "theta_max": 2.25, "entry_chapter": 18, "nivel_descritivo": "Transição para Intermediário (B1.1)", "subtitulo": "Mitos de Origem e Heróis"},
+    {"theta_min": 2.25, "theta_max": 2.50, "entry_chapter": 19, "nivel_descritivo": "Transição para Intermediário (B1.1)", "subtitulo": "Resistência e História Épica"},
+    {"theta_min": 2.50, "theta_max": 2.75, "entry_chapter": 20, "nivel_descritivo": "Conclusão do Nível Iniciante (B1.1)", "subtitulo": "A Memória Viva de Pindorama"},
+    {"theta_min": 2.75, "theta_max": 4.00, "entry_chapter": 21, "nivel_descritivo": "Intermediário Avançado (Fila Futura)", "subtitulo": "Entrada após o Capítulo 20 (Fila de Conteúdo Futuro)"}
+  ]
+}

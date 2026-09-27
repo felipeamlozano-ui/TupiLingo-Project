@@ -45,6 +45,12 @@ backend/db.sqlite3
 backend/db.sqlite3-journal
 backend/rag_vectors.sqlite3
 backend/rag_vectors.sqlite3-journal
+*.db
+*.db-journal
+backend/*.db
+backend/backups/
+backend/ocr_cache/
+backend/scratch/*.png
 local_settings.py
 *.log
 pip-log.txt

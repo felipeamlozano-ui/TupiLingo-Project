@@ -1,0 +1,80 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 1,
+  "timestamp": "2026-09-25T23:02:47.267466+00:00",
+  "total_itens": 6,
+  "itens_ensinados": [
+    {
+      "palavra": "Maram katu?",
+      "traducao": "Tudo bem? / Como vai?",
+      "variante": "kamaiura",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_95",
+      "exemplo_uso": "Maram katu, ineh?",
+      "transliteracao": "ma-RAM ka-TU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Katu",
+      "traducao": "Bom / Bem / Correto",
+      "variante": "kamaiura",
+      "categoria": "qualidade",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_95",
+      "exemplo_uso": "Iheh katu.",
+      "transliteracao": "ka-TU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ineh",
+      "traducao": "Você / Tu",
+      "variante": "kamaiura",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_98",
+      "exemplo_uso": "Ineh katu.",
+      "transliteracao": "i-NEH",
+      "status": "completo"
+    },
+    {
+      "palavra": "Iheh",
+      "traducao": "Eu",
+      "variante": "kamaiura",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_98",
+      "exemplo_uso": "Iheh Kamaiurá.",
+      "transliteracao": "i-HEH",
+      "status": "completo"
+    },
+    {
+      "palavra": "Jane",
+      "traducao": "Nós (inclusivo)",
+      "variante": "kamaiura",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_100",
+      "exemplo_uso": "Jane tawa pupé.",
+      "transliteracao": "ja-NE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ore",
+      "traducao": "Nós (exclusivo)",
+      "variante": "kamaiura",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_100",
+      "exemplo_uso": "Ore a-uri.",
+      "transliteracao": "o-RE",
+      "status": "completo"
+    }
+  ]
+}

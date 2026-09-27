@@ -1,0 +1,312 @@
+{
+  "capitulo_numero": 12,
+  "variante": "tupinamba",
+  "titulo": "Capítulo 12: Ações Cotidianas e Verbos do Dia",
+  "descricao": "Domínio temático: Verbos Cotidiano. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.2",
+  "dificuldade_relativa_0_100": 60,
+  "scenario": {
+    "nome": "O Amanhecer e o Trabalho Coletivo",
+    "palette": {
+      "primary": "#9A7D0A",
+      "secondary": "#B7950B",
+      "accent": "#F7DC6F"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: 'U",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "'U",
+            "traducao": "Comer / Alimentar",
+            "transliteracao": "U",
+            "classe_gramatical": "verbo",
+            "categoria": "verbos",
+            "exemplo_uso": "A-'u so'ó.",
+            "exemplo_pt": "Como carne de caça.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_160"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, ''U' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra ''U'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Comer / Alimentar"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "'U",
+          "explicacao": "''U' significa 'Comer / Alimentar' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "'U"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "'U": "Comer / Alimentar"
+          },
+          "coluna_esquerda": [
+            "'U"
+          ],
+          "coluna_direita": [
+            "Comer / Alimentar"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "'U"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "'U"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Só",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Só",
+            "traducao": "Ir à expedição",
+            "transliteracao": "SO",
+            "classe_gramatical": "verbo",
+            "categoria": "verbos",
+            "exemplo_uso": "A-só ygata pupé.",
+            "exemplo_pt": "Embarco na canoa.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_162"
+          },
+          {
+            "palavra": "Îur",
+            "traducao": "Retornar vitorioso",
+            "transliteracao": "yur",
+            "classe_gramatical": "verbo",
+            "categoria": "verbos",
+            "exemplo_uso": "A-îur taba katy.",
+            "exemplo_pt": "Retorno à aldeia.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_164"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: 'A-só ygata pupé.'",
+          "texto_com_lacunas": "A-só ygata pupé.",
+          "respostas_lacunas": [
+            "Só"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Só' (Ir à expedição).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Só"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Só'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Ir à expedição"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Só",
+          "explicacao": "'Só' traduz-se fielmente como 'Ir à expedição'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Só"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: 'A-îur taba katy.'",
+          "texto_com_lacunas": "A-îur taba katy.",
+          "respostas_lacunas": [
+            "Îur"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Îur' (Retornar vitorioso).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Îur"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Îur'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Retornar vitorioso"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Îur",
+          "explicacao": "'Îur' traduz-se fielmente como 'Retornar vitorioso'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Îur"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Só",
+          "Îur"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "'U",
+            "traducao": "Comer / Alimentar",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_160"
+          },
+          {
+            "palavra": "Só",
+            "traducao": "Ir à expedição",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_162"
+          },
+          {
+            "palavra": "Îur",
+            "traducao": "Retornar vitorioso",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_164"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 12:",
+          "pares_corretos": {
+            "'U": "Comer / Alimentar",
+            "Só": "Ir à expedição",
+            "Îur": "Retornar vitorioso"
+          },
+          "coluna_esquerda": [
+            "'U",
+            "Só",
+            "Îur"
+          ],
+          "coluna_direita": [
+            "Comer / Alimentar",
+            "Ir à expedição",
+            "Retornar vitorioso"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "'U",
+            "Só",
+            "Îur"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra ''U' para o Português:",
+          "termo_fonte": "'U",
+          "traducao_esperada": "Comer / Alimentar",
+          "explicacao": "''U' significa 'Comer / Alimentar'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "'U"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "'U",
+          "Só",
+          "Îur"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 12 de Tupinamba."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 8
+}

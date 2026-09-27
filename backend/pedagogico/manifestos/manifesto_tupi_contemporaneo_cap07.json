@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 7,
+  "timestamp": "2026-09-25T23:02:50.137640+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Tata",
+      "traducao": "Fogo",
+      "variante": "tupi_contemporaneo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_82",
+      "exemplo_uso": "Tata oka pupé.",
+      "transliteracao": "ta-TA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Itá",
+      "traducao": "Pedra / Ferramenta",
+      "variante": "tupi_contemporaneo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_84",
+      "exemplo_uso": "Itá katu.",
+      "transliteracao": "i-TA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kamuti",
+      "traducao": "Pote de cerâmica",
+      "variante": "tupi_contemporaneo",
+      "categoria": "utensilios",
+      "capitulo_introduzido": 7,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_85",
+      "exemplo_uso": "'Y kamuti pupé.",
+      "transliteracao": "ka-mu-TI",
+      "status": "completo"
+    }
+  ]
+}

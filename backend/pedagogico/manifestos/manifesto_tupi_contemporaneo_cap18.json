@@ -1,0 +1,32 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 18,
+  "timestamp": "2026-09-25T23:02:55.310844+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Marandu",
+      "traducao": "História / Memória antiga",
+      "variante": "tupi_contemporaneo",
+      "categoria": "narrativa",
+      "capitulo_introduzido": 18,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_225",
+      "exemplo_uso": "Marandu antigos suí.",
+      "transliteracao": "ma-ran-DU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Mba'e-kuaa",
+      "traducao": "Sabedoria ancestral",
+      "variante": "tupi_contemporaneo",
+      "categoria": "narrativa",
+      "capitulo_introduzido": 18,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_226",
+      "exemplo_uso": "Mba'e-kuaa guasu.",
+      "transliteracao": "mba-e-kwa-A",
+      "status": "completo"
+    }
+  ]
+}

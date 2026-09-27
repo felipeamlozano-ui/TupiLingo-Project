@@ -1,0 +1,368 @@
+{
+  "capitulo_numero": 5,
+  "variante": "tupi_antigo",
+  "titulo": "Capítulo 5: A Mandioca e os Alimentos da Terra",
+  "descricao": "Domínio temático: Flora Alimentacao. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.2",
+  "dificuldade_relativa_0_100": 25,
+  "scenario": {
+    "nome": "O Roçado Sagrado de Mandioca",
+    "palette": {
+      "primary": "#6E2C00",
+      "secondary": "#D35400",
+      "accent": "#E59866"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Mani'oka",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Mani'oka",
+            "traducao": "Mandioca",
+            "transliteracao": "ma-ni-O-ka",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Mani'oka katu.",
+            "exemplo_pt": "Boa mandioca.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
+          },
+          {
+            "palavra": "Mbyá",
+            "traducao": "Alimento / Comida",
+            "transliteracao": "mby-A",
+            "classe_gramatical": "substantivo",
+            "categoria": "alimentos",
+            "exemplo_uso": "Mbyá katu.",
+            "exemplo_pt": "Comida saborosa.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Mani'oka' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Mani'oka'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Mandioca"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Mani'oka",
+          "explicacao": "'Mani'oka' significa 'Mandioca' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Mani'oka"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Mbyá'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Alimento / Comida"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Mbyá",
+          "explicacao": "'Mbyá' significa 'Alimento / Comida' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Mbyá"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Mani'oka": "Mandioca",
+            "Mbyá": "Alimento / Comida"
+          },
+          "coluna_esquerda": [
+            "Mani'oka",
+            "Mbyá"
+          ],
+          "coluna_direita": [
+            "Mandioca",
+            "Alimento / Comida"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Mani'oka",
+            "Mbyá"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Mani'oka",
+          "Mbyá"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Kãuĩ",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Kãuĩ",
+            "traducao": "Cauim fermentado",
+            "transliteracao": "ka-u-IN",
+            "classe_gramatical": "substantivo",
+            "categoria": "alimentos",
+            "exemplo_uso": "Kãuĩ taba pupé.",
+            "exemplo_pt": "Cauim na aldeia.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_414"
+          },
+          {
+            "palavra": "Abati",
+            "traducao": "Milho",
+            "transliteracao": "a-ba-TI",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Abati taba pupé.",
+            "exemplo_pt": "Milho na aldeia.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_415"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ taba pupé.'",
+          "texto_com_lacunas": "______ taba pupé.",
+          "respostas_lacunas": [
+            "Kãuĩ"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kãuĩ' (Cauim fermentado).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kãuĩ"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Kãuĩ'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Cauim fermentado"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Kãuĩ",
+          "explicacao": "'Kãuĩ' traduz-se fielmente como 'Cauim fermentado'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kãuĩ"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ taba pupé.'",
+          "texto_com_lacunas": "______ taba pupé.",
+          "respostas_lacunas": [
+            "Abati"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Abati' (Milho).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Abati"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Abati'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Milho"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Abati",
+          "explicacao": "'Abati' traduz-se fielmente como 'Milho'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Abati"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Kãuĩ",
+          "Abati"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Mani'oka",
+            "traducao": "Mandioca",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
+          },
+          {
+            "palavra": "Mbyá",
+            "traducao": "Alimento / Comida",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
+          },
+          {
+            "palavra": "Kãuĩ",
+            "traducao": "Cauim fermentado",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_414"
+          },
+          {
+            "palavra": "Abati",
+            "traducao": "Milho",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_415"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 5:",
+          "pares_corretos": {
+            "Mani'oka": "Mandioca",
+            "Mbyá": "Alimento / Comida",
+            "Kãuĩ": "Cauim fermentado",
+            "Abati": "Milho"
+          },
+          "coluna_esquerda": [
+            "Mani'oka",
+            "Mbyá",
+            "Kãuĩ",
+            "Abati"
+          ],
+          "coluna_direita": [
+            "Mandioca",
+            "Alimento / Comida",
+            "Cauim fermentado",
+            "Milho"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Mani'oka",
+            "Mbyá",
+            "Kãuĩ",
+            "Abati"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Mani'oka' para o Português:",
+          "termo_fonte": "Mani'oka",
+          "traducao_esperada": "Mandioca",
+          "explicacao": "'Mani'oka' significa 'Mandioca'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Mani'oka"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Mani'oka",
+          "Mbyá",
+          "Kãuĩ",
+          "Abati"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 5 de Tupi Antigo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 9
+}

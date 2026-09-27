@@ -1,0 +1,312 @@
+{
+  "capitulo_numero": 8,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 8: As Aves e o Canto da Mata",
+  "descricao": "Domínio temático: Avifauna Penas. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.1",
+  "dificuldade_relativa_0_100": 40,
+  "scenario": {
+    "nome": "A Copa das Árvores e os Pássaros",
+    "palette": {
+      "primary": "#117A65",
+      "secondary": "#16A085",
+      "accent": "#A3E4D7"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Wywawura",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Wywawura",
+            "traducao": "Pássaro / Ave",
+            "transliteracao": "wy-wa-wu-RA",
+            "classe_gramatical": "substantivo",
+            "categoria": "avifauna",
+            "exemplo_uso": "Wywawura o-wewé.",
+            "exemplo_pt": "O pássaro alça voo.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_260"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Wywawura' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Wywawura'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Pássaro / Ave"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Wywawura",
+          "explicacao": "'Wywawura' significa 'Pássaro / Ave' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Wywawura"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Wywawura": "Pássaro / Ave"
+          },
+          "coluna_esquerda": [
+            "Wywawura"
+          ],
+          "coluna_direita": [
+            "Pássaro / Ave"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Wywawura"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Wywawura"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Tukan",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Tukan",
+            "traducao": "Tucano",
+            "transliteracao": "tu-KAN",
+            "classe_gramatical": "substantivo",
+            "categoria": "avifauna",
+            "exemplo_uso": "Tukan ka'a pupé.",
+            "exemplo_pt": "Tucano no topo da mata.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_261"
+          },
+          {
+            "palavra": "Kamani",
+            "traducao": "Arara vermelha",
+            "transliteracao": "ka-ma-NI",
+            "classe_gramatical": "substantivo",
+            "categoria": "avifauna",
+            "exemplo_uso": "Kamani katu.",
+            "exemplo_pt": "Bela arara.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_263"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ka'a pupé.'",
+          "texto_com_lacunas": "______ ka'a pupé.",
+          "respostas_lacunas": [
+            "Tukan"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Tukan' (Tucano).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Tukan"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Tukan'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Terra firme"
+            },
+            {
+              "letra": "D",
+              "texto": "Tucano"
+            }
+          ],
+          "resposta_correta": "D",
+          "resposta_correta_termo": "Tukan",
+          "explicacao": "'Tukan' traduz-se fielmente como 'Tucano'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Tukan"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Kamani"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kamani' (Arara vermelha).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kamani"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Kamani'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Arara vermelha"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Kamani",
+          "explicacao": "'Kamani' traduz-se fielmente como 'Arara vermelha'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kamani"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Tukan",
+          "Kamani"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Wywawura",
+            "traducao": "Pássaro / Ave",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_260"
+          },
+          {
+            "palavra": "Tukan",
+            "traducao": "Tucano",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_261"
+          },
+          {
+            "palavra": "Kamani",
+            "traducao": "Arara vermelha",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_263"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 8:",
+          "pares_corretos": {
+            "Wywawura": "Pássaro / Ave",
+            "Tukan": "Tucano",
+            "Kamani": "Arara vermelha"
+          },
+          "coluna_esquerda": [
+            "Wywawura",
+            "Tukan",
+            "Kamani"
+          ],
+          "coluna_direita": [
+            "Pássaro / Ave",
+            "Tucano",
+            "Arara vermelha"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Wywawura",
+            "Tukan",
+            "Kamani"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Wywawura' para o Português:",
+          "termo_fonte": "Wywawura",
+          "traducao_esperada": "Pássaro / Ave",
+          "explicacao": "'Wywawura' significa 'Pássaro / Ave'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Wywawura"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Wywawura",
+          "Tukan",
+          "Kamani"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 8 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 8
+}

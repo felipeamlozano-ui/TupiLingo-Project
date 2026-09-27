@@ -1,0 +1,67 @@
+{
+  "system": "Birdbrain Continuous Calibration",
+  "version": "3.0.0",
+  "checkpoints_interval_chapters": 4,
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP_01",
+      "after_chapter": 4,
+      "name": "Marco 1: Fundações da Comunidade e das Águas",
+      "revisiting_chapters": [1, 2, 3, 4],
+      "min_items": 6,
+      "max_items": 10,
+      "divergence_threshold_theta": 0.50,
+      "focus_domains": ["saudacoes", "habitacao", "fauna_terrestre", "hidrografia"],
+      "remediation_chapter": 4,
+      "allows_skip_review": true
+    },
+    {
+      "checkpoint_id": "CP_02",
+      "after_chapter": 8,
+      "name": "Marco 2: A Terra, os Astros e a Avifauna",
+      "revisiting_chapters": [1, 2, 3, 4, 5, 6, 7, 8],
+      "min_items": 8,
+      "max_items": 12,
+      "divergence_threshold_theta": 0.50,
+      "focus_domains": ["flora_alimentos", "cosmologia", "cultura_material", "avifauna"],
+      "remediation_chapter": 8,
+      "allows_skip_review": true
+    },
+    {
+      "checkpoint_id": "CP_03",
+      "after_chapter": 12,
+      "name": "Marco 3: A Vida Social, a Floresta e as Ações",
+      "revisiting_chapters": [5, 6, 7, 8, 9, 10, 11, 12],
+      "min_items": 8,
+      "max_items": 12,
+      "divergence_threshold_theta": 0.45,
+      "focus_domains": ["corpo_humano", "lideranca", "botanica", "verbos_cotidiano"],
+      "remediation_chapter": 12,
+      "allows_skip_review": true
+    },
+    {
+      "checkpoint_id": "CP_04",
+      "after_chapter": 16,
+      "name": "Marco 4: Tradição Sagrada, Ritos e Caminhos Ancestrais",
+      "revisiting_chapters": [9, 10, 11, 12, 13, 14, 15, 16],
+      "min_items": 10,
+      "max_items": 15,
+      "divergence_threshold_theta": 0.40,
+      "focus_domains": ["musica_ritos", "espiritualidade", "cura_paje", "peabiru_caminhos"],
+      "remediation_chapter": 16,
+      "allows_skip_review": true
+    },
+    {
+      "checkpoint_id": "CP_05",
+      "after_chapter": 20,
+      "name": "Marco Final: Consolidação Completa do Nível Iniciante",
+      "revisiting_chapters": [1, 4, 8, 12, 16, 17, 18, 19, 20],
+      "min_items": 12,
+      "max_items": 20,
+      "divergence_threshold_theta": 0.35,
+      "focus_domains": ["escambo", "mitologia_origem", "resistencia_historica", "memoria_pindorama"],
+      "remediation_chapter": 20,
+      "allows_skip_review": false
+    }
+  ]
+}

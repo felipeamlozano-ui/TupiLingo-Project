@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 20,
+  "variante": "tupi_antigo",
+  "titulo": "Capítulo 20: A Memória Eterna de Pindorama",
+  "descricao": "Domínio temático: Patrimonio Identidade. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "B1.1",
+  "dificuldade_relativa_0_100": 100,
+  "scenario": {
+    "nome": "O Grande Encontro da Memória Viva",
+    "palette": {
+      "primary": "#0B5345",
+      "secondary": "#148F77",
+      "accent": "#F4D03F"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Pindorama",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Pindorama",
+            "traducao": "Terra das Palmeiras",
+            "transliteracao": "pin-do-RA-ma",
+            "classe_gramatical": "proprio",
+            "categoria": "toponimia",
+            "exemplo_uso": "Pindorama yande retama.",
+            "exemplo_pt": "Pindorama é nossa terra sagrada.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Pindorama' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Pindorama'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Terra das Palmeiras"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Pindorama",
+          "explicacao": "'Pindorama' significa 'Terra das Palmeiras' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pindorama"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Pindorama": "Terra das Palmeiras"
+          },
+          "coluna_esquerda": [
+            "Pindorama"
+          ],
+          "coluna_direita": [
+            "Terra das Palmeiras"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pindorama"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pindorama"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Nhe'engatu",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Nhe'engatu",
+            "traducao": "A língua clássica pura",
+            "transliteracao": "nhe-en-ga-TU",
+            "classe_gramatical": "substantivo",
+            "categoria": "lingua",
+            "exemplo_uso": "Nhe'engatu katu.",
+            "exemplo_pt": "A língua correta e nobre.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_600"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Nhe'engatu"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Nhe'engatu' (A língua clássica pura).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Nhe'engatu"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Nhe'engatu'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "A língua clássica pura"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Nhe'engatu",
+          "explicacao": "'Nhe'engatu' traduz-se fielmente como 'A língua clássica pura'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Nhe'engatu"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Nhe'engatu"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Pindorama",
+            "traducao": "Terra das Palmeiras",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386"
+          },
+          {
+            "palavra": "Nhe'engatu",
+            "traducao": "A língua clássica pura",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_600"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 20:",
+          "pares_corretos": {
+            "Pindorama": "Terra das Palmeiras",
+            "Nhe'engatu": "A língua clássica pura"
+          },
+          "coluna_esquerda": [
+            "Pindorama",
+            "Nhe'engatu"
+          ],
+          "coluna_direita": [
+            "Terra das Palmeiras",
+            "A língua clássica pura"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Pindorama",
+            "Nhe'engatu"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Pindorama' para o Português:",
+          "termo_fonte": "Pindorama",
+          "traducao_esperada": "Terra das Palmeiras",
+          "explicacao": "'Pindorama' significa 'Terra das Palmeiras'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pindorama"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pindorama",
+          "Nhe'engatu"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 20 de Tupi Antigo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

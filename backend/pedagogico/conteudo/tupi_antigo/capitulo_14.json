@@ -1,0 +1,312 @@
+{
+  "capitulo_numero": 14,
+  "variante": "tupi_antigo",
+  "titulo": "Capítulo 14: As Entidades Protetoras e o Trovão",
+  "descricao": "Domínio temático: Espiritualidade Mitos. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.2",
+  "dificuldade_relativa_0_100": 70,
+  "scenario": {
+    "nome": "O Espaço Sagrado do Trovão",
+    "palette": {
+      "primary": "#1B2631",
+      "secondary": "#283747",
+      "accent": "#85929E"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Tupã",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Tupã",
+            "traducao": "O Trovão Cósmico",
+            "transliteracao": "tu-PAN",
+            "classe_gramatical": "substantivo",
+            "categoria": "espiritualidade",
+            "exemplo_uso": "Tupã ybak pupé.",
+            "exemplo_pt": "Tupã troveja no céu.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5120"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Tupã' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Tupã'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "O Trovão Cósmico"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Tupã",
+          "explicacao": "'Tupã' significa 'O Trovão Cósmico' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Tupã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Tupã": "O Trovão Cósmico"
+          },
+          "coluna_esquerda": [
+            "Tupã"
+          ],
+          "coluna_direita": [
+            "O Trovão Cósmico"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Tupã"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Tupã"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Kurupira",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Kurupira",
+            "traducao": "Guardião com pés para trás",
+            "transliteracao": "ku-ru-PI-ra",
+            "classe_gramatical": "substantivo",
+            "categoria": "espiritualidade",
+            "exemplo_uso": "Kurupira ka'a guardião.",
+            "exemplo_pt": "Curupira protege a mata.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2840"
+          },
+          {
+            "palavra": "Anhangá",
+            "traducao": "Espírito da selva",
+            "transliteracao": "an-han-GA",
+            "classe_gramatical": "substantivo",
+            "categoria": "espiritualidade",
+            "exemplo_uso": "Anhangá ka'a pupé.",
+            "exemplo_pt": "Anhangá protege as crias.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2848"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ka'a guardião.'",
+          "texto_com_lacunas": "______ ka'a guardião.",
+          "respostas_lacunas": [
+            "Kurupira"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kurupira' (Guardião com pés para trás).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kurupira"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Kurupira'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Guardião com pés para trás"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kurupira",
+          "explicacao": "'Kurupira' traduz-se fielmente como 'Guardião com pés para trás'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kurupira"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ka'a pupé.'",
+          "texto_com_lacunas": "______ ka'a pupé.",
+          "respostas_lacunas": [
+            "Anhangá"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Anhangá' (Espírito da selva).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Anhangá"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Anhangá'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Espírito da selva"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Anhangá",
+          "explicacao": "'Anhangá' traduz-se fielmente como 'Espírito da selva'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Anhangá"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Kurupira",
+          "Anhangá"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Tupã",
+            "traducao": "O Trovão Cósmico",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5120"
+          },
+          {
+            "palavra": "Kurupira",
+            "traducao": "Guardião com pés para trás",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2840"
+          },
+          {
+            "palavra": "Anhangá",
+            "traducao": "Espírito da selva",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2848"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 14:",
+          "pares_corretos": {
+            "Tupã": "O Trovão Cósmico",
+            "Kurupira": "Guardião com pés para trás",
+            "Anhangá": "Espírito da selva"
+          },
+          "coluna_esquerda": [
+            "Tupã",
+            "Kurupira",
+            "Anhangá"
+          ],
+          "coluna_direita": [
+            "O Trovão Cósmico",
+            "Guardião com pés para trás",
+            "Espírito da selva"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Tupã",
+            "Kurupira",
+            "Anhangá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Tupã' para o Português:",
+          "termo_fonte": "Tupã",
+          "traducao_esperada": "O Trovão Cósmico",
+          "explicacao": "'Tupã' significa 'O Trovão Cósmico'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Tupã"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Tupã",
+          "Kurupira",
+          "Anhangá"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 14 de Tupi Antigo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 8
+}

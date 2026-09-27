@@ -1,0 +1,431 @@
+{
+  "capitulo_numero": 2,
+  "variante": "tupinamba",
+  "titulo": "Capítulo 2: A Casa Comunal e a Família",
+  "descricao": "Domínio temático: Casa Parentesco. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.1",
+  "dificuldade_relativa_0_100": 10,
+  "scenario": {
+    "nome": "A Grande Aldeia e as Malocas",
+    "palette": {
+      "primary": "#784212",
+      "secondary": "#BA4A00",
+      "accent": "#F39C12"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Oka",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Oka",
+            "traducao": "Maloca comunal",
+            "transliteracao": "O-ka",
+            "classe_gramatical": "substantivo",
+            "categoria": "habitacao",
+            "exemplo_uso": "Oka guasu.",
+            "exemplo_pt": "Grande maloca.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_130"
+          },
+          {
+            "palavra": "Taba",
+            "traducao": "Aldeia cercada de paliçada",
+            "transliteracao": "TA-ba",
+            "classe_gramatical": "substantivo",
+            "categoria": "comunidade",
+            "exemplo_uso": "Taba Tupinambá.",
+            "exemplo_pt": "Aldeia Tupinambá.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_130"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Oka' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Oka'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Maloca comunal"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Oka",
+          "explicacao": "'Oka' significa 'Maloca comunal' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Oka"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Taba'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Aldeia cercada de paliçada"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Taba",
+          "explicacao": "'Taba' significa 'Aldeia cercada de paliçada' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Taba"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Oka": "Maloca comunal",
+            "Taba": "Aldeia cercada de paliçada"
+          },
+          "coluna_esquerda": [
+            "Oka",
+            "Taba"
+          ],
+          "coluna_direita": [
+            "Maloca comunal",
+            "Aldeia cercada de paliçada"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Oka",
+            "Taba"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Oka",
+          "Taba"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Abá",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Abá",
+            "traducao": "Guerreiro / Homem livre",
+            "transliteracao": "a-BA",
+            "classe_gramatical": "substantivo",
+            "categoria": "pessoas",
+            "exemplo_uso": "Abá katu.",
+            "exemplo_pt": "Homem valoroso.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_132"
+          },
+          {
+            "palavra": "Kunhã",
+            "traducao": "Mulher",
+            "transliteracao": "ku-NYA",
+            "classe_gramatical": "substantivo",
+            "categoria": "pessoas",
+            "exemplo_uso": "Kunhã oka pupé.",
+            "exemplo_pt": "Mulher na maloca.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_132"
+          },
+          {
+            "palavra": "Tuba",
+            "traducao": "Pai ancestral",
+            "transliteracao": "TU-ba",
+            "classe_gramatical": "substantivo",
+            "categoria": "parentesco",
+            "exemplo_uso": "Tuba katu.",
+            "exemplo_pt": "Pai honorável.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_135"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Abá"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Abá' (Guerreiro / Homem livre).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Abá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Abá'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Guerreiro / Homem livre"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Abá",
+          "explicacao": "'Abá' traduz-se fielmente como 'Guerreiro / Homem livre'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Abá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ oka pupé.'",
+          "texto_com_lacunas": "______ oka pupé.",
+          "respostas_lacunas": [
+            "Kunhã"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kunhã' (Mulher).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kunhã"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Kunhã'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Mulher"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kunhã",
+          "explicacao": "'Kunhã' traduz-se fielmente como 'Mulher'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kunhã"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Tuba"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Tuba' (Pai ancestral).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Tuba"
+          ]
+        },
+        {
+          "ordem": 6,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Tuba'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Pai ancestral"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Tuba",
+          "explicacao": "'Tuba' traduz-se fielmente como 'Pai ancestral'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Tuba"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Abá",
+          "Kunhã",
+          "Tuba"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Oka",
+            "traducao": "Maloca comunal",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_130"
+          },
+          {
+            "palavra": "Taba",
+            "traducao": "Aldeia cercada de paliçada",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_130"
+          },
+          {
+            "palavra": "Abá",
+            "traducao": "Guerreiro / Homem livre",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_132"
+          },
+          {
+            "palavra": "Kunhã",
+            "traducao": "Mulher",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_132"
+          },
+          {
+            "palavra": "Tuba",
+            "traducao": "Pai ancestral",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_135"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 2:",
+          "pares_corretos": {
+            "Oka": "Maloca comunal",
+            "Taba": "Aldeia cercada de paliçada",
+            "Abá": "Guerreiro / Homem livre",
+            "Kunhã": "Mulher"
+          },
+          "coluna_esquerda": [
+            "Oka",
+            "Taba",
+            "Abá",
+            "Kunhã"
+          ],
+          "coluna_direita": [
+            "Maloca comunal",
+            "Aldeia cercada de paliçada",
+            "Guerreiro / Homem livre",
+            "Mulher"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Oka",
+            "Taba",
+            "Abá",
+            "Kunhã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Oka' para o Português:",
+          "termo_fonte": "Oka",
+          "traducao_esperada": "Maloca comunal",
+          "explicacao": "'Oka' significa 'Maloca comunal'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Oka"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Oka",
+          "Taba",
+          "Abá",
+          "Kunhã",
+          "Tuba"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 2 de Tupinamba."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 11
+}

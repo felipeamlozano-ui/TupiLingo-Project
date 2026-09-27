@@ -1,0 +1,119 @@
+{
+  "audit_metadata": {
+    "title": "TupiLingo RAG Gaps and Coverage Audit",
+    "version": "3.0.0",
+    "date": "2026-09-25",
+    "total_documents_indexed": 25016,
+    "vector_store_path": "backend/vector_store.db"
+  },
+  "variant_corpus_summary": {
+    "tupi_antigo": {
+      "display_name": "Tupi Antigo (língua dos Tupinambás, séc. XVI)",
+      "total_chunks": 8245,
+      "coverage_percentage_chapters_1_20": 96.0,
+      "primary_sources": [
+        "Barbosa_1956_CursoDeTupiAntigo_BDCN_CNic.pdf",
+        "Fernandes_1924_GrammaticaTupy.pdf",
+        "Dicionário Tupi.pdf",
+        "Cascudo_1988_DicionarioDoFolcloreBrasileiro_OCR.pdf",
+        "Masucci_1979_DicionarioTupiPortugues.pdf"
+      ]
+    },
+    "tupi_contemporaneo": {
+      "display_name": "Tupi Contemporâneo (Potiguara / Nheengatu)",
+      "total_chunks": 2078,
+      "coverage_percentage_chapters_1_20": 82.0,
+      "primary_sources": [
+        "tupi-potiguara-kuapa-2023_compress.pdf",
+        "Dietrich_2025_GramaticaDaLinguaGeralDoBrazil.pdf",
+        "Freire&Rosa_2003_LinguasGerais_PoliticaLingECatequese.pdf",
+        "CURSO DE LÍNGUA GERAL (NHEENGATU).pdf"
+      ]
+    },
+    "kamaiura": {
+      "display_name": "Kamaiurá (Alto Xingu)",
+      "total_chunks": 1504,
+      "coverage_percentage_chapters_1_20": 68.0,
+      "primary_sources": [
+        "sek00kamaiura.pdf",
+        "seki_1976_kamaiura.pdf",
+        "LenitionandnasalizationinKamaiura-anOTperspective.pdf"
+      ]
+    },
+    "tupinamba": {
+      "display_name": "Tupinambá (Histórico / Cartas de 1645)",
+      "total_chunks": 621,
+      "coverage_percentage_chapters_1_20": 54.0,
+      "primary_sources": [
+        "Rodrigues_1958_Phonologie_der_Tupinamba.pdf",
+        "Rodrigues_2011_AnaliseMorfologicaDeUmTextoTupi.pdf",
+        "Transcrição e Tradução Carta 1645.pdf"
+      ]
+    }
+  },
+  "declared_gaps": [
+    {
+      "gap_id": "GAP-KAM-001",
+      "variant": "kamaiura",
+      "domain": "saudacoes_cortesia",
+      "description": "Fórmulas de cortesia ocidentais (por favor, com licença, decalques de catequese) ausentes no Kamaiurá.",
+      "orchestrator_action": "BLOCK_HALLUCINATION",
+      "allowed_substitutes": ["Maram katu?", "Ereiko-pe?", "Katu"],
+      "pedagogical_status": "incompleta_aguardando_rag_se_requisitado_ocidental"
+    },
+    {
+      "gap_id": "GAP-KAM-002",
+      "variant": "kamaiura",
+      "domain": "toponimia_nautica_costeira",
+      "description": "Terminologia de navegação oceânica e toponímia litorânea inexiste no Alto Xingu.",
+      "orchestrator_action": "BLOCK_HALLUCINATION",
+      "allowed_substitutes": ["Ypawu", "Y'y", "Morená", "Aldeia Ipavu"],
+      "pedagogical_status": "restringir_estritamente_ao_alto_xingu"
+    },
+    {
+      "gap_id": "GAP-KAM-003",
+      "variant": "kamaiura",
+      "domain": "passado_remoto_perifrastico",
+      "description": "Paradigmas verbais de tempo pretérito remoto não catalogados em Seki (2000).",
+      "orchestrator_action": "BLOCK_HALLUCINATION",
+      "allowed_substitutes": ["Presente simples", "Pretérito perfeito simples"],
+      "pedagogical_status": "incompleta_aguardando_rag"
+    },
+    {
+      "gap_id": "GAP-TUP-001",
+      "variant": "tupinamba",
+      "domain": "futuro_composto",
+      "description": "Ausência de formas compostas de futuro nas Cartas de 1645 de Paraupaba.",
+      "orchestrator_action": "BLOCK_HALLUCINATION",
+      "allowed_substitutes": ["Modo indicativo afirmativo e negativo direto"],
+      "pedagogical_status": "incompleta_aguardando_rag"
+    },
+    {
+      "gap_id": "GAP-TUP-002",
+      "variant": "tupinamba",
+      "domain": "mitologia_pos_colonial",
+      "description": "Figuras do folclore sincrético dos séculos XVIII e XIX inexistem nas fontes Tupinambás do século XVI.",
+      "orchestrator_action": "BLOCK_HALLUCINATION",
+      "allowed_substitutes": ["Tupã", "Maíra", "Anhangá", "Karaíba"],
+      "pedagogical_status": "manter_mitologia_quinhentista_estrita"
+    },
+    {
+      "gap_id": "GAP-CON-001",
+      "variant": "tupi_contemporaneo",
+      "domain": "militarismo_colonial",
+      "description": "Vocabulário de conflito seiscentista ausente na matriz contemporânea viva do Tupi Potiguara.",
+      "orchestrator_action": "BLOCK_HALLUCINATION",
+      "allowed_substitutes": ["Defesa territorial", "Identidade e preservação linguística"],
+      "pedagogical_status": "focar_na_resistencia_cultural_e_ambiental"
+    },
+    {
+      "gap_id": "GAP-ANT-001",
+      "variant": "tupi_antigo",
+      "domain": "neologismos_tecnologicos",
+      "description": "Inexistência de termos modernos tecnológicos na matriz clássica.",
+      "orchestrator_action": "BLOCK_HALLUCINATION",
+      "allowed_substitutes": ["Vocabulário clássico documentado de Lemos Barbosa e Cartas"],
+      "pedagogical_status": "rejeitar_neologismos_artificiais"
+    }
+  ]
+}

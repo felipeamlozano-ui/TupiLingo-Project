@@ -1,0 +1,32 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 13,
+  "timestamp": "2026-09-25T23:02:52.618749+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Maraká",
+      "traducao": "Chocalho cerimonial sagrado",
+      "variante": "tupi_antigo",
+      "categoria": "musica",
+      "capitulo_introduzido": 13,
+      "licao_introduzida": 1,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_1402",
+      "exemplo_uso": "Maraká o-nhe'eng.",
+      "transliteracao": "ma-ra-KA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Toré",
+      "traducao": "Dança e cântico ritual",
+      "variante": "tupi_antigo",
+      "categoria": "musica",
+      "capitulo_introduzido": 13,
+      "licao_introduzida": 2,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_1405",
+      "exemplo_uso": "Toré okar pupé.",
+      "transliteracao": "to-RE",
+      "status": "completo"
+    }
+  ]
+}

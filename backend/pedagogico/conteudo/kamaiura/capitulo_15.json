@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 15,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 15: O Pajé e a Medicina da Terra",
+  "descricao": "Domínio temático: Cura Xamanismo. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.2",
+  "dificuldade_relativa_0_100": 75,
+  "scenario": {
+    "nome": "A Tenda de Cura do Pajé",
+    "palette": {
+      "primary": "#4D5656",
+      "secondary": "#5F6A6A",
+      "accent": "#73C6B6"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Paye",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Paye",
+            "traducao": "Xamã curador Kamaiurá",
+            "transliteracao": "pa-YE",
+            "classe_gramatical": "substantivo",
+            "categoria": "espiritualidade",
+            "exemplo_uso": "Paye o-pohano.",
+            "exemplo_pt": "O pajé sopra a cura.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_420"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Paye' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Paye'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Xamã curador Kamaiurá"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Paye",
+          "explicacao": "'Paye' significa 'Xamã curador Kamaiurá' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Paye"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Paye": "Xamã curador Kamaiurá"
+          },
+          "coluna_esquerda": [
+            "Paye"
+          ],
+          "coluna_direita": [
+            "Xamã curador Kamaiurá"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Paye"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Paye"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Pohã",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Pohã",
+            "traducao": "Planta medicinal do Xingu",
+            "transliteracao": "po-HAN",
+            "classe_gramatical": "substantivo",
+            "categoria": "cura",
+            "exemplo_uso": "Pohã katu.",
+            "exemplo_pt": "Planta de cura forte.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_422"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Pohã"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Pohã' (Planta medicinal do Xingu).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pohã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Pohã'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Planta medicinal do Xingu"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Pohã",
+          "explicacao": "'Pohã' traduz-se fielmente como 'Planta medicinal do Xingu'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pohã"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pohã"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Paye",
+            "traducao": "Xamã curador Kamaiurá",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_420"
+          },
+          {
+            "palavra": "Pohã",
+            "traducao": "Planta medicinal do Xingu",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_422"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 15:",
+          "pares_corretos": {
+            "Paye": "Xamã curador Kamaiurá",
+            "Pohã": "Planta medicinal do Xingu"
+          },
+          "coluna_esquerda": [
+            "Paye",
+            "Pohã"
+          ],
+          "coluna_direita": [
+            "Xamã curador Kamaiurá",
+            "Planta medicinal do Xingu"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Paye",
+            "Pohã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Paye' para o Português:",
+          "termo_fonte": "Paye",
+          "traducao_esperada": "Xamã curador Kamaiurá",
+          "explicacao": "'Paye' significa 'Xamã curador Kamaiurá'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Paye"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Paye",
+          "Pohã"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 15 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

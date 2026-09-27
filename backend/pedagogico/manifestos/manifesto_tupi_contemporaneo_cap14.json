@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 14,
+  "timestamp": "2026-09-25T23:02:53.214224+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Tupã",
+      "traducao": "O Trovão / Entidade Cósmica",
+      "variante": "tupi_contemporaneo",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 1,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5120",
+      "exemplo_uso": "Tupã o-sunu céu pupé.",
+      "transliteracao": "tu-PAN",
+      "status": "completo"
+    },
+    {
+      "palavra": "Curupira",
+      "traducao": "Guardião da floresta",
+      "variante": "tupi_contemporaneo",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 2,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2840",
+      "exemplo_uso": "Curupira ka'a guardião.",
+      "transliteracao": "ku-ru-PI-ra",
+      "status": "completo"
+    },
+    {
+      "palavra": "Iara",
+      "traducao": "Senhora das águas fluviais",
+      "variante": "tupi_contemporaneo",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 2,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2845",
+      "exemplo_uso": "Iara paraná pupé.",
+      "transliteracao": "i-A-ra",
+      "status": "completo"
+    }
+  ]
+}

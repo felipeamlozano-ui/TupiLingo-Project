@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 18,
+  "timestamp": "2026-09-25T23:02:55.706215+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Ywy Marã'ey",
+      "traducao": "A Terra Sem Males",
+      "variante": "tupinamba",
+      "categoria": "mitologia",
+      "capitulo_introduzido": 18,
+      "licao_introduzida": 1,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5140",
+      "exemplo_uso": "Ywy Marã'ey katy a-só.",
+      "transliteracao": "y-wy ma-ran-EY",
+      "status": "completo"
+    },
+    {
+      "palavra": "Maíra",
+      "traducao": "O grande ancestral civilizador",
+      "variante": "tupinamba",
+      "categoria": "mitologia",
+      "capitulo_introduzido": 18,
+      "licao_introduzida": 2,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5145",
+      "exemplo_uso": "Maíra abá mbo'e.",
+      "transliteracao": "ma-I-ra",
+      "status": "completo"
+    }
+  ]
+}

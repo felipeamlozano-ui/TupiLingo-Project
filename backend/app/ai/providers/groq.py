@@ -9,7 +9,9 @@ from app.core.config import settings
 from app.ai.providers.base import BaseProvider
 from app.ai.exceptions import (
     RateLimitError, TimeoutError, AuthenticationError,
-    ServiceUnavailableError, NetworkError, StructuredOutputError
+    ServiceUnavailableError, NetworkError, StructuredOutputError, AIProviderError,
+    FatalModelError, TransientModelError, ModelNotFoundError, QuotaExhaustedError,
+    ContextWindowExceededError
 )
 
 class GroqProvider(BaseProvider):
@@ -28,21 +30,49 @@ class GroqProvider(BaseProvider):
         )
 
     def _map_exception(self, e: Exception) -> Exception:
-        from app.ai.exceptions import AIProviderError
-        if isinstance(e, openai.RateLimitError):
-            # 413 (request too large) = erro fatal para este modelo, nao faz retry
-            err_str = str(e)
-            if "413" in err_str or "too large" in err_str.lower() or "request too large" in err_str.lower():
-                return AIProviderError(f"Prompt excede limite de tokens do modelo: {e}")
-            return RateLimitError(str(e))
+        if isinstance(e, openai.NotFoundError):
+            return ModelNotFoundError(str(e))
+        elif isinstance(e, openai.PermissionDeniedError):
+            return QuotaExhaustedError(str(e))
         elif isinstance(e, openai.AuthenticationError):
             return AuthenticationError(str(e))
+        elif isinstance(e, openai.RateLimitError):
+            err_str = str(e).lower()
+            if "413" in err_str or "too large" in err_str or "request too large" in err_str:
+                return ContextWindowExceededError(f"Prompt excede limite de tokens do modelo: {e}")
+            return RateLimitError(str(e))
         elif isinstance(e, openai.APITimeoutError):
             return TimeoutError(str(e))
         elif isinstance(e, openai.APIConnectionError):
             return NetworkError(str(e))
         elif isinstance(e, openai.InternalServerError):
             return ServiceUnavailableError(str(e))
+        elif isinstance(e, openai.APIStatusError):
+            if e.status_code == 404:
+                return ModelNotFoundError(str(e))
+            elif e.status_code == 401:
+                return AuthenticationError(str(e))
+            elif e.status_code in (402, 403):
+                return QuotaExhaustedError(str(e))
+            elif e.status_code == 413:
+                return ContextWindowExceededError(str(e))
+            elif e.status_code == 429:
+                return RateLimitError(str(e))
+            elif e.status_code in (500, 502, 503, 504):
+                return ServiceUnavailableError(str(e))
+
+        err_msg = str(e).lower()
+        if "404" in err_msg or "not found" in err_msg or "model not exist" in err_msg or "invalid model" in err_msg:
+            return ModelNotFoundError(str(e))
+        if "413" in err_msg or "too large" in err_msg:
+            return ContextWindowExceededError(str(e))
+        if "402" in err_msg or "403" in err_msg or "payment" in err_msg or "quota" in err_msg:
+            return QuotaExhaustedError(str(e))
+        if "401" in err_msg or "unauthorized" in err_msg:
+            return AuthenticationError(str(e))
+        if "429" in err_msg or "rate limit" in err_msg:
+            return RateLimitError(str(e))
+
         return AIProviderError(str(e))
 
     def _clean_content(self, content: str) -> str:

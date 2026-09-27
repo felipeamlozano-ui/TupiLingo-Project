@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 14,
+  "timestamp": "2026-09-25T23:02:53.337703+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Tupã",
+      "traducao": "O Trovão Cósmico",
+      "variante": "tupi_antigo",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 1,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_5120",
+      "exemplo_uso": "Tupã ybak pupé.",
+      "transliteracao": "tu-PAN",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kurupira",
+      "traducao": "Guardião com pés para trás",
+      "variante": "tupi_antigo",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 2,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2840",
+      "exemplo_uso": "Kurupira ka'a guardião.",
+      "transliteracao": "ku-ru-PI-ra",
+      "status": "completo"
+    },
+    {
+      "palavra": "Anhangá",
+      "traducao": "Espírito da selva",
+      "variante": "tupi_antigo",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 2,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_2848",
+      "exemplo_uso": "Anhangá ka'a pupé.",
+      "transliteracao": "an-han-GA",
+      "status": "completo"
+    }
+  ]
+}

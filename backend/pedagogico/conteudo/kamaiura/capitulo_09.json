@@ -1,0 +1,368 @@
+{
+  "capitulo_numero": 9,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 9: O Corpo, os Sentidos e a Pintura",
+  "descricao": "Domínio temático: Corpo Humano Sentidos. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.1",
+  "dificuldade_relativa_0_100": 45,
+  "scenario": {
+    "nome": "O Círculo dos Sentidos e Pintura Corporal",
+    "palette": {
+      "primary": "#5B2C6F",
+      "secondary": "#884EA0",
+      "accent": "#BB8FCE"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Akang",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Akang",
+            "traducao": "Cabeça",
+            "transliteracao": "a-KANG",
+            "classe_gramatical": "substantivo",
+            "categoria": "corpo",
+            "exemplo_uso": "Akang katu.",
+            "exemplo_pt": "Cabeça boa.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_270"
+          },
+          {
+            "palavra": "Po",
+            "traducao": "Mão",
+            "transliteracao": "PO",
+            "classe_gramatical": "substantivo",
+            "categoria": "corpo",
+            "exemplo_uso": "Po katu.",
+            "exemplo_pt": "Mão firme.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_271"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Akang' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Akang'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Cabeça"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Akang",
+          "explicacao": "'Akang' significa 'Cabeça' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Akang"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Po'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Mão"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Po",
+          "explicacao": "'Po' significa 'Mão' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Po"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Akang": "Cabeça",
+            "Po": "Mão"
+          },
+          "coluna_esquerda": [
+            "Akang",
+            "Po"
+          ],
+          "coluna_direita": [
+            "Cabeça",
+            "Mão"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Akang",
+            "Po"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Akang",
+          "Po"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Py",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Py",
+            "traducao": "Pé",
+            "transliteracao": "PY",
+            "classe_gramatical": "substantivo",
+            "categoria": "corpo",
+            "exemplo_uso": "Py iwi ári.",
+            "exemplo_pt": "Pés na terra vermelha.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_272"
+          },
+          {
+            "palavra": "Uruku",
+            "traducao": "Urucum para pintura corporal",
+            "transliteracao": "u-ru-KU",
+            "classe_gramatical": "substantivo",
+            "categoria": "cultura",
+            "exemplo_uso": "Uruku pirera pupé.",
+            "exemplo_pt": "Urucum vermelho na pele.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_275"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ iwi ári.'",
+          "texto_com_lacunas": "______ iwi ári.",
+          "respostas_lacunas": [
+            "Py"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Py' (Pé).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Py"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Py'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Pé"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Py",
+          "explicacao": "'Py' traduz-se fielmente como 'Pé'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Py"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ pirera pupé.'",
+          "texto_com_lacunas": "______ pirera pupé.",
+          "respostas_lacunas": [
+            "Uruku"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Uruku' (Urucum para pintura corporal).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Uruku"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Uruku'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Terra firme"
+            },
+            {
+              "letra": "D",
+              "texto": "Urucum para pintura corporal"
+            }
+          ],
+          "resposta_correta": "D",
+          "resposta_correta_termo": "Uruku",
+          "explicacao": "'Uruku' traduz-se fielmente como 'Urucum para pintura corporal'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Uruku"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Py",
+          "Uruku"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Akang",
+            "traducao": "Cabeça",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_270"
+          },
+          {
+            "palavra": "Po",
+            "traducao": "Mão",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_271"
+          },
+          {
+            "palavra": "Py",
+            "traducao": "Pé",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_272"
+          },
+          {
+            "palavra": "Uruku",
+            "traducao": "Urucum para pintura corporal",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_275"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 9:",
+          "pares_corretos": {
+            "Akang": "Cabeça",
+            "Po": "Mão",
+            "Py": "Pé",
+            "Uruku": "Urucum para pintura corporal"
+          },
+          "coluna_esquerda": [
+            "Akang",
+            "Po",
+            "Py",
+            "Uruku"
+          ],
+          "coluna_direita": [
+            "Cabeça",
+            "Mão",
+            "Pé",
+            "Urucum para pintura corporal"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Akang",
+            "Po",
+            "Py",
+            "Uruku"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Akang' para o Português:",
+          "termo_fonte": "Akang",
+          "traducao_esperada": "Cabeça",
+          "explicacao": "'Akang' significa 'Cabeça'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Akang"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Akang",
+          "Po",
+          "Py",
+          "Uruku"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 9 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 9
+}

@@ -9,7 +9,8 @@ from app.core.config import settings
 from app.ai.providers.base import BaseProvider
 from app.ai.exceptions import (
     RateLimitError, TimeoutError, AuthenticationError,
-    ServiceUnavailableError, NetworkError, StructuredOutputError
+    ServiceUnavailableError, NetworkError, StructuredOutputError, AIProviderError,
+    FatalModelError, TransientModelError, ModelNotFoundError, QuotaExhaustedError
 )
 
 class GeminiProvider(BaseProvider):
@@ -23,14 +24,27 @@ class GeminiProvider(BaseProvider):
 
     def _map_exception(self, e: Exception) -> Exception:
         if isinstance(e, APIError):
-            if e.code == 429:
+            if e.code == 404:
+                return ModelNotFoundError(str(e))
+            elif e.code == 429:
                 return RateLimitError(str(e))
             elif e.code in (401, 403):
-                return AuthenticationError(str(e))
+                return QuotaExhaustedError(str(e))
             elif e.code in (500, 503):
                 return ServiceUnavailableError(str(e))
             elif e.code == 504:
                 return TimeoutError(str(e))
+        
+        err_msg = str(e).lower()
+        if "404" in err_msg or "not found" in err_msg:
+            return ModelNotFoundError(str(e))
+        if "402" in err_msg or "403" in err_msg or "quota" in err_msg or "resource_exhausted" in err_msg:
+            return QuotaExhaustedError(str(e))
+        if "401" in err_msg or "unauthorized" in err_msg:
+            return AuthenticationError(str(e))
+        if "429" in err_msg:
+            return RateLimitError(str(e))
+
         return NetworkError(str(e))
 
     def generate_structured(self, prompt: str, schema: Type[BaseModel], model_name: str, **kwargs) -> BaseModel:

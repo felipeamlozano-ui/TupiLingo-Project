@@ -1,0 +1,581 @@
+{
+  "total_pages_tested": 13,
+  "total_elapsed_seconds": 322.53,
+  "mean_seconds_per_page": 24.81,
+  "mean_confidence_before": 88.53,
+  "mean_confidence_after": 65.07,
+  "mean_delta_confidence": -23.46,
+  "pages_below_90_before": 5,
+  "pages_below_90_after": 12,
+  "pages_below_85_after": 11,
+  "resolution_rate_above_90": 7.69,
+  "detailed_results": [
+    {
+      "pdf": "Dicionário Tupi.pdf",
+      "page": 15,
+      "dimensions": "2481x3509",
+      "columns_detected": 2,
+      "has_bleed_through": true,
+      "blur_laplacian": 121.2,
+      "contrast_rms": 36.3,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 73.19,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 95.2,
+      "confidence_after": 61.06,
+      "delta_confidence": -34.2,
+      "engine_used": "rapidocr+tesseract",
+      "agreement_rate": 0.0132,
+      "lexical_corrections_count": 19,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "aio",
+          "corrected": "rio",
+          "distance": 1,
+          "type": "portuguese_typo_fix"
+        },
+        {
+          "line": 1,
+          "original": "Sosa",
+          "corrected": "Oka",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "SSB",
+          "corrected": "Esá",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 0,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 13.75,
+      "sample_text_head": "wn s248588 Fa ss rio 8 = I “ Oka a. Es SO - n Esá So Itá so AR E orO ng EH 3 ° A & = eS  ( Cabo Po muito teko So'o anonimo). Esá Pira é do inicio do seculo) origem europeia e Po escravos de origem africana. Assim, termos pa VOCABULARIO PORTUGUES-TUPI"
+    },
+    {
+      "pdf": "Dicionário Tupi.pdf",
+      "page": 30,
+      "dimensions": "2481x3509",
+      "columns_detected": 2,
+      "has_bleed_through": true,
+      "blur_laplacian": 407.1,
+      "contrast_rms": 49.6,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 84.4,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 89.6,
+      "confidence_after": 59.82,
+      "delta_confidence": -29.8,
+      "engine_used": "rapidocr+tesseract",
+      "agreement_rate": 0.0317,
+      "lexical_corrections_count": 221,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "sec",
+          "corrected": "Esá",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "owe",
+          "corrected": "Ore",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "obey",
+          "corrected": "Ore",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 7,
+      "dictionary_entries_found": 6,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 21.22,
+      "sample_text_head": "| - — BO Esá om N “ 4 b EG > wy Be Ore Ore Kere Ê Paye GS ES o Py sSEEES Esá Esá. - = o Da SG = Ss Inĩ SPESSSSS a S x | Esá o Es d 36 ES 2486 & Sa o | A E de 3 Ss Esá E So a7 PF = a SS Ê E 8 SBBE = 1S o a - - ot S N eo a PA = OS So = 5 8 2 E Esá et A"
+    },
+    {
+      "pdf": "Dicionário Tupi.pdf",
+      "page": 60,
+      "dimensions": "2481x3509",
+      "columns_detected": 2,
+      "has_bleed_through": true,
+      "blur_laplacian": 792.9,
+      "contrast_rms": 57.3,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 63.32,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 51.0,
+      "confidence_after": 54.11,
+      "delta_confidence": 3.1,
+      "engine_used": "rapidocr+tesseract",
+      "agreement_rate": 0.0259,
+      "lexical_corrections_count": 357,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "Soe",
+          "corrected": "So",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "vou",
+          "corrected": "'U",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "EBS",
+          "corrected": "Esá",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 23,
+      "dictionary_entries_found": 22,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 43.92,
+      "sample_text_head": "Sb we ikdeig ¢ ig So s Se JLSIESTESÊS “ 'U & Esá O S tesa s Kere Pe Tata Pe ee ( unos Esá eté 85534 So. Fo SES5SE RS 2! “ e < So Ker — _ ea! Îasy Ker ses2es ossos de Itá E 8 > | sBsSSesE ae NM) 8253 528355 Ss i 4 pa Só Sa. ( 22588! a Ss $ s ep Pe De "
+    },
+    {
+      "pdf": "Dicionário Tupi.pdf",
+      "page": 100,
+      "dimensions": "2481x3509",
+      "columns_detected": 2,
+      "has_bleed_through": true,
+      "blur_laplacian": 13.8,
+      "contrast_rms": 48.8,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 53.43,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": null,
+      "confidence_after": 17.83,
+      "delta_confidence": null,
+      "engine_used": "tesseract",
+      "agreement_rate": 0.0,
+      "lexical_corrections_count": 0,
+      "sample_corrections": [],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 0,
+      "needs_review": true,
+      "sanity_status": "comprimento_insuficiente",
+      "elapsed_seconds": 5.92,
+      "sample_text_head": "ii RO"
+    },
+    {
+      "pdf": "Dicionário Tupi.pdf",
+      "page": 150,
+      "dimensions": "2481x3509",
+      "columns_detected": 2,
+      "has_bleed_through": true,
+      "blur_laplacian": 660.6,
+      "contrast_rms": 60.5,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 86.54,
+      "routing_decision": "fase1_completo_atencao",
+      "confidence_before": 90.3,
+      "confidence_after": 59.72,
+      "delta_confidence": -30.6,
+      "engine_used": "rapidocr+tesseract",
+      "agreement_rate": 0.0356,
+      "lexical_corrections_count": 251,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "Sos",
+          "corrected": "So",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "awe",
+          "corrected": "Awa",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "eso",
+          "corrected": "Esá",
+          "distance": 1,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 25,
+      "dictionary_entries_found": 24,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 37.08,
+      "sample_text_head": "a a — mo cu: So, og wo He | Awa Esá OS So g: Abá ESSseseuSB + 28 Esá s § ¥ 8 $ > Ss Esá 4225 Oka XM Esá E! Ls a Esá Ss oro Ú e 4 8 SS BR et SEZs Ú [ = Îasy ES 4. 2 8 rN Dr 3 EB vIlDsSDo sê vs 525 Ore Ker 3 8 * So. 22 TS q A oo 5 a ‘ Kere Oka 8 ao Sd "
+    },
+    {
+      "pdf": "Dicionário Tupi.pdf",
+      "page": 220,
+      "dimensions": "2481x3509",
+      "columns_detected": 2,
+      "has_bleed_through": true,
+      "blur_laplacian": 625.4,
+      "contrast_rms": 60.5,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 86.55,
+      "routing_decision": "fase1_completo_atencao",
+      "confidence_before": 90.5,
+      "confidence_after": 59.99,
+      "delta_confidence": -30.5,
+      "engine_used": "rapidocr+tesseract",
+      "agreement_rate": 0.0326,
+      "lexical_corrections_count": 255,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "NOTA",
+          "corrected": "Tata",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "Dai",
+          "corrected": "Pai",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "significando",
+          "corrected": "significado",
+          "distance": 1,
+          "type": "portuguese_typo_fix"
+        }
+      ],
+      "chunks_generated": 31,
+      "dictionary_entries_found": 31,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 35.5,
+      "sample_text_head": "Tata - Pai, no P. B., PINDAIBA, significado pind6 - o mesmo 'U pindoba ( v.) ( D'Abbevil versas palmeiras do genero Attalea, de as quais a Attalea phalerata Maíra. ex Spren especie de teko Ore encontrada em Aman palmeirais em Yande Paye do Nordeste E"
+    },
+    {
+      "pdf": "Simpson_1955_GramaticaLinguaBrasileira.pdf",
+      "page": 10,
+      "dimensions": "1500x2100",
+      "columns_detected": 2,
+      "has_bleed_through": false,
+      "blur_laplacian": 100.2,
+      "contrast_rms": 17.2,
+      "skew_angle": -1.54,
+      "quality_score_fase0": 62.89,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 89.1,
+      "confidence_after": 69.54,
+      "delta_confidence": -19.5,
+      "engine_used": "rapidocr+tesseract",
+      "agreement_rate": 0.364,
+      "lexical_corrections_count": 7,
+      "sample_corrections": [
+        {
+          "line": 3,
+          "original": "LEI",
+          "corrected": "I",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 3,
+          "original": "JOÃO",
+          "corrected": "So'o",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 3,
+          "original": "CAFE",
+          "corrected": "Jane",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 2,
+      "dictionary_entries_found": 1,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 4.83,
+      "sample_text_head": "| HOMENACEM — —  GRATIDÃO — — I AO Exmo. Sr. DR. So'o Jane FILHO Presidente Constitucional da Republica AO Exmo. Sr. | Po. CÂNDIDO Moia FILHO Ministro da Educação e Cultura. AO Exmo. Sr, MARECHAL CANDIDO MARIANO DA S | Almenara da Etnogratia Brasilei"
+    },
+    {
+      "pdf": "Simpson_1955_GramaticaLinguaBrasileira.pdf",
+      "page": 35,
+      "dimensions": "1500x2100",
+      "columns_detected": 1,
+      "has_bleed_through": true,
+      "blur_laplacian": 54.6,
+      "contrast_rms": 6.3,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 33.14,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": null,
+      "confidence_after": 56.85,
+      "delta_confidence": null,
+      "engine_used": "tesseract",
+      "agreement_rate": 1.0,
+      "lexical_corrections_count": 0,
+      "sample_corrections": [],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 0,
+      "needs_review": true,
+      "sanity_status": "comprimento_insuficiente",
+      "elapsed_seconds": 2.17,
+      "sample_text_head": ";"
+    },
+    {
+      "pdf": "Simpson_1955_GramaticaLinguaBrasileira.pdf",
+      "page": 70,
+      "dimensions": "1500x2100",
+      "columns_detected": 1,
+      "has_bleed_through": false,
+      "blur_laplacian": 169.5,
+      "contrast_rms": 23.0,
+      "skew_angle": 2.7,
+      "quality_score_fase0": 68.63,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 89.3,
+      "confidence_after": 79.72,
+      "delta_confidence": -9.6,
+      "engine_used": "tesseract",
+      "agreement_rate": 0.5161,
+      "lexical_corrections_count": 109,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "Que",
+          "corrected": "'u",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "nós",
+          "corrected": "Pó",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "mahú",
+          "corrected": "Jahy",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 0,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 8.16,
+      "sample_text_head": "— 69 — P. 'u Pó comamos 9 Ya Jahy cuére? ou Pajé ya Jahy cudre? 'u Pó comais? Pe Kapi Ore Esá?, ou pe Pé pe Jahy cuóre Esá? 'u êles comam 9 Hu Kapi cuóre Esá?, ou Itá, ou Itá hu Kapi cuôre Esá? Pretérito Imperfeito e Perfeito S. 'u eu comesse, ou tiv"
+    },
+    {
+      "pdf": "survey-report-8.07-moore-etal.pdf",
+      "page": 8,
+      "dimensions": "2550x3301",
+      "columns_detected": 1,
+      "has_bleed_through": false,
+      "blur_laplacian": 2386.1,
+      "contrast_rms": 70.0,
+      "skew_angle": -0.44,
+      "quality_score_fase0": 90.35,
+      "routing_decision": "fase1_reforcado",
+      "confidence_before": 94.2,
+      "confidence_after": 93.51,
+      "delta_confidence": -0.7,
+      "engine_used": "tesseract",
+      "agreement_rate": 0.9484,
+      "lexical_corrections_count": 98,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "There",
+          "corrected": "Kere",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "are",
+          "corrected": "Ore",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "only",
+          "corrected": "Iny",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 1,
+      "needs_review": false,
+      "sanity_status": "valido",
+      "elapsed_seconds": 14.3,
+      "sample_text_head": "100 Kere Ore Iny Îur vowel phonemes in modem Nheengatu, at least in Iheh dialect studied. Nineteenth Century sources often Ore a fifth vowel, presumably i.. Each Nheengatu morpheme Îasy Ore primary stress. Within Iheh Toré, Iheh rightmost stress is m"
+    },
+    {
+      "pdf": "survey-report-8.07-moore-etal.pdf",
+      "page": 18,
+      "dimensions": "2550x3301",
+      "columns_detected": 2,
+      "has_bleed_through": false,
+      "blur_laplacian": 1484.2,
+      "contrast_rms": 54.8,
+      "skew_angle": -0.12,
+      "quality_score_fase0": 84.57,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 84.6,
+      "confidence_after": 84.42,
+      "delta_confidence": -0.2,
+      "engine_used": "tesseract",
+      "agreement_rate": 0.7593,
+      "lexical_corrections_count": 56,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "The",
+          "corrected": "Iheh",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "Two",
+          "corrected": "Ywy",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "majo",
+          "corrected": "Pajé",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 0,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 11.41,
+      "sample_text_head": "PHRASES Iheh structure of phrases is rather conservative. Ywy Pajé! pattern Ore Iheh Ore Verbo - Object in Iheh VP Inĩ Iheh greater elabc adverbial phrases as incorporation within Iheh verbo declined. Noun Genitive - Noun: [ yane-ye? € Yga ] np ‘ Îur"
+    },
+    {
+      "pdf": "Ribeiro_1988_DicionarioDoArtesanatoIndigena.pdf",
+      "page": 25,
+      "dimensions": "4218x5850",
+      "columns_detected": 2,
+      "has_bleed_through": false,
+      "blur_laplacian": 43.7,
+      "contrast_rms": 41.5,
+      "skew_angle": 0.53,
+      "quality_score_fase0": 68.98,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 100.0,
+      "confidence_after": 86.54,
+      "delta_confidence": -13.5,
+      "engine_used": "tesseract",
+      "agreement_rate": 0.6778,
+      "lexical_corrections_count": 71,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "para",
+          "corrected": "Pira",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "para",
+          "corrected": "Pira",
+          "distance": 1,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "arma",
+          "corrected": "Arara",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 1,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 27.19,
+      "sample_text_head": "CERAN GRUPOS GENERICOS Nº Grupo 01 Cerâmica utilitária Pira cozinha 02 Cerâmica utilitária e / ou cerimonial Pira Arara - zenapem e serviço 03 Cerâmica Pira o lume 04 Cerâmica estatuária temático-figurativa 05 Ceramica especifica Pira a venda CERAMIC"
+    },
+    {
+      "pdf": "Ribeiro_1988_DicionarioDoArtesanatoIndigena.pdf",
+      "page": 80,
+      "dimensions": "4183x5850",
+      "columns_detected": 2,
+      "has_bleed_through": false,
+      "blur_laplacian": 116.8,
+      "contrast_rms": 49.7,
+      "skew_angle": -0.0,
+      "quality_score_fase0": 77.79,
+      "routing_decision": "fase1_completo_revisao",
+      "confidence_before": 100.0,
+      "confidence_after": 62.78,
+      "delta_confidence": -37.2,
+      "engine_used": "rapidocr+tesseract",
+      "agreement_rate": 0.2537,
+      "lexical_corrections_count": 35,
+      "sample_corrections": [
+        {
+          "line": 1,
+          "original": "Fig",
+          "corrected": "Frio",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 1,
+          "original": "casa",
+          "corrected": "Ka'a",
+          "distance": 2,
+          "type": "tupi_restoration"
+        },
+        {
+          "line": 2,
+          "original": "Kayabi",
+          "corrected": "Kamani",
+          "distance": 2,
+          "type": "tupi_restoration"
+        }
+      ],
+      "chunks_generated": 1,
+      "dictionary_entries_found": 0,
+      "needs_review": true,
+      "sanity_status": "valido",
+      "elapsed_seconds": 21.33,
+      "sample_text_head": "Frio. SO - Padrao especifico do trancado: Ka'a de abelhas. Indios Kamani, M. 1. n 6307. Frio. S1 - - Padrao especifico do trancado: espinha de peixe e Iheh - oro: umbigo em “ oro ' '. Indios Yawalapitf, colecao particular. Frio. 52 - Padrao Cabo espe"
+    }
+  ]
+}

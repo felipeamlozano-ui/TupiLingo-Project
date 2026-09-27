@@ -1,0 +1,44 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 5,
+  "timestamp": "2026-09-25T23:02:49.130860+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Mani'oka",
+      "traducao": "Mandioca da roça",
+      "variante": "tupinamba",
+      "categoria": "flora",
+      "capitulo_introduzido": 5,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_80",
+      "exemplo_uso": "Mani'oka katu.",
+      "transliteracao": "ma-ni-O-ka",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kauim",
+      "traducao": "Bebida sagrada fermentada",
+      "variante": "tupinamba",
+      "categoria": "alimentos",
+      "capitulo_introduzido": 5,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_82",
+      "exemplo_uso": "Kauim taba pupé.",
+      "transliteracao": "ka-u-IM",
+      "status": "completo"
+    },
+    {
+      "palavra": "U'i",
+      "traducao": "Farinha de guerra seca",
+      "variante": "tupinamba",
+      "categoria": "alimentos",
+      "capitulo_introduzido": 5,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_83",
+      "exemplo_uso": "U'i ygata pupé.",
+      "transliteracao": "u-I",
+      "status": "completo"
+    }
+  ]
+}

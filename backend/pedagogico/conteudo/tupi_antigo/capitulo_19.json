@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 19,
+  "variante": "tupi_antigo",
+  "titulo": "Capítulo 19: A Resistência Armada e a Defesa da Terra",
+  "descricao": "Domínio temático: Historia Conflito. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "B1.1",
+  "dificuldade_relativa_0_100": 95,
+  "scenario": {
+    "nome": "O Baluarte da Resistência Histórica",
+    "palette": {
+      "primary": "#641E16",
+      "secondary": "#78281F",
+      "accent": "#C0392B"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Iperoig",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Iperoig",
+            "traducao": "Ubatuba colonial / Sede dos Tamoios",
+            "transliteracao": "i-pe-ro-IG",
+            "classe_gramatical": "proprio",
+            "categoria": "historia",
+            "exemplo_uso": "Iperoig taba.",
+            "exemplo_pt": "Iperoig, aldeia da paz.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Iperoig' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Iperoig'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Ubatuba colonial / Sede dos Tamoios"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Iperoig",
+          "explicacao": "'Iperoig' significa 'Ubatuba colonial / Sede dos Tamoios' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Iperoig"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Iperoig": "Ubatuba colonial / Sede dos Tamoios"
+          },
+          "coluna_esquerda": [
+            "Iperoig"
+          ],
+          "coluna_direita": [
+            "Ubatuba colonial / Sede dos Tamoios"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Iperoig"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Iperoig"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Cunhambebe",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Cunhambebe",
+            "traducao": "Grande líder guerreiro dos Tamoios",
+            "transliteracao": "ku-nham-BE-be",
+            "classe_gramatical": "proprio",
+            "categoria": "historia",
+            "exemplo_uso": "Cunhambebe morubixaba.",
+            "exemplo_pt": "Cunhambebe foi o líder.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_110"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ morubixaba.'",
+          "texto_com_lacunas": "______ morubixaba.",
+          "respostas_lacunas": [
+            "Cunhambebe"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Cunhambebe' (Grande líder guerreiro dos Tamoios).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Cunhambebe"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Cunhambebe'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande líder guerreiro dos Tamoios"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Cunhambebe",
+          "explicacao": "'Cunhambebe' traduz-se fielmente como 'Grande líder guerreiro dos Tamoios'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Cunhambebe"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Cunhambebe"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Iperoig",
+            "traducao": "Ubatuba colonial / Sede dos Tamoios",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386"
+          },
+          {
+            "palavra": "Cunhambebe",
+            "traducao": "Grande líder guerreiro dos Tamoios",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_110"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 19:",
+          "pares_corretos": {
+            "Iperoig": "Ubatuba colonial / Sede dos Tamoios",
+            "Cunhambebe": "Grande líder guerreiro dos Tamoios"
+          },
+          "coluna_esquerda": [
+            "Iperoig",
+            "Cunhambebe"
+          ],
+          "coluna_direita": [
+            "Ubatuba colonial / Sede dos Tamoios",
+            "Grande líder guerreiro dos Tamoios"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Iperoig",
+            "Cunhambebe"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Iperoig' para o Português:",
+          "termo_fonte": "Iperoig",
+          "traducao_esperada": "Ubatuba colonial / Sede dos Tamoios",
+          "explicacao": "'Iperoig' significa 'Ubatuba colonial / Sede dos Tamoios'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Iperoig"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Iperoig",
+          "Cunhambebe"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 19 de Tupi Antigo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

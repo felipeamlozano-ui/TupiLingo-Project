@@ -1,0 +1,44 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 12,
+  "timestamp": "2026-09-25T23:02:52.357943+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "'U",
+      "traducao": "Comer / Alimentar",
+      "variante": "tupinamba",
+      "categoria": "verbos",
+      "capitulo_introduzido": 12,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_160",
+      "exemplo_uso": "A-'u so'ó.",
+      "transliteracao": "U",
+      "status": "completo"
+    },
+    {
+      "palavra": "Só",
+      "traducao": "Ir à expedição",
+      "variante": "tupinamba",
+      "categoria": "verbos",
+      "capitulo_introduzido": 12,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_162",
+      "exemplo_uso": "A-só ygata pupé.",
+      "transliteracao": "SO",
+      "status": "completo"
+    },
+    {
+      "palavra": "Îur",
+      "traducao": "Retornar vitorioso",
+      "variante": "tupinamba",
+      "categoria": "verbos",
+      "capitulo_introduzido": 12,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_164",
+      "exemplo_uso": "A-îur taba katy.",
+      "transliteracao": "yur",
+      "status": "completo"
+    }
+  ]
+}

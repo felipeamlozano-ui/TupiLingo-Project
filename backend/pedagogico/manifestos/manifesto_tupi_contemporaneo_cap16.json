@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 16,
+  "timestamp": "2026-09-25T23:02:54.224485+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Pé",
+      "traducao": "Caminho / Trilha",
+      "variante": "tupi_contemporaneo",
+      "categoria": "geografia",
+      "capitulo_introduzido": 16,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_205",
+      "exemplo_uso": "Pé puranga.",
+      "transliteracao": "PE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Guata",
+      "traducao": "Caminhar / Viajar",
+      "variante": "tupi_contemporaneo",
+      "categoria": "verbos",
+      "capitulo_introduzido": 16,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_206",
+      "exemplo_uso": "A-guata pé rupi.",
+      "transliteracao": "gwa-TA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Peabiru",
+      "traducao": "Caminho ancestral sagrado",
+      "variante": "tupi_contemporaneo",
+      "categoria": "historia",
+      "capitulo_introduzido": 16,
+      "licao_introduzida": 2,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386",
+      "exemplo_uso": "Peabiru guasu.",
+      "transliteracao": "pe-a-bi-RU",
+      "status": "completo"
+    }
+  ]
+}

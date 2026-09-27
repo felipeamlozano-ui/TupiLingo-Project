@@ -32,6 +32,10 @@ from app.core.config import settings
 from app.ai.invoker import AIInvoker
 from app.ai.exceptions import (
     AIProviderError,
+    FatalModelError,
+    TransientModelError,
+    ModelNotFoundError,
+    QuotaExhaustedError,
     NetworkError,
     ProviderNotFoundError,
     RateLimitError,
@@ -97,14 +101,27 @@ class FallbackOrchestrator:
             logger.warning("[FallbackOrchestrator] Falha ao obter ranking PingRace (%s). Usando base.", race_exc)
             ranked_chain = list(base_chain)
 
-        # Filtra modelos que não estejam em cooldown ativo
-        active_chain = [m for m in ranked_chain if not PingRaceRouter.is_in_cooldown(m)]
+        # Filtra modelos que não estejam em erro fatal nem em cooldown ativo
+        active_chain = [
+            m for m in ranked_chain 
+            if not PingRaceRouter.is_fatal_disabled(m) and not PingRaceRouter.is_in_cooldown(m)
+        ]
         if not active_chain:
-            logger.info(
-                "[FallbackOrchestrator] Todos os modelos (%d) em cooldown. Resetando penalidades para tentativa de emergência.",
-                len(ranked_chain),
-            )
-            active_chain = list(ranked_chain)
+            # Apenas modelos que NÃO são fatais podem ter cooldown transitório liberado em emergência
+            non_fatal = [m for m in ranked_chain if not PingRaceRouter.is_fatal_disabled(m)]
+            if non_fatal:
+                logger.info(
+                    "[FallbackOrchestrator] Modelos não-fatais em cooldown transitório. Tentando emergência com não-fatais (%d).",
+                    len(non_fatal),
+                )
+                active_chain = list(non_fatal)
+            else:
+                logger.critical(
+                    "[FallbackOrchestrator] ⛔ TODOS os modelos da cadeia estão fatalmente desativados no Redis! Abortando tentativas em modelos mortos."
+                )
+                raise RuntimeError(
+                    f"Todos os modelos da cadeia estão fatalmente desativados no circuito: {ranked_chain}"
+                )
 
         logger.info("[FallbackOrchestrator] Iniciando cadeia de fallback com %d modelos: %s", len(active_chain), active_chain)
 
@@ -124,19 +141,22 @@ class FallbackOrchestrator:
                     provider_name, model_name, prompt, schema, **kwargs
                 )
                 latency_ms = int((time.monotonic() - t_model) * 1000)
-                PingRaceRouter.record_success(target)
+                PingRaceRouter.record_success(target, latency_ms=latency_ms)
                 logger.info(
                     "[FallbackOrchestrator] ✓ Sucesso via %s/%s em %d ms.",
                     provider_name, model_name, latency_ms,
                 )
                 return result
 
-            except ProviderNotFoundError:
+            except ProviderNotFoundError as exc:
+                latency_ms = int((time.monotonic() - t_model) * 1000)
+                err_msg = f"ProviderNotFoundError: {exc}"
+                errors_history[target] = err_msg
+                PingRaceRouter.record_fatal_failure(target, reason=err_msg)
                 logger.warning(
-                    "[FallbackOrchestrator] Provedor '%s' inativo/inexistente. Failover → próximo modelo.",
+                    "[FallbackOrchestrator] Provedor '%s' inativo/inexistente. Desativado por 24h. Failover → próximo modelo.",
                     provider_name,
                 )
-                errors_history[target] = "ProviderNotFoundError"
                 continue
 
             except RetryError as exc:
@@ -145,22 +165,36 @@ class FallbackOrchestrator:
                 inner = exc.last_attempt.exception()
                 err_msg = f"{type(inner).__name__}: {str(inner)[:180]}"
                 errors_history[target] = err_msg
-                PingRaceRouter.record_failure(target)
-                logger.warning(
-                    "[FallbackOrchestrator] ✗ %s/%s falhou em %d ms [%s]. Failover imediato → próximo.",
-                    provider_name, model_name, latency_ms, err_msg,
-                )
+                if isinstance(inner, FatalModelError):
+                    PingRaceRouter.record_fatal_failure(target, reason=err_msg)
+                    logger.error(
+                        "[FallbackOrchestrator] ✗ %s/%s ERRO FATAL em %d ms [%s]. Desativado por 24h. Failover imediato → próximo.",
+                        provider_name, model_name, latency_ms, err_msg,
+                    )
+                else:
+                    PingRaceRouter.record_failure(target)
+                    logger.warning(
+                        "[FallbackOrchestrator] ✗ %s/%s falhou em %d ms [%s]. Failover imediato → próximo.",
+                        provider_name, model_name, latency_ms, err_msg,
+                    )
                 continue
 
             except (AIProviderError, Exception) as exc:
                 latency_ms = int((time.monotonic() - t_model) * 1000)
                 err_msg = f"{type(exc).__name__}: {str(exc)[:180]}"
                 errors_history[target] = err_msg
-                PingRaceRouter.record_failure(target)
-                logger.error(
-                    "[FallbackOrchestrator] ✗ %s/%s erro fatal em %d ms [%s]. Failover imediato → próximo.",
-                    provider_name, model_name, latency_ms, err_msg,
-                )
+                if isinstance(exc, FatalModelError):
+                    PingRaceRouter.record_fatal_failure(target, reason=err_msg)
+                    logger.error(
+                        "[FallbackOrchestrator] ✗ %s/%s ERRO FATAL em %d ms [%s]. Desativado por 24h. Failover imediato → próximo.",
+                        provider_name, model_name, latency_ms, err_msg,
+                    )
+                else:
+                    PingRaceRouter.record_failure(target)
+                    logger.warning(
+                        "[FallbackOrchestrator] ✗ %s/%s erro em %d ms [%s]. Failover imediato → próximo.",
+                        provider_name, model_name, latency_ms, err_msg,
+                    )
                 continue
 
         # ── COMPORTAMENTO EXPLÍCITO DE ERRO ───────────────────────────────────
@@ -247,7 +281,7 @@ class FallbackOrchestrator:
                     except Exception:
                         pass
 
-                for cat in ["Vocabulário", "Gramática", "História", "Mitologia", "Desconhecido"]:
+                for cat in ["Vocabulário", "Gramática", "História", "Mitologia", "Toponímia", "Geral"]:
                     if cat.lower() in content.lower():
                         try:
                             return schema(categoria=cat)
@@ -266,6 +300,12 @@ class FallbackOrchestrator:
             raise ServiceUnavailableError(str(e))
         except Exception as e:
             err_str = str(e).lower()
-            if "429" in err_str or "rate limit" in err_str or "quota" in err_str or "402" in err_str:
+            if "404" in err_str or "not found" in err_str:
+                raise ModelNotFoundError(str(e))
+            if "401" in err_str or "unauthorized" in err_str:
+                raise AuthenticationError(str(e))
+            if "402" in err_str or "403" in err_str or "quota" in err_str or "payment" in err_str:
+                raise QuotaExhaustedError(str(e))
+            if "429" in err_str or "rate limit" in err_str:
                 raise RateLimitError(str(e))
             raise AIProviderError(f"Erro no provedor {full_model}: {str(e)}")

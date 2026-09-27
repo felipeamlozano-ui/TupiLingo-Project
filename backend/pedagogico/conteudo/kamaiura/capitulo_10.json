@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 10,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 10: A Aldeia e a Organização Comunitária",
+  "descricao": "Domínio temático: Organizacao Social. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.1",
+  "dificuldade_relativa_0_100": 50,
+  "scenario": {
+    "nome": "A Praça Central e os Anciãos",
+    "palette": {
+      "primary": "#6E2C00",
+      "secondary": "#A04000",
+      "accent": "#F8C471"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Morokwiat",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Morokwiat",
+            "traducao": "Chefe da aldeia",
+            "transliteracao": "mo-ro-kwi-AT",
+            "classe_gramatical": "substantivo",
+            "categoria": "comunidade",
+            "exemplo_uso": "Morokwiat tawa pupé.",
+            "exemplo_pt": "O líder fala na aldeia.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_120"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Morokwiat' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Morokwiat'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Chefe da aldeia"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Morokwiat",
+          "explicacao": "'Morokwiat' significa 'Chefe da aldeia' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Morokwiat"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Morokwiat": "Chefe da aldeia"
+          },
+          "coluna_esquerda": [
+            "Morokwiat"
+          ],
+          "coluna_direita": [
+            "Chefe da aldeia"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Morokwiat"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Morokwiat"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Okara",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Okara",
+            "traducao": "Praça central redonda",
+            "transliteracao": "o-ka-RA",
+            "classe_gramatical": "substantivo",
+            "categoria": "comunidade",
+            "exemplo_uso": "Awa okara pupé.",
+            "exemplo_pt": "Gente reunida na praça.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_122"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: 'Awa okara pupé.'",
+          "texto_com_lacunas": "Awa okara pupé.",
+          "respostas_lacunas": [
+            "Okara"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Okara' (Praça central redonda).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Okara"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Okara'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Praça central redonda"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Okara",
+          "explicacao": "'Okara' traduz-se fielmente como 'Praça central redonda'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Okara"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Okara"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Morokwiat",
+            "traducao": "Chefe da aldeia",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_120"
+          },
+          {
+            "palavra": "Okara",
+            "traducao": "Praça central redonda",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_122"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 10:",
+          "pares_corretos": {
+            "Morokwiat": "Chefe da aldeia",
+            "Okara": "Praça central redonda"
+          },
+          "coluna_esquerda": [
+            "Morokwiat",
+            "Okara"
+          ],
+          "coluna_direita": [
+            "Chefe da aldeia",
+            "Praça central redonda"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Morokwiat",
+            "Okara"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Morokwiat' para o Português:",
+          "termo_fonte": "Morokwiat",
+          "traducao_esperada": "Chefe da aldeia",
+          "explicacao": "'Morokwiat' significa 'Chefe da aldeia'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Morokwiat"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Morokwiat",
+          "Okara"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 10 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

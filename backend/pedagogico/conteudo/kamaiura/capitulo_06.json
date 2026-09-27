@@ -1,0 +1,312 @@
+{
+  "capitulo_numero": 6,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 6: O Sol, a Lua e o Céu Noturno",
+  "descricao": "Domínio temático: Cosmologia Astros. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.2",
+  "dificuldade_relativa_0_100": 30,
+  "scenario": {
+    "nome": "Clareira Sob o Céu e os Astros",
+    "palette": {
+      "primary": "#1A1A40",
+      "secondary": "#4A235A",
+      "accent": "#F1C40F"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Kwarahy",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Kwarahy",
+            "traducao": "Sol primordial",
+            "transliteracao": "kwa-ra-HY",
+            "classe_gramatical": "substantivo",
+            "categoria": "cosmologia",
+            "exemplo_uso": "Kwarahy pykói.",
+            "exemplo_pt": "O sol brilha no Xingu.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_230"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Kwarahy' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Kwarahy'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Sol primordial"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kwarahy",
+          "explicacao": "'Kwarahy' significa 'Sol primordial' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kwarahy"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Kwarahy": "Sol primordial"
+          },
+          "coluna_esquerda": [
+            "Kwarahy"
+          ],
+          "coluna_direita": [
+            "Sol primordial"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kwarahy"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Kwarahy"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Jahy",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Jahy",
+            "traducao": "Lua",
+            "transliteracao": "ja-HY",
+            "classe_gramatical": "substantivo",
+            "categoria": "cosmologia",
+            "exemplo_uso": "Jahy pituna pupé.",
+            "exemplo_pt": "Lua na noite xinguana.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_230"
+          },
+          {
+            "palavra": "Aman",
+            "traducao": "Chuva",
+            "transliteracao": "a-MAN",
+            "classe_gramatical": "substantivo",
+            "categoria": "natureza",
+            "exemplo_uso": "Aman o-ur.",
+            "exemplo_pt": "A chuva vem.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_232"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ pituna pupé.'",
+          "texto_com_lacunas": "______ pituna pupé.",
+          "respostas_lacunas": [
+            "Jahy"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Jahy' (Lua).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Jahy"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Jahy'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Lua"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Jahy",
+          "explicacao": "'Jahy' traduz-se fielmente como 'Lua'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Jahy"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ o-ur.'",
+          "texto_com_lacunas": "______ o-ur.",
+          "respostas_lacunas": [
+            "Aman"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Aman' (Chuva).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Aman"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Aman'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Chuva"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Aman",
+          "explicacao": "'Aman' traduz-se fielmente como 'Chuva'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Aman"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Jahy",
+          "Aman"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Kwarahy",
+            "traducao": "Sol primordial",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_230"
+          },
+          {
+            "palavra": "Jahy",
+            "traducao": "Lua",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_230"
+          },
+          {
+            "palavra": "Aman",
+            "traducao": "Chuva",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_232"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 6:",
+          "pares_corretos": {
+            "Kwarahy": "Sol primordial",
+            "Jahy": "Lua",
+            "Aman": "Chuva"
+          },
+          "coluna_esquerda": [
+            "Kwarahy",
+            "Jahy",
+            "Aman"
+          ],
+          "coluna_direita": [
+            "Sol primordial",
+            "Lua",
+            "Chuva"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Kwarahy",
+            "Jahy",
+            "Aman"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Kwarahy' para o Português:",
+          "termo_fonte": "Kwarahy",
+          "traducao_esperada": "Sol primordial",
+          "explicacao": "'Kwarahy' significa 'Sol primordial'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kwarahy"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Kwarahy",
+          "Jahy",
+          "Aman"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 6 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 8
+}

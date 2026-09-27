@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 16,
+  "timestamp": "2026-09-25T23:02:54.618613+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Pé",
+      "traducao": "Trilha litorânea dos guerreiros",
+      "variante": "tupinamba",
+      "categoria": "geografia",
+      "capitulo_introduzido": 16,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_190",
+      "exemplo_uso": "Pé paraná rembé.",
+      "transliteracao": "PE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ygarapé",
+      "traducao": "Canal de retirada das canoas",
+      "variante": "tupinamba",
+      "categoria": "geografia",
+      "capitulo_introduzido": 16,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_192",
+      "exemplo_uso": "Ygarapé puranga.",
+      "transliteracao": "i-ga-ra-PE",
+      "status": "completo"
+    }
+  ]
+}

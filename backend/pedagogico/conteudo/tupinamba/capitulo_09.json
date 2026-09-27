@@ -1,0 +1,312 @@
+{
+  "capitulo_numero": 9,
+  "variante": "tupinamba",
+  "titulo": "Capítulo 9: O Corpo, os Sentidos e a Pintura",
+  "descricao": "Domínio temático: Corpo Humano Sentidos. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.1",
+  "dificuldade_relativa_0_100": 45,
+  "scenario": {
+    "nome": "O Círculo dos Sentidos e Pintura Corporal",
+    "palette": {
+      "primary": "#5B2C6F",
+      "secondary": "#884EA0",
+      "accent": "#BB8FCE"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Akanga",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Akanga",
+            "traducao": "Cabeça / Cocada de penas",
+            "transliteracao": "a-KAN-ga",
+            "classe_gramatical": "substantivo",
+            "categoria": "corpo",
+            "exemplo_uso": "Akanga katu.",
+            "exemplo_pt": "Cabeça adornada.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_110"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Akanga' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Akanga'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Cabeça / Cocada de penas"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Akanga",
+          "explicacao": "'Akanga' significa 'Cabeça / Cocada de penas' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Akanga"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Akanga": "Cabeça / Cocada de penas"
+          },
+          "coluna_esquerda": [
+            "Akanga"
+          ],
+          "coluna_direita": [
+            "Cabeça / Cocada de penas"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Akanga"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Akanga"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Esá",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Esá",
+            "traducao": "Olhos atentos",
+            "transliteracao": "e-SA",
+            "classe_gramatical": "substantivo",
+            "categoria": "corpo",
+            "exemplo_uso": "Esá o-epîák.",
+            "exemplo_pt": "Os olhos vigiam o mar.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_110"
+          },
+          {
+            "palavra": "Pó",
+            "traducao": "Mão do combatente",
+            "transliteracao": "PO",
+            "classe_gramatical": "substantivo",
+            "categoria": "corpo",
+            "exemplo_uso": "Pó katu.",
+            "exemplo_pt": "Mão firme.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_111"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ o-epîák.'",
+          "texto_com_lacunas": "______ o-epîák.",
+          "respostas_lacunas": [
+            "Esá"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Esá' (Olhos atentos).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Esá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Esá'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Olhos atentos"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Esá",
+          "explicacao": "'Esá' traduz-se fielmente como 'Olhos atentos'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Esá"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Pó"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Pó' (Mão do combatente).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pó"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Pó'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Mão do combatente"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Pó",
+          "explicacao": "'Pó' traduz-se fielmente como 'Mão do combatente'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pó"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Esá",
+          "Pó"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Akanga",
+            "traducao": "Cabeça / Cocada de penas",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_110"
+          },
+          {
+            "palavra": "Esá",
+            "traducao": "Olhos atentos",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_110"
+          },
+          {
+            "palavra": "Pó",
+            "traducao": "Mão do combatente",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_111"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 9:",
+          "pares_corretos": {
+            "Akanga": "Cabeça / Cocada de penas",
+            "Esá": "Olhos atentos",
+            "Pó": "Mão do combatente"
+          },
+          "coluna_esquerda": [
+            "Akanga",
+            "Esá",
+            "Pó"
+          ],
+          "coluna_direita": [
+            "Cabeça / Cocada de penas",
+            "Olhos atentos",
+            "Mão do combatente"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Akanga",
+            "Esá",
+            "Pó"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Akanga' para o Português:",
+          "termo_fonte": "Akanga",
+          "traducao_esperada": "Cabeça / Cocada de penas",
+          "explicacao": "'Akanga' significa 'Cabeça / Cocada de penas'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Akanga"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Akanga",
+          "Esá",
+          "Pó"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 9 de Tupinamba."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 8
+}

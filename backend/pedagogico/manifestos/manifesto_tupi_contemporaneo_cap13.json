@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 13,
+  "timestamp": "2026-09-25T23:02:52.462071+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Maraká",
+      "traducao": "Chocalho sagrado",
+      "variante": "tupi_contemporaneo",
+      "categoria": "musica",
+      "capitulo_introduzido": 13,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_180",
+      "exemplo_uso": "Maraká o-puã.",
+      "transliteracao": "ma-ra-KA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Poracé",
+      "traducao": "Dança tradicional",
+      "variante": "tupi_contemporaneo",
+      "categoria": "musica",
+      "capitulo_introduzido": 13,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_182",
+      "exemplo_uso": "Poracé taba pupé.",
+      "transliteracao": "po-ra-SE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Toryba",
+      "traducao": "Alegria / Celebração",
+      "variante": "tupi_contemporaneo",
+      "categoria": "musica",
+      "capitulo_introduzido": 13,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_183",
+      "exemplo_uso": "Toryba guasu!",
+      "transliteracao": "to-ry-BA",
+      "status": "completo"
+    }
+  ]
+}

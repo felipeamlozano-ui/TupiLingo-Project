@@ -1,0 +1,56 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 12,
+  "timestamp": "2026-09-25T23:02:52.038490+00:00",
+  "total_itens": 4,
+  "itens_ensinados": [
+    {
+      "palavra": "U",
+      "traducao": "Comer",
+      "variante": "tupi_contemporaneo",
+      "categoria": "verbos",
+      "capitulo_introduzido": 12,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_170",
+      "exemplo_uso": "A-u manioka.",
+      "transliteracao": "U",
+      "status": "completo"
+    },
+    {
+      "palavra": "I",
+      "traducao": "Beber",
+      "variante": "tupi_contemporaneo",
+      "categoria": "verbos",
+      "capitulo_introduzido": 12,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_170",
+      "exemplo_uso": "A-i 'y.",
+      "transliteracao": "I",
+      "status": "completo"
+    },
+    {
+      "palavra": "Sawa",
+      "traducao": "Ir",
+      "variante": "tupi_contemporaneo",
+      "categoria": "verbos",
+      "capitulo_introduzido": 12,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_171",
+      "exemplo_uso": "A-sawa taba pupé.",
+      "transliteracao": "sa-WA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kere",
+      "traducao": "Dormir",
+      "variante": "tupi_contemporaneo",
+      "categoria": "verbos",
+      "capitulo_introduzido": 12,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_172",
+      "exemplo_uso": "A-kere inĩ pupé.",
+      "transliteracao": "ke-RE",
+      "status": "completo"
+    }
+  ]
+}

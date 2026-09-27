@@ -1,0 +1,56 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 3,
+  "timestamp": "2026-09-25T23:02:47.982711+00:00",
+  "total_itens": 4,
+  "itens_ensinados": [
+    {
+      "palavra": "Jawat",
+      "traducao": "Onça / Cão",
+      "variante": "kamaiura",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_180",
+      "exemplo_uso": "Jawat ka'a pupé.",
+      "transliteracao": "ja-WAT",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tatu",
+      "traducao": "Tatu",
+      "variante": "kamaiura",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_180",
+      "exemplo_uso": "Tatu iwi pupé.",
+      "transliteracao": "ta-TU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kawarai",
+      "traducao": "Jacaré da lagoa",
+      "variante": "kamaiura",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_182",
+      "exemplo_uso": "Kawarai ypawu pupé.",
+      "transliteracao": "ka-wa-RAI",
+      "status": "completo"
+    },
+    {
+      "palavra": "Moia",
+      "traducao": "Serpente / Cobra",
+      "variante": "kamaiura",
+      "categoria": "fauna",
+      "capitulo_introduzido": 3,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_185",
+      "exemplo_uso": "Moia ka'a pupé.",
+      "transliteracao": "moi-A",
+      "status": "completo"
+    }
+  ]
+}

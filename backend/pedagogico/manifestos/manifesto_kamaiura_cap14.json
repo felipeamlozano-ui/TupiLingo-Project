@@ -1,0 +1,32 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 14,
+  "timestamp": "2026-09-25T23:02:53.463522+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Mavutsinim",
+      "traducao": "O Criador primordial xinguano",
+      "variante": "kamaiura",
+      "categoria": "mitologia",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_415",
+      "exemplo_uso": "Mavutsinim awa o-monhang.",
+      "transliteracao": "ma-vu-tsi-NIM",
+      "status": "completo"
+    },
+    {
+      "palavra": "Mama'e",
+      "traducao": "Espírito guardião da mata",
+      "variante": "kamaiura",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 14,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_418",
+      "exemplo_uso": "Mama'e ka'a pupé.",
+      "transliteracao": "ma-ma-E",
+      "status": "completo"
+    }
+  ]
+}

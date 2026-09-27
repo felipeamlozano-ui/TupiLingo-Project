@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  tupilingo-ocr-forense:
+    build:
+      context: ..
+      dockerfile: ocr_pipeline/Dockerfile
+    container_name: tupilingo_ocr_forense_v3
+    environment:
+      # Limita as threads matemáticas para não saturar os 2 núcleos do WSL
+      - OMP_NUM_THREADS=2
+      - MKL_NUM_THREADS=2
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        limits:
+          # Teto máximo de segurança dentro dos 2 GB do WSL2
+          cpus: '2.0'
+          memory: 1536M
+        reservations:
+          cpus: '1.0'
+          memory: 512M
+    volumes:
+      - ../ocr_exports:/app/ocr_exports
+      - ../ocr_cache:/app/ocr_cache
+      - ../pdfs:/app/pdfs:ro
+      - ../vector_store.db:/app/vector_store.db:ro
+    command: ["python", "-m", "pytest", "ocr_pipeline/tests/", "-v"]
+    restart: "no"

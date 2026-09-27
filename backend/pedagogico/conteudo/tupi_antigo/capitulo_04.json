@@ -1,0 +1,368 @@
+{
+  "capitulo_numero": 4,
+  "variante": "tupi_antigo",
+  "titulo": "Capítulo 4: As Águas, os Rios e a Navegação",
+  "descricao": "Domínio temático: Hidrografia Peixes. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.2",
+  "dificuldade_relativa_0_100": 20,
+  "scenario": {
+    "nome": "Margens do Grande Rio e Igarapés",
+    "palette": {
+      "primary": "#1B4F72",
+      "secondary": "#2E86C1",
+      "accent": "#5DADE2"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: 'Y",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "'Y",
+            "traducao": "Água / Rio",
+            "transliteracao": "Y",
+            "classe_gramatical": "substantivo",
+            "categoria": "natureza",
+            "exemplo_uso": "'Y katu.",
+            "exemplo_pt": "Água doce e pura.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_198"
+          },
+          {
+            "palavra": "Paraná",
+            "traducao": "Mar / Grande caudal",
+            "transliteracao": "pa-ra-NA",
+            "classe_gramatical": "substantivo",
+            "categoria": "natureza",
+            "exemplo_uso": "Paraná guasu.",
+            "exemplo_pt": "O mar aberto.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_198"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, ''Y' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra ''Y'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Água / Rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "'Y",
+          "explicacao": "''Y' significa 'Água / Rio' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "'Y"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Paraná'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Mar / Grande caudal"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Paraná",
+          "explicacao": "'Paraná' significa 'Mar / Grande caudal' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Paraná"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "'Y": "Água / Rio",
+            "Paraná": "Mar / Grande caudal"
+          },
+          "coluna_esquerda": [
+            "'Y",
+            "Paraná"
+          ],
+          "coluna_direita": [
+            "Água / Rio",
+            "Mar / Grande caudal"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "'Y",
+            "Paraná"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "'Y",
+          "Paraná"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Pira",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Pira",
+            "traducao": "Peixe",
+            "transliteracao": "pi-RA",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Pira 'y pupé.",
+            "exemplo_pt": "Peixe no rio.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_200"
+          },
+          {
+            "palavra": "Ygata",
+            "traducao": "Canoa de guerra",
+            "transliteracao": "y-ga-TA",
+            "classe_gramatical": "substantivo",
+            "categoria": "transporte",
+            "exemplo_uso": "Ygata paraná pupé.",
+            "exemplo_pt": "Canoa no mar.",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_202"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ 'y pupé.'",
+          "texto_com_lacunas": "______ 'y pupé.",
+          "respostas_lacunas": [
+            "Pira"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Pira' (Peixe).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pira"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Pira'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Peixe"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Pira",
+          "explicacao": "'Pira' traduz-se fielmente como 'Peixe'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pira"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ paraná pupé.'",
+          "texto_com_lacunas": "______ paraná pupé.",
+          "respostas_lacunas": [
+            "Ygata"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Ygata' (Canoa de guerra).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Ygata"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Ygata'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Canoa de guerra"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Ygata",
+          "explicacao": "'Ygata' traduz-se fielmente como 'Canoa de guerra'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Ygata"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pira",
+          "Ygata"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "'Y",
+            "traducao": "Água / Rio",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_198"
+          },
+          {
+            "palavra": "Paraná",
+            "traducao": "Mar / Grande caudal",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_198"
+          },
+          {
+            "palavra": "Pira",
+            "traducao": "Peixe",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_200"
+          },
+          {
+            "palavra": "Ygata",
+            "traducao": "Canoa de guerra",
+            "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_202"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 4:",
+          "pares_corretos": {
+            "'Y": "Água / Rio",
+            "Paraná": "Mar / Grande caudal",
+            "Pira": "Peixe",
+            "Ygata": "Canoa de guerra"
+          },
+          "coluna_esquerda": [
+            "'Y",
+            "Paraná",
+            "Pira",
+            "Ygata"
+          ],
+          "coluna_direita": [
+            "Água / Rio",
+            "Mar / Grande caudal",
+            "Peixe",
+            "Canoa de guerra"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "'Y",
+            "Paraná",
+            "Pira",
+            "Ygata"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra ''Y' para o Português:",
+          "termo_fonte": "'Y",
+          "traducao_esperada": "Água / Rio",
+          "explicacao": "''Y' significa 'Água / Rio'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "'Y"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "'Y",
+          "Paraná",
+          "Pira",
+          "Ygata"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 4 de Tupi Antigo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 9
+}

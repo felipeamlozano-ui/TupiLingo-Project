@@ -1,0 +1,56 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 9,
+  "timestamp": "2026-09-25T23:02:50.852803+00:00",
+  "total_itens": 4,
+  "itens_ensinados": [
+    {
+      "palavra": "Akanga",
+      "traducao": "Cabeça",
+      "variante": "tupi_contemporaneo",
+      "categoria": "corpo",
+      "capitulo_introduzido": 9,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_140",
+      "exemplo_uso": "Akanga puranga.",
+      "transliteracao": "a-KAN-ga",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tesa",
+      "traducao": "Olhos",
+      "variante": "tupi_contemporaneo",
+      "categoria": "corpo",
+      "capitulo_introduzido": 9,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_140",
+      "exemplo_uso": "Tesa o-ma'e.",
+      "transliteracao": "te-SA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Pó",
+      "traducao": "Mão",
+      "variante": "tupi_contemporaneo",
+      "categoria": "corpo",
+      "capitulo_introduzido": 9,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_141",
+      "exemplo_uso": "Pó puranga.",
+      "transliteracao": "PO",
+      "status": "completo"
+    },
+    {
+      "palavra": "Py",
+      "traducao": "Pé",
+      "variante": "tupi_contemporaneo",
+      "categoria": "corpo",
+      "capitulo_introduzido": 9,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_142",
+      "exemplo_uso": "Py yby rupi.",
+      "transliteracao": "PY",
+      "status": "completo"
+    }
+  ]
+}

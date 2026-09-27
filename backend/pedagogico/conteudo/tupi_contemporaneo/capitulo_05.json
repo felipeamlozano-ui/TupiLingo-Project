@@ -1,0 +1,368 @@
+{
+  "capitulo_numero": 5,
+  "variante": "tupi_contemporaneo",
+  "titulo": "Capítulo 5: A Mandioca e os Alimentos da Terra",
+  "descricao": "Domínio temático: Flora Alimentacao. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.2",
+  "dificuldade_relativa_0_100": 25,
+  "scenario": {
+    "nome": "O Roçado Sagrado de Mandioca",
+    "palette": {
+      "primary": "#6E2C00",
+      "secondary": "#D35400",
+      "accent": "#E59866"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Manioka",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Manioka",
+            "traducao": "Mandioca",
+            "transliteracao": "ma-ni-O-ka",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Manioka roçado pupé.",
+            "exemplo_pt": "Mandioca no roçado.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_60"
+          },
+          {
+            "palavra": "Uí",
+            "traducao": "Farinha",
+            "transliteracao": "u-I",
+            "classe_gramatical": "substantivo",
+            "categoria": "alimentos",
+            "exemplo_uso": "Uí puranga.",
+            "exemplo_pt": "Farinha boa.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_60"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Manioka' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Manioka'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Mandioca"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Manioka",
+          "explicacao": "'Manioka' significa 'Mandioca' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Manioka"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Uí'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Farinha"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Uí",
+          "explicacao": "'Uí' significa 'Farinha' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Uí"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Manioka": "Mandioca",
+            "Uí": "Farinha"
+          },
+          "coluna_esquerda": [
+            "Manioka",
+            "Uí"
+          ],
+          "coluna_direita": [
+            "Mandioca",
+            "Farinha"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Manioka",
+            "Uí"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Manioka",
+          "Uí"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Abati",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Abati",
+            "traducao": "Milho",
+            "transliteracao": "a-ba-TI",
+            "classe_gramatical": "substantivo",
+            "categoria": "flora",
+            "exemplo_uso": "Abati puranga.",
+            "exemplo_pt": "Milho doce.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_62"
+          },
+          {
+            "palavra": "Kupixawa",
+            "traducao": "Roça comunitária",
+            "transliteracao": "ku-pi-XA-wa",
+            "classe_gramatical": "substantivo",
+            "categoria": "comunidade",
+            "exemplo_uso": "Kupixawa taba pupé.",
+            "exemplo_pt": "A roça da aldeia.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_65"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ puranga.'",
+          "texto_com_lacunas": "______ puranga.",
+          "respostas_lacunas": [
+            "Abati"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Abati' (Milho).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Abati"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Abati'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Milho"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Abati",
+          "explicacao": "'Abati' traduz-se fielmente como 'Milho'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Abati"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ taba pupé.'",
+          "texto_com_lacunas": "______ taba pupé.",
+          "respostas_lacunas": [
+            "Kupixawa"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kupixawa' (Roça comunitária).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kupixawa"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kupixawa'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Roça comunitária"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kupixawa",
+          "explicacao": "'Kupixawa' traduz-se fielmente como 'Roça comunitária'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kupixawa"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Abati",
+          "Kupixawa"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Manioka",
+            "traducao": "Mandioca",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_60"
+          },
+          {
+            "palavra": "Uí",
+            "traducao": "Farinha",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_60"
+          },
+          {
+            "palavra": "Abati",
+            "traducao": "Milho",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_62"
+          },
+          {
+            "palavra": "Kupixawa",
+            "traducao": "Roça comunitária",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_65"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 5:",
+          "pares_corretos": {
+            "Manioka": "Mandioca",
+            "Uí": "Farinha",
+            "Abati": "Milho",
+            "Kupixawa": "Roça comunitária"
+          },
+          "coluna_esquerda": [
+            "Manioka",
+            "Uí",
+            "Abati",
+            "Kupixawa"
+          ],
+          "coluna_direita": [
+            "Mandioca",
+            "Farinha",
+            "Milho",
+            "Roça comunitária"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Manioka",
+            "Uí",
+            "Abati",
+            "Kupixawa"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Manioka' para o Português:",
+          "termo_fonte": "Manioka",
+          "traducao_esperada": "Mandioca",
+          "explicacao": "'Manioka' significa 'Mandioca'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Manioka"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Manioka",
+          "Uí",
+          "Abati",
+          "Kupixawa"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 5 de Tupi Contemporaneo."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 9
+}

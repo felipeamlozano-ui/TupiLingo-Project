@@ -1,0 +1,32 @@
+{
+  "variante": "kamaiura",
+  "capitulo": 11,
+  "timestamp": "2026-09-25T23:02:51.864101+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Iwyra",
+      "traducao": "Árvore sagrada / Tronco",
+      "variante": "kamaiura",
+      "categoria": "flora",
+      "capitulo_introduzido": 11,
+      "licao_introduzida": 1,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_285",
+      "exemplo_uso": "Iwyra katu.",
+      "transliteracao": "i-wy-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ka'a",
+      "traducao": "Floresta tropical do Xingu",
+      "variante": "kamaiura",
+      "categoria": "flora",
+      "capitulo_introduzido": 11,
+      "licao_introduzida": 2,
+      "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_286",
+      "exemplo_uso": "Ka'a tuwip.",
+      "transliteracao": "ka-A",
+      "status": "completo"
+    }
+  ]
+}

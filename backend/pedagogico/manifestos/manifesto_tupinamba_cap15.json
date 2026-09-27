@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 15,
+  "timestamp": "2026-09-25T23:02:54.107541+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Pajé",
+      "traducao": "Xamã e médico da confederação",
+      "variante": "tupinamba",
+      "categoria": "espiritualidade",
+      "capitulo_introduzido": 15,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_185",
+      "exemplo_uso": "Pajé o-pohano abá.",
+      "transliteracao": "pa-JE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Pohã",
+      "traducao": "Ervas de restinga",
+      "variante": "tupinamba",
+      "categoria": "cura",
+      "capitulo_introduzido": 15,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_186",
+      "exemplo_uso": "Pohã katu.",
+      "transliteracao": "po-HAN",
+      "status": "completo"
+    }
+  ]
+}

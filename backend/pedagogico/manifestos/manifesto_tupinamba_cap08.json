@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 8,
+  "timestamp": "2026-09-25T23:02:50.761058+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Gûyrá",
+      "traducao": "Ave / Pássaro",
+      "variante": "tupinamba",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_105",
+      "exemplo_uso": "Gûyrá o-gûebé.",
+      "transliteracao": "gwy-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Gûará",
+      "traducao": "Guará vermelho da restinga",
+      "variante": "tupinamba",
+      "categoria": "avifauna",
+      "capitulo_introduzido": 8,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_106",
+      "exemplo_uso": "Gûará pyrang.",
+      "transliteracao": "gwa-RA",
+      "status": "completo"
+    }
+  ]
+}

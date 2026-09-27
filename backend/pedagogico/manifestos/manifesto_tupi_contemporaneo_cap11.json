@@ -1,0 +1,44 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 11,
+  "timestamp": "2026-09-25T23:02:51.691283+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Ka'a",
+      "traducao": "Mata / Floresta",
+      "variante": "tupi_contemporaneo",
+      "categoria": "flora",
+      "capitulo_introduzido": 11,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_160",
+      "exemplo_uso": "Ka'a puranga.",
+      "transliteracao": "ka-A",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ybyrá",
+      "traducao": "Árvore / Madeira",
+      "variante": "tupi_contemporaneo",
+      "categoria": "flora",
+      "capitulo_introduzido": 11,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_161",
+      "exemplo_uso": "Ybyrá guasu.",
+      "transliteracao": "y-by-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kapi'i",
+      "traducao": "Capim / Folhagem",
+      "variante": "tupi_contemporaneo",
+      "categoria": "flora",
+      "capitulo_introduzido": 11,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_163",
+      "exemplo_uso": "Kapi'i oka ári.",
+      "transliteracao": "ka-pi-I",
+      "status": "completo"
+    }
+  ]
+}

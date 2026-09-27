@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 20,
+  "timestamp": "2026-09-25T23:02:56.890479+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Pindorama",
+      "traducao": "A terra soberana",
+      "variante": "tupinamba",
+      "categoria": "toponimia",
+      "capitulo_introduzido": 20,
+      "licao_introduzida": 1,
+      "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386",
+      "exemplo_uso": "Pindorama yande retama.",
+      "transliteracao": "pin-do-RA-ma",
+      "status": "completo"
+    },
+    {
+      "palavra": "Tupinambá Kuatiá",
+      "traducao": "A escrita perene da nação Tupinambá",
+      "variante": "tupinamba",
+      "categoria": "lingua",
+      "capitulo_introduzido": 20,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_220",
+      "exemplo_uso": "Tupinambá kuatiá katu.",
+      "transliteracao": "tu-pi-nam-BA kwa-ti-A",
+      "status": "completo"
+    }
+  ]
+}

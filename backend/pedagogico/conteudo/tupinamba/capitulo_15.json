@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 15,
+  "variante": "tupinamba",
+  "titulo": "Capítulo 15: O Pajé e a Medicina da Terra",
+  "descricao": "Domínio temático: Cura Xamanismo. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.2",
+  "dificuldade_relativa_0_100": 75,
+  "scenario": {
+    "nome": "A Tenda de Cura do Pajé",
+    "palette": {
+      "primary": "#4D5656",
+      "secondary": "#5F6A6A",
+      "accent": "#73C6B6"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Pajé",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Pajé",
+            "traducao": "Xamã e médico da confederação",
+            "transliteracao": "pa-JE",
+            "classe_gramatical": "substantivo",
+            "categoria": "espiritualidade",
+            "exemplo_uso": "Pajé o-pohano abá.",
+            "exemplo_pt": "O pajé assiste os feridos.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_185"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Pajé' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Pajé'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Xamã e médico da confederação"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Pajé",
+          "explicacao": "'Pajé' significa 'Xamã e médico da confederação' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pajé"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Pajé": "Xamã e médico da confederação"
+          },
+          "coluna_esquerda": [
+            "Pajé"
+          ],
+          "coluna_direita": [
+            "Xamã e médico da confederação"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pajé"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pajé"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Pohã",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Pohã",
+            "traducao": "Ervas de restinga",
+            "transliteracao": "po-HAN",
+            "classe_gramatical": "substantivo",
+            "categoria": "cura",
+            "exemplo_uso": "Pohã katu.",
+            "exemplo_pt": "Bálsamo da mata.",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_186"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Pohã"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Pohã' (Ervas de restinga).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pohã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupinamba, como se traduz 'Pohã'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Ervas de restinga"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Pohã",
+          "explicacao": "'Pohã' traduz-se fielmente como 'Ervas de restinga'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pohã"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pohã"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Pajé",
+            "traducao": "Xamã e médico da confederação",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_185"
+          },
+          {
+            "palavra": "Pohã",
+            "traducao": "Ervas de restinga",
+            "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_186"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 15:",
+          "pares_corretos": {
+            "Pajé": "Xamã e médico da confederação",
+            "Pohã": "Ervas de restinga"
+          },
+          "coluna_esquerda": [
+            "Pajé",
+            "Pohã"
+          ],
+          "coluna_direita": [
+            "Xamã e médico da confederação",
+            "Ervas de restinga"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Pajé",
+            "Pohã"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Pajé' para o Português:",
+          "termo_fonte": "Pajé",
+          "traducao_esperada": "Xamã e médico da confederação",
+          "explicacao": "'Pajé' significa 'Xamã e médico da confederação'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pajé"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pajé",
+          "Pohã"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 15 de Tupinamba."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}

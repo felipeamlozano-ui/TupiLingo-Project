@@ -57,16 +57,17 @@ class Settings(BaseSettings):
     # Fallback Chain Configuration (can be overridden via env)
     FALLBACK_CHAIN: List[str] = Field(
         default=[
-            "groq/openai/gpt-oss-20b",
-            "cerebras/llama3.1-8b",
             "groq/openai/gpt-oss-120b",
+            "groq/openai/gpt-oss-20b",
+            "groq/qwen/qwen3.8-27b",
             "gemini/gemini-2.5-flash",
-            "openai/gpt-4o-mini",
+            "groq/allam-2-7b",
         ]
     )
 
-    # Redis Cache
+    # Redis Cache & Circuit Breaker
     REDIS_URL: str = "redis://localhost:6379/0"
     PROMPT_CACHE_TTL: int = 3600 * 24 * 7 # 1 week
+    FATAL_BAN_TTL_SECONDS: int = 86400 # 24 horas padrão para banimento de modelos com erro fatal (401/402/403/404)
 
 settings = Settings()

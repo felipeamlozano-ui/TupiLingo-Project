@@ -1,0 +1,56 @@
+{
+  "variante": "tupi_contemporaneo",
+  "capitulo": 4,
+  "timestamp": "2026-09-25T23:02:48.140608+00:00",
+  "total_itens": 4,
+  "itens_ensinados": [
+    {
+      "palavra": "'Y",
+      "traducao": "Água / Rio",
+      "variante": "tupi_contemporaneo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_77",
+      "exemplo_uso": "'Y puranga.",
+      "transliteracao": "Y",
+      "status": "completo"
+    },
+    {
+      "palavra": "Paraná",
+      "traducao": "Rio grande / Mar",
+      "variante": "tupi_contemporaneo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_77",
+      "exemplo_uso": "Paraná guasu.",
+      "transliteracao": "pa-ra-NA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Pira",
+      "traducao": "Peixe",
+      "variante": "tupi_contemporaneo",
+      "categoria": "fauna",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_78",
+      "exemplo_uso": "Pira 'y pupé.",
+      "transliteracao": "pi-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Igarapé",
+      "traducao": "Canal de canoa",
+      "variante": "tupi_contemporaneo",
+      "categoria": "natureza",
+      "capitulo_introduzido": 4,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_80",
+      "exemplo_uso": "Igarapé puranga.",
+      "transliteracao": "i-ga-ra-PE",
+      "status": "completo"
+    }
+  ]
+}

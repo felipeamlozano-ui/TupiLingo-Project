@@ -1,0 +1,80 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 1,
+  "timestamp": "2026-09-25T23:02:47.197426+00:00",
+  "total_itens": 6,
+  "itens_ensinados": [
+    {
+      "palavra": "Kauê",
+      "traducao": "Olá / Salve",
+      "variante": "tupi_antigo",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_140",
+      "exemplo_uso": "Kauê, che amigo!",
+      "transliteracao": "ka-u-Ê",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ereîur-pe",
+      "traducao": "Vieste?",
+      "variante": "tupi_antigo",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_140",
+      "exemplo_uso": "Ereîur-pe, pa'ĩ?",
+      "transliteracao": "e-re-i-UR-pe",
+      "status": "completo"
+    },
+    {
+      "palavra": "Pa'ĩ",
+      "traducao": "Senhor / Tratamento respeitoso",
+      "variante": "tupi_antigo",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_142",
+      "exemplo_uso": "Pa'ĩ katu.",
+      "transliteracao": "pa-IN",
+      "status": "completo"
+    },
+    {
+      "palavra": "Katu",
+      "traducao": "Bom / Belo",
+      "variante": "tupi_antigo",
+      "categoria": "qualidade",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_145",
+      "exemplo_uso": "Abá katu.",
+      "transliteracao": "ka-TU",
+      "status": "completo"
+    },
+    {
+      "palavra": "Îandé",
+      "traducao": "Nós (inclusivo)",
+      "variante": "tupi_antigo",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_150",
+      "exemplo_uso": "Îandé abá.",
+      "transliteracao": "yan-DE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Xé",
+      "traducao": "Eu / Meu",
+      "variante": "tupi_antigo",
+      "categoria": "gramatica",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_150",
+      "exemplo_uso": "Xé abá katu.",
+      "transliteracao": "XE",
+      "status": "completo"
+    }
+  ]
+}

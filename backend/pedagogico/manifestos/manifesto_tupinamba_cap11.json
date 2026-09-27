@@ -1,0 +1,32 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 11,
+  "timestamp": "2026-09-25T23:02:51.928872+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Ybyrapytanga",
+      "traducao": "Pau-brasil costeiro",
+      "variante": "tupinamba",
+      "categoria": "flora",
+      "capitulo_introduzido": 11,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_150",
+      "exemplo_uso": "Ybyrapytanga retama.",
+      "transliteracao": "y-by-ra-py-TAN-ga",
+      "status": "completo"
+    },
+    {
+      "palavra": "Ka'a",
+      "traducao": "Floresta tropical costeira",
+      "variante": "tupinamba",
+      "categoria": "flora",
+      "capitulo_introduzido": 11,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_152",
+      "exemplo_uso": "Ka'a guasu.",
+      "transliteracao": "ka-A",
+      "status": "completo"
+    }
+  ]
+}

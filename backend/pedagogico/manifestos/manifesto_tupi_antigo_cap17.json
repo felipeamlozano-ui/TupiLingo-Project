@@ -1,0 +1,32 @@
+{
+  "variante": "tupi_antigo",
+  "capitulo": 17,
+  "timestamp": "2026-09-25T23:02:54.927256+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Emiré",
+      "traducao": "Presente cerimonial de aliança",
+      "variante": "tupi_antigo",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 17,
+      "licao_introduzida": 1,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_580",
+      "exemplo_uso": "Emiré katu.",
+      "transliteracao": "e-mi-RE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Moatyrã",
+      "traducao": "Escambo amigável",
+      "variante": "tupi_antigo",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 17,
+      "licao_introduzida": 2,
+      "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_582",
+      "exemplo_uso": "Moatyrã taba pupé.",
+      "transliteracao": "mo-a-ty-RAN",
+      "status": "completo"
+    }
+  ]
+}

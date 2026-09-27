@@ -158,6 +158,7 @@ class TestRAGServiceHybrid:
             for i in range(1, n + 1)
         ]
 
+    @patch("app.ai.rag_service.get_redis_client", return_value=None)
     @patch("app.ai.rag_service._USE_SUPABASE_ENGINE", True)
     @patch("app.ai.rag_service.supabase_service")
     @patch("app.ai.rag_service.FallbackOrchestrator.execute_with_fallback")
@@ -167,6 +168,7 @@ class TestRAGServiceHybrid:
         mock_cache: MagicMock,
         mock_fallback: MagicMock,
         mock_supabase: MagicMock,
+        mock_redis: MagicMock,
     ) -> None:
         from app.ai.rag_service import RAGService
         from app.schemas.quiz import LLMQuizItem, LLMQuizResponse
@@ -197,6 +199,7 @@ class TestRAGServiceHybrid:
         assert "explicacao" in primeira
         assert len(primeira["alternativas"]) == 4
 
+    @patch("app.ai.rag_service.get_redis_client", return_value=None)
     @patch("app.ai.rag_service._USE_SUPABASE_ENGINE", True)
     @patch("app.ai.rag_service.supabase_service")
     @patch("app.ai.rag_service.FallbackOrchestrator.execute_with_fallback")
@@ -204,6 +207,7 @@ class TestRAGServiceHybrid:
         self,
         mock_fallback: MagicMock,
         mock_supabase: MagicMock,
+        mock_redis: MagicMock,
     ) -> None:
         """Garante que a cada chamada o Supabase é consultado para gerar questões inéditas (sem cache)."""
         from app.ai.rag_service import RAGService
@@ -229,6 +233,7 @@ class TestRAGServiceHybrid:
         # Supabase DEVE ser chamado obrigatoriamente
         mock_supabase.obter_esqueleto_quiz.assert_called_once()
 
+    @patch("app.ai.rag_service.get_redis_client", return_value=None)
     @patch("app.ai.rag_service._USE_SUPABASE_ENGINE", True)
     @patch("app.ai.rag_service.supabase_service")
     @patch("app.ai.rag_service.prompt_cache")
@@ -236,6 +241,7 @@ class TestRAGServiceHybrid:
         self,
         mock_cache: MagicMock,
         mock_supabase: MagicMock,
+        mock_redis: MagicMock,
     ) -> None:
         """
         Quando a RPC retorna lista vazia, o RAGService aciona o pipeline legado.

@@ -1,0 +1,44 @@
+{
+  "variante": "tupinamba",
+  "capitulo": 9,
+  "timestamp": "2026-09-25T23:02:51.146622+00:00",
+  "total_itens": 3,
+  "itens_ensinados": [
+    {
+      "palavra": "Akanga",
+      "traducao": "Cabeça / Cocada de penas",
+      "variante": "tupinamba",
+      "categoria": "corpo",
+      "capitulo_introduzido": 9,
+      "licao_introduzida": 1,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_110",
+      "exemplo_uso": "Akanga katu.",
+      "transliteracao": "a-KAN-ga",
+      "status": "completo"
+    },
+    {
+      "palavra": "Esá",
+      "traducao": "Olhos atentos",
+      "variante": "tupinamba",
+      "categoria": "corpo",
+      "capitulo_introduzido": 9,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_110",
+      "exemplo_uso": "Esá o-epîák.",
+      "transliteracao": "e-SA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Pó",
+      "traducao": "Mão do combatente",
+      "variante": "tupinamba",
+      "categoria": "corpo",
+      "capitulo_introduzido": 9,
+      "licao_introduzida": 2,
+      "rag_id": "b5e6721f1778931d12ca59f0e7e7c212cfc05d27c12f9eb7b73edf4ae45ba84d_chunk_111",
+      "exemplo_uso": "Pó katu.",
+      "transliteracao": "PO",
+      "status": "completo"
+    }
+  ]
+}

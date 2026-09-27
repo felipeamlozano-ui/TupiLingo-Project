@@ -1,0 +1,245 @@
+{
+  "capitulo_numero": 19,
+  "variante": "kamaiura",
+  "titulo": "Capítulo 19: A Resistência Armada e a Defesa da Terra",
+  "descricao": "Domínio temático: Historia Conflito. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "B1.1",
+  "dificuldade_relativa_0_100": 95,
+  "scenario": {
+    "nome": "O Baluarte da Resistência Histórica",
+    "palette": {
+      "primary": "#641E16",
+      "secondary": "#78281F",
+      "accent": "#C0392B"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Morená",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Morená",
+            "traducao": "Sítio sagrado ancestral do Xingu",
+            "transliteracao": "mo-re-NA",
+            "classe_gramatical": "proprio",
+            "categoria": "toponimia",
+            "exemplo_uso": "Morená y-confluência.",
+            "exemplo_pt": "Morená, berço mítico.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_8"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Morená' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Morená'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Sítio sagrado ancestral do Xingu"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Morená",
+          "explicacao": "'Morená' significa 'Sítio sagrado ancestral do Xingu' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Morená"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Morená": "Sítio sagrado ancestral do Xingu"
+          },
+          "coluna_esquerda": [
+            "Morená"
+          ],
+          "coluna_direita": [
+            "Sítio sagrado ancestral do Xingu"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Morená"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Morená"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Kuluene",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Kuluene",
+            "traducao": "Rio Kuluene (formador do Xingu)",
+            "transliteracao": "ku-lu-E-ne",
+            "classe_gramatical": "proprio",
+            "categoria": "toponimia",
+            "exemplo_uso": "Kuluene 'y guasu.",
+            "exemplo_pt": "O grande rio Kuluene.",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_96"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ 'y guasu.'",
+          "texto_com_lacunas": "______ 'y guasu.",
+          "respostas_lacunas": [
+            "Kuluene"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Kuluene' (Rio Kuluene (formador do Xingu)).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Kuluene"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Kamaiura, como se traduz 'Kuluene'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "C",
+              "texto": "Rio Kuluene (formador do Xingu)"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Kuluene",
+          "explicacao": "'Kuluene' traduz-se fielmente como 'Rio Kuluene (formador do Xingu)'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Kuluene"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Kuluene"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Morená",
+            "traducao": "Sítio sagrado ancestral do Xingu",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_8"
+          },
+          {
+            "palavra": "Kuluene",
+            "traducao": "Rio Kuluene (formador do Xingu)",
+            "rag_id": "f7a4c5d52c8b29f2507bb7e60bb8fc320fdde1dcf8bffae91301689460a300e0_chunk_96"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 19:",
+          "pares_corretos": {
+            "Morená": "Sítio sagrado ancestral do Xingu",
+            "Kuluene": "Rio Kuluene (formador do Xingu)"
+          },
+          "coluna_esquerda": [
+            "Morená",
+            "Kuluene"
+          ],
+          "coluna_direita": [
+            "Sítio sagrado ancestral do Xingu",
+            "Rio Kuluene (formador do Xingu)"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Morená",
+            "Kuluene"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Morená' para o Português:",
+          "termo_fonte": "Morená",
+          "traducao_esperada": "Sítio sagrado ancestral do Xingu",
+          "explicacao": "'Morená' significa 'Sítio sagrado ancestral do Xingu'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Morená"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Morená",
+          "Kuluene"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 19 de Kamaiura."
+      }
+    }
+  ],
+  "total_licoes": 3,
+  "total_exercicios": 6
+}
