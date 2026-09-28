@@ -26,7 +26,6 @@ from pydantic import BaseModel, Field
 
 from ocr_pipeline.core.config import GLOBAL_CONFIG, ForensePipelineConfig
 from ocr_pipeline.core.metrics import ForensicMetricsCollector
-from ocr_pipeline.core.orchestrator import ForensicPipelineOrchestrator
 
 logger = logging.getLogger("ocr_pipeline.benchmarking")
 
@@ -64,6 +63,8 @@ class ForensicBenchmarkEngine:
     """Motor de execução e análise de benchmarks comparativos."""
 
     def __init__(self, config: ForensePipelineConfig | None = None):
+        from ocr_pipeline.core.orchestrator import ForensicPipelineOrchestrator
+
         self.config = config or GLOBAL_CONFIG
         self.orchestrator_v3 = ForensicPipelineOrchestrator(self.config)
         self.collector = ForensicMetricsCollector()

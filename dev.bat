@@ -35,12 +35,16 @@ echo.
 echo   [5] Apenas Workers de IA (PDF Worker + Vocab Worker)
 echo       - Roda exclusivamente a ingestao e classificacao de dados em background.
 echo.
-echo   [6] Sair / Cancelar
+echo   [6] TupiLingo OCR Research Grade (RFC v5/v6 GPU Local — RTX 5060) [EXCLUSIVO PC]
+echo       - Processamento arquivistico offline na GPU local: Doc AI WBF, Self-Consistency,
+echo         Calibracao Bayesiana, Token Super-Res, Benchmark Real e Dashboards.
+echo.
+echo   [7] Sair / Cancelar
 echo.
 echo ===============================================================================
 
 set "CHOICE="
-set /p "CHOICE= Selecione uma opcao [1-6]: "
+set /p "CHOICE= Selecione uma opcao [1-7]: "
 
 :handle_choice
 if "%CHOICE%"=="1" goto opt_full
@@ -48,10 +52,11 @@ if "%CHOICE%"=="2" goto opt_fast
 if "%CHOICE%"=="3" goto opt_prod_tunnel
 if "%CHOICE%"=="4" goto opt_backend_only
 if "%CHOICE%"=="5" goto opt_workers_only
-if "%CHOICE%"=="6" goto opt_exit
+if "%CHOICE%"=="6" goto opt_research_ocr
+if "%CHOICE%"=="7" goto opt_exit
 
 echo.
-echo [!] Opcao invalida: "%CHOICE%"! Digite um numero de 1 a 6.
+echo [!] Opcao invalida: "%CHOICE%"! Digite um numero de 1 a 7.
 pause
 goto menu
 
@@ -319,7 +324,130 @@ pause
 goto end
 
 :: -------------------------------------------------------------------------------
-:: OPCAO 6: Sair
+:: OPCAO 6: TupiLingo OCR Research Grade (RFC v5/v6 GPU Local — RTX 5060)
+:: -------------------------------------------------------------------------------
+:opt_research_ocr
+cls
+echo ===============================================================================
+echo   TUPILINGO OCR v6 RESEARCH GRADE — PAINEL DE PROCESSAMENTO LOCAL (RTX 5060)
+echo ===============================================================================
+echo.
+echo   Hardware de Referencia: NVIDIA GeForce RTX 5060 (8GB VRAM sm_120) ^| Intel i5
+echo   Ambiente de Execucao:   100%% Offline / Local Desktop (Sem consumo de cota)
+echo.
+echo   Selecione a operacao desejada:
+echo.
+echo   [1] Processar Lote do Acervo (39 PDFs / Modo Noturno com Checkpoint)
+echo       - Executa WBF Layout, Self-Consistency, Token SR e Calibracao Bayesiana.
+echo.
+echo   [2] Executar Benchmark Cientifico Real (CER, WER, IoU, 7 Categorias)
+echo       - Avalia ganho de precisao e gera relatorios CER_REPORT.md e WER_REPORT.md.
+echo.
+echo   [3] Gerar Pacote Completo de Relatorios Cientificos e Parquet (Capitulo 35)
+echo       - Produz RELATORIO_CIENTIFICO.md, ARTIGO_RESULTADOS.md e METRICAS_DETALHADAS.parquet.
+echo.
+echo   [4] Abrir Dashboard Cientifico e Comparativo v5 vs v6 no Navegador
+echo       - Abre localmente dashboard.html, comparativo_v5_vs_v6.html e ground_truth_report.html.
+echo.
+echo   [5] Abrir Ferramenta de Anotacao Ground Truth (Capitulo 21)
+echo       - Abre annotator.html para curadoria manual e homologacao de lemas.
+echo.
+echo   [6] Executar Suite Completa de Testes Automatizados (78 Testes Pytest)
+echo       - Valida integridade de todos os 35 capitulos sem regressoes.
+echo.
+echo   [7] Executar Ciclo Completo (Lote + Benchmark + Relatorios + Dashboard)
+echo.
+echo   [8] Voltar ao Menu Principal
+echo.
+echo ===============================================================================
+set "SUB6_CHOICE="
+set /p "SUB6_CHOICE= Selecione uma sub-opcao [1-8]: "
+
+if "%SUB6_CHOICE%"=="1" goto opt_ocr_batch
+if "%SUB6_CHOICE%"=="2" goto opt_ocr_benchmark
+if "%SUB6_CHOICE%"=="3" goto opt_ocr_reports
+if "%SUB6_CHOICE%"=="4" goto opt_ocr_dashboard
+if "%SUB6_CHOICE%"=="5" goto opt_ocr_annotator
+if "%SUB6_CHOICE%"=="6" goto opt_ocr_tests
+if "%SUB6_CHOICE%"=="7" goto opt_ocr_all
+if "%SUB6_CHOICE%"=="8" goto menu
+
+echo.
+echo [!] Opcao invalida: "%SUB6_CHOICE%"! Digite um numero de 1 a 8.
+pause
+goto opt_research_ocr
+
+:opt_ocr_batch
+echo.
+set "PAGES_ARG="
+set /p "PAGES_ARG= Digite a quantidade maxima de paginas (ou pressione Enter para todas): "
+cd /d "%PROJECT_DIR%backend"
+if not "%PAGES_ARG%"=="" (
+    .\venv\Scripts\python.exe run_research_ocr.py --batch --max-pages %PAGES_ARG%
+) else (
+    .\venv\Scripts\python.exe run_research_ocr.py --batch
+)
+echo.
+echo Pressione qualquer tecla para retornar ao menu OCR...
+pause >nul
+goto opt_research_ocr
+
+:opt_ocr_benchmark
+echo.
+cd /d "%PROJECT_DIR%backend"
+.\venv\Scripts\python.exe run_research_ocr.py --benchmark
+echo.
+echo Pressione qualquer tecla para retornar ao menu OCR...
+pause >nul
+goto opt_research_ocr
+
+:opt_ocr_reports
+echo.
+cd /d "%PROJECT_DIR%backend"
+.\venv\Scripts\python.exe run_research_ocr.py --reports
+echo.
+echo Pressione qualquer tecla para retornar ao menu OCR...
+pause >nul
+goto opt_research_ocr
+
+:opt_ocr_dashboard
+echo.
+cd /d "%PROJECT_DIR%backend"
+.\venv\Scripts\python.exe run_research_ocr.py --dashboard
+echo.
+echo Pressione qualquer tecla para retornar ao menu OCR...
+pause >nul
+goto opt_research_ocr
+
+:opt_ocr_annotator
+echo.
+cd /d "%PROJECT_DIR%backend"
+.\venv\Scripts\python.exe run_research_ocr.py --annotator
+echo.
+echo Pressione qualquer tecla para retornar ao menu OCR...
+pause >nul
+goto opt_research_ocr
+
+:opt_ocr_tests
+echo.
+cd /d "%PROJECT_DIR%backend"
+.\venv\Scripts\python.exe run_research_ocr.py --test
+echo.
+echo Pressione qualquer tecla para retornar ao menu OCR...
+pause >nul
+goto opt_research_ocr
+
+:opt_ocr_all
+echo.
+cd /d "%PROJECT_DIR%backend"
+.\venv\Scripts\python.exe run_research_ocr.py --all
+echo.
+echo Pressione qualquer tecla para retornar ao menu OCR...
+pause >nul
+goto opt_research_ocr
+
+:: -------------------------------------------------------------------------------
+:: OPCAO 7: Sair
 :: -------------------------------------------------------------------------------
 :opt_exit
 echo.

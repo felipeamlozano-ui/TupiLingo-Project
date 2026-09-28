@@ -2,5 +2,11 @@
 Pacote Preprocessing Engine — TupiLingo OCR Forense v3.0
 """
 from .multi_branch import MultiBranchPreprocessingEngine
+from .dewarp_engine import OrientationAndDewarpEngine, DewarpResult
 
-__all__ = ["MultiBranchPreprocessingEngine"]
+__all__ = [
+    "MultiBranchPreprocessingEngine",
+    "OrientationAndDewarpEngine",
+    "DewarpResult",
+]
+

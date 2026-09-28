@@ -9,6 +9,9 @@ from .forensic_lexicon import (
     MorphologicalDecomposition,
     TupiMorphologicalParser,
 )
+from .hierarchical_lexicon import HierarchicalLexiconEngine, HierarchicalTokenScore
+from .active_learning import ActiveLearningEngine, ReviewRecord
+from .never_hallucinate_guard import NeverHallucinateGuard, TokenGuardDecision
 
 __all__ = [
     "ForensicLexicalEngine",
@@ -16,4 +19,12 @@ __all__ = [
     "LexicalCorrection",
     "MorphologicalDecomposition",
     "TupiMorphologicalParser",
+    "HierarchicalLexiconEngine",
+    "HierarchicalTokenScore",
+    "ActiveLearningEngine",
+    "ReviewRecord",
+    "NeverHallucinateGuard",
+    "TokenGuardDecision",
 ]
+
+

@@ -47,9 +47,54 @@ class TokenProvenance(BaseModel):
     correction_applied: Optional[str] = None
     rag_provenance_id: Optional[str] = None
     is_rollback: bool = False
-    lexical_transformations: list[dict[str, Any]] = Field(default_factory=list)
     tupi_morphology: Optional[dict[str, Any]] = None
     rag_verified: bool = False
+    # RFC v6.1 Capítulo I — Explainability Engine
+    winning_filter: Optional[str] = None
+    winning_ocr: Optional[str] = None
+    competing_ocrs: list[dict[str, Any]] = Field(default_factory=list)
+    layout_detector: Optional[str] = None
+    score_ocr: Optional[float] = None
+    score_layout: Optional[float] = None
+    score_lexicon: Optional[float] = None
+    score_rag: Optional[float] = None
+    score_morphology: Optional[float] = None
+    score_consensus: Optional[float] = None
+    calibrated_confidence: Optional[float] = None
+    rollback_applied: bool = False
+    human_reviewed: bool = False
+    crop_image_path: Optional[str] = None
+
+    def explain_decision_tree(self) -> dict[str, Any]:
+        """Gera a árvore de decisão explicável para o token (Capítulo I)."""
+        return {
+            "token_id": self.token_id,
+            "surface_form": self.cleaned_text,
+            "raw_hypothesis": self.raw_text,
+            "bbox": [self.bbox.x1, self.bbox.y1, self.bbox.x2, self.bbox.y2],
+            "visual_provenance": {
+                "winning_filter": self.winning_filter or self.preprocessing_branch,
+                "super_resolution": self.super_resolution_model or "none",
+                "crop_ref": self.crop_image_path,
+            },
+            "ocr_consensus": {
+                "winner": self.winning_ocr or self.engine_origin,
+                "score_ocr": self.score_ocr or self.confidence_raw,
+                "competitors": self.competing_ocrs or self.candidates_considered,
+            },
+            "linguistic_and_rag_scores": {
+                "score_layout": self.score_layout or 0.90,
+                "score_lexicon": self.score_lexicon or 0.85,
+                "score_rag": self.score_rag or (1.0 if self.rag_verified else 0.5),
+                "score_morphology": self.score_morphology or (1.0 if self.tupi_morphology else 0.5),
+                "score_consensus": self.score_consensus or 0.5,
+            },
+            "governance": {
+                "calibrated_confidence": self.calibrated_confidence or self.confidence_fused,
+                "rollback_applied": self.rollback_applied or self.is_rollback,
+                "human_reviewed": self.human_reviewed,
+            },
+        }
 
 
 class RegionProvenance(BaseModel):

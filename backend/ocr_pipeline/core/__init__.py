@@ -7,6 +7,9 @@ from .config import GLOBAL_CONFIG, ForensePipelineConfig
 from .metrics import ForensicMetricsCollector, ResourceMonitor, TelemetrySnapshot
 from .provenance import BoundingBox, PageAuditTrail, RegionProvenance, TokenProvenance
 from .scheduler import MemoryAwareScheduler
+from .gpu_orchestrator import GPUResourceOrchestrator, GPUTelemetry
+from .dataset_versioning import DatasetVersionManager, PDFDatasetManifest, DatasetVersionSnapshot
+from .quality_certification import QualityCertifier, QualityTier, CertificationResult
 
 
 def __getattr__(name: str):
@@ -31,4 +34,13 @@ __all__ = [
     "ResourceMonitor",
     "TelemetrySnapshot",
     "TokenProvenance",
+    "GPUResourceOrchestrator",
+    "GPUTelemetry",
+    "DatasetVersionManager",
+    "PDFDatasetManifest",
+    "DatasetVersionSnapshot",
+    "QualityCertifier",
+    "QualityTier",
+    "CertificationResult",
 ]
+

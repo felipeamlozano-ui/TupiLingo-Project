@@ -74,6 +74,36 @@ class MultiBranchPreprocessingEngine:
             "deskew_hough": self.branch_deskew_hough,
             "deskew_pca": self.branch_deskew_pca,
             "deskew_projection": self.branch_deskew_projection,
+
+            # Grupo 6: Restauração Arquivística Avançada — RFC v6.1 Capítulo J (28 branches adicionais -> 71 total)
+            "lab_equalize": self.branch_lab_equalize,
+            "color_deconv_irongall": self.branch_color_deconv_irongall,
+            "bleedthrough_removal": self.branch_bleedthrough_removal,
+            "foxing_removal": self.branch_foxing_removal,
+            "ink_reconstruction": self.branch_ink_reconstruction,
+            "swt_filter": self.branch_swt_filter,
+            "skeleton_zhang_suen": self.branch_skeleton_zhang_suen,
+            "fft_highpass": self.branch_fft_highpass,
+            "fft_notch": self.branch_fft_notch,
+            "wavelet_haar": self.branch_wavelet_haar,
+            "sauvola_k015": lambda g: self.branch_sauvola(g, window=25, k=0.15),
+            "sauvola_k025": lambda g: self.branch_sauvola(g, window=25, k=0.25),
+            "sauvola_k040": lambda g: self.branch_sauvola(g, window=25, k=0.40),
+            "niblack_k01": lambda g: self.branch_niblack(g, window=25, k=-0.10),
+            "niblack_k03": lambda g: self.branch_niblack(g, window=25, k=-0.30),
+            "wolf_w20": lambda g: self.branch_wolf(g, window=20),
+            "wolf_w40": lambda g: self.branch_wolf(g, window=40),
+            "bernsen_c15": lambda g: self.branch_bernsen(g, window=31, contrast_threshold=15),
+            "bernsen_c25": lambda g: self.branch_bernsen(g, window=31, contrast_threshold=25),
+            "retinex_sigma15": lambda g: self.branch_retinex_ssr(g, sigma=15.0),
+            "retinex_sigma250": lambda g: self.branch_retinex_ssr(g, sigma=250.0),
+            "clahe_clip4": lambda g: cv2.createCLAHE(clipLimit=4.0, tileGridSize=(8, 8)).apply(g),
+            "gamma_080": lambda g: self.branch_gamma(g, gamma=0.80),
+            "gamma_120": lambda g: self.branch_gamma(g, gamma=1.20),
+            "tophat_disk7": lambda g: cv2.morphologyEx(g, cv2.MORPH_TOPHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))),
+            "blackhat_disk7": lambda g: cv2.morphologyEx(g, cv2.MORPH_BLACKHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))),
+            "morph_gradient_3x3": lambda g: cv2.morphologyEx(g, cv2.MORPH_GRADIENT, np.ones((3, 3), np.uint8)),
+            "opening_5x5": lambda g: cv2.morphologyEx(g, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8)),
         }
 
     # ── GRUPO 1: CONTRASTE & ILUMINAÇÃO ──────────────────────────────────────
@@ -515,3 +545,84 @@ class MultiBranchPreprocessingEngine:
             saved_paths.append(path)
 
         return saved_paths
+
+    # ── GRUPO 6: RESTAURAÇÃO ARQUIVÍSTICA AVANÇADA (RFC v6.1) ─────────────────
+
+    def branch_lab_equalize(self, gray: np.ndarray) -> np.ndarray:
+        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+        return clahe.apply(gray)
+
+    def branch_color_deconv_irongall(self, gray: np.ndarray) -> np.ndarray:
+        norm = gray.astype(np.float32) / 255.0
+        ink_channel = np.clip(1.0 - np.exp(-3.5 * (1.0 - norm)), 0.0, 1.0) * 255.0
+        return 255 - ink_channel.astype(np.uint8)
+
+    def branch_bleedthrough_removal(self, gray: np.ndarray) -> np.ndarray:
+        bg_estimate = cv2.GaussianBlur(gray, (51, 51), 0)
+        diff = cv2.divide(gray, bg_estimate, scale=255)
+        return cv2.normalize(diff, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+
+    def branch_foxing_removal(self, gray: np.ndarray) -> np.ndarray:
+        med = cv2.medianBlur(gray, 5)
+        diff = cv2.absdiff(gray, med)
+        mask = (diff > 30).astype(np.uint8) * 255
+        cleaned = np.where(mask == 255, med, gray)
+        return cleaned.astype(np.uint8)
+
+    def branch_ink_reconstruction(self, gray: np.ndarray) -> np.ndarray:
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+        closed = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
+        return cv2.addWeighted(gray, 0.6, closed, 0.4, 0)
+
+    def branch_swt_filter(self, gray: np.ndarray) -> np.ndarray:
+        edges = cv2.Canny(gray, 50, 150)
+        dist = cv2.distanceTransform(255 - edges, cv2.DIST_L2, 3)
+        norm_dist = cv2.normalize(dist, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+        return cv2.addWeighted(gray, 0.7, norm_dist, 0.3, 0)
+
+    def branch_skeleton_zhang_suen(self, gray: np.ndarray) -> np.ndarray:
+        _, bin_img = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        skel = np.zeros(bin_img.shape, np.uint8)
+        element = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+        done = False
+        img_temp = bin_img.copy()
+        while not done:
+            eroded = cv2.erode(img_temp, element)
+            temp = cv2.dilate(eroded, element)
+            temp = cv2.subtract(img_temp, temp)
+            skel = cv2.bitwise_or(skel, temp)
+            img_temp = eroded.copy()
+            if cv2.countNonZero(img_temp) == 0:
+                done = True
+        return 255 - skel
+
+    def branch_fft_highpass(self, gray: np.ndarray) -> np.ndarray:
+        f = np.fft.fft2(gray)
+        fshift = np.fft.fftshift(f)
+        rows, cols = gray.shape
+        crow, ccol = rows // 2, cols // 2
+        mask = np.ones((rows, cols), np.uint8)
+        r = 25
+        cv2.circle(mask, (ccol, crow), r, 0, -1)
+        fshift_filtered = fshift * mask
+        f_ishift = np.fft.ifftshift(fshift_filtered)
+        img_back = np.abs(np.fft.ifft2(f_ishift))
+        return cv2.normalize(img_back, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+
+    def branch_fft_notch(self, gray: np.ndarray) -> np.ndarray:
+        f = np.fft.fft2(gray)
+        fshift = np.fft.fftshift(f)
+        rows, cols = gray.shape
+        crow, ccol = rows // 2, cols // 2
+        fshift[crow - 2 : crow + 2, :] = 0
+        fshift[:, ccol - 2 : ccol + 2] = 0
+        f_ishift = np.fft.ifftshift(fshift)
+        img_back = np.abs(np.fft.ifft2(f_ishift))
+        return cv2.normalize(img_back, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+
+    def branch_wavelet_haar(self, gray: np.ndarray) -> np.ndarray:
+        h, w = gray.shape
+        small = cv2.resize(gray, (w // 2, h // 2), interpolation=cv2.INTER_AREA)
+        blurred = cv2.resize(small, (w, h), interpolation=cv2.INTER_LINEAR)
+        return cv2.addWeighted(gray, 0.75, blurred, 0.25, 0)
+

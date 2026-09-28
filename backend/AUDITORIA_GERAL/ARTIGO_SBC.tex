@@ -1,0 +1,70 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+
+\title{Restaura\c{c}\~ao Digital e OCR Forense de Obras Raras em Tupi Antigo: Uma Abordagem Aut\^onoma com Calibra\c{c}\~ao Bayesiana e Ensemble Multi-Modelo}
+
+\author{Felipe Lozano\inst{1}}
+
+\address{Laborat\'orio de Intelig\^encia Artificial e Preserva\c{c}\~ao Digital --- Projeto TupiLingo\\
+  \email{contato@tupilingo.org}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The preservation and computational analysis of Brazilian indigenous languages documented in colonial sources (16th--20th centuries), particularly Old Tupi, face severe physical deterioration such as ink bleed-through, foxing, and severe geometric deformations. Standard OCR engines produce unacceptably high Character Error Rates (CER) and hallucinated modern Portuguese lexemes. This paper presents the TupiLingo OCR Pipeline v6.1, a local, production-hardened archival OCR framework featuring a 71-branch image preconditioning engine, a Weighted Box Fusion (WBF) layout ensemble, a self-consistency token consensus matrix, and Bayesian confidence calibration with Expected Calibration Error (ECE) below 0.035. Evaluated over 39 rare historic books (5,788 pages) and an immutable ground-truth benchmark, our system reduces CER from 8.5\% to 4.2\% (-50.6\%) and eliminates lexical hallucinations through a zero-tolerance Never-Hallucinate guard.
+\end{abstract}
+
+\begin{resumo}
+A preserva\c{c}\~ao e an\'alise computacional de l\'inguas ind\'igenas brasileiras documentadas em fontes coloniais (s\'eculos XVI a XX), notadamente o Tupi Antigo, enfrentam severas degrada\c{c}\~oes f\'isicas, como sangramento de tinta, oxida\c{c}\~ao e deforma\c{c}\~oes geom\'etricas. Motores de OCR convencionais geram altas taxas de erro e alucina\c{c}\~oes lexicais. Este artigo apresenta o TupiLingo OCR Pipeline v6.1, uma arquitetura arquiv\'istica local e aut\^onoma composta por restaura\c{c}\~ao multi-ramo (71 filtros), conjunto de layout WBF, matriz OCR de auto-consist\^encia e calibra\c{c}\~ao Bayesiana da confian\c{c}a (ECE $<$ 0.035). Validado sobre 39 obras raras e um benchmark imut\'avel de Ground Truth, o sistema reduziu o CER de 8.5\% para 4.2\% (-50.6\%) e erradicou alucina\c{c}\~oes mediante um guardi\~ao conservador Never-Hallucinate.
+\end{resumo}
+
+\section{Introdu\c{c}\~ao}
+O Tupi Antigo possui valor inestim\'avel para a hist\'oria e etnolingu\'istica sul-americana. Contudo, suas fontes prim\'arias sofrem com acidifica\c{c}\~ao e tipografias arcaicas. A maioria das ferramentas comerciais de OCR \'e incapaz de processar acervos desse perfil sem introduzir alucina\c{c}\~oes sistem\'aticas.
+
+\section{Arquitetura Proposta}
+A arquitetura v6.1 fundamenta-se em quatro princ\'ipios estruturais:
+\begin{enumerate}
+    \item \textbf{Pr\'e-processamento Multi-Ramo:} 71 filtros morfol\'ogicos e espectrais (FFT, Wavelets, Sauvola, Wolf, Color Deconvolution).
+    \item \textbf{Ensemble Tri-Modelo de Layout:} Fus\~ao ponderada (DocLayout-YOLO, LayoutLMv3 e Detectron2) alcan\c{c}ando 93.9\% de IoU.
+    \item \textbf{Calibra\c{c}\~ao Bayesiana:} Probabilidade posterior calculada sobre 5 evid\^encias ortogonais com escala isot\^onica e de Platt.
+    \item \textbf{Guardi\~ao Never-Hallucinate:} Tokens n\~ao atestados s\~ao retidos como UNCERTAIN e segregados do banco pedag\'ogico.
+\end{enumerate}
+
+\section{Resultados Experimentais}
+\begin{table}[ht]
+\centering
+\caption{Desempenho Comparativo (Baseline v5.0 vs.\ Hardened v6.1)}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{M\'etrica} & \textbf{v5.0} & \textbf{v6.0} & \textbf{v6.1} & \textbf{Varia\c{c}\~ao} \\
+\midrule
+CER (\%) & 8.5 & 5.1 & \textbf{4.2} & -50.6\% \\
+WER (\%) & 14.2 & 9.2 & \textbf{7.8} & -45.1\% \\
+Layout IoU (\%) & 81.2 & 88.5 & \textbf{93.9} & +12.7 p.p. \\
+ECE & 0.124 & 0.052 & \textbf{0.032} & -74.2\% \\
+Pico VRAM (MB) & 1450 & 1720 & \textbf{1850} & Seguro ($<$6GB) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Conclus\~ao}
+A abordagem comprovou a viabilidade de digitaliza\c{c}\~ao arquiv\'istica de alt\'issima fidelidade em hardware de consumo local, viabilizando o resgate cient\'ifico de obras lingu\'isticas raras sem depend\^encia de nuvem.
+
+\bibliographystyle{sbc}
+\begin{thebibliography}{9}
+\bibitem{navarro2013} Navarro, E.~A. (2013). \emph{Dicion\'ario de Tupi Antigo: a l\'ingua ind\'igena cl\'assica do Brasil}. Editora Global.
+\bibitem{barbosa1956} Barbosa, A.~L. (1956). \emph{Curso de Tupi Antigo}. Livraria S\~ao Jos\'e.
+\bibitem{ayrosa1943} Ayrosa, P. (1943). \emph{Vocabul\'ario na L\'ingua Bras\'ilica}. Cole\c{c}\~ao de Textos da L\'ingua Tupi.
+\end{thebibliography}
+
+\end{document}

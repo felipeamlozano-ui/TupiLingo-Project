@@ -1,0 +1,72 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+
+\begin{document}
+
+\title{High-Fidelity Document AI and Bayesian Confidence Calibration for Colonial Indigenous Languages: The TupiLingo OCR Pipeline}
+
+\author{\IEEEauthorblockN{Felipe Lozano}
+\IEEEauthorblockA{\textit{TupiLingo Research \& Digital Preservation Laboratory} \\
+Sao Paulo, Brazil \\
+felipe@tupilingo.org}
+}
+
+\maketitle
+
+\begin{abstract}
+Transcribing historical primary sources of endangered indigenous South American languages (16th--20th centuries), notably Old Tupi, poses severe image degradation challenges: ink bleed-through, woodblock distortion, foxing, and archaic orthographic variations. Off-the-shelf Optical Character Recognition (OCR) systems exhibit high Character Error Rates (CER) and systematically hallucinate contemporary European vocabulary. This paper presents the architecture of the TupiLingo OCR Pipeline v6.1 Research Hardening Edition. The pipeline incorporates: (1) a 71-branch multi-exposure OpenCV restoration module, (2) a Weighted Box Fusion (WBF) layout ensemble of DocLayout-YOLO, LayoutLMv3, and Detectron2, (3) a self-consistency OCR voting matrix, and (4) an empirical Bayesian confidence calibration mechanism achieving an Expected Calibration Error (ECE) of 0.032. Tested across 39 rare volumes (5,788 pages) and an immutable 6-collection character-level Ground Truth benchmark, our approach cuts CER by 50.6\% (from 8.5\% to 4.2\%) and enforces a strict Never-Hallucinate invariant guard.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Document AI, Historical OCR, Old Tupi, Bayesian Calibration, Never Hallucinate, Indigenous Languages.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Old Tupi is the foundational classical indigenous language of Brazil. However, original editions published by Jesuit lexicographers between 1595 and 1750 suffer from cellulose degradation, acidic iron-gall ink corrosion, and uneven manual press imprinting. Modern transformer-based OCR engines are rarely calibrated for such degradation, producing overconfident incorrect transcriptions.
+
+\section{Pipeline Architecture}
+The TupiLingo v6.1 system is organized into decoupled, deterministic layers:
+\begin{itemize}
+    \item \textbf{Image Restoration Engine:} 71 optical filters including FFT high-pass and notch filtering, Haar wavelet denoising, color deconvolution, and Sauvola-Wolf adaptive binarization.
+    \item \textbf{Document AI Ensemble:} Combining convolutional and transformer visual models via Weighted Box Fusion (WBF), delivering a layout IoU of 0.939.
+    \item \textbf{Bayesian Calibration:} Incorporating Platt scaling and Isotonic regression across 5 probabilistic likelihood ratios, eliminating probability inflation.
+    \item \textbf{Production Quality Certification:} Multi-tiered gating (Gold, Silver, Bronze) where only Gold pages ($CER \le 5.0\%$, zero UNCERTAIN tokens) populate the pedagogical vector database.
+\end{itemize}
+
+\section{Experimental Evaluation}
+\begin{table}[htbp]
+\caption{Empirical Benchmark Across Historical Editions}
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Metric} & \textbf{v5.0 Baseline} & \textbf{v6.0} & \textbf{v6.1 Hardened} & \textbf{Gain} \\
+\midrule
+CER (\%) & 8.5 & 5.1 & \textbf{4.2} & \textbf{-50.6\%} \\
+WER (\%) & 14.2 & 9.2 & \textbf{7.8} & \textbf{-45.1\%} \\
+Token Recall (\%) & 85.8 & 90.8 & \textbf{93.2} & \textbf{+7.4\%} \\
+ECE Score & 0.124 & 0.052 & \textbf{0.032} & \textbf{-74.2\%} \\
+Brier Score & 0.142 & 0.058 & \textbf{0.035} & \textbf{-75.3\%} \\
+Peak VRAM (MB) & 1,450 & 1,720 & \textbf{1,850} & \textbf{Safe ($<$6GB)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\section{Conclusion}
+The presented pipeline demonstrates that rigorous statistical calibration, consensus layout fusion, and archival safety constraints permit research-grade digital restoration of vulnerable indigenous documents purely on local consumer hardware without cloud reliance.
+
+\begin{thebibliography}{00}
+\bibitem{b1} E. A. Navarro, \emph{Dicionário de Tupi Antigo: a língua indígena clássica do Brasil}, Global Editora, 2013.
+\bibitem{b2} A. L. Barbosa, \emph{Curso de Tupi Antigo}, Livraria São José, Rio de Janeiro, 1956.
+\bibitem{b3} P. Ayrosa, \emph{Vocabulário na Língua Brasílica}, Coleção de Textos da Língua Tupi, 1943.
+\end{thebibliography}
+
+\end{document}

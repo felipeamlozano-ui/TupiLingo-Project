@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TupiLingo — Anotador Científico de Ground Truth (RFC v6.1)</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #121927;
+      --border: #1f2b3e;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent: #10b981;
+      --warn: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 24px; }
+    header { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    h1 { font-size: 1.8rem; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .badge { background: rgba(56, 189, 248, 0.15); color: var(--primary); padding: 4px 10px; border-radius: 999px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    .panel-title { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 14px; }
+    
+    label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+    select, input, textarea {
+      width: 100%;
+      background: #090d16;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
+    textarea { height: 160px; font-family: monospace; resize: vertical; line-height: 1.5; }
+    
+    .token-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+    .token-table th, .token-table td { padding: 8px 10px; border: 1px solid var(--border); text-align: left; }
+    .token-table th { background: #090d16; color: var(--primary); }
+    .token-table input { margin: 0; padding: 4px 8px; font-size: 0.85rem; }
+
+    .btn { background: #0284c7; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+    .btn:hover { background: #0369a1; }
+    .btn-success { background: #059669; }
+    .btn-success:hover { background: #047857; }
+
+    .guidelines { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px; padding: 14px; margin-top: 16px; font-size: 0.85rem; }
+    .guidelines ul { margin-left: 20px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TupiLingo — Anotador Diplomático de Ground Truth <span class="badge">Capítulo F (RFC v6.1)</span></h1>
+    <p style="color: var(--text-muted); margin-top: 6px;">Curadoria humana estrita de texto, caixas delimitadoras e ordem de leitura para o corpus de referência.</p>
+  </header>
+
+  <div class="grid">
+    <!-- Painel de Edição -->
+    <div class="panel">
+      <div class="panel-title">1. Seleção e Transcrição Diplomática</div>
+      
+      <label>Categoria Documental:</label>
+      <select id="catSelect" onchange="loadCategoryTemplate()">
+        <option value="barbosa">Barbosa 1956 — Curso de Tupi Antigo</option>
+        <option value="ayrosa">Ayrosa 1943 — Apontamentos Bibliográficos</option>
+        <option value="navarro">Navarro — Dicionário de Tupi Antigo</option>
+        <option value="anchieta">Anchieta 1595 — Arte de Grammatica</option>
+        <option value="catecismos">Catecismos Jesuíticos do Século XVII</option>
+        <option value="manuscritos">Manuscritos / Cartas de Camarão (1645)</option>
+      </select>
+
+      <label>Revisor Responsável:</label>
+      <input type="text" id="reviewerName" value="Curador Linguístico TupiLingo" />
+
+      <label>Transcrição Fiel Diplomática (Linha por Linha):</label>
+      <textarea id="transcriptionText" oninput="updateTokensFromText()"></textarea>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-success" onclick="exportReviewPackage()">💾 Salvar Revisão (JSON)</button>
+        <button class="btn" onclick="copyJSON()">📋 Copiar JSON</button>
+      </div>
+
+      <div class="guidelines">
+        <strong>Regras Científicas Obrigatórias:</strong>
+        <ul>
+          <li>Preservar diacríticos originais e nasais autênticos (ex: ã, ẽ, ĩ, õ, ũ, ỹ).</li>
+          <li>Não modernizar ortografia arcaica (manter 'apontamentos bibliographicos').</li>
+          <li>Validar pontuação original de tipografia dos séculos XVI–XX.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Painel de Bounding Boxes e Ordem -->
+    <div class="panel">
+      <div class="panel-title">2. Edição de Bounding Boxes e Ordem de Leitura</div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Ajuste as coordenadas [x1, y1, x2, y2] e o índice de ordenação para cada token reconhecido.</p>
+
+      <div style="max-height: 480px; overflow-y: auto;">
+        <table class="token-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">Ordem</th>
+              <th>Token</th>
+              <th style="width: 180px;">Bounding Box [x1, y1, x2, y2]</th>
+            </tr>
+          </thead>
+          <tbody id="tokenTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TEMPLATES = {
+      barbosa: "xe r-oka-ramo enquanto era minha casa mba'e-katu coisa boa",
+      ayrosa: "apontamentos bibliographicos sobre a lingua tupi e guarani",
+      navarro: "oka s. casa indígena o-ikó ele mora na taba",
+      anchieta: "xe sy tupana o-mbo-ete katu teko marangatu",
+      catecismos: "tupã sy Maria santíssima o-mbo-ete teko marangatu",
+      manuscritos: "xe reirõ katu ndehe che reko mara-te'e potyguara retama py"
+    };
+
+    let currentTokens = [];
+
+    function loadCategoryTemplate() {
+      const cat = document.getElementById("catSelect").value;
+      document.getElementById("transcriptionText").value = TEMPLATES[cat] || "";
+      updateTokensFromText();
+    }
+
+    function updateTokensFromText() {
+      const txt = document.getElementById("transcriptionText").value;
+      const words = txt.split(/\\s+/).filter(w => w.length > 0);
+      currentTokens = words.map((w, idx) => ({
+        token: w,
+        reading_order_index: idx + 1,
+        line_index: 1,
+        bbox: [40 + idx * 70, 50, 40 + idx * 70 + w.length * 12, 80]
+      }));
+      renderTokenTable();
+    }
+
+    function renderTokenTable() {
+      const tbody = document.getElementById("tokenTableBody");
+      tbody.innerHTML = "";
+      currentTokens.forEach((t, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><input type="number" value="${t.reading_order_index}" style="width:50px;" onchange="currentTokens[${idx}].reading_order_index = parseInt(this.value)" /></td>
+          <td><strong>${t.token}</strong></td>
+          <td><input type="text" value="${t.bbox.join(', ')}" onchange="currentTokens[${idx}].bbox = this.value.split(',').map(Number)" /></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function exportReviewPackage() {
+      const cat = document.getElementById("catSelect").value;
+      const reviewer = document.getElementById("reviewerName").value;
+      const transcription = document.getElementById("transcriptionText").value;
+      const payload = {
+        category: cat,
+        reviewer: reviewer,
+        revision_date: new Date().toISOString(),
+        transcription: transcription,
+        tokens_count: currentTokens.length,
+        tokens: currentTokens
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `ground_truth_${cat}_page_001.json`;
+      a.click();
+    }
+
+    function copyJSON() {
+      const txt = JSON.stringify({ tokens: currentTokens }, null, 2);
+      navigator.clipboard.writeText(txt);
+      alert("JSON de Ground Truth copiado para a área de transferência!");
+    }
+
+    window.onload = loadCategoryTemplate;
+  </script>
+</body>
+</html>
