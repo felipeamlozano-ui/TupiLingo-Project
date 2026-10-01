@@ -73,7 +73,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
+DB_ENGINE = config(
+    'DB_ENGINE',
+    default='django.db.backends.postgresql' if config('DB_HOST', default='') else 'django.db.backends.sqlite3'
+)
 
 if 'sqlite' in DB_ENGINE:
     DATABASES = {
@@ -86,7 +89,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('DB_NAME', default='tupilingo'),
+            'NAME': config('DB_NAME', default='postgres'),
             'USER': config('DB_USER', default='postgres'),
             'PASSWORD': config('DB_PASSWORD', default=''),
             'HOST': config('DB_HOST', default='localhost'),
@@ -94,6 +97,12 @@ else:
             'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=0, cast=int),
             'CONN_HEALTH_CHECKS': True,
             'OPTIONS': {
+                'sslmode': config('DB_SSLMODE', default='require'),
+                'connect_timeout': 10,
+                'keepalives': 1,
+                'keepalives_idle': 30,
+                'keepalives_interval': 10,
+                'keepalives_count': 5,
                 'options': '-c statement_timeout=30000',
             },
         }

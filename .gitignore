@@ -112,6 +112,9 @@ app.*.map.json
 **/android/captures/
 **/android/.cxx/
 **/android/app/src/main/assets/
+**/android/.kotlin/
+**/.kotlin/
+.kotlin/
 
 # iOS Platform Builds & Ephemeral
 **/ios/Pods/
@@ -130,6 +133,7 @@ app.*.map.json
 # Web, Windows & Desktop Ephemeral
 **/web/build/
 **/windows/flutter/ephemeral/
+!**/windows/runner/*.manifest
 **/linux/flutter/ephemeral/
 **/macos/Flutter/ephemeral/
 
@@ -201,6 +205,221 @@ playwright/.cache/
 *.iml
 *.ipr
 *.iws
+
+# ------------------------------------------------------------------------------
+# 📝 Documentação, Markdown & Prompts (.md, prompts e rascunhos)
+# ------------------------------------------------------------------------------
+*.md
+*.markdown
+!README.md
+!**/README.md
+!frontend/tupi_lingo/README.md
+!backend/README.md
+
+# Prompts, Agentes e Especificações de IA
+*PROMPT*
+*prompt*.txt
+*prompt*.md
+*.prompt
+prompts/
+**/prompts/
+**/prompt/
+.agents/
+.cursor/
+.windsurf/
+.copilot/
+backend/AUDITORIA_GERAL/
+backend/*_REPORT.md
+backend/*_RELATORIO*.md
+backend/*_SPECIFICATION.md
+backend/*_specification.md
+backend/pedagogico/*_report.md
+backend/pedagogico/*_log.md
+backend/pedagogico/*_specification.md
+
+# ------------------------------------------------------------------------------
+# 🖼️ Imagens (Screenshots, prints, mockups e imagens soltas)
+# ------------------------------------------------------------------------------
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.bmp
+*.tiff
+*.tif
+*.ico
+*.psd
+*.ai
+*.drawio
+screenshots/
+**/screenshots/
+captures/
+**/captures/
+mockups/
+**/mockups/
+backend/scratch/*.png
+backend/scratch/*.jpg
+
+# EXCEÇÕES: Assets oficiais do aplicativo, ícones de plataforma e dataset
+!frontend/tupi_lingo/assets/**
+!assets/**
+!**/assets/**
+!frontend/tupi_lingo/android/app/src/main/res/**
+!**/android/**/res/**
+!frontend/tupi_lingo/ios/Runner/Assets.xcassets/**
+!**/ios/**/Assets.xcassets/**
+!frontend/tupi_lingo/macos/Runner/Assets.xcassets/**
+!**/macos/**/Assets.xcassets/**
+!frontend/tupi_lingo/windows/runner/resources/**
+!frontend/tupi_lingo/web/**
+!backend/ground_truth/**
+
+# ------------------------------------------------------------------------------
+# 📄 PDFs & Documentos Binários
+# ------------------------------------------------------------------------------
+*.pdf
+*.epub
+*.mobi
+*.djvu
+pdfs/
+**/pdfs/
+backend/pdfs/
+
+# ------------------------------------------------------------------------------
+# 🧪 Testes, Diagnósticos & Relatórios de Execução
+# ------------------------------------------------------------------------------
+test/
+tests/
+**/test/
+**/tests/
+frontend/tupi_lingo/test/
+backend/tests/
+backend/*/tests/
+backend/ocr_pipeline/tests/
+qa/tests/
+test-results/
+playwright-report/
+blob-report/
+
+# Arquivos de Teste Individuais
+*_test.dart
+test_*.dart
+*_test.py
+test_*.py
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+backend/clean_test_users.py
+backend/ocr_pipeline/smoke_test_gpu.py
+backend/ocr_pipeline/test_pipeline_units.py
+
+# Diagnósticos, Relatórios e Auditorias (Documentos e Saídas)
+*diagnostico*.md
+*diagnostico*.json
+*diagnostico*.py
+*diagnostico*.ps1
+*diagnostico*.txt
+*diagnosticos*.md
+*diagnosticos*.json
+*diagnostic*.md
+*diagnostic*.json
+*relatorio*.md
+*relatorio*.json
+*relatorio*.pdf
+*relatorios*.md
+*relatorios*.json
+*report*.md
+*report*.json
+*report*.html
+*reports*.md
+*reports*.json
+*auditoria*.md
+*auditoria*.json
+*auditorias*.md
+*audit*.md
+*audit*.json
+*audit*.txt
+*benchmark*.json
+*benchmark*.csv
+*benchmark*.md
+*benchmark*.log
+backend/benchmark_*.py
+backend/ocr_pipeline/run_benchmark_and_eval.py
+backend/scratch/bench_*
+backend/scratch/real_gpu_benchmark_*
+backend/scripts/run_*audit*.py
+
+# NUNCA ignorar código fonte da aplicação, bibliotecas e migrações
+!frontend/tupi_lingo/lib/**
+!backend/**/migrations/**
+!backend/ocr_pipeline/diagnostic_engine/**
+!backend/ocr_pipeline/benchmarking/**
+!backend/ocr_pipeline/export_engine/**
+
+# ------------------------------------------------------------------------------
+# 🪵 Logs & Rastreamento
+# ------------------------------------------------------------------------------
+*.log
+*.log.*
+*.out
+*.stdout
+*.stderr
+logs/
+log/
+**/logs/
+**/log/
+worker.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ------------------------------------------------------------------------------
+# 🗄️ JSONs Inúteis, Caches e Dumps Temporários
+# ------------------------------------------------------------------------------
+graphify-out/
+.graphify/
+ingest_progress.json
+backend/ocr_pipeline/test_batch_demo.json
+backend/ocr_pipeline/batch_*_summary.json
+backend/ocr_pipeline/benchmark_results.json
+backend/scratch/*.json
+backend/scratch_samples.json
+*.json.bak
+*.json.tmp
+*.json.cache
+*.json.old
+*dump*.json
+*temp*.json
+*output*.json
+*results*.json
+*result*.json
+*metrics*.json
+*summary*.json
+qa/results/*.json
+
+# EXCEÇÕES CRÍTICAS: Schemas e dados pedagógicos essenciais do TupiLingo
+!package.json
+!package-lock.json
+!qa/package.json
+!qa/package-lock.json
+!tsconfig*.json
+!frontend/tupi_lingo/web/manifest.json
+!**/Contents.json
+!frontend/tupi_lingo/assets/data/**
+!assets/data/**
+!backend/pedagogico/conteudo/**
+!backend/pedagogico/manifestos/**
+!backend/pedagogico/mapa/**
+!backend/pedagogico/nivelamento/**
+!backend/pedagogico/work_queue.json
+!backend/pedagogico/orchestrator_execution_log.json
+
+# ------------------------------------------------------------------------------
+# 🦀 Rust & Native Tooling
+# ------------------------------------------------------------------------------
+**/target/
+native/**/target/
 
 # ------------------------------------------------------------------------------
 # 🖥️ Operating System Metadata & Temp

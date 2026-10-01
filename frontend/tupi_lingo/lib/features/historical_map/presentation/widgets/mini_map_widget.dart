@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/world_engine/camera/camera_state.dart';
 import '../../../../core/world_engine/coordinates/world_coordinate.dart';
+import '../../../../core/world_engine/theme/pindorama_theme_palette.dart';
 import '../../../../core/world_engine/villages/village_node.dart';
 
 /// Circular radar mini-map displaying continuous Pindorama world space and camera frustum.
@@ -9,6 +10,7 @@ class MiniMapWidget extends StatelessWidget {
   final List<VillageNode> villages;
   final ValueChanged<WorldCoordinate>? onCoordinateTapped;
   final double size;
+  final PindoramaThemePalette? palette;
 
   const MiniMapWidget({
     super.key,
@@ -16,19 +18,22 @@ class MiniMapWidget extends StatelessWidget {
     required this.villages,
     this.onCoordinateTapped,
     this.size = 114.0,
+    this.palette,
   });
 
   @override
   Widget build(BuildContext context) {
+    final activePalette = palette ?? PindoramaThemePalette.current();
+
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color(0xDD0D1B1E),
+        color: activePalette.hudSurface,
         border: Border.all(
-          color: const Color(0x66E5A93C),
-          width: 2.0,
+          color: activePalette.hudBorder,
+          width: 1.5,
         ),
         boxShadow: const [
           BoxShadow(
@@ -54,6 +59,7 @@ class MiniMapWidget extends StatelessWidget {
             painter: _MiniMapPainter(
               camera: camera,
               villages: villages,
+              palette: activePalette,
             ),
           ),
         ),
@@ -65,10 +71,12 @@ class MiniMapWidget extends StatelessWidget {
 class _MiniMapPainter extends CustomPainter {
   final CameraState camera;
   final List<VillageNode> villages;
+  final PindoramaThemePalette palette;
 
   _MiniMapPainter({
     required this.camera,
     required this.villages,
+    required this.palette,
   });
 
   @override
@@ -76,7 +84,7 @@ class _MiniMapPainter extends CustomPainter {
     final scale = size.width / CameraState.worldSize;
 
     // 1. Landmass & coast indicator
-    final oceanPaint = Paint()..color = const Color(0xFF0B212B);
+    final oceanPaint = Paint()..color = palette.oceanStart;
     final oceanRect = Rect.fromPoints(
       Offset(5800 * scale, 5800 * scale),
       Offset(size.width, size.height),
@@ -116,12 +124,12 @@ class _MiniMapPainter extends CustomPainter {
     );
 
     final frustumFill = Paint()
-      ..color = const Color(0x22E5A93C)
+      ..color = palette.accent.withValues(alpha: 0.15)
       ..style = PaintingStyle.fill;
     canvas.drawRect(frustumRect, frustumFill);
 
     final frustumStroke = Paint()
-      ..color = const Color(0xFFFFD54F)
+      ..color = palette.accent
       ..strokeWidth = 1.2
       ..style = PaintingStyle.stroke;
     canvas.drawRect(frustumRect, frustumStroke);

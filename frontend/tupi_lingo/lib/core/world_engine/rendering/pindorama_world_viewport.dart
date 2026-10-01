@@ -5,12 +5,16 @@ import 'package:flutter/scheduler.dart';
 import '../camera/world_camera_controller.dart';
 import '../coordinates/world_coordinate.dart';
 import '../fog/fog_state.dart';
+import '../fog/world_discovery_engine.dart';
+import '../landmarks/historical_landmark.dart';
 import '../particles/world_particle_pool.dart';
 import '../trails/historical_trail.dart';
 import '../trails/historical_overlay.dart';
 import '../trails/river_path.dart';
 import '../villages/village_node.dart';
+import '../theme/pindorama_theme_palette.dart';
 import 'pindorama_world_painter.dart';
+import '../../../../features/historical_map/presentation/widgets/historical_timeline_slider.dart';
 
 /// Master interactive widget hosting the continuous Pindorama World Engine (RFC-012C Patch 1 Chapter 4 & 6).
 ///
@@ -18,7 +22,7 @@ import 'pindorama_world_painter.dart';
 /// - 120 FPS hardware Ticker loop with bound frame delta.
 /// - Desktop mouse wheel and trackpad focal zoom.
 /// - Fluid pan with elastic rubber-band boundaries.
-/// - Short tap, long-press preview, and double-tap zoom hit-testing.
+/// - Short tap, long-press preview, and double-tap zoom hit-testing for both settlements and landmarks.
 /// - Contextual mouse hover detection.
 /// - RepaintBoundary for silky smooth rendering isolation.
 class PindoramaWorldViewport extends StatefulWidget {
@@ -27,14 +31,21 @@ class PindoramaWorldViewport extends StatefulWidget {
   final List<RiverPath> rivers;
   final List<HistoricalTrail> trails;
   final List<HistoricalOverlay> overlays;
+  final List<HistoricalLandmark>? landmarks;
   final FogState fogState;
   final WorldParticlePool particlePool;
+  final PindoramaThemePalette? palette;
   final VillageNode? selectedVillage;
+  final HistoricalLandmark? selectedLandmark;
   final ValueChanged<VillageNode>? onVillageSelected;
   final ValueChanged<VillageNode>? onVillageLongPressed;
   final ValueChanged<VillageNode>? onVillageDoubleTapped;
+  final ValueChanged<HistoricalLandmark>? onLandmarkSelected;
   final VoidCallback? onBackgroundTapped;
   final Widget? overlay;
+  final HistoricalEpoch currentEpoch;
+  final HistoricalEpoch previousEpoch;
+  final double epochTransitionProgress;
 
   const PindoramaWorldViewport({
     super.key,
@@ -43,14 +54,21 @@ class PindoramaWorldViewport extends StatefulWidget {
     required this.rivers,
     required this.trails,
     this.overlays = const [],
+    this.landmarks,
     required this.fogState,
     required this.particlePool,
+    this.palette,
     this.selectedVillage,
+    this.selectedLandmark,
     this.onVillageSelected,
     this.onVillageLongPressed,
     this.onVillageDoubleTapped,
+    this.onLandmarkSelected,
     this.onBackgroundTapped,
     this.overlay,
+    this.currentEpoch = HistoricalEpoch.pre1500,
+    this.previousEpoch = HistoricalEpoch.pre1500,
+    this.epochTransitionProgress = 1.0,
   });
 
   @override
@@ -62,11 +80,13 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
   late final Ticker _ticker;
   Duration _lastTick = Duration.zero;
   double _elapsedTime = 0.0;
+  final ValueNotifier<double> _frameNotifier = ValueNotifier<double>(0.0);
+  late Listenable _repaintSignal;
 
   // Gesture state tracking
   double _lastScale = 1.0;
   Offset _lastFocalPoint = Offset.zero;
-  bool _isHoveringVillage = false;
+  bool _isHoveringInteractive = false;
 
   // Optional Impeller fragment shader for volumetric fog
   ui.FragmentShader? _fogShader;
@@ -74,6 +94,7 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
   @override
   void initState() {
     super.initState();
+    _repaintSignal = Listenable.merge([_frameNotifier, widget.controller]);
     widget.particlePool.initializeDefaults();
     _loadShader();
 
@@ -90,13 +111,20 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
 
       widget.controller.tick(boundedDt);
       widget.particlePool.tick(boundedDt);
+      WorldDiscoveryEngine.instance.tick(boundedDt);
 
-      if (mounted) {
-        setState(() {});
-      }
+      _frameNotifier.value = _elapsedTime;
     });
 
     _ticker.start();
+  }
+
+  @override
+  void didUpdateWidget(PindoramaWorldViewport oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      _repaintSignal = Listenable.merge([_frameNotifier, widget.controller]);
+    }
   }
 
   Future<void> _loadShader() async {
@@ -117,6 +145,7 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
   @override
   void dispose() {
     _ticker.dispose();
+    _frameNotifier.dispose();
     _fogShader?.dispose();
     super.dispose();
   }
@@ -157,7 +186,7 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
   VillageNode? _findVillageAt(Offset localPosition, Size screenSize) {
     final camera = widget.controller.state;
     for (final village in widget.villages.reversed) {
-      if (village.stage == VillageEvolutionStage.oculta) continue;
+      if (village.stage == VillageEvolutionStage.oculta && !village.isFrontier) continue;
 
       final screenPt = village.coordinate.toScreen(
         cameraX: camera.x,
@@ -166,23 +195,58 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
         screenSize: screenSize,
       );
 
-      final hitRadius = 42.0 * camera.zoom.clamp(0.8, 1.8);
+      // Hit area covers both the settlement ground and the floating plaque
+      final hitRadius = (80.0 * camera.zoom).clamp(42.0, 160.0);
       final dist = (localPosition - screenPt).distance;
 
+      // Check settlement center
       if (dist <= hitRadius) {
+        return village;
+      }
+
+      // Check plaque area above settlement
+      final plaqueCenter = Offset(screenPt.dx, screenPt.dy - 78.0 * camera.zoom);
+      if ((localPosition - plaqueCenter).distance <= 38.0 * camera.zoom.clamp(0.8, 1.8)) {
         return village;
       }
     }
     return null;
   }
 
-  void _handleTapUp(TapUpDetails details, Size screenSize) {
-    final hit = _findVillageAt(details.localPosition, screenSize);
-    if (hit != null) {
-      widget.onVillageSelected?.call(hit);
-    } else {
-      widget.onBackgroundTapped?.call();
+  HistoricalLandmark? _findLandmarkAt(Offset localPosition, Size screenSize) {
+    final camera = widget.controller.state;
+    final landmarks = widget.landmarks ?? HistoricalLandmark.canonicalLandmarks;
+
+    for (final landmark in landmarks) {
+      final screenPt = landmark.coordinate.toScreen(
+        cameraX: camera.x,
+        cameraY: camera.y,
+        zoom: camera.zoom,
+        screenSize: screenSize,
+      );
+
+      final hitRadius = (32.0 * camera.zoom).clamp(20.0, 60.0);
+      if ((localPosition - screenPt).distance <= hitRadius) {
+        return landmark;
+      }
     }
+    return null;
+  }
+
+  void _handleTapUp(TapUpDetails details, Size screenSize) {
+    final villageHit = _findVillageAt(details.localPosition, screenSize);
+    if (villageHit != null) {
+      widget.onVillageSelected?.call(villageHit);
+      return;
+    }
+
+    final landmarkHit = _findLandmarkAt(details.localPosition, screenSize);
+    if (landmarkHit != null) {
+      widget.onLandmarkSelected?.call(landmarkHit);
+      return;
+    }
+
+    widget.onBackgroundTapped?.call();
   }
 
   void _handleLongPress(LongPressStartDetails details, Size screenSize) {
@@ -235,11 +299,12 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
   }
 
   void _handlePointerHover(PointerHoverEvent event, Size screenSize) {
-    final hit = _findVillageAt(event.localPosition, screenSize);
-    final isHovering = hit != null;
-    if (_isHoveringVillage != isHovering) {
+    final vHit = _findVillageAt(event.localPosition, screenSize);
+    final lHit = _findLandmarkAt(event.localPosition, screenSize);
+    final isHovering = vHit != null || lHit != null;
+    if (_isHoveringInteractive != isHovering) {
       setState(() {
-        _isHoveringVillage = isHovering;
+        _isHoveringInteractive = isHovering;
       });
     }
   }
@@ -251,7 +316,7 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
         final screenSize = Size(constraints.maxWidth, constraints.maxHeight);
 
         return MouseRegion(
-          cursor: _isHoveringVillage ? SystemMouseCursors.click : SystemMouseCursors.grab,
+          cursor: _isHoveringInteractive ? SystemMouseCursors.click : SystemMouseCursors.grab,
           onHover: (e) => _handlePointerHover(e, screenSize),
           child: Listener(
             behavior: HitTestBehavior.opaque,
@@ -271,16 +336,23 @@ class _PindoramaWorldViewportState extends State<PindoramaWorldViewport>
                     child: CustomPaint(
                       size: screenSize,
                       painter: PindoramaWorldPainter(
-                        camera: widget.controller.state,
+                        repaint: _repaintSignal,
+                        cameraController: widget.controller,
+                        getAnimationTime: () => _elapsedTime,
                         villages: widget.villages,
                         rivers: widget.rivers,
                         trails: widget.trails,
                         overlays: widget.overlays,
+                        landmarks: widget.landmarks,
                         fogState: widget.fogState,
                         particlePool: widget.particlePool,
+                        palette: widget.palette,
                         selectedVillage: widget.selectedVillage,
+                        selectedLandmark: widget.selectedLandmark,
                         fogShader: _fogShader,
-                        animationTime: _elapsedTime,
+                        currentEpoch: widget.currentEpoch,
+                        previousEpoch: widget.previousEpoch,
+                        epochTransitionProgress: widget.epochTransitionProgress,
                       ),
                     ),
                   ),

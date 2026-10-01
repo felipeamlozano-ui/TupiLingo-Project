@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
+import '../../../legal/presentation/terms_of_use_screen.dart';
 import '../widgets/register_cards.dart';
 import '../widgets/register_text_field.dart';
 
@@ -143,6 +144,42 @@ class StepCredentialsWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
+
+          // Aviso Legal & Termos de Uso
+          Center(
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const TermsOfUseScreen(),
+                  ),
+                );
+              },
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.shield_outlined, size: 16, color: Color(0xFFD08A45)),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        'Ao continuar, você aceita os Termos de Uso e a Isenção Linguística.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: AppTheme.textSecondary(context),
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
         ],
       ),
     );

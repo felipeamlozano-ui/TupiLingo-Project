@@ -1,11 +1,13 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../coordinates/world_bounds.dart';
 import '../coordinates/world_coordinate.dart';
 import 'camera_state.dart';
 
 /// Smooth, physics-driven camera controller for Pindorama continuous world (RFC-012C Patch 1 Chapter 4).
 ///
 /// Features:
+/// - Dynamic RTS / LoL-style viewport bounding (camera cannot pan into unexplored Terra Incognita).
 /// - Critically damped spring physics for target transitions (flyTo).
 /// - Exponential velocity decay inertia for pan flicks.
 /// - Elastic rubber-band boundary overshoot with spring-back.
@@ -18,11 +20,13 @@ class WorldCameraController extends ChangeNotifier {
   static const double friction = 0.86;
   static const double springStiffness = 10.0;
   static const double zoomSpringStiffness = 11.0;
-  static const double boundarySpringStiffness = 14.0;
+  static const double boundarySpringStiffness = 16.0;
   static const double stopThreshold = 0.05;
-  static const double maxOvershoot = 300.0;
+  static const double maxOvershoot = 35.0;
 
-  WorldCameraController({CameraState? initialState})
+  WorldBounds? allowedBounds;
+
+  WorldCameraController({CameraState? initialState, this.allowedBounds})
       : _state = initialState ?? const CameraState();
 
   CameraState get state => _state;
@@ -30,6 +34,31 @@ class WorldCameraController extends ChangeNotifier {
   double get y => _state.y;
   double get zoom => _state.zoom;
   WorldCoordinate get position => _state.position;
+
+  double get minAllowedX => allowedBounds?.minX ?? 0.0;
+  double get maxAllowedX => allowedBounds?.maxX ?? CameraState.worldSize;
+  double get minAllowedY => allowedBounds?.minY ?? 0.0;
+  double get maxAllowedY => allowedBounds?.maxY ?? CameraState.worldSize;
+
+  /// Atualiza os limites de movimentação permitidos da câmera (RTS / LoL style boundary).
+  void setAllowedBounds(WorldBounds? bounds, {bool snapImmediately = false}) {
+    allowedBounds = bounds;
+    if (bounds != null) {
+      final clampedX = _state.targetX.clamp(bounds.minX, bounds.maxX);
+      final clampedY = _state.targetY.clamp(bounds.minY, bounds.maxY);
+      if (snapImmediately) {
+        _state = _state.copyWith(
+          x: clampedX,
+          y: clampedY,
+          targetX: clampedX,
+          targetY: clampedY,
+        );
+      } else if (clampedX != _state.targetX || clampedY != _state.targetY) {
+        _state = _state.copyWith(targetX: clampedX, targetY: clampedY);
+      }
+      notifyListeners();
+    }
+  }
 
   /// Updates camera state directly and notifies listeners.
   void setState(CameraState newState) {
@@ -54,13 +83,13 @@ class WorldCameraController extends ChangeNotifier {
 
   /// Ends interactive pan/pinch gesture and registers release velocity.
   void onInteractionEnd({Offset velocity = Offset.zero}) {
-    // If overshooting boundaries, force target to snap back inside [0, worldSize]
-    final targetX = _state.x.clamp(0.0, CameraState.worldSize);
-    final targetY = _state.y.clamp(0.0, CameraState.worldSize);
+    // Clampa estritamente ao limite do território liberado
+    final targetX = _state.x.clamp(minAllowedX, maxAllowedX);
+    final targetY = _state.y.clamp(minAllowedY, maxAllowedY);
 
     final isOutOfBounds = (_state.x != targetX) || (_state.y != targetY);
 
-    // Convert screen velocity (px/s) to world velocity units with adaptive damping
+    // Se estiver na borda ou fora dela, anula a velocidade na direção bloqueada
     final worldVx = isOutOfBounds ? 0.0 : (velocity.dx / _state.zoom) * 0.045;
     final worldVy = isOutOfBounds ? 0.0 : (velocity.dy / _state.zoom) * 0.045;
 
@@ -79,33 +108,29 @@ class WorldCameraController extends ChangeNotifier {
     final worldDeltaX = -delta.dx / _state.zoom;
     final worldDeltaY = -delta.dy / _state.zoom;
 
-    // Apply quadratic rubber-band resistance if dragging past world bounds
+    // Resistência firme nas bordas do território liberado
     double effectiveDeltaX = worldDeltaX;
-    if (_state.x < 0.0 && worldDeltaX < 0) {
-      final ratio = (-_state.x / maxOvershoot).clamp(0.0, 1.0);
-      effectiveDeltaX *= (1.0 - ratio * 0.75);
-    } else if (_state.x > CameraState.worldSize && worldDeltaX > 0) {
-      final ratio = ((_state.x - CameraState.worldSize) / maxOvershoot).clamp(0.0, 1.0);
-      effectiveDeltaX *= (1.0 - ratio * 0.75);
+    if (_state.x <= minAllowedX && worldDeltaX < 0) {
+      effectiveDeltaX *= 0.12;
+    } else if (_state.x >= maxAllowedX && worldDeltaX > 0) {
+      effectiveDeltaX *= 0.12;
     }
 
     double effectiveDeltaY = worldDeltaY;
-    if (_state.y < 0.0 && worldDeltaY < 0) {
-      final ratio = (-_state.y / maxOvershoot).clamp(0.0, 1.0);
-      effectiveDeltaY *= (1.0 - ratio * 0.75);
-    } else if (_state.y > CameraState.worldSize && worldDeltaY > 0) {
-      final ratio = ((_state.y - CameraState.worldSize) / maxOvershoot).clamp(0.0, 1.0);
-      effectiveDeltaY *= (1.0 - ratio * 0.75);
+    if (_state.y <= minAllowedY && worldDeltaY < 0) {
+      effectiveDeltaY *= 0.12;
+    } else if (_state.y >= maxAllowedY && worldDeltaY > 0) {
+      effectiveDeltaY *= 0.12;
     }
 
-    final newX = (_state.x + effectiveDeltaX).clamp(-maxOvershoot, CameraState.worldSize + maxOvershoot);
-    final newY = (_state.y + effectiveDeltaY).clamp(-maxOvershoot, CameraState.worldSize + maxOvershoot);
+    final newX = (_state.x + effectiveDeltaX).clamp(minAllowedX - maxOvershoot, maxAllowedX + maxOvershoot);
+    final newY = (_state.y + effectiveDeltaY).clamp(minAllowedY - maxOvershoot, maxAllowedY + maxOvershoot);
 
     _state = _state.copyWith(
       x: newX,
       y: newY,
-      targetX: newX,
-      targetY: newY,
+      targetX: newX.clamp(minAllowedX, maxAllowedX),
+      targetY: newY.clamp(minAllowedY, maxAllowedY),
     );
     notifyListeners();
   }
@@ -138,9 +163,9 @@ class WorldCameraController extends ChangeNotifier {
     final halfH = screenSize.height / 2.0;
 
     final newX = (focalWorldBefore.x - (focalPointScreen.dx - halfW) / newZoom)
-        .clamp(-maxOvershoot, CameraState.worldSize + maxOvershoot);
+        .clamp(minAllowedX, maxAllowedX);
     final newY = (focalWorldBefore.y - (focalPointScreen.dy - halfH) / newZoom)
-        .clamp(-maxOvershoot, CameraState.worldSize + maxOvershoot);
+        .clamp(minAllowedY, maxAllowedY);
 
     _state = _state.copyWith(
       x: newX,
@@ -159,7 +184,6 @@ class WorldCameraController extends ChangeNotifier {
     required double scrollDelta,
     required Size screenSize,
   }) {
-    // scrollDelta > 0 means scroll down (zoom out), < 0 means scroll up (zoom in)
     final factor = math.exp(-scrollDelta * 0.0007).clamp(0.94, 1.06);
     zoomAt(
       focalPointScreen: focalPointScreen,
@@ -168,10 +192,10 @@ class WorldCameraController extends ChangeNotifier {
     );
   }
 
-  /// Smoothly animates camera to a target coordinate and zoom level.
+  /// Smoothly animates camera to a target coordinate and zoom level within allowed bounds.
   void flyTo(WorldCoordinate target, {double? zoom}) {
-    final clampedX = target.x.clamp(0.0, CameraState.worldSize);
-    final clampedY = target.y.clamp(0.0, CameraState.worldSize);
+    final clampedX = target.x.clamp(minAllowedX, maxAllowedX);
+    final clampedY = target.y.clamp(minAllowedY, maxAllowedY);
     final clampedZoom = (zoom ?? _state.zoom).clamp(
       CameraState.minZoom,
       CameraState.maxZoom,
@@ -188,9 +212,34 @@ class WorldCameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Centers the camera on the middle of Pindorama.
+  /// Instantly snaps the camera to [target] coordinate without spring delay.
+  void jumpTo(WorldCoordinate target, {double? zoom}) {
+    final clampedX = target.x.clamp(minAllowedX, maxAllowedX);
+    final clampedY = target.y.clamp(minAllowedY, maxAllowedY);
+    final newZoom = (zoom ?? _state.zoom).clamp(
+      CameraState.minZoom,
+      CameraState.maxZoom,
+    );
+
+    _state = _state.copyWith(
+      x: clampedX,
+      y: clampedY,
+      targetX: clampedX,
+      targetY: clampedY,
+      zoom: newZoom,
+      targetZoom: newZoom,
+      velocityX: 0.0,
+      velocityY: 0.0,
+      isInteracting: false,
+    );
+    notifyListeners();
+  }
+
+  /// Centers the camera on the center of the unlocked territory.
   void resetToCenter() {
-    flyTo(const WorldCoordinate(5000.0, 5000.0), zoom: 1.0);
+    final cx = (minAllowedX + maxAllowedX) / 2.0;
+    final cy = (minAllowedY + maxAllowedY) / 2.0;
+    flyTo(WorldCoordinate(cx, cy), zoom: 1.15);
   }
 
   /// Advances camera physics tick by [dt] seconds.
@@ -211,18 +260,24 @@ class WorldCameraController extends ChangeNotifier {
       newVx *= math.pow(friction, dt * 60.0);
       newVy *= math.pow(friction, dt * 60.0);
 
+      // Trava estrita: a inércia não pode ultrapassar o limite do território liberado
+      if (newX <= minAllowedX || newX >= maxAllowedX) {
+        newVx = 0.0;
+        newX = newX.clamp(minAllowedX, maxAllowedX);
+      }
+      if (newY <= minAllowedY || newY >= maxAllowedY) {
+        newVy = 0.0;
+        newY = newY.clamp(minAllowedY, maxAllowedY);
+      }
+
       if (newVx.abs() <= stopThreshold) newVx = 0.0;
       if (newVy.abs() <= stopThreshold) newVy = 0.0;
-
-      // If out of bounds during glide, damp velocity rapidly and steer target inside
-      if (newX < 0.0 || newX > CameraState.worldSize) newVx *= 0.7;
-      if (newY < 0.0 || newY > CameraState.worldSize) newVy *= 0.7;
 
       _state = _state.copyWith(
         x: newX,
         y: newY,
-        targetX: newX.clamp(0.0, CameraState.worldSize),
-        targetY: newY.clamp(0.0, CameraState.worldSize),
+        targetX: newX.clamp(minAllowedX, maxAllowedX),
+        targetY: newY.clamp(minAllowedY, maxAllowedY),
         velocityX: newVx,
         velocityY: newVy,
       );
@@ -234,7 +289,7 @@ class WorldCameraController extends ChangeNotifier {
       final dZoom = _state.targetZoom - _state.zoom;
 
       // Check if spring back from rubber-band overshoot
-      final currentStiffness = (_state.x < 0 || _state.x > CameraState.worldSize || _state.y < 0 || _state.y > CameraState.worldSize)
+      final currentStiffness = (_state.x < minAllowedX || _state.x > maxAllowedX || _state.y < minAllowedY || _state.y > maxAllowedY)
           ? boundarySpringStiffness
           : springStiffness;
 

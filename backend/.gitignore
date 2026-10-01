@@ -1,10 +1,11 @@
-
+# Backend-specific ignore rules
 vector_store.db
 ingest_progress.json
 chroma_db/
 worker.log
+__pycache__/
+*.py[cod]
 
 # Arquivos de Variaveis de Ambiente
 .env
 .env.*
-

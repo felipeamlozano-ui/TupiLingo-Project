@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/core/platform/platform_web_bridge.dart';
+import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 
 /// Exceção lançada quando a sessão do Supabase expira e não pode ser renovada.
 class SessionExpiredException implements Exception {
@@ -19,6 +20,20 @@ class ApiClient {
       PlatformWebBridge.instance.executeRequest(
         key: 'GET_$url',
         action: () => _withRetry(() => _buildGet(url, extraHeaders: extraHeaders)),
+      );
+
+  /// Retorna dados em cache instantaneamente (0ms) e revalida em segundo plano
+  static Future<http.Response> getCached(
+    String url, {
+    Map<String, String>? extraHeaders,
+    void Function(String cachedBody)? onCacheAvailable,
+    void Function(String freshBody)? onFreshData,
+  }) =>
+      ApiCacheManager.instance.getStaleWhileRevalidate(
+        url,
+        extraHeaders: extraHeaders,
+        onCacheAvailable: onCacheAvailable,
+        onFreshData: onFreshData,
       );
 
   static Future<http.Response> post(String url, {Object? body, Map<String, String>? extraHeaders}) =>

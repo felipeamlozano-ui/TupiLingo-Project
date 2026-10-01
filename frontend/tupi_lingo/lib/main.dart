@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -24,18 +25,21 @@ import 'package:tupi_lingo/core/logging/app_logger.dart';
 import 'package:tupi_lingo/core/world_engine/world_sync_service.dart';
 import 'package:tupi_lingo/features/admin/presentation/platform_suite/platform_suite_shell.dart';
 import 'package:tupi_lingo/features/store/services/store_service.dart';
+import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
+import 'package:tupi_lingo/features/settings/data/settings_service.dart';
+import 'package:tupi_lingo/core/audio/audio_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  RendererBinding.instance.ensureSemantics();
 
-  // ─── Inicialização Instantânea de Cache de Tema, Cosméticos e Endpoint ──────
+  // ─── Inicialização Instantânea de Cache de Tema, Cosméticos e Consentimento ──────
   final prefs = await SharedPreferences.getInstance();
+  LegalConsentService.instance.init(prefs);
   ThemeNotifier.instance.init(prefs);
   StoreService.instance.init(prefs);
-  final cachedWinnerApi = prefs.getString('tupilingo_last_winning_api_url')?.trim();
-  if (cachedWinnerApi != null && cachedWinnerApi.isNotEmpty) {
-    dotenv.env['API_URL'] = cachedWinnerApi;
-  }
+  await SettingsService.instance.initialize();
+  AudioManager.instance.initialize();
 
   // ─── Modo Imersivo Completo (Oculta Status Bar e Navigation Bar 100% do tempo) ─
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -73,9 +77,12 @@ API_URL=${const String.fromEnvironment('API_URL')}
 ''');
     }
     // Garante precedência do --dart-define e saneamento de API_URL
+    final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
     const envApiUrl = String.fromEnvironment('API_URL');
     if (envApiUrl.trim().isNotEmpty) {
       dotenv.env['API_URL'] = envApiUrl.trim();
+    } else if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) {
+      dotenv.env['API_URL'] = cachedWinningUrl;
     } else if (dotenv.env['API_URL'] == null || dotenv.env['API_URL']!.trim().isEmpty) {
       dotenv.env['API_URL'] = 'http://127.0.0.1:8000';
     }
@@ -214,6 +221,19 @@ class _AuthGateState extends State<AuthGate> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data["exists"] == true) {
+          // Marca consentimento legal para conta ativa/existente
+          await LegalConsentService.instance.saveConsent(termsAccepted: true, disclaimerAccepted: true);
+
+          // Sincroniza catálogo da loja e aplica o tema/cosméticos imediatamente na tela de loading
+          if (mounted) setState(() => _loadingMessage = 'Sincronizando loja e perfil...');
+          try {
+            await StoreService.instance.fetchCatalog();
+          } catch (e) {
+            debugPrint('[AuthGate] Erro ao sincronizar catálogo: $e');
+          }
+
+          if (!mounted) return;
+
           // FLUTTER-006: Usa o contrato V2 da API (variante_ativa + ja_testou).
           // O antigo campo tupi_level foi removido; o nível agora é por variante.
           final varianteAtiva = data["variante_ativa"];

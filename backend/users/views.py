@@ -355,6 +355,17 @@ def get_profile(request):
     # Total de lições concluídas
     total_licoes_concluidas = UserLesson.objects.filter(usuario=user, status='concluida').count()
 
+    # Cosméticos equipados (Tema, Avatar e Moldura ativos)
+    from .models import UserCosmetic
+    user_cosmetics = UserCosmetic.objects.filter(user=user, is_equipped=True)
+    equipped_map = {uc.item_type: uc.item_id for uc in user_cosmetics}
+    if 'theme' not in equipped_map:
+        equipped_map['theme'] = 'theme_floresta_jade'
+    if 'avatar' not in equipped_map:
+        equipped_map['avatar'] = 'avatar_arara'
+    if 'frame' not in equipped_map:
+        equipped_map['frame'] = 'frame_madeira'
+
     return JsonResponse({
         'success': True,
         'profile': {
@@ -366,6 +377,7 @@ def get_profile(request):
             'maior_ofensiva': user.maior_streak,
             'dias_estudados_total': user.dias_estudados_total,
             'total_licoes_concluidas': total_licoes_concluidas,
+            'equipped_items': equipped_map,
             'variante_ativa': {
                 'id': user.variante_ativa.id,
                 'nome': user.variante_ativa.nome,
@@ -373,6 +385,7 @@ def get_profile(request):
                 'icone': user.variante_ativa.icone,
             } if user.variante_ativa else None,
         },
+        'equipped_items': equipped_map,
         'historico_licoes': historico_licoes,
         'desempenho_por_capitulo': desempenho_por_capitulo,
         'achievements': achievements_desbloqueadas,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tupi_lingo/core/network/api_client.dart';
@@ -80,7 +81,15 @@ class StoreService {
 
     _cachedConchas = prefs.getInt(_keyUserBalanceConchas) ?? 0;
     _isInitialized = true;
+    equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
   }
+
+  static final ValueNotifier<Map<String, String>> equippedCosmeticsNotifier =
+      ValueNotifier<Map<String, String>>(Map.from(_cachedEquipped));
+
+  String get equippedTheme => _cachedEquipped['theme'] ?? 'theme_floresta_jade';
+  String get equippedAvatar => _cachedEquipped['avatar'] ?? 'avatar_arara';
+  String get equippedFrame => _cachedEquipped['frame'] ?? 'frame_madeira';
 
   Set<String> get cachedUnlockedIds => Set.unmodifiable(_cachedUnlockedIds);
   Map<String, String> get cachedEquipped => Map.unmodifiable(_cachedEquipped);
@@ -339,6 +348,7 @@ class StoreService {
 
         _cachedUnlockedIds.addAll(unlockedList);
         _cachedEquipped.addAll(equippedMap);
+        equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
         final conchas = (balance['conchas'] as num?)?.toInt() ?? 0;
         _cachedConchas = conchas;
 
@@ -423,6 +433,7 @@ class StoreService {
     _cachedEquipped['theme'] = equippedTheme;
     _cachedEquipped['avatar'] = equippedAvatar;
     _cachedEquipped['frame'] = equippedFrame;
+    equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
 
     final Set<String> unlockedSet = Set.from(_cachedUnlockedIds);
     try {
@@ -548,6 +559,7 @@ class StoreService {
 
     if (itemType != null) {
       _cachedEquipped[itemType] = itemId;
+      equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
 
       try {
         final prefs = await SharedPreferences.getInstance();
@@ -581,6 +593,7 @@ class StoreService {
         final returnedType = data['item_type'] as String?;
         if (returnedType != null) {
           _cachedEquipped[returnedType] = itemId;
+          equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
           if (returnedType == 'theme') {
             await ThemeNotifier.instance.setEquippedTheme(itemId);
           }

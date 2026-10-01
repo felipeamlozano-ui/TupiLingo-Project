@@ -40,6 +40,9 @@ class TipoAchievementChoices(models.TextChoices):
     XP_TIER = 'xp_tier', 'Medalha de XP'
     CULTURAL = 'cultural', 'Conquista Cultural'
     EXPLORACAO = 'exploracao', 'Exploração'
+    STREAK = 'streak', 'Ofensiva e Consistência'
+    BAU = 'bau', 'Coletor de Baús'
+    VOCABULARIO = 'vocabulario', 'Mestre do Vocabulário'
 
 
 # ─── UserProfile ─────────────────────────────────────────────────────────────

@@ -14,6 +14,10 @@ import '../../../../core/state/app_progression_notifier.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../feature_flags/application/providers/feature_flag_provider.dart';
 import '../../feature_flags/domain/entities/flag_ids.dart';
+import '../../legal/presentation/terms_of_use_screen.dart';
+import '../../../../core/widgets/user_avatar_widget.dart';
+import '../../store/services/store_service.dart';
+import '../../store/presentation/store_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -271,9 +275,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               // 8. Seletor de Tema Ancestral (Claro / Escuro / Auto)
               _buildThemeSelectorCard(context),
+              const SizedBox(height: 16),
+
+              // 9. Termos de Uso & Isenção Legal (RFC-Legal & Zero-PII)
+              _buildLegalTermsCard(context),
               const SizedBox(height: 24),
 
-              // 9. Botão de Logout
+              // 10. Botão de Logout
               OutlinedButton.icon(
                 onPressed: () async {
                   await Supabase.instance.client.auth.signOut();
@@ -474,6 +482,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Widget _buildLegalTermsCard(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.surface(context),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppTheme.border(context)),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        leading: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: const Color(0xFFD08A45).withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Icon(Icons.policy_outlined, color: Color(0xFFD08A45), size: 20),
+        ),
+        title: const Text(
+          'Termos de Uso & Isenção Legal',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+        subtitle: const Text(
+          'Direitos culturais, isenção filológica e LGPD',
+          style: TextStyle(fontSize: 12),
+        ),
+        trailing: const Icon(Icons.chevron_right, size: 20),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => const TermsOfUseScreen(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildUserHeader(String name, String email, String varianteNome) {
     final isDark = AppTheme.isDark(context);
     return Container(
@@ -492,26 +537,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: Row(
         children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: const LinearGradient(
-                colors: [Color(0xFFD08A45), Color(0xFF8B6914)],
-              ),
-              border: Border.all(color: const Color(0xFFD08A45), width: 2.5),
-            ),
-            child: Center(
-              child: Text(
-                name.isNotEmpty ? name[0].toUpperCase() : 'G',
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+          UserAvatarWidget(
+            userName: name,
+            size: 68,
+            showEditBadge: true,
+            onTap: () async {
+              final balance = StoreService.instance.cachedConchas;
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => StoreScreen(initialConchas: balance),
                 ),
-              ),
-            ),
+              );
+            },
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -536,20 +574,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 6),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'Variante: $varianteNome',
-                    style: TextStyle(
-                      color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 4,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        'Variante: $varianteNome',
+                        style: TextStyle(
+                          color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                    ValueListenableBuilder<Map<String, String>>(
+                      valueListenable: StoreService.equippedCosmeticsNotifier,
+                      builder: (context, equippedMap, _) {
+                        final avatarId = equippedMap['avatar'] ?? 'avatar_arara';
+                        final frameId = equippedMap['frame'] ?? 'frame_madeira';
+                        final avatarCfg = AvatarCosmeticConfig.catalog[avatarId];
+                        final frameCfg = FrameCosmeticConfig.catalog[frameId];
+                        final label = '${avatarCfg?.icon ?? '👤'} ${avatarCfg?.label ?? 'Avatar'} • ${frameCfg?.icon ?? '🪵'}';
+                        return InkWell(
+                          onTap: () async {
+                            final balance = StoreService.instance.cachedConchas;
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => StoreScreen(initialConchas: balance),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(8),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD08A45).withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  label,
+                                  style: const TextStyle(
+                                    color: Color(0xFFD08A45),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                const Icon(Icons.palette_outlined, size: 12, color: Color(0xFFD08A45)),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

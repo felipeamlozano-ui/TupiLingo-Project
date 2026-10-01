@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
 
 class _AppColors {
   static const Color primary = Color(0xFFD08A45);
@@ -170,6 +171,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       if (res.session != null) {
         // SUPA-001: criar perfil no Django agora que temos sessão válida
         await _registerUserInDjango(res.session!.accessToken);
+        await LegalConsentService.instance.saveConsent(termsAccepted: true, disclaimerAccepted: true);
 
         if (!mounted) return;
         _showSnackBar('E-mail verificado com sucesso!', isError: false);

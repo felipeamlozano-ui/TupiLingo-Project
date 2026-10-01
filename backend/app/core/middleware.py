@@ -50,6 +50,20 @@ class FriendlyExceptionMiddleware(MiddlewareMixin):
             exc_info=True,
         )
 
+        # Se houver queda ou erro de conexão no pooler do Supabase, purga conexões mortas imediatamente
+        try:
+            from django.db import connections
+            for conn in connections.all():
+                try:
+                    conn.close_if_unusable_or_obsolete()
+                except Exception:
+                    try:
+                        conn.close()
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
         # Retorna JSON lúdico e limpo para rotas de API
         if request.path.startswith("/api/"):
             return JsonResponse(

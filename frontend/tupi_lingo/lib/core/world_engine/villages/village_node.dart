@@ -16,6 +16,17 @@ enum VillageEvolutionStage {
   int get level => index;
 }
 
+/// Visual and pedagogical progression status of each village in the curriculum trail (UX do Aluno).
+enum VillageStatus {
+  completed, // Já concluída: Ícone de check dourado/verde, ocas normais, trilha sólida iluminada
+  current,   // Fase ativa / Próxima lição: Animação de pulso contínuo (#FFB800), badge "COMEÇAR"
+  locked;    // Bloqueada no futuro: Tons acinzentados/opacidade 0.5, ícone de cadeado
+
+  bool get isCompleted => this == VillageStatus.completed;
+  bool get isCurrent => this == VillageStatus.current;
+  bool get isLocked => this == VillageStatus.locked;
+}
+
 /// Visual and spatial entity representing an authentic indigenous village (Taba) in Pindorama.
 /// Maps 1:1 with a Curriculum Chapter (RFC-012C Patch 1 Chapter 1).
 @immutable
@@ -27,6 +38,7 @@ class VillageNode {
   final int variantId;
   final BiomeType biome;
   final VillageEvolutionStage stage;
+  final VillageStatus status;
   final int residentCount;
   final double discoveryRadius;
   final bool hasBossChallenge;
@@ -39,7 +51,9 @@ class VillageNode {
   final String territoryId;
   final String chapterId;
   final bool isUnlocked;
+  final bool isDiscovered;
   final bool isMastered;
+  final bool isFrontier;
   final List<LessonNode> lessons;
   final List<ChestNode> chests;
   final List<QuestNode> quests;
@@ -53,6 +67,7 @@ class VillageNode {
     required this.variantId,
     required this.biome,
     this.stage = VillageEvolutionStage.oculta,
+    VillageStatus? status,
     this.residentCount = 120,
     this.discoveryRadius = 450.0,
     this.hasBossChallenge = false,
@@ -63,12 +78,17 @@ class VillageNode {
     this.territoryId = 'territorio_planalto_paulista',
     this.chapterId = 'capitulo_1',
     this.isUnlocked = true,
+    this.isDiscovered = false,
     this.isMastered = false,
+    this.isFrontier = false,
     this.lessons = const [],
     this.chests = const [],
     this.quests = const [],
     this.activeEpochs = const ['pre1500', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
-  });
+  }) : status = status ??
+            ((isMastered || stage == VillageEvolutionStage.historica)
+                ? VillageStatus.completed
+                : (isUnlocked ? VillageStatus.current : VillageStatus.locked));
 
   WorldCoordinate get coordinate => position;
 
@@ -86,6 +106,7 @@ class VillageNode {
     int? variantId,
     BiomeType? biome,
     VillageEvolutionStage? stage,
+    VillageStatus? status,
     int? residentCount,
     double? discoveryRadius,
     bool? hasBossChallenge,
@@ -96,7 +117,9 @@ class VillageNode {
     String? territoryId,
     String? chapterId,
     bool? isUnlocked,
+    bool? isDiscovered,
     bool? isMastered,
+    bool? isFrontier,
     List<LessonNode>? lessons,
     List<ChestNode>? chests,
     List<QuestNode>? quests,
@@ -110,6 +133,7 @@ class VillageNode {
       variantId: variantId ?? this.variantId,
       biome: biome ?? this.biome,
       stage: stage ?? this.stage,
+      status: status ?? this.status,
       residentCount: residentCount ?? this.residentCount,
       discoveryRadius: discoveryRadius ?? this.discoveryRadius,
       hasBossChallenge: hasBossChallenge ?? this.hasBossChallenge,
@@ -120,7 +144,9 @@ class VillageNode {
       territoryId: territoryId ?? this.territoryId,
       chapterId: chapterId ?? this.chapterId,
       isUnlocked: isUnlocked ?? this.isUnlocked,
+      isDiscovered: isDiscovered ?? this.isDiscovered,
       isMastered: isMastered ?? this.isMastered,
+      isFrontier: isFrontier ?? this.isFrontier,
       lessons: lessons ?? this.lessons,
       chests: chests ?? this.chests,
       quests: quests ?? this.quests,
@@ -137,6 +163,7 @@ class VillageNode {
     'variant_id': variantId,
     'biome': biome.name,
     'stage': stage.name,
+    'status': status.name,
     'resident_count': residentCount,
     'discovery_radius': discoveryRadius,
     'has_boss_challenge': hasBossChallenge,
@@ -147,7 +174,9 @@ class VillageNode {
     'territory_id': territoryId,
     'chapter_id': chapterId,
     'is_unlocked': isUnlocked,
+    'is_discovered': isDiscovered,
     'is_mastered': isMastered,
+    'is_frontier': isFrontier,
     'active_epochs': activeEpochs,
   };
 
@@ -169,6 +198,12 @@ class VillageNode {
         (e) => e.name == (json['stage'] as String?),
         orElse: () => VillageEvolutionStage.oculta,
       ),
+      status: json['status'] != null
+          ? VillageStatus.values.firstWhere(
+              (e) => e.name == json['status'],
+              orElse: () => VillageStatus.locked,
+            )
+          : null,
       residentCount: (json['resident_count'] as num?)?.toInt() ?? 120,
       discoveryRadius: (json['discovery_radius'] as num?)?.toDouble() ?? 450.0,
       hasBossChallenge: json['has_boss_challenge'] as bool? ?? false,
@@ -180,6 +215,7 @@ class VillageNode {
       chapterId: json['chapter_id'] as String? ?? 'capitulo_1',
       isUnlocked: json['is_unlocked'] as bool? ?? true,
       isMastered: json['is_mastered'] as bool? ?? false,
+      isFrontier: json['is_frontier'] as bool? ?? false,
       activeEpochs: (json['active_epochs'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
           const ['pre1500', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
     );
@@ -203,8 +239,10 @@ class VillageNode {
           territoryId: 'territorio_planalto_paulista',
           chapterId: 'capitulo_piratininga',
           isUnlocked: true,
+          isDiscovered: true,
           isMastered: false,
-          activeEpochs: const ['pre1500', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
+          isFrontier: false,
+          activeEpochs: const ['pre1500', 'epoch1532', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
           lessons: const [
             LessonNode(
               id: 'piratininga_01',
@@ -296,7 +334,7 @@ class VillageNode {
           position: const WorldCoordinate(5350, 5550),
           variantId: 1,
           biome: BiomeType.litoral,
-          stage: VillageEvolutionStage.explorada,
+          stage: VillageEvolutionStage.oculta,
           residentCount: 280,
           dialectVariant: 'Tupinambá Litorâneo',
           leaderName: 'Cacique Piquerobi',
@@ -304,9 +342,11 @@ class VillageNode {
           historicalContext: 'Primeiro porto colonial estabelecido no litoral em território Tupiniquim.',
           territoryId: 'territorio_litoral_paulista',
           chapterId: 'capitulo_sao_vicente',
-          isUnlocked: true,
+          isUnlocked: false,
+          isDiscovered: false,
           isMastered: false,
-          activeEpochs: const ['pre1500', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
+          isFrontier: true,
+          activeEpochs: const ['pre1500', 'epoch1532', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
           lessons: const [
             LessonNode(
               id: 'sv_01',
@@ -356,7 +396,7 @@ class VillageNode {
           position: const WorldCoordinate(5700, 5350),
           variantId: 1,
           biome: BiomeType.litoral,
-          stage: VillageEvolutionStage.descoberta,
+          stage: VillageEvolutionStage.oculta,
           residentCount: 220,
           dialectVariant: 'Tupinambá',
           leaderName: 'Cacique Cunhambebe',
@@ -364,9 +404,11 @@ class VillageNode {
           historicalContext: 'Coração da Confederação dos Tamoios e local do célebre Armistício de Iperoig.',
           territoryId: 'territorio_costa_dos_tamoios',
           chapterId: 'capitulo_ubatuba',
-          isUnlocked: true,
+          isUnlocked: false,
+          isDiscovered: false,
           isMastered: false,
-          activeEpochs: const ['pre1500', 'epoch1555', 'epoch1567', 'atual'],
+          isFrontier: false,
+          activeEpochs: const ['pre1500', 'epoch1532', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
           lessons: const [
             LessonNode(
               id: 'ub_01',
@@ -400,8 +442,10 @@ class VillageNode {
           territoryId: 'territorio_baia_da_guanabara',
           chapterId: 'capitulo_guanabara',
           isUnlocked: false,
+          isDiscovered: false,
           isMastered: false,
-          activeEpochs: const ['pre1500', 'epoch1555', 'epoch1567', 'atual'],
+          isFrontier: false,
+          activeEpochs: const ['pre1500', 'epoch1532', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
           lessons: const [],
         ),
         VillageNode(
@@ -419,8 +463,10 @@ class VillageNode {
           territoryId: 'territorio_cabo_frio',
           chapterId: 'capitulo_cabo_frio',
           isUnlocked: false,
+          isDiscovered: false,
           isMastered: false,
-          activeEpochs: const ['pre1500', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
+          isFrontier: false,
+          activeEpochs: const ['pre1500', 'epoch1532', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
           lessons: const [],
         ),
       ];

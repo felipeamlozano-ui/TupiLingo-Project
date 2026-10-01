@@ -11,6 +11,7 @@ import '../../historical_map/data/datasources/historical_map_remote_data_source.
 import 'widgets/exercises/multiple_choice_view.dart';
 import 'widgets/exercises/fill_in_the_blank_view.dart';
 import 'widgets/exercises/matching_columns_view.dart';
+import '../../../../core/audio/audio_manager.dart';
 
 /// Normaliza o status de validação retornado pelo backend.
 /// Aceita tanto o formato canônico inglês ('correct', 'almost', 'wrong')
@@ -64,6 +65,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
   bool _isVerifying = false;
   
   final Map<int, bool> _exercicioPrimeiraTentativa = {};
+  Map<String, String> _lessonVocabulary = {};
 
   // Controles de animação para transições (opcional, mas deixa bonito)
   late AnimationController _progressController;
@@ -101,6 +103,16 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       _items.add(Map<String, dynamic>.from(ex));
       _totalExercicios++;
       _exercicioPrimeiraTentativa[ex['id']] = true;
+    }
+
+    final List<dynamic> vocab = data['vocabulario'] ?? [];
+    _lessonVocabulary = {};
+    for (var v in vocab) {
+      final tupi = v['palavra_tupi']?.toString();
+      final pt = v['traducao_pt']?.toString();
+      if (tupi != null && pt != null) {
+        _lessonVocabulary[tupi] = pt;
+      }
     }
 
     // Ordena tudo pela ordem definida no Django
@@ -283,6 +295,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
   }
 
   void _showFeedbackSheet({required bool isCorrect, required bool isAlmost, required String message}) {
+    if (isCorrect || isAlmost) {
+      AudioManager.instance.playCorrect();
+    } else {
+      AudioManager.instance.playIncorrect();
+    }
+
     Color bgColor = isCorrect ? const Color(0xFFEAF3F1) : const Color(0xFFFDECEE);
     Color fgColor = isCorrect ? _TupiColors.accent : _TupiColors.danger;
     IconData icon = isCorrect ? Icons.check_circle_rounded : Icons.cancel_rounded;
@@ -424,6 +442,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     int? nivelAtual, {
     Map<String, dynamic>? completionData,
   }) {
+    AudioManager.instance.playChestReward();
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -659,6 +678,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     return _ExercicioDispatcher(
       key: ValueKey('ex_${item['id']}_$_currentIndex'),
       item: item,
+      wordTranslations: _lessonVocabulary,
       onVerify: (dynamic resposta) {
         _verifyAnswer(item['id'], tipo, resposta);
       },
@@ -670,9 +690,15 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
 
 class _ExercicioDispatcher extends StatefulWidget {
   final Map<String, dynamic> item;
+  final Map<String, String> wordTranslations;
   final Function(dynamic) onVerify;
 
-  const _ExercicioDispatcher({super.key, required this.item, required this.onVerify});
+  const _ExercicioDispatcher({
+    super.key,
+    required this.item,
+    required this.wordTranslations,
+    required this.onVerify,
+  });
 
   @override
   State<_ExercicioDispatcher> createState() => _ExercicioDispatcherState();
@@ -734,6 +760,7 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
                         textoComLacunas: widget.item['texto_com_lacunas'] ?? '',
                         textController: _textController,
                         onChanged: (_) => setState(() {}),
+                        wordTranslations: widget.wordTranslations,
                       )
                     : tipo == 'associacao'
                         ? MatchingColumnsView(

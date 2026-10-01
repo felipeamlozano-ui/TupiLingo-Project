@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../domain/entities/territory_node.dart';
 import '../../domain/entities/quest_node.dart';
+import '../../../../core/world_engine/theme/pindorama_theme_palette.dart';
 import 'historical_timeline_slider.dart';
 
 /// Material 3 Expressive HUD for Pindorama Historical World (RFC-012C Patch 1 Chapter 10 & 11).
@@ -15,6 +16,9 @@ class PindoramaExpressiveHud extends StatelessWidget {
   final VoidCallback onRecenter;
   final VoidCallback onToggleQuests;
   final VoidCallback onOpenNarrative;
+  final VoidCallback? onToggleMiniMap;
+  final bool isMiniMapVisible;
+  final PindoramaThemePalette? palette;
 
   const PindoramaExpressiveHud({
     super.key,
@@ -26,11 +30,15 @@ class PindoramaExpressiveHud extends StatelessWidget {
     required this.onRecenter,
     required this.onToggleQuests,
     required this.onOpenNarrative,
+    this.onToggleMiniMap,
+    this.isMiniMapVisible = false,
+    this.palette,
   });
 
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
+    final activePalette = palette ?? PindoramaThemePalette.current();
 
     return Stack(
       children: [
@@ -45,12 +53,13 @@ class PindoramaExpressiveHud extends StatelessWidget {
               _buildRoundButton(
                 icon: Icons.arrow_back,
                 tooltip: 'Voltar',
+                palette: activePalette,
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   onBack();
                 },
               ),
-              const SizedBox(width: 10.0),
+              const SizedBox(width: 8.0),
 
               // Territory & Epoch Pill
               Expanded(
@@ -61,9 +70,9 @@ class PindoramaExpressiveHud extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
                       decoration: BoxDecoration(
-                        color: const Color(0xDD0E171C),
+                        color: activePalette.hudSurface,
                         borderRadius: BorderRadius.circular(22.0),
-                        border: Border.all(color: const Color(0x55E5A93C), width: 1.5),
+                        border: Border.all(color: activePalette.hudBorder, width: 1.5),
                         boxShadow: const [
                           BoxShadow(
                             color: Colors.black45,
@@ -83,20 +92,20 @@ class PindoramaExpressiveHud extends StatelessWidget {
                                   currentTerritory?.name ?? 'Pindorama Histórico',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Color(0xFFFFD54F),
+                                  style: TextStyle(
+                                    color: activePalette.accent,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13.0,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8.0),
-                              const Icon(Icons.stars, color: Color(0xFFFFD54F), size: 14.0),
+                              const SizedBox(width: 6.0),
+                              Icon(Icons.stars, color: activePalette.accent, size: 14.0),
                               const SizedBox(width: 4.0),
                               Text(
                                 '$totalXp XP',
-                                style: const TextStyle(
-                                  color: Color(0xFFFFD54F),
+                                style: TextStyle(
+                                  color: activePalette.accent,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 11.5,
                                 ),
@@ -110,15 +119,15 @@ class PindoramaExpressiveHud extends StatelessWidget {
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 1.5),
                                   decoration: BoxDecoration(
-                                    color: const Color(0x3300897B),
+                                    color: activePalette.hudBorder.withValues(alpha: 0.20),
                                     borderRadius: BorderRadius.circular(6.0),
                                   ),
                                   child: Text(
                                     currentTerritory?.primaryDialect ?? 'Tupi Clássico',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: Color(0xFF80CBC4),
+                                    style: TextStyle(
+                                      color: activePalette.accent.withValues(alpha: 0.9),
                                       fontSize: 10.0,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -145,17 +154,33 @@ class PindoramaExpressiveHud extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 10.0),
+              const SizedBox(width: 8.0),
 
               // Re-center Action Button
               _buildRoundButton(
                 icon: Icons.my_location,
-                tooltip: 'Centralizar Pindorama',
+                tooltip: 'Centralizar Aldeia Ativa',
+                palette: activePalette,
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   onRecenter();
                 },
               ),
+
+              // MiniMap Radar Toggle Button (Compass)
+              if (onToggleMiniMap != null) ...[
+                const SizedBox(width: 8.0),
+                _buildRoundButton(
+                  icon: Icons.explore,
+                  tooltip: isMiniMapVisible ? 'Ocultar Radar' : 'Expandir Radar',
+                  palette: activePalette,
+                  isActive: isMiniMapVisible,
+                  onPressed: () {
+                    HapticFeedback.lightImpact();
+                    onToggleMiniMap!();
+                  },
+                ),
+              ],
             ],
           ),
         ),
@@ -170,16 +195,18 @@ class PindoramaExpressiveHud extends StatelessWidget {
               _buildFloatingAction(
                 icon: Icons.flag,
                 tooltip: 'Missão Territorial',
+                palette: activePalette,
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   onToggleQuests();
                 },
-                accentColor: const Color(0xFFFFD54F),
+                accentColor: activePalette.accent,
               ),
               const SizedBox(height: 10.0),
               _buildFloatingAction(
                 icon: Icons.menu_book,
                 tooltip: 'Narrativa Ancestral',
+                palette: activePalette,
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   onOpenNarrative();
@@ -203,24 +230,24 @@ class PindoramaExpressiveHud extends StatelessWidget {
                   constraints: const BoxConstraints(maxWidth: 240.0),
                   padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                   decoration: BoxDecoration(
-                    color: const Color(0xCC0D1C24),
+                    color: activePalette.hudSurface,
                     borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(color: const Color(0x66FFD54F)),
+                    border: Border.all(color: activePalette.hudBorder),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.explore, color: Color(0xFFFFD54F), size: 16.0),
+                      Icon(Icons.explore, color: activePalette.accent, size: 16.0),
                       const SizedBox(width: 8.0),
                       Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
+                            Text(
                               'MISSÃO ATIVA',
                               style: TextStyle(
-                                color: Color(0xFFFFD54F),
+                                color: activePalette.accent,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 9.0,
                                 letterSpacing: 0.5,
@@ -253,6 +280,8 @@ class PindoramaExpressiveHud extends StatelessWidget {
     required IconData icon,
     required String tooltip,
     required VoidCallback onPressed,
+    required PindoramaThemePalette palette,
+    bool isActive = false,
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(24.0),
@@ -260,9 +289,14 @@ class PindoramaExpressiveHud extends StatelessWidget {
         filter: ui.ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xDD0E171C),
+            color: isActive
+                ? palette.accent.withValues(alpha: 0.25)
+                : palette.hudSurface,
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0x55E5A93C), width: 1.5),
+            border: Border.all(
+              color: isActive ? palette.accent : palette.hudBorder,
+              width: 1.5,
+            ),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black45,
@@ -272,7 +306,11 @@ class PindoramaExpressiveHud extends StatelessWidget {
             ],
           ),
           child: IconButton(
-            icon: Icon(icon, color: Colors.white, size: 20.0),
+            icon: Icon(
+              icon,
+              color: isActive ? palette.accent : Colors.white,
+              size: 20.0,
+            ),
             tooltip: tooltip,
             onPressed: onPressed,
           ),
@@ -286,6 +324,7 @@ class PindoramaExpressiveHud extends StatelessWidget {
     required String tooltip,
     required VoidCallback onPressed,
     required Color accentColor,
+    required PindoramaThemePalette palette,
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(22.0),
@@ -293,9 +332,9 @@ class PindoramaExpressiveHud extends StatelessWidget {
         filter: ui.ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xDD0E171C),
+            color: palette.hudSurface,
             borderRadius: BorderRadius.circular(22.0),
-            border: Border.all(color: accentColor.withValues(alpha: 0.6), width: 1.5),
+            border: Border.all(color: palette.hudBorder, width: 1.5),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black45,

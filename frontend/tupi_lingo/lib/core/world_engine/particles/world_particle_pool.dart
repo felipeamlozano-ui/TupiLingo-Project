@@ -100,7 +100,7 @@ class WorldParticlePool {
 
     for (int i = 0; i < poolCapacity; i++) {
       final p = _pool[i];
-      if (i < 80) {
+      if (i < 100) {
         // Bonfire embers spawned strictly around active villages
         final v = activeVillages.isNotEmpty ? activeVillages[i % activeVillages.length] : null;
         final cx = v != null ? v.position.x : 5000.0;
@@ -108,54 +108,49 @@ class WorldParticlePool {
 
         p.reset(
           newType: WorldParticleType.bonfireEmber,
-          newX: cx + (_rng.nextDouble() * 80.0 - 40.0),
-          newY: cy + (_rng.nextDouble() * 40.0),
-          newVx: (_rng.nextDouble() * 12.0 - 6.0),
-          newVy: -(_rng.nextDouble() * 32.0 + 16.0),
-          newLifespan: 2.0 + _rng.nextDouble() * 2.0,
-          newSize: 2.5 + _rng.nextDouble() * 2.5,
-          newBaseAlpha: 0.85,
-          newColor: const Color(0xFFFF7043),
-        );
-      } else if (i < 160) {
-        // Sacred mist along Tietê and Paraíba rivers
-        p.reset(
-          newType: WorldParticleType.sacredMist,
-          newX: 4500.0 + _rng.nextDouble() * 1800.0,
-          newY: 4850.0 + _rng.nextDouble() * 850.0,
-          newVx: _rng.nextDouble() * 8.0 + 2.0,
-          newVy: (_rng.nextDouble() * 6.0 - 3.0),
-          newLifespan: 4.5 + _rng.nextDouble() * 3.0,
-          newSize: 8.0 + _rng.nextDouble() * 12.0,
-          newBaseAlpha: 0.25,
-          newColor: const Color(0xFFE0F7FA),
+          newX: cx + (_rng.nextDouble() * 60.0 - 30.0),
+          newY: cy + (_rng.nextDouble() * 30.0),
+          newVx: (_rng.nextDouble() * 10.0 - 5.0),
+          newVy: -(_rng.nextDouble() * 26.0 + 12.0),
+          newLifespan: 1.8 + _rng.nextDouble() * 1.6,
+          newSize: 2.0 + _rng.nextDouble() * 2.0,
+          newBaseAlpha: 0.80,
+          newColor: const Color(0xFFFF9800),
         );
       } else if (i < 240) {
         // Forest leaves across Serra do Mar / Mata Atlântica canopy
+        final v = activeVillages.isNotEmpty ? activeVillages[i % activeVillages.length] : null;
+        final cx = v != null ? v.position.x : 5000.0;
+        final cy = v != null ? v.position.y : 5000.0;
+
         p.reset(
           newType: WorldParticleType.forestLeaf,
-          newX: 5100.0 + (_rng.nextDouble() * 1600.0 - 800.0),
-          newY: 5200.0 + (_rng.nextDouble() * 1600.0 - 800.0),
-          newVx: _rng.nextDouble() * 14.0 - 7.0,
-          newVy: _rng.nextDouble() * 18.0 + 8.0,
+          newX: cx + (_rng.nextDouble() * 1200.0 - 600.0),
+          newY: cy + (_rng.nextDouble() * 1200.0 - 600.0),
+          newVx: _rng.nextDouble() * 12.0 - 6.0,
+          newVy: _rng.nextDouble() * 14.0 + 6.0,
           newLifespan: 3.5 + _rng.nextDouble() * 2.5,
-          newSize: 3.5 + _rng.nextDouble() * 2.0,
-          newBaseAlpha: 0.65,
-          newColor: const Color(0xFF81C784),
+          newSize: 3.0 + _rng.nextDouble() * 1.5,
+          newBaseAlpha: 0.55,
+          newColor: const Color(0xFF66BB6A),
           newRotation: _rng.nextDouble() * math.pi * 2,
-          newRotationSpeed: (_rng.nextDouble() - 0.5) * 3.0,
+          newRotationSpeed: (_rng.nextDouble() - 0.5) * 2.5,
         );
       } else {
         // Golden spirit sparkles near mastered / sacred territories
+        final v = activeVillages.isNotEmpty ? activeVillages[i % activeVillages.length] : null;
+        final cx = v != null ? v.position.x : 5000.0;
+        final cy = v != null ? v.position.y : 5000.0;
+
         p.reset(
           newType: WorldParticleType.masteryOrb,
-          newX: 5000.0 + (_rng.nextDouble() * 200.0 - 100.0),
-          newY: 5000.0 + (_rng.nextDouble() * 200.0 - 100.0),
-          newVx: _rng.nextDouble() * 8.0 - 4.0,
-          newVy: _rng.nextDouble() * 8.0 - 4.0,
-          newLifespan: 2.2 + _rng.nextDouble() * 1.8,
-          newSize: 3.5 + _rng.nextDouble() * 2.5,
-          newBaseAlpha: 0.85,
+          newX: cx + (_rng.nextDouble() * 140.0 - 70.0),
+          newY: cy + (_rng.nextDouble() * 140.0 - 70.0),
+          newVx: _rng.nextDouble() * 6.0 - 3.0,
+          newVy: _rng.nextDouble() * 6.0 - 3.0,
+          newLifespan: 2.0 + _rng.nextDouble() * 1.5,
+          newSize: 2.5 + _rng.nextDouble() * 1.5,
+          newBaseAlpha: 0.75,
           newColor: const Color(0xFFFFD54F),
         );
       }
@@ -186,7 +181,7 @@ class WorldParticlePool {
           p.vx += (math.cos(p.age * 3.5) * 10.0) * dt;
           break;
         case WorldParticleType.sacredMist:
-          p.size += dt * 1.2;
+          p.size = 2.0;
           break;
         case WorldParticleType.masteryOrb:
         case WorldParticleType.ritualDust:
@@ -210,24 +205,20 @@ class WorldParticlePool {
     p.age = 0.0;
     switch (p.type) {
       case WorldParticleType.bonfireEmber:
-        p.x = 5000.0 + (_rng.nextDouble() * 80.0 - 40.0);
+        p.x = 5000.0 + (_rng.nextDouble() * 60.0 - 30.0);
         p.y = 5000.0 + (_rng.nextDouble() * 30.0);
-        p.vx = (_rng.nextDouble() * 12.0 - 6.0);
-        p.vy = -(_rng.nextDouble() * 32.0 + 16.0);
+        p.vx = (_rng.nextDouble() * 10.0 - 5.0);
+        p.vy = -(_rng.nextDouble() * 26.0 + 12.0);
         break;
       case WorldParticleType.sacredMist:
-        p.x = 4500.0 + _rng.nextDouble() * 1800.0;
-        p.y = 4850.0 + _rng.nextDouble() * 850.0;
-        p.size = 8.0 + _rng.nextDouble() * 10.0;
-        break;
       case WorldParticleType.forestLeaf:
-        p.x = 5100.0 + (_rng.nextDouble() * 1600.0 - 800.0);
-        p.y = 5050.0 - (_rng.nextDouble() * 400.0);
+        p.x = 5000.0 + (_rng.nextDouble() * 1200.0 - 600.0);
+        p.y = 4800.0 - (_rng.nextDouble() * 300.0);
         break;
       case WorldParticleType.masteryOrb:
       case WorldParticleType.ritualDust:
-        p.x = 5000.0 + (_rng.nextDouble() * 200.0 - 100.0);
-        p.y = 5000.0 + (_rng.nextDouble() * 200.0 - 100.0);
+        p.x = 5000.0 + (_rng.nextDouble() * 140.0 - 70.0);
+        p.y = 5000.0 + (_rng.nextDouble() * 140.0 - 70.0);
         break;
     }
   }
@@ -263,7 +254,7 @@ class WorldParticlePool {
         screenSize: size,
       );
 
-      final screenRadius = (p.size * camera.zoom).clamp(1.0, 36.0);
+      final screenRadius = (p.size * camera.zoom).clamp(1.0, 6.0);
       final effectiveAlpha = (p.alpha * zoomAlphaMultiplier).clamp(0.0, 1.0);
       paint.color = p.color.withValues(alpha: effectiveAlpha);
 
@@ -273,7 +264,7 @@ class WorldParticlePool {
         canvas.translate(screenPt.dx, screenPt.dy);
         canvas.rotate(p.rotation);
         canvas.drawOval(
-          Rect.fromCenter(center: Offset.zero, width: screenRadius * 1.6, height: screenRadius * 0.8),
+          Rect.fromCenter(center: Offset.zero, width: screenRadius * 1.8, height: screenRadius * 0.9),
           paint,
         );
         canvas.restore();

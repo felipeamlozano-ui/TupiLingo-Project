@@ -5,6 +5,9 @@ from .base import *
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 
+# Permite qualquer host em desenvolvimento (Wi-Fi local, 10.x.x.x, 192.168.x.x, emulador Android, etc.)
+ALLOWED_HOSTS = ['*']
+
 # Desenvolvimento local: permite qualquer porta do localhost e da LAN Wi-Fi.
 # A regex 192\.168\.\d+\.\d+ cobre o range RFC-1918 usado pela Opção 3 do dev.bat
 # (simulação de produção via Wi-Fi — flutter run --release --dart-define=API_URL=http://<IP>:8000).
@@ -18,3 +21,4 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 
 LOGGING['loggers']['nivelamento']['level'] = 'DEBUG'
 LOGGING['loggers']['users.views']['level'] = 'DEBUG'
+

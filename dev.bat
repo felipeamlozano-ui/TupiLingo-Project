@@ -70,17 +70,20 @@ echo   INICIANDO MODO COMPLETO (DJANGO + FLUTTER DEBUG + TODOS OS WORKERS)
 echo ===============================================================================
 call :setup_adb
 where docker >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [!] Docker nao detectado no sistema. Iniciando Backend e Workers via Python local (venv)...
-    cd /d "%PROJECT_DIR%backend"
-    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
-    start "PDF Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe pdf_worker.py"
-    start "Vocab Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py extract_vocab_from_rag --continuous"
-) else (
-    echo [*] Iniciando Docker (Django + Redis + Nginx + PDF Worker + Vocab Worker)...
-    cd /d "%PROJECT_DIR%backend"
-    start "Docker Backend (Completo)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up"
-)
+if %errorlevel% neq 0 goto :opt_full_local
+echo [*] Iniciando Docker: Django + Redis + Nginx + PDF Worker + Vocab Worker...
+cd /d "%PROJECT_DIR%backend"
+start "Docker Backend (Completo)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up"
+goto :opt_full_cont
+
+:opt_full_local
+echo [*] Docker nao detectado. Iniciando Backend e Workers via Python local venv...
+cd /d "%PROJECT_DIR%backend"
+start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+start "PDF Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe pdf_worker.py"
+start "Vocab Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py extract_vocab_from_rag --continuous"
+
+:opt_full_cont
 call :wait_django
 call :start_flutter_debug
 goto end
@@ -95,15 +98,18 @@ echo   INICIANDO MODO DEV RAPIDO (DJANGO + FLUTTER DEBUG - SEM WORKERS)
 echo ===============================================================================
 call :setup_adb
 where docker >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [!] Docker nao detectado no sistema. Iniciando Backend via Python local (venv)...
-    cd /d "%PROJECT_DIR%backend"
-    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
-) else (
-    echo [*] Iniciando Docker (Apenas Django + Redis - zero consumo de cota de IA)...
-    cd /d "%PROJECT_DIR%backend"
-    start "Docker Backend (Dev Rapido)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
-)
+if %errorlevel% neq 0 goto :opt_fast_local
+echo [*] Iniciando Docker: Apenas Django e Redis...
+cd /d "%PROJECT_DIR%backend"
+start "Docker Backend (Dev Rapido)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
+goto :opt_fast_cont
+
+:opt_fast_local
+echo [*] Docker nao detectado. Iniciando Backend via Python local venv...
+cd /d "%PROJECT_DIR%backend"
+start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+
+:opt_fast_cont
 call :wait_django
 call :start_flutter_debug
 goto end
@@ -282,15 +288,18 @@ echo   INICIANDO APENAS BACKEND CORE (DJANGO)
 echo ===============================================================================
 call :setup_adb
 where docker >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [!] Docker nao detectado no sistema. Iniciando Backend via Python local (venv)...
-    cd /d "%PROJECT_DIR%backend"
-    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
-) else (
-    echo [*] Iniciando Docker Django + Redis na porta 8000...
-    cd /d "%PROJECT_DIR%backend"
-    start "Docker Backend Core" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
-)
+if %errorlevel% neq 0 goto :opt_backend_local
+echo [*] Iniciando Docker Django + Redis na porta 8000...
+cd /d "%PROJECT_DIR%backend"
+start "Docker Backend Core" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
+goto :opt_backend_cont
+
+:opt_backend_local
+echo [*] Docker nao detectado no sistema. Iniciando Backend via Python local venv...
+cd /d "%PROJECT_DIR%backend"
+start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+
+:opt_backend_cont
 call :wait_django
 echo.
 echo [OK] Backend rodando em http://127.0.0.1:8000/
@@ -307,16 +316,19 @@ echo ===========================================================================
 echo   INICIANDO APENAS WORKERS DE IA (PDF WORKER + VOCAB WORKER)
 echo ===============================================================================
 where docker >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [!] Docker nao detectado no sistema. Iniciando Workers via Python local (venv)...
-    cd /d "%PROJECT_DIR%backend"
-    start "PDF Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe pdf_worker.py"
-    start "Vocab Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py extract_vocab_from_rag --continuous"
-) else (
-    echo [*] Iniciando PDF Worker e Vocab Worker via Docker...
-    cd /d "%PROJECT_DIR%backend"
-    start "Docker Workers de IA" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up pdf_worker vocab_worker"
-)
+if %errorlevel% neq 0 goto :opt_workers_local
+echo [*] Iniciando PDF Worker e Vocab Worker via Docker...
+cd /d "%PROJECT_DIR%backend"
+start "Docker Workers de IA" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up pdf_worker vocab_worker"
+goto :opt_workers_cont
+
+:opt_workers_local
+echo [*] Docker nao detectado no sistema. Iniciando Workers via Python local venv...
+cd /d "%PROJECT_DIR%backend"
+start "PDF Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe pdf_worker.py"
+start "Vocab Worker (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py extract_vocab_from_rag --continuous"
+
+:opt_workers_cont
 echo.
 echo [OK] Janela dos Workers iniciada!
 echo     Acompanhe o log na janela que foi aberta.
@@ -553,7 +565,7 @@ if defined CLOUDFLARE_URL (
     echo.
     echo [*] URL do Cloudflare encontrada no .env: !CLOUDFLARE_URL!
     set "USE_ENV_URL=S"
-    set /p "USE_ENV_URL= Deseja reutilizar esta URL no build do APK? [S/N] (Padrao: S): "
+    set /p "USE_ENV_URL= Deseja reutilizar esta URL no build do APK? [S/N] [Padrao: S]: "
     if /i "!USE_ENV_URL!"=="S" (
         call :start_cloudflare
         goto format_cloudflare_url

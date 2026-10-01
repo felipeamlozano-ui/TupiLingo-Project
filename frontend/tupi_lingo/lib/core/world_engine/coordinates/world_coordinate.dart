@@ -22,6 +22,7 @@ class WorldCoordinate {
   /// Converts this world coordinate into screen pixel coordinates.
   /// Supports both standard camera parameters (cameraX, cameraY, zoom, screenSize)
   /// and raw Matrix4 transformations.
+  /// Converts this world coordinate into screen pixel coordinates in standard 2D.
   Offset toScreen({
     double? cameraX,
     double? cameraY,
@@ -45,6 +46,42 @@ class WorldCoordinate {
       (wx - cX) * z + (screenSize.width / 2.0),
       (wy - cY) * z + (screenSize.height / 2.0),
     );
+  }
+
+  /// Converts this world coordinate into 2.5D/3D oblique screen coordinates with height/elevation.
+  ///
+  /// Compresses longitudinal depth with [pitch] (default 0.72) and raises points
+  /// vertically by [elevation] along the -Y axis, producing true spatial relief.
+  Offset toScreen25D({
+    required double cameraX,
+    required double cameraY,
+    required double zoom,
+    required Size screenSize,
+    double elevation = 0.0,
+    double pitch = 0.72,
+  }) {
+    final relX = (wx - cameraX) * zoom;
+    final relY = (wy - cameraY) * pitch * zoom - (elevation * zoom);
+    return Offset(
+      relX + (screenSize.width / 2.0),
+      relY + (screenSize.height / 2.0),
+    );
+  }
+
+  /// Converts a screen pixel coordinate back into world coordinates under 2.5D oblique projection.
+  static WorldCoordinate fromScreen25D({
+    required Offset screenPoint,
+    required double cameraX,
+    required double cameraY,
+    required double zoom,
+    required Size screenSize,
+    double pitch = 0.72,
+  }) {
+    final relX = screenPoint.dx - (screenSize.width / 2.0);
+    final relY = screenPoint.dy - (screenSize.height / 2.0);
+    final wx = relX / zoom + cameraX;
+    final wy = relY / (pitch * zoom) + cameraY;
+    return WorldCoordinate(wx, wy);
   }
 
   /// Converts a screen pixel coordinate back into world coordinates.

@@ -13,6 +13,7 @@ class HistoricalTrail {
   final double strokeWidth;
   final bool isDiscovered;
   final List<String> linkedVillageIds;
+  final List<String> activeEpochs;
 
   const HistoricalTrail({
     required this.id,
@@ -23,6 +24,7 @@ class HistoricalTrail {
     this.strokeWidth = 3.5,
     this.isDiscovered = true,
     this.linkedVillageIds = const [],
+    this.activeEpochs = const ['pre1500', 'epoch1532', 'epoch1554', 'epoch1555', 'epoch1567', 'atual'],
   });
 
   /// Computes the AABB boundary box enclosing this trail.
@@ -56,7 +58,7 @@ class HistoricalTrail {
     );
   }
 
-  /// Transforms the world coordinates of this trail into a screen-space [Path].
+  /// Transforms the world coordinates of this trail into a smooth, natural screen-space [Path].
   Path toScreenPath({
     required double cameraX,
     required double cameraY,
@@ -66,22 +68,25 @@ class HistoricalTrail {
     final path = Path();
     if (points.isEmpty) return path;
 
-    final firstScreen = points.first.toScreen(
+    final screenPoints = points.map((p) => p.toScreen(
       cameraX: cameraX,
       cameraY: cameraY,
       zoom: zoom,
       screenSize: screenSize,
-    );
-    path.moveTo(firstScreen.dx, firstScreen.dy);
+    )).toList();
 
-    for (int i = 1; i < points.length; i++) {
-      final screenPt = points[i].toScreen(
-        cameraX: cameraX,
-        cameraY: cameraY,
-        zoom: zoom,
-        screenSize: screenSize,
-      );
-      path.lineTo(screenPt.dx, screenPt.dy);
+    path.moveTo(screenPoints.first.dx, screenPoints.first.dy);
+
+    if (screenPoints.length == 2) {
+      path.lineTo(screenPoints[1].dx, screenPoints[1].dy);
+    } else {
+      for (int i = 0; i < screenPoints.length - 1; i++) {
+        final p0 = screenPoints[i];
+        final p1 = screenPoints[i + 1];
+        final mid = Offset((p0.dx + p1.dx) / 2, (p0.dy + p1.dy) / 2);
+        path.quadraticBezierTo(p0.dx, p0.dy, mid.dx, mid.dy);
+      }
+      path.lineTo(screenPoints.last.dx, screenPoints.last.dy);
     }
 
     return path;
@@ -129,6 +134,7 @@ class HistoricalTrail {
           strokeWidth: 3.5,
           color: Color(0xFFEF5350),
           linkedVillageIds: ['guanabara', 'ubatuba'],
+          activeEpochs: ['epoch1567'],
           points: [
             WorldCoordinate(5700, 5350),
             WorldCoordinate(6000, 5200),
@@ -143,6 +149,7 @@ class HistoricalTrail {
           strokeWidth: 3.0,
           color: Color(0xFF81C784),
           linkedVillageIds: ['sete_povos', 'tape'],
+          activeEpochs: ['epoch1555', 'epoch1567', 'atual'],
           points: [
             WorldCoordinate(2800, 4600),
             WorldCoordinate(2900, 5600),

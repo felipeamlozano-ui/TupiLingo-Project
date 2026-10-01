@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PindoramaWorldMapDefinition",
+  "description": "Schema de dados para o mapa histórico 2.5D com fases temporais e renderização de rios esculpidos.",
+  "type": "object",
+  "required": ["map_id", "world_width", "world_height", "active_epoch", "epochs", "rivers", "structures", "vegetation"],
+  "properties": {
+    "map_id": { "type": "string", "example": "pindorama_canonical" },
+    "world_width": { "type": "number", "example": 10000.0 },
+    "world_height": { "type": "number", "example": 10000.0 },
+    "active_epoch": {
+      "type": "string",
+      "enum": ["pre1500", "epoch1532", "epoch1554", "epoch1555", "epoch1567", "atual"]
+    },
+    "epochs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "year", "title", "description", "visual_rules"],
+        "properties": {
+          "id": { "type": "string" },
+          "year": { "type": "integer" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "visual_rules": {
+            "type": "object",
+            "required": ["allow_colonial_structures", "allow_bridges", "forest_density_factor"],
+            "properties": {
+              "allow_colonial_structures": { "type": "boolean" },
+              "allow_bridges": { "type": "boolean" },
+              "forest_density_factor": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "rivers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name_tupi", "name_pt", "segments", "trench_depth_ratio", "sand_bank_margin_ratio", "wet_clay_margin_ratio"],
+        "properties": {
+          "id": { "type": "string" },
+          "name_tupi": { "type": "string" },
+          "name_pt": { "type": "string" },
+          "trench_depth_ratio": { "type": "number", "default": 1.85 },
+          "sand_bank_margin_ratio": { "type": "number", "default": 1.45 },
+          "wet_clay_margin_ratio": { "type": "number", "default": 1.15 },
+          "water_color_hex": { "type": "string", "default": "#1B4F43" },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["start", "ctrl1", "ctrl2", "end", "start_width", "end_width"],
+              "properties": {
+                "start": { "$ref": "#/$defs/WorldPoint" },
+                "ctrl1": { "$ref": "#/$defs/WorldPoint" },
+                "ctrl2": { "$ref": "#/$defs/WorldPoint" },
+                "end": { "$ref": "#/$defs/WorldPoint" },
+                "start_width": { "type": "number" },
+                "end_width": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "structures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "structure_type", "position", "width", "height", "min_epoch"],
+        "properties": {
+          "id": { "type": "string" },
+          "structure_type": {
+            "type": "string",
+            "enum": [
+              "indigenous_oca",
+              "indigenous_council_maloca",
+              "central_campfire",
+              "drying_rack_moquem",
+              "canoe_uba",
+              "palisade_stockade",
+              "feitoria_warehouse_1532",
+              "trading_post_depot_1532",
+              "colonial_mission_fort_1554",
+              "colonial_stone_building_1554",
+              "colonial_wooden_bridge_1554",
+              "historical_monolith"
+            ]
+          },
+          "position": { "$ref": "#/$defs/WorldPoint" },
+          "width": { "type": "number" },
+          "height": { "type": "number" },
+          "rotation": { "type": "number", "default": 0.0 },
+          "min_epoch": { "type": "string" },
+          "max_epoch": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "vegetation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pos_x", "pos_y", "scale", "kind", "seed"],
+        "properties": {
+          "pos_x": { "type": "number" },
+          "pos_y": { "type": "number" },
+          "scale": { "type": "number" },
+          "rotation": { "type": "number", "default": 0.0 },
+          "kind": { "type": "integer" },
+          "seed": { "type": "integer" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "WorldPoint": {
+      "type": "object",
+      "required": ["x", "y"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      }
+    }
+  }
+}

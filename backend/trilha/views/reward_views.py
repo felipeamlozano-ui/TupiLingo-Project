@@ -24,6 +24,11 @@ def coletar_bau(request, capitulo_id: int, milestone_index: int = 1):
     from users.services.progress_service import ProgressService
     from users.services.statistics_service import StatisticsService
     result = ProgressService.collect_chest(user, capitulo_id, milestone_index)
+    if result.get('success'):
+        from users.services.achievement_service import check_and_grant_chest_achievements
+        new_achs = check_and_grant_chest_achievements(user)
+        if new_achs:
+            result['novas_conquistas'] = [a.codigo for a in new_achs]
     StatisticsService.invalidate_user_stats_cache(user.id)
     status_code = result.get('status', 200) if not result.get('success', False) else 200
     return JsonResponse(result, status=status_code)

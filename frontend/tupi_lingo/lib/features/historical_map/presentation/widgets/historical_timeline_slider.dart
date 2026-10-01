@@ -10,11 +10,17 @@ enum HistoricalEpoch {
     title: 'Pindorama Ancestral',
     description: 'Soberania indígena, rede milenar do Peabiru e expansão Tupi.',
   ),
+  epoch1532(
+    id: 'epoch1532',
+    label: '1532',
+    title: 'Primeiros Contatos & São Vicente',
+    description: 'Porto de Enguaguassu, início das feitorias e travessia da Serra do Mar.',
+  ),
   epoch1554(
     id: 'epoch1554',
     label: '1554',
     title: 'Aldeamento & Piratininga',
-    description: 'Aliança de Tibiriçá, confluência dos rios e fundação de São Paulo.',
+    description: 'Aliança de Tibiriçá, confluência dos rios Tietê e Tamanduateí e expansão da Língua Geral.',
   ),
   epoch1555(
     id: 'epoch1555',
@@ -34,6 +40,13 @@ enum HistoricalEpoch {
     title: 'Revitalização Linguística',
     description: 'Retomada cultural, literatura viva e transmissão intergeracional.',
   );
+
+  /// Épocas ativas com mapas consolidados: Pré-1500 até no máximo 1554
+  static const List<HistoricalEpoch> activeTimeline = [
+    HistoricalEpoch.pre1500,
+    HistoricalEpoch.epoch1532,
+    HistoricalEpoch.epoch1554,
+  ];
 
   final String id;
   final String label;
@@ -86,7 +99,7 @@ class HistoricalTimelineSlider extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Segmented Epoch Buttons
+              // Segmented Epoch Buttons (Progresso direto de Pré-1500 a 1554)
               Container(
                 padding: const EdgeInsets.all(3.0),
                 decoration: BoxDecoration(
@@ -94,7 +107,7 @@ class HistoricalTimelineSlider extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18.0),
                 ),
                 child: Row(
-                  children: HistoricalEpoch.values.map((epoch) {
+                  children: HistoricalEpoch.activeTimeline.map((epoch) {
                     final isSelected = epoch == currentEpoch;
 
                     return Expanded(

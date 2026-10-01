@@ -197,10 +197,9 @@ class ProgressService:
                 len(lessons_before_chest) > 0
                 and all(canonical_status_map.get(l.id) == "concluida" for l in lessons_before_chest)
             )
-            # 3.1. Regra de Baú Único da Trilha:
-            # O usuário só pode abrir o baú da trilha uma única vez.
-            has_collected_trail_chest = len(collected_chests) > 0
-            is_chest_collected = has_collected_trail_chest or (cap.id, 1) in collected_chests
+            # 3.1. Regra de Baú Individual do Capítulo:
+            # O baú pertence estritamente ao capítulo e marco (milestone_index)
+            is_chest_collected = (cap.id, 1) in collected_chests
 
             chest_status = (
                 "concluido" if is_chest_collected
@@ -354,14 +353,14 @@ class ProgressService:
         if not capitulo:
             return {"success": False, "error": "Capítulo não encontrado", "status": 404}
 
-        # Verifica se já coletou o baú desta trilha (o baú da trilha é único)
+        # Verifica se já coletou o baú deste capítulo específico
         already_collected = UserChestReward.objects.filter(
-            user=user, capitulo__trilha=capitulo.trilha
+            user=user, capitulo=capitulo, milestone_index=milestone_index
         ).exists()
         if already_collected:
             return {
                 "success": False,
-                "error": "O baú da trilha só pode ser coletado uma única vez.",
+                "error": f"O baú cultural do Capítulo {capitulo.numero} já foi coletado.",
                 "already_collected": True,
                 "status": 409
             }

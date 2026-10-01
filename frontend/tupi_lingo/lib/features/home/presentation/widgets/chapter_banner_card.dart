@@ -38,15 +38,19 @@ class ChapterBannerCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'CAPÍTULO ${cap.numero} • UNIDADE BÁSICA',
-                style: const TextStyle(
-                  color: Color(0xFFFFD166),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.2,
+              Expanded(
+                child: Text(
+                  'CAPÍTULO ${cap.numero} • UNIDADE BÁSICA',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color(0xFFFFD166),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                  ),
                 ),
               ),
+              const SizedBox(width: 8),
               GestureDetector(
                 onTap: onCulturalGuideTap,
                 child: Container(

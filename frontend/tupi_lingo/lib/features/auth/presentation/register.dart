@@ -10,6 +10,7 @@ import 'steps/step_credentials_widget.dart';
 import 'steps/step_level_widget.dart';
 import 'steps/step_name_widget.dart';
 import 'steps/step_source_widget.dart';
+import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -366,6 +367,8 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
       if (!mounted) return;
 
       if (response.statusCode == 201 || response.statusCode == 200) {
+        await LegalConsentService.instance.saveConsent(termsAccepted: true, disclaimerAccepted: true);
+        if (!mounted) return;
         if (_selectedLevel == 'nenhum') {
           Navigator.pushReplacementNamed(context, '/home');
         } else {

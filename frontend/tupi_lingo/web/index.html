@@ -71,6 +71,9 @@
           .catch((err) => console.warn('[HPWE ServiceWorker] Erro ao registrar:', err));
       });
     }
+    // Force semantics enabled for web accessibility and automated testing
+    window.flutterConfiguration = window.flutterConfiguration || {};
+    window.flutterConfiguration.semanticsEnabled = true;
   </script>
 </head>
 <body style="margin: 0; background-color: #F3F2E8; overflow: hidden;">

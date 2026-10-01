@@ -15,16 +15,22 @@ import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:tupi_lingo/features/historical_map/data/datasources/historical_map_remote_data_source.dart';
 import 'package:tupi_lingo/core/network/api_client.dart';
+import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/pratica/presentation/thematic_practice_screen.dart';
 import 'package:tupi_lingo/features/home/data/models/trail_map_models.dart';
+import 'package:tupi_lingo/features/home/data/models/chapter_cultural_guides.dart';
+import 'package:tupi_lingo/features/home/data/repositories/trail_vocabulary_repository.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/flashcard_practice_dialog.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/language_switcher_bottom_sheet.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/trail_app_bar.dart';
 import 'package:tupi_lingo/features/store/presentation/store_screen.dart';
 import 'package:tupi_lingo/features/feature_flags/application/providers/feature_flag_provider.dart';
 import 'package:tupi_lingo/features/feature_flags/domain/entities/flag_ids.dart';
+import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
+import 'package:tupi_lingo/features/settings/presentation/settings_screen.dart';
+import 'package:tupi_lingo/core/audio/audio_manager.dart';
 import 'widgets/chapter_banner_card.dart';
 import 'widgets/home_bottom_bar.dart';
 import 'widgets/lesson_start_modal.dart';
@@ -63,30 +69,62 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int _conchas = 0;
   int _varianteId = 1;
   String _varianteNome = 'Tupi Antigo';
+  String _vocabCategoryFilter = 'Todas';
 
-  // Vocabulário para o Hub de Prática
-  final List<Map<String, String>> _vocabularyBank = [
-    {'tupi': 'Kauê', 'pt': 'Olá / Salve', 'pronuncia': 'ka-u-Ê', 'cat': 'Saudações'},
-    {'tupi': 'Abá', 'pt': 'Homem / Pessoa', 'pronuncia': 'a-BÁ', 'cat': 'Geral'},
-    {'tupi': 'Kunhã', 'pt': 'Mulher', 'pronuncia': 'ku-NHÃ', 'cat': 'Geral'},
-    {'tupi': 'Taba', 'pt': 'Aldeia', 'pronuncia': 'TA-ba', 'cat': 'Comunidade'},
-    {'tupi': 'Jagûara', 'pt': 'Onça / Fera', 'pronuncia': 'ja-gwa-RA', 'cat': 'Fauna'},
-    {'tupi': 'Pirá', 'pt': 'Peixe', 'pronuncia': 'pi-RÁ', 'cat': 'Fauna'},
-    {'tupi': 'Gûyrá', 'pt': 'Pássaro / Ave', 'pronuncia': 'gwi-RÁ', 'cat': 'Fauna'},
-    {'tupi': 'Tatu', 'pt': 'Tatu', 'pronuncia': 'ta-TU', 'cat': 'Fauna'},
-    {'tupi': 'Y', 'pt': 'Água / Rio', 'pronuncia': 'Y (som gutural)', 'cat': 'Natureza'},
-    {'tupi': 'Kûarasy', 'pt': 'Sol', 'pronuncia': 'kwa-ra-SY', 'cat': 'Natureza'},
-    {'tupi': 'Jasy', 'pt': 'Lua', 'pronuncia': 'ja-SY', 'cat': 'Natureza'},
-    {'tupi': 'Tatagûasu', 'pt': 'Fogo / Fogueira', 'pronuncia': 'ta-ta-gwa-SU', 'cat': 'Natureza'},
-  ];
+  // Maior capítulo alcançado na trilha pelo usuário
+  int get _highestChapterReached {
+    int maxCap = 1;
+    for (final cap in _capitulos) {
+      final hasCompleted = cap.licoes.any((l) => l.status == LicaoStatus.concluida);
+      final hasAvailable = cap.licoes.any((l) => l.status == LicaoStatus.disponivel);
+      if ((hasCompleted || hasAvailable) && cap.numero > maxCap) {
+        maxCap = cap.numero;
+      }
+    }
+    return maxCap;
+  }
+
+  // Vocabulário dinâmico atrelado à evolução do usuário na trilha
+  List<Map<String, String>> get _vocabularyBank {
+    final unlocked = TrailVocabularyRepository.getUnlockedVocabulary(_highestChapterReached);
+    if (_vocabCategoryFilter != 'Todas') {
+      return unlocked
+          .where((item) => item.cat == _vocabCategoryFilter)
+          .map((item) => item.toMap())
+          .toList();
+    }
+    return unlocked.map((item) => item.toMap()).toList();
+  }
 
   @override
   void initState() {
     super.initState();
     _initAnimControllers();
+    _tryLoadCachedTrail();
     _setupPredictivePreloading();
     _loadUserDataAndTrail();
     AppProgressionNotifier.instance.addListener(_onProgressionUpdated);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        LegalConsentService.instance.showConsentModalIfNeeded(context);
+      }
+    });
+  }
+
+  /// Carrega dados em cache local instantaneamente (0ms) antes do roundtrip de rede
+  Future<void> _tryLoadCachedTrail() async {
+    final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+    final cached = await ApiCacheManager.instance.getCachedResponse('$baseUrl/api/v1/trilha/$_varianteId/capitulos/');
+    if (cached != null && cached.isNotEmpty && _capitulos.isEmpty && mounted) {
+      try {
+        final dynamic mapData = jsonDecode(cached);
+        if (mapData is Map<String, dynamic>) {
+          _processMapData(mapData, isFromCache: true);
+        }
+      } catch (e) {
+        debugPrint('[Home] Erro ao carregar cache local: $e');
+      }
+    }
   }
 
   // Configura o preloader preditivo pra adiantar dados da lição em segundo plano
@@ -351,111 +389,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
         // 2. Processa capítulos e lições da trilha
         if (mapRes.statusCode == 200) {
-          final dynamic mapData = jsonDecode(utf8.decode(mapRes.bodyBytes));
+          final String bodyStr = utf8.decode(mapRes.bodyBytes);
+          ApiCacheManager.instance.saveResponse('$baseUrl/api/v1/trilha/$varianteId/capitulos/', bodyStr);
+          final dynamic mapData = jsonDecode(bodyStr);
           if (mapData is Map<String, dynamic>) {
-            if (mapData['user_stats'] is Map<String, dynamic>) {
-              final us = mapData['user_stats'] as Map<String, dynamic>;
-              if (mounted) {
-                setState(() {
-                  _xpTotal = (us['xp_total'] as num?)?.toInt() ?? _xpTotal;
-                  _streakDays = (us['streak_atual'] as num?)?.toInt() ??
-                      (us['dias_ofensiva'] as num?)?.toInt() ??
-                      _streakDays;
-                  _conchas = (us['conchas'] as num?)?.toInt() ?? _conchas;
-                });
-              }
-            }
-
-            final List<dynamic> capsJson = mapData['capitulos'] as List<dynamic>? ?? [];
-
-            final loadedCapitulos = capsJson.map((cap) {
-              final capMap = cap as Map<String, dynamic>? ?? {};
-              final List<dynamic> licoesJson = capMap['licoes'] as List<dynamic>? ?? [];
-              final licoes = licoesJson.map((l) {
-                final lMap = l as Map<String, dynamic>? ?? {};
-                return LicaoMapData(
-                  id: (lMap['id'] as num?)?.toInt() ?? 0,
-                  titulo: lMap['titulo']?.toString() ?? '',
-                  descricao: lMap['descricao']?.toString() ?? '',
-                  numero: (lMap['numero'] as num?)?.toInt() ?? 1,
-                  xpBase: (lMap['xp_base'] as num?)?.toInt() ?? 25,
-                  posX: (lMap['pos_x'] as num?)?.toDouble() ?? 50.0,
-                  posY: (lMap['pos_y'] as num?)?.toDouble() ?? 50.0,
-                  status: _parseLicaoStatus(lMap['status']?.toString() ?? 'bloqueada'),
-                  earnedXp: (lMap['earned_xp'] as num?)?.toInt() ?? 0,
-                );
-              }).toList();
-
-              final int capNum = (capMap['numero'] as num?)?.toInt() ?? 1;
-              final double progressPct = (capMap['module_progress_percentage'] as num?)?.toDouble() ?? 0.0;
-
-              ChestRewardMapData? chestReward;
-              if (capMap['chest_reward'] != null) {
-                final cr = capMap['chest_reward'] as Map<String, dynamic>;
-                final statusStr = cr['status']?.toString() ?? 'bloqueado';
-                final isCollected = cr['collected'] == true || statusStr == 'concluido';
-                chestReward = ChestRewardMapData(
-                  milestoneIndex: (cr['milestone_index'] as num?)?.toInt() ?? 1,
-                  status: isCollected ? 'concluido' : statusStr,
-                  unlocked: cr['unlocked'] == true,
-                  collected: isCollected,
-                  recompensaXp: (cr['recompensa_xp'] as num?)?.toInt() ?? 75,
-                  recompensaConchas: (cr['recompensa_conchas'] as num?)?.toInt() ?? 50,
-                  afterLessonNumber: (cr['after_lesson_number'] as num?)?.toInt() ?? 2,
-                );
-              }
-
-              return CapituloMapData(
-                id: (capMap['id'] as num?)?.toInt() ?? 0,
-                titulo: capMap['titulo']?.toString() ?? 'Capítulo $capNum',
-                descricao: capMap['descricao']?.toString() ?? '',
-                numero: capNum,
-                paletteColor: _TupiColors.accent,
-                licoes: licoes,
-                chestReward: chestReward,
-                moduleProgressPercentage: progressPct,
-              );
-            }).toList();
-
-            final mergedCapitulos = _mergeCapitulosWithLocalProgress(_capitulos, loadedCapitulos);
-
-            // Determina qual capítulo contém a lição ativa (disponível ou em andamento)
-            int activeCapIdx = 0;
-            for (int i = 0; i < mergedCapitulos.length; i++) {
-              final hasActiveLesson = mergedCapitulos[i].licoes.any(
-                (l) => l.status == LicaoStatus.disponivel || l.status == LicaoStatus.emAndamento,
-              );
-              if (hasActiveLesson) {
-                activeCapIdx = i;
-                break;
-              }
-            }
-
-            final bool currentCapFinished = _selectedCapituloIndex < mergedCapitulos.length &&
-                mergedCapitulos[_selectedCapituloIndex].licoes.isNotEmpty &&
-                mergedCapitulos[_selectedCapituloIndex].licoes.every((l) => l.status == LicaoStatus.concluida);
-
-            final bool shouldUpdateSelectedCap = _capitulos.isEmpty ||
-                _selectedCapituloIndex >= mergedCapitulos.length ||
-                currentCapFinished;
-
-            if (mounted) {
-              setState(() {
-                _capitulos = mergedCapitulos;
-                if (shouldUpdateSelectedCap) {
-                  _selectedCapituloIndex = activeCapIdx;
-                }
-                _isLoading = false;
-              });
-              _preheatNextLesson();
-              // Pré-aquecimento do Painel de Desempenho, Mapa e Variantes em background (Zero Loading no 1º clique)
-              Future.microtask(() {
-                DashboardRepositoryImpl().getUserProgressStats();
-                HistoricalMapRemoteDataSourceImpl().fetchRegions();
-                LanguageSwitcherBottomSheet.preloadVariantes();
-              });
-              return;
-            }
+            _processMapData(mapData, isFromCache: false);
+            // Pré-aquecimento em background sem travar UI
+            Future.microtask(() {
+              DashboardRepositoryImpl().getUserProgressStats();
+              HistoricalMapRemoteDataSourceImpl().fetchRegions();
+              LanguageSwitcherBottomSheet.preloadVariantes();
+            });
+            return;
           }
         }
       }
@@ -473,6 +418,106 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  /// Processa a carga de dados da trilha vinda do cache local ou da rede
+  void _processMapData(Map<String, dynamic> mapData, {bool isFromCache = false}) {
+    if (mapData['user_stats'] is Map<String, dynamic>) {
+      final us = mapData['user_stats'] as Map<String, dynamic>;
+      if (mounted) {
+        setState(() {
+          _xpTotal = (us['xp_total'] as num?)?.toInt() ?? _xpTotal;
+          _streakDays = (us['streak_atual'] as num?)?.toInt() ??
+              (us['dias_ofensiva'] as num?)?.toInt() ??
+              _streakDays;
+          _conchas = (us['conchas'] as num?)?.toInt() ?? _conchas;
+        });
+      }
+    }
+
+    final List<dynamic> capsJson = mapData['capitulos'] as List<dynamic>? ?? [];
+
+    final loadedCapitulos = capsJson.map((cap) {
+      final capMap = cap as Map<String, dynamic>? ?? {};
+      final List<dynamic> licoesJson = capMap['licoes'] as List<dynamic>? ?? [];
+      final licoes = licoesJson.map((l) {
+        final lMap = l as Map<String, dynamic>? ?? {};
+        return LicaoMapData(
+          id: (lMap['id'] as num?)?.toInt() ?? 0,
+          titulo: lMap['titulo']?.toString() ?? '',
+          descricao: lMap['descricao']?.toString() ?? '',
+          numero: (lMap['numero'] as num?)?.toInt() ?? 1,
+          xpBase: (lMap['xp_base'] as num?)?.toInt() ?? 25,
+          posX: (lMap['pos_x'] as num?)?.toDouble() ?? 50.0,
+          posY: (lMap['pos_y'] as num?)?.toDouble() ?? 50.0,
+          status: _parseLicaoStatus(lMap['status']?.toString() ?? 'bloqueada'),
+          earnedXp: (lMap['earned_xp'] as num?)?.toInt() ?? 0,
+        );
+      }).toList();
+
+      final int capNum = (capMap['numero'] as num?)?.toInt() ?? 1;
+      final double progressPct = (capMap['module_progress_percentage'] as num?)?.toDouble() ?? 0.0;
+
+      ChestRewardMapData? chestReward;
+      if (capMap['chest_reward'] != null) {
+        final cr = capMap['chest_reward'] as Map<String, dynamic>;
+        final statusStr = cr['status']?.toString() ?? 'bloqueado';
+        final isCollected = cr['collected'] == true || statusStr == 'concluido';
+        chestReward = ChestRewardMapData(
+          milestoneIndex: (cr['milestone_index'] as num?)?.toInt() ?? 1,
+          status: isCollected ? 'concluido' : statusStr,
+          unlocked: cr['unlocked'] == true,
+          collected: isCollected,
+          recompensaXp: (cr['recompensa_xp'] as num?)?.toInt() ?? 75,
+          recompensaConchas: (cr['recompensa_conchas'] as num?)?.toInt() ?? 50,
+          afterLessonNumber: (cr['after_lesson_number'] as num?)?.toInt() ?? 2,
+        );
+      }
+
+      return CapituloMapData(
+        id: (capMap['id'] as num?)?.toInt() ?? 0,
+        titulo: capMap['titulo']?.toString() ?? 'Capítulo $capNum',
+        descricao: capMap['descricao']?.toString() ?? '',
+        numero: capNum,
+        paletteColor: _TupiColors.accent,
+        licoes: licoes,
+        chestReward: chestReward,
+        moduleProgressPercentage: progressPct,
+      );
+    }).toList();
+
+    final mergedCapitulos = _mergeCapitulosWithLocalProgress(_capitulos, loadedCapitulos);
+
+    // Determina qual capítulo contém a lição ativa (disponível ou em andamento)
+    int activeCapIdx = 0;
+    for (int i = 0; i < mergedCapitulos.length; i++) {
+      final hasActiveLesson = mergedCapitulos[i].licoes.any(
+        (l) => l.status == LicaoStatus.disponivel || l.status == LicaoStatus.emAndamento,
+      );
+      if (hasActiveLesson) {
+        activeCapIdx = i;
+        break;
+      }
+    }
+
+    final bool currentCapFinished = _selectedCapituloIndex < mergedCapitulos.length &&
+        mergedCapitulos[_selectedCapituloIndex].licoes.isNotEmpty &&
+        mergedCapitulos[_selectedCapituloIndex].licoes.every((l) => l.status == LicaoStatus.concluida);
+
+    final bool shouldUpdateSelectedCap = _capitulos.isEmpty ||
+        _selectedCapituloIndex >= mergedCapitulos.length ||
+        currentCapFinished;
+
+    if (mounted) {
+      setState(() {
+        _capitulos = mergedCapitulos;
+        if (shouldUpdateSelectedCap) {
+          _selectedCapituloIndex = activeCapIdx;
+        }
+        _isLoading = false;
+      });
+      _preheatNextLesson();
+    }
+  }
+
   // Converte a string de status vinda da API para o enum tipado da trilha
   LicaoStatus _parseLicaoStatus(String raw) {
     switch (raw) {
@@ -487,6 +532,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     _initAnimControllers();
+    final maxTabs = _isAdmin ? 5 : 4;
+    final currentTab = _currentTabIndex < maxTabs ? _currentTabIndex : 0;
+
     return Scaffold(
       backgroundColor: AppTheme.bg(context),
       body: SafeArea(
@@ -502,12 +550,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   : _errorMessage != null
                       ? _buildErrorView()
                       : IndexedStack(
-                          index: _currentTabIndex < (_isAdmin ? 4 : 3) ? _currentTabIndex : 0,
+                          index: currentTab,
                           children: [
-                            _buildTrilhaTab(),
-                            _buildPraticaTab(),
-                            const ProfileScreen(),
-                            if (_isAdmin) const AdminScreen(),
+                            TickerMode(
+                              enabled: currentTab == 0,
+                              child: RepaintBoundary(child: _buildTrilhaTab()),
+                            ),
+                            TickerMode(
+                              enabled: currentTab == 1,
+                              child: RepaintBoundary(child: _buildPraticaTab()),
+                            ),
+                            TickerMode(
+                              enabled: currentTab == 2,
+                              child: const RepaintBoundary(child: ProfileScreen()),
+                            ),
+                            TickerMode(
+                              enabled: currentTab == 3,
+                              child: const RepaintBoundary(child: SettingsScreen()),
+                            ),
+                            if (_isAdmin)
+                              TickerMode(
+                                enabled: currentTab == 4,
+                                child: const RepaintBoundary(child: AdminScreen()),
+                              ),
                           ],
                         ),
             ),
@@ -692,18 +757,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           reward: IndigenousReward.sampleMuiraquita(),
           onCollected: () async {
             Navigator.pop(ctx);
+            AudioManager.instance.playChestReward();
 
-            // Marcação otimista imediata para prevenir múltiplos cliques locais
+            // Marcação otimista imediata apenas no capítulo específico coletado
             setState(() {
               _capitulos = _capitulos.map((c) {
-                if (c.chestReward != null) {
-                  return CapituloMapData(
-                    id: c.id,
-                    titulo: c.titulo,
-                    descricao: c.descricao,
-                    numero: c.numero,
-                    paletteColor: c.paletteColor,
-                    licoes: c.licoes,
+                if (c.id == cap.id && c.chestReward != null) {
+                  return c.copyWith(
                     chestReward: ChestRewardMapData(
                       milestoneIndex: c.chestReward!.milestoneIndex,
                       status: 'concluido',
@@ -713,7 +773,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       recompensaConchas: c.chestReward!.recompensaConchas,
                       afterLessonNumber: c.chestReward!.afterLessonNumber,
                     ),
-                    moduleProgressPercentage: c.moduleProgressPercentage,
                   );
                 }
                 return c;
@@ -816,7 +875,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => const PindoramaMapScreen(),
+        builder: (_) => PindoramaMapScreen(capitulos: _capitulos),
       ),
     );
   }
@@ -927,54 +986,184 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // Exibe modal com contexto cultural, etnográfico e saberes tradicionais do capítulo
+  // Exibe modal com contexto cultural autêntico, saberes ancestrais e curiosidades do capítulo
   void _showCulturalGuideDialog(CapituloMapData cap) {
+    final guide = ChapterCulturalGuide.getForChapter(cap.numero, defaultTitulo: cap.titulo);
+    final isDark = AppTheme.isDark(context);
+    final primaryColor = isDark ? const Color(0xFF1EC9A5) : _TupiColors.primary;
+
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppTheme.surface(context),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           side: BorderSide(color: AppTheme.border(context)),
         ),
         title: Row(
           children: [
-            const Text('📜', style: TextStyle(fontSize: 22)),
-            const SizedBox(width: 10),
+            Text(guide.icone, style: const TextStyle(fontSize: 26)),
+            const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                'Guia do Capítulo ${cap.numero}',
-                style: TextStyle(color: AppTheme.textPrimary(context), fontSize: 18, fontWeight: FontWeight.bold),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Guia do Capítulo ${guide.numero}',
+                    style: TextStyle(
+                      color: AppTheme.textPrimary(context),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    guide.subtitulo,
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                cap.titulo,
-                style: const TextStyle(color: _TupiColors.primary, fontWeight: FontWeight.bold, fontSize: 15),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'No Tupi Antigo, a fala expressava conexão íntima com a terra e com os ancestrais. '
-                'As palavras tinham sonoridade rica em vogais nasais e guturais (como o som de "Y"). '
-                'Pratique os termos e preste atenção aos animais sagrados da floresta.',
-                style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13, height: 1.45),
-              ),
-            ],
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  guide.titulo,
+                  style: TextStyle(
+                    color: AppTheme.textPrimary(context),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surfaceSubtle(context),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: AppTheme.border(context)),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('📜', style: TextStyle(fontSize: 18)),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          guide.saberesAncestrais,
+                          style: TextStyle(
+                            color: AppTheme.textSecondary(context),
+                            fontSize: 13,
+                            height: 1.45,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD08A45).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFD08A45).withValues(alpha: 0.35)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        children: [
+                          Text('🔍', style: TextStyle(fontSize: 14)),
+                          SizedBox(width: 6),
+                          Text(
+                            'Curiosidade Linguística',
+                            style: TextStyle(
+                              color: Color(0xFFD08A45),
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        guide.curiosidadeLinguistica,
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context).withValues(alpha: 0.9),
+                          fontSize: 12,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Expressão em Destaque:',
+                        style: TextStyle(
+                          color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        guide.expressaoDestaque,
+                        style: TextStyle(
+                          color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        guide.expressaoTraducao,
+                        style: TextStyle(
+                          color: AppTheme.textSecondary(context),
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
             child: Text(
-              'Entendi',
+              'Entendido',
               style: TextStyle(
-                color: AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : _TupiColors.accent,
+                color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -1155,18 +1344,122 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _buildThematicPracticeSection(),
 
             const SizedBox(height: 24),
-            Text(
-              'Banco de Vocabulário da Trilha',
-              style: TextStyle(
-                color: AppTheme.textPrimary(context),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Banco de Vocabulário da Trilha',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Palavras ensinadas até o Capítulo $_highestChapterReached',
+                        style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: _TupiColors.primary.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: _TupiColors.primary.withValues(alpha: 0.35)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('📖', style: TextStyle(fontSize: 12)),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${_vocabularyBank.length} termos',
+                        style: const TextStyle(
+                          color: _TupiColors.primary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
 
-            // Lista de Vocabulário Interativa
-            ..._vocabularyBank.map((item) {
+            // Filtro por categoria gramatical / semântica
+            SizedBox(
+              height: 34,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  'Todas',
+                  'Saudações',
+                  'Comunidade',
+                  'Pessoas',
+                  'Natureza',
+                  'Fauna',
+                  'Alimentos',
+                  'Espiritualidade',
+                ].map((cat) {
+                  final isSelected = _vocabCategoryFilter == cat;
+                  return GestureDetector(
+                    onTap: () => setState(() => _vocabCategoryFilter = cat),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? (AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : _TupiColors.accent)
+                            : AppTheme.surface(context),
+                        borderRadius: BorderRadius.circular(17),
+                        border: Border.all(
+                          color: isSelected
+                              ? Colors.transparent
+                              : AppTheme.border(context),
+                        ),
+                      ),
+                      child: Text(
+                        cat,
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : AppTheme.textPrimary(context),
+                          fontSize: 12,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            const SizedBox(height: 14),
+
+            if (_vocabularyBank.isEmpty)
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: AppTheme.surface(context),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppTheme.border(context)),
+                ),
+                child: Center(
+                  child: Text(
+                    'Nenhum termo nesta categoria ainda. Continue avançando na trilha!',
+                    style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            else
+              // Lista de Vocabulário Interativa
+              ..._vocabularyBank.map((item) {
               return Container(
                 margin: const EdgeInsets.only(bottom: 10),
                 padding: const EdgeInsets.all(14),
@@ -1437,12 +1730,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // Barra de navegação inferior com abas de Trilha, Prática, Perfil e Admin
+  // Barra de navegação inferior com abas de Trilha, Prática, Perfil, Ajustes e Admin
   Widget _buildBottomNavigationBar() {
     return HomeBottomBar(
       currentTabIndex: _currentTabIndex,
       isAdmin: _isAdmin,
-      onTabSelected: (index) => setState(() => _currentTabIndex = index),
+      onTabSelected: (index) {
+        if (_currentTabIndex != index) {
+          setState(() => _currentTabIndex = index);
+          // Otimização de Clock e VRAM: Se saiu da Trilha (aba 0), para os tickers contínuos
+          if (index == 0) {
+            _pulseController?.repeat(reverse: true);
+            _floatController?.repeat(reverse: true);
+          } else {
+            _pulseController?.stop();
+            _floatController?.stop();
+          }
+        }
+      },
     );
   }
 

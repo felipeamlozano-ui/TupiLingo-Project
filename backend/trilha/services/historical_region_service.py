@@ -2,11 +2,45 @@
 Serviço de Domínio para Regiões Históricas (Aldeias) do Mapa Interativo.
 """
 
+import json
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+_MAPA_PINDORAMA_PATH = Path(__file__).resolve().parent.parent.parent / "pedagogico" / "mapa" / "mapa_pindorama.json"
 
-class HistoricalRegionService:
-    REGIOES_TEMPLATE: List[Dict[str, Any]] = [
+
+def _build_pindorama_stages() -> List[Dict[str, Any]]:
+    if _MAPA_PINDORAMA_PATH.exists():
+        try:
+            with open(_MAPA_PINDORAMA_PATH, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            stages = data.get('stages', [])
+            loaded = []
+            for st in stages:
+                ch = st.get('chapter', 1)
+                nome = st.get('nome', '')
+                toponimo = st.get('toponimo_indigena', '')
+                nacao = st.get('nacao_indigena', 'Tupi')
+                rel = st.get('mapa_relativo', {})
+                loaded.append({
+                    'id': ch,
+                    'name': f"{nome} ({nacao})",
+                    'toponimo': toponimo,
+                    'indigenous_nation': nacao,
+                    'historical_period': st.get('periodo_historico', 'Século XVI'),
+                    'relative_x': rel.get('x', 0.5),
+                    'relative_y': rel.get('y', 0.5),
+                    'radius': rel.get('raio', 24.0),
+                    'cultural_summary': st.get('narrativa_rag', ''),
+                    'vocabulary_highlights': st.get('elementos_destaque', []),
+                    'required_level': min(5, (ch + 3) // 4),
+                })
+            if loaded:
+                return loaded
+        except Exception:
+            pass
+
+    return [
         {
             'id': 1,
             'name': 'Costa dos Tupinambás (Ubatuba / Guanabara)',
@@ -15,74 +49,15 @@ class HistoricalRegionService:
             'relative_x': 0.72,
             'relative_y': 0.68,
             'radius': 26.0,
-            'cultural_summary': (
-                'Coração da Confederação dos Tamoios liderada por Cunhambebe. Famosos navegadores de canoas '
-                'e guerreiros da floresta atlântica, falantes do Tupi clássico registrado por Jean de Léry e Hans Staden.'
-            ),
+            'cultural_summary': 'Coração da Confederação dos Tamoios.',
             'vocabulary_highlights': ['Iperoig', 'Tamoio', 'Karai', 'Tupã', 'Maracá'],
             'required_level': 1,
         },
-        {
-            'id': 2,
-            'name': 'Território Carijó (Litoral Sul / Ilha de SC)',
-            'indigenous_nation': 'Carijó (Guarani)',
-            'historical_period': 'Século XVI - Trilha do Peabiru',
-            'relative_x': 0.60,
-            'relative_y': 0.84,
-            'radius': 24.0,
-            'cultural_summary': (
-                'Povo pacífico de navegadores e guardiões do mítico caminho sagrado do Peabiru, que ligava o Atlântico aos Andes. '
-                'Grandes ceramistas e agricultores de mandioca e milho.'
-            ),
-            'vocabulary_highlights': ['Peabiru', 'Meiembipe', 'Mandi\'oka', 'Avaxi'],
-            'required_level': 2,
-        },
-        {
-            'id': 3,
-            'name': 'Alto Xingu & Florestas Centrais',
-            'indigenous_nation': 'Kamaiurá / Aweti (Tupi)',
-            'historical_period': 'Tradição Milenar das Aldeias Circulares',
-            'relative_x': 0.52,
-            'relative_y': 0.48,
-            'radius': 25.0,
-            'cultural_summary': (
-                'Complexo cultural do Xingu com aldeias circulares monumentais, rituais sagrados do Kuarup e luta Huka-Huka. '
-                'Preservam a língua de tronco Tupi viva em sua forma mais rica e expressiva.'
-            ),
-            'vocabulary_highlights': ['Kuarup', 'Huka-huka', 'Jawari', 'Moitará'],
-            'required_level': 3,
-        },
-        {
-            'id': 4,
-            'name': 'Amazônia Nheengatu (Bacia do Rio Negro)',
-            'indigenous_nation': 'Povos do Rio Negro (Nheengatu)',
-            'historical_period': 'Século XVII aos dias atuais',
-            'relative_x': 0.32,
-            'relative_y': 0.22,
-            'radius': 26.0,
-            'cultural_summary': (
-                'Berço da Língua Geral Amazônica (Nheengatu), derivada do Tupinambá e reconhecida como patrimônio linguístico vivo. '
-                'Riquíssima cosmologia sobre Jurupari e os rios de água preta.'
-            ),
-            'vocabulary_highlights': ['Yande', 'Paranã', 'Yara', 'Jurupari', 'Puraque'],
-            'required_level': 4,
-        },
-        {
-            'id': 5,
-            'name': 'Costa dos Tupiniquins (Porto Seguro)',
-            'indigenous_nation': 'Tupiniquim',
-            'historical_period': '1500 - Primeiro Contato',
-            'relative_x': 0.84,
-            'relative_y': 0.56,
-            'radius': 23.0,
-            'cultural_summary': (
-                'Habitantes da costa sul da Bahia, foram os primeiros anfitriões dos navegadores portugueses em 1500. '
-                'Exímios coletores de moluscos e conhecedores dos segredos das marés.'
-            ),
-            'vocabulary_highlights': ['Pindorama', 'Mbya', 'Itaparica', 'Pirá'],
-            'required_level': 5,
-        },
     ]
+
+
+class HistoricalRegionService:
+    REGIOES_TEMPLATE: List[Dict[str, Any]] = _build_pindorama_stages()
 
     @classmethod
     def build_user_regions(
