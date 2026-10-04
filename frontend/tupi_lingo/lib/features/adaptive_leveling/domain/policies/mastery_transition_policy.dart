@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:tupi_lingo/features/adaptive_leveling/domain/entities/knowledge_state.dart';
 
-/// Policy governing mastery state promotions and temporal memory decay (RFC-012A Chapter 8).
+/// Política de transição de estados de aprendizagem e curva de esquecimento de Ebbinghaus.
 class MasteryTransitionPolicy {
   /// Evaluates whether a state has decayed over time according to Ebbinghaus forgetting curve.
   KnowledgeState checkTemporalDecay(KnowledgeState current, DateTime now) {

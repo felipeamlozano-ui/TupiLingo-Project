@@ -9,11 +9,10 @@
   <meta name="description" content="TupiLingo — Aprenda a língua Tupi de forma interativa, gamificada e com performance instantânea.">
   <meta name="theme-color" content="#F3F2E8">
 
-  <!-- ─── Resource Hints & Preconnects (HPWE Camada 19) ──────────────────── -->
+  <!-- Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="preload" href="assets/shaders/mystic_aura.frag" as="fetch" crossorigin fetchpriority="high">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -26,55 +25,6 @@
 
   <title>TupiLingo — Gamified Indigenous Learning</title>
   <link rel="manifest" href="manifest.json">
-
-  <!-- ─── In-Browser Performance Telemetry Hook (HPWE Camada 28) ──────────── -->
-  <script>
-    window.__tupiTelemetry = {
-      longTasks: 0,
-      maxLongTaskMs: 0,
-      fcp: 0,
-      lcp: 0
-    };
-
-    if ('PerformanceObserver' in window) {
-      try {
-        // Observador de Long Tasks (> 50ms)
-        const longTaskObserver = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            window.__tupiTelemetry.longTasks++;
-            if (entry.duration > window.__tupiTelemetry.maxLongTaskMs) {
-              window.__tupiTelemetry.maxLongTaskMs = entry.duration;
-            }
-          }
-        });
-        longTaskObserver.observe({ entryTypes: ['longtask'] });
-
-        // Observador de Paint (FCP)
-        const paintObserver = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (entry.name === 'first-contentful-paint') {
-              window.__tupiTelemetry.fcp = entry.startTime;
-            }
-          }
-        });
-        paintObserver.observe({ entryTypes: ['paint'] });
-      } catch (e) {
-        // PerformanceObserver silenciado se não suportado
-      }
-    }
-
-    // ─── Registro do Service Worker Enterprise (HPWE Camada 27) ───────────
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('tupi_service_worker.js')
-          .then((reg) => console.log('⚡ [HPWE ServiceWorker] Registrado com sucesso:', reg.scope))
-          .catch((err) => console.warn('[HPWE ServiceWorker] Erro ao registrar:', err));
-      });
-    }
-    // Force semantics enabled for web accessibility and automated testing
-    window.flutterConfiguration = window.flutterConfiguration || {};
-    window.flutterConfiguration.semanticsEnabled = true;
-  </script>
 </head>
 <body style="margin: 0; background-color: #F3F2E8; overflow: hidden;">
   <script src="flutter_bootstrap.js" async></script>

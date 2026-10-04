@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Discrete finite mastery states for knowledge units (RFC-012A Chapter 6).
+/// Estados pedagógicos de retenção e domínio de conceitos e vocábulos.
 enum KnowledgeStateType {
   unknown,
   exposed,

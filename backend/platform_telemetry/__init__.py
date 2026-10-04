@@ -1,5 +1,5 @@
 """
-Platform Telemetry & Observability App (RFC-013 Enterprise).
-Strict zero-PII telemetry, aggregated metrics, audit logs, and developer console backend.
+Módulo de Telemetria e Métricas da Plataforma.
+Métricas agregadas anônimas e logs de auditoria do sistema.
 """
 default_app_config = 'platform_telemetry.apps.PlatformTelemetryConfig'

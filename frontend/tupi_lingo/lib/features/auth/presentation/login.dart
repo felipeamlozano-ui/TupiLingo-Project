@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/auth/presentation/recovery_otp.dart';
+import 'package:tupi_lingo/features/auth/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -109,10 +110,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Bate a autenticação de email/senha no Supabase e trata erros comuns amigavelmente
+  // Bate a autenticação de email/senha via AuthService com resiliência contra captcha
   Future<void> _handleLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
     // validação rápida no front pra economizar round-trip
-    if (_emailController.text.trim().isEmpty) {
+    if (email.isEmpty) {
       _showErrorSnackBar(
         title: 'Campo obrigatório',
         message: 'Digite seu e-mail para continuar.',
@@ -120,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    if (_passwordController.text.isEmpty) {
+    if (password.isEmpty) {
       _showErrorSnackBar(
         title: 'Campo obrigatório',
         message: 'Digite sua senha para continuar.',
@@ -128,37 +132,28 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    setState(() => _isLoading = true);
+
     try {
-      await Supabase.instance.client.auth.signInWithPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
+      await AuthService.instance.signInWithEmailPassword(
+        email: email,
+        password: password,
       );
 
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/');
       }
     } on AuthException catch (e) {
-      String errorMessage = e.message;
-      String errorTitle = 'Falha no login';
-      
-      // traduz algumas mensagens chatas do supabase pro usuário não ficar perdido
-      if (e.message.toLowerCase().contains('email not confirmed')) {
-        errorTitle = 'E-mail não verificado';
-        errorMessage = 'Por favor, verifique a caixa de entrada do seu e-mail e valide o código recebido.';
-      } else if (e.message.toLowerCase().contains('invalid login credentials')) {
-        errorMessage = 'E-mail ou senha incorretos.';
-      }
-      
       _showErrorSnackBar(
-        title: errorTitle,
-        message: errorMessage,
+        title: 'Atenção',
+        message: e.message,
       );
     } catch (e, stackTrace) {
       debugPrint('LOGIN EMAIL ERRO: $e');
       debugPrint('STACKTRACE: $stackTrace');
       _showErrorSnackBar(
         title: 'Erro inesperado',
-        message: 'Tente novamente mais tarde.',
+        message: 'Não foi possível concluir o login. Verifique sua conexão e tente novamente.',
       );
     } finally {
       if (mounted) {
@@ -261,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      await Supabase.instance.client.auth.resetPasswordForEmail(email);
+      await AuthService.instance.recoverPassword(email);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -288,6 +283,11 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (context) => RecoveryOtpScreen(email: email)),
         );
       }
+    } on AuthException catch (e) {
+      _showErrorSnackBar(
+        title: 'Atenção',
+        message: e.message,
+      );
     } catch (e) {
       _showErrorSnackBar(
         title: 'Erro de conexão',

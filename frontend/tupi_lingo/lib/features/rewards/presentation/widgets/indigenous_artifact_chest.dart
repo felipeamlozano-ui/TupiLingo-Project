@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../domain/entities/indigenous_reward.dart';
 import '../particle_system/particle_pool.dart';
 import 'chest_painter.dart';
-import 'mystic_aura_shader.dart';
 
 enum ChestAnimState {
   idle,
@@ -159,12 +158,20 @@ class _IndigenousArtifactChestState extends State<IndigenousArtifactChest>
                 alignment: Alignment.center,
                 clipBehavior: Clip.none,
                 children: [
-                  // Aura Mística Acelerada por GPU (Fragment Shader Impeller) ao Revelar
+                  // Brilho solar suave de destaque ao revelar
                   if (_state == ChestAnimState.revealed)
-                    const MysticAuraShaderWidget(
-                      size: 280,
-                      innerColor: Color(0xFFFFD166), // Ouro Solar Marajoara
-                      outerColor: Color(0xFF0E5D4E), // Verde Floresta Ancestral
+                    Container(
+                      width: 260,
+                      height: 260,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            const Color(0xFFFFD166).withValues(alpha: 0.50),
+                            const Color(0xFF0E5D4E).withValues(alpha: 0.0),
+                          ],
+                        ),
+                      ),
                     ),
 
                   // Recompensa Saltando com Curves.elasticOut

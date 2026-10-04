@@ -115,8 +115,14 @@ class TrailCanvasView extends StatelessWidget {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
+                                      Icon(
+                                        isInProgress ? Icons.play_arrow_rounded : Icons.star_rounded,
+                                        color: const Color(0xFFFFD166),
+                                        size: 13,
+                                      ),
+                                      const SizedBox(width: 4),
                                       Text(
-                                        isInProgress ? '🏹 CONTINUAR' : '⭐ SUA VEZ',
+                                        isInProgress ? 'CONTINUAR' : 'SUA VEZ',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w900,
@@ -177,7 +183,7 @@ class TrailCanvasView extends StatelessWidget {
     if (isCompleted) {
       solidColor = isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E);
       bottomColor = isDark ? const Color(0xFF0E6955) : const Color(0xFF083C32);
-      iconWidget = const Text('👑', style: TextStyle(fontSize: 28));
+      iconWidget = const Icon(Icons.check_rounded, color: Colors.white, size: 36);
       shadows = [
         BoxShadow(
           color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.35),
@@ -196,18 +202,7 @@ class TrailCanvasView extends StatelessWidget {
         ],
       );
       bottomColor = const Color(0xFFC67D00);
-      iconWidget = Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
-        children: const [
-          Text('⭐', style: TextStyle(fontSize: 32)),
-          Positioned(
-            right: -6,
-            top: -4,
-            child: Text('✨', style: TextStyle(fontSize: 14)),
-          ),
-        ],
-      );
+      iconWidget = const Icon(Icons.star_rounded, color: Colors.white, size: 36);
       shadows = [
         BoxShadow(
           color: const Color(0xFFFFB300).withValues(alpha: 0.60),
@@ -224,7 +219,11 @@ class TrailCanvasView extends StatelessWidget {
     } else if (isPlayable) {
       solidColor = const Color(0xFFD08A45);
       bottomColor = const Color(0xFFA56627);
-      iconWidget = Text(isInProgress ? '🏹' : '⭐', style: const TextStyle(fontSize: 28));
+      iconWidget = Icon(
+        isInProgress ? Icons.play_arrow_rounded : Icons.star_rounded,
+        color: Colors.white,
+        size: 32,
+      );
       shadows = [
         BoxShadow(
           color: const Color(0xFFD08A45).withValues(alpha: 0.35),

@@ -10,17 +10,12 @@ import 'package:tupi_lingo/features/home/presentation/widgets/select_level_scree
 import 'package:tupi_lingo/features/dashboard/presentation/pages/progress_dashboard_screen.dart';
 import 'package:tupi_lingo/features/rewards/presentation/widgets/indigenous_artifact_chest.dart';
 import 'package:tupi_lingo/features/rewards/domain/entities/indigenous_reward.dart';
-import 'package:tupi_lingo/features/historical_map/presentation/pages/pindorama_map_screen.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
-import 'package:tupi_lingo/features/historical_map/data/datasources/historical_map_remote_data_source.dart';
-import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
-import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/pratica/presentation/thematic_practice_screen.dart';
 import 'package:tupi_lingo/features/home/data/models/trail_map_models.dart';
-import 'package:tupi_lingo/features/home/data/models/chapter_cultural_guides.dart';
 import 'package:tupi_lingo/features/home/data/repositories/trail_vocabulary_repository.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/flashcard_practice_dialog.dart';
 import 'package:tupi_lingo/features/home/presentation/widgets/language_switcher_bottom_sheet.dart';
@@ -31,17 +26,17 @@ import 'package:tupi_lingo/features/feature_flags/domain/entities/flag_ids.dart'
 import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
 import 'package:tupi_lingo/features/settings/presentation/settings_screen.dart';
 import 'package:tupi_lingo/core/audio/audio_manager.dart';
-import 'widgets/chapter_banner_card.dart';
+import 'widgets/cultural_guide_dialog.dart';
 import 'widgets/home_bottom_bar.dart';
 import 'widgets/lesson_start_modal.dart';
-import 'widgets/trail_canvas_view.dart';
+import 'tabs/practice_tab_view.dart';
+import 'tabs/trail_tab_view.dart';
 
 // Paleta de cores com identidade visual Tupi para a tela inicial
 class _TupiColors {
   static const primary = Color(0xFFD08A45);
   static const accent = Color(0xFF0E5D4E);
   static const textDark = Color(0xFF1F2937);
-  static const textMuted = Color(0xFF565D6D);
 }
 
 class HomeScreen extends StatefulWidget {
@@ -101,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
     _initAnimControllers();
     _tryLoadCachedTrail();
-    _setupPredictivePreloading();
     _loadUserDataAndTrail();
     AppProgressionNotifier.instance.addListener(_onProgressionUpdated);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -123,41 +117,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
       } catch (e) {
         debugPrint('[Home] Erro ao carregar cache local: $e');
-      }
-    }
-  }
-
-  // Configura o preloader preditivo pra adiantar dados da lição em segundo plano
-  void _setupPredictivePreloading() {
-    PredictivePreloadingEngine.instance.setPreloadHandler((route, params) async {
-      if (route == '/lesson' && params != null && params['licao_id'] != null) {
-        final licaoId = params['licao_id'];
-        final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-        try {
-          final res = await ApiClient.get('$baseUrl/api/v1/trilha/licao/$licaoId/');
-          if (res.statusCode == 200) {
-            final data = jsonDecode(utf8.decode(res.bodyBytes));
-            if (data['success'] == true) {
-              PredictivePreloadingEngine.instance.storePreloadedData('licao_$licaoId', data);
-              debugPrint('⚡ [HomeScreen Preload] Lição $licaoId pré-aquecida em memória (Zero Loading garantido).');
-            }
-          }
-        } catch (_) {}
-      }
-    });
-  }
-
-  // Identifica a próxima lição liberada e já aquece em cache antes do clique
-  void _preheatNextLesson() {
-    for (final cap in _capitulos) {
-      for (final lic in cap.licoes) {
-        if (lic.status == LicaoStatus.disponivel || lic.status == LicaoStatus.emAndamento) {
-          PredictivePreloadingEngine.instance.onRouteChanged(
-            currentRoute: '/home',
-            contextParams: {'licao_id': lic.id},
-          );
-          return;
-        }
       }
     }
   }
@@ -272,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // Bate na API pra trazer perfil do aluno, dias de ofensiva, conchas e lista de capítulos
   Future<void> _loadUserDataAndTrail() async {
-    // Silent background refresh se já houver capítulos carregados (zero spinner)
+    // Exibe loading se não houver capítulos carregados
     if (_capitulos.isEmpty) {
       setState(() {
         _isLoading = true;
@@ -283,7 +242,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     try {
       final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      int varianteId = _varianteId;
 
       if (session != null) {
         final headers = {
@@ -291,93 +249,44 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           'Content-Type': 'application/json',
         };
 
-        // Se ainda não carregamos capítulos (cold boot), sincroniza a variante ativa primeiro
-        // para garantir que a trilha carregada corresponda à variante_ativa do usuário.
-        if (_capitulos.isEmpty) {
-          try {
-            final checkUserRes = await http.post(
-              Uri.parse('$baseUrl/api/v1/auth/check-user'),
-              headers: headers,
-            ).timeout(const Duration(seconds: 6));
-
-            if (checkUserRes.statusCode == 200) {
-              final dynamic profileData = jsonDecode(utf8.decode(checkUserRes.bodyBytes));
-              if (profileData is Map<String, dynamic>) {
-                final varianteAtiva = profileData['variante_ativa'];
-                if (varianteAtiva is Map<String, dynamic>) {
-                  _varianteId = (varianteAtiva['id'] as num?)?.toInt() ?? _varianteId;
-                  _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
-                }
-                _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
-                _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
-                    (profileData['dias_ofensiva'] as num?)?.toInt() ??
-                    _streakDays;
-                _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
-              }
-            }
-          } catch (_) {}
-          varianteId = _varianteId;
-        }
-
-        // Dispara requisições em paralelo com Future.wait para máxima velocidade
+        // 1. Sincroniza dados vitais do usuário (perfil, variante ativa, stats) e status admin
         final checkUserReq = http.post(
           Uri.parse('$baseUrl/api/v1/auth/check-user'),
           headers: headers,
-        ).timeout(const Duration(seconds: 5)).catchError((_) => http.Response('{}', 500));
+        ).timeout(const Duration(seconds: 6)).catchError((_) => http.Response('{}', 500));
 
         final adminReq = http.get(
           Uri.parse('$baseUrl/api/v1/admin/me'),
           headers: headers,
         ).timeout(const Duration(seconds: 5)).catchError((_) => http.Response('{}', 500));
 
-        final mapReq = http.get(
-          Uri.parse('$baseUrl/api/v1/trilha/$varianteId/capitulos/'),
-          headers: headers,
-        ).timeout(const Duration(seconds: 8)).catchError((_) => http.Response('{}', 500));
+        final initResponses = await Future.wait([checkUserReq, adminReq]);
+        final profileRes = initResponses[0];
+        final adminRes = initResponses[1];
 
-        final responses = await Future.wait([checkUserReq, adminReq, mapReq]);
-        final profileRes = responses[0];
-        final adminRes = responses[1];
-        final mapRes = responses[2];
-
-        // 1. Processa check-user
         if (profileRes.statusCode == 200) {
           try {
             final dynamic profileData = jsonDecode(utf8.decode(profileRes.bodyBytes));
             if (profileData is Map<String, dynamic>) {
               final varianteAtiva = profileData['variante_ativa'];
               if (varianteAtiva is Map<String, dynamic>) {
-                final userVarId = (varianteAtiva['id'] as num?)?.toInt() ?? 1;
-                // Se o check-user indicar uma variante diferente da que está em tela
-                // (ex: após nivelamento ou troca de variante), atualiza a variante ativa
-                // e recarrega os dados da trilha para essa variante imediatamente.
-                if (_varianteId != userVarId) {
-                  _varianteId = userVarId;
-                  _varianteNome = varianteAtiva['nome']?.toString() ?? 'Tupi Antigo';
-                  _capitulos = [];
-                  if (mounted) {
-                    setState(() {});
-                    _loadUserDataAndTrail();
-                  }
-                  return;
-                } else {
-                  _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
-                }
+                final userVarId = (varianteAtiva['id'] as num?)?.toInt() ?? _varianteId;
+                _varianteId = userVarId;
+                _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
               }
               if (mounted) {
                 setState(() {
-                  _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
+                  _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? 0;
                   _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
                       (profileData['dias_ofensiva'] as num?)?.toInt() ??
-                      _streakDays;
-                  _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
+                      0;
+                  _conchas = (profileData['conchas'] as num?)?.toInt() ?? 0;
                 });
               }
             }
           } catch (_) {}
         }
 
-        // 1.1 Processa admin
         if (adminRes.statusCode == 200) {
           try {
             final dynamic adminData = jsonDecode(utf8.decode(adminRes.bodyBytes));
@@ -387,17 +296,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           } catch (_) {}
         }
 
-        // 2. Processa capítulos e lições da trilha
+        // 2. Busca os capítulos da variante ativa calibrada do usuário
+        final mapRes = await http.get(
+          Uri.parse('$baseUrl/api/v1/trilha/$_varianteId/capitulos/'),
+          headers: headers,
+        ).timeout(const Duration(seconds: 8)).catchError((_) => http.Response('{}', 500));
+
         if (mapRes.statusCode == 200) {
           final String bodyStr = utf8.decode(mapRes.bodyBytes);
-          ApiCacheManager.instance.saveResponse('$baseUrl/api/v1/trilha/$varianteId/capitulos/', bodyStr);
+          await ApiCacheManager.instance.saveResponse('$baseUrl/api/v1/trilha/$_varianteId/capitulos/', bodyStr);
           final dynamic mapData = jsonDecode(bodyStr);
           if (mapData is Map<String, dynamic>) {
             _processMapData(mapData, isFromCache: false);
-            // Pré-aquecimento em background sem travar UI
             Future.microtask(() {
               DashboardRepositoryImpl().getUserProgressStats();
-              HistoricalMapRemoteDataSourceImpl().fetchRegions();
               LanguageSwitcherBottomSheet.preloadVariantes();
             });
             return;
@@ -424,11 +336,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       final us = mapData['user_stats'] as Map<String, dynamic>;
       if (mounted) {
         setState(() {
-          _xpTotal = (us['xp_total'] as num?)?.toInt() ?? _xpTotal;
+          _xpTotal = (us['xp_total'] as num?)?.toInt() ?? 0;
           _streakDays = (us['streak_atual'] as num?)?.toInt() ??
               (us['dias_ofensiva'] as num?)?.toInt() ??
-              _streakDays;
-          _conchas = (us['conchas'] as num?)?.toInt() ?? _conchas;
+              0;
+          _conchas = (us['conchas'] as num?)?.toInt() ?? 0;
         });
       }
     }
@@ -514,7 +426,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
         _isLoading = false;
       });
-      _preheatNextLesson();
     }
   }
 
@@ -614,133 +525,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         MaterialPageRoute(builder: (_) => const ProgressDashboardScreen()),
       ),
       onThemeToggle: () => ThemeNotifier.instance.toggleTheme(context),
-      onMapTap: _showInteractiveMapModal,
       onConchasTap: _openStore,
     );
   }
 
   // ─── ABA 1: TRILHA (Caminho Interativo de Aventura) ──────────────────────────
-  // Aba principal com o caminho vertical da trilha e seletor de capítulos
   Widget _buildTrilhaTab() {
-    if (_capitulos.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Nenhum capítulo publicado para esta variante.',
-                style: TextStyle(color: _TupiColors.textMuted)),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: _loadUserDataAndTrail,
-              style: ElevatedButton.styleFrom(backgroundColor: _TupiColors.primary),
-              child: const Text('Recarregar Trilha'),
-            ),
-          ],
-        ),
-      );
-    }
-
-    final safeIndex = (_selectedCapituloIndex >= 0 && _selectedCapituloIndex < _capitulos.length)
-        ? _selectedCapituloIndex
-        : 0;
-    final cap = _capitulos[safeIndex];
-
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 520),
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-          children: [
-            // Seletor de Capítulos
-            _buildChapterTabsHeader(),
-            const SizedBox(height: 14),
-
-            // Card Principal da Unidade / Capítulo (Banner TupiLingo)
-            ChapterBannerCard(
-              cap: cap,
-              onCulturalGuideTap: () => _showCulturalGuideDialog(cap),
-            ),
-            const SizedBox(height: 24),
-
-            // O Caminho de Lições Serpenteante
-            TrailCanvasView(
-              cap: cap,
-              isCurrentActiveChapter: (safeIndex < _capitulos.length && _capitulos[safeIndex].id == cap.id),
-              pulseController: _pulseController,
-              floatController: _floatController,
-              onLessonTap: _onLessonNodeTapped,
-              onChestTap: (c, chest) => _openIndigenousChestModal(c, chest),
-              onCollectedChestTap: (c, chest) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: _TupiColors.accent,
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    content: Row(
-                      children: [
-                        const Text('✨', style: TextStyle(fontSize: 18)),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            'Baú do Capítulo ${c.numero} já resgatado! (+${chest?.recompensaXp ?? 75} XP)',
-                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
+    return TrailTabView(
+      capitulos: _capitulos,
+      selectedCapituloIndex: _selectedCapituloIndex,
+      onSelectCapituloIndex: (idx) => setState(() => _selectedCapituloIndex = idx),
+      pulseController: _pulseController,
+      floatController: _floatController,
+      onReloadTrail: _loadUserDataAndTrail,
+      onCulturalGuideTap: (cap) => CulturalGuideDialog.show(context, cap),
+      onLessonTap: _onLessonNodeTapped,
+      onChestTap: (c, chest) => _openIndigenousChestModal(c, chest),
+      onCollectedChestTap: (c, chest) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: _TupiColors.accent,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            content: Row(
+              children: [
+                const Icon(Icons.stars_rounded, color: Colors.amber, size: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Baú do Capítulo ${c.numero} já resgatado! (+${chest?.recompensaXp ?? 75} XP)',
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Pílulas horizontais navegáveis com os capítulos disponíveis da variante
-  Widget _buildChapterTabsHeader() {
-    return SizedBox(
-      height: 38,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _capitulos.length,
-        itemBuilder: (context, i) {
-          final isSelected = i == _selectedCapituloIndex;
-          final cap = _capitulos[i];
-          return GestureDetector(
-            onTap: () => setState(() => _selectedCapituloIndex = i),
-            child: Container(
-              margin: const EdgeInsets.only(right: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: isSelected ? _TupiColors.primary : AppTheme.surface(context),
-                borderRadius: BorderRadius.circular(19),
-                border: Border.all(
-                  color: isSelected ? _TupiColors.primary : AppTheme.border(context),
                 ),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: _TupiColors.primary.withValues(alpha: 0.25),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : null,
-              ),
-              child: Text(
-                'Capítulo ${cap.numero}',
-                style: TextStyle(
-                  color: isSelected ? Colors.white : AppTheme.textSecondary(context),
-                  fontSize: 13,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                ),
-              ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -818,7 +639,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                         content: Row(
                           children: [
-                            const Text('✨', style: TextStyle(fontSize: 20)),
+                            const Icon(Icons.stars_rounded, color: Colors.amber, size: 20),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
@@ -843,7 +664,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                         content: const Row(
                           children: [
-                            Text('🛡️', style: TextStyle(fontSize: 20)),
+                            Icon(Icons.info_rounded, color: Colors.white70, size: 20),
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
@@ -870,16 +691,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // Abre o mapa histórico interativo do Pindorama com as aldeias ancestrais
-  void _showInteractiveMapModal() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => PindoramaMapScreen(capitulos: _capitulos),
-      ),
-    );
-  }
-
   // Trata o toque em um nó de lição verificando se está bloqueada antes de abrir o modal
   void _onLessonNodeTapped(LicaoMapData licao) {
     if (licao.status == LicaoStatus.bloqueada) {
@@ -891,7 +702,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             content: Row(
               children: [
-                const Text('🔒', style: TextStyle(fontSize: 18)),
+                const Icon(Icons.lock_rounded, color: Colors.white70, size: 18),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -915,7 +726,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           content: Row(
             children: [
-              const Text('🛡️', style: TextStyle(fontSize: 18)),
+              const Icon(Icons.admin_panel_settings_rounded, color: Colors.amber, size: 18),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -986,193 +797,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // Exibe modal com contexto cultural autêntico, saberes ancestrais e curiosidades do capítulo
-  void _showCulturalGuideDialog(CapituloMapData cap) {
-    final guide = ChapterCulturalGuide.getForChapter(cap.numero, defaultTitulo: cap.titulo);
-    final isDark = AppTheme.isDark(context);
-    final primaryColor = isDark ? const Color(0xFF1EC9A5) : _TupiColors.primary;
-
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: AppTheme.surface(context),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-          side: BorderSide(color: AppTheme.border(context)),
-        ),
-        title: Row(
-          children: [
-            Text(guide.icone, style: const TextStyle(fontSize: 26)),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Guia do Capítulo ${guide.numero}',
-                    style: TextStyle(
-                      color: AppTheme.textPrimary(context),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    guide.subtitulo,
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        content: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  guide.titulo,
-                  style: TextStyle(
-                    color: AppTheme.textPrimary(context),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surfaceSubtle(context),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppTheme.border(context)),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('📜', style: TextStyle(fontSize: 18)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          guide.saberesAncestrais,
-                          style: TextStyle(
-                            color: AppTheme.textSecondary(context),
-                            fontSize: 13,
-                            height: 1.45,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFD08A45).withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFFD08A45).withValues(alpha: 0.35)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Row(
-                        children: [
-                          Text('🔍', style: TextStyle(fontSize: 14)),
-                          SizedBox(width: 6),
-                          Text(
-                            'Curiosidade Linguística',
-                            style: TextStyle(
-                              color: Color(0xFFD08A45),
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        guide.curiosidadeLinguistica,
-                        style: TextStyle(
-                          color: AppTheme.textPrimary(context).withValues(alpha: 0.9),
-                          fontSize: 12,
-                          height: 1.4,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.35),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Expressão em Destaque:',
-                        style: TextStyle(
-                          color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        guide.expressaoDestaque,
-                        style: TextStyle(
-                          color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        guide.expressaoTraducao,
-                        style: TextStyle(
-                          color: AppTheme.textSecondary(context),
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-            child: Text(
-              'Entendido',
-              style: TextStyle(
-                color: isDark ? const Color(0xFF1EC9A5) : _TupiColors.accent,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // Abre o bottomsheet para alternar a variante linguística indígena ativa
   void _showLanguageSwitcher(BuildContext context) {
     showModalBottomSheet(
@@ -1203,7 +827,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _loadUserDataAndTrail();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Idioma alterado para ${variante['nome']}! 🌿'),
+                content: Text('Idioma alterado para ${variante['nome']}!'),
                 backgroundColor: _TupiColors.accent,
               ),
             );
@@ -1214,321 +838,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // ─── ABA 2: PRÁTICA (Hub de Treino e Revisão Espaçada) ────────────────────────
-  // Hub de prática com cards de treino diário, flashcards e módulos temáticos
   Widget _buildPraticaTab() {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 520),
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-          children: [
-            Text(
-              'Centro de Prática Ancestral',
-              style: TextStyle(
-                color: AppTheme.textPrimary(context),
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Fortaleça sua memória com treinos rápidos e revisão espaçada.',
-              style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
-            ),
-            const SizedBox(height: 20),
-
-            // Card Destaque: Revisão Diária SM-2
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF0E5D4E), Color(0xFF094338)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: _TupiColors.accent.withValues(alpha: 0.4)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Text('🧠', style: TextStyle(fontSize: 24)),
-                      ),
-                      const SizedBox(width: 14),
-                      const Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Revisão Espaçada',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 2),
-                            Text(
-                              '4 palavras prontas para fixação hoje',
-                              style: TextStyle(color: Colors.white70, fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () => _startFlashcardSession(),
-                      icon: const Icon(Icons.bolt_rounded, color: Colors.white),
-                      label: const Text('PRATICAR AGORA (+15 XP)'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: _TupiColors.primary,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 13),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Treino Temático com IA',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: AppTheme.textPrimary(context),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0E5D4E).withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Text(
-                    'Treino Inteligente ',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E)),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Pratique com questões contextualizadas usando o acervo histórico primário.',
-              style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
-            ),
-            const SizedBox(height: 14),
-
-            // Carrossel/Cards de Temas Interativos
-            _buildThematicPracticeSection(),
-
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Banco de Vocabulário da Trilha',
-                        style: TextStyle(
-                          color: AppTheme.textPrimary(context),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Palavras ensinadas até o Capítulo $_highestChapterReached',
-                        style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: _TupiColors.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: _TupiColors.primary.withValues(alpha: 0.35)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('📖', style: TextStyle(fontSize: 12)),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${_vocabularyBank.length} termos',
-                        style: const TextStyle(
-                          color: _TupiColors.primary,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            // Filtro por categoria gramatical / semântica
-            SizedBox(
-              height: 34,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  'Todas',
-                  'Saudações',
-                  'Comunidade',
-                  'Pessoas',
-                  'Natureza',
-                  'Fauna',
-                  'Alimentos',
-                  'Espiritualidade',
-                ].map((cat) {
-                  final isSelected = _vocabCategoryFilter == cat;
-                  return GestureDetector(
-                    onTap: () => setState(() => _vocabCategoryFilter = cat),
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? (AppTheme.isDark(context) ? const Color(0xFF1EC9A5) : _TupiColors.accent)
-                            : AppTheme.surface(context),
-                        borderRadius: BorderRadius.circular(17),
-                        border: Border.all(
-                          color: isSelected
-                              ? Colors.transparent
-                              : AppTheme.border(context),
-                        ),
-                      ),
-                      child: Text(
-                        cat,
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : AppTheme.textPrimary(context),
-                          fontSize: 12,
-                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-            const SizedBox(height: 14),
-
-            if (_vocabularyBank.isEmpty)
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppTheme.surface(context),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppTheme.border(context)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Nenhum termo nesta categoria ainda. Continue avançando na trilha!',
-                    style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )
-            else
-              // Lista de Vocabulário Interativa
-              ..._vocabularyBank.map((item) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AppTheme.surface(context),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppTheme.border(context)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: _TupiColors.primary.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(
-                        child: Text('🌿', style: TextStyle(fontSize: 20)),
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                item['tupi']!,
-                                style: TextStyle(
-                                  color: AppTheme.textPrimary(context),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '[${item['pronuncia']!}]',
-                                style: TextStyle(color: AppTheme.textSecondary(context).withValues(alpha: 0.7), fontSize: 11),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            item['pt']!,
-                            style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppTheme.surfaceSubtle(context),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        item['cat']!,
-                        style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 10),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ),
-      ),
+    return PracticeTabView(
+      highestChapterReached: _highestChapterReached,
+      vocabularyBank: _vocabularyBank,
+      vocabCategoryFilter: _vocabCategoryFilter,
+      onVocabCategoryChanged: (cat) => setState(() => _vocabCategoryFilter = cat),
+      onStartFlashcardSession: _startFlashcardSession,
+      onOpenThematicPractice: (tema, {temaId}) => _openThematicPractice(tema, temaId: temaId),
+      onShowCustomThemeDialog: _showCustomThemeDialog,
     );
   }
 
@@ -1537,109 +855,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     showDialog(
       context: context,
       builder: (ctx) => FlashcardPracticeDialog(vocabulary: _vocabularyBank),
-    );
-  }
-
-  // Grade horizontal de temas (Natureza, Animais, Mitologia, etc.) gerados dinamicamente
-  Widget _buildThematicPracticeSection() {
-    final themes = [
-      {'id': 'natureza', 'titulo': 'Natureza e Rios', 'icone': '🌿', 'desc': 'Águas, matas e cosmos', 'xp': 20, 'conchas': 3},
-      {'id': 'animais', 'titulo': 'Animais e Caça', 'icone': '🐆', 'desc': 'Onças, aves e fauna', 'xp': 20, 'conchas': 3},
-      {'id': 'mitologia', 'titulo': 'Mitologia e Tupã', 'icone': '⚡', 'desc': 'Entidades e cosmologia', 'xp': 25, 'conchas': 4},
-      {'id': 'aldeia', 'titulo': 'Aldeia e Cotidiano', 'icone': '🏡', 'desc': 'Oka, taba e comunidade', 'xp': 20, 'conchas': 3},
-      {'id': 'guerra', 'titulo': 'Guerra e Rituais', 'icone': '🏹', 'desc': 'Armas, chefias e cantos', 'xp': 25, 'conchas': 4},
-      {'id': 'culinaria', 'titulo': 'Culinária e Roça', 'icone': '🍲', 'desc': 'Mandioca, cauim e peixes', 'xp': 20, 'conchas': 3},
-    ];
-
-    return Column(
-      children: [
-        SizedBox(
-          height: 125,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: themes.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 12),
-            itemBuilder: (context, idx) {
-              final t = themes[idx];
-              return InkWell(
-                onTap: () => _openThematicPractice(t['titulo'] as String, temaId: t['id'] as String),
-                borderRadius: BorderRadius.circular(18),
-                child: Container(
-                  width: 165,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surface(context),
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: AppTheme.border(context)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(t['icone'] as String, style: const TextStyle(fontSize: 24)),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFD08A45).withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              '+${t['xp']} XP',
-                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFD08A45)),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            t['titulo'] as String,
-                            style: TextStyle(
-                              color: AppTheme.textPrimary(context),
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            t['desc'] as String,
-                            style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 10),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: 10),
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: _showCustomThemeDialog,
-            icon: const Icon(Icons.edit_note_rounded, size: 20, color: Color(0xFF0E5D4E)),
-            label: const Text(
-              'DIGITAR TEMA PERSONALIZADO...',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF0E5D4E)),
-            ),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Color(0xFF0E5D4E), width: 1.2),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -1663,7 +878,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  // Diálogo para o aluno digitar um tema livre e gerar treino por inteligência artificial
+  // Diálogo para o aluno digitar um tema livre e praticar com vocabulário contextualizado
   void _showCustomThemeDialog() {
     final controller = TextEditingController();
     showDialog(
@@ -1673,7 +888,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: const Row(
             children: [
-              Text('🏹 ', style: TextStyle(fontSize: 22)),
+              Icon(Icons.edit_note_rounded, color: Color(0xFF0E5D4E), size: 24),
+              SizedBox(width: 10),
               Expanded(
                 child: Text(
                   'Tema Personalizado',
@@ -1689,7 +905,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Escolha qualquer assunto. A inteligência da aldeia buscará os saberes e vocabulários adequados:',
+                  'Escolha um assunto de interesse para praticar termos e vocabulários contextualizados:',
                   style: TextStyle(fontSize: 13, color: Colors.grey),
                 ),
                 const SizedBox(height: 14),

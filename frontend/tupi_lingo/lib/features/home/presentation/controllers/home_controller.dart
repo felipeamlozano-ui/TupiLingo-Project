@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import 'package:tupi_lingo/features/home/data/models/trail_map_models.dart';
 
@@ -97,17 +96,11 @@ class HomeController extends ChangeNotifier {
     }
 
     final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-    final String cacheKey = 'trail_data_${session.user.id}';
 
-    // 1. Tenta recuperar do MemoryResidencyEngine (L1 Cache) se não for forceRefresh
-    if (!forceRefresh) {
-      final cached = MemoryResidencyEngine.instance.getL1<Map<String, dynamic>>(cacheKey);
-      if (cached != null && _capitulos.isNotEmpty) {
-        _parseTrailPayload(cached);
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
+    if (!forceRefresh && _capitulos.isNotEmpty) {
+      _isLoading = false;
+      notifyListeners();
+      return;
     }
 
     try {
@@ -122,7 +115,6 @@ class HomeController extends ChangeNotifier {
       if (res.statusCode == 200) {
         final data = jsonDecode(utf8.decode(res.bodyBytes));
         if (data['success'] == true) {
-          MemoryResidencyEngine.instance.putL1(cacheKey, data);
           _parseTrailPayload(data);
           _errorMessage = null;
         } else {

@@ -3,13 +3,9 @@ import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'developer_console/developer_console_screen.dart';
 import 'security_console/security_console_screen.dart';
 import 'shared/glass_sidebar.dart';
-import 'world_builder/world_builder_screen.dart';
 
-/// Shell Mestre Integrado do TupiLingo Platform Suite (RFC-013 Enterprise).
-/// Hospeda e sincroniza os 3 consoles:
-/// 0: World Builder CMS
-/// 1: Developer Console
-/// 2: Security & Observability Console
+/// Painel Administrativo integrado do TupiLingo.
+/// Permite o gerenciamento de métricas, operações e segurança.
 class PlatformSuiteShell extends StatefulWidget {
   final int initialIndex;
 
@@ -38,15 +34,13 @@ class _PlatformSuiteShellState extends State<PlatformSuiteShell> {
         final isDesktop = constraints.maxWidth >= 768;
 
         final titles = [
-          'World Builder CMS',
           'Developer Console',
-          'Security & Observability',
+          'Segurança & Observabilidade',
         ];
 
         final activeConsole = IndexedStack(
           index: _currentIndex,
           children: const [
-            WorldBuilderScreen(),
             DeveloperConsoleScreen(),
             SecurityConsoleScreen(),
           ],

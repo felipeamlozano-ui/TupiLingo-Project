@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Deterministic A/B Experiment variant assigner (RFC-012B Chapter 46).
+/// Mecanismo determinístico para distribuição de variantes em testes de experiência do usuário.
 class ABExperimentEngine {
   /// Deterministically assigns [userId] to an experiment bucket [control, treatment_a, treatment_b].
   String assignVariant({

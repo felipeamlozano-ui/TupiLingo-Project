@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:tupi_lingo/features/adaptive_leveling/domain/entities/difficulty_target.dart';
 import 'package:tupi_lingo/features/adaptive_leveling/domain/entities/cognitive_profile.dart';
 
-/// Item Response Theory (TRI 3PL) Planner and Adaptive Difficulty Optimizer (RFC-012A Chapter 7).
+/// Planejador de dificuldade adaptativa baseado na Teoria de Resposta ao Item (TRI).
 class DifficultyPlanner {
   /// Computes the probability of correct response under TRI 3PL model:
   /// $P(\theta) = c + \frac{1 - c}{1 + e^{-1.7 \cdot a \cdot (\theta - b)}}$

@@ -314,7 +314,7 @@ def avaliar_teste(request):
         UserVarianteLevel.objects.update_or_create(
             user=user,
             variante=variante,
-            defaults={"nivel": new_level, "calculated_theta": theta},
+            defaults={"nivel": new_level},
         )
 
         # Define imediatamente esta variante como a variante ativa do usuário
@@ -329,6 +329,10 @@ def avaliar_teste(request):
 
     except Exception:
         logger.error("Erro ao salvar avaliação de teste para uid=%s", user.supabase_uid, exc_info=True)
+        return JsonResponse(
+            {"success": False, "error": "Erro ao persistir avaliação no banco de dados."},
+            status=500,
+        )
 
     return JsonResponse(
         {

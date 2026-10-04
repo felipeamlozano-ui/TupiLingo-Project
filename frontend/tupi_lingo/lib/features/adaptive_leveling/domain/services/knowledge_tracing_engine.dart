@@ -1,6 +1,6 @@
 import 'package:tupi_lingo/features/adaptive_leveling/domain/entities/knowledge_state.dart';
 
-/// Bayesian Knowledge Tracing (BKT) Engine for deterministic real-time tracking (RFC-012A Chapter 6).
+/// Motor de rastreamento de aprendizagem baseado no modelo probabilístico BKT (Bayesian Knowledge Tracing).
 class KnowledgeTracingEngine {
   // Default Bayesian Knowledge Tracing priors calibrated for indigenous language acquisition
   final double defaultPInit;  // P(L_0) = 0.15

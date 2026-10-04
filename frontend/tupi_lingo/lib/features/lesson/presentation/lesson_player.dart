@@ -3,11 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:tupi_lingo/core/network/api_client.dart';
-import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
-import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import '../../dashboard/data/repositories/dashboard_repository_impl.dart';
-import '../../historical_map/data/datasources/historical_map_remote_data_source.dart';
 import 'widgets/exercises/multiple_choice_view.dart';
 import 'widgets/exercises/fill_in_the_blank_view.dart';
 import 'widgets/exercises/matching_columns_view.dart';
@@ -125,15 +122,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
   }
 
   Future<void> _fetchLesson() async {
-    // 1. Instant Loading: Checa se a lição já foi pré-aquecida pelo PredictivePreloadingEngine ou L1 Cache
-    final cached = PredictivePreloadingEngine.instance.consumePreloadedData<Map<String, dynamic>>('licao_${widget.licaoId}') ??
-        MemoryResidencyEngine.instance.getL1<Map<String, dynamic>>('licao_${widget.licaoId}');
-
-    if (cached != null) {
-      _applyLessonData(cached);
-      return;
-    }
-
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -146,8 +134,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         if (data['success'] == true) {
-          // Persiste no cache de memória L1 para acessos subsequentes instantâneos
-          MemoryResidencyEngine.instance.putL1('licao_${widget.licaoId}', data);
           _applyLessonData(data);
         } else {
           throw Exception(data['error'] ?? 'Erro desconhecido');
@@ -391,7 +377,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         // Sincronização imediata de desempenho e histórico em toda a aplicação
         DashboardRepositoryImpl.invalidateCache();
-        HistoricalMapRemoteDataSourceImpl.invalidateCache();
         AppProgressionNotifier.instance.notifyProgressionChanged();
 
         if (mounted) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 
+/// Barra superior humanizada com indicadores de progresso, idioma e controles rápidos.
 class TrailAppBar extends StatelessWidget {
   final String varianteNome;
   final int streakDays;
@@ -9,7 +10,7 @@ class TrailAppBar extends StatelessWidget {
   final VoidCallback onLanguageTap;
   final VoidCallback onXpTap;
   final VoidCallback onThemeToggle;
-  final VoidCallback onMapTap;
+  final VoidCallback? onMapTap;
   final VoidCallback? onConchasTap;
 
   final bool showThemeToggle;
@@ -23,14 +24,14 @@ class TrailAppBar extends StatelessWidget {
     required this.onLanguageTap,
     required this.onXpTap,
     required this.onThemeToggle,
-    required this.onMapTap,
+    this.onMapTap,
     this.onConchasTap,
     this.showThemeToggle = true,
   });
 
   static const Color _accent = Color(0xFFD08A45);
   static const Color _streakColor = Color(0xFFE05638);
-  static const Color _shellColor = Color(0xFF2E7D5E);
+  static const Color _shellColor = Color(0xFF0E5D4E);
   static const Color _xpColor = Color(0xFFC48B28);
 
   @override
@@ -38,7 +39,7 @@ class TrailAppBar extends StatelessWidget {
     final bool isDark = AppTheme.isDark(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
         color: AppTheme.bg(context),
         border: Border(
@@ -53,7 +54,7 @@ class TrailAppBar extends StatelessWidget {
             child: GestureDetector(
               onTap: onLanguageTap,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: AppTheme.surface(context),
                   borderRadius: BorderRadius.circular(20),
@@ -69,8 +70,12 @@ class TrailAppBar extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('🌿', style: TextStyle(fontSize: 12)),
-                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.translate_rounded,
+                      size: 14,
+                      color: isDark ? const Color(0xFF1EC9A5) : _accent,
+                    ),
+                    const SizedBox(width: 5),
                     Flexible(
                       child: Text(
                         varianteNome,
@@ -78,15 +83,15 @@ class TrailAppBar extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: isDark ? const Color(0xFF1EC9A5) : _accent,
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 2),
+                    const SizedBox(width: 3),
                     Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      size: 15,
+                      size: 16,
                       color: isDark ? const Color(0xFF1EC9A5) : _accent,
                     ),
                   ],
@@ -94,9 +99,9 @@ class TrailAppBar extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
 
-          // Métricas de Gamificação: Ofensiva, Conchas, XP + Atalhos Interativos
+          // Métricas de Gamificação: Ofensiva, Conchas, XP
           Flexible(
             flex: 2,
             child: SingleChildScrollView(
@@ -105,30 +110,45 @@ class TrailAppBar extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildTopStat(context: context, icon: '🔥', label: '$streakDays', color: _streakColor),
-                  const SizedBox(width: 4),
+                  // Ofensiva diária (Streak)
+                  _buildTopStat(
+                    context: context,
+                    iconData: Icons.local_fire_department_rounded,
+                    label: '$streakDays',
+                    color: _streakColor,
+                  ),
+                  const SizedBox(width: 6),
+
+                  // Conchas
                   GestureDetector(
                     onTap: onConchasTap,
                     child: _buildTopStat(
                       context: context,
-                      icon: '🐚',
+                      iconData: Icons.spa_rounded,
                       label: '$conchas',
                       color: isDark ? const Color(0xFF1EC9A5) : _shellColor,
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  // Toque no XP abre o Dashboard de Progresso
+                  const SizedBox(width: 6),
+
+                  // XP acumulado
                   GestureDetector(
                     onTap: onXpTap,
-                    child: _buildTopStat(context: context, icon: '⭐', label: '$xpTotal', color: _xpColor),
+                    child: _buildTopStat(
+                      context: context,
+                      iconData: Icons.star_rounded,
+                      label: '$xpTotal',
+                      color: _xpColor,
+                    ),
                   ),
+
                   if (showThemeToggle) ...[
-                    const SizedBox(width: 4),
-                    // Botão de alternância rápida de Tema Ancestral (Sol / Lua)
+                    const SizedBox(width: 6),
+                    // Alternância Claro / Escuro
                     GestureDetector(
                       onTap: onThemeToggle,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                         decoration: BoxDecoration(
                           color: AppTheme.surface(context),
                           borderRadius: BorderRadius.circular(14),
@@ -141,30 +161,14 @@ class TrailAppBar extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: Text(isDark ? '🌙' : '☀️', style: const TextStyle(fontSize: 12)),
+                        child: Icon(
+                          isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                          size: 16,
+                          color: AppTheme.textPrimary(context),
+                        ),
                       ),
                     ),
                   ],
-                  const SizedBox(width: 4),
-                  // Botão do Mapa Interativo de Aldeias
-                  GestureDetector(
-                    onTap: onMapTap,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: isDark ? const Color(0xFF1EC9A5) : _accent,
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
-                          BoxShadow(
-                            color: (isDark ? const Color(0xFF1EC9A5) : _accent).withValues(alpha: 0.3),
-                            blurRadius: 6,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Text('🗺️', style: TextStyle(fontSize: 12)),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -176,13 +180,13 @@ class TrailAppBar extends StatelessWidget {
 
   Widget _buildTopStat({
     required BuildContext context,
-    required String icon,
+    required IconData iconData,
     required String label,
     required Color color,
   }) {
     final isDark = AppTheme.isDark(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
         color: AppTheme.surface(context),
         borderRadius: BorderRadius.circular(14),
@@ -198,7 +202,7 @@ class TrailAppBar extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(icon, style: const TextStyle(fontSize: 13)),
+          Icon(iconData, color: color, size: 16),
           const SizedBox(width: 4),
           Text(
             label,

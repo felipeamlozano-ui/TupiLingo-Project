@@ -1,4 +1,4 @@
-/// RFC-012B Chapter 26: Types of morphemes in Tupi linguistic morphology.
+/// Tipos de morfemas reconhecidos na morfologia linguística do Tupi Antigo.
 enum MorphemeType {
   root,
   prefix,

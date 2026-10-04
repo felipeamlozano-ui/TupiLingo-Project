@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 /// Trigger types that unlock cultural narrative episodes.
 enum NarrativeTriggerType { territoryUnlock, lessonComplete, bossCleared }
 
-/// A historical narrative episode (RFC-012B Chapter 38).
+/// Representa um episódio narrativo e contextual da história e cultura Tupi.
 @immutable
 class NarrativeNode {
   final String id;

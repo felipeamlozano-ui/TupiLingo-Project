@@ -7,7 +7,7 @@ enum CurriculumNodeType {
   concept,
 }
 
-/// Node in the hierarchical pedagogical DAG (RFC-012A Chapter 12).
+/// Representa um nó ou etapa na hierarquia pedagógica de aprendizagem da trilha.
 @immutable
 class CurriculumNode {
   final String id;

@@ -1,2 +1,2 @@
-# World Builder App - RFC-013 Enterprise
+# Gestão de Conteúdo e Territórios
 default_app_config = 'world_builder.apps.WorldBuilderConfig'

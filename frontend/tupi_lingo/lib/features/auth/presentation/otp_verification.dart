@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
+import 'package:tupi_lingo/features/auth/services/auth_service.dart';
 
 class _AppColors {
   static const Color primary = Color(0xFFD08A45);
@@ -176,46 +177,48 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         if (!mounted) return;
         _showSnackBar('E-mail verificado com sucesso!', isError: false);
 
-        if (widget.nivel == 'nenhum') {
-          Navigator.pushReplacementNamed(context, '/home');
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => TesteScreen(nivel: widget.nivel),
-            ),
-          );
-        }
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => TesteScreen(nivel: widget.nivel),
+          ),
+        );
       } else {
-        _showSnackBar('Código inválido. Tente novamente.');
+        _showSnackBar('Código incorreto ou inválido. Tente novamente.');
       }
     } on AuthException catch (e) {
-      if (mounted) _showSnackBar(e.message);
+      if (mounted) {
+        String msg = e.message;
+        if (msg.toLowerCase().contains('expired') || msg.toLowerCase().contains('invalid')) {
+          msg = 'Código expirado ou inválido. Verifique o número digitado ou solicite novo código.';
+        }
+        _showSnackBar(msg);
+      }
     } catch (_) {
-      if (mounted) _showSnackBar('Erro inesperado. Tente novamente mais tarde.');
+      if (mounted) _showSnackBar('Erro de conexão ao verificar código. Tente novamente.');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  // Solicita ao Supabase o reenvio do token de cadastro por e-mail
+  // Solicita o reenvio do código de cadastro por e-mail com resiliência contra captcha
   Future<void> _resendCode() async {
     if (_resendCooldown > 0 || _isLoading) return;
 
     setState(() => _isLoading = true);
     try {
-      await Supabase.instance.client.auth.resend(
-        type: OtpType.signup,
+      await AuthService.instance.resendVerificationCode(
         email: widget.email,
+        type: OtpType.signup,
       );
       if (mounted) {
-        _showSnackBar('Código reenviado com sucesso!', isError: false);
+        _showSnackBar('Código reenviado com sucesso! Verifique sua caixa de entrada.', isError: false);
         _startCooldown();
       }
     } on AuthException catch (e) {
       if (mounted) _showSnackBar(e.message);
     } catch (_) {
-      if (mounted) _showSnackBar('Erro ao reenviar código.');
+      if (mounted) _showSnackBar('Não foi possível reenviar o código no momento.');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

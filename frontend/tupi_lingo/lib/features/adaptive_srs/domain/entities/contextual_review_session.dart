@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Contextual Review Session grouping words by semantic cluster (RFC-012A Chapter 9).
+/// Sessão de revisão temática que agrupa termos e vocábulos por afinidade semântica.
 @immutable
 class ContextualReviewSession {
   final String id;

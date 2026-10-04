@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
-import 'package:tupi_lingo/features/historical_map/data/datasources/historical_map_remote_data_source.dart';
 
 class LanguageSwitcherBottomSheet extends StatefulWidget {
   final int varianteIdAtiva;
@@ -128,7 +127,6 @@ class _LanguageSwitcherBottomSheetState extends State<LanguageSwitcherBottomShee
         final data = jsonDecode(utf8.decode(res.bodyBytes));
         final bool precisaNivelar = data['precisa_nivelar'] == true;
 
-        HistoricalMapRemoteDataSourceImpl.invalidateCache();
         DashboardRepositoryImpl.invalidateCache();
 
         if (mounted) {

@@ -1,4 +1,4 @@
-/// RFC-012B Chapter 26: Grammatical and semantic functions of Tupi affixes.
+/// Funções gramaticais e semânticas dos afixos e partículas na língua Tupi.
 enum MorphologicalFunction {
   agentive,       // -sara / -hara (aquele que faz, agente)
   locative,       // -aba (lugar de, tempo de, instrumento)

@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:tupi_lingo/features/auth/presentation/otp_verification.dart';
+import 'package:tupi_lingo/features/auth/services/auth_service.dart';
 import 'steps/step_credentials_widget.dart';
 import 'steps/step_level_widget.dart';
 import 'steps/step_name_widget.dart';
@@ -275,26 +276,24 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
     );
   }
 
-  // Cria a conta no Supabase Auth com email e senha e já direciona pro teste de nivelamento ou pra tela de validação de OTP.
+  // Cria a conta com validação resiliente contra captcha via AuthService
   Future<void> _handleRegister() async {
     if (!_validateCredentials()) return;
 
     setState(() => _isLoading = true);
 
     try {
-      final response = await Supabase.instance.client.auth.signUp(
+      final user = await AuthService.instance.signUpWithEmailPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text,
-        data: {
-          'name': _nameController.text.trim(),
-          'source': _selectedSource,
-          'tupi_level': _selectedLevel,
-        },
+        name: _nameController.text.trim(),
+        source: _selectedSource ?? 'outro',
+        tupiLevel: _selectedLevel ?? 'iniciante',
       );
 
       if (!mounted) return;
 
-      if (response.user != null) {
+      if (user != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -309,17 +308,11 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
       }
     } on AuthException catch (e) {
       if (mounted) {
-        String errorMsg;
-        if (e.message.toLowerCase().contains('already registered')) {
-          errorMsg = 'Este e-mail já está cadastrado. Tente fazer login.';
-        } else {
-          errorMsg = e.message;
-        }
-        _showSnackBar(errorMsg);
+        _showSnackBar(e.message);
       }
     } catch (e) {
       if (mounted) {
-        _showSnackBar('Erro inesperado. Tente novamente mais tarde.');
+        _showSnackBar('Não foi possível concluir o cadastro. Verifique sua conexão e tente novamente.');
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -369,16 +362,12 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
       if (response.statusCode == 201 || response.statusCode == 200) {
         await LegalConsentService.instance.saveConsent(termsAccepted: true, disclaimerAccepted: true);
         if (!mounted) return;
-        if (_selectedLevel == 'nenhum') {
-          Navigator.pushReplacementNamed(context, '/home');
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => TesteScreen(nivel: _selectedLevel!),
-            ),
-          );
-        }
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => TesteScreen(nivel: _selectedLevel ?? 'iniciante'),
+          ),
+        );
       } else {
         try {
           final errorBody = jsonDecode(response.body);

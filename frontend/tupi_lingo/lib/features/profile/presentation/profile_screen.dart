@@ -277,7 +277,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _buildThemeSelectorCard(context),
               const SizedBox(height: 16),
 
-              // 9. Termos de Uso & Isenção Legal (RFC-Legal & Zero-PII)
+              // 9. Termos de Uso e Política de Privacidade
               _buildLegalTermsCard(context),
               const SizedBox(height: 24),
 

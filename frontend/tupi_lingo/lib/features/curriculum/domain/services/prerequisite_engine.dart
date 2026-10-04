@@ -1,6 +1,6 @@
 import 'package:tupi_lingo/features/curriculum/domain/entities/curriculum_node.dart';
 
-/// Topological DAG engine for curriculum prerequisites and unlock criteria (RFC-012A Chapter 12).
+/// Motor pedagógico de pré-requisitos e critérios de desbloqueio de lições da trilha.
 class PrerequisiteEngine {
   /// Evaluates whether [node] can be unlocked by the learner.
   bool canUnlockNode({

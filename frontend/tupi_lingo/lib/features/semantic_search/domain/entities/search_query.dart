@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Search axes supported by the RFC-012B Semantic Search Platform.
+/// Eixos de busca suportados para pesquisa de vocábulos e termos no TupiLingo.
 enum SearchAxis {
   lexical,       // Direct Tupi label match
   translation,   // Portuguese meaning match

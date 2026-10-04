@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,52 +12,25 @@ import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tupi_lingo/core/render/shader_warmup_engine.dart';
-import 'package:tupi_lingo/core/concurrency/ten_isolates_engine.dart';
-import 'package:tupi_lingo/core/memory/memory_residency_engine.dart';
-import 'package:tupi_lingo/core/routing/predictive_preloading_engine.dart';
-import 'package:tupi_lingo/core/telemetry/performance_telemetry_engine.dart';
-import 'package:tupi_lingo/core/platform/platform_web_bridge.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
-import 'package:tupi_lingo/core/world_engine/hud/developer_hud.dart';
 import 'package:tupi_lingo/core/logging/app_logger.dart';
-import 'package:tupi_lingo/core/world_engine/world_sync_service.dart';
 import 'package:tupi_lingo/features/admin/presentation/platform_suite/platform_suite_shell.dart';
 import 'package:tupi_lingo/features/store/services/store_service.dart';
 import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
 import 'package:tupi_lingo/features/settings/data/settings_service.dart';
 import 'package:tupi_lingo/core/audio/audio_manager.dart';
+import 'package:tupi_lingo/core/network/api_cache_manager.dart';
+import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  RendererBinding.instance.ensureSemantics();
 
-  // ─── Inicialização Instantânea de Cache de Tema, Cosméticos e Consentimento ──────
+  // Preferências locais e variáveis de ambiente
   final prefs = await SharedPreferences.getInstance();
-  LegalConsentService.instance.init(prefs);
-  ThemeNotifier.instance.init(prefs);
-  StoreService.instance.init(prefs);
-  await SettingsService.instance.initialize();
-  AudioManager.instance.initialize();
-
-  // ─── Modo Imersivo Completo (Oculta Status Bar e Navigation Bar 100% do tempo) ─
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-
-  // ─── Instant Loading Engine (P0): Telemetria & Proteção de Memória ──────────
-  PerformanceTelemetryEngine.instance.start();
-  MemoryResidencyEngine.instance.initialize();
-
-  // ─── Instant Loading Engine (P0/P1): Warmup Concorrente sem travar UI ──────
-  unawaited(ShaderWarmupEngine.instance.warmup());
-  unawaited(TenIsolatesEngine.instance.initialize());
-
-  // ─── HPWE Web Engine (RFC-009B): Ativado apenas sob kIsWeb (Android Intacto) ─
-  unawaited(PlatformWebBridge.instance.initialize());
 
   if (kIsWeb) {
-    // RFC-009C Camada 15: Na Web nunca requisitar .env via HTTP (elimina HTTP 404)
-    const sbUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://vkmjefhyjtyxuhhnbnry.supabase.co');
-    const sbKey = String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrbWplZmh5anR5eHVoaG5ibnJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyMzgwOTMsImV4cCI6MjA1NjgxNDA5M30.407YV_7t0D44_i622kK_hBsvXg3w30d3y4D3j72z17g');
+    const sbUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://pcquxppvheodcrdkwqhh.supabase.co');
+    const sbKey = String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjcXV4cHB2aGVvZGNyZGt3cWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MjY4MTgsImV4cCI6MjA5MTQwMjgxOH0.19umF7nkdYtTGbC-xDKUhcQ37qgkqQDq77sgvQRGaOY');
     const apiUrl = String.fromEnvironment('API_URL', defaultValue: 'http://127.0.0.1:8000');
     dotenv.loadFromString(envString: '''
 SUPABASE_URL=$sbUrl
@@ -69,14 +41,12 @@ API_URL=$apiUrl
     try {
       await dotenv.load(fileName: ".env");
     } catch (_) {
-      // FLUTTER-004: Fallback seguro via --dart-define ou --dart-define-from-file em runtime
       dotenv.loadFromString(envString: '''
 SUPABASE_URL=${const String.fromEnvironment('SUPABASE_URL')}
 SUPABASE_ANON_KEY=${const String.fromEnvironment('SUPABASE_ANON_KEY')}
 API_URL=${const String.fromEnvironment('API_URL')}
 ''');
     }
-    // Garante precedência do --dart-define e saneamento de API_URL
     final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
     const envApiUrl = String.fromEnvironment('API_URL');
     if (envApiUrl.trim().isNotEmpty) {
@@ -92,7 +62,7 @@ API_URL=${const String.fromEnvironment('API_URL')}
   final supabaseKey = dotenv.env['SUPABASE_ANON_KEY'];
   if (supabaseUrl == null || supabaseUrl.isEmpty || supabaseKey == null || supabaseKey.isEmpty) {
     throw Exception(
-        'Variaveis de ambiente faltando! Você precisa rodar `flutter clean` e compilar o app novamente com --dart-define-from-file=.env para injetar as credenciais.');
+        'Variáveis de ambiente ausentes. Verifique o arquivo .env ou a configuração de compilação.');
   }
 
   await Supabase.initialize(
@@ -103,17 +73,33 @@ API_URL=${const String.fromEnvironment('API_URL')}
     ),
   );
 
-  // FLUTTER-001 / FLUTTER-002: sem PII em logs; apenas evento em modo debug
+  // Inicialização de serviços essenciais após o Supabase estar pronto
+  LegalConsentService.instance.init(prefs);
+  ThemeNotifier.instance.init(prefs);
+  StoreService.instance.init(prefs);
+  await SettingsService.instance.initialize();
+  AudioManager.instance.initialize();
+
+  // Modo Imersivo para tela cheia em dispositivos móveis
+  if (!kIsWeb) {
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  }
+
   Supabase.instance.client.auth.onAuthStateChange.listen((data) {
     if (kDebugMode) {
       debugPrint('[Auth] Evento: ${data.event}');
-      // Nunca logar email ou token em produção
+    }
+    if (data.event == AuthChangeEvent.signedIn ||
+        data.event == AuthChangeEvent.signedOut ||
+        data.event == AuthChangeEvent.userUpdated) {
+      unawaited(ApiCacheManager.instance.clearAll());
+      DashboardRepositoryImpl.invalidateCache();
+      StoreService.instance.clearUserCache();
+      unawaited(ThemeNotifier.instance.reloadForUser());
     }
   });
 
-  // ─── Zero-Leak Centralized Logger & World Engine Sync ───────────────────────
   unawaited(AppLogger.instance.init());
-  unawaited(WorldSyncService.instance.init());
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -128,7 +114,6 @@ class AuthGate extends StatefulWidget {
 class _AuthGateState extends State<AuthGate> {
   bool _hasError = false;
   String _errorMessage = '';
-  // FLUTTER-005: mensagem progressiva de status de conexão
   String _loadingMessage = 'Verificando sua conta...';
 
   @override
@@ -148,7 +133,6 @@ class _AuthGateState extends State<AuthGate> {
     }
 
     try {
-      // FLUTTER-005: feedback progressivo
       if (mounted) setState(() => _loadingMessage = 'Validando sessão...');
 
       try {
@@ -168,17 +152,15 @@ class _AuthGateState extends State<AuthGate> {
       final prefs = await SharedPreferences.getInstance();
       final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
 
-      // Lista de candidatos de rede testados SIMULTANEAMENTE (Parallel Race):
-      // 1. cachedWinningUrl (se já conectou antes com sucesso, testa primeiro)
-      // 2. 127.0.0.1:8000 (ADB reverse via USB - ultra veloz ~10ms quando plugado)
-      // 3. configuredUrl (URL definida no .env ou --dart-define)
-      // 4. 10.12.229.10:8000 (IP da máquina na rede Wi-Fi local)
-      // 5. 10.0.2.2:8000 (Gateway padrão do emulador Android)
+      // Lista de candidatos de rede testados em paralelo:
+      // 1. cachedWinningUrl (último endereço funcional salvo)
+      // 2. 127.0.0.1:8000 (Localhost ou USB via ADB reverse)
+      // 3. configuredUrl (definido no arquivo .env)
+      // 4. 10.0.2.2:8000 (Gateway padrão de emuladores Android)
       final candidateUrls = <String>{
         if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) cachedWinningUrl,
         'http://127.0.0.1:8000',
         configuredUrl,
-        'http://10.12.229.10:8000',
         'http://10.0.2.2:8000',
       }.toList();
 
@@ -456,35 +438,6 @@ class _AuthGateState extends State<AuthGate> {
   }
 }
 
-/// Observer de navegação que alimenta a Cadeia de Markov do PredictivePreloadingEngine
-class InstantLoadingRouteObserver extends NavigatorObserver {
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didPush(route, previousRoute);
-    final currentName = route.settings.name ?? '';
-    final prevName = previousRoute?.settings.name;
-    if (currentName.isNotEmpty) {
-      PredictivePreloadingEngine.instance.onRouteChanged(
-        currentRoute: currentName,
-        previousRoute: prevName,
-      );
-    }
-  }
-
-  @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-    final currentName = newRoute?.settings.name ?? '';
-    final prevName = oldRoute?.settings.name;
-    if (currentName.isNotEmpty) {
-      PredictivePreloadingEngine.instance.onRouteChanged(
-        currentRoute: currentName,
-        previousRoute: prevName,
-      );
-    }
-  }
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -500,10 +453,7 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: currentMode,
           initialRoute: '/',
-          navigatorObservers: [InstantLoadingRouteObserver()],
-          builder: (context, child) {
-            return DeveloperHudOverlay(child: child ?? const SizedBox.shrink());
-          },
+          builder: (context, child) => child ?? const SizedBox.shrink(),
           routes: {
             '/': (_) => const AuthGate(),
             '/login': (_) => const LoginScreen(),
@@ -511,9 +461,8 @@ class MyApp extends StatelessWidget {
             '/register': (_) => const RegisterScreen(),
             '/welcome': (_) => const WelcomeScreen(),
             '/admin/platform': (_) => const PlatformSuiteShell(initialIndex: 0),
-            '/admin/world-builder': (_) => const PlatformSuiteShell(initialIndex: 0),
-            '/admin/developer': (_) => const PlatformSuiteShell(initialIndex: 1),
-            '/admin/security': (_) => const PlatformSuiteShell(initialIndex: 2),
+            '/admin/developer': (_) => const PlatformSuiteShell(initialIndex: 0),
+            '/admin/security': (_) => const PlatformSuiteShell(initialIndex: 1),
           },
           onGenerateRoute: (settings) {
             if (settings.name != null && settings.name!.startsWith('/?')) {

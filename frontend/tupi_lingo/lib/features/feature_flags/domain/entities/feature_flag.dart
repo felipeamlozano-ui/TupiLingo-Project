@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// RFC-012B Chapter 47: Domain representation of an enterprise Feature Flag.
+/// Representação de uma Feature Flag para controle de ativação de recursos.
 @immutable
 class FeatureFlag {
   final String id;

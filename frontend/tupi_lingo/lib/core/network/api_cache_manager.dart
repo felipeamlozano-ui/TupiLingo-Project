@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/core/network/api_client.dart';
 
-/// Gerenciador de Cache HTTP Local-First com padrão Stale-While-Revalidate.
-/// Reduz a latência de carregamento percebida de ~1.5s para 0ms ao retornar dados
-/// locais instantaneamente enquanto revalida silenciosamente em background.
+/// Gerenciador de Cache HTTP Local-First isolado por usuário.
+/// Evita que novos usuários ou contas recém-logadas recebam dados cacheados de sessões anteriores.
 class ApiCacheManager {
   ApiCacheManager._();
   static final ApiCacheManager instance = ApiCacheManager._();
@@ -20,23 +20,39 @@ class ApiCacheManager {
     return _prefs!;
   }
 
-  /// Retorna o JSON em cache se existir e não for nulo
+  String _scopedKey(String url) {
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId != null && userId.isNotEmpty) return '$_prefix${userId}_$url';
+    } catch (_) {}
+    return '${_prefix}guest_$url';
+  }
+
+  String _scopedTimeKey(String url) {
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId != null && userId.isNotEmpty) return '$_timePrefix${userId}_$url';
+    } catch (_) {}
+    return '${_timePrefix}guest_$url';
+  }
+
+  /// Retorna o JSON em cache se existir para o usuário autenticado
   Future<String?> getCachedResponse(String url) async {
     try {
       final prefs = await _getPrefs();
-      return prefs.getString('$_prefix$url');
+      return prefs.getString(_scopedKey(url));
     } catch (e) {
       debugPrint('[ApiCacheManager] Erro ao ler cache de $url: $e');
       return null;
     }
   }
 
-  /// Salva a resposta no cache local
+  /// Salva a resposta no cache local vinculada ao usuário atual
   Future<void> saveResponse(String url, String body) async {
     try {
       final prefs = await _getPrefs();
-      await prefs.setString('$_prefix$url', body);
-      await prefs.setInt('$_timePrefix$url', DateTime.now().millisecondsSinceEpoch);
+      await prefs.setString(_scopedKey(url), body);
+      await prefs.setInt(_scopedTimeKey(url), DateTime.now().millisecondsSinceEpoch);
     } catch (e) {
       debugPrint('[ApiCacheManager] Erro ao gravar cache de $url: $e');
     }
@@ -55,7 +71,7 @@ class ApiCacheManager {
     }
   }
 
-  /// Limpa todo o cache de rede
+  /// Limpa todo o cache de rede do navegador/app
   Future<void> clearAll() async {
     try {
       final prefs = await _getPrefs();

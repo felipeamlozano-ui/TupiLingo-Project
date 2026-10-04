@@ -121,8 +121,8 @@ def get_active_world_bundle(request):
 @permission_classes([AllowAny])
 def publish_world_version(request):
     """
-    Pipeline de publicação do World Builder CMS (RFC-013 Capítulo 19).
-    Valida integridade topológica, gera snapshot imutável e atualiza versão ativa.
+    Publicação e versionamento de mapas e dados geográficos.
+    Gera snapshot e atualiza a versão ativa.
     """
     commit_msg = request.data.get('commit_message', 'Publicação do mundo')
     author_role = request.data.get('author_role', 'Administrator')

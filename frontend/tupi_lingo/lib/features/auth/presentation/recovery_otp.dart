@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/auth/presentation/reset_password.dart';
+import 'package:tupi_lingo/features/auth/services/auth_service.dart';
 import 'dart:async';
 
 class _AppColors {
@@ -159,15 +160,15 @@ class _RecoveryOtpScreenState extends State<RecoveryOtpScreen> {
     }
   }
 
-  // Pede novo disparo de código de recuperação para o email informado
+  // Pede novo disparo de código de recuperação para o email informado com resiliência contra captcha
   Future<void> _resendCode() async {
     if (!_canResend) return;
 
     setState(() => _isLoading = true);
     try {
-      await Supabase.instance.client.auth.resetPasswordForEmail(widget.email);
+      await AuthService.instance.recoverPassword(widget.email);
       if (mounted) {
-        _showSnackBar('Código reenviado com sucesso!', isError: false);
+        _showSnackBar('Código reenviado com sucesso! Verifique sua caixa de entrada.', isError: false);
         _startCooldown();
       }
     } on AuthException catch (e) {

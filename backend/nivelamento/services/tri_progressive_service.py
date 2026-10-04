@@ -432,7 +432,7 @@ class TRIProgressiveSessionManager:
                     UserVarianteLevel.objects.update_or_create(
                         user=user,
                         variante_id=state.variante_id,
-                        defaults={"nivel": final_level, "theta": state.current_theta},
+                        defaults={"nivel": final_level},
                     )
 
                 # Registra atividade diária de estudo (streak)

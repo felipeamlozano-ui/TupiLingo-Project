@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// 8-Dimensional Cognitive Mastery Profile for TupiLingo (RFC-012A Chapter 5).
+/// Perfil cognitivo e pedagógico de domínio do estudante em diferentes habilidades linguísticas.
 @immutable
 class CognitiveProfile {
   final String userId;

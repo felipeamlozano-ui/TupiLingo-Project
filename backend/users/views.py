@@ -110,23 +110,54 @@ def register_user(request):
     if source not in VALID_SOURCES:
         source = 'outro'
 
-    # Se já existe pelo supabase_uid, já está registrado
+    variante_id = body.get('variante_id')
+    variante_obj = None
+    if variante_id:
+        from trilha.models import VarianteTupi
+        variante_obj = VarianteTupi.objects.filter(id=variante_id, ativo=True).first()
+
+    # Se já existe pelo supabase_uid, atualiza dados básicos e variante se enviada
     existing_by_uid = UserProfile.objects.filter(supabase_uid=user_id).first()
     if existing_by_uid:
+        if variante_obj and not existing_by_uid.variante_ativa:
+            existing_by_uid.variante_ativa = variante_obj
+            existing_by_uid.save(update_fields=['variante_ativa', 'updated_at'])
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 
-    # Se já existe por e-mail no Django (ex: conta recriada no Supabase), reconcilia com o novo supabase_uid
+    # Se já existe por e-mail no Django (ex: conta recriada no Supabase), reconcilia e limpa progresso legado
     if email:
         existing_by_email = UserProfile.objects.filter(email__iexact=email).first()
         if existing_by_email:
             logger.info(
-                "Reconciliando supabase_uid no registro para %s (antigo=%s, novo=%s)",
+                "Reconciliando supabase_uid no registro para %s (antigo=%s, novo=%s) com reset de progresso",
                 email, existing_by_email.supabase_uid, user_id,
             )
             existing_by_email.supabase_uid = user_id
             if name:
                 existing_by_email.name = name
-            existing_by_email.save(update_fields=['supabase_uid', 'name'])
+            existing_by_email.source = source
+            # Garante que novo cadastro inicie com estado limpo (0 XP, 0 Conchas, 0 Streak)
+            existing_by_email.xp_total = 0
+            existing_by_email.conchas = 0
+            existing_by_email.streak_atual = 0
+            existing_by_email.maior_streak = 0
+            existing_by_email.dias_estudados_total = 0
+            existing_by_email.ultimo_dia_estudado = None
+            if variante_obj:
+                existing_by_email.variante_ativa = variante_obj
+            existing_by_email.save()
+
+            # Limpa registros antigos de teste e lições
+            try:
+                from nivelamento.models import TestAttempt, UserVarianteLevel
+                from users.models import UserLesson, DailyStudyLog
+                TestAttempt.objects.filter(user=existing_by_email).delete()
+                UserVarianteLevel.objects.filter(user=existing_by_email).delete()
+                UserLesson.objects.filter(usuario=existing_by_email).delete()
+                DailyStudyLog.objects.filter(user=existing_by_email).delete()
+            except Exception as e:
+                logger.warning("Falha ao limpar progresso legado do usuário %s: %s", email, e)
+
             return JsonResponse({"status": "Perfil reconciliado com sucesso", "created": False})
 
     # API-003: get_or_create atômico evita race condition TOCTOU
@@ -137,6 +168,10 @@ def register_user(request):
                 'email': email,
                 'name': name,
                 'source': source,
+                'variante_ativa': variante_obj,
+                'xp_total': 0,
+                'conchas': 0,
+                'streak_atual': 0,
             },
         )
     except IntegrityError:
@@ -144,7 +179,9 @@ def register_user(request):
         existing_user = UserProfile.objects.filter(email__iexact=email).first()
         if existing_user:
             existing_user.supabase_uid = user_id
-            existing_user.save(update_fields=['supabase_uid'])
+            existing_user.xp_total = 0
+            existing_user.conchas = 0
+            existing_user.save()
             return JsonResponse({"status": "Usuario re-sincronizado", "created": False})
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 

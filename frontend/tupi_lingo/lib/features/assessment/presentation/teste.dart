@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
+import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import '../../dashboard/data/repositories/dashboard_repository_impl.dart';
-import '../../historical_map/data/datasources/historical_map_remote_data_source.dart';
 
 class _TupiColors {
   static const background = Color(0xFFF3F2E8);
@@ -117,6 +117,148 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
         _isLoadingVariants = false;
         _feedbackMessage = 'Erro de conexão: $e';
       });
+    }
+  }
+
+  void _onVarianteTap(Map<String, dynamic> v) {
+    if (widget.nivel.toLowerCase() == 'nenhum') {
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        builder: (ctx) => Padding(
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                v['icone'] ?? '🌿',
+                style: const TextStyle(fontSize: 48),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                v['nome'] ?? '',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: _TupiColors.accent,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Como você está começando do zero nesta língua, você pode ir direto para a trilha básica ou fazer o teste de nivelamento.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: _TupiColors.subtitle, height: 1.4),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    _startFromLevel1(v);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _TupiColors.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  ),
+                  child: const Text(
+                    'Começar do Início (Nível 1)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    _startTestForVariante(v);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    side: const BorderSide(color: _TupiColors.inputBorder, width: 2),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  ),
+                  child: const Text(
+                    'Fazer Teste de Nivelamento',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _TupiColors.accent),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      _startTestForVariante(v);
+    }
+  }
+
+  Future<void> _startFromLevel1(Map<String, dynamic> variante) async {
+    setState(() {
+      _selectedVariante = variante;
+      _isLoadingVariants = true;
+      _feedbackMessage = null;
+    });
+
+    try {
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session == null) throw Exception('Usuário não autenticado');
+
+      final String baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+
+      // 1. Atualiza variante ativa
+      final updateUrl = Uri.parse('$baseUrl/api/v1/auth/update-variante');
+      await http.post(
+        updateUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${session.accessToken}',
+        },
+        body: jsonEncode({'variante_id': variante['id']}),
+      );
+
+      // 2. Registra avaliação direta como nível 1
+      final evalUrl = Uri.parse('$baseUrl/api/v1/nivelamento/avaliar/');
+      await http.post(
+        evalUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${session.accessToken}',
+        },
+        body: jsonEncode({
+          'variante_id': variante['id'],
+          'current_level': 1,
+          'answers': [],
+        }),
+      );
+
+      DashboardRepositoryImpl.invalidateCache();
+      await ApiCacheManager.instance.clearAll();
+
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoadingVariants = false;
+          _feedbackMessage = 'Erro ao definir nível: $e';
+        });
+      }
     }
   }
 
@@ -311,7 +453,7 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
             final responseData = jsonDecode(utf8.decode(response.bodyBytes));
             finalLvl = responseData['new_level'] ?? _currentNivel;
             DashboardRepositoryImpl.invalidateCache();
-            HistoricalMapRemoteDataSourceImpl.invalidateCache();
+            await ApiCacheManager.instance.clearAll();
             AppProgressionNotifier.instance.notifyProgressionChanged();
         }
       }
@@ -496,7 +638,7 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
           ..._variantes.map((v) => Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: InkWell(
-              onTap: () => _startTestForVariante(v),
+              onTap: () => _onVarianteTap(v),
               borderRadius: BorderRadius.circular(16),
               child: Container(
                 width: double.infinity,

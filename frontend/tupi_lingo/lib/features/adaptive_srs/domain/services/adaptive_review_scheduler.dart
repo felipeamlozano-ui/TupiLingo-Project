@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:tupi_lingo/features/adaptive_leveling/domain/entities/knowledge_state.dart';
 import 'package:tupi_lingo/features/adaptive_srs/domain/entities/contextual_review_session.dart';
 
-/// Contextual Spaced Repetition Scheduler grouping decaying items by cluster (RFC-012A Chapter 9).
+/// Agendador pedagógico de repetição espaçada (SRS) para fixação de vocabulário e conceitos.
 class AdaptiveReviewScheduler {
   static const double targetRecallProbability = 0.85;
 

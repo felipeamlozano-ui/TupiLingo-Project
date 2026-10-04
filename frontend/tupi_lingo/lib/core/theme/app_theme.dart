@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/core/security/secure_vault.dart';
 
 /// Gerenciador reativo de modo de tema e cosmético equipado com persistência segura
@@ -8,6 +9,16 @@ class ThemeNotifier extends ValueNotifier<ThemeMode> {
 
   static const String _storageKey = 'tupilingo_theme_mode';
   static const String _keyEquippedTheme = 'tupilingo_cosmetic_equipped_theme';
+
+  String _scopedKey(String key) {
+    try {
+      final uid = Supabase.instance.client.auth.currentUser?.id;
+      if (uid != null && uid.isNotEmpty) {
+        return '${key}_$uid';
+      }
+    } catch (_) {}
+    return '${key}_guest';
+  }
 
   String _equippedTheme = 'theme_floresta_jade';
   String get equippedTheme => _equippedTheme;
@@ -27,11 +38,29 @@ class ThemeNotifier extends ValueNotifier<ThemeMode> {
       value = ThemeMode.system;
     }
 
-    final savedTheme = prefs.getString(_keyEquippedTheme);
+    final savedTheme = prefs.getString(_scopedKey(_keyEquippedTheme));
     if (savedTheme != null && savedTheme.isNotEmpty) {
       _equippedTheme = savedTheme;
+    } else {
+      _equippedTheme = 'theme_floresta_jade';
     }
     notifyListeners();
+  }
+
+  /// Recarrega o tema específico do usuário recém-autenticado
+  Future<void> reloadForUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedTheme = prefs.getString(_scopedKey(_keyEquippedTheme)) ??
+          await SecureVault.readSecret(_scopedKey(_keyEquippedTheme));
+      _equippedTheme = (savedTheme != null && savedTheme.isNotEmpty)
+          ? savedTheme
+          : 'theme_floresta_jade';
+      notifyListeners();
+    } catch (_) {
+      _equippedTheme = 'theme_floresta_jade';
+      notifyListeners();
+    }
   }
 
   bool isDark(BuildContext context) {
@@ -53,9 +82,12 @@ class ThemeNotifier extends ValueNotifier<ThemeMode> {
         value = ThemeMode.system;
       }
 
-      final savedTheme = prefs.getString(_keyEquippedTheme) ?? await SecureVault.readSecret(_keyEquippedTheme);
+      final savedTheme = prefs.getString(_scopedKey(_keyEquippedTheme)) ??
+          await SecureVault.readSecret(_scopedKey(_keyEquippedTheme));
       if (savedTheme != null && savedTheme.isNotEmpty) {
         _equippedTheme = savedTheme;
+      } else {
+        _equippedTheme = 'theme_floresta_jade';
       }
       notifyListeners();
     } catch (_) {
@@ -82,8 +114,8 @@ class ThemeNotifier extends ValueNotifier<ThemeMode> {
     notifyListeners();
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_keyEquippedTheme, themeId);
-      await SecureVault.writeSecret(_keyEquippedTheme, themeId);
+      await prefs.setString(_scopedKey(_keyEquippedTheme), themeId);
+      await SecureVault.writeSecret(_scopedKey(_keyEquippedTheme), themeId);
     } catch (_) {}
   }
 

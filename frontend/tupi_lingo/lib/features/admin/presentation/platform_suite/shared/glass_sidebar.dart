@@ -84,30 +84,22 @@ class GlassSidebar extends StatelessWidget {
           Divider(color: AppTheme.border(context), height: 1),
           const SizedBox(height: 16),
 
-          // Menu de Navegação dos 3 Consoles
+          // Menu de Navegação dos Consoles do Admin
           _buildNavItem(
             context: context,
             index: 0,
-            icon: Icons.map_outlined,
-            activeIcon: Icons.map,
-            title: 'World Builder CMS',
-            subtitle: 'Canvas, Territórios & Snapshots',
+            icon: Icons.developer_board_outlined,
+            activeIcon: Icons.developer_board,
+            title: 'Developer Console',
+            subtitle: 'Métricas, Desempenho & IA',
           ),
           _buildNavItem(
             context: context,
             index: 1,
-            icon: Icons.developer_board_outlined,
-            activeIcon: Icons.developer_board,
-            title: 'Developer Console',
-            subtitle: 'Live Ops, Performance & AI',
-          ),
-          _buildNavItem(
-            context: context,
-            index: 2,
             icon: Icons.shield_outlined,
             activeIcon: Icons.shield,
-            title: 'Security & Observability',
-            subtitle: 'Zero-PII, SOC & Merkle Audit',
+            title: 'Segurança & Logs',
+            subtitle: 'Auditoria e Status do Sistema',
           ),
 
           const Spacer(),
@@ -138,7 +130,7 @@ class GlassSidebar extends StatelessWidget {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'SRE Cluster Online',
+                          'Servidor Conectado',
                           style: TextStyle(
                             color: AppTheme.textSecondary(context),
                             fontSize: 11,
@@ -147,7 +139,7 @@ class GlassSidebar extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '99.9%',
+                        'Online',
                         style: TextStyle(
                           color: AppTheme.accent(context),
                           fontSize: 11,

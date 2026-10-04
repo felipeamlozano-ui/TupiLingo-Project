@@ -12,8 +12,8 @@ class HealthStatusChoices(models.TextChoices):
 
 class AggregatedMetrics(models.Model):
     """
-    Métricas de telemetria agregadas (RFC-013 Capítulo 20/21).
-    STRICT ZERO-PII GUARANTEE: Nunca armazena IPs, UIDs, dados cadastrais ou respostas de usuários.
+    Métricas de telemetria agregadas da aplicação.
+    Anonimizado: Não armazena dados cadastrais, senhas ou conteúdos sensíveis.
     """
     window_start = models.DateTimeField(default=timezone.now)
     window_end = models.DateTimeField(default=timezone.now)
@@ -80,8 +80,8 @@ class FeatureFlag(models.Model):
 
 class AuditLog(models.Model):
     """
-    Trilha de auditoria imutável com encadeamento criptográfico SHA-256 (RFC-013 Capítulo 21).
-    Garante compliance LGPD e integridade de alterações administrativas.
+    Trilha de auditoria com hash SHA-256 para integridade dos registros.
+    Auxilia no cumprimento de boas práticas de segurança e LGPD.
     """
     action = models.CharField(max_length=100)
     entity_type = models.CharField(max_length=100)

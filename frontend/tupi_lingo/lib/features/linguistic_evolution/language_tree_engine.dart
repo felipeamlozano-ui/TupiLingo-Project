@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Node in the Tupi phylogenetic language tree (RFC-012B Chapter 28).
+/// Representação de um nó na árvore genealógica e filogenética da família linguística Tupi-Guarani.
 @immutable
 class EvolutionNode {
   final String id;

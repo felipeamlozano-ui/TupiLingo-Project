@@ -8,7 +8,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'capitulos_admin.dart';
 import 'licoes_admin.dart';
 import 'exercicios_admin.dart';
-import 'map_admin/historical_regions_admin_tab.dart';
 import 'platform_suite/platform_suite_shell.dart';
 import '../../../../core/theme/app_theme.dart';
 
@@ -28,7 +27,7 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _loadAdminData();
   }
 
@@ -140,7 +139,7 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
         elevation: 0,
         title: Row(
           children: [
-            const Text('⚙️', style: TextStyle(fontSize: 20)),
+            Icon(Icons.admin_panel_settings_rounded, color: accentColor, size: 22),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -158,7 +157,7 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
         actions: [
           IconButton(
             icon: const Icon(Icons.hub_rounded, color: Color(0xFF10B981)),
-            tooltip: 'Abrir Platform Suite (World Builder & Consoles)',
+            tooltip: 'Abrir Painel Técnico (Platform Suite)',
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => const PlatformSuiteShell(initialIndex: 0)),
@@ -184,7 +183,6 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
             Tab(text: 'Capítulos', icon: Icon(Icons.menu_book_rounded, size: 20)),
             Tab(text: 'Lições', icon: Icon(Icons.bookmark_added_rounded, size: 20)),
             Tab(text: 'Exercícios', icon: Icon(Icons.quiz_rounded, size: 20)),
-            Tab(text: 'Mapa & Aldeias', icon: Icon(Icons.explore_rounded, size: 20)),
           ],
         ),
       ),
@@ -213,7 +211,6 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
                     CapitulosAdminTab(variantes: _variantes, onRefresh: _loadAdminData),
                     LicoesAdminTab(variantes: _variantes, onRefresh: _loadAdminData),
                     ExerciciosAdminTab(variantes: _variantes, onRefresh: _loadAdminData),
-                    HistoricalRegionsAdminTab(onRefresh: _loadAdminData),
                   ],
                 ),
     );

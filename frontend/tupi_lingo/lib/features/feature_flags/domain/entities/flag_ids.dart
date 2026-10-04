@@ -1,5 +1,4 @@
-/// RFC-012B Chapter 47: Canonical Registry of Feature Flag Identifiers.
-/// Every new architecture pillar and engine is gated behind one of these flags.
+/// Identificadores canônicos para controle de Feature Flags da plataforma.
 abstract final class FlagIds {
   // ── Pillar 1: Linguistic Intelligence ──────────────────────────────────────
   static const String morphologyEngineV1 = 'morphology_engine_v1';
@@ -32,7 +31,7 @@ abstract final class FlagIds {
   // ── Pillar 6: Personalization & Themes ──────────────────────────────────────
   static const String customThemesEnabled = 'custom_themes_enabled';
 
-  /// Complete list of registered flag IDs in RFC-012B.
+  /// Lista com todos os identificadores de flags registrados na plataforma.
   static const List<String> allFlags = [
     morphologyEngineV1,
     phonologyEngineV1,
