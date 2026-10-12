@@ -276,6 +276,119 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: Animais da Mata e da Terra",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de Animais da Mata e da Terra.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "Animais da Mata e da Terra",
+      "ai_vocabulary_anchors": [
+        "Îagûara",
+        "Tatu",
+        "Kapi'ybara",
+        "So'ó"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'Animais da Mata e da Terra'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Îagûara",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "îagûara",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Îagûara katu!",
+            "exemplo_pt": "Uso contextual de Îagûara."
+          },
+          {
+            "palavra": "Tatu",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "tatu",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Tatu!",
+            "exemplo_pt": "Uso contextual de Tatu."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'Animais da Mata e da Terra', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Îagûara",
+            "Motatu",
+            "Tekapi'ybara",
+            "Kuso'ó"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Îagûara' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.974,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de Animais da Mata e da Terra: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Tatu",
+          "opcoes_banco": [
+            "Tatu",
+            "Kapi'ybara",
+            "So'ó",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Tatu'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -1.874,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Animais da Mata e da Terra':",
+          "opcoes": [
+            "Uso harmônico de 'Kapi'ybara'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Kapi'ybara' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": -1.724,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de Animais da Mata e da Terra, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.974,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -363,6 +476,6 @@
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 9
 }

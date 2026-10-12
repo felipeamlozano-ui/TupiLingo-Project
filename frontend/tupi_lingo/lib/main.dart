@@ -153,15 +153,15 @@ class _AuthGateState extends State<AuthGate> {
       final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
 
       // Lista de candidatos de rede testados em paralelo:
-      // 1. cachedWinningUrl (último endereço funcional salvo)
-      // 2. 127.0.0.1:8000 (Localhost ou USB via ADB reverse)
-      // 3. configuredUrl (definido no arquivo .env)
-      // 4. 10.0.2.2:8000 (Gateway padrão de emuladores Android)
+      // Em Release: apenas o endpoint configurado oficial
+      // Em Debug: inclui localhost e emulador para desenvolvimento
       final candidateUrls = <String>{
         if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) cachedWinningUrl,
-        'http://127.0.0.1:8000',
+        if (kDebugMode) ...[
+          'http://127.0.0.1:8000',
+          'http://10.0.2.2:8000',
+        ],
         configuredUrl,
-        'http://10.0.2.2:8000',
       }.toList();
 
       http.Response? response;
@@ -206,13 +206,10 @@ class _AuthGateState extends State<AuthGate> {
           // Marca consentimento legal para conta ativa/existente
           await LegalConsentService.instance.saveConsent(termsAccepted: true, disclaimerAccepted: true);
 
-          // Sincroniza catálogo da loja e aplica o tema/cosméticos imediatamente na tela de loading
-          if (mounted) setState(() => _loadingMessage = 'Sincronizando loja e perfil...');
-          try {
-            await StoreService.instance.fetchCatalog();
-          } catch (e) {
+          // Sincronização assíncrona do catálogo da loja em segundo plano (não bloqueia a tela)
+          unawaited(StoreService.instance.fetchCatalog().then((_) {}).catchError((e) {
             debugPrint('[AuthGate] Erro ao sincronizar catálogo: $e');
-          }
+          }));
 
           if (!mounted) return;
 

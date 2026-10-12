@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent
 CONTEUDO_DIR = BASE_DIR / "conteudo"
 MANIFESTOS_DIR = BASE_DIR / "manifestos"
 
-VALID_VARIANTS = ["tupi_contemporaneo", "tupi_antigo", "kamaiura", "tupinamba"]
+VALID_VARIANTS = ["tupi_antigo", "tupi_revitalizado"]
 
 
 class QAReport:

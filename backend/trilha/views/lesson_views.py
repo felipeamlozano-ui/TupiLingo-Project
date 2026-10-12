@@ -32,44 +32,84 @@ from .common import _get_user, _get_or_create_user_lesson, _is_celery_broker_rea
 logger = logging.getLogger("trilha.views.lesson")
 
 
-def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi) -> int:
+def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi, licao: Licao | None = None, accuracy: float = 1.0) -> int:
     """
-    Recalibra o nível adaptativo do usuário com base no desempenho real
-    nas últimas 3 lições concluídas na variante informada.
+    Recalibra o nível adaptativo do usuário (BirdBrain IRT 3PL EAP) com base no desempenho real.
+    Atualiza continuamente theta (habilidade latente) e erro padrão (SE), registrando auditoria.
     Anti-manipulação: calculado exclusivamente no backend com lock pessimista (SCALE-002).
     """
-    from nivelamento.models import UserVarianteLevel
+    import math
+    from nivelamento.models import UserVarianteLevel, BirdbrainCalibrationLog
+    from pedagogico.calibracao.birdbrain_service import BirdbrainService
+    from users.services.progress_service import ProgressService
 
     with transaction.atomic():
         level_obj, _ = UserVarianteLevel.objects.select_for_update().get_or_create(
             user=user,
             variante=variante,
-            defaults={'nivel': 1}
+            defaults={'nivel': 1, 'current_theta': 0.0, 'current_se': 1.0}
         )
 
-        ultimas_licoes = list(
-            UserLesson.objects.filter(
-                usuario=user,
-                licao__capitulo__trilha__variante=variante,
-                status='concluida',
-            ).order_by('-concluida_em')[:3]
+        old_theta = float(level_obj.current_theta)
+        old_se = float(level_obj.current_se if level_obj.current_se > 0.05 else 0.5)
+        old_nivel = level_obj.nivel
+
+        # Determina parâmetros psicométricos com base no capítulo da lição
+        cap_num = licao.capitulo.numero if (licao and licao.capitulo) else 1
+        item_b = round(-2.5 + (cap_num - 1) * (5.0 / 19.0), 3)
+
+        # Monta itens da lição com base na acurácia real
+        total_items = 5
+        correct_count = int(round(accuracy * total_items))
+        lesson_responses = []
+        for i in range(total_items):
+            lesson_responses.append({
+                "item_id": f"LES_{licao.id if licao else 0}_{i}",
+                "param_a": 1.2,
+                "param_b": item_b,
+                "param_c": 0.25,
+                "is_correct": (i < correct_count),
+            })
+
+        bb = BirdbrainService()
+        new_theta, new_se, diag = bb.update_theta_after_lesson(
+            current_theta=old_theta,
+            current_se=old_se,
+            lesson_responses=lesson_responses,
+            learning_rate=0.15
         )
 
-        if len(ultimas_licoes) == 3:
-            if all(ul.accuracy >= 0.85 for ul in ultimas_licoes):
-                if level_obj.nivel < 10:
-                    UserVarianteLevel.objects.filter(pk=level_obj.pk).update(
-                        nivel=F('nivel') + 1
-                    )
-                    level_obj.refresh_from_db(fields=['nivel'])
-                    logger.info("Usuário %s subiu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
-            elif all(ul.accuracy <= 0.40 for ul in ultimas_licoes):
-                if level_obj.nivel > 1:
-                    UserVarianteLevel.objects.filter(pk=level_obj.pk).update(
-                        nivel=F('nivel') - 1
-                    )
-                    level_obj.refresh_from_db(fields=['nivel'])
-                    logger.info("Usuário %s desceu para nível %d em %s", user.id, level_obj.nivel, variante.nome)
+        mapped_info = bb.irt_engine.map_theta_to_entry_chapter(new_theta)
+        entry_ch = mapped_info.get("entry_chapter", 1)
+        novo_nivel = max(1, min(10, math.ceil(entry_ch / 2.0)))
+
+        level_obj.current_theta = new_theta
+        level_obj.current_se = new_se
+        level_obj.nivel = novo_nivel
+        level_obj.calibracoes_count = F('calibracoes_count') + 1
+        level_obj.save(update_fields=['current_theta', 'current_se', 'nivel', 'calibracoes_count', 'updated_at'])
+        level_obj.refresh_from_db(fields=['calibracoes_count'])
+
+        # Registra no log de auditoria do BirdBrain
+        BirdbrainCalibrationLog.objects.create(
+            user=user,
+            variante=variante,
+            licao=licao,
+            old_theta=old_theta,
+            new_theta=new_theta,
+            old_se=old_se,
+            new_se=new_se,
+            delta=round(new_theta - old_theta, 3),
+            accuracy_pct=round(accuracy * 100, 1),
+            items_count=total_items,
+            old_nivel=old_nivel,
+            new_nivel=novo_nivel,
+        )
+
+        if novo_nivel != old_nivel:
+            ProgressService.invalidate_user_trail_cache(user.id, variante.id)
+            logger.info("BirdBrain: Usuário %s mudou de nível %d -> %d em %s (θ: %.3f -> %.3f, SE: %.3f)",
+                        user.id, old_nivel, novo_nivel, variante.nome, old_theta, new_theta, new_se)
 
     return level_obj.nivel
 
@@ -261,7 +301,10 @@ def detalhe_licao(request, licao_id: int):
         'success': True,
         'licao': {
             'id': licao.id, 'titulo': licao.titulo, 'descricao': licao.descricao, 'xp_base': licao.xp_base,
-            'capitulo': {'id': licao.capitulo.id, 'titulo': licao.capitulo.titulo},
+            'numero': licao.numero, 'is_dynamic_ai': licao.is_dynamic_ai,
+            'ai_prompt_theme': licao.ai_prompt_theme,
+            'ai_vocabulary_anchors': licao.ai_vocabulary_anchors,
+            'capitulo': {'id': licao.capitulo.id, 'numero': licao.capitulo.numero, 'titulo': licao.capitulo.titulo},
         },
         'user_progress': {'status': user_lesson.status, 'completion_percentage': user_lesson.completion_percentage},
         'story_blocks': story_blocks,
@@ -302,7 +345,13 @@ def concluir_licao(request, licao_id: int):
     except (json.JSONDecodeError, ValueError):
         return JsonResponse({'error': 'JSON inválido.'}, status=400)
 
-    acertos = int(body.get('acertos', 0))
+    # SEC-005: Sanitização e Anti-Cheat robusto
+    try:
+        tempo_gasto = int(body.get('tempo_segundos', 60))
+    except (ValueError, TypeError):
+        tempo_gasto = 60
+    tempo_gasto = max(1, min(tempo_gasto, 86400))
+
     # SECURITY-004: total_exercicios vem do banco, não do payload do cliente,
     # para evitar manipulação de XP via body arbitrário.
     total_unificado = Exercicio.objects.filter(licao=licao).count()
@@ -314,8 +363,22 @@ def concluir_licao(request, licao_id: int):
         total_associacao = ExercicioAssociacao.objects.filter(licao=licao).count()
         total = total_escolha + total_completar + total_associacao or 1  # Evita divisão por zero
 
+    # Anti-cheat: Validação fisiológica temporal mínima (impede bots completando em < 3s lições com múltiplos exercícios)
+    if total > 1 and tempo_gasto < 3:
+        return JsonResponse({'error': 'Tempo de lição insuficiente para validação fisiológica.'}, status=400)
+
+    try:
+        acertos_raw = int(body.get('acertos', 0))
+    except (ValueError, TypeError):
+        acertos_raw = 0
+    acertos = max(0, min(acertos_raw, total))
+
     # bonus_exploracao ainda aceito do payload (XP de StoryBlocks lidos), mas com cap razoável
-    bonus_exploracao = min(int(body.get('bonus_exploracao_xp', 0)), 100)
+    try:
+        bonus_raw = int(body.get('bonus_exploracao_xp', 0))
+    except (ValueError, TypeError):
+        bonus_raw = 0
+    bonus_exploracao = max(0, min(bonus_raw, 100))
 
     user_lesson, _ = UserLesson.objects.get_or_create(usuario=user, licao=licao)
 
@@ -334,7 +397,6 @@ def concluir_licao(request, licao_id: int):
     if user_lesson.status == 'concluida':
         with transaction.atomic():
             prox_licao = ProgressService.unlock_next_lesson(user, licao)
-            tempo_gasto = int(body.get('tempo_segundos', 60))
             StreakService.register_study_activity(
                 user=user,
                 xp_ganho=0,
@@ -412,7 +474,6 @@ def concluir_licao(request, licao_id: int):
         user.save(update_fields=['conchas', 'updated_at'])
 
         # Registra no log de atividade diária e atualiza streak e XP de forma atômica
-        tempo_gasto = int(body.get('tempo_segundos', 60))
         StreakService.register_study_activity(
             user=user,
             xp_ganho=earned_xp,
@@ -444,7 +505,7 @@ def concluir_licao(request, licao_id: int):
     if not dispatched_celery:
         try:
             variante = licao.capitulo.trilha.variante
-            novo_nivel = _recalibrar_nivel(user, variante)
+            novo_nivel = _recalibrar_nivel(user, variante, licao=licao, accuracy=accuracy)
             from users.services.achievement_service import (
                 check_and_grant_xp_achievements,
                 check_and_grant_lesson_achievements,

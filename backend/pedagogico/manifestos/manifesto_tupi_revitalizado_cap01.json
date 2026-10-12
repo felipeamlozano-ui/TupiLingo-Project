@@ -1,0 +1,80 @@
+{
+  "variante": "tupi_revitalizado",
+  "capitulo": 1,
+  "timestamp": "2026-10-11T20:49:49.837866+00:00",
+  "total_itens": 6,
+  "itens_ensinados": [
+    {
+      "palavra": "Puranga",
+      "traducao": "Bom / Belo",
+      "variante": "tupi_revitalizado",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_42",
+      "exemplo_uso": "Katu koema!",
+      "transliteracao": "pu-RAN-ga",
+      "status": "completo"
+    },
+    {
+      "palavra": "Katu koema",
+      "traducao": "Bom dia",
+      "variante": "tupi_revitalizado",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_42",
+      "exemplo_uso": "Katu koema, xe irũ!",
+      "transliteracao": "pu-RAN-ga ko-E-ma",
+      "status": "completo"
+    },
+    {
+      "palavra": "Katu pykói",
+      "traducao": "Boa noite",
+      "variante": "tupi_revitalizado",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_43",
+      "exemplo_uso": "Katu pykói panhe!",
+      "transliteracao": "pu-RAN-ga pi-TU-na",
+      "status": "completo"
+    },
+    {
+      "palavra": "Aweté",
+      "traducao": "Obrigado / Valeu",
+      "variante": "tupi_revitalizado",
+      "categoria": "saudacoes",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_50",
+      "exemplo_uso": "Aweté puranga!",
+      "transliteracao": "a-we-TE",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kunumĩ",
+      "traducao": "Menino / Garoto",
+      "variante": "tupi_revitalizado",
+      "categoria": "pessoas",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55",
+      "exemplo_uso": "Kunumĩ puranga.",
+      "transliteracao": "ku-nu-MI",
+      "status": "completo"
+    },
+    {
+      "palavra": "Kuñataĩ",
+      "traducao": "Menina / Jovem",
+      "variante": "tupi_revitalizado",
+      "categoria": "pessoas",
+      "capitulo_introduzido": 1,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55",
+      "exemplo_uso": "Kuñataĩ puranga.",
+      "transliteracao": "ku-nya-ta-I",
+      "status": "completo"
+    }
+  ]
+}

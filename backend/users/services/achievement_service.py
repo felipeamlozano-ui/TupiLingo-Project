@@ -273,7 +273,7 @@ for cap_i in range(1, 21):
 def ensure_default_achievements():
     """Garante que todas as conquistas existam no banco — cacheado por 1h."""
     cache_key = 'tupilingo_achievements_seeded_v2'
-    if cache.get(cache_key):
+    if cache.get(cache_key) and Achievement.objects.exists():
         return
     for item in DEFAULT_ACHIEVEMENTS:
         Achievement.objects.get_or_create(

@@ -14,8 +14,40 @@ class SessionExpiredException implements Exception {
 }
 
 /// Cliente HTTP padronizado do TupiLingo com injeção automática de Bearer token,
-/// renovação automática de sessão JWT (FLUTTER-001) e timeout resiliente.
+/// renovação automática de sessão JWT (FLUTTER-001), pool de conexões persistentes (Keep-Alive)
+/// e proteção com disjuntor (Circuit Breaker) para resiliência de rede.
 class ApiClient {
+  /// Instância reutilizável singleton de http.Client que mantém conexões TCP/TLS ativas (Keep-Alive)
+  static final http.Client _client = http.Client();
+
+  // Circuit Breaker State
+  static int _consecutiveFailures = 0;
+  static DateTime? _circuitOpenUntil;
+  static const int _maxFailuresBeforeTrip = 4;
+  static const Duration _circuitCooldown = Duration(seconds: 8);
+
+  static bool get isCircuitOpen {
+    if (_circuitOpenUntil == null) return false;
+    if (DateTime.now().isAfter(_circuitOpenUntil!)) {
+      _circuitOpenUntil = null;
+      _consecutiveFailures = 0;
+      return false;
+    }
+    return true;
+  }
+
+  static void _recordSuccess() {
+    _consecutiveFailures = 0;
+    _circuitOpenUntil = null;
+  }
+
+  static void _recordFailure() {
+    _consecutiveFailures++;
+    if (_consecutiveFailures >= _maxFailuresBeforeTrip) {
+      _circuitOpenUntil = DateTime.now().add(_circuitCooldown);
+    }
+  }
+
   static Future<http.Response> get(String url, {Map<String, String>? extraHeaders}) =>
       PlatformWebBridge.instance.executeRequest(
         key: 'GET_$url',
@@ -48,30 +80,45 @@ class ApiClient {
   static Future<http.Response> _withRetry(
     Future<http.Response> Function() request,
   ) async {
-    final response = await request().timeout(const Duration(seconds: 20));
-    if (response.statusCode != 401) {
-      return response;
+    if (isCircuitOpen) {
+      throw http.ClientException('Circuit breaker aberto devido a sucessivas falhas de rede.');
     }
 
-    // Se receber 401, tenta renovar proativamente a sessão JWT via Supabase
     try {
-      final authResponse = await Supabase.instance.client.auth.refreshSession();
-      if (authResponse.session == null) {
+      final response = await request().timeout(const Duration(seconds: 15));
+      _recordSuccess();
+
+      if (response.statusCode != 401) {
+        return response;
+      }
+
+      // Se receber 401, tenta renovar proativamente a sessão JWT via Supabase
+      try {
+        final authResponse = await Supabase.instance.client.auth.refreshSession();
+        if (authResponse.session == null) {
+          throw const SessionExpiredException();
+        }
+        // Reexecuta o request original com o novo token Bearer
+        final retryRes = await request().timeout(const Duration(seconds: 15));
+        _recordSuccess();
+        return retryRes;
+      } catch (_) {
+        try {
+          await Supabase.instance.client.auth.signOut();
+        } catch (_) {}
         throw const SessionExpiredException();
       }
-      // Reexecuta o request original com o novo token Bearer
-      return await request().timeout(const Duration(seconds: 20));
-    } catch (_) {
-      try {
-        await Supabase.instance.client.auth.signOut();
-      } catch (_) {}
-      throw const SessionExpiredException();
+    } catch (e) {
+      if (e is! SessionExpiredException) {
+        _recordFailure();
+      }
+      rethrow;
     }
   }
 
   static Future<http.Response> _buildGet(String url, {Map<String, String>? extraHeaders}) async {
     final headers = await _headers(extraHeaders);
-    return http.get(Uri.parse(url), headers: headers);
+    return _client.get(Uri.parse(url), headers: headers);
   }
 
   static Future<http.Response> _buildPost(
@@ -80,7 +127,7 @@ class ApiClient {
     Map<String, String>? extraHeaders,
   }) async {
     final headers = await _headers(extraHeaders);
-    return http.post(
+    return _client.post(
       Uri.parse(url),
       headers: headers,
       body: body is String ? body : (body != null ? jsonEncode(body) : null),
@@ -93,7 +140,7 @@ class ApiClient {
     Map<String, String>? extraHeaders,
   }) async {
     final headers = await _headers(extraHeaders);
-    return http.put(
+    return _client.put(
       Uri.parse(url),
       headers: headers,
       body: body is String ? body : (body != null ? jsonEncode(body) : null),
@@ -102,18 +149,36 @@ class ApiClient {
 
   static Future<http.Response> _buildDelete(String url, {Map<String, String>? extraHeaders}) async {
     final headers = await _headers(extraHeaders);
-    return http.delete(Uri.parse(url), headers: headers);
+    return _client.delete(Uri.parse(url), headers: headers);
   }
 
   static Future<Map<String, String>> _headers([Map<String, String>? extraHeaders]) async {
-    final session = Supabase.instance.client.auth.currentSession;
+    var session = Supabase.instance.client.auth.currentSession;
     if (session == null) {
       throw const SessionExpiredException('Usuário não autenticado.');
     }
 
+    String token = session.accessToken;
+    final expiresAt = session.expiresAt;
+    final isExpiringSoon = expiresAt != null &&
+        (DateTime.fromMillisecondsSinceEpoch(expiresAt * 1000)
+            .difference(DateTime.now())
+            .inSeconds < 120);
+
+    if (session.isExpired || isExpiringSoon) {
+      try {
+        final refreshed = await Supabase.instance.client.auth.refreshSession();
+        if (refreshed.session != null) {
+          token = refreshed.session!.accessToken;
+        }
+      } catch (_) {
+        // Se a renovação falhar, continua para deixar _withRetry tratar ou lançar SessionExpiredException
+      }
+    }
+
     final headers = <String, String>{
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': 'Bearer ${session.accessToken}',
+      'Authorization': 'Bearer $token',
     };
 
     if (extraHeaders != null) {

@@ -1,12 +1,12 @@
 {
   "variante": "tupi_antigo",
   "capitulo": 19,
-  "timestamp": "2026-09-25T23:02:55.996337+00:00",
+  "timestamp": "2026-10-11T20:49:49.835037+00:00",
   "total_itens": 2,
   "itens_ensinados": [
     {
       "palavra": "Iperoig",
-      "traducao": "Ubatuba colonial / Sede dos Tamoios",
+      "traducao": "Ubatuba colonial / Sede dos Tamuyas",
       "variante": "tupi_antigo",
       "categoria": "historia",
       "capitulo_introduzido": 19,
@@ -18,7 +18,7 @@
     },
     {
       "palavra": "Cunhambebe",
-      "traducao": "Grande líder guerreiro dos Tamoios",
+      "traducao": "Grande líder guerreiro dos Tamuyas",
       "variante": "tupi_antigo",
       "categoria": "historia",
       "capitulo_introduzido": 19,

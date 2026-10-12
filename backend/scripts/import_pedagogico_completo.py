@@ -20,6 +20,10 @@ if sys.stdout.encoding != 'utf-8':
     except Exception:
         pass
 
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
 os.environ['DB_ENGINE'] = 'django.db.backends.postgresql'
 
@@ -37,15 +41,13 @@ from world_builder.models import WorldMap, WorldVersion, Territory, Village
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger("ImportadorPedagogico")
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 CONTEUDO_DIR = BASE_DIR / "pedagogico" / "conteudo"
 MAPA_FILE = BASE_DIR / "pedagogico" / "mapa" / "mapa_pindorama.json"
 
 VARIANT_MAP = {
     'tupi_antigo': 'tupi',
-    'tupi_contemporaneo': 'tupi_contemporaneo',
-    'tupinamba': 'tupinamba',
-    'kamaiura': 'kamaiura',
+    'tupi_revitalizado': 'tupi_revitalizado',
 }
 
 
@@ -533,7 +535,7 @@ def main():
         total_vocab = VocabularyItem.objects.count()
         total_ex = Exercicio.objects.count()
         logger.info("=== ESTADO FINAL NO SUPABASE ===")
-        logger.info("  - %d Capítulos totais (esperado: 80)", total_caps)
+        logger.info("  - %d Capítulos totais (esperado: 40)", total_caps)
         logger.info("  - %d Lições totais", total_licoes)
         logger.info("  - %d Itens de Vocabulário", total_vocab)
         logger.info("  - %d Exercícios Unificados", total_ex)

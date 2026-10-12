@@ -24,7 +24,7 @@
         "itens_apresentados": [
           {
             "palavra": "Iperoig",
-            "traducao": "Ubatuba colonial / Sede dos Tamoios",
+            "traducao": "Ubatuba colonial / Sede dos Tamuyas",
             "transliteracao": "i-pe-ro-IG",
             "classe_gramatical": "proprio",
             "categoria": "historia",
@@ -51,7 +51,7 @@
             },
             {
               "letra": "C",
-              "texto": "Ubatuba colonial / Sede dos Tamoios"
+              "texto": "Ubatuba colonial / Sede dos Tamuyas"
             },
             {
               "letra": "D",
@@ -60,7 +60,7 @@
           ],
           "resposta_correta": "C",
           "resposta_correta_termo": "Iperoig",
-          "explicacao": "'Iperoig' significa 'Ubatuba colonial / Sede dos Tamoios' conforme atestado no RAG.",
+          "explicacao": "'Iperoig' significa 'Ubatuba colonial / Sede dos Tamuyas' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
@@ -72,13 +72,13 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Iperoig": "Ubatuba colonial / Sede dos Tamoios"
+            "Iperoig": "Ubatuba colonial / Sede dos Tamuyas"
           },
           "coluna_esquerda": [
             "Iperoig"
           ],
           "coluna_direita": [
-            "Ubatuba colonial / Sede dos Tamoios"
+            "Ubatuba colonial / Sede dos Tamuyas"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -105,7 +105,7 @@
         "itens_apresentados": [
           {
             "palavra": "Cunhambebe",
-            "traducao": "Grande líder guerreiro dos Tamoios",
+            "traducao": "Grande líder guerreiro dos Tamuyas",
             "transliteracao": "ku-nham-BE-be",
             "classe_gramatical": "proprio",
             "categoria": "historia",
@@ -125,7 +125,7 @@
           "respostas_lacunas": [
             "Cunhambebe"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Cunhambebe' (Grande líder guerreiro dos Tamoios).",
+          "explicacao": "A palavra que completa a sentença é 'Cunhambebe' (Grande líder guerreiro dos Tamuyas).",
           "dificuldade": "media",
           "pontos_base": 15,
           "itens_alvo": [
@@ -143,7 +143,7 @@
             },
             {
               "letra": "B",
-              "texto": "Grande líder guerreiro dos Tamoios"
+              "texto": "Grande líder guerreiro dos Tamuyas"
             },
             {
               "letra": "C",
@@ -156,7 +156,7 @@
           ],
           "resposta_correta": "B",
           "resposta_correta_termo": "Cunhambebe",
-          "explicacao": "'Cunhambebe' traduz-se fielmente como 'Grande líder guerreiro dos Tamoios'.",
+          "explicacao": "'Cunhambebe' traduz-se fielmente como 'Grande líder guerreiro dos Tamuyas'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
@@ -173,6 +173,117 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: A Resistência Armada e a Defesa da Terra",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Resistência Armada e a Defesa da Terra.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "A Resistência Armada e a Defesa da Terra",
+      "ai_vocabulary_anchors": [
+        "Iperoig",
+        "Cunhambebe"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Resistência Armada e a Defesa da Terra'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Iperoig",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "iperoig",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Iperoig katu!",
+            "exemplo_pt": "Uso contextual de Iperoig."
+          },
+          {
+            "palavra": "Cunhambebe",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "cunhambebe",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Cunhambebe!",
+            "exemplo_pt": "Uso contextual de Cunhambebe."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'A Resistência Armada e a Defesa da Terra', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Iperoig",
+            "Mocunhambebe",
+            "Teaué",
+            "Kutuba"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Iperoig' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 2.237,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de A Resistência Armada e a Defesa da Terra: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Cunhambebe",
+          "opcoes_banco": [
+            "Cunhambebe",
+            "Aué",
+            "Tuba",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Cunhambebe'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": 2.337,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Resistência Armada e a Defesa da Terra':",
+          "opcoes": [
+            "Uso harmônico de 'Aué'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Aué' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": 2.487,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de A Resistência Armada e a Defesa da Terra, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 2.237,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -181,12 +292,12 @@
         "itens_apresentados": [
           {
             "palavra": "Iperoig",
-            "traducao": "Ubatuba colonial / Sede dos Tamoios",
+            "traducao": "Ubatuba colonial / Sede dos Tamuyas",
             "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386"
           },
           {
             "palavra": "Cunhambebe",
-            "traducao": "Grande líder guerreiro dos Tamoios",
+            "traducao": "Grande líder guerreiro dos Tamuyas",
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_110"
           }
         ],
@@ -198,16 +309,16 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 19:",
           "pares_corretos": {
-            "Iperoig": "Ubatuba colonial / Sede dos Tamoios",
-            "Cunhambebe": "Grande líder guerreiro dos Tamoios"
+            "Iperoig": "Ubatuba colonial / Sede dos Tamuyas",
+            "Cunhambebe": "Grande líder guerreiro dos Tamuyas"
           },
           "coluna_esquerda": [
             "Iperoig",
             "Cunhambebe"
           ],
           "coluna_direita": [
-            "Ubatuba colonial / Sede dos Tamoios",
-            "Grande líder guerreiro dos Tamoios"
+            "Ubatuba colonial / Sede dos Tamuyas",
+            "Grande líder guerreiro dos Tamuyas"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -222,8 +333,8 @@
           "tipo": "traducao",
           "enunciado": "Traduza a palavra 'Iperoig' para o Português:",
           "termo_fonte": "Iperoig",
-          "traducao_esperada": "Ubatuba colonial / Sede dos Tamoios",
-          "explicacao": "'Iperoig' significa 'Ubatuba colonial / Sede dos Tamoios'.",
+          "traducao_esperada": "Ubatuba colonial / Sede dos Tamuyas",
+          "explicacao": "'Iperoig' significa 'Ubatuba colonial / Sede dos Tamuyas'.",
           "dificuldade": "media",
           "pontos_base": 15,
           "itens_alvo": [
@@ -240,6 +351,6 @@
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 6
 }

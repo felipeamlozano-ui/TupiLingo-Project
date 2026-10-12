@@ -1,0 +1,424 @@
+{
+  "capitulo_numero": 13,
+  "variante": "tupi_revitalizado",
+  "titulo": "Capítulo 13: A Música, os Cantos e o Maracá",
+  "descricao": "Domínio temático: Musica Ritos. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A2.2",
+  "dificuldade_relativa_0_100": 65,
+  "scenario": {
+    "nome": "A Casa das Flautas e dos Cantos",
+    "palette": {
+      "primary": "#4A235A",
+      "secondary": "#6C3483",
+      "accent": "#AF7AC5"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Maraká",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Maraká",
+            "traducao": "Chocalho sagrado",
+            "transliteracao": "ma-ra-KA",
+            "classe_gramatical": "substantivo",
+            "categoria": "musica",
+            "exemplo_uso": "Maraká o-puã.",
+            "exemplo_pt": "O maracá soa.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_180"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Maraká' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Maraká'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Chocalho sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Maraká",
+          "explicacao": "'Maraká' significa 'Chocalho sagrado' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Maraká"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Maraká": "Chocalho sagrado"
+          },
+          "coluna_esquerda": [
+            "Maraká"
+          ],
+          "coluna_direita": [
+            "Chocalho sagrado"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Maraká"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Maraká"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Poracé",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Poracé",
+            "traducao": "Dança tradicional",
+            "transliteracao": "po-ra-SE",
+            "classe_gramatical": "substantivo",
+            "categoria": "musica",
+            "exemplo_uso": "Poracé taba pupé.",
+            "exemplo_pt": "Dança na aldeia.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_182"
+          },
+          {
+            "palavra": "Toryba",
+            "traducao": "Alegria / Celebração",
+            "transliteracao": "to-ry-BA",
+            "classe_gramatical": "substantivo",
+            "categoria": "musica",
+            "exemplo_uso": "Toryba guasu!",
+            "exemplo_pt": "Grande celebração!",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_183"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ taba pupé.'",
+          "texto_com_lacunas": "______ taba pupé.",
+          "respostas_lacunas": [
+            "Poracé"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Poracé' (Dança tradicional).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Poracé"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Poracé'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "B",
+              "texto": "Dança tradicional"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Poracé",
+          "explicacao": "'Poracé' traduz-se fielmente como 'Dança tradicional'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Poracé"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ guasu!'",
+          "texto_com_lacunas": "______ guasu!",
+          "respostas_lacunas": [
+            "Toryba"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Toryba' (Alegria / Celebração).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Toryba"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Toryba'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Alegria / Celebração"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Toryba",
+          "explicacao": "'Toryba' traduz-se fielmente como 'Alegria / Celebração'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Toryba"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Poracé",
+          "Toryba"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Prática Adaptativa: A Música, os Cantos e o Maracá",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Música, os Cantos e o Maracá.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "A Música, os Cantos e o Maracá",
+      "ai_vocabulary_anchors": [
+        "Maraká",
+        "Poracé",
+        "Toryba"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Música, os Cantos e o Maracá'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Maraká",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "maraká",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Maraká katu!",
+            "exemplo_pt": "Uso contextual de Maraká."
+          },
+          {
+            "palavra": "Poracé",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "poracé",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Poracé!",
+            "exemplo_pt": "Uso contextual de Poracé."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'A Música, os Cantos e o Maracá', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Maraká",
+            "Moporacé",
+            "Tetoryba",
+            "Kutuba"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Maraká' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 0.658,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de A Música, os Cantos e o Maracá: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Poracé",
+          "opcoes_banco": [
+            "Poracé",
+            "Toryba",
+            "Tuba",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Poracé'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": 0.758,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Música, os Cantos e o Maracá':",
+          "opcoes": [
+            "Uso harmônico de 'Toryba'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Toryba' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": 0.908,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de A Música, os Cantos e o Maracá, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 0.658,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Maraká",
+            "traducao": "Chocalho sagrado",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_180"
+          },
+          {
+            "palavra": "Poracé",
+            "traducao": "Dança tradicional",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_182"
+          },
+          {
+            "palavra": "Toryba",
+            "traducao": "Alegria / Celebração",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_183"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 13:",
+          "pares_corretos": {
+            "Maraká": "Chocalho sagrado",
+            "Poracé": "Dança tradicional",
+            "Toryba": "Alegria / Celebração"
+          },
+          "coluna_esquerda": [
+            "Maraká",
+            "Poracé",
+            "Toryba"
+          ],
+          "coluna_direita": [
+            "Chocalho sagrado",
+            "Dança tradicional",
+            "Alegria / Celebração"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Maraká",
+            "Poracé",
+            "Toryba"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Maraká' para o Português:",
+          "termo_fonte": "Maraká",
+          "traducao_esperada": "Chocalho sagrado",
+          "explicacao": "'Maraká' significa 'Chocalho sagrado'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Maraká"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Maraká",
+          "Poracé",
+          "Toryba"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 13 de Tupi Contemporaneo."
+      }
+    }
+  ],
+  "total_licoes": 4,
+  "total_exercicios": 8
+}

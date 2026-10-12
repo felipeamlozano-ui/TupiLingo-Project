@@ -1,0 +1,424 @@
+{
+  "capitulo_numero": 16,
+  "variante": "tupi_revitalizado",
+  "titulo": "Capítulo 16: A Trilha do Peabiru e os Caminhos",
+  "descricao": "Domínio temático: Caminhos Viagens. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "B1.1",
+  "dificuldade_relativa_0_100": 80,
+  "scenario": {
+    "nome": "A Trilha Milenar do Peabiru",
+    "palette": {
+      "primary": "#4A235A",
+      "secondary": "#7D6608",
+      "accent": "#F5B041"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Pé",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Pé",
+            "traducao": "Caminho / Trilha",
+            "transliteracao": "PE",
+            "classe_gramatical": "substantivo",
+            "categoria": "geografia",
+            "exemplo_uso": "Pé katu.",
+            "exemplo_pt": "Caminho seguro.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_205"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Pé' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Pé'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Caminho / Trilha"
+            },
+            {
+              "letra": "B",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Pé",
+          "explicacao": "'Pé' significa 'Caminho / Trilha' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Pé"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Pé": "Caminho / Trilha"
+          },
+          "coluna_esquerda": [
+            "Pé"
+          ],
+          "coluna_direita": [
+            "Caminho / Trilha"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pé"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pé"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Guata",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Guata",
+            "traducao": "Caminhar / Viajar",
+            "transliteracao": "gwa-TA",
+            "classe_gramatical": "verbo",
+            "categoria": "verbos",
+            "exemplo_uso": "A-guata pé rupi.",
+            "exemplo_pt": "Caminho pela trilha.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_206"
+          },
+          {
+            "palavra": "Peabiru",
+            "traducao": "Caminho ancestral sagrado",
+            "transliteracao": "pe-a-bi-RU",
+            "classe_gramatical": "substantivo",
+            "categoria": "historia",
+            "exemplo_uso": "Peabiru guasu.",
+            "exemplo_pt": "A grande trilha milenar.",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: 'A-guata pé rupi.'",
+          "texto_com_lacunas": "A-guata pé rupi.",
+          "respostas_lacunas": [
+            "Guata"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Guata' (Caminhar / Viajar).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Guata"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Guata'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Caminhar / Viajar"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Guata",
+          "explicacao": "'Guata' traduz-se fielmente como 'Caminhar / Viajar'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Guata"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ guasu.'",
+          "texto_com_lacunas": "______ guasu.",
+          "respostas_lacunas": [
+            "Peabiru"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Peabiru' (Caminho ancestral sagrado).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Peabiru"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Peabiru'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Caminho ancestral sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Peabiru",
+          "explicacao": "'Peabiru' traduz-se fielmente como 'Caminho ancestral sagrado'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Peabiru"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Guata",
+          "Peabiru"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Prática Adaptativa: A Trilha do Peabiru e os Caminhos",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Trilha do Peabiru e os Caminhos.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "A Trilha do Peabiru e os Caminhos",
+      "ai_vocabulary_anchors": [
+        "Pé",
+        "Guata",
+        "Peabiru"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Trilha do Peabiru e os Caminhos'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Pé",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "pé",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Pé katu!",
+            "exemplo_pt": "Uso contextual de Pé."
+          },
+          {
+            "palavra": "Guata",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "guata",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Guata!",
+            "exemplo_pt": "Uso contextual de Guata."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'A Trilha do Peabiru e os Caminhos', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Pé",
+            "Moguata",
+            "Tepeabiru",
+            "Kutuba"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Pé' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 1.447,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de A Trilha do Peabiru e os Caminhos: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Guata",
+          "opcoes_banco": [
+            "Guata",
+            "Peabiru",
+            "Tuba",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Guata'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": 1.547,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Trilha do Peabiru e os Caminhos':",
+          "opcoes": [
+            "Uso harmônico de 'Peabiru'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Peabiru' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": 1.697,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de A Trilha do Peabiru e os Caminhos, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 1.447,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Pé",
+            "traducao": "Caminho / Trilha",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_205"
+          },
+          {
+            "palavra": "Guata",
+            "traducao": "Caminhar / Viajar",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_206"
+          },
+          {
+            "palavra": "Peabiru",
+            "traducao": "Caminho ancestral sagrado",
+            "rag_id": "6059a27432d6fb84ebb446d48015b8f0cb1ea1bc79c39c7b6e6cc6122613fdfa_chunk_4386"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 16:",
+          "pares_corretos": {
+            "Pé": "Caminho / Trilha",
+            "Guata": "Caminhar / Viajar",
+            "Peabiru": "Caminho ancestral sagrado"
+          },
+          "coluna_esquerda": [
+            "Pé",
+            "Guata",
+            "Peabiru"
+          ],
+          "coluna_direita": [
+            "Caminho / Trilha",
+            "Caminhar / Viajar",
+            "Caminho ancestral sagrado"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Pé",
+            "Guata",
+            "Peabiru"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Pé' para o Português:",
+          "termo_fonte": "Pé",
+          "traducao_esperada": "Caminho / Trilha",
+          "explicacao": "'Pé' significa 'Caminho / Trilha'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Pé"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Pé",
+          "Guata",
+          "Peabiru"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 16 de Tupi Contemporaneo."
+      }
+    }
+  ],
+  "total_licoes": 4,
+  "total_exercicios": 8
+}

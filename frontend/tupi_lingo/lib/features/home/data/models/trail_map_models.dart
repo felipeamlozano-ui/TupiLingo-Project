@@ -12,6 +12,8 @@ class LicaoMapData {
   final double posY;
   final LicaoStatus status;
   final int earnedXp;
+  final bool isDynamicAi;
+  final String aiPromptTheme;
 
   const LicaoMapData({
     required this.id,
@@ -23,6 +25,8 @@ class LicaoMapData {
     required this.posY,
     required this.status,
     this.earnedXp = 0,
+    this.isDynamicAi = false,
+    this.aiPromptTheme = '',
   });
 
   LicaoMapData copyWith({
@@ -35,6 +39,8 @@ class LicaoMapData {
     double? posY,
     LicaoStatus? status,
     int? earnedXp,
+    bool? isDynamicAi,
+    String? aiPromptTheme,
   }) {
     return LicaoMapData(
       id: id ?? this.id,
@@ -46,6 +52,8 @@ class LicaoMapData {
       posY: posY ?? this.posY,
       status: status ?? this.status,
       earnedXp: earnedXp ?? this.earnedXp,
+      isDynamicAi: isDynamicAi ?? this.isDynamicAi,
+      aiPromptTheme: aiPromptTheme ?? this.aiPromptTheme,
     );
   }
 }

@@ -94,7 +94,7 @@ else:
             'PASSWORD': config('DB_PASSWORD', default=''),
             'HOST': config('DB_HOST', default='localhost'),
             'PORT': config('DB_PORT', default='6543'),
-            'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=0, cast=int),
+            'CONN_MAX_AGE': config('DB_CONN_MAX_AGE', default=60, cast=int),
             'CONN_HEALTH_CHECKS': True,
             'OPTIONS': {
                 'sslmode': config('DB_SSLMODE', default='require'),
@@ -108,13 +108,25 @@ else:
         }
     }
 
-# Cache configuration (PERF-004)
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'tupilingo-local-cache',
+# Cache configuration (PERF-004) — Redis Cache unificado entre workers Gunicorn
+REDIS_CACHE_URL = config('REDIS_URL', default=None)
+if REDIS_CACHE_URL:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': REDIS_CACHE_URL,
+            'TIMEOUT': 1800,
+            'KEY_PREFIX': 'tupilingo',
+        }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'tupilingo-local-cache',
+            'TIMEOUT': 1800,
+        }
+    }
 
 # Celery Configuration (SCALE-001)
 CELERY_BROKER_URL = config('REDIS_URL', default='redis://127.0.0.1:6379/0')

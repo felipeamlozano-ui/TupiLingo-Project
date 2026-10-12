@@ -436,6 +436,121 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: A Casa Comunal e a Família",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Casa Comunal e a Família.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "A Casa Comunal e a Família",
+      "ai_vocabulary_anchors": [
+        "Oka",
+        "Taba",
+        "Abá",
+        "Kunhã",
+        "Tuba",
+        "Sy"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Casa Comunal e a Família'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Oka",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "oka",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Oka katu!",
+            "exemplo_pt": "Uso contextual de Oka."
+          },
+          {
+            "palavra": "Taba",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "taba",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Taba!",
+            "exemplo_pt": "Uso contextual de Taba."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'A Casa Comunal e a Família', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Oka",
+            "Motaba",
+            "Teabá",
+            "Kukunhã"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Oka' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -2.237,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de A Casa Comunal e a Família: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Taba",
+          "opcoes_banco": [
+            "Taba",
+            "Abá",
+            "Kunhã",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Taba'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -2.137,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Casa Comunal e a Família':",
+          "opcoes": [
+            "Uso harmônico de 'Abá'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Abá' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": -1.987,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de A Casa Comunal e a Família, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -2.237,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -541,6 +656,6 @@
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 14
 }

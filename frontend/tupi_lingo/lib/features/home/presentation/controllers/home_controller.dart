@@ -185,6 +185,8 @@ class HomeController extends ChangeNotifier {
           posY: (l['pos_y'] as num?)?.toDouble() ?? 50.0,
           status: status,
           earnedXp: (l['earned_xp'] as num?)?.toInt() ?? 0,
+          isDynamicAi: l['is_dynamic_ai'] == true,
+          aiPromptTheme: l['ai_prompt_theme']?.toString() ?? '',
         ));
       }
 

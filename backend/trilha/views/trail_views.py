@@ -75,17 +75,9 @@ def listar_capitulos_mapa(request, variante_id: int):
         else:
             return JsonResponse({'error': 'Trilha não está publicada.'}, status=404)
 
-    # Garante que capítulos narrativos e lições existentes da trilha fiquem visíveis no mapa
-    capitulos_base_qs = trilha.capitulos.filter(numero__lt=900)
-    if capitulos_base_qs.exists():
-        capitulos_base_qs.filter(publicado=False).update(publicado=True)
-
-    # A lição só deve estar marcada como publicada caso realmente exista na trilha
-    Licao.objects.filter(capitulo__trilha=trilha, publicada=False).update(publicada=True)
-
-    # PERF: ProgressService resolve a árvore em O(1) queries com prefetch e estado canônico
+    # PERF: ProgressService resolve a árvore em O(1) queries com prefetch, estado canônico e Redis cache
     from users.services.progress_service import ProgressService
-    trail_data = ProgressService.get_trail_structure_with_progression(user, variante)
+    trail_data = ProgressService.get_trail_structure_with_progression(user, variante, use_cache=True)
     if not trail_data.get('success', False):
         return JsonResponse(trail_data, status=trail_data.get('status', 400))
 

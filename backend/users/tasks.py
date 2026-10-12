@@ -19,7 +19,7 @@ def processar_pos_licao(self, user_id: int, licao_id: int, accuracy: float):
         user = UserProfile.objects.get(pk=user_id)
         licao = Licao.objects.select_related('capitulo__trilha__variante').get(pk=licao_id)
 
-        _recalibrar_nivel(user, licao.capitulo.trilha.variante)
+        _recalibrar_nivel(user, licao.capitulo.trilha.variante, licao=licao, accuracy=accuracy)
         check_and_grant_xp_achievements(user)
         check_and_grant_lesson_achievements(user, licao, accuracy)
         logger.info(f"Pós-lição processada com sucesso para usuário {user_id} e lição {licao_id}")

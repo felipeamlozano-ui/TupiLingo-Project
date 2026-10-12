@@ -120,6 +120,20 @@ class UserVarianteLevel(models.Model):
         default=1,
         verbose_name="Nível (1-10)"
     )
+    current_theta = models.FloatField(
+        default=0.0,
+        verbose_name="Theta Habilidade TRI",
+        help_text="Habilidade psicométrica contínua do usuário [-3.0 a +3.0]."
+    )
+    current_se = models.FloatField(
+        default=1.0,
+        verbose_name="Erro Padrão SE",
+        help_text="Erro padrão da estimativa de habilidade."
+    )
+    calibracoes_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Total de Calibrações"
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -128,4 +142,46 @@ class UserVarianteLevel(models.Model):
         unique_together = ('user', 'variante')
 
     def __str__(self):
-        return f"{self.user.name} | {self.variante.nome}: Nível {self.nivel}"
+        return f"{self.user.name} | {self.variante.nome}: Nível {self.nivel} (θ={self.current_theta:.2f}, SE={self.current_se:.2f})"
+
+
+class BirdbrainCalibrationLog(models.Model):
+    """
+    Registro histórico e auditável de cada calibração psicométrica (BirdBrain TRI EAP)
+    executada após conclusão de lições ou testes.
+    """
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name="birdbrain_calibration_logs"
+    )
+    variante = models.ForeignKey(
+        'trilha.VarianteTupi',
+        on_delete=models.CASCADE,
+        related_name="birdbrain_calibration_logs"
+    )
+    licao = models.ForeignKey(
+        'trilha.Licao',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="birdbrain_logs"
+    )
+    old_theta = models.FloatField()
+    new_theta = models.FloatField()
+    old_se = models.FloatField()
+    new_se = models.FloatField()
+    delta = models.FloatField()
+    accuracy_pct = models.FloatField(default=0.0)
+    items_count = models.PositiveIntegerField(default=0)
+    old_nivel = models.IntegerField(default=1)
+    new_nivel = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Log de Calibração BirdBrain"
+        verbose_name_plural = "Logs de Calibração BirdBrain"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"[{self.created_at:%d/%m/%Y %H:%M}] {self.user.name} - Delta: {self.delta:+.3f} (Nível {self.old_nivel} -> {self.new_nivel})"

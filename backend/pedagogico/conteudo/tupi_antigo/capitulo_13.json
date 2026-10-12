@@ -173,6 +173,117 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: A Música, os Cantos e o Maracá",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Música, os Cantos e o Maracá.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "A Música, os Cantos e o Maracá",
+      "ai_vocabulary_anchors": [
+        "Maraká",
+        "Toré"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Música, os Cantos e o Maracá'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Maraká",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "maraká",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Maraká katu!",
+            "exemplo_pt": "Uso contextual de Maraká."
+          },
+          {
+            "palavra": "Toré",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "toré",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Toré!",
+            "exemplo_pt": "Uso contextual de Toré."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'A Música, os Cantos e o Maracá', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Maraká",
+            "Motoré",
+            "Teaué",
+            "Kutuba"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Maraká' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 0.658,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de A Música, os Cantos e o Maracá: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Toré",
+          "opcoes_banco": [
+            "Toré",
+            "Aué",
+            "Tuba",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Toré'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": 0.758,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Música, os Cantos e o Maracá':",
+          "opcoes": [
+            "Uso harmônico de 'Aué'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Aué' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": 0.908,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de A Música, os Cantos e o Maracá, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 0.658,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -240,6 +351,6 @@
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 6
 }

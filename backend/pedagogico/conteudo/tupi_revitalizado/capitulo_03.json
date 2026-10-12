@@ -1,0 +1,481 @@
+{
+  "capitulo_numero": 3,
+  "variante": "tupi_revitalizado",
+  "titulo": "Capítulo 3: Animais da Mata e da Terra",
+  "descricao": "Domínio temático: Fauna Terrestre. Conteúdo estritamente rastreável ao RAG.",
+  "nivel_cambridge_equivalente": "A1.1",
+  "dificuldade_relativa_0_100": 15,
+  "scenario": {
+    "nome": "Trilha da Mata Fechada (Fauna Terrestre)",
+    "palette": {
+      "primary": "#1E8449",
+      "secondary": "#935116",
+      "accent": "#52BE80"
+    }
+  },
+  "licoes": [
+    {
+      "numero": 1,
+      "titulo": "Primeiros Encontros: Yawaraté",
+      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "xp_base": 25,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Yawaraté",
+            "traducao": "Onça pintada",
+            "transliteracao": "ya-wa-ra-TE",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Yawaraté ka'a pupé.",
+            "exemplo_pt": "A onça está na mata.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_115"
+          },
+          {
+            "palavra": "Tatu",
+            "traducao": "Tatu",
+            "transliteracao": "ta-TU",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Tatu yby rupi.",
+            "exemplo_pt": "O tatu pela terra.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_115"
+          }
+        ],
+        "dica_cultural": "Na cultura desta variante, 'Yawaraté' possui grande relevância cotidiana."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Yawaraté'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça pintada"
+            },
+            {
+              "letra": "C",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "B",
+          "resposta_correta_termo": "Yawaraté",
+          "explicacao": "'Yawaraté' significa 'Onça pintada' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Yawaraté"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é o significado correto da palavra 'Tatu'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Fogo sagrado"
+            },
+            {
+              "letra": "B",
+              "texto": "Onça veloz"
+            },
+            {
+              "letra": "C",
+              "texto": "Tatu"
+            },
+            {
+              "letra": "D",
+              "texto": "Água pura"
+            }
+          ],
+          "resposta_correta": "C",
+          "resposta_correta_termo": "Tatu",
+          "explicacao": "'Tatu' significa 'Tatu' conforme atestado no RAG.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Tatu"
+          ]
+        },
+        {
+          "ordem": 3,
+          "tipo": "associacao",
+          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "pares_corretos": {
+            "Yawaraté": "Onça pintada",
+            "Tatu": "Tatu"
+          },
+          "coluna_esquerda": [
+            "Yawaraté",
+            "Tatu"
+          ],
+          "coluna_direita": [
+            "Onça pintada",
+            "Tatu"
+          ],
+          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "dificuldade": "facil",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Yawaraté",
+            "Tatu"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Yawaraté",
+          "Tatu"
+        ],
+        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+      }
+    },
+    {
+      "numero": 2,
+      "titulo": "Aprofundando o Saber: Akuti",
+      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "xp_base": 30,
+      "bloco_ensino": {
+        "tipo": "apresentacao_lexical",
+        "itens_apresentados": [
+          {
+            "palavra": "Akuti",
+            "traducao": "Cutia",
+            "transliteracao": "a-ku-TI",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "Akuti ka'a.",
+            "exemplo_pt": "Cutia na floresta.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_116"
+          },
+          {
+            "palavra": "So'o",
+            "traducao": "Animal de caça",
+            "transliteracao": "so-O",
+            "classe_gramatical": "substantivo",
+            "categoria": "fauna",
+            "exemplo_uso": "So'o katu.",
+            "exemplo_pt": "Boa caça.",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_118"
+          }
+        ],
+        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ ka'a.'",
+          "texto_com_lacunas": "______ ka'a.",
+          "respostas_lacunas": [
+            "Akuti"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'Akuti' (Cutia).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Akuti"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Akuti'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Cutia"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "Akuti",
+          "explicacao": "'Akuti' traduz-se fielmente como 'Cutia'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "Akuti"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "So'o"
+          ],
+          "explicacao": "A palavra que completa a sentença é 'So'o' (Animal de caça).",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "So'o"
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Contemporaneo, como se traduz 'So'o'?",
+          "opcoes": [
+            {
+              "letra": "A",
+              "texto": "Animal de caça"
+            },
+            {
+              "letra": "B",
+              "texto": "Céu noturno"
+            },
+            {
+              "letra": "C",
+              "texto": "Grande rio"
+            },
+            {
+              "letra": "D",
+              "texto": "Terra firme"
+            }
+          ],
+          "resposta_correta": "A",
+          "resposta_correta_termo": "So'o",
+          "explicacao": "'So'o' traduz-se fielmente como 'Animal de caça'.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "itens_alvo": [
+            "So'o"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Akuti",
+          "So'o"
+        ],
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+      }
+    },
+    {
+      "numero": 3,
+      "titulo": "Prática Adaptativa: Animais da Mata e da Terra",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de Animais da Mata e da Terra.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "Animais da Mata e da Terra",
+      "ai_vocabulary_anchors": [
+        "Yawaraté",
+        "Tatu",
+        "Akuti",
+        "So'o"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'Animais da Mata e da Terra'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Yawaraté",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "yawaraté",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Yawaraté katu!",
+            "exemplo_pt": "Uso contextual de Yawaraté."
+          },
+          {
+            "palavra": "Tatu",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "tatu",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Tatu!",
+            "exemplo_pt": "Uso contextual de Tatu."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'Animais da Mata e da Terra', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Yawaraté",
+            "Motatu",
+            "Teakuti",
+            "Kuso'o"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Yawaraté' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.974,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de Animais da Mata e da Terra: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Tatu",
+          "opcoes_banco": [
+            "Tatu",
+            "Akuti",
+            "So'o",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Tatu'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -1.874,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Animais da Mata e da Terra':",
+          "opcoes": [
+            "Uso harmônico de 'Akuti'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Akuti' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": -1.724,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de Animais da Mata e da Terra, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.974,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Consolidação e Desafio da Aldeia",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "xp_base": 35,
+      "bloco_ensino": {
+        "tipo": "revisao_sintese",
+        "itens_apresentados": [
+          {
+            "palavra": "Yawaraté",
+            "traducao": "Onça pintada",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_115"
+          },
+          {
+            "palavra": "Tatu",
+            "traducao": "Tatu",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_115"
+          },
+          {
+            "palavra": "Akuti",
+            "traducao": "Cutia",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_116"
+          },
+          {
+            "palavra": "So'o",
+            "traducao": "Animal de caça",
+            "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_118"
+          }
+        ],
+        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "associacao",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 3:",
+          "pares_corretos": {
+            "Yawaraté": "Onça pintada",
+            "Tatu": "Tatu",
+            "Akuti": "Cutia",
+            "So'o": "Animal de caça"
+          },
+          "coluna_esquerda": [
+            "Yawaraté",
+            "Tatu",
+            "Akuti",
+            "So'o"
+          ],
+          "coluna_direita": [
+            "Onça pintada",
+            "Tatu",
+            "Cutia",
+            "Animal de caça"
+          ],
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
+          "dificuldade": "media",
+          "pontos_base": 20,
+          "itens_alvo": [
+            "Yawaraté",
+            "Tatu",
+            "Akuti",
+            "So'o"
+          ]
+        },
+        {
+          "ordem": 2,
+          "tipo": "traducao",
+          "enunciado": "Traduza a palavra 'Yawaraté' para o Português:",
+          "termo_fonte": "Yawaraté",
+          "traducao_esperada": "Onça pintada",
+          "explicacao": "'Yawaraté' significa 'Onça pintada'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "itens_alvo": [
+            "Yawaraté"
+          ]
+        }
+      ],
+      "bloco_revisao": {
+        "resumo_termos": [
+          "Yawaraté",
+          "Tatu",
+          "Akuti",
+          "So'o"
+        ],
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 3 de Tupi Contemporaneo."
+      }
+    }
+  ],
+  "total_licoes": 4,
+  "total_exercicios": 9
+}

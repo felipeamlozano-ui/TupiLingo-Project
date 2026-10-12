@@ -250,7 +250,7 @@ def update_variante_ativa(request):
 
 @csrf_exempt
 @require_GET
-@ratelimit(key='ip', rate='30/m', block=True)
+@ratelimit(key='user_or_ip', rate='120/m', block=True)
 @supabase_auth_required
 def admin_check(request):
     """Retorna se o usuário logado possui privilégios de administrador."""
@@ -263,7 +263,7 @@ def admin_check(request):
 
 @csrf_exempt
 @require_GET
-@ratelimit(key='ip', rate='30/m', block=True)
+@ratelimit(key='user_or_ip', rate='120/m', block=True)
 @supabase_auth_required
 def get_profile(request):
     """
@@ -432,7 +432,7 @@ def get_profile(request):
 
 @csrf_exempt
 @require_GET
-@ratelimit(key='ip', rate='30/m', block=True)
+@ratelimit(key='user_or_ip', rate='120/m', block=True)
 @supabase_auth_required
 def dashboard_stats(request):
     """

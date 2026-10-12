@@ -16,20 +16,20 @@
   "licoes": [
     {
       "numero": 1,
-      "titulo": "Primeiros Encontros: Kauê",
+      "titulo": "Primeiros Encontros: Aué",
       "descricao": "Apresentação e prática dos primeiros termos essenciais.",
       "xp_base": 25,
       "bloco_ensino": {
         "tipo": "apresentacao_lexical",
         "itens_apresentados": [
           {
-            "palavra": "Kauê",
+            "palavra": "Aué",
             "traducao": "Olá / Salve",
-            "transliteracao": "ka-u-Ê",
+            "transliteracao": "a-u-É",
             "classe_gramatical": "interjeicao",
             "categoria": "saudacoes",
-            "exemplo_uso": "Kauê, che amigo!",
-            "exemplo_pt": "Olá, meu amigo!",
+            "exemplo_uso": "Aué, xe irũ!",
+            "exemplo_pt": "Salve, meu amigo!",
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_140"
           },
           {
@@ -53,13 +53,13 @@
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_142"
           }
         ],
-        "dica_cultural": "Na cultura desta variante, 'Kauê' possui grande relevância cotidiana."
+        "dica_cultural": "Na cultura desta variante, 'Aué' possui grande relevância cotidiana."
       },
       "exercicios": [
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Kauê'?",
+          "enunciado": "Qual é o significado correto da palavra 'Aué'?",
           "opcoes": [
             {
               "letra": "A",
@@ -79,12 +79,12 @@
             }
           ],
           "resposta_correta": "B",
-          "resposta_correta_termo": "Kauê",
-          "explicacao": "'Kauê' significa 'Olá / Salve' conforme atestado no RAG.",
+          "resposta_correta_termo": "Aué",
+          "explicacao": "'Aué' significa 'Olá / Salve' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
-            "Kauê"
+            "Aué"
           ]
         },
         {
@@ -154,12 +154,12 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Kauê": "Olá / Salve",
+            "Aué": "Olá / Salve",
             "Ereîur-pe": "Vieste?",
             "Pa'ĩ": "Senhor / Tratamento respeitoso"
           },
           "coluna_esquerda": [
-            "Kauê",
+            "Aué",
             "Ereîur-pe",
             "Pa'ĩ"
           ],
@@ -172,7 +172,7 @@
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
-            "Kauê",
+            "Aué",
             "Ereîur-pe",
             "Pa'ĩ"
           ]
@@ -180,7 +180,7 @@
       ],
       "bloco_revisao": {
         "resumo_termos": [
-          "Kauê",
+          "Aué",
           "Ereîur-pe",
           "Pa'ĩ"
         ],
@@ -379,6 +379,121 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: Saudações e Boas-Vindas",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de Saudações e Boas-Vindas.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "Saudações e Boas-Vindas",
+      "ai_vocabulary_anchors": [
+        "Aué",
+        "Ereîur-pe",
+        "Pa'ĩ",
+        "Katu",
+        "Îandé",
+        "Xé"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'Saudações e Boas-Vindas'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Aué",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "aué",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Aué katu!",
+            "exemplo_pt": "Uso contextual de Aué."
+          },
+          {
+            "palavra": "Ereîur-pe",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "ereîur-pe",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Ereîur-pe!",
+            "exemplo_pt": "Uso contextual de Ereîur-pe."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'Saudações e Boas-Vindas', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Aué",
+            "Moereîur-pe",
+            "Tepa'ĩ",
+            "Kukatu"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Aué' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -2.5,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de Saudações e Boas-Vindas: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Ereîur-pe",
+          "opcoes_banco": [
+            "Ereîur-pe",
+            "Pa'ĩ",
+            "Katu",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Ereîur-pe'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -2.4,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Saudações e Boas-Vindas':",
+          "opcoes": [
+            "Uso harmônico de 'Pa'ĩ'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Pa'ĩ' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": -2.25,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de Saudações e Boas-Vindas, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -2.5,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -386,7 +501,7 @@
         "tipo": "revisao_sintese",
         "itens_apresentados": [
           {
-            "palavra": "Kauê",
+            "palavra": "Aué",
             "traducao": "Olá / Salve",
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_140"
           },
@@ -424,13 +539,13 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 1:",
           "pares_corretos": {
-            "Kauê": "Olá / Salve",
+            "Aué": "Olá / Salve",
             "Ereîur-pe": "Vieste?",
             "Pa'ĩ": "Senhor / Tratamento respeitoso",
             "Katu": "Bom / Belo"
           },
           "coluna_esquerda": [
-            "Kauê",
+            "Aué",
             "Ereîur-pe",
             "Pa'ĩ",
             "Katu"
@@ -445,7 +560,7 @@
           "dificuldade": "media",
           "pontos_base": 20,
           "itens_alvo": [
-            "Kauê",
+            "Aué",
             "Ereîur-pe",
             "Pa'ĩ",
             "Katu"
@@ -454,20 +569,20 @@
         {
           "ordem": 2,
           "tipo": "traducao",
-          "enunciado": "Traduza a palavra 'Kauê' para o Português:",
-          "termo_fonte": "Kauê",
+          "enunciado": "Traduza a palavra 'Aué' para o Português:",
+          "termo_fonte": "Aué",
           "traducao_esperada": "Olá / Salve",
-          "explicacao": "'Kauê' significa 'Olá / Salve'.",
+          "explicacao": "'Aué' significa 'Olá / Salve'.",
           "dificuldade": "media",
           "pontos_base": 15,
           "itens_alvo": [
-            "Kauê"
+            "Aué"
           ]
         }
       ],
       "bloco_revisao": {
         "resumo_termos": [
-          "Kauê",
+          "Aué",
           "Ereîur-pe",
           "Pa'ĩ",
           "Katu",
@@ -478,6 +593,6 @@
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 12
 }

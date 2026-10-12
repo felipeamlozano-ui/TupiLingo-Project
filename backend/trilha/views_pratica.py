@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import logging
 import random
+import re
 import time
 from typing import Any
 
@@ -291,8 +292,11 @@ def gerar_pratica_tematica(request):
     except (json.JSONDecodeError, ValueError):
         return JsonResponse({"error": "JSON inválido."}, status=400)
 
-    tema = (body.get("tema") or "Natureza e Floresta").strip()
-    tema_id = (body.get("tema_id") or "").strip()
+    tema_raw = str(body.get("tema") or "Natureza e Floresta").strip()
+    tema = re.sub(r"[^a-zA-Z0-9\s\-_áéíóúâêîôûãõçÁÉÍÓÚÂÊÎÔÛÃÕÇ'´`]", "", tema_raw).strip()[:60]
+    if not tema or len(tema) < 3:
+        tema = "Vocabulário Geral"
+    tema_id = re.sub(r"[^a-zA-Z0-9_\-]", "", str(body.get("tema_id") or "").strip())[:40]
     variante_id = body.get("variante_id")
     dificuldade = body.get("dificuldade", "media").lower()
     quantidade = min(max(int(body.get("quantidade", 4)), 3), 8)
@@ -371,7 +375,7 @@ def gerar_pratica_tematica(request):
         embedding=vector,
         categorias=categorias_rag,
         limite=4,
-        threshold=0.25,
+        threshold=0.50,
     )
     vec_ms = int((time.monotonic() - t_vec) * 1000)
 
@@ -396,11 +400,14 @@ def gerar_pratica_tematica(request):
 
     vocab_bloco = "\n".join([f"- '{p['termo']}': {p['traducao']}" for p in vocab_sugerido]) if vocab_sugerido else "Vocabulário extraído do RAG."
 
-    # 2. Prompt Estruturado Multi-formato
+    # 2. Prompt Estruturado Multi-formato com Ancoragem Canônica em Eduardo Navarro
     system_prompt = (
-        "Você é um professor catedrático de língua Tupi. Crie questões 100% EXCLUSIVAS e DIRETAMENTE conectadas "
-        "ao tema escolhido pelo aluno. Varie os formatos entre múltipla escolha, completar lacuna, "
-        "ligação de colunas e digitação livre. NUNCA reutilize exemplos genéricos. Retorne ESTRITAMENTE JSON."
+        "Você é um professor catedrático de língua Tupi fundamentado estritamente nas obras filológicas do "
+        "Prof. Dr. Eduardo de Almeida Navarro (Dicionário de Tupi Antigo). Crie questões 100% EXCLUSIVAS e "
+        "DIRETAMENTE conectadas ao tema. Todas as alternativas (corretas e incorretas) DEVEM ser termos reais "
+        "atestados nas fontes clássicas de Navarro. É TERMINANTEMENTE PROIBIDO inventar palavras inexistentes em Tupi "
+        "ou criar termos com sonoridade indígena como alternativas falsas. Os distratores devem ser termos reais da língua Tupi. "
+        "Retorne ESTRITAMENTE JSON."
     )
 
     user_prompt = f"""\
@@ -482,6 +489,9 @@ TERMOS DE REVISÃO ESPAÇADA OBRIGATÓRIOS (SRS IMPLÍCITO):
 {srs_bloco}
 
 Integre esses termos de SRS organicamente nas questões sobre '{tema}', se possível como alternativas ou enunciados.
+
+DIRETRIZ FILOLÓGICA DE DISTRATORES (EDUARDO ALMEIDA NAVARRO):
+Todas as alternativas em Tupi (corretas e distratores) devem ser termos reais comprovados no vocabulário histórico. É terminantemente proibido inventar palavras nas alternativas. Os distratores do mesmo domínio devem ser termos reais da língua.
 """
 
     # 3. Execução Concorrente com Ping Race
@@ -495,7 +505,7 @@ Integre esses termos de SRS organicamente nas questões sobre '{tema}', se poss�
         raw_response = FallbackOrchestrator.execute_text(
             prompt=f"{system_prompt}\n\n{user_prompt}",
             chain=chain,
-            temperature=0.35,
+            temperature=0.15,
             max_tokens=1200,
         )
         parsed = json.loads(raw_response)

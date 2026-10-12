@@ -102,40 +102,26 @@ def get_irt_engine() -> IRTEngine:
 
 
 def _canonical_variant(variant_code: str) -> str:
-    """Normaliza qualquer código de variante para as 4 variantes canônicas do TupiLingo."""
+    """Normaliza qualquer código de variante para as variantes canônicas do TupiLingo."""
     v = (variant_code or "tupi").lower().strip()
-    if v in ("tupi", "tupi_antigo", "tupi antigo"):
+    if v in ("tupi", "tupi_antigo", "tupi antigo", "tupinamba", "tupinambá", "kamaiura", "kamaiurá"):
         return "tupi_antigo"
-    if v in ("tupi_contemporaneo", "tupi contemporaneo", "tupi contemporâneo", "nheengatu"):
-        return "tupi_contemporaneo"
-    if v in ("kamaiura", "kamaiurá"):
-        return "kamaiura"
-    if v in ("tupinamba", "tupinambá"):
-        return "tupinamba"
+    if v in ("tupi_revitalizado", "tupi revitalizado", "tupi_contemporaneo", "tupi contemporaneo", "tupi contemporâneo", "tupi antigo revitalizado"):
+        return "tupi_revitalizado"
     return "tupi_antigo"
 
 
-# Metadados canônicos por variante
+# Metadados canônicos por variante (Normatizado segundo Eduardo Navarro USP)
 VARIANTE_METADATA: dict[str, dict[str, Any]] = {
     "tupi_antigo": {
-        "nome": "Tupi Antigo (língua dos Tupinambás, séc. XVI)",
+        "nome": "Tupi Antigo (Clássico quinhentista - Pe. Anchieta, Figueira e Navarro)",
         "periodo": "Século XVI",
         "familia": "Tupi-Guarani, Subfamília I",
     },
-    "tupi_contemporaneo": {
-        "nome": "Tupi Contemporâneo (Nheengatu / Potiguara)",
-        "periodo": "Século XXI",
-        "familia": "Tupi-Guarani Moderna",
-    },
-    "kamaiura": {
-        "nome": "Kamaiurá (Alto Xingu)",
-        "periodo": "Tradição Viva",
-        "familia": "Tupi-Guarani, Subfamília VII",
-    },
-    "tupinamba": {
-        "nome": "Tupinambá Histórico (Costa & Cartas de 1645)",
-        "periodo": "Século XVI-XVII",
-        "familia": "Tupi-Guarani Clássica",
+    "tupi_revitalizado": {
+        "nome": "Tupi Antigo Revitalizado (Método Moderno Navarro)",
+        "periodo": "Contemporâneo / Revitalização",
+        "familia": "Tupi-Guarani Clássica Revitalizada",
     },
 }
 
@@ -143,10 +129,11 @@ VARIANTE_METADATA: dict[str, dict[str, Any]] = {
 _VARIANTE_NOME_MAP: dict[str, str] = {
     "tupi":               VARIANTE_METADATA["tupi_antigo"]["nome"],
     "tupi_antigo":        VARIANTE_METADATA["tupi_antigo"]["nome"],
-    "tupi_contemporaneo": VARIANTE_METADATA["tupi_contemporaneo"]["nome"],
-    "tupinamba":          VARIANTE_METADATA["tupinamba"]["nome"],
-    "kamaiura":           VARIANTE_METADATA["kamaiura"]["nome"],
-    "kamaiurá":           VARIANTE_METADATA["kamaiura"]["nome"],
+    "tupinamba":          VARIANTE_METADATA["tupi_antigo"]["nome"],
+    "kamaiura":           VARIANTE_METADATA["tupi_antigo"]["nome"],
+    "kamaiurá":           VARIANTE_METADATA["tupi_antigo"]["nome"],
+    "tupi_revitalizado":  VARIANTE_METADATA["tupi_revitalizado"]["nome"],
+    "tupi_contemporaneo": VARIANTE_METADATA["tupi_revitalizado"]["nome"],
 }
 
 _NIVEL_TEMAS: dict[int, tuple[str, str]] = {
@@ -268,7 +255,9 @@ def _build_prompt(
             if len(txt) > 280:
                 txt = txt[:280] + "..."
             cat = c.get("categoria", "Acervo")
-            snippets.append(f"[{idx}] ({cat}): {txt}")
+            src = c.get("filename", "")
+            auth_w = source_authority_weight(src)
+            snippets.append(f"[{idx}] ({cat} | auth={auth_w:.2f}): {txt}")
         rag_context = (
             "### TRECHOS HISTÓRICOS / DICIONÁRIOS (FONTE RAG SUPABASE):\n"
             + "\n".join(snippets)
@@ -278,10 +267,28 @@ def _build_prompt(
     return (
         f"Língua: {variante_nome} | Nível: {tier.upper()} | Tema: {tema}\n"
         f"{rag_context}"
+        f"DIRETRIZ DE SEGURANÇA E FILOLOGIA (EDUARDO NAVARRO):\n"
+        f"As alternativas devem ser termos reais atestados em Navarro e distratores do mesmo domínio lexical. "
+        f"NUNCA invente palavras com sonoridade indígena nas alternativas erradas.\n\n"
         f"Gere enunciados e explicações para os itens:\n"
         f"{itens_json}\n\n"
         f"JSON:"
     )
+
+
+def source_authority_weight(source_filename: str) -> float:
+    """
+    Ponderação por autoridade da fonte no RAG (Prof. Dr. Eduardo de Almeida Navarro).
+    - 1.0: Obras de Eduardo de Almeida Navarro (Dicionário de Tupi Antigo 2013, Método Moderno 2005)
+    - 0.85: Fontes quinhentistas primárias (Anchieta 1595, Figueira 1621, Cartas de 1645)
+    - 0.30: Fontes secundárias
+    """
+    s = str(source_filename).lower()
+    if any(k in s for k in ["navarro", "dicionario", "metodo", "eduardo", "01.pdf"]):
+        return 1.0
+    if any(k in s for k in ["anchieta", "figueira", "camarao", "quinhentista", "gramatica"]):
+        return 0.85
+    return 0.30
 
 
 # ── MONTAGEM DETERMINÍSTICA DO QUIZRESPONSE ──────────────────────────────────
@@ -813,7 +820,7 @@ class RAGService:
                 embedding=emb_vec,
                 categorias=categorias_rag,
                 limite=3,
-                threshold=0.30,
+                threshold=0.50,
             )
         except Exception as rag_exc:
             logger.warning("[RAGService] Falha ao recuperar chunks via pgvector: %s", rag_exc)
@@ -1044,3 +1051,27 @@ class RAGService:
         shuffled["cache_hit"] = False
 
         return shuffled
+
+
+def buscar_cache_semantico(
+    query: str,
+    variante: str,
+    threshold: float = 0.88,
+) -> dict[str, Any] | None:
+    """
+    Busca quiz pré-gerado ou respostas cacheadas via similaridade semântica (Redis/pgvector).
+    Retorna payload de QuizResponse se a similaridade superar o threshold (ex: 0.88).
+    """
+    try:
+        redis_client = get_redis_client()
+        if redis_client:
+            cache_key = f"tupilingo:semantic_cache:{variante}:{hashlib.sha256(query.encode()).hexdigest()[:16]}"
+            cached_data = redis_client.get(cache_key)
+            if cached_data:
+                logger.info("[RAGService] Semantic cache HIT para '%s' (%s)", query, variante)
+                return json.loads(cached_data)
+        return None
+    except Exception as exc:
+        logger.warning("[RAGService] Falha no buscar_cache_semantico: %s", exc)
+        return None
+

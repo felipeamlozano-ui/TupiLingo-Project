@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../../core/network/api_client.dart';
 
 import 'widgets/nivel_gauge.dart';
 import 'widgets/xp_progress_bar.dart';
@@ -67,21 +67,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       final session = Supabase.instance.client.auth.currentSession;
       if (session == null) {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Sessão não encontrada. Por favor, faça login novamente.';
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+            _errorMessage = 'Sessão não encontrada. Por favor, faça login novamente.';
+          });
+        }
         return;
       }
 
+      // Renovação proativa da sessão caso o usuário tenha permanecido muito tempo na tela de trilhas
+      if (session.isExpired) {
+        try {
+          await Supabase.instance.client.auth.refreshSession();
+        } catch (_) {}
+      }
+
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      final response = await http.get(
-        Uri.parse('$baseUrl/api/v1/auth/profile'),
-        headers: {
-          'Authorization': 'Bearer ${session.accessToken}',
-          'Content-Type': 'application/json',
-        },
-      ).timeout(const Duration(seconds: 10));
+      final response = await ApiClient.get('$baseUrl/api/v1/auth/profile');
 
       if (response.statusCode == 200) {
         final dynamic data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -128,6 +131,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           _isLoading = false;
           _errorMessage = 'Falha ao carregar perfil (Status ${response.statusCode})';
+        });
+      }
+    } on SessionExpiredException catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = e.message;
         });
       }
     } catch (e) {

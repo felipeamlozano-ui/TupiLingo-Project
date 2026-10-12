@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -16,16 +17,38 @@ class AudioManager {
 
   AudioPlayer? _player;
   bool _initialized = false;
+  Timer? _idleEvictionTimer;
 
   void initialize() {
-    if (_initialized) return;
-    try {
-      _player = AudioPlayer();
-      _player?.setPlayerMode(PlayerMode.lowLatency);
-      _initialized = true;
-    } catch (e) {
-      debugPrint('[AudioManager] Erro ao inicializar player de áudio: $e');
+    _ensurePlayer();
+  }
+
+  AudioPlayer _ensurePlayer() {
+    if (_player == null || !_initialized) {
+      try {
+        _player = AudioPlayer()..setPlayerMode(PlayerMode.lowLatency);
+        _initialized = true;
+      } catch (e) {
+        debugPrint('[AudioManager] Erro ao inicializar player de áudio: $e');
+        _player ??= AudioPlayer();
+        _initialized = true;
+      }
     }
+    _touchPlayer();
+    return _player!;
+  }
+
+  void _touchPlayer() {
+    _idleEvictionTimer?.cancel();
+    _idleEvictionTimer = Timer(const Duration(seconds: 60), _evictIdlePlayer);
+  }
+
+  void _evictIdlePlayer() {
+    try {
+      _player?.dispose();
+    } catch (_) {}
+    _player = null;
+    _initialized = false;
   }
 
   /// Toca som de acerto de exercício e vibração de sucesso
@@ -41,8 +64,8 @@ class AudioManager {
       if (SettingsService.instance.hapticFeedback) {
         HapticFeedback.mediumImpact();
       }
-      _player ??= AudioPlayer()..setPlayerMode(PlayerMode.lowLatency);
-      await _player?.play(AssetSource('audio/correct.wav'), volume: 0.8);
+      final player = _ensurePlayer();
+      await player.play(AssetSource('audio/correct.wav'), volume: 0.8);
     } catch (e) {
       debugPrint('[AudioManager] Erro ao tocar som de acerto: $e');
     }
@@ -61,8 +84,8 @@ class AudioManager {
       if (SettingsService.instance.hapticFeedback) {
         HapticFeedback.heavyImpact();
       }
-      _player ??= AudioPlayer()..setPlayerMode(PlayerMode.lowLatency);
-      await _player?.play(AssetSource('audio/incorrect.wav'), volume: 0.7);
+      final player = _ensurePlayer();
+      await player.play(AssetSource('audio/incorrect.wav'), volume: 0.7);
     } catch (e) {
       debugPrint('[AudioManager] Erro ao tocar som de erro: $e');
     }
@@ -81,8 +104,8 @@ class AudioManager {
       if (SettingsService.instance.hapticFeedback) {
         HapticFeedback.selectionClick();
       }
-      _player ??= AudioPlayer()..setPlayerMode(PlayerMode.lowLatency);
-      await _player?.play(AssetSource('audio/tap.wav'), volume: 0.4);
+      final player = _ensurePlayer();
+      await player.play(AssetSource('audio/tap.wav'), volume: 0.4);
     } catch (_) {
       SystemSound.play(SystemSoundType.click);
     }
@@ -101,14 +124,16 @@ class AudioManager {
       if (SettingsService.instance.hapticFeedback) {
         HapticFeedback.heavyImpact();
       }
-      _player ??= AudioPlayer()..setPlayerMode(PlayerMode.lowLatency);
-      await _player?.play(AssetSource('audio/chest.wav'), volume: 0.9);
+      final player = _ensurePlayer();
+      await player.play(AssetSource('audio/chest.wav'), volume: 0.9);
     } catch (e) {
       debugPrint('[AudioManager] Erro ao tocar som de baú: $e');
     }
   }
 
   void dispose() {
+    _idleEvictionTimer?.cancel();
+    _idleEvictionTimer = null;
     _player?.dispose();
     _player = null;
     _initialized = false;

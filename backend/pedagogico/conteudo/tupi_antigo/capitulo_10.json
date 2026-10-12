@@ -97,19 +97,19 @@
     },
     {
       "numero": 2,
-      "titulo": "Aprofundando o Saber: Tamoio",
+      "titulo": "Aprofundando o Saber: Tamuya",
       "descricao": "Construção de frases e expansão contextual do vocabulário.",
       "xp_base": 30,
       "bloco_ensino": {
         "tipo": "apresentacao_lexical",
         "itens_apresentados": [
           {
-            "palavra": "Tamoio",
+            "palavra": "Tamuya",
             "traducao": "Ancião / Avô venerado",
             "transliteracao": "ta-MOI-o",
             "classe_gramatical": "substantivo",
             "categoria": "comunidade",
-            "exemplo_uso": "Tamoio o-nhe'eng.",
+            "exemplo_uso": "Tamuya o-nhe'eng.",
             "exemplo_pt": "O ancião fala.",
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_352"
           },
@@ -133,19 +133,19 @@
           "enunciado": "Complete a frase com a palavra correta: '______ o-nhe'eng.'",
           "texto_com_lacunas": "______ o-nhe'eng.",
           "respostas_lacunas": [
-            "Tamoio"
+            "Tamuya"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Tamoio' (Ancião / Avô venerado).",
+          "explicacao": "A palavra que completa a sentença é 'Tamuya' (Ancião / Avô venerado).",
           "dificuldade": "media",
           "pontos_base": 15,
           "itens_alvo": [
-            "Tamoio"
+            "Tamuya"
           ]
         },
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Antigo, como se traduz 'Tamoio'?",
+          "enunciado": "Em Tupi Antigo, como se traduz 'Tamuya'?",
           "opcoes": [
             {
               "letra": "A",
@@ -165,12 +165,12 @@
             }
           ],
           "resposta_correta": "A",
-          "resposta_correta_termo": "Tamoio",
-          "explicacao": "'Tamoio' traduz-se fielmente como 'Ancião / Avô venerado'.",
+          "resposta_correta_termo": "Tamuya",
+          "explicacao": "'Tamuya' traduz-se fielmente como 'Ancião / Avô venerado'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
-            "Tamoio"
+            "Tamuya"
           ]
         },
         {
@@ -222,7 +222,7 @@
       ],
       "bloco_revisao": {
         "resumo_termos": [
-          "Tamoio",
+          "Tamuya",
           "Okar"
         ],
         "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
@@ -230,6 +230,118 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: A Aldeia e a Organização Comunitária",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Aldeia e a Organização Comunitária.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "A Aldeia e a Organização Comunitária",
+      "ai_vocabulary_anchors": [
+        "Morubixaba",
+        "Tamuya",
+        "Okar"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Aldeia e a Organização Comunitária'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Morubixaba",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "morubixaba",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Morubixaba katu!",
+            "exemplo_pt": "Uso contextual de Morubixaba."
+          },
+          {
+            "palavra": "Tamuya",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "tamuya",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Tamuya!",
+            "exemplo_pt": "Uso contextual de Tamuya."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'A Aldeia e a Organização Comunitária', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Morubixaba",
+            "Motamuya",
+            "Teokar",
+            "Kutuba"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Morubixaba' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.132,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de A Aldeia e a Organização Comunitária: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Tamuya",
+          "opcoes_banco": [
+            "Tamuya",
+            "Okar",
+            "Tuba",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Tamuya'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -0.032,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Aldeia e a Organização Comunitária':",
+          "opcoes": [
+            "Uso harmônico de 'Okar'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Okar' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": 0.118,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de A Aldeia e a Organização Comunitária, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.132,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -242,7 +354,7 @@
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_350"
           },
           {
-            "palavra": "Tamoio",
+            "palavra": "Tamuya",
             "traducao": "Ancião / Avô venerado",
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_352"
           },
@@ -261,12 +373,12 @@
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 10:",
           "pares_corretos": {
             "Morubixaba": "Chefe político e militar",
-            "Tamoio": "Ancião / Avô venerado",
+            "Tamuya": "Ancião / Avô venerado",
             "Okar": "Praça da aldeia"
           },
           "coluna_esquerda": [
             "Morubixaba",
-            "Tamoio",
+            "Tamuya",
             "Okar"
           ],
           "coluna_direita": [
@@ -279,7 +391,7 @@
           "pontos_base": 20,
           "itens_alvo": [
             "Morubixaba",
-            "Tamoio",
+            "Tamuya",
             "Okar"
           ]
         },
@@ -300,13 +412,13 @@
       "bloco_revisao": {
         "resumo_termos": [
           "Morubixaba",
-          "Tamoio",
+          "Tamuya",
           "Okar"
         ],
         "mensagem": "Parabéns! Você completou com maestria o Capítulo 10 de Tupi Antigo."
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 8
 }

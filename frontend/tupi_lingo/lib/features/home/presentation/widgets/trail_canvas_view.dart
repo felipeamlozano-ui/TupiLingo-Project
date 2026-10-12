@@ -91,48 +91,49 @@ class TrailCanvasView extends StatelessWidget {
                         child: RepaintBoundary(
                           child: AnimatedBuilder(
                             animation: floatController!,
-                            builder: (ctx, _) {
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF0E5D4E), Color(0xFF1B4332)],
+                                ),
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(color: const Color(0xFFFFD166), width: 1.5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFFFFD166).withValues(alpha: 0.45),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    isInProgress ? Icons.play_arrow_rounded : Icons.star_rounded,
+                                    color: const Color(0xFFFFD166),
+                                    size: 13,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    isInProgress ? 'CONTINUAR' : 'SUA VEZ',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 10.5,
+                                      letterSpacing: 0.8,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            builder: (ctx, child) {
                               final val = floatController?.value ?? 0.0;
                               final dy = math.sin(val * math.pi) * 3.5;
                               return Transform.translate(
                                 offset: Offset(0, dy),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    gradient: const LinearGradient(
-                                      colors: [Color(0xFF0E5D4E), Color(0xFF1B4332)],
-                                    ),
-                                    borderRadius: BorderRadius.circular(14),
-                                    border: Border.all(color: const Color(0xFFFFD166), width: 1.5),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFFFFD166).withValues(alpha: 0.45),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        isInProgress ? Icons.play_arrow_rounded : Icons.star_rounded,
-                                        color: const Color(0xFFFFD166),
-                                        size: 13,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        isInProgress ? 'CONTINUAR' : 'SUA VEZ',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 10.5,
-                                          letterSpacing: 0.8,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                child: child,
                               );
                             },
                           ),
@@ -249,44 +250,76 @@ class TrailCanvasView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 74,
-            height: 74,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: solidColor,
-              gradient: bgGradient,
-              border: Border(
-                bottom: BorderSide(color: bottomColor, width: 6),
-              ),
-              boxShadow: shadows,
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (isTarget || isPlayable)
-                  Positioned(
-                    top: 4,
-                    left: 10,
-                    right: 10,
-                    height: 22,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white.withValues(alpha: isTarget ? 0.70 : 0.35),
-                            Colors.white.withValues(alpha: 0.0),
-                          ],
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: 74,
+                height: 74,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: solidColor,
+                  gradient: bgGradient,
+                  border: Border(
+                    bottom: BorderSide(color: bottomColor, width: 6),
+                  ),
+                  boxShadow: shadows,
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (isTarget || isPlayable)
+                      Positioned(
+                        top: 4,
+                        left: 10,
+                        right: 10,
+                        height: 22,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white.withValues(alpha: isTarget ? 0.70 : 0.35),
+                                Colors.white.withValues(alpha: 0.0),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
+                    Center(child: iconWidget),
+                  ],
+                ),
+              ),
+              if (licao.isDynamicAi)
+                Positioned(
+                  top: -2,
+                  right: -2,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF8E24AA), Color(0xFFBA68C8)],
+                      ),
+                      border: Border.all(color: Colors.white, width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF8E24AA).withValues(alpha: 0.5),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.auto_awesome,
+                      color: Colors.white,
+                      size: 13,
                     ),
                   ),
-                Center(child: iconWidget),
-              ],
-            ),
+                ),
+            ],
           ),
           const SizedBox(height: 6),
           Container(
@@ -295,7 +328,11 @@ class TrailCanvasView extends StatelessWidget {
               color: AppTheme.surface(context),
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: isTarget ? const Color(0xFFFFB300) : AppTheme.border(context),
+                color: isTarget
+                    ? const Color(0xFFFFB300)
+                    : (licao.isDynamicAi
+                        ? const Color(0xFFBA68C8).withValues(alpha: 0.5)
+                        : AppTheme.border(context)),
                 width: isTarget ? 1.5 : 1.0,
               ),
               boxShadow: [
@@ -308,19 +345,32 @@ class TrailCanvasView extends StatelessWidget {
                 ),
               ],
             ),
-            child: Text(
-              licao.titulo,
-              style: TextStyle(
-                color: isLocked
-                    ? AppTheme.textSecondary(context)
-                    : isTarget
-                        ? const Color(0xFFFFB300)
-                        : AppTheme.textPrimary(context),
-                fontSize: 11,
-                fontWeight: isTarget ? FontWeight.w900 : FontWeight.bold,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (licao.isDynamicAi) ...[
+                  const Icon(
+                    Icons.auto_awesome,
+                    size: 11,
+                    color: Color(0xFFAB47BC),
+                  ),
+                  const SizedBox(width: 4),
+                ],
+                Text(
+                  licao.titulo,
+                  style: TextStyle(
+                    color: isLocked
+                        ? AppTheme.textSecondary(context)
+                        : isTarget
+                            ? const Color(0xFFFFB300)
+                            : AppTheme.textPrimary(context),
+                    fontSize: 11,
+                    fontWeight: isTarget ? FontWeight.w900 : FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
         ],

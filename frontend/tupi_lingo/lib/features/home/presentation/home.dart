@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/features/lesson/presentation/lesson_player.dart';
 import 'package:tupi_lingo/features/profile/presentation/profile_screen.dart';
 import 'package:tupi_lingo/features/admin/presentation/admin_screen.dart';
@@ -46,7 +47,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, WidgetsBindingObserver {
   int _currentTabIndex = 0; // 0: Trilha, 1: Prática, 2: Perfil, 3: Admin (se autorizado)
   int _selectedCapituloIndex = 0;
   bool _isAdmin = false;
@@ -91,18 +92,72 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return unlocked.map((item) => item.toMap()).toList();
   }
 
+  Timer? _idleTimer;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _initAnimControllers();
-    _tryLoadCachedTrail();
-    _loadUserDataAndTrail();
+    _resetIdleTimer();
+    _initTrailFlow();
     AppProgressionNotifier.instance.addListener(_onProgressionUpdated);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         LegalConsentService.instance.showConsentModalIfNeeded(context);
       }
     });
+  }
+
+  void _resumeAnimTickers() {
+    if (_pulseController != null && !_pulseController!.isAnimating) {
+      _pulseController!.repeat(reverse: true);
+    }
+    if (_floatController != null && !_floatController!.isAnimating) {
+      _floatController!.repeat(reverse: true);
+    }
+  }
+
+  void _pauseAnimTickers() {
+    if (_pulseController != null && _pulseController!.isAnimating) {
+      _pulseController!.stop();
+    }
+    if (_floatController != null && _floatController!.isAnimating) {
+      _floatController!.stop();
+    }
+  }
+
+  // Monitor térmico e anti-aquecimento: Se o aluno ficar parado lendo na trilha por mais de 8s, pausa os tickers da GPU
+  void _resetIdleTimer() {
+    if (!mounted) return;
+    if (_currentTabIndex == 0) {
+      _resumeAnimTickers();
+    }
+    _idleTimer?.cancel();
+    _idleTimer = Timer(const Duration(seconds: 8), () {
+      if (mounted) {
+        _pauseAnimTickers();
+      }
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+      _idleTimer?.cancel();
+      _pauseAnimTickers();
+    } else if (state == AppLifecycleState.resumed) {
+      if (_currentTabIndex == 0) {
+        _resetIdleTimer();
+      }
+    }
+  }
+
+  /// Inicialização instantânea (< 10ms):
+  /// Carrega o cache local antes da rede para desenhar a trilha no Frame 0 sem tela preta/loading
+  Future<void> _initTrailFlow() async {
+    await _tryLoadCachedTrail();
+    _loadUserDataAndTrail();
   }
 
   /// Carrega dados em cache local instantaneamente (0ms) antes do roundtrip de rede
@@ -139,22 +194,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _pulseController ??= AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1600),
-    )..repeat(reverse: true);
+    );
 
     _floatController ??= AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2400),
-    )..repeat(reverse: true);
+    );
   }
 
   @override
   void reassemble() {
     super.reassemble();
     _initAnimControllers();
+    _resetIdleTimer();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _idleTimer?.cancel();
     AppProgressionNotifier.instance.removeListener(_onProgressionUpdated);
     _pulseController?.dispose();
     _floatController?.dispose();
@@ -231,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // Bate na API pra trazer perfil do aluno, dias de ofensiva, conchas e lista de capítulos
   Future<void> _loadUserDataAndTrail() async {
-    // Exibe loading se não houver capítulos carregados
+    // Exibe loading apenas se não houver capítulos carregados (nem mesmo do cache local)
     if (_capitulos.isEmpty) {
       setState(() {
         _isLoading = true;
@@ -240,92 +298,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
 
-      if (session != null) {
-        final headers = {
-          'Authorization': 'Bearer ${session.accessToken}',
-          'Content-Type': 'application/json',
-        };
+      // 1. Dispara em paralelo o mapa da trilha, dados do aluno e status admin via ApiClient resiliente
+      final mapReq = ApiClient.get('$baseUrl/api/v1/trilha/$_varianteId/capitulos/')
+          .timeout(const Duration(seconds: 8))
+          .catchError((_) => http.Response('{}', 500));
 
-        // 1. Sincroniza dados vitais do usuário (perfil, variante ativa, stats) e status admin
-        final checkUserReq = http.post(
-          Uri.parse('$baseUrl/api/v1/auth/check-user'),
-          headers: headers,
-        ).timeout(const Duration(seconds: 6)).catchError((_) => http.Response('{}', 500));
+      final checkUserReq = ApiClient.post('$baseUrl/api/v1/auth/check-user')
+          .timeout(const Duration(seconds: 6))
+          .catchError((_) => http.Response('{}', 500));
 
-        final adminReq = http.get(
-          Uri.parse('$baseUrl/api/v1/admin/me'),
-          headers: headers,
-        ).timeout(const Duration(seconds: 5)).catchError((_) => http.Response('{}', 500));
+      final adminReq = ApiClient.get('$baseUrl/api/v1/admin/me')
+          .timeout(const Duration(seconds: 5))
+          .catchError((_) => http.Response('{}', 500));
 
-        final initResponses = await Future.wait([checkUserReq, adminReq]);
-        final profileRes = initResponses[0];
-        final adminRes = initResponses[1];
+      final responses = await Future.wait([mapReq, checkUserReq, adminReq]);
+      final mapRes = responses[0];
+      final profileRes = responses[1];
+      final adminRes = responses[2];
 
-        if (profileRes.statusCode == 200) {
-          try {
-            final dynamic profileData = jsonDecode(utf8.decode(profileRes.bodyBytes));
-            if (profileData is Map<String, dynamic>) {
-              final varianteAtiva = profileData['variante_ativa'];
-              if (varianteAtiva is Map<String, dynamic>) {
-                final userVarId = (varianteAtiva['id'] as num?)?.toInt() ?? _varianteId;
-                _varianteId = userVarId;
-                _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
-              }
-              if (mounted) {
-                setState(() {
-                  _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? 0;
-                  _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
-                      (profileData['dias_ofensiva'] as num?)?.toInt() ??
-                      0;
-                  _conchas = (profileData['conchas'] as num?)?.toInt() ?? 0;
-                });
-              }
+      if (profileRes.statusCode == 200) {
+        try {
+          final dynamic profileData = jsonDecode(utf8.decode(profileRes.bodyBytes));
+          if (profileData is Map<String, dynamic>) {
+            final varianteAtiva = profileData['variante_ativa'];
+            if (varianteAtiva is Map<String, dynamic>) {
+              final userVarId = (varianteAtiva['id'] as num?)?.toInt() ?? _varianteId;
+              _varianteId = userVarId;
+              _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
             }
-          } catch (_) {}
-        }
-
-        if (adminRes.statusCode == 200) {
-          try {
-            final dynamic adminData = jsonDecode(utf8.decode(adminRes.bodyBytes));
-            if (adminData is Map<String, dynamic> && adminData['is_admin'] == true) {
-              _isAdmin = true;
+            if (mounted) {
+              setState(() {
+                _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
+                _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
+                    (profileData['dias_ofensiva'] as num?)?.toInt() ??
+                    _streakDays;
+                _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
+              });
             }
-          } catch (_) {}
-        }
-
-        // 2. Busca os capítulos da variante ativa calibrada do usuário
-        final mapRes = await http.get(
-          Uri.parse('$baseUrl/api/v1/trilha/$_varianteId/capitulos/'),
-          headers: headers,
-        ).timeout(const Duration(seconds: 8)).catchError((_) => http.Response('{}', 500));
-
-        if (mapRes.statusCode == 200) {
-          final String bodyStr = utf8.decode(mapRes.bodyBytes);
-          await ApiCacheManager.instance.saveResponse('$baseUrl/api/v1/trilha/$_varianteId/capitulos/', bodyStr);
-          final dynamic mapData = jsonDecode(bodyStr);
-          if (mapData is Map<String, dynamic>) {
-            _processMapData(mapData, isFromCache: false);
-            Future.microtask(() {
-              DashboardRepositoryImpl().getUserProgressStats();
-              LanguageSwitcherBottomSheet.preloadVariantes();
-            });
-            return;
           }
-        }
+        } catch (_) {}
       }
 
-      if (mounted) {
-        setState(() => _isLoading = false);
+      if (adminRes.statusCode == 200) {
+        try {
+          final dynamic adminData = jsonDecode(utf8.decode(adminRes.bodyBytes));
+          if (adminData is Map<String, dynamic> && adminData['is_admin'] == true) {
+            _isAdmin = true;
+          }
+        } catch (_) {}
+      }
+
+      // 2. Processa os capítulos da variante ativa calibrada do usuário
+      if (mapRes.statusCode == 200) {
+        final String bodyStr = utf8.decode(mapRes.bodyBytes);
+        await ApiCacheManager.instance.saveResponse('$baseUrl/api/v1/trilha/$_varianteId/capitulos/', bodyStr);
+        final dynamic mapData = jsonDecode(bodyStr);
+        if (mapData is Map<String, dynamic>) {
+          _processMapData(mapData, isFromCache: false);
+          Future.microtask(() {
+            DashboardRepositoryImpl().getUserProgressStats();
+            LanguageSwitcherBottomSheet.preloadVariantes();
+          });
+          return;
+        }
       }
     } catch (e) {
-      if (mounted) {
+      if (mounted && _capitulos.isEmpty) {
         setState(() {
-          _isLoading = false;
           _errorMessage = 'Falha ao carregar trilha: $e';
         });
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
       }
     }
   }
@@ -362,6 +409,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           posY: (lMap['pos_y'] as num?)?.toDouble() ?? 50.0,
           status: _parseLicaoStatus(lMap['status']?.toString() ?? 'bloqueada'),
           earnedXp: (lMap['earned_xp'] as num?)?.toInt() ?? 0,
+          isDynamicAi: lMap['is_dynamic_ai'] == true,
+          aiPromptTheme: lMap['ai_prompt_theme']?.toString() ?? '',
         );
       }).toList();
 
@@ -442,52 +491,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // Monta a tela principal com topbar persistente, alternância de abas e bottom bar
   @override
   Widget build(BuildContext context) {
-    _initAnimControllers();
     final maxTabs = _isAdmin ? 5 : 4;
     final currentTab = _currentTabIndex < maxTabs ? _currentTabIndex : 0;
 
     return Scaffold(
       backgroundColor: AppTheme.bg(context),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            _buildGlobalTopBar(),
-            Expanded(
-              child: _isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(color: _TupiColors.primary),
-                    )
-                  : _errorMessage != null
-                      ? _buildErrorView()
-                      : IndexedStack(
-                          index: currentTab,
-                          children: [
-                            TickerMode(
-                              enabled: currentTab == 0,
-                              child: RepaintBoundary(child: _buildTrilhaTab()),
-                            ),
-                            TickerMode(
-                              enabled: currentTab == 1,
-                              child: RepaintBoundary(child: _buildPraticaTab()),
-                            ),
-                            TickerMode(
-                              enabled: currentTab == 2,
-                              child: const RepaintBoundary(child: ProfileScreen()),
-                            ),
-                            TickerMode(
-                              enabled: currentTab == 3,
-                              child: const RepaintBoundary(child: SettingsScreen()),
-                            ),
-                            if (_isAdmin)
+      body: Listener(
+        behavior: HitTestBehavior.translucent,
+        onPointerDown: (_) => _resetIdleTimer(),
+        onPointerMove: (_) => _resetIdleTimer(),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              _buildGlobalTopBar(),
+              Expanded(
+                child: _isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(color: _TupiColors.primary),
+                      )
+                    : _errorMessage != null
+                        ? _buildErrorView()
+                        : IndexedStack(
+                            index: currentTab,
+                            children: [
                               TickerMode(
-                                enabled: currentTab == 4,
-                                child: const RepaintBoundary(child: AdminScreen()),
+                                enabled: currentTab == 0,
+                                child: RepaintBoundary(child: _buildTrilhaTab()),
                               ),
-                          ],
-                        ),
-            ),
-          ],
+                              TickerMode(
+                                enabled: currentTab == 1,
+                                child: RepaintBoundary(child: _buildPraticaTab()),
+                              ),
+                              TickerMode(
+                                enabled: currentTab == 2,
+                                child: const RepaintBoundary(child: ProfileScreen()),
+                              ),
+                              TickerMode(
+                                enabled: currentTab == 3,
+                                child: const RepaintBoundary(child: SettingsScreen()),
+                              ),
+                              if (_isAdmin)
+                                TickerMode(
+                                  enabled: currentTab == 4,
+                                  child: const RepaintBoundary(child: AdminScreen()),
+                                ),
+                            ],
+                          ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
@@ -600,20 +653,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }).toList();
             });
 
-            final session = Supabase.instance.client.auth.currentSession;
             final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
 
             try {
-              if (session != null) {
-                final response = await http.post(
-                  Uri.parse('$baseUrl/api/v1/trilha/capitulo/${cap.id}/bau/${chest.milestoneIndex}/coletar/'),
-                  headers: {
-                    'Authorization': 'Bearer ${session.accessToken}',
-                    'Content-Type': 'application/json',
-                  },
-                ).timeout(const Duration(seconds: 8));
+              final response = await ApiClient.post(
+                '$baseUrl/api/v1/trilha/capitulo/${cap.id}/bau/${chest.milestoneIndex}/coletar/',
+              ).timeout(const Duration(seconds: 8));
 
-                if (response.statusCode == 200) {
+              if (response.statusCode == 200) {
                   final data = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
                   final xpGanho = (data['recompensa_xp'] as num?)?.toInt() ?? 75;
                   final conchasGanho = (data['recompensa_conchas'] as num?)?.toInt() ?? 50;
@@ -679,7 +726,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   }
                   return;
                 }
-              }
             } catch (e) {
               debugPrint('Erro ao coletar baú: $e');
             }
@@ -954,13 +1000,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       onTabSelected: (index) {
         if (_currentTabIndex != index) {
           setState(() => _currentTabIndex = index);
-          // Otimização de Clock e VRAM: Se saiu da Trilha (aba 0), para os tickers contínuos
+          // Otimização Térmica e de Bateria: Para os tickers ao sair da trilha
           if (index == 0) {
-            _pulseController?.repeat(reverse: true);
-            _floatController?.repeat(reverse: true);
+            _resetIdleTimer();
           } else {
-            _pulseController?.stop();
-            _floatController?.stop();
+            _idleTimer?.cancel();
+            _pauseAnimTickers();
           }
         }
       },

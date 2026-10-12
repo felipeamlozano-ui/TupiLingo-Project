@@ -95,6 +95,8 @@ class _IndigenousArtifactChestState extends State<IndigenousArtifactChest>
     if (_particlePool.hasActiveParticles) {
       _particlePool.update(0.016); // ~60fps step
       setState(() {});
+    } else if (_particleTickerController.isAnimating) {
+      _particleTickerController.stop();
     }
   }
 

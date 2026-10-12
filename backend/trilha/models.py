@@ -247,6 +247,23 @@ class Licao(models.Model):
         help_text="Posição vertical (0=topo, 100=fundo) no cenário."
     )
     publicada = models.BooleanField(default=False, db_index=True, verbose_name="Publicada")
+    is_dynamic_ai = models.BooleanField(
+        default=False,
+        db_index=True,
+        verbose_name="Lição Dinâmica por IA",
+        help_text="Se True, a penúltima lição é gerada e adaptada dinamicamente por IA com ancoragem temática."
+    )
+    ai_prompt_theme = models.CharField(
+        max_length=200,
+        blank=True,
+        default="",
+        verbose_name="Tema Pedagógico da IA"
+    )
+    ai_vocabulary_anchors = models.JSONField(
+        default=list,
+        blank=True,
+        verbose_name="Palavras Obrigatórias Ancoradas"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

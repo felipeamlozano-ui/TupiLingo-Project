@@ -33,12 +33,12 @@
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
           },
           {
-            "palavra": "Mbyá",
-            "traducao": "Alimento / Comida",
+            "palavra": "Tembi'u",
+            "traducao": "Comida / O que se come",
             "transliteracao": "mby-A",
             "classe_gramatical": "substantivo",
             "categoria": "alimentos",
-            "exemplo_uso": "Mbyá katu.",
+            "exemplo_uso": "Tembi'u katu.",
             "exemplo_pt": "Comida saborosa.",
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
           }
@@ -80,11 +80,11 @@
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Mbyá'?",
+          "enunciado": "Qual é o significado correto da palavra 'Tembi'u'?",
           "opcoes": [
             {
               "letra": "A",
-              "texto": "Alimento / Comida"
+              "texto": "Comida / O que se come"
             },
             {
               "letra": "B",
@@ -100,12 +100,12 @@
             }
           ],
           "resposta_correta": "A",
-          "resposta_correta_termo": "Mbyá",
-          "explicacao": "'Mbyá' significa 'Alimento / Comida' conforme atestado no RAG.",
+          "resposta_correta_termo": "Tembi'u",
+          "explicacao": "'Tembi'u' significa 'Comida / O que se come' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
-            "Mbyá"
+            "Tembi'u"
           ]
         },
         {
@@ -114,29 +114,29 @@
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
             "Mani'oka": "Mandioca",
-            "Mbyá": "Alimento / Comida"
+            "Tembi'u": "Comida / O que se come"
           },
           "coluna_esquerda": [
             "Mani'oka",
-            "Mbyá"
+            "Tembi'u"
           ],
           "coluna_direita": [
             "Mandioca",
-            "Alimento / Comida"
+            "Comida / O que se come"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Mani'oka",
-            "Mbyá"
+            "Tembi'u"
           ]
         }
       ],
       "bloco_revisao": {
         "resumo_termos": [
           "Mani'oka",
-          "Mbyá"
+          "Tembi'u"
         ],
         "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
       }
@@ -276,6 +276,119 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: A Mandioca e os Alimentos da Terra",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Mandioca e os Alimentos da Terra.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "A Mandioca e os Alimentos da Terra",
+      "ai_vocabulary_anchors": [
+        "Mani'oka",
+        "Tembi'u",
+        "Kãuĩ",
+        "Abati"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Mandioca e os Alimentos da Terra'.",
+        "itens_apresentados": [
+          {
+            "palavra": "Mani'oka",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "mani'oka",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Mani'oka katu!",
+            "exemplo_pt": "Uso contextual de Mani'oka."
+          },
+          {
+            "palavra": "Tembi'u",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "tembi'u",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe Tembi'u!",
+            "exemplo_pt": "Uso contextual de Tembi'u."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'A Mandioca e os Alimentos da Terra', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "Mani'oka",
+            "Motembi'u",
+            "Tekãuĩ",
+            "Kuabati"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Mani'oka' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.447,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de A Mandioca e os Alimentos da Terra: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "Tembi'u",
+          "opcoes_banco": [
+            "Tembi'u",
+            "Kãuĩ",
+            "Abati",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Tembi'u'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -1.347,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Mandioca e os Alimentos da Terra':",
+          "opcoes": [
+            "Uso harmônico de 'Kãuĩ'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Kãuĩ' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": -1.197,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de A Mandioca e os Alimentos da Terra, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.447,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -288,8 +401,8 @@
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
           },
           {
-            "palavra": "Mbyá",
-            "traducao": "Alimento / Comida",
+            "palavra": "Tembi'u",
+            "traducao": "Comida / O que se come",
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
           },
           {
@@ -312,19 +425,19 @@
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 5:",
           "pares_corretos": {
             "Mani'oka": "Mandioca",
-            "Mbyá": "Alimento / Comida",
+            "Tembi'u": "Comida / O que se come",
             "Kãuĩ": "Cauim fermentado",
             "Abati": "Milho"
           },
           "coluna_esquerda": [
             "Mani'oka",
-            "Mbyá",
+            "Tembi'u",
             "Kãuĩ",
             "Abati"
           ],
           "coluna_direita": [
             "Mandioca",
-            "Alimento / Comida",
+            "Comida / O que se come",
             "Cauim fermentado",
             "Milho"
           ],
@@ -333,7 +446,7 @@
           "pontos_base": 20,
           "itens_alvo": [
             "Mani'oka",
-            "Mbyá",
+            "Tembi'u",
             "Kãuĩ",
             "Abati"
           ]
@@ -355,7 +468,7 @@
       "bloco_revisao": {
         "resumo_termos": [
           "Mani'oka",
-          "Mbyá",
+          "Tembi'u",
           "Kãuĩ",
           "Abati"
         ],
@@ -363,6 +476,6 @@
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 9
 }

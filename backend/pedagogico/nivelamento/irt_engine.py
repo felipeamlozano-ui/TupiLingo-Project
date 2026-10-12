@@ -168,12 +168,12 @@ class IRTEngine:
         for t, prior in zip(thetas, prior_weights):
             log_lik = 0.0
             for r in responses:
-                item_id = r["item_id"]
+                item_id = r.get("item_id")
                 is_correct = bool(r.get("is_correct", False))
-                it = self.items_by_id.get(item_id, {})
-                a = it.get("param_a", 1.2)
-                b = it.get("param_b", 0.0)
-                c = it.get("param_c", 0.25)
+                it = self.items_by_id.get(item_id, {}) if item_id else {}
+                a = float(r.get("param_a", it.get("param_a", 1.2)))
+                b = float(r.get("param_b", it.get("param_b", 0.0)))
+                c = float(r.get("param_c", it.get("param_c", 0.25)))
                 p = self.probability_3pl(t, a, b, c)
                 log_lik += math.log(max(1e-10, p if is_correct else (1.0 - p)))
 
@@ -209,14 +209,15 @@ class IRTEngine:
     def detect_inconsistency(self, responses: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
         Detecta aberrações e padrões de chute:
-        Ex: Acerto em itens muito difíceis (b > 1.5) somado a erros em itens básicos (b < -1.5).
+        Ex: Acerto em itens muito difíceis (b > 1.2) somado a erros em itens básicos (b < -1.2).
         """
         hard_correct = 0
         easy_incorrect = 0
 
         for r in responses:
-            it = self.items_by_id.get(r["item_id"], {})
-            b = it.get("param_b", 0.0)
+            item_id = r.get("item_id")
+            it = self.items_by_id.get(item_id, {}) if item_id else {}
+            b = float(r.get("param_b", it.get("param_b", 0.0)))
             is_correct = bool(r.get("is_correct", False))
             if b >= 1.2 and is_correct:
                 hard_correct += 1

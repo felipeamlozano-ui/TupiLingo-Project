@@ -25,22 +25,33 @@ class ProgressService:
 
     @classmethod
     def invalidate_user_trail_cache(cls, user_id: int, variante_id: int = None):
-        """Invalida o cache da trilha do usuário em todas as variantes."""
+        """Invalida o cache da trilha e do mapa de regiões do usuário em todas as variantes."""
         from django.core.cache import cache
+        from app.ai.ping_race import get_redis_client
+        r = get_redis_client()
+        keys_to_delete = []
         if variante_id:
-            cache.delete(f"user_trail_{user_id}_{variante_id}")
+            keys_to_delete.extend([f"user_trail_{user_id}_{variante_id}", f"mapa_regioes_{user_id}_{variante_id}"])
         for vid in range(1, 10):
-            cache.delete(f"user_trail_{user_id}_{vid}")
+            keys_to_delete.extend([f"user_trail_{user_id}_{vid}", f"mapa_regioes_{user_id}_{vid}"])
+        
+        for k in keys_to_delete:
+            cache.delete(k)
+            if r:
+                try:
+                    r.delete(k)
+                except Exception:
+                    pass
 
     @classmethod
     def get_trail_structure_with_progression(
-        cls, user: UserProfile, variante: VarianteTupi, use_cache: bool = False
+        cls, user: UserProfile, variante: VarianteTupi, use_cache: bool = True
     ) -> Dict[str, Any]:
         """
         Retorna a estrutura completa da Trilha, Capítulos, Lições e Baús
         com o estado de progressão canônico de cada nó calculado de forma estrita.
-        use_cache=False por padrão garante consistência imediata entre múltiplos
-        workers Gunicorn e elimina rollbacks visuais no frontend Flutter.
+        Com RedisCache centralizado, use_cache=True provê latência sub-3ms
+        e invalidação atômica e consistente em mutações.
         """
         from django.core.cache import cache
         cache_key = f"user_trail_{user.id}_{variante.id}"
@@ -183,6 +194,8 @@ class ProgressService:
                     "xp_base": licao.xp_base,
                     "pos_x": licao.pos_x,
                     "pos_y": licao.pos_y,
+                    "is_dynamic_ai": licao.is_dynamic_ai,
+                    "ai_prompt_theme": licao.ai_prompt_theme,
                     "status": c_status,
                     "completion_percentage": ul.completion_percentage if ul else 0.0,
                     "earned_xp": ul.earned_xp if ul else 0,
@@ -252,7 +265,7 @@ class ProgressService:
             "capitulos": capitulos_data,
         }
         if use_cache:
-            cache.set(cache_key, result, timeout=60)
+            cache.set(cache_key, result, timeout=600)
         return result
 
     @classmethod

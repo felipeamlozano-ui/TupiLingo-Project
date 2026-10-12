@@ -276,6 +276,119 @@
     },
     {
       "numero": 3,
+      "titulo": "Prática Adaptativa: Ações Cotidianas e Verbos do Dia",
+      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de Ações Cotidianas e Verbos do Dia.",
+      "xp_base": 30,
+      "is_dynamic_ai": true,
+      "ai_prompt_theme": "Ações Cotidianas e Verbos do Dia",
+      "ai_vocabulary_anchors": [
+        "'U",
+        "'Y",
+        "Só",
+        "Ker"
+      ],
+      "bloco_ensino": {
+        "tipo": "pratica_adaptativa_ia",
+        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'Ações Cotidianas e Verbos do Dia'.",
+        "itens_apresentados": [
+          {
+            "palavra": "'U",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "'u",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "'U katu!",
+            "exemplo_pt": "Uso contextual de 'U."
+          },
+          {
+            "palavra": "'Y",
+            "traducao": "Termo de consolidação",
+            "transliteracao": "'y",
+            "classe_gramatical": "vocabulo_chave",
+            "categoria": "adaptativo_ia",
+            "exemplo_uso": "Xe 'Y!",
+            "exemplo_pt": "Uso contextual de 'Y."
+          }
+        ]
+      },
+      "exercicios": [
+        {
+          "ordem": 1,
+          "tipo": "escolha_multipla",
+          "enunciado": "No contexto de 'Ações Cotidianas e Verbos do Dia', qual termo representa a forma canônica aprendida?",
+          "opcoes": [
+            "'U",
+            "Mo'y",
+            "Tesó",
+            "Kuker"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "''U' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 0.395,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 2,
+          "tipo": "completar",
+          "enunciado": "Complete a sentença tradicional de Ações Cotidianas e Verbos do Dia: 'Xe ____ katu'.",
+          "frase_com_lacunas": "Xe _____ katu.",
+          "palavra_correta": "'Y",
+          "opcoes_banco": [
+            "'Y",
+            "Só",
+            "Ker",
+            "abá"
+          ],
+          "explicacao": "A estrutura correta com o pronome 'xe' é completada por ''Y'.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": 0.495,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 3,
+          "tipo": "escolha_multipla",
+          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Ações Cotidianas e Verbos do Dia':",
+          "opcoes": [
+            "Uso harmônico de 'Só'",
+            "Construção com prefixo incorreto",
+            "Termo estrangeiro sem raiz",
+            "Forma verbal inexistente"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Só' expressa a construção genuína documentada nas fontes clássicas.",
+          "dificuldade": "dificil",
+          "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": 0.645,
+          "param_c": 0.25
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Ao revisar as estruturas de Ações Cotidianas e Verbos do Dia, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "opcoes": [
+            "Katu",
+            "Ibi",
+            "Tekó",
+            "Moñy"
+          ],
+          "resposta_correta": 0,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
+          "dificuldade": "media",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": 0.395,
+          "param_c": 0.25
+        }
+      ]
+    },
+    {
+      "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
       "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
       "xp_base": 35,
@@ -363,6 +476,6 @@
       }
     }
   ],
-  "total_licoes": 3,
+  "total_licoes": 4,
   "total_exercicios": 9
 }

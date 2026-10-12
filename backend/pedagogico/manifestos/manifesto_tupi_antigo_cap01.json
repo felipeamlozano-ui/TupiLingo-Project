@@ -1,19 +1,19 @@
 {
   "variante": "tupi_antigo",
   "capitulo": 1,
-  "timestamp": "2026-09-25T23:02:47.197426+00:00",
+  "timestamp": "2026-10-11T20:49:49.814432+00:00",
   "total_itens": 6,
   "itens_ensinados": [
     {
-      "palavra": "Kauê",
+      "palavra": "Aué",
       "traducao": "Olá / Salve",
       "variante": "tupi_antigo",
       "categoria": "saudacoes",
       "capitulo_introduzido": 1,
       "licao_introduzida": 1,
       "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_140",
-      "exemplo_uso": "Kauê, che amigo!",
-      "transliteracao": "ka-u-Ê",
+      "exemplo_uso": "Aué, xe irũ!",
+      "transliteracao": "a-u-É",
       "status": "completo"
     },
     {

@@ -63,29 +63,36 @@ class TrailTabView extends StatelessWidget {
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-          children: [
-            // Seletor de Capítulos
-            _buildChapterTabsHeader(context),
-            const SizedBox(height: 14),
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate.fixed([
+                  // Seletor de Capítulos
+                  _buildChapterTabsHeader(context),
+                  const SizedBox(height: 14),
 
-            // Card Principal da Unidade / Capítulo
-            ChapterBannerCard(
-              cap: cap,
-              onCulturalGuideTap: () => onCulturalGuideTap(cap),
-            ),
-            const SizedBox(height: 24),
+                  // Card Principal da Unidade / Capítulo
+                  ChapterBannerCard(
+                    cap: cap,
+                    onCulturalGuideTap: () => onCulturalGuideTap(cap),
+                  ),
+                  const SizedBox(height: 24),
 
-            // O Caminho de Lições
-            TrailCanvasView(
-              cap: cap,
-              isCurrentActiveChapter: (safeIndex < capitulos.length && capitulos[safeIndex].id == cap.id),
-              pulseController: pulseController,
-              floatController: floatController,
-              onLessonTap: onLessonTap,
-              onChestTap: onChestTap,
-              onCollectedChestTap: onCollectedChestTap,
+                  // O Caminho de Lições
+                  TrailCanvasView(
+                    cap: cap,
+                    isCurrentActiveChapter: (safeIndex < capitulos.length && capitulos[safeIndex].id == cap.id),
+                    pulseController: pulseController,
+                    floatController: floatController,
+                    onLessonTap: onLessonTap,
+                    onChestTap: onChestTap,
+                    onCollectedChestTap: onCollectedChestTap,
+                  ),
+                ]),
+              ),
             ),
           ],
         ),

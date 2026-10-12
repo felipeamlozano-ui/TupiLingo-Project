@@ -98,7 +98,7 @@ def supabase_auth_required(view_func):
                     supabase_jwt_secret,
                     algorithms=['HS256'],
                     options={"verify_aud": False},
-                    leeway=30,
+                    leeway=60,
                 )
             elif alg in ['RS256', 'ES256'] and jwks_client is not None:
                 signing_key = jwks_client.get_signing_key_from_jwt(token)
@@ -107,7 +107,7 @@ def supabase_auth_required(view_func):
                     signing_key.key,
                     algorithms=['RS256', 'ES256'],
                     options={"verify_aud": False},
-                    leeway=30,
+                    leeway=60,
                 )
         except Exception as e:
             logger.debug("Tentativa local de decodificação falhou (%s), tentando validação direta...", e)

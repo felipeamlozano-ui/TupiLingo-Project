@@ -1,0 +1,32 @@
+{
+  "variante": "tupi_revitalizado",
+  "capitulo": 17,
+  "timestamp": "2026-10-11T20:49:49.856247+00:00",
+  "total_itens": 2,
+  "itens_ensinados": [
+    {
+      "palavra": "Moitará",
+      "traducao": "Troca de bens / Aliança",
+      "variante": "tupi_revitalizado",
+      "categoria": "comunidade",
+      "capitulo_introduzido": 17,
+      "licao_introduzida": 1,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_215",
+      "exemplo_uso": "Moitará taba pupé.",
+      "transliteracao": "moi-ta-RA",
+      "status": "completo"
+    },
+    {
+      "palavra": "Me'eng",
+      "traducao": "Dar / Doar",
+      "variante": "tupi_revitalizado",
+      "categoria": "verbos",
+      "capitulo_introduzido": 17,
+      "licao_introduzida": 2,
+      "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_216",
+      "exemplo_uso": "A-me'eng manioka.",
+      "transliteracao": "me-ENG",
+      "status": "completo"
+    }
+  ]
+}

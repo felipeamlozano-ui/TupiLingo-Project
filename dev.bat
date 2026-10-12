@@ -29,34 +29,40 @@ echo   [3] Modo Producao Real (Backend Local + Tunel Cloudflare + Build APK)
 echo       - Backend de Producao (Gunicorn WSGI + Redis + Supabase, DEBUG=False),
 echo         Tunel reverso Cloudflare (trycloudflare.com) e geracao de APK Release.
 echo.
-echo   [4] Apenas Backend Core (Django + Redis)
+echo   [4] Depuracao Wireless Wi-Fi + Flutter Producao [NOVO - TESTE REAL]
+echo       - Celular conectado por Wi-Fi (Android Studio Wireless Debugging),
+echo         ADB Reverse configurado e Flutter executado em MODO PRODUCAO (RELEASE AOT).
+echo         Permite testar a performance real (60/120 FPS, sem overhead do modo debug).
+echo.
+echo   [5] Apenas Backend Core (Django + Redis)
 echo       - Sobe apenas os servicos de API no Docker (sem Flutter e sem workers).
 echo.
-echo   [5] Apenas Workers de IA (PDF Worker + Vocab Worker)
+echo   [6] Apenas Workers de IA (PDF Worker + Vocab Worker)
 echo       - Roda exclusivamente a ingestao e classificacao de dados em background.
 echo.
-echo   [6] TupiLingo OCR Research Grade (RFC v5/v6 GPU Local — RTX 5060) [EXCLUSIVO PC]
+echo   [7] TupiLingo OCR Research Grade (RFC v5/v6 GPU Local — RTX 5060) [EXCLUSIVO PC]
 echo       - Processamento arquivistico offline na GPU local: Doc AI WBF, Self-Consistency,
 echo         Calibracao Bayesiana, Token Super-Res, Benchmark Real e Dashboards.
 echo.
-echo   [7] Sair / Cancelar
+echo   [8] Sair / Cancelar
 echo.
 echo ===============================================================================
 
 set "CHOICE="
-set /p "CHOICE= Selecione uma opcao [1-7]: "
+set /p "CHOICE= Selecione uma opcao [1-8]: "
 
 :handle_choice
 if "%CHOICE%"=="1" goto opt_full
 if "%CHOICE%"=="2" goto opt_fast
 if "%CHOICE%"=="3" goto opt_prod_tunnel
-if "%CHOICE%"=="4" goto opt_backend_only
-if "%CHOICE%"=="5" goto opt_workers_only
-if "%CHOICE%"=="6" goto opt_research_ocr
-if "%CHOICE%"=="7" goto opt_exit
+if "%CHOICE%"=="4" goto opt_wireless_release
+if "%CHOICE%"=="5" goto opt_backend_only
+if "%CHOICE%"=="6" goto opt_workers_only
+if "%CHOICE%"=="7" goto opt_research_ocr
+if "%CHOICE%"=="8" goto opt_exit
 
 echo.
-echo [!] Opcao invalida: "%CHOICE%"! Digite um numero de 1 a 7.
+echo [!] Opcao invalida: "%CHOICE%"! Digite um numero de 1 a 8.
 pause
 goto menu
 
@@ -279,7 +285,133 @@ pause
 goto end
 
 :: -------------------------------------------------------------------------------
-:: OPCAO 4: Apenas Backend Core
+:: OPCAO 4: Depuracao Wireless Wi-Fi + Flutter Producao (Release AOT)
+:: -------------------------------------------------------------------------------
+:opt_wireless_release
+cls
+echo ===============================================================================
+echo   MODO TESTE REAL: DEPURACAO WIRELESS WI-FI (ANDROID STUDIO) + FLUTTER RELEASE
+echo ===============================================================================
+echo.
+echo   Objetivo: Testar o aplicativo com desempenho real e nativo no celular,
+echo             conectado via depuracao sem fio (Wi-Fi), com compilacao AOT Release
+echo             (60/120 FPS, sem overhead do modo debug e com comunicacao de backend).
+echo.
+
+:: 1. Localizacao do executavel ADB
+call :find_adb_bin
+if not defined ADB_BIN (
+    echo [ERRO] adb.exe nao encontrado no Android SDK nem no PATH!
+    echo [!] Verifique se o Android Studio ou o SDK Platform-Tools estao instalados.
+    pause
+    goto menu
+)
+
+:: 2. Identificacao e Conexao do Dispositivo Wi-Fi
+echo [*] Localizando dispositivo Android via ADB Wireless...
+call :detect_wireless_device
+
+:: 3. Configuracao do ADB Reverse (Roteamento celular -> backend 8000)
+echo.
+echo [*] Configurando ADB Reverse na porta 8000...
+"!ADB_BIN!" reverse tcp:8000 tcp:8000 >nul 2>&1
+if %errorlevel% equ 0 (
+    echo [OK] ADB Reverse ativo: celular acessa http://127.0.0.1:8000/ perfeitamente!
+) else (
+    echo [AVISO] Falha no adb reverse. Tentando prosseguir com IP local...
+)
+
+:: Coleta IP local da maquina para informacao adicional
+set "LOCAL_WIFI_IP="
+for /f "usebackq tokens=*" %%I in (`powershell -NoProfile -Command "(Get-NetIPConfiguration | Where-Object IPv4DefaultGateway).IPv4Address.IPAddress" 2^>nul`) do (
+    if not "%%I"=="" set "LOCAL_WIFI_IP=%%I"
+)
+if defined LOCAL_WIFI_IP (
+    echo [*] IP local da sua maquina na rede Wi-Fi: http://!LOCAL_WIFI_IP!:8000/
+)
+
+:: 4. Verificacao / Inicializacao do Backend (Django + Redis)
+echo.
+echo [*] Verificando se o Backend Django e Redis ja estao ativos...
+
+set "BACKEND_IS_UP=0"
+powershell -NoProfile -Command "try { Invoke-WebRequest -Uri 'http://127.0.0.1:8000/api/health/' -UseBasicParsing -TimeoutSec 2 -ErrorAction Stop | Out-Null; exit 0 } catch { exit 1 }" >nul 2>&1
+if %errorlevel% equ 0 set "BACKEND_IS_UP=1"
+
+if "%BACKEND_IS_UP%"=="1" (
+    echo [OK] Backend Django e Redis ja estao ativos e respondendo na porta 8000!
+    goto backend_wireless_ready
+)
+
+where docker >nul 2>&1
+if %errorlevel% neq 0 goto start_backend_wireless_local
+
+echo [*] Iniciando servicos do Backend no Docker: Django + Redis...
+cd /d "%PROJECT_DIR%backend"
+start "Docker Backend (Dev/Test)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.dev.yml up django redis"
+call :wait_django
+goto backend_wireless_ready
+
+:start_backend_wireless_local
+echo [*] Docker nao detectado. Iniciando Backend via Python local venv...
+cd /d "%PROJECT_DIR%backend"
+start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+call :wait_django
+
+:backend_wireless_ready
+
+:: 5. Execucao do Flutter em MODO RELEASE
+echo.
+echo ===============================================================================
+echo   COMPILANDO E EXECUTANDO FLUTTER EM MODO RELEASE (PRODUCAO NATIVA AOT)
+echo ===============================================================================
+if defined TARGET_DEVICE_ID (
+    echo [*] Alvo: !TARGET_DEVICE_NAME! - !TARGET_DEVICE_ID!
+) else (
+    echo [*] Alvo: Dispositivo Android conectado
+)
+echo [*] Executando flutter run --release...
+echo [!] Nota: No modo Release, o Flutter otimiza o app via AOT e fecha a conexao
+echo     da VM do Dart. O aplicativo abrira e continuara rodando nativamente no celular.
+echo.
+
+cd /d "%PROJECT_DIR%frontend\tupi_lingo"
+
+if defined TARGET_DEVICE_ID (
+    call flutter run --release -d !TARGET_DEVICE_ID! --dart-define-from-file=.env
+) else (
+    call flutter run --release -d android --dart-define-from-file=.env
+)
+
+if %errorlevel% neq 0 (
+    echo.
+    echo [ERRO] O comando flutter run --release falhou.
+    echo [!] Verifique as mensagens do Gradle acima.
+    pause
+    goto menu
+)
+
+echo.
+echo ===============================================================================
+echo   APLICATIVO INICIADO COM SUCESSO EM MODO DE PRODUCAO!
+echo ===============================================================================
+echo.
+echo   - App rodando em modo RELEASE (performance real, sem jank de depurador).
+echo   - Comunicacao com o backend garantida pela porta 8000 via ADB Reverse.
+echo.
+set "WANT_LOGCAT=S"
+set /p "WANT_LOGCAT= Deseja abrir uma janela com Logcat em tempo real para monitorar? [S/N] [Padrao: S]: "
+if /i "!WANT_LOGCAT!"=="S" (
+    start "TupiLingo - Logcat Wireless" cmd /k ""!ADB_BIN!" logcat -v time -s flutter:* TupiLingo:*"
+)
+
+echo.
+echo Pressione qualquer tecla para retornar ao menu principal...
+pause >nul
+goto menu
+
+:: -------------------------------------------------------------------------------
+:: OPCAO 5: Apenas Backend Core
 :: -------------------------------------------------------------------------------
 :opt_backend_only
 cls
@@ -652,18 +784,89 @@ exit /b 0
 :: -------------------------------------------------------------------------------
 :: OUTRAS FUNCOES AUXILIARES
 :: -------------------------------------------------------------------------------
+:find_adb_bin
+set "ADB_BIN="
+if exist "%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe" (
+    set "ADB_BIN=%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe"
+    exit /b 0
+)
+where adb >nul 2>&1
+if %errorlevel% equ 0 (
+    for /f "usebackq tokens=*" %%A in (`where adb`) do (
+        set "ADB_BIN=%%A"
+        exit /b 0
+    )
+)
+exit /b 1
+
+:detect_wireless_device
+set "TARGET_DEVICE_ID="
+set "TARGET_DEVICE_NAME=Dispositivo Android"
+
+:: 1. Tenta encontrar dispositivos ja conectados
+for /f "skip=1 tokens=1,2" %%A in ('"!ADB_BIN!" devices') do (
+    if "%%B"=="device" (
+        if not defined TARGET_DEVICE_ID (
+            set "TARGET_DEVICE_ID=%%A"
+        )
+    )
+)
+
+if defined TARGET_DEVICE_ID (
+    echo [OK] Dispositivo conectado detectado: !TARGET_DEVICE_ID!
+    exit /b 0
+)
+
+:: 2. Se nao encontrou, orienta e oferece conexao manual por IP:Porta
+echo.
+echo [AVISO] Nenhum dispositivo Android detectado via ADB no momento.
+echo.
+echo   Instrucoes para conectar via Wi-Fi:
+echo   1. No Android Studio: Abra 'Device Manager' -^> 'Physical Devices' -^> 'Pair using Wi-Fi'.
+echo   2. Ou no seu celular: 'Opcoes do desenvolvedor' -^> 'Depuracao por Wi-Fi' (veja IP e porta).
+echo.
+set "MANUAL_IP_PORT="
+set /p "MANUAL_IP_PORT= Digite o IP:PORTA do celular (ou pressione ENTER para tentar detectar novamente): "
+
+if not "!MANUAL_IP_PORT!"=="" (
+    echo [*] Tentando conectar a !MANUAL_IP_PORT!...
+    "!ADB_BIN!" connect !MANUAL_IP_PORT!
+    powershell -NoProfile -Command "Start-Sleep -Seconds 2"
+    for /f "skip=1 tokens=1,2" %%A in ('"!ADB_BIN!" devices') do (
+        if "%%B"=="device" (
+            set "TARGET_DEVICE_ID=%%A"
+            echo [OK] Conectado com sucesso ao dispositivo: !TARGET_DEVICE_ID!
+            exit /b 0
+        )
+    )
+)
+
+:: 3. Ultima tentativa automatica de deteccao
+powershell -NoProfile -Command "Start-Sleep -Seconds 1"
+for /f "skip=1 tokens=1,2" %%A in ('"!ADB_BIN!" devices') do (
+    if "%%B"=="device" (
+        set "TARGET_DEVICE_ID=%%A"
+        echo [OK] Dispositivo detectado: !TARGET_DEVICE_ID!
+        exit /b 0
+    )
+)
+
+echo [AVISO] Nenhum dispositivo listado no ADB. O Flutter tentara detectar automaticamente (-d android).
+exit /b 0
+
 :setup_adb
 echo.
 echo [1/3] Configurando ADB Reverse na porta 8000...
-if exist "%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe" (
-    "%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe" reverse tcp:8000 tcp:8000
+call :find_adb_bin
+if defined ADB_BIN (
+    "!ADB_BIN!" reverse tcp:8000 tcp:8000 >nul 2>&1
     if errorlevel 1 (
         echo [AVISO] Falha ao configurar ADB Reverse. Prosseguindo...
     ) else (
         echo [OK] ADB Reverse configurado com sucesso!
     )
 ) else (
-    echo [AVISO] adb.exe nao encontrado no caminho padrao do SDK. Prosseguindo...
+    echo [AVISO] adb.exe nao encontrado no caminho padrao do SDK nem no PATH. Prosseguindo...
 )
 exit /b 0
 
@@ -688,5 +891,10 @@ echo [3/3] Iniciando o aplicativo Flutter em modo DEBUG...
 cd /d "%PROJECT_DIR%frontend\tupi_lingo"
 call flutter run --dart-define-from-file=.env
 exit /b 0
+
+:opt_exit
+echo.
+echo Encerrando sem iniciar nenhum servico.
+goto end
 
 :end

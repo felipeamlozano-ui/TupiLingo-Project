@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 
@@ -14,15 +13,9 @@ class LanguageSwitcherBottomSheet extends StatefulWidget {
 
   static Future<void> preloadVariantes() async {
     try {
-      final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      final res = await http.get(
-        Uri.parse('$baseUrl/api/v1/trilha/variantes/'),
-        headers: {
-          'Content-Type': 'application/json',
-          if (session != null) 'Authorization': 'Bearer ${session.accessToken}',
-        },
-      ).timeout(const Duration(seconds: 4));
+      final res = await ApiClient.get('$baseUrl/api/v1/trilha/variantes/')
+          .timeout(const Duration(seconds: 4));
 
       if (res.statusCode == 200) {
         final data = jsonDecode(utf8.decode(res.bodyBytes));
@@ -64,15 +57,9 @@ class _LanguageSwitcherBottomSheetState extends State<LanguageSwitcherBottomShee
 
   Future<void> _fetchVariantes() async {
     try {
-      final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      final res = await http.get(
-        Uri.parse('$baseUrl/api/v1/trilha/variantes/'),
-        headers: {
-          'Content-Type': 'application/json',
-          if (session != null) 'Authorization': 'Bearer ${session.accessToken}',
-        },
-      ).timeout(const Duration(seconds: 8));
+      final res = await ApiClient.get('$baseUrl/api/v1/trilha/variantes/')
+          .timeout(const Duration(seconds: 8));
 
       if (res.statusCode == 200) {
         final data = jsonDecode(utf8.decode(res.bodyBytes));
@@ -111,16 +98,11 @@ class _LanguageSwitcherBottomSheetState extends State<LanguageSwitcherBottomShee
     setState(() => _updatingVarianteId = vId);
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
 
-      final res = await http.post(
-        Uri.parse('$baseUrl/api/v1/auth/update-variante'),
-        headers: {
-          'Content-Type': 'application/json',
-          if (session != null) 'Authorization': 'Bearer ${session.accessToken}',
-        },
-        body: jsonEncode({'variante_id': vId}),
+      final res = await ApiClient.post(
+        '$baseUrl/api/v1/auth/update-variante',
+        body: {'variante_id': vId},
       ).timeout(const Duration(seconds: 10));
 
       if (res.statusCode == 200) {

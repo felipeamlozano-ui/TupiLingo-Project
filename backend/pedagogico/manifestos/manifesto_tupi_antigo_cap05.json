@@ -1,7 +1,7 @@
 {
   "variante": "tupi_antigo",
   "capitulo": 5,
-  "timestamp": "2026-09-25T23:02:48.579326+00:00",
+  "timestamp": "2026-10-11T20:49:49.819945+00:00",
   "total_itens": 4,
   "itens_ensinados": [
     {
@@ -17,14 +17,14 @@
       "status": "completo"
     },
     {
-      "palavra": "Mbyá",
-      "traducao": "Alimento / Comida",
+      "palavra": "Tembi'u",
+      "traducao": "Comida / O que se come",
       "variante": "tupi_antigo",
       "categoria": "alimentos",
       "capitulo_introduzido": 5,
       "licao_introduzida": 1,
       "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412",
-      "exemplo_uso": "Mbyá katu.",
+      "exemplo_uso": "Tembi'u katu.",
       "transliteracao": "mby-A",
       "status": "completo"
     },
