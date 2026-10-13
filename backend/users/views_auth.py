@@ -140,6 +140,15 @@ def register_account(request):
     if not password or len(password) < 6:
         return JsonResponse({'error': 'A senha deve conter no mínimo 6 caracteres.'}, status=400)
 
+    # 1. Verificação proativa no Django: bloqueia cadastros duplicados com resposta segura
+    from users.models import UserProfile
+    if UserProfile.objects.filter(email__iexact=email).exists():
+        logger.info("[Auth Bridge] Bloqueando cadastro para e-mail já existente no UserProfile: %s", email)
+        return JsonResponse({
+            'error': 'Este e-mail já está cadastrado. Faça login para continuar.',
+            'code': 'already_registered'
+        }, status=409)
+
     try:
         supabase_url, service_key = _get_supabase_config()
         url = f"{supabase_url}/auth/v1/signup"
@@ -159,9 +168,18 @@ def register_account(request):
         res_json = response.json() if response.content else {}
 
         if response.status_code == 200:
-            # Caso o usuário já exista, o GoTrue costuma retornar 200 com identities vazio
-            identities = res_json.get('identities')
+            # 2. Caso o usuário já exista no Supabase GoTrue, retorna 200 com identities vazio
+            user_data = res_json.get('user') if isinstance(res_json.get('user'), dict) else res_json
+            identities = user_data.get('identities') if isinstance(user_data, dict) else None
             if identities is not None and len(identities) == 0:
+                logger.info("[Auth Bridge] GoTrue retornou identities vazias para %s. E-mail já cadastrado.", email)
+                return JsonResponse({
+                    'error': 'Este e-mail já está cadastrado. Faça login para continuar.',
+                    'code': 'already_registered'
+                }, status=409)
+
+            if isinstance(user_data, dict) and user_data.get('confirmed_at') and not res_json.get('session'):
+                logger.info("[Auth Bridge] Usuário já confirmado previamente no GoTrue: %s", email)
                 return JsonResponse({
                     'error': 'Este e-mail já está cadastrado. Faça login para continuar.',
                     'code': 'already_registered'
@@ -169,7 +187,7 @@ def register_account(request):
 
             return JsonResponse({
                 'status': 'success',
-                'user': res_json.get('user') or res_json,
+                'user': user_data,
                 'session': res_json.get('session'),
             })
 

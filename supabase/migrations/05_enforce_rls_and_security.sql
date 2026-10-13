@@ -16,12 +16,14 @@ DECLARE
         'users_historicoresposta',
         'trilha_userchestreward',
         'trilha_userlesson',
+        'users_userlesson',
         'nivelamento_usercurrentexercise',
         'nivelamento_testattempt',
         'nivelamento_uservariantelevel',
         'ai_thematic_semantic_cache',
         'trilha_variantetupi',
         'trilha_trilha',
+        'trilha_trilhahistorica',
         'trilha_capitulo',
         'trilha_licao',
         'trilha_storyblock',
@@ -92,7 +94,7 @@ BEGIN
         DROP POLICY IF EXISTS p_read_exercicio ON trilha_exercicio;
         CREATE POLICY p_read_exercicio ON trilha_exercicio
             FOR SELECT TO anon, authenticated
-            USING (ativo = true);
+            USING (true);
     END IF;
 END $$;
 
@@ -107,8 +109,8 @@ BEGIN
         DROP POLICY IF EXISTS p_user_profile_isolation ON users_userprofile;
         CREATE POLICY p_user_profile_isolation ON users_userprofile
             FOR ALL TO authenticated
-            USING (auth.uid()::text = id::text OR auth.uid()::text = user_id::text)
-            WITH CHECK (auth.uid()::text = id::text OR auth.uid()::text = user_id::text);
+            USING (auth.uid()::text = id::text)
+            WITH CHECK (auth.uid()::text = id::text);
     END IF;
 
     -- users_daily_study_log
@@ -125,8 +127,8 @@ BEGIN
         DROP POLICY IF EXISTS p_historico_resposta_isolation ON users_historicoresposta;
         CREATE POLICY p_historico_resposta_isolation ON users_historicoresposta
             FOR ALL TO authenticated
-            USING (auth.uid()::text = usuario_id::text)
-            WITH CHECK (auth.uid()::text = usuario_id::text);
+            USING (auth.uid()::text = user_id::text)
+            WITH CHECK (auth.uid()::text = user_id::text);
     END IF;
 
     -- trilha_userlesson

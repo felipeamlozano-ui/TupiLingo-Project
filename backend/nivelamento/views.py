@@ -404,7 +404,11 @@ def definir_nivel_inicial(request):
         return JsonResponse({"error": "JSON inválido."}, status=400)
 
     variante_id = body.get('variante_id')
-    nivel = int(body.get('nivel', 1))
+    try:
+        nivel_raw = int(body.get('nivel', 1))
+    except (ValueError, TypeError):
+        return JsonResponse({"error": "Nível inválido."}, status=400)
+    nivel = max(1, min(10, nivel_raw))
 
     variante = VarianteTupi.objects.filter(id=variante_id, ativo=True).first()
     if not variante:
@@ -420,7 +424,7 @@ def definir_nivel_inicial(request):
     TestAttempt.objects.get_or_create(
         user=user,
         variante=variante,
-        defaults={'nivel_inicial': nivel, 'nivel_calculado': nivel, 'score_total': 0.0}
+        defaults={'calculated_level': nivel, 'calculated_theta': 0.0}
     )
 
     user.variante_ativa = variante

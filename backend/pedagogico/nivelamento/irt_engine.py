@@ -137,20 +137,72 @@ class IRTEngine:
 
         return max(candidates, key=item_score)
 
+    @staticmethod
+    def validate_item_parameters(a: float, b: float, c: float) -> Tuple[bool, Optional[str]]:
+        """Valida se os parâmetros do modelo 3PL são psicometricamente admissíveis."""
+        if not (math.isfinite(a) and math.isfinite(b) and math.isfinite(c)):
+            return False, "Parâmetros devem ser números finitos."
+        if a <= 0.0:
+            return False, f"Discriminação (a={a}) deve ser estritamente positiva."
+        if not (-6.0 <= b <= 6.0):
+            return False, f"Dificuldade (b={b}) fora do domínio operacional [-6.0, 6.0]."
+        if not (0.0 <= c < 1.0):
+            return False, f"Parâmetro de chute (c={c}) deve estar no intervalo [0.0, 1.0)."
+        return True, None
+
     def estimate_ability_eap(
         self,
         responses: List[Dict[str, Any]],
         prior_mean: float = 0.0,
         prior_sd: float = 1.0,
-        quadrature_points: int = 41
+        quadrature_points: int = 41,
+        learning_rate: float = 1.0
     ) -> Tuple[float, float]:
         """
         Estimação de Habilidade por Máxima Verossimilhança Bayesiana (EAP - Expected A Posteriori).
-        Utiliza quadratura gaussiana de -4.0 a +4.0.
+        Utiliza quadratura gaussiana de -4.0 a +4.0 com estabilização log-sum-exp.
+        Incorpora learning_rate diretamente como ponderador estocástico da verossimilhança [L(theta)]^eta,
+        garantindo atualização Bayesiana exata em passo único sem dupla contagem da priori.
         Retorna (theta_estimado, erro_padrao).
         """
-        if not responses:
-            return prior_mean, prior_sd
+        # Sanitização da priori
+        if not math.isfinite(prior_mean):
+            prior_mean = 0.0
+        if not math.isfinite(prior_sd) or prior_sd <= 0.01:
+            prior_sd = 1.0
+
+        # Filtra respostas válidas (ignora itens incompletos, sem resposta ou com is_correct ausente)
+        valid_responses: List[Dict[str, Any]] = []
+        for r in responses:
+            if not isinstance(r, dict):
+                continue
+            is_corr = r.get("is_correct")
+            if is_corr is None or not isinstance(is_corr, (bool, int)):
+                continue
+            item_id = r.get("item_id")
+            it = self.items_by_id.get(item_id, {}) if item_id else {}
+            try:
+                a = float(r.get("param_a", it.get("param_a", 1.2)))
+                b = float(r.get("param_b", it.get("param_b", 0.0)))
+                c = float(r.get("param_c", it.get("param_c", 0.25)))
+            except (ValueError, TypeError):
+                continue
+
+            is_valid_param, _ = self.validate_item_parameters(a, b, c)
+            if not is_valid_param:
+                continue
+
+            valid_responses.append({
+                "is_correct": bool(is_corr),
+                "param_a": a,
+                "param_b": b,
+                "param_c": c,
+            })
+
+        if not valid_responses:
+            return round(prior_mean, 3), round(prior_sd, 3)
+
+        eta = max(0.01, min(1.0, float(learning_rate)))
 
         # Pontos de quadratura de -4.0 a +4.0
         min_theta = -4.0
@@ -158,38 +210,50 @@ class IRTEngine:
         step = (max_theta - min_theta) / (quadrature_points - 1)
         thetas = [min_theta + i * step for i in range(quadrature_points)]
 
-        # Pesos da priori normal
-        prior_weights = [
-            (1.0 / (prior_sd * math.sqrt(2 * math.pi))) * math.exp(-0.5 * ((t - prior_mean) / prior_sd) ** 2)
+        # Log-pesos da priori normal
+        log_priors = [
+            -0.5 * math.log(2.0 * math.pi) - math.log(prior_sd) - 0.5 * (((t - prior_mean) / prior_sd) ** 2)
             for t in thetas
         ]
 
-        posteriors = []
-        for t, prior in zip(thetas, prior_weights):
+        # Log-verossimilhança ponderada por eta
+        log_posteriors_unnorm = []
+        for t, log_prior in zip(thetas, log_priors):
             log_lik = 0.0
-            for r in responses:
-                item_id = r.get("item_id")
-                is_correct = bool(r.get("is_correct", False))
-                it = self.items_by_id.get(item_id, {}) if item_id else {}
-                a = float(r.get("param_a", it.get("param_a", 1.2)))
-                b = float(r.get("param_b", it.get("param_b", 0.0)))
-                c = float(r.get("param_c", it.get("param_c", 0.25)))
-                p = self.probability_3pl(t, a, b, c)
-                log_lik += math.log(max(1e-10, p if is_correct else (1.0 - p)))
+            for vr in valid_responses:
+                p = self.probability_3pl(t, vr["param_a"], vr["param_b"], vr["param_c"])
+                is_correct = vr["is_correct"]
+                log_p_item = math.log(max(1e-12, min(1.0 - 1e-12, p if is_correct else (1.0 - p))))
+                log_lik += log_p_item
 
-            lik = math.exp(max(-100.0, log_lik))
-            posteriors.append(lik * prior)
+            log_posteriors_unnorm.append(log_prior + eta * log_lik)
 
+        # Truque do Log-Sum-Exp para máxima estabilidade numérica
+        max_log = max(log_posteriors_unnorm)
+        posteriors = [math.exp(lp - max_log) for lp in log_posteriors_unnorm]
         sum_post = sum(posteriors)
-        if sum_post <= 0.0:
-            return prior_mean, prior_sd
 
-        # Média e desvio a posteriori
-        theta_eap = sum(t * post for t, post in zip(thetas, posteriors)) / sum_post
-        var_eap = sum(((t - theta_eap) ** 2) * post for t, post in zip(thetas, posteriors)) / sum_post
+        if sum_post <= 0.0 or not math.isfinite(sum_post):
+            return round(prior_mean, 3), round(prior_sd, 3)
+
+        # Normaliza a distribuição a posteriori
+        post_normalized = [p / sum_post for p in posteriors]
+
+        # Média (EAP) e Variância a posteriori
+        theta_eap = sum(t * p for t, p in zip(thetas, post_normalized))
+        var_eap = sum(((t - theta_eap) ** 2) * p for t, p in zip(thetas, post_normalized))
+
+        if not (math.isfinite(theta_eap) and math.isfinite(var_eap)):
+            return round(prior_mean, 3), round(prior_sd, 3)
+
         se_eap = math.sqrt(max(0.01, var_eap))
 
-        return round(theta_eap, 3), round(se_eap, 3)
+        # Restringe theta ao domínio admissível [-4.0, +4.0]
+        theta_bounded = max(-4.0, min(4.0, theta_eap))
+        se_bounded = max(0.05, min(2.5, se_eap))
+
+        return round(theta_bounded, 3), round(se_bounded, 3)
+
 
     def check_stopping_criteria(
         self,

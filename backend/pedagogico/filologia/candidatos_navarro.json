@@ -1,0 +1,3589 @@
+{
+  "version": "2.0.0-navarro-progressive",
+  "hash_fonte": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+  "total_candidates": 61,
+  "updated_at": "2026-10-13T01:09:20.941777+00:00",
+  "candidates": [
+    {
+      "id": "NAV-CAND-030-01",
+      "lema_original": "aandé",
+      "lema_completo_fonte": "aandé",
+      "lema_normalizado": "aande",
+      "classe_gramatical": "(part.)",
+      "significado_extraido": "mas não foi; não é assim (Fig.,",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 30,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.61,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-12T23:13:34.853536+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-030-01-00",
+          "timestamp": "2026-10-12T23:09:23.416360+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 30 com confiança OCR 89.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-030-01-02",
+          "timestamp": "2026-10-12T23:13:34.853542+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-01",
+      "lema_original": "abaé",
+      "lema_completo_fonte": "abaé",
+      "lema_normalizado": "abae",
+      "classe_gramatical": "(pron.)",
+      "significado_extraido": "outrem (VLB, II, 61)",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-12T23:13:34.860025+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-01-00",
+          "timestamp": "2026-10-12T23:09:24.065078+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-01-02",
+          "timestamp": "2026-10-12T23:13:34.860034+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-02",
+      "lema_original": "aíba",
+      "lema_completo_fonte": "aíba",
+      "lema_normalizado": "aiba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "dificuldade, pena, inconveniência:",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-12T23:15:13.963565+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-02-00",
+          "timestamp": "2026-10-12T23:09:24.065157+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-02-02",
+          "timestamp": "2026-10-12T23:15:13.963573+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-03",
+      "lema_original": "abaieru",
+      "lema_completo_fonte": "abaieru",
+      "lema_normalizado": "abaieru",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "ABAJERU, GUAJURU, GAJERU,",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-12T23:15:13.972116+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-03-00",
+          "timestamp": "2026-10-12T23:09:24.065207+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-03-02",
+          "timestamp": "2026-10-12T23:15:13.972125+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-04",
+      "lema_original": "abakatuaia",
+      "lema_completo_fonte": "abakatuaia",
+      "lema_normalizado": "abakatuaia",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "ABACATUAIA, ABACA-",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-12T23:28:36.410079+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-04-00",
+          "timestamp": "2026-10-12T23:09:24.065223+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-04-02",
+          "timestamp": "2026-10-12T23:28:36.410087+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-05",
+      "lema_original": "abakatuaiaba",
+      "lema_completo_fonte": "abakatuaiaba",
+      "lema_normalizado": "abakatuaiaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "var.",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": true,
+        "is_orientation_corrected": false,
+        "suspicious_characters": [
+          "TRUNCATED_DEFINITION"
+        ]
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-12T23:13:27.457952+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-05-00",
+          "timestamp": "2026-10-12T23:09:24.065238+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-05-02",
+          "timestamp": "2026-10-12T23:13:27.457959+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-06",
+      "lema_original": "abakatuaiaba",
+      "lema_completo_fonte": "abakatuaiaba",
+      "lema_normalizado": "abakatuaiaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "var. de ABACATUAIA,",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": true,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-12T23:28:36.418477+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-06-00",
+          "timestamp": "2026-10-12T23:09:24.065268+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-06-02",
+          "timestamp": "2026-10-12T23:28:36.418484+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-07",
+      "lema_original": "abakatuaiatakapá",
+      "lema_completo_fonte": "abakatuaiatakapá",
+      "lema_normalizado": "abakatuaiatakapa",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "nome de um peixe da",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-13T00:05:13.964965+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-07-00",
+          "timestamp": "2026-10-12T23:09:24.065284+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-07-02",
+          "timestamp": "2026-10-13T00:05:13.964980+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-08",
+      "lema_original": "abanga",
+      "lema_completo_fonte": "abanga",
+      "lema_normalizado": "abanga",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "covardia; (adj.: abang) - covarde:",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-13T00:27:42.978684+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-08-00",
+          "timestamp": "2026-10-12T23:09:24.065295+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-08-02",
+          "timestamp": "2026-10-13T00:27:42.978696+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-032-09",
+      "lema_original": "abangaba",
+      "lema_completo_fonte": "abangaba",
+      "lema_normalizado": "abangaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "covardia, desânimo; (adj.:",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 32,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-13T00:27:42.999152+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-032-09-00",
+          "timestamp": "2026-10-12T23:09:24.065308+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 32 com confiança OCR 90.6%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-032-09-02",
+          "timestamp": "2026-10-13T00:27:42.999172+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-01",
+      "lema_original": "bé",
+      "lema_completo_fonte": "bé",
+      "lema_normalizado": "be",
+      "classe_gramatical": "(conj.)",
+      "significado_extraido": "desde então (VLB, I, 97)",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-13T01:08:40.484466+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-01-00",
+          "timestamp": "2026-10-12T23:09:24.836394+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-035-01-02",
+          "timestamp": "2026-10-13T01:08:40.484480+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-02",
+      "lema_original": "ame",
+      "lema_completo_fonte": "ame",
+      "lema_normalizado": "ame",
+      "classe_gramatical": "(conj.)",
+      "significado_extraido": "desde então: Nd'e'i te'e",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-13T01:08:40.502571+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-02-00",
+          "timestamp": "2026-10-12T23:09:24.836424+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-035-02-02",
+          "timestamp": "2026-10-13T01:08:40.502585+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-03",
+      "lema_original": "ei",
+      "lema_completo_fonte": "ei",
+      "lema_normalizado": "ei",
+      "classe_gramatical": "(part.)",
+      "significado_extraido": "e outro tanto, e da mesma",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-03-00",
+          "timestamp": "2026-10-12T23:09:24.836454+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-04",
+      "lema_original": "Wane",
+      "lema_completo_fonte": "Wane",
+      "lema_normalizado": "wane",
+      "classe_gramatical": "(part.)",
+      "significado_extraido": "e parece, segundo isso e",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-04-00",
+          "timestamp": "2026-10-12T23:09:24.836479+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-05",
+      "lema_original": "á",
+      "lema_completo_fonte": "á",
+      "lema_normalizado": "a",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "altibaixos (VLB, I, 33)",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": true,
+        "is_orientation_corrected": false,
+        "suspicious_characters": [
+          "ISOLATED_SHORT_TOKEN"
+        ]
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-12T23:13:27.464818+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-05-00",
+          "timestamp": "2026-10-12T23:09:24.836541+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-CAND-035-05-02",
+          "timestamp": "2026-10-12T23:13:27.464826+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-06",
+      "lema_original": "aí",
+      "lema_completo_fonte": "aí",
+      "lema_normalizado": "ai",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "1) AGUAÍ, arbusto da família das",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-06-00",
+          "timestamp": "2026-10-12T23:09:24.836555+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-07",
+      "lema_original": "agúaiá",
+      "lema_completo_fonte": "agúaiá",
+      "lema_normalizado": "aguaia",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "nome de um mamifero (Theat. Rer. Nat. Bras., Il, 26)",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-07-00",
+          "timestamp": "2026-10-12T23:09:24.836568+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-08",
+      "lema_original": "agúaíxima",
+      "lema_completo_fonte": "agúaíxima",
+      "lema_normalizado": "aguaixima",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "GUAXIMA, GUAXIMBA,",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-08-00",
+          "timestamp": "2026-10-12T23:09:24.836582+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-09",
+      "lema_original": "agúaíxima",
+      "lema_completo_fonte": "agúaíxima",
+      "lema_normalizado": "aguaixima",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "GUAXIMA, GUAXIMBA,",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": true,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-09-00",
+          "timestamp": "2026-10-12T23:09:24.836615+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-10",
+      "lema_original": "agúamyranga",
+      "lema_completo_fonte": "agúamyranga",
+      "lema_normalizado": "aguamyranga",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "grinaldas feitas com pe-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-10-00",
+          "timestamp": "2026-10-12T23:09:24.836629+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-11",
+      "lema_original": "agúana",
+      "lema_completo_fonte": "agúana",
+      "lema_normalizado": "aguana",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "cristas de penas de aves que eram",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-11-00",
+          "timestamp": "2026-10-12T23:09:24.836642+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-035-12",
+      "lema_original": "agúapé",
+      "lema_completo_fonte": "agúapé",
+      "lema_normalizado": "aguape",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "AGUAPÉ, UAPE, UAPE, nome",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 35,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.02,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-035-12-00",
+          "timestamp": "2026-10-12T23:09:24.836653+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 35 com confiança OCR 90.0%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-01",
+      "lema_original": "agúapeasoka",
+      "lema_completo_fonte": "agúapeasoka",
+      "lema_normalizado": "aguapeasoka",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "PIACOCA, PIAÇÓ, espé-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-01-00",
+          "timestamp": "2026-10-12T23:09:46.147220+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-02",
+      "lema_original": "agúapekaka",
+      "lema_completo_fonte": "agúapekaka",
+      "lema_normalizado": "aguapekaka",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "JAÇANÃ, cuja plumagem",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-02-00",
+          "timestamp": "2026-10-12T23:09:46.147257+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-03",
+      "lema_original": "agúará",
+      "lema_completo_fonte": "agúará",
+      "lema_normalizado": "aguara",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "LOBO-GUARÁ, AGUARA, GUA-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-03-00",
+          "timestamp": "2026-10-12T23:09:46.147274+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-04",
+      "lema_original": "agdarakaba",
+      "lema_completo_fonte": "agdarakaba",
+      "lema_normalizado": "agdarakaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "var. de formiga (VLB, I, 142)",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-04-00",
+          "timestamp": "2026-10-12T23:09:46.147305+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-05",
+      "lema_original": "agúarapondá",
+      "lema_completo_fonte": "agúarapondá",
+      "lema_normalizado": "aguaraponda",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "AGUARAPONDÁ, nom",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-05-00",
+          "timestamp": "2026-10-12T23:09:46.147335+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-06",
+      "lema_original": "agúarausá",
+      "lema_completo_fonte": "agúarausá",
+      "lema_normalizado": "aguarausa",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "AGUARAUCA, GUARUGA",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-06-00",
+          "timestamp": "2026-10-12T23:09:46.147370+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-07",
+      "lema_original": "bé",
+      "lema_completo_fonte": "bé",
+      "lema_normalizado": "be",
+      "classe_gramatical": "(posp.)",
+      "significado_extraido": "desde, desde que: xe rura",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-07-00",
+          "timestamp": "2026-10-12T23:09:46.147383+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-08",
+      "lema_original": "agúara'yba",
+      "lema_completo_fonte": "agúara'yba",
+      "lema_normalizado": "aguarayba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "nome comum de certas plan algo e já não pode recuperar) (VLB,",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-08-00",
+          "timestamp": "2026-10-12T23:09:46.147417+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-09",
+      "lema_original": "agúari",
+      "lema_completo_fonte": "agúari",
+      "lema_normalizado": "aguari",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "nome de um peixe da família dos",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-09-00",
+          "timestamp": "2026-10-12T23:09:46.147430+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-10",
+      "lema_original": "agúasá",
+      "lema_completo_fonte": "agúasá",
+      "lema_normalizado": "aguasa",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "1) mancebia: Aghasd pupé aikó,",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-10-00",
+          "timestamp": "2026-10-12T23:09:46.147443+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-036-11",
+      "lema_original": "a'i",
+      "lema_completo_fonte": "a'i",
+      "lema_normalizado": "ai",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "1) mãe: Kó a'i Tupã Marie. - Eis a mãe",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 36,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-036-11-00",
+          "timestamp": "2026-10-12T23:09:46.147482+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 36 com confiança OCR 89.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-01",
+      "lema_original": "aiuruíu",
+      "lema_completo_fonte": "aiuruíu",
+      "lema_normalizado": "aiuruiu",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "var. de papagaio (Lisboa, Hist",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-01-00",
+          "timestamp": "2026-10-12T23:09:46.851766+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-02",
+      "lema_original": "aiurukuraú",
+      "lema_completo_fonte": "aiurukuraú",
+      "lema_normalizado": "aiurukurau",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "CURAU, espécie de papa-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-02-00",
+          "timestamp": "2026-10-12T23:09:46.851824+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-03",
+      "lema_original": "aiurukurika",
+      "lema_completo_fonte": "aiurukurika",
+      "lema_normalizado": "aiurukurika",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "AJURUCURUCA (v. aiu-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-03-00",
+          "timestamp": "2026-10-12T23:09:46.851840+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-04",
+      "lema_original": "aiurupy'",
+      "lema_completo_fonte": "aiurupy'",
+      "lema_normalizado": "aiurupy",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "parte da roupa que cobre o pes-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-04-00",
+          "timestamp": "2026-10-12T23:09:46.851885+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-05",
+      "lema_original": "aixé",
+      "lema_completo_fonte": "aixé",
+      "lema_normalizado": "aixe",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "1) tia paterna; 2) prima do pai (Ar. Cat., 114; VLB, II, 127)",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-05-00",
+          "timestamp": "2026-10-12T23:09:46.851902+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-06",
+      "lema_original": "aia",
+      "lema_completo_fonte": "aia",
+      "lema_normalizado": "aia",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "castanha-de-caju (Marcgra-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-06-00",
+          "timestamp": "2026-10-12T23:09:46.851928+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-07",
+      "lema_original": "atinga",
+      "lema_completo_fonte": "atinga",
+      "lema_normalizado": "atinga",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "CAJATI, variedade de ce-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-07-00",
+          "timestamp": "2026-10-12T23:09:46.851981+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-039-08",
+      "lema_original": "akaiu",
+      "lema_completo_fonte": "akaiu",
+      "lema_normalizado": "akaiu",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "1) CAJUEIRO, nome dado princi-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 39,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.82,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-039-08-00",
+          "timestamp": "2026-10-12T23:09:46.852023+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 39 com confiança OCR 89.8%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-043-01",
+      "lema_original": "akytaba",
+      "lema_completo_fonte": "akytaba",
+      "lema_normalizado": "akytaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "delgadeza; (ad): akytab) - del",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 43,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.54,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-043-01-00",
+          "timestamp": "2026-10-12T23:09:47.783534+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 43 com confiança OCR 89.5%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-043-02",
+      "lema_original": "akyta'i",
+      "lema_completo_fonte": "akyta'i",
+      "lema_normalizado": "akytai",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "curteza; (adj.) - curto (VLB, I, 88)",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 43,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.54,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-043-02-00",
+          "timestamp": "2026-10-12T23:09:47.783572+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 43 com confiança OCR 89.5%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-043-03",
+      "lema_original": "kaba",
+      "lema_completo_fonte": "kaba",
+      "lema_normalizado": "kaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "nastro, espécie de fita es-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 43,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.54,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-043-03-00",
+          "timestamp": "2026-10-12T23:09:47.783602+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 43 com confiança OCR 89.5%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-043-04",
+      "lema_original": "amandaba",
+      "lema_completo_fonte": "amandaba",
+      "lema_normalizado": "amandaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "redondeza (de coisa plana);",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 43,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.54,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-043-04-00",
+          "timestamp": "2026-10-12T23:09:47.783683+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 43 com confiança OCR 89.5%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-043-05",
+      "lema_original": "amba'yba",
+      "lema_completo_fonte": "amba'yba",
+      "lema_normalizado": "ambayba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "EMBAÚBA, AMBAÍBA, AMBAU-",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 43,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 89.54,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-043-05-00",
+          "timestamp": "2026-10-12T23:09:47.783714+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 43 com confiança OCR 89.5%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-047-01",
+      "lema_original": "andurababapari",
+      "lema_completo_fonte": "andurababapari",
+      "lema_normalizado": "andurababapari",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "árvore da familia das",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 47,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-047-01-00",
+          "timestamp": "2026-10-12T23:09:48.718327+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 47 com confiança OCR 90.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-047-02",
+      "lema_original": "angaba",
+      "lema_completo_fonte": "angaba",
+      "lema_normalizado": "angaba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "o bom de (gabando aquele de",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 47,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-047-02-00",
+          "timestamp": "2026-10-12T23:09:48.718451+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 47 com confiança OCR 90.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-047-03",
+      "lema_original": "angabatene",
+      "lema_completo_fonte": "angabatene",
+      "lema_normalizado": "angabatene",
+      "classe_gramatical": "(part.)",
+      "significado_extraido": "ainda mais, tanto mais:",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 47,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-047-03-00",
+          "timestamp": "2026-10-12T23:09:48.718484+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 47 com confiança OCR 90.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-047-04",
+      "lema_original": "angabime",
+      "lema_completo_fonte": "angabime",
+      "lema_normalizado": "angabime",
+      "classe_gramatical": "(part.)",
+      "significado_extraido": "mais (VLB, |, 20)",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 47,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-047-04-00",
+          "timestamp": "2026-10-12T23:09:48.718497+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 47 com confiança OCR 90.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-047-05",
+      "lema_original": "angaiba",
+      "lema_completo_fonte": "angaiba",
+      "lema_normalizado": "angaiba",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "magreza (VLB, Il, 28)",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 47,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-047-05-00",
+          "timestamp": "2026-10-12T23:09:48.718509+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 47 com confiança OCR 90.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-047-06",
+      "lema_original": "angaibabiara",
+      "lema_completo_fonte": "angaibabiara",
+      "lema_normalizado": "angaibabiara",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "héctica, doença em que se",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 47,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-047-06-00",
+          "timestamp": "2026-10-12T23:09:48.718524+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 47 com confiança OCR 90.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-CAND-047-07",
+      "lema_original": "angaibara",
+      "lema_completo_fonte": "angaibara",
+      "lema_normalizado": "angaibara",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "magreza; coisa magra (VLB,",
+      "variantes_documentadas": [],
+      "status_publicacao": "aguardando_revisao",
+      "tier": "tier_b_normalizacao_pesquisa",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 47,
+        "hash_documento": "87c9662bc45de33bf5f5592c24f249d4ac86ed3fe568d99bcff11f96ad131671",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "2.0.0-navarro-progressive"
+      },
+      "ocr_evidence": {
+        "confidence_score": 90.63,
+        "extraction_method": "regex_structured_chunk",
+        "requires_human_review": false,
+        "is_orientation_corrected": false,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": null,
+        "data_revisao": null,
+        "aprovado": false,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-CAND-047-07-00",
+          "timestamp": "2026-10-12T23:09:48.718537+00:00",
+          "revisor": "Extrator Automatizado v2.0.0-navarro-progressive",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato extraído da folha digital 47 com confiança OCR 90.6%.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P033-01",
+      "lema_original": "abaré",
+      "lema_completo_fonte": "abaré",
+      "lema_normalizado": "abare",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "padre, ABARÉ, ABARUNA; clérigo;",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 33,
+        "hash_documento": "48e8d3e6be1b138732578fd1f09059e736b97b8f0e029173ec59aadd98658050",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-12T23:41:45.533235+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P033-01-00",
+          "timestamp": "2026-10-12T23:39:59.199300+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 33 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P033-01-02",
+          "timestamp": "2026-10-12T23:41:45.533243+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P033-02",
+      "lema_original": "abati",
+      "lema_completo_fonte": "abati",
+      "lema_normalizado": "abati",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "1) AVATI, ABATI, AUATI, milho,",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 33,
+        "hash_documento": "48e8d3e6be1b138732578fd1f09059e736b97b8f0e029173ec59aadd98658050",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-12T23:41:45.543869+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P033-02-00",
+          "timestamp": "2026-10-12T23:39:59.199369+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 33 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P033-02-02",
+          "timestamp": "2026-10-12T23:41:45.543883+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P033-03",
+      "lema_original": "abati'imiri",
+      "lema_completo_fonte": "abati'imiri",
+      "lema_normalizado": "abatiimiri",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "ABATIMIRIM, planta da fa-",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 33,
+        "hash_documento": "48e8d3e6be1b138732578fd1f09059e736b97b8f0e029173ec59aadd98658050",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-12T23:43:17.126380+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P033-03-00",
+          "timestamp": "2026-10-12T23:39:59.199433+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 33 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P033-03-02",
+          "timestamp": "2026-10-12T23:43:17.126386+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P033-04",
+      "lema_original": "tá",
+      "lema_completo_fonte": "tá",
+      "lema_normalizado": "ta",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "JABUTAPITÁ, BATIPUTÁ, o",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 33,
+        "hash_documento": "48e8d3e6be1b138732578fd1f09059e736b97b8f0e029173ec59aadd98658050",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-12T23:43:17.134091+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P033-04-00",
+          "timestamp": "2026-10-12T23:39:59.199461+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 33 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P033-04-02",
+          "timestamp": "2026-10-12T23:43:17.134100+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P033-05",
+      "lema_original": "bebó",
+      "lema_completo_fonte": "bebó",
+      "lema_normalizado": "bebo",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "grenha, cabelo em desalinho; ca-",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 33,
+        "hash_documento": "48e8d3e6be1b138732578fd1f09059e736b97b8f0e029173ec59aadd98658050",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-13T00:01:02.154026+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P033-05-00",
+          "timestamp": "2026-10-12T23:39:59.199518+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 33 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P033-05-02",
+          "timestamp": "2026-10-13T00:01:02.154041+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P034-01",
+      "lema_original": "abutua",
+      "lema_completo_fonte": "abutua",
+      "lema_normalizado": "abutua",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "ABUTUA, ABÚTUA, ABUTA,",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 46,
+        "pagina_digital": 34,
+        "hash_documento": "874a9396e956a7a8b399af8325055186acd863ff0ad61362c7865bcb4f09e4f1",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Dra. Filóloga Clássica (USP)",
+        "data_revisao": "2026-10-13T01:09:20.941728+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-00",
+          "timestamp": "2026-10-12T23:40:06.959772+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 34 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-02",
+          "timestamp": "2026-10-12T23:41:18.443435+00:00",
+          "revisor": "Dra. Filóloga Clássica (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 46
+            }
+          },
+          "justificativa": "Inspeção visual da imagem corrigida C:\\Users\\Felipe\\Desktop\\TupiLingo\\backend\\pedagogico\\filologia\\page_images\\corrected\\page_034_rot180.png confirmou verbete de Navarro.",
+          "aprovado": true
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-03",
+          "timestamp": "2026-10-12T23:42:00.204990+00:00",
+          "revisor": "Dra. Filóloga Clássica (USP)",
+          "valor_anterior": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 46
+            }
+          },
+          "justificativa": "Inspeção visual da imagem corrigida C:\\Users\\Felipe\\Desktop\\TupiLingo\\backend\\pedagogico\\filologia\\page_images\\corrected\\page_034_rot180.png confirmou verbete de Navarro.",
+          "aprovado": true
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-04",
+          "timestamp": "2026-10-12T23:43:31.741521+00:00",
+          "revisor": "Dra. Filóloga Clássica (USP)",
+          "valor_anterior": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 46
+            }
+          },
+          "justificativa": "Inspeção visual da imagem corrigida C:\\Users\\Felipe\\Desktop\\TupiLingo\\backend\\pedagogico\\filologia\\page_images\\corrected\\page_034_rot180.png confirmou verbete de Navarro.",
+          "aprovado": true
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-05",
+          "timestamp": "2026-10-13T00:01:41.223188+00:00",
+          "revisor": "Dra. Filóloga Clássica (USP)",
+          "valor_anterior": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 46
+            }
+          },
+          "justificativa": "Inspeção visual da imagem corrigida C:\\Users\\Felipe\\Desktop\\TupiLingo\\backend\\pedagogico\\filologia\\page_images\\corrected\\page_034_rot180.png confirmou verbete de Navarro.",
+          "aprovado": true
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-06",
+          "timestamp": "2026-10-13T00:05:53.821186+00:00",
+          "revisor": "Dra. Filóloga Clássica (USP)",
+          "valor_anterior": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 46
+            }
+          },
+          "justificativa": "Inspeção visual da imagem corrigida C:\\Users\\Felipe\\Desktop\\TupiLingo\\backend\\pedagogico\\filologia\\page_images\\corrected\\page_034_rot180.png confirmou verbete de Navarro.",
+          "aprovado": true
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-07",
+          "timestamp": "2026-10-13T00:28:21.927219+00:00",
+          "revisor": "Dra. Filóloga Clássica (USP)",
+          "valor_anterior": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 46
+            }
+          },
+          "justificativa": "Inspeção visual da imagem corrigida C:\\Users\\Felipe\\Desktop\\TupiLingo\\backend\\pedagogico\\filologia\\page_images\\corrected\\page_034_rot180.png confirmou verbete de Navarro.",
+          "aprovado": true
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-01-08",
+          "timestamp": "2026-10-13T01:09:20.941764+00:00",
+          "revisor": "Dra. Filóloga Clássica (USP)",
+          "valor_anterior": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 46
+            }
+          },
+          "justificativa": "Inspeção visual da imagem corrigida C:\\Users\\Felipe\\Desktop\\TupiLingo\\backend\\pedagogico\\filologia\\page_images\\corrected\\page_034_rot180.png confirmou verbete de Navarro.",
+          "aprovado": true
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P034-02",
+      "lema_original": "abyky'",
+      "lema_completo_fonte": "abyky'",
+      "lema_normalizado": "abyky",
+      "classe_gramatical": "(v. tr.)",
+      "significado_extraido": "pentear; escovar, cardar (p.ex,,",
+      "variantes_documentadas": [],
+      "status_publicacao": "quarentena",
+      "tier": "tier_e_hipotese_nao_verificada",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": null,
+        "pagina_digital": 34,
+        "hash_documento": "874a9396e956a7a8b399af8325055186acd863ff0ad61362c7865bcb4f09e4f1",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Auditor de Integridade Filológica",
+        "data_revisao": "2026-10-13T00:01:02.175186+00:00",
+        "aprovado": false,
+        "motivo_quarentena": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista."
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P034-02-00",
+          "timestamp": "2026-10-12T23:40:06.959869+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 34 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-02-02",
+          "timestamp": "2026-10-13T00:01:02.175207+00:00",
+          "revisor": "Auditor de Integridade Filológica",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "quarentena",
+            "tier": "tier_e_hipotese_nao_verificada",
+            "overrides": {}
+          },
+          "justificativa": "Forma suspeita de contaminação dialetal moderna sem atestação quinhentista.",
+          "aprovado": false
+        }
+      ]
+    },
+    {
+      "id": "NAV-IMG-P034-03",
+      "lema_original": "abyraru",
+      "lema_completo_fonte": "abyraru",
+      "lema_normalizado": "abyraru",
+      "classe_gramatical": "(s.)",
+      "significado_extraido": "umidade fétida; (adj.) - úmid",
+      "variantes_documentadas": [],
+      "status_publicacao": "validado",
+      "tier": "tier_a_transcricao_literal",
+      "fonte": {
+        "obra": "Dicionário de Tupi Antigo: a língua indígena clássica do Brasil",
+        "autor": "Eduardo de Almeida Navarro",
+        "edicao": "1ª Edição",
+        "ano": 2013,
+        "editora": "Global Editora",
+        "local": "São Paulo",
+        "pagina_impressa": 42,
+        "pagina_digital": 34,
+        "hash_documento": "874a9396e956a7a8b399af8325055186acd863ff0ad61362c7865bcb4f09e4f1",
+        "arquivo_fonte": "Dicionário Tupi.pdf",
+        "extrator_versao": "3.0.0-image-orientation-pipeline"
+      },
+      "ocr_evidence": {
+        "confidence_score": 88.0,
+        "extraction_method": "tesseract_physical_rotation_pipeline",
+        "requires_human_review": true,
+        "is_orientation_corrected": true,
+        "suspicious_characters": []
+      },
+      "is_possible_duplicate": false,
+      "revisao": {
+        "revisado_por": "Prof. Dr. Filólogo Tupi (USP)",
+        "data_revisao": "2026-10-13T00:05:13.946979+00:00",
+        "aprovado": true,
+        "motivo_quarentena": null
+      },
+      "audit_history": [
+        {
+          "revision_id": "REV-NAV-IMG-P034-03-00",
+          "timestamp": "2026-10-12T23:40:06.959903+00:00",
+          "revisor": "Pipeline Físico de Orientação de Imagem v3.0.0",
+          "valor_anterior": {},
+          "valor_revisado": {
+            "status": "aguardando_revisao"
+          },
+          "justificativa": "Candidato recuperado da folha digital 34 após rotação de 180°.",
+          "aprovado": false
+        },
+        {
+          "revision_id": "REV-NAV-IMG-P034-03-02",
+          "timestamp": "2026-10-13T00:05:13.946998+00:00",
+          "revisor": "Prof. Dr. Filólogo Tupi (USP)",
+          "valor_anterior": {
+            "status": "aguardando_revisao",
+            "tier": "tier_b_normalizacao_pesquisa"
+          },
+          "valor_revisado": {
+            "status": "validado",
+            "tier": "tier_a_transcricao_literal",
+            "overrides": {
+              "pagina_impressa": 42
+            }
+          },
+          "justificativa": "Verbete conferido e cotejado com a edição impressa de Navarro (2013).",
+          "aprovado": true
+        }
+      ]
+    }
+  ]
+}

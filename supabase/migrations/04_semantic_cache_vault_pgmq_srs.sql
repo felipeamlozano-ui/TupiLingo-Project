@@ -234,9 +234,9 @@ $$;
 CREATE OR REPLACE VIEW v_user_vocabulary_weaknesses AS
 SELECT
     hr.user_id,
-    COALESCE(vi.id, MIN(hr.vocabulary_item_id)) AS item_id,
+    COALESCE(vi.id, hr.vocabulary_item_id) AS item_id,
     COALESCE(vi.palavra_tupi, hr.palavra_tupi) AS palavra_tupi,
-    COALESCE(vi.traducao_pt, MIN(hr.traducao_pt)) AS traducao_pt,
+    COALESCE(vi.traducao_pt, hr.traducao_pt) AS traducao_pt,
     COALESCE(vi.categoria, 'geral') AS categoria,
     COUNT(*) FILTER (WHERE hr.status IN ('wrong', 'almost')) AS total_erros,
     COUNT(*) FILTER (WHERE hr.status = 'wrong') AS total_wrong,

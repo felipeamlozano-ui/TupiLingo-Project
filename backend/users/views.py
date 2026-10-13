@@ -27,6 +27,33 @@ VALID_SOURCES = {
 }
 
 
+def _is_email_verified(user_data: dict) -> bool:
+    """
+    Verifica se o e-mail no JWT foi estritamente confirmado pelo Supabase.
+    NÃO confia no nome do provedor OAuth isoladamente.
+    """
+    if not user_data:
+        return False
+
+    # 1. Flag raiz do JWT
+    if user_data.get('email_verified') is True:
+        return True
+    if user_data.get('email_confirmed_at'):
+        return True
+
+    # 2. Metadados do usuário gerados pelo Supabase Auth
+    user_metadata = user_data.get('user_metadata') or {}
+    if user_metadata.get('email_verified') is True:
+        return True
+
+    # 3. Metadados de aplicação (app_metadata)
+    app_metadata = user_data.get('app_metadata') or {}
+    if app_metadata.get('email_verified') is True:
+        return True
+
+    return False
+
+
 @csrf_exempt
 @ratelimit(key='ip', rate='60/m', block=True)
 @supabase_auth_required
@@ -42,17 +69,20 @@ def check_user(request):
 
     user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
 
-    # Reconciliação automática para tokens criptograficamente validados pelo Supabase
+    # Reconciliação automática estritamente para e-mails comprovadamente verificados no token
     if not user and email:
-        existing = UserProfile.objects.select_related('variante_ativa').filter(email__iexact=email).first()
-        if existing:
-            logger.info(
-                "Reconciliando supabase_uid em check_user para %s (antigo=%s, novo=%s)",
-                email, existing.supabase_uid, user_id,
-            )
-            existing.supabase_uid = user_id
-            existing.save(update_fields=['supabase_uid'])
-            user = existing
+        if _is_email_verified(request.user_data):
+            existing = UserProfile.objects.select_related('variante_ativa').filter(email__iexact=email).first()
+            if existing:
+                logger.info(
+                    "Reconciliando supabase_uid em check_user para %s (antigo=%s, novo=%s)",
+                    email, existing.supabase_uid, user_id,
+                )
+                existing.supabase_uid = user_id
+                existing.save(update_fields=['supabase_uid'])
+                user = existing
+        else:
+            logger.warning("Reconciliação ignorada para %s: e-mail não verificado no token.", email)
 
     exists = user is not None
 
@@ -101,6 +131,9 @@ def register_user(request):
     except (json.JSONDecodeError, ValueError):
         return JsonResponse({'error': 'Corpo da requisição inválido'}, status=400)
 
+    if not email and body.get('email'):
+        email = str(body.get('email', '')).strip().lower()
+
     name = body.get('name', '').strip()
     source = body.get('source', '').strip()
 
@@ -124,10 +157,20 @@ def register_user(request):
             existing_by_uid.save(update_fields=['variante_ativa', 'updated_at'])
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 
-    # Se já existe por e-mail no Django (ex: conta recriada no Supabase), reconcilia e limpa progresso legado
+    # Se já existe por e-mail no Django (ex: conta recriada no Supabase), reconcilia apenas se o e-mail estiver confirmado
     if email:
         existing_by_email = UserProfile.objects.filter(email__iexact=email).first()
         if existing_by_email:
+            if not _is_email_verified(request.user_data):
+                logger.warning(
+                    "Bloqueando tentativa de reconciliação para e-mail não confirmado: %s (uid=%s)",
+                    email, user_id
+                )
+                return JsonResponse({
+                    'error': 'E-mail associado a um perfil existente, mas ainda não verificado. Por favor, confirme seu e-mail.',
+                    'code': 'EMAIL_NOT_VERIFIED'
+                }, status=403)
+
             logger.info(
                 "Reconciliando supabase_uid no registro para %s (antigo=%s, novo=%s) com reset de progresso",
                 email, existing_by_email.supabase_uid, user_id,

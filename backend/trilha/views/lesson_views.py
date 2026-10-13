@@ -39,9 +39,12 @@ def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi, licao: Licao | 
     Anti-manipulação: calculado exclusivamente no backend com lock pessimista (SCALE-002).
     """
     import math
+    from datetime import timedelta
+    from django.utils import timezone
     from nivelamento.models import UserVarianteLevel, BirdbrainCalibrationLog
     from pedagogico.calibracao.birdbrain_service import BirdbrainService
     from users.services.progress_service import ProgressService
+    from trilha.models import Exercicio
 
     with transaction.atomic():
         level_obj, _ = UserVarianteLevel.objects.select_for_update().get_or_create(
@@ -54,21 +57,58 @@ def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi, licao: Licao | 
         old_se = float(level_obj.current_se if level_obj.current_se > 0.05 else 0.5)
         old_nivel = level_obj.nivel
 
-        # Determina parâmetros psicométricos com base no capítulo da lição
+        # Caso A: Invocação sem lição específica (avaliação baseada no histórico recente)
+        if licao is None:
+            recentes = list(UserLesson.objects.filter(
+                usuario=user,
+                status='concluida'
+            ).order_by('-concluida_em', '-id')[:3])
+
+            if len(recentes) >= 3:
+                avg_acc = sum(float(ul.accuracy or 0.0) for ul in recentes) / len(recentes)
+                if avg_acc >= 0.85:
+                    novo_nivel = min(10, old_nivel + 1)
+                elif avg_acc <= 0.40:
+                    novo_nivel = max(1, old_nivel - 1)
+                else:
+                    novo_nivel = old_nivel
+            else:
+                novo_nivel = old_nivel
+
+            level_obj.nivel = novo_nivel
+            level_obj.save(update_fields=['nivel', 'updated_at'])
+            return novo_nivel
+
+        # Caso B: Recalibração psicométrica adaptativa (BirdBrain IRT 3PL EAP)
+        # Idempotência: impede re-calibração duplicada nos últimos 15 segundos para a mesma lição
+        recent_log = BirdbrainCalibrationLog.objects.filter(
+            user=user,
+            variante=variante,
+            licao=licao,
+            created_at__gte=timezone.now() - timedelta(seconds=15)
+        ).first()
+        if recent_log:
+            logger.info("Recalibração ignorada por idempotência (evento recente registrado para licao %s)", licao.id)
+            return level_obj.nivel
+
         cap_num = licao.capitulo.numero if (licao and licao.capitulo) else 1
         item_b = round(-2.5 + (cap_num - 1) * (5.0 / 19.0), 3)
 
-        # Monta itens da lição com base na acurácia real
-        total_items = 5
+        # Utiliza os exercícios reais da lição
+        exercicios_reais = list(Exercicio.objects.filter(licao=licao).order_by('ordem'))
+        total_items = len(exercicios_reais) if exercicios_reais else 5
         correct_count = int(round(accuracy * total_items))
+
         lesson_responses = []
         for i in range(total_items):
+            ex_id = exercicios_reais[i].id if i < len(exercicios_reais) else f"LES_{licao.id}_{i}"
             lesson_responses.append({
-                "item_id": f"LES_{licao.id if licao else 0}_{i}",
+                "item_id": f"EX_{ex_id}",
                 "param_a": 1.2,
                 "param_b": item_b,
                 "param_c": 0.25,
                 "is_correct": (i < correct_count),
+                "dominio": licao.capitulo.titulo if licao and licao.capitulo else "geral"
             })
 
         bb = BirdbrainService()
@@ -76,7 +116,7 @@ def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi, licao: Licao | 
             current_theta=old_theta,
             current_se=old_se,
             lesson_responses=lesson_responses,
-            learning_rate=0.15
+            learning_rate=0.20
         )
 
         mapped_info = bb.irt_engine.map_theta_to_entry_chapter(new_theta)
@@ -335,6 +375,16 @@ def concluir_licao(request, licao_id: int):
 
     if not licao:
         return JsonResponse({'error': 'Lição não encontrada.'}, status=404)
+
+    from users.decorators import is_request_admin
+    from users.services.progress_service import ProgressService
+    is_admin = is_request_admin(request)
+    if not is_admin and not ProgressService.is_lesson_accessible(user, licao):
+        return JsonResponse({
+            'error': 'Esta lição está bloqueada na sua jornada. Conclua as anteriores primeiro.',
+            'code': 'LESSON_LOCKED',
+            'licao_id': licao.id,
+        }, status=403)
 
     if not licao.publicada:
         licao.publicada = True

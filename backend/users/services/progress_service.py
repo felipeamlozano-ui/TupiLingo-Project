@@ -10,7 +10,7 @@ Garante que:
 
 import logging
 from typing import Optional, Dict, Any, List
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.db.models import Prefetch, F
 from django.utils import timezone
 
@@ -366,9 +366,14 @@ class ProgressService:
         if not capitulo:
             return {"success": False, "error": "Capítulo não encontrado", "status": 404}
 
+        # Garante bloqueio pessimista do usuário para concorrência segura
+        locked_user = UserProfile.objects.select_for_update().filter(pk=user.pk).first()
+        if not locked_user:
+            return {"success": False, "error": "Usuário não encontrado", "status": 404}
+
         # Verifica se já coletou o baú deste capítulo específico
         already_collected = UserChestReward.objects.filter(
-            user=user, capitulo=capitulo, milestone_index=milestone_index
+            user=locked_user, capitulo=capitulo, milestone_index=milestone_index
         ).exists()
         if already_collected:
             return {
@@ -388,7 +393,7 @@ class ProgressService:
 
         completed_ids = set(
             UserLesson.objects.filter(
-                usuario=user,
+                usuario=locked_user,
                 licao__in=required_lessons,
                 status="concluida"
             ).values_list("licao_id", flat=True)
@@ -404,33 +409,42 @@ class ProgressService:
         recompensa_xp = 75
         recompensa_conchas = 50
 
-        # Cria auditoria de coleta do baú
-        UserChestReward.objects.create(
-            user=user,
-            capitulo=capitulo,
-            milestone_index=milestone_index,
-            recompensa_xp=recompensa_xp,
-            recompensa_conchas=recompensa_conchas,
-        )
+        # Cria auditoria de coleta do baú com proteção atômica contra race conditions
+        try:
+            UserChestReward.objects.create(
+                user=locked_user,
+                capitulo=capitulo,
+                milestone_index=milestone_index,
+                recompensa_xp=recompensa_xp,
+                recompensa_conchas=recompensa_conchas,
+            )
+        except IntegrityError:
+            return {
+                "success": False,
+                "error": f"O baú cultural do Capítulo {capitulo.numero} já foi coletado.",
+                "already_collected": True,
+                "status": 409
+            }
 
-        # Atualiza XP e Conchas do usuário atomicamente
-        UserProfile.objects.filter(pk=user.pk).update(
-            xp_total=F("xp_total") + recompensa_xp,
+        # Atualiza Conchas do usuário atomicamente (XP é creditado via StreakService)
+        UserProfile.objects.filter(pk=locked_user.pk).update(
             conchas=F("conchas") + recompensa_conchas,
             updated_at=timezone.now(),
         )
-        user.refresh_from_db(fields=["xp_total", "conchas"])
 
-        # Registra no log de atividade diária
+        # Registra no log de atividade diária e credita o XP da recompensa
         from users.services.streak_service import StreakService
         StreakService.register_study_activity(
-            user=user,
+            user=locked_user,
             xp_ganho=recompensa_xp,
             tempo_segundos=30,
             is_lesson_completed=False,
             exercicios_respondidos=0,
             exercicios_corretos=0
         )
+        locked_user.refresh_from_db(fields=["xp_total", "conchas"])
+        user.xp_total = locked_user.xp_total
+        user.conchas = locked_user.conchas
 
         logger.info(
             "Baú coletado com sucesso! User %d, Cap %d, +%d XP, +%d Conchas",

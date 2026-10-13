@@ -1,4 +1,5 @@
 import datetime
+from django.core.cache import cache
 from django.test import TestCase
 from django.utils import timezone
 
@@ -11,6 +12,7 @@ from users.services.statistics_service import StatisticsService
 
 class ProgressionAndStreakTests(TestCase):
     def setUp(self):
+        cache.clear()
         # 1. Usuário de teste
         self.user = UserProfile.objects.create(
             supabase_uid="00000000-0000-0000-0000-000000000001",

@@ -159,6 +159,33 @@ class AuthService {
           'tupi_level': tupiLevel,
         },
       );
+
+      final user = res.user;
+      if (user != null) {
+        // SEGURANÇA & ANTI-DEADLOCK: O Supabase GoTrue retorna 'identities: []'
+        // quando o e-mail já existe na base (prevent email enumeration ativo).
+        final identities = user.identities;
+        if (identities != null && identities.isEmpty) {
+          if (kDebugMode) {
+            debugPrint('[AuthService] Tentativa de cadastro com e-mail já existente detectada (identities vazias).');
+          }
+          throw const AuthException(
+            'Este e-mail já está cadastrado. Faça login para continuar.',
+            statusCode: '409',
+          );
+        }
+
+        // Se o usuário já possuía confirmação e não foi gerada nova sessão
+        if (user.confirmedAt != null && res.session == null) {
+          throw const AuthException(
+            'Este e-mail já está cadastrado. Faça login para continuar.',
+            statusCode: '409',
+          );
+        }
+      } else {
+        throw const AuthException('Não foi possível concluir o cadastro.');
+      }
+
       await ApiCacheManager.instance.clearAll();
       DashboardRepositoryImpl.invalidateCache();
       StoreService.instance.clearUserCache();
@@ -231,6 +258,13 @@ class AuthService {
           return User.fromJson(userData);
         }
         return null;
+      }
+
+      if (response.statusCode == 409 || data['code'] == 'already_registered') {
+        throw AuthException(
+          data['error'] as String? ?? 'Este e-mail já está cadastrado. Faça login para continuar.',
+          statusCode: '409',
+        );
       }
 
       final errorMsg = data['error'] as String? ?? 'Não foi possível cadastrar a conta.';
@@ -331,8 +365,15 @@ class AuthService {
     if (msg.contains('email not confirmed')) {
       return const AuthException('E-mail ainda não verificado. Por favor, valide o código recebido no seu e-mail.');
     }
-    if (msg.contains('user already registered') || msg.contains('already registered')) {
-      return const AuthException('Este e-mail já está cadastrado. Tente fazer login.');
+    if (msg.contains('user already registered') ||
+        msg.contains('already registered') ||
+        msg.contains('already exists') ||
+        msg.contains('user_already_exists') ||
+        e.statusCode == '409') {
+      return const AuthException(
+        'Este e-mail já está cadastrado. Faça login para continuar.',
+        statusCode: '409',
+      );
     }
     if (msg.contains('over_request_rate_limit') || msg.contains('too many requests')) {
       return const AuthException('Muitas tentativas em pouco tempo. Aguarde alguns instantes e tente novamente.');

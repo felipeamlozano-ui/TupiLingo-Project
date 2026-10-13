@@ -613,6 +613,13 @@ def responder_item_pratica(request):
     if not session_id:
         return JsonResponse({"error": "session_id é obrigatório."}, status=400)
 
+    state = TRIProgressiveSessionManager.obter_estado(session_id)
+    if state and state.user_id != user.id:
+        return JsonResponse({
+            "error": "Acesso negado: esta sessão pertence a outro usuário.",
+            "code": "SESSION_FORBIDDEN"
+        }, status=403)
+
     # 1. Validação de Resposta
     is_correct = False
     validation_status = ValidationResult.ERRADO
@@ -696,6 +703,11 @@ def finalizar_sessao_pratica(request):
     state = TRIProgressiveSessionManager.obter_estado(session_id)
     if not state:
         return JsonResponse({"error": "Sessão não encontrada."}, status=404)
+    if state.user_id != user.id:
+        return JsonResponse({
+            "error": "Acesso negado: esta sessão pertence a outro usuário.",
+            "code": "SESSION_FORBIDDEN"
+        }, status=403)
 
     final_level = TRIProgressiveEngine.theta_to_level(state.current_theta)
     if not state.is_finished:
@@ -751,6 +763,11 @@ def sincronizar_lote_pratica(request):
         return JsonResponse({"error": "session_id e batch com itens são obrigatórios."}, status=400)
 
     state = TRIProgressiveSessionManager.obter_estado(session_id)
+    if state and state.user_id != user.id:
+        return JsonResponse({
+            "error": "Acesso negado: esta sessão pertence a outro usuário.",
+            "code": "SESSION_FORBIDDEN"
+        }, status=403)
     if not state:
         state = TRIProgressiveSessionManager.iniciar_sessao(
             user_id=user.id,

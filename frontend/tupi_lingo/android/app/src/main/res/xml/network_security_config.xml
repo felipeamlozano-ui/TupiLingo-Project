@@ -11,8 +11,8 @@
       192.168.x.x  - Roteadores domesticos padrao
 -->
 <network-security-config>
-    <!-- Regra global: Permite HTTP cleartext para redes de desenvolvimento e testes locais -->
-    <base-config cleartextTrafficPermitted="true">
+    <!-- Regra global: HTTPS obrigatório para tráfego externo/produção -->
+    <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>

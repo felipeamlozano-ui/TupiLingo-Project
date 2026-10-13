@@ -120,6 +120,22 @@ def supabase_auth_required(view_func):
             logger.warning("Validação de JWT falhou: token inválido ou não reconhecido pelo Supabase.")
             return JsonResponse({'error': 'Token inválido ou expirado.'}, status=401)
 
+        # Validação estrita de claims: impede anon key, tokens de recuperação e payloads sem sub
+        sub = payload.get('sub')
+        if not sub:
+            logger.warning("Rejeitando token JWT sem identificador de usuário ('sub').")
+            return JsonResponse({'error': 'Token de autenticação inválido: identificador ausente.'}, status=401)
+
+        role = payload.get('role')
+        aud = payload.get('aud')
+        if role == 'anon' or (role and role != 'authenticated'):
+            logger.warning("Rejeitando token JWT com role não autorizada: %s", role)
+            return JsonResponse({'error': 'Credencial anônima ou não autorizada para este recurso.'}, status=401)
+
+        if aud and aud not in ('authenticated',):
+            logger.warning("Rejeitando token JWT com aud incompatível: %s", aud)
+            return JsonResponse({'error': 'Finalidade do token incompatível com acesso autenticado.'}, status=401)
+
         request.user_data = payload
         ttl = max(30, min(int(payload.get('exp', 0) - time.time()), 300))
         cache.set(cache_key, payload, timeout=ttl)

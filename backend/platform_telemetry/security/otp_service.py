@@ -32,10 +32,14 @@ def request_otp(email: str, client_ip: str, passcode: str = "") -> Tuple[bool, s
     Retorna: (sucesso: bool, mensagem: str, status_code: int, dev_code: Optional[str])
     """
     import os
-    expected_passcode = getattr(settings, 'DEV_MASTER_PASSCODE', os.environ.get('DEV_MASTER_PASSCODE', 'tupi_master_2026'))
-    if passcode and passcode.strip() != expected_passcode.strip():
-        logger.warning(f"[OTP Security] Master Passcode incorreto para {email}")
-        return False, "Master Passcode incorreto.", 401, None
+    expected_passcode = getattr(settings, 'DEV_MASTER_PASSCODE', None) or os.environ.get('DEV_MASTER_PASSCODE', '')
+    if not expected_passcode:
+        logger.error("[OTP Security] DEV_MASTER_PASSCODE não configurado no ambiente do servidor.")
+        return False, "Configuração de segurança incompleta no servidor.", 500, None
+
+    if not passcode or not hmac.compare_digest(passcode.strip(), expected_passcode.strip()):
+        logger.warning(f"[OTP Security] Master Passcode ausente ou incorreto para {email}")
+        return False, "Master Passcode ausente ou incorreto.", 401, None
 
     if email.lower().strip() != ALLOWED_DEV_EMAIL.lower():
         logger.warning(f"[OTP Security] Tentativa de emissão de OTP para email não autorizado: {email}")
@@ -107,9 +111,9 @@ def request_otp(email: str, client_ip: str, passcode: str = "") -> Tuple[bool, s
                 smtp_sent = True
                 logger.info(f"[OTP Security] Código OTP despachado com sucesso via SMTP para {email}.")
             except Exception as e:
-                logger.warning(f"[OTP Security] Falha ao enviar via SMTP ({e}). Código OTP gerado para DEV: {code}")
+                logger.warning(f"[OTP Security] Falha ao enviar via SMTP ({e}).")
         else:
-            logger.info(f"[OTP Security] Supabase ou SMTP não disponíveis. Código OTP em modo DEV: {code}")
+            logger.info("[OTP Security] Provedor de email não configurado. Código OTP gerado internamente.")
 
     msg = "Código OTP enviado com sucesso para o seu e-mail. Digite o código de 6 dígitos para validar o acesso."
     return True, msg, 200, None
@@ -122,7 +126,6 @@ def _send_supabase_otp(email: str) -> bool:
     eliminando qualquer envio indesejado de Magic Links.
     """
     import requests
-    import psycopg2
     from django.conf import settings
 
     supabase_url = getattr(settings, 'SUPABASE_URL', '')
@@ -130,24 +133,28 @@ def _send_supabase_otp(email: str) -> bool:
     if not supabase_url or not service_key:
         return False
 
-    # 1. Reseta email_confirmed_at para NULL no banco de dados auth.users,
-    # garantindo que o Supabase GoTrue gere um novo token de 6 dígitos e envie o email de confirmação
+    # 1. Reseta email_confirmed_at para NULL no banco de dados auth.users se conexão direta configurada
     try:
+        import psycopg2
         db_conf = getattr(settings, 'DATABASES', {}).get('default', {})
-        conn = psycopg2.connect(
-            host=db_conf.get('HOST', 'aws-1-us-east-2.pooler.supabase.com'),
-            port=db_conf.get('PORT', '6543'),
-            user=db_conf.get('USER', 'postgres.pcquxppvheodcrdkwqhh'),
-            password=db_conf.get('PASSWORD', ''),
-            dbname=db_conf.get('NAME', 'postgres'),
-            connect_timeout=3
-        )
-        with conn.cursor() as cur:
-            cur.execute("UPDATE auth.users SET email_confirmed_at = NULL WHERE email = %s;", [email])
-        conn.commit()
-        conn.close()
+        host = db_conf.get('HOST')
+        user = db_conf.get('USER')
+        password = db_conf.get('PASSWORD')
+        if host and user and password:
+            conn = psycopg2.connect(
+                host=host,
+                port=db_conf.get('PORT', '5432'),
+                user=user,
+                password=password,
+                dbname=db_conf.get('NAME', 'postgres'),
+                connect_timeout=3
+            )
+            with conn.cursor() as cur:
+                cur.execute("UPDATE auth.users SET email_confirmed_at = NULL WHERE email = %s;", [email])
+            conn.commit()
+            conn.close()
     except Exception as e:
-        logger.warning(f"[OTP Security] Tentativa direta de resetar email_confirmed_at: {e}")
+        logger.warning(f"[OTP Security] Falha ao resetar email_confirmed_at diretamente: {e}")
 
     # 2. Chama a rota de envio de OTP de 6 dígitos (mesma do nivelamento: /auth/v1/resend com type: signup)
     try:

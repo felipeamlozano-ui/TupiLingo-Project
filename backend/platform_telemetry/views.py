@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
+from .permissions import IsAdminOrDevSession
 from .models import (
     AggregatedMetrics,
     PerformanceSnapshot,
@@ -32,31 +33,37 @@ logger = logging.getLogger('platform_telemetry')
 class AggregatedMetricsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = AggregatedMetrics.objects.all()
     serializer_class = AggregatedMetricsSerializer
+    permission_classes = [IsAdminOrDevSession]
 
 
 class PerformanceSnapshotViewSet(viewsets.ModelViewSet):
     queryset = PerformanceSnapshot.objects.all()
     serializer_class = PerformanceSnapshotSerializer
+    permission_classes = [IsAdminOrDevSession]
 
 
 class FeatureFlagViewSet(viewsets.ModelViewSet):
     queryset = FeatureFlag.objects.all()
     serializer_class = FeatureFlagSerializer
+    permission_classes = [IsAdminOrDevSession]
 
 
 class AuditLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = AuditLog.objects.all()
     serializer_class = AuditLogSerializer
+    permission_classes = [IsAdminOrDevSession]
 
 
 class ServiceHealthViewSet(viewsets.ModelViewSet):
     queryset = ServiceHealth.objects.all()
     serializer_class = ServiceHealthSerializer
+    permission_classes = [IsAdminOrDevSession]
 
 
 class CrashClusterViewSet(viewsets.ModelViewSet):
     queryset = CrashCluster.objects.all()
     serializer_class = CrashClusterSerializer
+    permission_classes = [IsAdminOrDevSession]
 
 
 @api_view(['POST'])
@@ -93,7 +100,7 @@ def record_client_telemetry(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAdminOrDevSession])
 def get_system_overview(request):
     """
     Retorna panorama consolidado para Developer Console & Security Console.
@@ -254,7 +261,7 @@ def ping_presence(request):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAdminOrDevSession])
 def toggle_feature_flag(request):
     """Altera Feature Flag em tempo real no banco e registra na trilha de auditoria."""
     key = request.data.get('key')

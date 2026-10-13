@@ -6,6 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:tupi_lingo/features/auth/presentation/otp_verification.dart';
+import 'package:tupi_lingo/features/auth/presentation/login.dart';
+import 'package:tupi_lingo/features/auth/presentation/recovery_otp.dart';
 import 'package:tupi_lingo/features/auth/services/auth_service.dart';
 import 'steps/step_credentials_widget.dart';
 import 'steps/step_level_widget.dart';
@@ -308,7 +310,11 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
       }
     } on AuthException catch (e) {
       if (mounted) {
-        _showSnackBar(e.message);
+        if (e.statusCode == '409' || e.message.toLowerCase().contains('já está cadastrado')) {
+          _showAccountAlreadyExistsDialog(_emailController.text.trim());
+        } else {
+          _showSnackBar(e.message);
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -317,6 +323,94 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  // Exibe diálogo claro e seguro quando o e-mail já existe, prevenindo redirecionamento indevido para OTP
+  void _showAccountAlreadyExistsDialog(String email) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppTheme.surface(ctx),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(Icons.account_circle_outlined, color: AppTheme.primary(ctx), size: 28),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Conta já existente',
+                style: TextStyle(
+                  color: AppTheme.textPrimary(ctx),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'O e-mail "$email" já está cadastrado no TupiLingo.',
+              style: TextStyle(
+                color: AppTheme.textPrimary(ctx),
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Você não precisa criar uma nova conta. Deseja entrar com sua senha ou recuperar seu acesso?',
+              style: TextStyle(
+                color: AppTheme.textSecondary(ctx),
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              'Voltar',
+              style: TextStyle(color: AppTheme.textSecondary(ctx)),
+            ),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => RecoveryOtpScreen(email: email)),
+              );
+            },
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: AppTheme.primary(ctx)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: Text('Recuperar Senha', style: TextStyle(color: AppTheme.primary(ctx))),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primary(ctx),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Fazer Login'),
+          ),
+        ],
+      ),
+    );
   }
 
   // Salva o perfil complementar do usuário que veio via login do Google diretamente na API do Django.
