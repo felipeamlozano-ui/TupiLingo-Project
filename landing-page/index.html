@@ -31,10 +31,15 @@
 </head>
 <body>
 
+  <!-- Elementos de Iluminação e Atmosfera Visual -->
+  <div class="bg-ambient-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-ambient-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-ambient-orb orb-3" aria-hidden="true"></div>
+
   <!-- ==============================================================================
        Cabeçalho / Navegação
        ============================================================================== -->
-  <header class="site-header">
+  <header class="site-header" id="siteHeader">
     <div class="container nav-container">
       <a href="#hero" class="logo-group" aria-label="Ir para o topo da página do TupiLingo">
         <img src="assets/logo.png" alt="Mascote Oficial do TupiLingo" class="logo-img">
@@ -45,8 +50,8 @@
       </a>
 
       <nav aria-label="Navegação principal">
-        <ul class="nav-links">
-          <li><a href="#telas" class="nav-link">Telas Reais</a></li>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#telas" class="nav-link">Interface</a></li>
           <li><a href="#recursos" class="nav-link">Recursos</a></li>
           <li><a href="#tecnico" class="nav-link">Arquitetura Técnica</a></li>
           <li><a href="#como-instalar" class="nav-link">Como Instalar</a></li>
@@ -65,6 +70,11 @@
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span>Baixar APK</span>
         </a>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu de navegação" aria-expanded="false">
+          <svg class="menu-icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg class="menu-icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
     </div>
   </header>
@@ -80,7 +90,10 @@
           <!-- Texto & Chamadas -->
           <div class="hero-content">
             <div class="status-tag">
-              <span class="status-dot"></span>
+              <span class="status-dot-wrap">
+                <span class="status-dot"></span>
+                <span class="status-dot-ping"></span>
+              </span>
               <span>Versão Preview v1.0.0 • Distribuição Pública</span>
             </div>
 
@@ -89,7 +102,7 @@
             </h1>
 
             <p class="hero-subtitle">
-              Plataforma desenvolvida para o ensino gamificado e a salvaguarda da língua clássica indígena do Brasil. Metodologia estruturada com base no <strong>Método Moderno de Tupi Antigo do Prof. Dr. Eduardo de Almeida Navarro</strong>, integrando modelos psicométricos de aferição contínua e arquitetura nativa de alto desempenho.
+              Aprenda a língua clássica indígena do Brasil com lições gamificadas, rigor linguístico e metodologia moderna baseada na obra de Eduardo de Almeida Navarro (USP). Uma experiência nativa fluida, inteligente e acessível.
             </p>
 
             <!-- Detecção de Dispositivo -->
@@ -140,14 +153,16 @@
             </div>
           </div>
 
-          <!-- Moldura Visual de Celular com Tela Real do Aparelho -->
-          <div class="hero-visual">
-            <div class="phone-frame">
+          <!-- Moldura Visual de Celular com Tela Real do Aparelho e Efeito Flutuante -->
+          <div class="hero-visual" id="heroVisual">
+            <div class="hero-glow-aura" aria-hidden="true"></div>
+            <div class="phone-frame hero-phone-floating" id="heroPhoneFrame">
               <div class="phone-island">
                 <span class="camera-lens"></span>
               </div>
               <div class="phone-screen">
-                <!-- Imagem autêntica capturada via ADB do Samsung Galaxy S24 FE -->
+                <div class="screen-sheen" aria-hidden="true"></div>
+                <!-- Imagem da interface real do TupiLingo -->
                 <img src="assets/screen_trilha.png" alt="Interface real da trilha de lições do TupiLingo capturada de dispositivo Android" id="heroMockupImg">
               </div>
             </div>
@@ -158,20 +173,20 @@
     </section>
 
     <!-- ==============================================================================
-         Showcase de Telas Reais Capturadas do Dispositivo
+         Showcase de Telas do Aplicativo
          ============================================================================== -->
     <section class="showcase-section" id="telas">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Evidência em Produção</span>
-          <h2 class="section-title">Interface e Telas Reais do Aplicativo</h2>
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Interface do Aplicativo</span>
+          <h2 class="section-title">Explore o TupiLingo na Prática</h2>
           <p class="section-desc">
-            Todas as capturas abaixo foram extraídas diretamente do dispositivo físico em execução via depuração sem fio (Samsung Galaxy S24 FE), documentando as telas autênticas do projeto.
+            Conheça o fluxo de lições, a dinâmica dos exercícios interativos e a experiência visual nativa construída para um aprendizado imersivo e prazeroso.
           </p>
         </div>
 
         <!-- Filtros de Categoria -->
-        <div class="showcase-tabs">
+        <div class="showcase-tabs reveal-on-scroll">
           <button class="tab-btn active" data-category="all">Todas as Telas</button>
           <button class="tab-btn" data-category="trilha">Trilha & Lições</button>
           <button class="tab-btn" data-category="exercicios">Exercícios & Feedback</button>
@@ -183,8 +198,7 @@
         <div class="showcase-grid">
 
           <!-- Card 1: Mascote Urso -->
-          <div class="showcase-card" data-category="mascote">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-1" data-category="mascote">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_welcome.png" alt="Tela de acolhimento com o mascote urso do TupiLingo" loading="lazy">
@@ -192,13 +206,12 @@
             </div>
             <div class="showcase-info">
               <h3>Mascote Oficial & Acolhimento</h3>
-              <p>O mascote do TupiLingo acompanha o estudante com a máxima ancestral: <em>"Eikuaa nde rapo, emo'ĩ nde rekove porãve"</em> (Conheça suas raízes, viva melhor).</p>
+              <p>O mascote do TupiLingo acompanha sua jornada com a máxima ancestral: <em>"Eikuaa nde rapo, emo'ĩ nde rekove porãve"</em> (Conheça suas raízes, viva melhor).</p>
             </div>
           </div>
 
           <!-- Card 2: Trilha Principal -->
-          <div class="showcase-card" data-category="trilha">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-2" data-category="trilha">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_trilha.png" alt="Trilha principal de lições do TupiLingo" loading="lazy">
@@ -206,13 +219,12 @@
             </div>
             <div class="showcase-info">
               <h3>Trilha de Aprendizado</h3>
-              <p>Progresso modular com nós de lições, shaders de iluminação mística, recompensas em conchas culturais e cálculo dinâmico de experiência.</p>
+              <p>Progresso modular com nós de lições estilizados, iluminação temática da floresta, conquistas culturais e avanço dinâmico de experiência.</p>
             </div>
           </div>
 
           <!-- Card 3: Modal da Lição -->
-          <div class="showcase-card" data-category="trilha">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-3" data-category="trilha">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_modal_licao.png" alt="Modal com resumo dos objetivos da lição" loading="lazy">
@@ -220,13 +232,12 @@
             </div>
             <div class="showcase-info">
               <h3>Entrada de Lição</h3>
-              <p>Resumo dos objetivos filológicos, vocábulos-chave da sessão e previsão de pontuação de experiência antes de iniciar o módulo.</p>
+              <p>Resumo dos objetivos filológicos, vocábulos essenciais da sessão e pontuação estimada antes de dar início ao módulo.</p>
             </div>
           </div>
 
           <!-- Card 4: Exercício Quiz -->
-          <div class="showcase-card" data-category="exercicios">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-1" data-category="exercicios">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_exercicio.png" alt="Exercício interativo de vocabulário em Tupi Antigo" loading="lazy">
@@ -234,27 +245,25 @@
             </div>
             <div class="showcase-info">
               <h3>Exercícios Interativos</h3>
-              <p>Desafios estruturados de tradução, identificação de termos e regras de declinação com respostas táteis imediatas.</p>
+              <p>Desafios estruturados de tradução, identificação de termos e regras de declinação com respostas visuais e táteis imediatas.</p>
             </div>
           </div>
 
           <!-- Card 5: Seleção de Resposta -->
-          <div class="showcase-card" data-category="exercicios">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-2" data-category="exercicios">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_acertou.png" alt="Estado ativo de seleção de resposta" loading="lazy">
               </div>
             </div>
             <div class="showcase-info">
-              <h3>Interação e Seleção Ativa</h3>
-              <p>Interface de resposta tátil com realce visual em terracota antes do envio ao validador sintático do motor educacional.</p>
+              <h3>Interação e Resposta Tátil</h3>
+              <p>Interface responsiva com realce visual em terracota, garantindo segurança na escolha antes do envio ao validador sintático.</p>
             </div>
           </div>
 
           <!-- Card 6: Sabedoria Ancestral -->
-          <div class="showcase-card" data-category="exercicios">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-3" data-category="exercicios">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_feedback.png" alt="Explicação cultural e filológica da resposta correta" loading="lazy">
@@ -267,8 +276,7 @@
           </div>
 
           <!-- Card 7: Centro de Prática SRS -->
-          <div class="showcase-card" data-category="pratica">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-1" data-category="pratica">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_pratica.png" alt="Centro de prática ancestral com repetição espaçada" loading="lazy">
@@ -276,27 +284,25 @@
             </div>
             <div class="showcase-info">
               <h3>Centro de Prática & SRS</h3>
-              <p>Módulo de revisão inteligente fundamentado na curva de retenção de memória, com sessões organizadas por biomas e vocabulários temáticos.</p>
+              <p>Revisão inteligente fundamentada na curva de retenção de memória, com sessões organizadas por temas culturais e vocabulário chave.</p>
             </div>
           </div>
 
           <!-- Card 8: Perfil & Nível TRI -->
-          <div class="showcase-card" data-category="mascote">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-2" data-category="mascote">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_perfil.png" alt="Perfil do estudante com nível psicométrico TRI" loading="lazy">
               </div>
             </div>
             <div class="showcase-info">
-              <h3>Perfil e Habilidade TRI</h3>
-              <p>Registro do histórico de aprendizagem, ofensivas diárias, títulos honoríficos e calibração contínua do traço latente do aluno.</p>
+              <h3>Perfil e Habilidade</h3>
+              <p>Acompanhamento detalhado do histórico de estudo, ofensivas diárias, títulos honoríficos e calibração contínua do aprendizado.</p>
             </div>
           </div>
 
           <!-- Card 9: Questionário de Nivelamento -->
-          <div class="showcase-card" data-category="mascote">
-            <span class="screen-source-badge">Dispositivo Físico • SM-S721B</span>
+          <div class="showcase-card reveal-on-scroll stagger-3" data-category="mascote">
             <div class="card-phone-mini">
               <div class="phone-screen">
                 <img src="assets/screen_onboarding_nivel.png" alt="Questionário de diagnóstico inicial" loading="lazy">
@@ -304,7 +310,7 @@
             </div>
             <div class="showcase-info">
               <h3>Diagnóstico Inicial</h3>
-              <p>Mapeamento do nível de familiaridade do estudante, direcionando tanto iniciantes absolutos quanto conhecedores prévios ao módulo adequado da trilha.</p>
+              <p>Mapeamento rápido do nível de familiaridade, direcionando iniciantes absolutos e conhecedores prévios ao módulo mais adequado da trilha.</p>
             </div>
           </div>
 
@@ -317,24 +323,24 @@
          ============================================================================== -->
     <section class="technical-section" id="tecnico">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal-on-scroll">
           <span class="section-tag">Engenharia de Software</span>
-          <h2 class="section-title">Especificações Técnicas e Arquitetura</h2>
+          <h2 class="section-title">Especificações Técnicas & Arquitetura</h2>
           <p class="section-desc">
-            Documentação técnica detalhada sobre a pilha de execução, segurança em repouso e em trânsito, aceleração de renderização e modelagem matemática.
+            Documentação técnica sobre a pilha de execução nativa, camadas de criptografia, renderização gráfica acelerada e modelagem matemática.
           </p>
         </div>
 
         <div class="tech-grid">
 
           <!-- Card Técnico 1: Compilação & Arquitetura -->
-          <div class="tech-card">
+          <div class="tech-card reveal-on-scroll stagger-1">
             <div class="tech-card-header">
               <h3>Compilação Nativa & Camadas</h3>
               <span class="tech-pill">AOT Runtime</span>
             </div>
             <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Pipeline compilado em código de máquina para arquiteturas ARM64 (aarch64) e ARMv7 através do compilador nativo Dart AOT, eliminando overhead de máquinas virtuais interpretadas.
+              Pipeline compilado diretamente em código de máquina para arquiteturas ARM64 (aarch64) e ARMv7 pelo compilador nativo Dart AOT, eliminando gargalos de máquinas virtuais interpretadas.
             </p>
             <table class="tech-spec-table">
               <tr>
@@ -350,8 +356,8 @@
                 <td class="value">PostgreSQL & Supabase RLS</td>
               </tr>
               <tr>
-                <td class="label">Retrocompatibilidade</td>
-                <td class="value">Core Desugaring (JDK 2.1.4)</td>
+                <td class="label">Compatibilidade</td>
+                <td class="value">Desugaring de APIs Java 8+ (D8/R8)</td>
               </tr>
               <tr>
                 <td class="label">Target SDK</td>
@@ -361,22 +367,22 @@
           </div>
 
           <!-- Card Técnico 2: Segurança & Criptografia -->
-          <div class="tech-card">
+          <div class="tech-card reveal-on-scroll stagger-2">
             <div class="tech-card-header">
               <h3>Segurança & Criptografia</h3>
               <span class="tech-pill">C++ FFI / AES-256</span>
             </div>
             <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Ofuscação binária de segredos e chaves de comunicação integrada diretamente em bibliotecas nativas C++ via Dart Foreign Function Interface (FFI), protegendo contra engenharia reversa estática.
+              Ofuscação binária de segredos e chaves de comunicação encapsuladas em bibliotecas nativas C++ via Dart Foreign Function Interface (FFI), protegendo contra engenharia reversa estática.
             </p>
             <table class="tech-spec-table">
               <tr>
-                <td class="label">Ofuscação de Strings</td>
-                <td class="value">Protobuf Buffer compilado em C++</td>
+                <td class="label">Ofuscação Nativa</td>
+                <td class="value">Binário C++ compilado via Dart FFI</td>
               </tr>
               <tr>
                 <td class="label">Integridade Dinâmica</td>
-                <td class="value">Validação por Checksum FNV-1a</td>
+                <td class="value">Validação por Checksum FNV-1a / HMAC</td>
               </tr>
               <tr>
                 <td class="label">Cache em Disco</td>
@@ -394,18 +400,18 @@
           </div>
 
           <!-- Card Técnico 3: Otimização Gráfica & Desempenho -->
-          <div class="tech-card">
+          <div class="tech-card reveal-on-scroll stagger-3">
             <div class="tech-card-header">
               <h3>Desempenho & Shaders</h3>
               <span class="tech-pill">60 / 120 FPS</span>
             </div>
             <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Pipeline de renderização acelerado por GPU com fragment shaders customizados em GLSL/SPIR-V para renderização procedural de auras místicas e efeitos de trilha sem custo de CPU.
+              Pipeline de renderização acelerado por GPU com fragment shaders customizados em GLSL/SPIR-V para efeitos atmosféricos de aura e neblina mística com consumo mínimo de bateria.
             </p>
             <table class="tech-spec-table">
               <tr>
                 <td class="label">Pipeline Gráfico</td>
-                <td class="value">Skia / Impeller Hardware-Accelerated</td>
+                <td class="value">Impeller / Skia Hardware-Accelerated</td>
               </tr>
               <tr>
                 <td class="label">Shaders Customizados</td>
@@ -416,8 +422,8 @@
                 <td class="value">Suporte adaptativo a 60Hz / 120Hz</td>
               </tr>
               <tr>
-                <td class="label">Desduplicação de Rede</td>
-                <td class="value">HPWE RFC-009B Coalescing</td>
+                <td class="label">Otimização de Rede</td>
+                <td class="value">HTTP/2 Coalescing & Cache ETag</td>
               </tr>
               <tr>
                 <td class="label">Tolerância Offline</td>
@@ -427,25 +433,25 @@
           </div>
 
           <!-- Card Técnico 4: Psicolinguística & TRI -->
-          <div class="tech-card">
+          <div class="tech-card reveal-on-scroll stagger-4">
             <div class="tech-card-header">
               <h3>Psicometria & Algoritmos</h3>
               <span class="tech-pill">TRI 2PL & SRS</span>
             </div>
             <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Calibração adaptativa do traço latente de conhecimento do usuário ($\theta$) através da Teoria de Resposta ao Item combinada a intervalos ótimos de repetição espaçada.
+              Calibração adaptativa do traço latente de conhecimento do estudante (&theta;) através da Teoria de Resposta ao Item combinada a intervalos ótimos de repetição espaçada.
             </p>
             <table class="tech-spec-table">
               <tr>
                 <td class="label">Modelo de Aferição</td>
-                <td class="value">TRI Modelo Logístico de 2 Parâmetros (2PL)</td>
+                <td class="value">Modelo Logístico de 2 Parâmetros (TRI 2PL)</td>
               </tr>
               <tr>
                 <td class="label">Parâmetros de Item</td>
-                <td class="value">Discriminação ($a_i$) e Dificuldade ($b_i$)</td>
+                <td class="value">Discriminação (&alpha;) e Dificuldade (&beta;)</td>
               </tr>
               <tr>
-                <td class="label">Curva de Esquecimento</td>
+                <td class="label">Curva de Retenção</td>
                 <td class="value">Algoritmo SRS Intervalado Adaptativo</td>
               </tr>
               <tr>
@@ -468,57 +474,57 @@
          ============================================================================== -->
     <section class="features-section" id="recursos">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Pilares Metodológicos</span>
-          <h2 class="section-title">Fundamentos do Ecossistema TupiLingo</h2>
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Pilares do Projeto</span>
+          <h2 class="section-title">Fundamentos do TupiLingo</h2>
           <p class="section-desc">
-            A união entre tecnologias contemporâneas de desenvolvimento móvel e o legado documental mais respeitado do idioma Tupi no ambiente acadêmico brasileiro.
+            A união equilibrada entre tecnologia móvel contemporânea e a principal referência acadêmica no ensino do Tupi Antigo.
           </p>
         </div>
 
         <div class="features-grid">
           
-          <div class="feature-card">
+          <div class="feature-card reveal-on-scroll stagger-1">
             <div class="feature-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             </div>
             <h3>Base Filológica Reconhecida</h3>
-            <p>Vocabulário, ortografia e regras sintáticas estruturados rigorosamente sobre o <em>Método Moderno de Tupi Antigo</em> do Prof. Dr. Eduardo de Almeida Navarro (Universidade de São Paulo).</p>
+            <p>Vocabulário, ortografia e regras sintáticas estruturados rigorosamente sobre o <em>Método Moderno de Tupi Antigo</em> do Prof. Dr. Eduardo de Almeida Navarro (USP).</p>
           </div>
 
-          <div class="feature-card">
+          <div class="feature-card reveal-on-scroll stagger-2">
             <div class="feature-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
             <h3>Repetição Espaçada Inteligente (SRS)</h3>
-            <p>O algoritmo calcula os intervalos ótimos para apresentação e revisão de cada lexema estudado, transferindo o vocabulário da memória de trabalho para a retenção de longo prazo.</p>
+            <p>O algoritmo calcula os intervalos ótimos para apresentação e revisão de cada lexema estudado, transferindo o vocabulário para a retenção de longo prazo.</p>
           </div>
 
-          <div class="feature-card">
+          <div class="feature-card reveal-on-scroll stagger-3">
             <div class="feature-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
             <h3>Gamificação Pedagógica</h3>
-            <p>Sistemas de ofensiva contínua (streak), acúmulo de conchas culturais, desbloqueio de cosméticos e marcos de aprendizado para sustentação do engajamento diário.</p>
+            <p>Sistemas de ofensiva contínua (streak), conchas culturais, cosméticos temáticos e marcos de aprendizado para sustentar o engajamento diário.</p>
           </div>
 
-          <div class="feature-card">
+          <div class="feature-card reveal-on-scroll stagger-4">
             <div class="feature-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <h3>Privacidade e LGPD</h3>
-            <p>Não há coleta indevida de telemetria ou perfilamento comercial. O armazenamento local opera sob criptografia robusta e a autenticação utiliza protocolos abertos com tokens efémeros.</p>
+            <h3>Privacidade e Transparência</h3>
+            <p>Sem anúncios ou telemetria invasiva de terceiros. Seus dados de aprendizado permanecem protegidos sob criptografia e armazenamento local no dispositivo.</p>
           </div>
 
-          <div class="feature-card">
+          <div class="feature-card reveal-on-scroll stagger-5">
             <div class="feature-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             </div>
             <h3>Resiliência Offline</h3>
-            <p>Todo o conteúdo didático e as lições principais são armazenados no banco SQLite local, permitindo o estudo ininterrupto mesmo em locais com conectividade instável ou ausente.</p>
+            <p>Todo o conteúdo didático e as lições principais são armazenados no banco SQLite local, permitindo o estudo ininterrupto mesmo em locais sem sinal de internet.</p>
           </div>
 
-          <div class="feature-card">
+          <div class="feature-card reveal-on-scroll stagger-6">
             <div class="feature-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             </div>
@@ -535,15 +541,15 @@
          ============================================================================== -->
     <section class="install-section" id="como-instalar">
       <div class="container install-container">
-        <div class="section-header">
-          <span class="section-tag">Processo de Distribuição</span>
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Guia Passo a Passo</span>
           <h2 class="section-title">Como Instalar o APK no Android</h2>
           <p class="section-desc">
-            Como esta é uma compilação de pré-lançamento distribuída de forma independente pelo repositório GitHub, o sistema Android solicita confirmação pontual de instalação. O procedimento é rápido e seguro.
+            O TupiLingo está em fase de pré-lançamento público e é disponibilizado diretamente pelo repositório oficial no GitHub. A instalação é simples, rápida e segura.
           </p>
         </div>
 
-        <div class="accordion-list">
+        <div class="accordion-list reveal-on-scroll">
 
           <!-- Passo 1 -->
           <div class="accordion-item active">
@@ -604,12 +610,12 @@
         </div>
 
         <!-- Aviso de Segurança Transparente -->
-        <div class="security-note">
+        <div class="security-note reveal-on-scroll">
           <svg class="security-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <div class="security-note-text">
-            <h4>Transparência Técnica sobre Instalação Direta</h4>
+            <h4>Transparência sobre Instalação Direta</h4>
             <p>
-              O alerta emitido pelo sistema operacional Android constitui procedimento de segurança padrão para qualquer aplicação distribuída fora da Google Play Store (técnica conhecida como <em>sideloading</em>). O <strong>TupiLingo</strong> é um projeto acadêmico e de código aberto com integridade auditável via repositório público, sem códigos publicitários ou bibliotecas invasivas de rastreamento.
+              O alerta emitido pelo sistema operacional Android constitui procedimento de segurança padrão para qualquer aplicação instalada via arquivo APK (processo de <em>sideloading</em>). O <strong>TupiLingo</strong> é um projeto educacional e de código aberto com integridade auditável via repositório público no GitHub, sem códigos publicitários ou bibliotecas invasivas de rastreamento.
             </p>
           </div>
         </div>
@@ -622,18 +628,18 @@
          ============================================================================== -->
     <section class="authors-section" id="autores">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Desenvolvimento & Pesquisa</span>
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Equipe & Pesquisa</span>
           <h2 class="section-title">Autores do Projeto</h2>
           <p class="section-desc">
-            O TupiLingo é mantido por engenheiros e pesquisadores dedicados à confluência entre computação móvel, linguística e preservação cultural.
+            O TupiLingo une engenharia de software nativa, design de interação e pesquisa linguística aplicada para a valorização cultural.
           </p>
         </div>
 
         <div class="authors-grid">
           
           <!-- Autor 1: Felipe Augusto -->
-          <div class="author-card">
+          <div class="author-card reveal-on-scroll stagger-1">
             <div class="author-avatar">FA</div>
             <div class="author-info">
               <h4>Felipe Augusto</h4>
@@ -642,7 +648,7 @@
           </div>
 
           <!-- Autor 2: Daniel Godoi -->
-          <div class="author-card">
+          <div class="author-card reveal-on-scroll stagger-2">
             <div class="author-avatar">DG</div>
             <div class="author-info">
               <h4>Daniel Godoi</h4>
@@ -651,7 +657,7 @@
           </div>
 
           <!-- Autor 3: Rafael Augusto -->
-          <div class="author-card">
+          <div class="author-card reveal-on-scroll stagger-3">
             <div class="author-avatar">RA</div>
             <div class="author-info">
               <h4>Rafael Augusto</h4>
@@ -667,11 +673,11 @@
          Contato & Relato de Feedback
          ============================================================================== -->
     <section class="container" id="contato" style="padding-top: 4rem; padding-bottom: 5rem;">
-      <div class="contact-banner">
+      <div class="contact-banner reveal-on-scroll">
         <div class="contact-info">
           <h2>Contato & Canal de Contribuição</h2>
           <p>
-            Seu retorno é essencial para aprimorarmos a precisão dos exercícios, os tempos de resposta e a compatibilidade do aplicativo antes da publicação em canais convencionais.
+            Seu feedback durante esta fase de testes é fundamental para refinarmos exercícios, tempos de resposta e compatibilidade antes do lançamento final.
           </p>
           <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
             <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">E-mail institucional de contato:</span>

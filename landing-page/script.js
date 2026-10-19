@@ -1,9 +1,13 @@
 /**
- * TupiLingo • Landing Page Interactions
- * Mobile-First, Accessible, Native Dialogs & Showcase Switcher
+ * TupiLingo • Landing Page Interactions & Advanced Animations
+ * Mobile-First, Accessible, Native Dialogs, 3D Hero Parallax & Scroll Reveal
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initHeaderScroll();
+  initMobileMenu();
+  initHeroTilt();
+  initScrollReveal();
   initShowcaseTabs();
   initAccordion();
   initFeedbackModal();
@@ -12,7 +16,145 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 1. Showcase Filter & Screen Switcher
+ * 1. Cabeçalho com Efeito de Compactação e Blur ao Rolar
+ */
+function initHeaderScroll() {
+  const header = document.getElementById('siteHeader');
+  if (!header) return;
+
+  const onScroll = () => {
+    if (window.scrollY > 25) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+/**
+ * 2. Menu Mobile Responsivo e Acessível
+ */
+function initMobileMenu() {
+  const toggleBtn = document.getElementById('mobileMenuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  if (!toggleBtn || !navLinks) return;
+
+  const toggleMenu = () => {
+    const isOpen = navLinks.classList.contains('open');
+    if (isOpen) {
+      navLinks.classList.remove('open');
+      toggleBtn.classList.remove('active');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    } else {
+      navLinks.classList.add('open');
+      toggleBtn.classList.add('active');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+    }
+  };
+
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  // Fechar ao clicar em qualquer link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      toggleBtn.classList.remove('active');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Fechar ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !toggleBtn.contains(e.target)) {
+      navLinks.classList.remove('open');
+      toggleBtn.classList.remove('active');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+/**
+ * 3. Parallax e Tilt 3D Interativo no Celular Principal do Hero
+ */
+function initHeroTilt() {
+  const heroVisual = document.getElementById('heroVisual');
+  const heroPhone = document.getElementById('heroPhoneFrame');
+
+  if (!heroVisual || !heroPhone) return;
+
+  // Habilita apenas em dispositivos com ponteiro fino (Desktop / Mouse)
+  const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!isFinePointer) return;
+
+  let bounds = heroVisual.getBoundingClientRect();
+  let isHovered = false;
+
+  window.addEventListener('resize', () => {
+    bounds = heroVisual.getBoundingClientRect();
+  });
+
+  heroVisual.addEventListener('mouseenter', () => {
+    isHovered = true;
+    bounds = heroVisual.getBoundingClientRect();
+  });
+
+  heroVisual.addEventListener('mousemove', (e) => {
+    if (!isHovered) return;
+
+    const x = e.clientX - bounds.left;
+    const y = e.clientY - bounds.top;
+
+    const xPercent = (x / bounds.width - 0.5) * 2; // -1 a 1
+    const yPercent = (y / bounds.height - 0.5) * 2; // -1 a 1
+
+    const tiltX = -yPercent * 10; // Inclina para cima/baixo
+    const tiltY = xPercent * 12;  // Inclina para esquerda/direita
+
+    heroPhone.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-8px)`;
+  });
+
+  heroVisual.addEventListener('mouseleave', () => {
+    isHovered = false;
+    heroPhone.style.transform = '';
+  });
+}
+
+/**
+ * 4. Sistema de Revelação ao Rolar a Página (Scroll Reveal)
+ */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  if (!revealElements.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    revealElements.forEach(el => el.classList.add('is-revealed'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/**
+ * 5. Filtro de Abas e Transição do Showcase
  */
 function initShowcaseTabs() {
   const tabButtons = document.querySelectorAll('.tab-btn');
@@ -22,15 +164,15 @@ function initShowcaseTabs() {
     btn.addEventListener('click', () => {
       const targetCategory = btn.dataset.category;
 
-      // Update active state on buttons
+      // Atualiza estado ativo
       tabButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Filter cards
+      // Filtra os cards com animação suave
       showcaseCards.forEach(card => {
         if (targetCategory === 'all' || card.dataset.category === targetCategory) {
           card.style.display = 'flex';
-          card.style.animation = 'fadeInUp 0.4s ease forwards';
+          card.style.animation = 'fadeInUpScale 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards';
         } else {
           card.style.display = 'none';
         }
@@ -40,26 +182,28 @@ function initShowcaseTabs() {
 }
 
 /**
- * 2. Accessible Accordion for "Como Instalar"
+ * 6. Accordion Acessível e Fluido para "Como Instalar"
  */
 function initAccordion() {
   const accordionItems = document.querySelectorAll('.accordion-item');
 
-  accordionItems.forEach((item, index) => {
+  accordionItems.forEach(item => {
     const header = item.querySelector('.accordion-header');
-    
+    if (!header) return;
+
     header.addEventListener('click', () => {
       const isActive = item.classList.contains('active');
 
-      // Close all other items (single expand pattern)
+      // Fecha outros itens
       accordionItems.forEach(otherItem => {
         if (otherItem !== item) {
           otherItem.classList.remove('active');
-          otherItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+          const otherHeader = otherItem.querySelector('.accordion-header');
+          if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
         }
       });
 
-      // Toggle current item
+      // Alterna o item atual
       if (isActive) {
         item.classList.remove('active');
         header.setAttribute('aria-expanded', 'false');
@@ -72,7 +216,7 @@ function initAccordion() {
 }
 
 /**
- * 3. Native Feedback Dialog (<dialog>)
+ * 7. Janela Nativa de Diálogo para Feedback (<dialog>)
  */
 function initFeedbackModal() {
   const modal = document.getElementById('feedbackModal');
@@ -95,7 +239,7 @@ function initFeedbackModal() {
     });
   }
 
-  // Light dismiss: Close on clicking backdrop
+  // Fechar ao clicar no backdrop
   modal.addEventListener('click', (e) => {
     const dialogDimensions = modal.getBoundingClientRect();
     if (
@@ -108,7 +252,7 @@ function initFeedbackModal() {
     }
   });
 
-  // Handle form submission
+  // Envio de formulário
   if (feedbackForm) {
     feedbackForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -117,21 +261,17 @@ function initFeedbackModal() {
       const device = document.getElementById('feedbackDevice')?.value || 'Android';
       const message = document.getElementById('feedbackMsg')?.value || '';
 
-      // Close modal
       modal.close();
       feedbackForm.reset();
 
-      // Show toast
       showToast('Mensagem enviada com sucesso. Agradecemos sua colaboração.');
-
-      // Feedback log
       console.log(`[TupiLingo Feedback] Tipo: ${type} | Aparelho: ${device} | Mensagem: ${message}`);
     });
   }
 }
 
 /**
- * 4. Copy APK Link with Toast
+ * 8. Cópia do Link com Notificação Toast
  */
 function initCopyLink() {
   const copyButtons = document.querySelectorAll('.copy-link-btn');
@@ -145,7 +285,6 @@ function initCopyLink() {
         if (navigator.clipboard && window.isSecureContext) {
           await navigator.clipboard.writeText(urlToCopy);
         } else {
-          // Fallback
           const tempInput = document.createElement('input');
           tempInput.value = urlToCopy;
           document.body.appendChild(tempInput);
@@ -162,7 +301,7 @@ function initCopyLink() {
 }
 
 /**
- * 5. Toast Notification System
+ * 9. Sistema de Notificação Toast
  */
 function showToast(message) {
   let toast = document.getElementById('siteToast');
@@ -173,7 +312,10 @@ function showToast(message) {
     document.body.appendChild(toast);
   }
 
-  toast.textContent = message;
+  toast.innerHTML = `
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-green-light);"><polyline points="20 6 9 17 4 12"/></svg>
+    <span>${message}</span>
+  `;
   toast.classList.add('show');
 
   setTimeout(() => {
@@ -182,7 +324,7 @@ function showToast(message) {
 }
 
 /**
- * 6. Detect Android Device & Customize Greeting
+ * 10. Detecção de Dispositivo Android
  */
 function detectAndroidDevice() {
   const isAndroid = /Android/i.test(navigator.userAgent);
@@ -195,3 +337,4 @@ function detectAndroidDevice() {
     devicePill.style.color = '#81C784';
   }
 }
+
