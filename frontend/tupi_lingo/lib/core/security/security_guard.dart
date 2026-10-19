@@ -1,6 +1,8 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'secure_vault.dart';
+import 'security_checker_io.dart'
+    if (dart.library.js_interop) 'security_checker_web.dart'
+    if (dart.library.html) 'security_checker_web.dart';
 
 /// Nível de ameaça de integridade do dispositivo
 enum SecurityThreatLevel {
@@ -59,28 +61,13 @@ class SecurityGuard {
     bool isRooted = false;
 
     if (!kIsWeb) {
-      if (Platform.isAndroid) {
-        for (final path in _androidRootPaths) {
-          try {
-            if (File(path).existsSync()) {
-              anomalies.add('Binário de Root detectado no sistema: $path');
-              isRooted = true;
-              break;
-            }
-          } catch (_) {
-            // Permissão negada pelo SO é comum e esperado em sandbox
-          }
-        }
-      } else if (Platform.isIOS) {
-        for (final path in _iosJailbreakPaths) {
-          try {
-            if (File(path).existsSync()) {
-              anomalies.add('Assinatura de Jailbreak detectada: $path');
-              isRooted = true;
-              break;
-            }
-          } catch (_) {}
-        }
+      final platformAnomalies = checkPlatformRootAndJailbreak(
+        androidRootPaths: _androidRootPaths,
+        iosJailbreakPaths: _iosJailbreakPaths,
+      );
+      if (platformAnomalies.isNotEmpty) {
+        anomalies.addAll(platformAnomalies);
+        isRooted = true;
       }
     }
 

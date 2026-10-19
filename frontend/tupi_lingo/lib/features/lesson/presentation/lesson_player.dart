@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -332,46 +333,66 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
       builder: (context) {
         return SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    Icon(icon, color: fgColor, size: 28),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: fgColor),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 700),
+              child: CallbackShortcuts(
+                bindings: {
+                  const SingleActivator(LogicalKeyboardKey.enter): () {
+                    Navigator.pop(context);
+                    _nextItem();
+                  },
+                  const SingleActivator(LogicalKeyboardKey.numpadEnter): () {
+                    Navigator.pop(context);
+                    _nextItem();
+                  },
+                },
+                child: Focus(
+                  autofocus: true,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(icon, color: fgColor, size: 28),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                title,
+                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: fgColor),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(message, style: const TextStyle(fontSize: 16, color: _TupiColors.subtitle, height: 1.4)),
+                        const SizedBox(height: 28),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 56,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Fechar bottom sheet
+                              _nextItem(); // Avança para a próxima questão independente se acertou ou não
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: fgColor,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                              elevation: 0,
+                            ),
+                            child: const Text('CONTINUAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(message, style: const TextStyle(fontSize: 16, color: _TupiColors.subtitle, height: 1.4)),
-                const SizedBox(height: 28),
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context); // Fechar bottom sheet
-                      _nextItem(); // Avança para a próxima questão independente se acertou ou não
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: fgColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      elevation: 0,
-                    ),
-                    child: const Text('CONTINUAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
-                )
-              ],
+                ),
+              ),
             ),
           ),
         );
@@ -648,73 +669,89 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: isStory ? _buildStoryBlock(currentItem) : _buildExercicioBlock(currentItem),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 700),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: isStory ? _buildStoryBlock(currentItem) : _buildExercicioBlock(currentItem),
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildStoryBlock(Map<String, dynamic> item) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (item['titulo'] != null && item['titulo'].toString().isNotEmpty) ...[
-          Text(
-            item['titulo'],
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _TupiColors.accent),
-          ),
-          const SizedBox(height: 24),
-        ],
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (item['midia'] != null) ...[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(item['midia'], fit: BoxFit.cover),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))],
-                  ),
-                  child: Text(
-                    item['conteudo'] ?? '',
-                    style: const TextStyle(fontSize: 18, color: _TupiColors.subtitle, height: 1.6),
-                  ),
+    void handleContinue() {
+      final xpBonus = item['xp_bonus'] ?? 0;
+      if (xpBonus > 0) _bonusXp += (xpBonus as int);
+      _nextItem();
+    }
+
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.enter): handleContinue,
+        const SingleActivator(LogicalKeyboardKey.numpadEnter): handleContinue,
+      },
+      child: Focus(
+        autofocus: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (item['titulo'] != null && item['titulo'].toString().isNotEmpty) ...[
+              Text(
+                item['titulo'],
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _TupiColors.accent),
+              ),
+              const SizedBox(height: 24),
+            ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (item['midia'] != null) ...[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(item['midia'], fit: BoxFit.cover),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))],
+                      ),
+                      child: Text(
+                        item['conteudo'] ?? '',
+                        style: const TextStyle(fontSize: 18, color: _TupiColors.subtitle, height: 1.6),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          height: 56,
-          child: ElevatedButton(
-            onPressed: () {
-              final xpBonus = item['xp_bonus'] ?? 0;
-              if (xpBonus > 0) _bonusXp += (xpBonus as int);
-              _nextItem();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _TupiColors.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              elevation: 0,
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: handleContinue,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _TupiColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 0,
+                ),
+                child: const Text('CONTINUAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+              ),
             ),
-            child: const Text('CONTINUAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -753,6 +790,13 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
   int? _selectedOption;
   final TextEditingController _textController = TextEditingController();
   final Map<int, int> _associations = {}; // leftIndex -> rightIndex
+  final FocusNode _keyboardFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _keyboardFocusNode.requestFocus();
+  }
 
   @override
   void didUpdateWidget(covariant _ExercicioDispatcher oldWidget) {
@@ -761,13 +805,26 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
       _selectedOption = null;
       _textController.clear();
       _associations.clear();
+      _keyboardFocusNode.requestFocus();
     }
   }
-  
+
   @override
   void dispose() {
+    _keyboardFocusNode.dispose();
     _textController.dispose();
     super.dispose();
+  }
+
+  void _triggerVerification(String tipo) {
+    if (tipo == 'escolha_multipla') {
+      widget.onVerify(_selectedOption);
+    } else if (tipo == 'completar') {
+      widget.onVerify(_textController.text.trim());
+    } else if (tipo == 'associacao') {
+      final mapPayload = _associations.map((k, v) => MapEntry(k.toString(), v.toString()));
+      widget.onVerify(mapPayload);
+    }
   }
 
   @override
@@ -784,72 +841,89 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
                 ? (_associations.isNotEmpty && _associations.length == leftCount)
                 : false;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          enunciado,
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: _TupiColors.accent, height: 1.4),
-        ),
-        const SizedBox(height: 24),
-        Expanded(
-          child: SingleChildScrollView(
-            child: tipo == 'escolha_multipla'
-                ? MultipleChoiceView(
-                    options: widget.item['opcoes'] as List<dynamic>? ?? [],
-                    selectedIndex: _selectedOption,
-                    onSelect: (index) => setState(() => _selectedOption = index),
-                  )
-                : tipo == 'completar'
-                    ? FillInTheBlankView(
-                        textoComLacunas: widget.item['texto_com_lacunas'] ?? '',
-                        textController: _textController,
-                        onChanged: (_) => setState(() {}),
-                        wordTranslations: widget.wordTranslations,
-                      )
-                    : tipo == 'associacao'
-                        ? MatchingColumnsView(
-                            key: ValueKey(widget.item['id']),
-                            leftItems: widget.item['coluna_esquerda'] as List<dynamic>? ?? [],
-                            rightItems: widget.item['coluna_direita'] as List<dynamic>? ?? [],
-                            initialAssociations: _associations,
-                            onAssociationsChanged: (map) => setState(() {
-                              _associations.clear();
-                              _associations.addAll(map);
-                            }),
-                          )
-                        : Center(child: Text('Tipo de exercício não suportado: $tipo')),
+    return KeyboardListener(
+      focusNode: _keyboardFocusNode,
+      autofocus: true,
+      onKeyEvent: (KeyEvent event) {
+        if (event is KeyDownEvent) {
+          // Atalhos 1 a 4 para exercícios de múltipla escolha
+          if (tipo == 'escolha_multipla') {
+            final optionsCount = (widget.item['opcoes'] as List<dynamic>?)?.length ?? 0;
+            if ((event.logicalKey == LogicalKeyboardKey.digit1 || event.logicalKey == LogicalKeyboardKey.numpad1) && optionsCount >= 1) {
+              setState(() => _selectedOption = 0);
+            } else if ((event.logicalKey == LogicalKeyboardKey.digit2 || event.logicalKey == LogicalKeyboardKey.numpad2) && optionsCount >= 2) {
+              setState(() => _selectedOption = 1);
+            } else if ((event.logicalKey == LogicalKeyboardKey.digit3 || event.logicalKey == LogicalKeyboardKey.numpad3) && optionsCount >= 3) {
+              setState(() => _selectedOption = 2);
+            } else if ((event.logicalKey == LogicalKeyboardKey.digit4 || event.logicalKey == LogicalKeyboardKey.numpad4) && optionsCount >= 4) {
+              setState(() => _selectedOption = 3);
+            }
+          }
+
+          // Tecla Enter para confirmar resposta se preenchida
+          if (event.logicalKey == LogicalKeyboardKey.enter || event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            if (canVerify) {
+              _triggerVerification(tipo);
+            }
+          }
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            enunciado,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: _TupiColors.accent, height: 1.4),
           ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          height: 56,
-          child: ElevatedButton(
-            onPressed: canVerify
-                ? () {
-                    if (tipo == 'escolha_multipla') {
-                      widget.onVerify(_selectedOption);
-                    } else if (tipo == 'completar') {
-                      widget.onVerify(_textController.text.trim());
-                    } else if (tipo == 'associacao') {
-                      final mapPayload = _associations.map((k, v) => MapEntry(k.toString(), v.toString()));
-                      widget.onVerify(mapPayload);
-                    }
-                  }
-                : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _TupiColors.primary,
-              foregroundColor: Colors.white,
-              disabledBackgroundColor: _TupiColors.border,
-              disabledForegroundColor: Colors.white70,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              elevation: 0,
+          const SizedBox(height: 24),
+          Expanded(
+            child: SingleChildScrollView(
+              child: tipo == 'escolha_multipla'
+                  ? MultipleChoiceView(
+                      options: widget.item['opcoes'] as List<dynamic>? ?? [],
+                      selectedIndex: _selectedOption,
+                      onSelect: (index) => setState(() => _selectedOption = index),
+                    )
+                  : tipo == 'completar'
+                      ? FillInTheBlankView(
+                          textoComLacunas: widget.item['texto_com_lacunas'] ?? '',
+                          textController: _textController,
+                          onChanged: (_) => setState(() {}),
+                          wordTranslations: widget.wordTranslations,
+                        )
+                      : tipo == 'associacao'
+                          ? MatchingColumnsView(
+                              key: ValueKey(widget.item['id']),
+                              leftItems: widget.item['coluna_esquerda'] as List<dynamic>? ?? [],
+                              rightItems: widget.item['coluna_direita'] as List<dynamic>? ?? [],
+                              initialAssociations: _associations,
+                              onAssociationsChanged: (map) => setState(() {
+                                _associations.clear();
+                                _associations.addAll(map);
+                              }),
+                            )
+                          : Center(child: Text('Tipo de exercício não suportado: $tipo')),
             ),
-            child: const Text('VERIFICAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            height: 56,
+            child: ElevatedButton(
+              onPressed: canVerify ? () => _triggerVerification(tipo) : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _TupiColors.primary,
+                foregroundColor: Colors.white,
+                disabledBackgroundColor: _TupiColors.border,
+                disabledForegroundColor: Colors.white70,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                elevation: 0,
+              ),
+              child: const Text('VERIFICAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <base href="$FLUTTER_BASE_HREF">
+  <base href="./">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="TupiLingo — Aprenda a língua Tupi de forma interativa, gamificada e com performance instantânea.">
-  <meta name="theme-color" content="#F3F2E8">
+  <meta name="description" content="TupiLingo — Plataforma gamificada e interativa de salvaguarda e aprendizado da língua Tupi Antigo.">
+  <meta name="theme-color" content="#D08A45">
 
   <!-- Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -16,6 +16,7 @@
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="TupiLingo">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
@@ -23,10 +24,73 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>TupiLingo — Gamified Indigenous Learning</title>
+  <title>TupiLingo — Salvaguarda do Tupi Antigo</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F3F2E8;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #splash-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #F3F2E8;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+    .splash-spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid rgba(208, 138, 69, 0.2);
+      border-top-color: #D08A45;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    .splash-title {
+      margin-top: 18px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #2D271D;
+      letter-spacing: -0.5px;
+    }
+    .splash-subtitle {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #8E8474;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
-<body style="margin: 0; background-color: #F3F2E8; overflow: hidden;">
+<body>
+  <div id="splash-loading">
+    <div class="splash-spinner"></div>
+    <div class="splash-title">TupiLingo</div>
+    <div class="splash-subtitle">Iniciando compêndio gramatical...</div>
+  </div>
+
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('splash-loading');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(function() { splash.remove(); }, 350);
+      }
+    });
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

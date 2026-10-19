@@ -30,7 +30,7 @@ class MultipleChoiceView extends StatelessWidget {
             onTap: () => onSelect(index),
             borderRadius: BorderRadius.circular(16),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
                 color: isSelected
                     ? _primary.withValues(alpha: 0.1)
@@ -41,13 +41,42 @@ class MultipleChoiceView extends StatelessWidget {
                   width: isSelected ? 2 : 1,
                 ),
               ),
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  color: isSelected ? _primary : _subtitle,
-                ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 28,
+                    height: 28,
+                    margin: const EdgeInsets.only(right: 14),
+                    decoration: BoxDecoration(
+                      color: isSelected ? _primary : AppTheme.surface(context),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isSelected ? _primary : _border,
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: isSelected ? Colors.white : _subtitle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                        color: isSelected ? _primary : _subtitle,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

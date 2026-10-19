@@ -49,37 +49,27 @@ Quando você alterar o código do aplicativo Flutter em `frontend/tupi_lingo/` e
    ```
 
 3. **Verificação do `<base href="./">`**:
-   Certifique-se de que `docs/app/index.html` contenha `<base href="./">` (o comando acima com `--base-href ./` já gera automaticamente).
+   O arquivo `web/index.html` já está configurado com `<base href="./">`, garantindo que a aplicação funcione em qualquer caminho relativo ou subdomínio.
 
 ---
 
-## ⚙️ Configuração do Iframe na Landing Page
+## 🌐 Arquitetura Web Autônoma e Adaptativa
 
-Dentro de `index.html`:
-```html
-<!-- Caminho relativo configurável para o build web do Flutter -->
-<iframe 
-  src="./app/" 
-  id="tupiIframe" 
-  class="simulator-iframe"
-  title="Simulador Web do TupiLingo"
-  allow="autoplay; fullscreen; clipboard-write; encrypted-media; camera; microphone"
-  loading="lazy">
-</iframe>
-```
-- **Localmente**: Ao rodar um servidor HTTP simples (`python -m http.server 8080`), abra `http://localhost:8080/docs/` ou `http://localhost:8080/landing-page/`.
-- **Produção (GitHub Pages)**: O iframe carrega `./app/` de forma relativa, funcionando perfeitamente em domínios personalizados (`tupilingo.app`) ou em subpastas padrão do GitHub (`usuario.github.io/TupiLingo-Project/`).
+A aplicação Flutter foi desacoplada do iframe embutido e agora opera como uma aplicação web completa e autônoma:
+- **Redirecionamento Direto**: O botão "Testar no Navegador" no Hero e na Navbar abre diretamente `./app/` em tela cheia (`target="_blank"`).
+- **Layout Adaptativo**:
+  - Telas largas ($\ge 800\text{ px}$): Exibe menu lateral tátil (Sidebar) e oculta a barra inferior. O conteúdo central da trilha é contido em largura máxima de 700 px.
+  - Telas menores ($< 800\text{ px}$): Mantém navegação móvel tradicional via barra inferior.
+- **Atalhos de Teclado Físico**: Teclas `1` a `4` para seleção de alternativas nas lições e tecla `Enter` para validação e avanço imediato.
+- **PWA (Progressive Web App)**: Totalmente instalável via Chrome/Edge desktop e mobile através do `manifest.json`.
 
 ---
 
-## 📱 Recursos de UX e Mobile
+## 📱 Recursos de UX e Distribuição
 
 1. **Call to Action Duplo**:
-   - `Testar Agora no Navegador`: Rola suavemente até o simulador interativo com efeito de foco.
-   - `Baixar APK (.apk)`: Baixa a versão de distribuição compilada para Android.
-2. **Alternativa Mobile em Tela Cheia**:
-   - Botão direto "Abrir Versão Web em Tela Cheia" abre `./app/` em nova aba, ideal para telas de celulares e tablets.
-3. **Touch Gate**:
-   - Em smartphones, evita conflitos de toque com o canvas do Flutter, permitindo rolagem fluida da página até que o usuário decida interagir.
-4. **Modos Smartphone e Tablet**:
-   - Alternância dinâmica entre proporções 9:19.5 (390×844) e Tablet/Amplo (620×860).
+   - `Testar no Navegador`: Abre a aplicação web Flutter completa e responsiva em tela cheia (`./app/`).
+   - `Baixar APK (.apk)`: Baixa a versão nativa compilada para dispositivos Android.
+2. **Ambiente Local**:
+   - Ao executar um servidor local (`python -m http.server 8080`), acesse `http://localhost:8080/landing-page/` ou `http://localhost:8080/docs/`.
+

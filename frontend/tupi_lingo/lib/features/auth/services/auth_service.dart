@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -84,7 +83,7 @@ class AuthService {
         await ThemeNotifier.instance.reloadForUser();
         return;
       }
-      if (e is SocketException || e.toString().contains('Failed host lookup') || e.toString().contains('ClientException')) {
+      if (e is http.ClientException || e.toString().contains('SocketException') || e.toString().contains('Failed host lookup') || e.toString().contains('ClientException')) {
         throw const AuthException('Não foi possível conectar ao servidor. Verifique sua conexão com a internet.');
       }
       rethrow;
@@ -116,10 +115,11 @@ class AuthService {
 
       final errorMsg = data['error'] as String? ?? 'Falha ao autenticar usuário.';
       throw AuthException(errorMsg, statusCode: response.statusCode.toString());
-    } on SocketException {
-      throw const AuthException('Não foi possível conectar ao servidor. Verifique sua internet.');
     } catch (e) {
       if (e is AuthException) rethrow;
+      if (e is http.ClientException || e.toString().contains('SocketException') || e.toString().contains('Failed host lookup')) {
+        throw const AuthException('Não foi possível conectar ao servidor. Verifique sua internet.');
+      }
       throw AuthException('Erro ao processar login: $e');
     }
   }
@@ -218,7 +218,7 @@ class AuthService {
           tupiLevel: tupiLevel,
         );
       }
-      if (e is SocketException || e.toString().contains('Failed host lookup') || e.toString().contains('ClientException')) {
+      if (e is http.ClientException || e.toString().contains('SocketException') || e.toString().contains('Failed host lookup') || e.toString().contains('ClientException')) {
         throw const AuthException('Não foi possível conectar ao servidor. Verifique sua conexão com a internet.');
       }
       rethrow;
@@ -269,10 +269,11 @@ class AuthService {
 
       final errorMsg = data['error'] as String? ?? 'Não foi possível cadastrar a conta.';
       throw AuthException(errorMsg, statusCode: response.statusCode.toString());
-    } on SocketException {
-      throw const AuthException('Não foi possível conectar ao servidor. Verifique sua internet.');
     } catch (e) {
       if (e is AuthException) rethrow;
+      if (e is http.ClientException || e.toString().contains('SocketException') || e.toString().contains('Failed host lookup')) {
+        throw const AuthException('Não foi possível conectar ao servidor. Verifique sua internet.');
+      }
       throw AuthException('Erro ao processar cadastro: $e');
     }
   }

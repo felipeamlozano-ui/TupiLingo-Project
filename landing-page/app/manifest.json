@@ -1,12 +1,13 @@
 {
-    "name": "tupi_lingo",
-    "short_name": "tupi_lingo",
+    "name": "TupiLingo — Salvaguarda do Tupi Antigo",
+    "short_name": "TupiLingo",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "background_color": "#F3F2E8",
+    "theme_color": "#D08A45",
+    "description": "Plataforma gamificada e interativa para estudo e preservação da língua e cultura Tupi Antigo.",
+    "orientation": "any",
+    "categories": ["education", "books"],
     "prefer_related_applications": false,
     "icons": [
         {

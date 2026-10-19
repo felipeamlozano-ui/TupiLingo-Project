@@ -488,62 +488,322 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     }
   }
 
-  // Monta a tela principal com topbar persistente, alternância de abas e bottom bar
+  void _switchTab(int index) {
+    if (_currentTabIndex != index) {
+      setState(() => _currentTabIndex = index);
+      // Otimização Térmica e de Bateria: Para os tickers ao sair da trilha
+      if (index == 0) {
+        _resetIdleTimer();
+      } else {
+        _idleTimer?.cancel();
+        _pauseAnimTickers();
+      }
+    }
+  }
+
+  // Sidebar lateral exclusiva para telas largas (Desktop e Web ampla >= 800px)
+  Widget _buildDesktopSidebar(BuildContext context, int currentTab) {
+    final isDark = AppTheme.isDark(context);
+    final accentGold = isDark ? const Color(0xFFE69A56) : const Color(0xFFD08A45);
+    final primaryEmerald = isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E);
+
+    final navItems = [
+      (index: 0, label: 'Trilha', icon: Icons.explore_rounded, activeColor: accentGold),
+      (index: 1, label: 'Prática', icon: Icons.fitness_center_rounded, activeColor: primaryEmerald),
+      (index: 2, label: 'Perfil', icon: Icons.person_rounded, activeColor: accentGold),
+      (index: 3, label: 'Ajustes', icon: Icons.settings_rounded, activeColor: primaryEmerald),
+      if (_isAdmin)
+        (index: 4, label: 'Painel Admin', icon: Icons.admin_panel_settings_rounded, activeColor: primaryEmerald),
+    ];
+
+    return Container(
+      width: 250,
+      decoration: BoxDecoration(
+        color: AppTheme.surface(context),
+        border: Border(
+          right: BorderSide(color: AppTheme.border(context), width: 1.5),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Header da Marca TupiLingo
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD08A45).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Center(
+                    child: Icon(Icons.local_fire_department_rounded, color: Color(0xFFD08A45), size: 24),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'TupiLingo',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900,
+                          color: AppTheme.textPrimary(context),
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF0E5D4E),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: const Text(
+                              'WEB',
+                              style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'v1.0.0',
+                            style: TextStyle(fontSize: 11, color: AppTheme.textSecondary(context)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const Divider(height: 1, thickness: 1),
+          const SizedBox(height: 16),
+
+          // Título da Seção
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'NAVEGAÇÃO',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                color: AppTheme.textSecondary(context),
+                letterSpacing: 0.8,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+
+          // Lista de Opções Principais
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              children: navItems.map((item) {
+                final isSelected = currentTab == item.index;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: InkWell(
+                    onTap: () {
+                      AudioManager.instance.playTap();
+                      _switchTab(item.index);
+                    },
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? (isDark ? item.activeColor.withValues(alpha: 0.2) : item.activeColor.withValues(alpha: 0.12))
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: isSelected ? item.activeColor : Colors.transparent,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            item.icon,
+                            color: isSelected ? item.activeColor : AppTheme.textSecondary(context),
+                            size: 22,
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Text(
+                              item.label,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                                color: isSelected ? item.activeColor : AppTheme.textPrimary(context),
+                              ),
+                            ),
+                          ),
+                          if (isSelected)
+                            Container(
+                              width: 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: item.activeColor,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+
+          // Rodapé Institucional
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: AppTheme.border(context), width: 1)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.school_outlined, size: 16, color: Color(0xFF0E5D4E)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Método Navarro USP',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.textSecondary(context),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Preservação e Salvaguarda',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: AppTheme.textSecondary(context),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Monta a tela principal de forma adaptativa (Desktop: Sidebar + Central 700px; Mobile: BottomBar)
   @override
   Widget build(BuildContext context) {
     final maxTabs = _isAdmin ? 5 : 4;
     final currentTab = _currentTabIndex < maxTabs ? _currentTabIndex : 0;
 
-    return Scaffold(
-      backgroundColor: AppTheme.bg(context),
-      body: Listener(
-        behavior: HitTestBehavior.translucent,
-        onPointerDown: (_) => _resetIdleTimer(),
-        onPointerMove: (_) => _resetIdleTimer(),
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              _buildGlobalTopBar(),
-              Expanded(
-                child: _isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(color: _TupiColors.primary),
-                      )
-                    : _errorMessage != null
-                        ? _buildErrorView()
-                        : IndexedStack(
-                            index: currentTab,
-                            children: [
-                              TickerMode(
-                                enabled: currentTab == 0,
-                                child: RepaintBoundary(child: _buildTrilhaTab()),
-                              ),
-                              TickerMode(
-                                enabled: currentTab == 1,
-                                child: RepaintBoundary(child: _buildPraticaTab()),
-                              ),
-                              TickerMode(
-                                enabled: currentTab == 2,
-                                child: const RepaintBoundary(child: ProfileScreen()),
-                              ),
-                              TickerMode(
-                                enabled: currentTab == 3,
-                                child: const RepaintBoundary(child: SettingsScreen()),
-                              ),
-                              if (_isAdmin)
-                                TickerMode(
-                                  enabled: currentTab == 4,
-                                  child: const RepaintBoundary(child: AdminScreen()),
-                                ),
-                            ],
-                          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isDesktop = constraints.maxWidth >= 800;
+
+        final tabStack = IndexedStack(
+          index: currentTab,
+          children: [
+            TickerMode(
+              enabled: currentTab == 0,
+              child: RepaintBoundary(child: _buildTrilhaTab()),
+            ),
+            TickerMode(
+              enabled: currentTab == 1,
+              child: RepaintBoundary(child: _buildPraticaTab()),
+            ),
+            TickerMode(
+              enabled: currentTab == 2,
+              child: const RepaintBoundary(child: ProfileScreen()),
+            ),
+            TickerMode(
+              enabled: currentTab == 3,
+              child: const RepaintBoundary(child: SettingsScreen()),
+            ),
+            if (_isAdmin)
+              TickerMode(
+                enabled: currentTab == 4,
+                child: const RepaintBoundary(child: AdminScreen()),
               ),
-            ],
+          ],
+        );
+
+        // Garante que o conteúdo central nunca ultrapasse 700px de largura
+        final centralContent = Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 700),
+            child: _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(color: _TupiColors.primary),
+                  )
+                : _errorMessage != null
+                    ? _buildErrorView()
+                    : tabStack,
           ),
-        ),
-      ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+        );
+
+        // Layout Desktop (Largura >= 800px): Sidebar fixa à esquerda, sem bottom bar
+        if (isDesktop) {
+          return Scaffold(
+            backgroundColor: AppTheme.bg(context),
+            body: Listener(
+              behavior: HitTestBehavior.translucent,
+              onPointerDown: (_) => _resetIdleTimer(),
+              onPointerMove: (_) => _resetIdleTimer(),
+              child: SafeArea(
+                bottom: false,
+                child: Row(
+                  children: [
+                    _buildDesktopSidebar(context, currentTab),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          _buildGlobalTopBar(),
+                          Expanded(child: centralContent),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        // Layout Mobile (< 800px): Top bar global, conteúdo centralizado e bottom navigation bar
+        return Scaffold(
+          backgroundColor: AppTheme.bg(context),
+          body: Listener(
+            behavior: HitTestBehavior.translucent,
+            onPointerDown: (_) => _resetIdleTimer(),
+            onPointerMove: (_) => _resetIdleTimer(),
+            child: SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  _buildGlobalTopBar(),
+                  Expanded(child: centralContent),
+                ],
+              ),
+            ),
+          ),
+          bottomNavigationBar: _buildBottomNavigationBar(),
+        );
+      },
     );
   }
 
@@ -997,18 +1257,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     return HomeBottomBar(
       currentTabIndex: _currentTabIndex,
       isAdmin: _isAdmin,
-      onTabSelected: (index) {
-        if (_currentTabIndex != index) {
-          setState(() => _currentTabIndex = index);
-          // Otimização Térmica e de Bateria: Para os tickers ao sair da trilha
-          if (index == 0) {
-            _resetIdleTimer();
-          } else {
-            _idleTimer?.cancel();
-            _pauseAnimTickers();
-          }
-        }
-      },
+      onTabSelected: _switchTab,
     );
   }
 

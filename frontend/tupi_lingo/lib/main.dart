@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tupi_lingo/features/home/presentation/home.dart';
 import 'package:tupi_lingo/features/auth/presentation/login.dart';
@@ -24,6 +25,11 @@ import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_reposi
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Ativa roteamento limpo sem '#' para navegadores modernos
+  if (kIsWeb) {
+    usePathUrlStrategy();
+  }
 
   // Preferências locais e variáveis de ambiente
   final prefs = await SharedPreferences.getInstance();

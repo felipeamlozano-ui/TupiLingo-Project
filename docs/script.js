@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
   initMobileMenu();
   initHeroParallax();
-  initSimulator();
   initShowcaseTabs();
   initInstallAccordion();
   initFeedbackModal();
@@ -133,105 +132,7 @@ function initHeroParallax() {
   });
 }
 
-/**
- * 4. Controle do Simulador Web (Dispositivos, Iframe, Fullscreen e Verificação Local)
- */
-function initSimulator() {
-  const iframe = document.getElementById('tupiIframe');
-  const loader = document.getElementById('simLoader');
-  const fileNotice = document.getElementById('simFileNotice');
-  const btnPhone = document.getElementById('btnSimPhone');
-  const btnTablet = document.getElementById('btnSimTablet');
-  const simFrame = document.getElementById('simFrame');
-  const screenWrapper = document.getElementById('simScreenWrapper');
-  const reloadBtn = document.getElementById('simReloadBtn');
-  const fullscreenBtn = document.getElementById('simFullscreenBtn');
 
-  if (!iframe) return;
-
-  // Verificação de segurança: navegadores modernos barram WebAssembly via file:// (CORS)
-  const isFileProtocol = window.location.protocol === 'file:';
-  if (isFileProtocol && fileNotice) {
-    if (loader) loader.style.display = 'none';
-    fileNotice.style.display = 'flex';
-  }
-
-  // Oculta o loader quando o iframe carregar
-  const hideLoader = () => {
-    if (loader && !loader.classList.contains('loaded')) {
-      loader.classList.add('loaded');
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, 450);
-    }
-  };
-
-  iframe.addEventListener('load', hideLoader);
-  setTimeout(hideLoader, 5000); // Fallback caso já esteja no cache
-
-  // Recarregar iframe
-  if (reloadBtn) {
-    reloadBtn.addEventListener('click', () => {
-      if (isFileProtocol && fileNotice) {
-        showToast('Para rodar o WebAssembly localmente, use a Opção 5 do dev.bat!');
-        return;
-      }
-      if (loader) {
-        loader.style.display = 'flex';
-        loader.classList.remove('loaded');
-      }
-      try {
-        iframe.src = './app/index.html?t=' + Date.now();
-      } catch (e) {
-        iframe.setAttribute('src', './app/index.html');
-      }
-      showToast('Recarregando o TupiLingo...');
-      setTimeout(hideLoader, 2500);
-    });
-  }
-
-  // Alternar entre Celular e Tablet
-  if (btnPhone && btnTablet && simFrame) {
-    btnPhone.addEventListener('click', () => {
-      simFrame.classList.remove('sim-tablet');
-      simFrame.classList.add('sim-phone');
-      btnPhone.classList.add('active');
-      btnTablet.classList.remove('active');
-    });
-
-    btnTablet.addEventListener('click', () => {
-      simFrame.classList.remove('sim-phone');
-      simFrame.classList.add('sim-tablet');
-      btnTablet.classList.add('active');
-      btnPhone.classList.remove('active');
-    });
-  }
-
-  // Expandir em Tela Cheia
-  if (fullscreenBtn && screenWrapper) {
-    fullscreenBtn.addEventListener('click', () => {
-      const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
-      
-      if (!isFullscreen) {
-        const enterFullscreen = screenWrapper.requestFullscreen ||
-                                screenWrapper.webkitRequestFullscreen ||
-                                screenWrapper.mozRequestFullScreen;
-        if (enterFullscreen) {
-          enterFullscreen.call(screenWrapper).catch(() => {
-            window.open('./app/index.html', '_blank', 'noopener,noreferrer');
-          });
-        } else {
-          window.open('./app/index.html', '_blank', 'noopener,noreferrer');
-        }
-      } else {
-        const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen;
-        if (exitFullscreen) {
-          exitFullscreen.call(document);
-        }
-      }
-    });
-  }
-}
 
 /**
  * 5. Filtro de Abas no Showcase de Telas Reais
