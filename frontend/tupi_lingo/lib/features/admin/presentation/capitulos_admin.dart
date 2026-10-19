@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../../core/config/app_config.dart';
+import '../../../../core/network/api_client.dart';
 
 class CapitulosAdminTab extends StatelessWidget {
   final List<dynamic> variantes;
@@ -14,17 +14,14 @@ class CapitulosAdminTab extends StatelessWidget {
     required this.onRefresh,
   });
 
-  String get _baseUrl => dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-  String? get _token => Supabase.instance.client.auth.currentSession?.accessToken;
-
-  void _showCapituloDialog(BuildContext context, {Map<String, dynamic>? capitulo, required int trilhaId}) {
+  Future<void> _showCapituloDialog(BuildContext context, {Map<String, dynamic>? capitulo, required int trilhaId}) async {
     final isEditing = capitulo != null;
     final numeroController = TextEditingController(text: capitulo != null ? '${capitulo['numero']}' : '');
     final tituloController = TextEditingController(text: capitulo != null ? '${capitulo['titulo']}' : '');
     final descController = TextEditingController(text: capitulo != null ? '${capitulo['descricao']}' : '');
     bool publicado = capitulo != null ? (capitulo['publicado'] ?? true) : true;
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (dialogCtx) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
@@ -83,6 +80,7 @@ class CapitulosAdminTab extends StatelessWidget {
               onPressed: () async {
                 final numVal = int.tryParse(numeroController.text.trim());
                 final tituloVal = tituloController.text.trim();
+                final descVal = descController.text.trim();
                 if (numVal == null || tituloVal.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Preencha número e título.')),
@@ -93,35 +91,21 @@ class CapitulosAdminTab extends StatelessWidget {
                 Navigator.pop(dialogCtx);
 
                 try {
-                  final uri = isEditing
-                      ? Uri.parse('$_baseUrl/api/v1/admin/trilha/capitulos/${capitulo['id']}/')
-                      : Uri.parse('$_baseUrl/api/v1/admin/trilha/capitulos/');
+                  final url = isEditing
+                      ? '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/capitulos/${capitulo['id']}/'
+                      : '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/capitulos/';
 
                   final body = {
                     'trilha_id': trilhaId,
                     'numero': numVal,
                     'titulo': tituloVal,
-                    'descricao': descController.text.trim(),
+                    'descricao': descVal,
                     'publicado': publicado,
                   };
 
                   final res = isEditing
-                      ? await http.put(
-                          uri,
-                          headers: {
-                            'Authorization': 'Bearer $_token',
-                            'Content-Type': 'application/json',
-                          },
-                          body: jsonEncode(body),
-                        )
-                      : await http.post(
-                          uri,
-                          headers: {
-                            'Authorization': 'Bearer $_token',
-                            'Content-Type': 'application/json',
-                          },
-                          body: jsonEncode(body),
-                        );
+                      ? await ApiClient.put(url, body: body)
+                      : await ApiClient.post(url, body: body);
 
                   if (res.statusCode == 200 || res.statusCode == 201) {
                     onRefresh();
@@ -156,6 +140,9 @@ class CapitulosAdminTab extends StatelessWidget {
         ),
       ),
     );
+    numeroController.dispose();
+    tituloController.dispose();
+    descController.dispose();
   }
 
   void _confirmDelete(BuildContext context, int capituloId, String titulo) {
@@ -172,9 +159,8 @@ class CapitulosAdminTab extends StatelessWidget {
             onPressed: () async {
               Navigator.pop(ctx);
               try {
-                final res = await http.delete(
-                  Uri.parse('$_baseUrl/api/v1/admin/trilha/capitulos/$capituloId/'),
-                  headers: {'Authorization': 'Bearer $_token'},
+                final res = await ApiClient.delete(
+                  '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/capitulos/$capituloId/',
                 );
                 if (res.statusCode == 200) {
                   onRefresh();

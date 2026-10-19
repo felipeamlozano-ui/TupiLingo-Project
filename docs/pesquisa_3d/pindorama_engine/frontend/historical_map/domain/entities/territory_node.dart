@@ -145,7 +145,7 @@ class TerritoryNode {
         const TerritoryNode(
           id: 'territorio_baia_da_guanabara',
           name: 'Baía de Guanabara & França Antártica',
-          tupiName: 'Karióka Paranã',
+          tupiName: 'Kariîó-oka Paranã',
           historicalPeriod: '1555 — Aliança Franco-Indígena',
           primaryDialect: 'Tupinambá Guanabarino',
           biome: BiomeType.mataAtlantica,

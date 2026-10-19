@@ -71,8 +71,8 @@ class _EntityPropertyPanelState extends State<EntityPropertyPanel> {
     if (ent.containsKey('x') && ent.containsKey('y')) {
       final curX = (ent['x'] as num?)?.toDouble() ?? 0.0;
       final curY = (ent['y'] as num?)?.toDouble() ?? 0.0;
-      ent['x'] = (curX + dx).clamp(50.0, 3950.0);
-      ent['y'] = (curY + dy).clamp(50.0, 3950.0);
+      ent['x'] = (curX + dx).clamp(50.0, 9950.0);
+      ent['y'] = (curY + dy).clamp(50.0, 9950.0);
     }
     // 2. Rios
     if (ent.containsKey('bezier_points') && ent['bezier_points'] is List) {
@@ -81,25 +81,28 @@ class _EntityPropertyPanelState extends State<EntityPropertyPanel> {
       for (final p in raw) {
         final px = (p[0] as num).toDouble() + dx;
         final py = (p[1] as num).toDouble() + dy;
-        updated.add([px.clamp(50.0, 3950.0), py.clamp(50.0, 3950.0)]);
+        updated.add([px.clamp(50.0, 9950.0), py.clamp(50.0, 9950.0)]);
       }
       ent['bezier_points'] = updated;
     }
     // 3. Territórios
-    if (ent.containsKey('polygon_coords') && ent['polygon_coords'] is List) {
-      final raw = ent['polygon_coords'] as List;
+    final polyKey = ent.containsKey('polygon_coordinates')
+        ? 'polygon_coordinates'
+        : (ent.containsKey('polygon_coords') ? 'polygon_coords' : null);
+    if (polyKey != null && ent[polyKey] is List) {
+      final raw = ent[polyKey] as List;
       final updated = <List<double>>[];
       for (final p in raw) {
         final px = (p[0] as num).toDouble() + dx;
         final py = (p[1] as num).toDouble() + dy;
-        updated.add([px.clamp(50.0, 3950.0), py.clamp(50.0, 3950.0)]);
+        updated.add([px.clamp(50.0, 9950.0), py.clamp(50.0, 9950.0)]);
       }
-      ent['polygon_coords'] = updated;
+      ent[polyKey] = updated;
       if (ent.containsKey('center_x')) {
-        ent['center_x'] = ((ent['center_x'] as num).toDouble() + dx).clamp(50.0, 3950.0);
+        ent['center_x'] = ((ent['center_x'] as num).toDouble() + dx).clamp(50.0, 9950.0);
       }
       if (ent.containsKey('center_y')) {
-        ent['center_y'] = ((ent['center_y'] as num).toDouble() + dy).clamp(50.0, 3950.0);
+        ent['center_y'] = ((ent['center_y'] as num).toDouble() + dy).clamp(50.0, 9950.0);
       }
     }
     // 4. Trilhas
@@ -109,7 +112,7 @@ class _EntityPropertyPanelState extends State<EntityPropertyPanel> {
       for (final p in raw) {
         final px = (p[0] as num).toDouble() + dx;
         final py = (p[1] as num).toDouble() + dy;
-        updated.add([px.clamp(50.0, 3950.0), py.clamp(50.0, 3950.0)]);
+        updated.add([px.clamp(50.0, 9950.0), py.clamp(50.0, 9950.0)]);
       }
       ent['waypoints'] = updated;
     }

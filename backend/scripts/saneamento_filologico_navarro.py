@@ -1,6 +1,6 @@
 """
 Saneamento Filológico do TupiLingo segundo as Obras Canônicas do Prof. Dr. Eduardo Navarro (USP):
-1. Elimina fraudes/mitos ("Kauê", construções macarrônicas "che amigo", "céu pupé").
+1. Elimina fraudes/mitos ("Aué", construções macarrônicas "xe irũ", "céu pupé").
 2. Corrige contaminações de Nheengatu no Tupi Antigo (troca "puranga" por "katu", "tuxaua" por "morubixaba").
 3. Corrige "Mbyá" (etnônimo) para "Tembi'u" (comida/alimento).
 4. Remove anacronismos em português ("Cabo Frio", "Cartas de 1645" ensinados como vocábulos).
@@ -32,16 +32,16 @@ def sanear_tupi_antigo():
         with open(cap_file, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # 1. Substitui fraude 'Kauê' por 'Aué' (Saudação quinhentista autêntica)
-        content = content.replace("Kauê, che amigo!", "Aué, xe irũ!")
+        # 1. Substitui fraude 'Aué' por 'Aué' (Saudação quinhentista autêntica)
+        content = content.replace("Aué, xe irũ!", "Aué, xe irũ!")
         content = content.replace("Olá, meu amigo!", "Salve, meu amigo!")
-        content = content.replace("Primeiros Encontros: Kauê", "Primeiros Encontros: Aué")
-        content = content.replace("'Kauê'", "'Aué'")
-        content = content.replace('"Kauê"', '"Aué"')
-        content = content.replace("ka-u-Ê", "a-u-É")
+        content = content.replace("Primeiros Encontros: Aué", "Primeiros Encontros: Aué")
+        content = content.replace("'Aué'", "'Aué'")
+        content = content.replace('"Aué"', '"Aué"')
+        content = content.replace("a-u-É", "a-u-É")
 
         # 2. Corrige macarrônico 'che' para 'xe' e 'amigo' para 'irũ'
-        content = content.replace("che amigo", "xe irũ")
+        content = content.replace("xe irũ", "xe irũ")
 
         # 3. Corrige nheengatismos inseridos indevidamente
         content = content.replace("Ygarapé puranga", "Ygarapé katu")
@@ -176,9 +176,9 @@ def expurgar_variantes_descontinuadas():
         for f in manifestos_dir.glob("manifesto_tupi_antigo_cap*.json"):
             with open(f, "r", encoding="utf-8") as inf:
                 mcontent = inf.read()
-            mcontent = mcontent.replace('"Kauê"', '"Aué"')
-            mcontent = mcontent.replace("Kauê", "Aué")
-            mcontent = mcontent.replace("Kauê, che amigo!", "Aué, xe irũ!")
+            mcontent = mcontent.replace('"Aué"', '"Aué"')
+            mcontent = mcontent.replace("Aué", "Aué")
+            mcontent = mcontent.replace("Aué, xe irũ!", "Aué, xe irũ!")
             mcontent = mcontent.replace("Cartas de 1645", "Maranduba")
             mcontent = mcontent.replace("Cabo Frio", "Ybytyra")
             mcontent = mcontent.replace("Tupinambá Kuatiá", "Tupi Kuatiá")

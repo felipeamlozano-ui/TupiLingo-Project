@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/core/config/app_config.dart';
+import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/logging/app_logger.dart';
 import 'package:tupi_lingo/core/security/developer_enclave_session.dart';
 import 'package:tupi_lingo/core/telemetry/telemetry_service.dart';
@@ -152,11 +153,13 @@ class _DeveloperConsoleScreenState extends ConsumerState<DeveloperConsoleScreen>
 
     // 3. Notifica backend
     try {
-      final url = Uri.parse('${AppConfig.backendBaseUrl}/api/v1/platform/flags/toggle/');
-      await http.post(
+      final url = '${AppConfig.backendBaseUrl}/api/v1/platform/flags/toggle/';
+      await ApiClient.post(
         url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'key': key, 'is_enabled': newEnabled}),
+        body: {'key': key, 'is_enabled': newEnabled},
+        extraHeaders: {
+          'X-Enclave-Token': _sessionToken ?? '',
+        },
       ).timeout(const Duration(seconds: 3));
     } catch (_) {}
 

@@ -23,12 +23,13 @@ class NLPItemCalibrator:
     Elimina o problema de Cold-Start antes da coleta de respostas de usuários reais.
     """
 
-    # Marcadores morfológicos e fonológicos de alta complexidade no Tupi Antigo/Nheengatu
+    # Marcadores morfológicos e fonológicos de alta complexidade no Tupi Antigo/Nheengatu segundo Navarro
     _TUPI_COMPLEX_MARKERS = {
         'nasais': ['~', '^', 'nh', 'mb', 'nd', 'ng'],
         'relacionais': ['r-', 's-', 't-'],
-        'prefixos_verbais': ['a-', 'ere-', 'o-', 'oro-', 'ya-', 'pe-'],
-        'sufixos_modais': ["-ba'e", '-paba', '-saba', '-wara', '-ramo'],
+        'prefixos_verbais': ['a-', 'ere-', 'o-', 'oro-', 'îa-', 'ya-', 'pe-'],
+        'sufixos_modais': ["-ba'e", '-paba', '-saba', '-ab', '-gûara', '-ygûara', '-ûara', '-ramo', '-pe', '-be'],
+        'pronomes': ['xe', 'nde', 'i', 'oré', 'îandé', 'nhandé', 'pe'],
         'aglutinacoes': ["'", "y", "kû", "gû"],
     }
 
@@ -80,9 +81,13 @@ class NLPItemCalibrator:
                 tupi_complexity += 0.25
             if any(ag in term_lower for ag in self._TUPI_COMPLEX_MARKERS['aglutinacoes']):
                 tupi_complexity += 0.35
-            # Presença de prefixos relacionais ou sufixos derivacionais
-            if any(term_lower.startswith(pref) for pref in ['xe', 'nde', 'i', 'ore', 'yande']):
+            # Presença de pronomes, prefixos verbais ou sufixos modais
+            if any(term_lower.startswith(pref) for pref in self._TUPI_COMPLEX_MARKERS['pronomes']):
                 tupi_complexity += 0.30
+            if any(term_lower.startswith(pfx.replace('-', '')) for pfx in self._TUPI_COMPLEX_MARKERS['prefixos_verbais']):
+                tupi_complexity += 0.30
+            if any(term_lower.endswith(sfx.replace('-', '')) for sfx in self._TUPI_COMPLEX_MARKERS['sufixos_modais']):
+                tupi_complexity += 0.35
 
         # Métrica 4: Peso por categoria temática
         category_weights = {

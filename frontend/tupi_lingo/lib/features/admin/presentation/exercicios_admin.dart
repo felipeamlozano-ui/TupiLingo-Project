@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../../core/config/app_config.dart';
+import '../../../../core/network/api_client.dart';
 
 class ExerciciosAdminTab extends StatefulWidget {
   final List<dynamic> variantes;
@@ -21,9 +21,6 @@ class ExerciciosAdminTab extends StatefulWidget {
 class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
   int? _selectedLicaoId;
 
-  String get _baseUrl => dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-  String? get _token => Supabase.instance.client.auth.currentSession?.accessToken;
-
   List<Map<String, dynamic>> get _allLicoes {
     final List<Map<String, dynamic>> list = [];
     for (final v in widget.variantes) {
@@ -41,7 +38,7 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
     return list;
   }
 
-  void _showExercicioDialog({Map<String, dynamic>? exercicio, required int licaoId}) {
+  Future<void> _showExercicioDialog({Map<String, dynamic>? exercicio, required int licaoId}) async {
     final isEditing = exercicio != null;
     String tipo = exercicio != null ? (exercicio['tipo'] ?? 'escolha_multipla') : 'escolha_multipla';
     final enunciadoController = TextEditingController(text: exercicio != null ? (exercicio['enunciado'] ?? '') : '');
@@ -61,27 +58,27 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
 
     // Completar Lacunas
     final lacunasController = TextEditingController(
-      text: exercicio != null ? (exercicio['texto_com_lacunas'] ?? '') : 'Ao ver o pajé, o guerreiro disse: "___!"',
+      text: exercicio != null ? (exercicio['texto_com_lacunas'] ?? '') : 'Ao amanhecer, o céu se ilumina com o brilho de "___".',
     );
     final respostasLacunasController = TextEditingController(
       text: exercicio != null && exercicio['respostas_corretas'] is List
           ? (exercicio['respostas_corretas'] as List).join(', ')
-          : 'Kauê',
+          : 'Kûarasy',
     );
 
     // Associação
     final colEsqController = TextEditingController(
       text: exercicio != null && exercicio['coluna_esquerda'] is List
           ? (exercicio['coluna_esquerda'] as List).join(', ')
-          : 'Tupã, Taba, Kunhã',
+          : 'Kûarasy, Kunhã, Taba, Tupã',
     );
     final colDirController = TextEditingController(
       text: exercicio != null && exercicio['coluna_direita'] is List
           ? (exercicio['coluna_direita'] as List).join(', ')
-          : 'Deus do Trovão, Aldeia, Mulher',
+          : 'Sol, Mulher, Aldeia, Deus / Trovão',
     );
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (dialogCtx) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
@@ -131,7 +128,7 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
                       controller: opcoesController,
                       decoration: const InputDecoration(
                         labelText: 'Opções (separadas por vírgula)',
-                        hintText: 'Ex: Kauê, Pirá, Tupã, Taba',
+                        hintText: 'Ex: Kûarasy, Pirá, Tupã, Taba',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -174,7 +171,7 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
                       controller: colEsqController,
                       decoration: const InputDecoration(
                         labelText: 'Coluna Esquerda (separada por vírgula)',
-                        hintText: 'Ex: Kauê, Kunhã, Taba',
+                        hintText: 'Ex: Kûarasy, Kunhã, Taba',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -183,7 +180,7 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
                       controller: colDirController,
                       decoration: const InputDecoration(
                         labelText: 'Coluna Direita (pares na mesma ordem)',
-                        hintText: 'Ex: Olá, Mulher, Aldeia',
+                        hintText: 'Ex: Sol, Mulher, Aldeia',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -285,27 +282,13 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
                 Navigator.pop(dialogCtx);
 
                 try {
-                  final uri = isEditing
-                      ? Uri.parse('$_baseUrl/api/v1/admin/trilha/exercicios/${exercicio['id']}/')
-                      : Uri.parse('$_baseUrl/api/v1/admin/trilha/exercicios/');
+                  final url = isEditing
+                      ? '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/exercicios/${exercicio['id']}/'
+                      : '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/exercicios/';
 
                   final res = isEditing
-                      ? await http.put(
-                          uri,
-                          headers: {
-                            'Authorization': 'Bearer $_token',
-                            'Content-Type': 'application/json',
-                          },
-                          body: jsonEncode(payload),
-                        )
-                      : await http.post(
-                          uri,
-                          headers: {
-                            'Authorization': 'Bearer $_token',
-                            'Content-Type': 'application/json',
-                          },
-                          body: jsonEncode(payload),
-                        );
+                      ? await ApiClient.put(url, body: payload)
+                      : await ApiClient.post(url, body: payload);
 
                   if (res.statusCode == 200 || res.statusCode == 201) {
                     widget.onRefresh();
@@ -336,6 +319,14 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
         ),
       ),
     );
+    enunciadoController.dispose();
+    explicacaoController.dispose();
+    xpController.dispose();
+    opcoesController.dispose();
+    lacunasController.dispose();
+    respostasLacunasController.dispose();
+    colEsqController.dispose();
+    colDirController.dispose();
   }
 
   void _confirmDelete(int exId) {
@@ -352,9 +343,8 @@ class _ExerciciosAdminTabState extends State<ExerciciosAdminTab> {
             onPressed: () async {
               Navigator.pop(ctx);
               try {
-                final res = await http.delete(
-                  Uri.parse('$_baseUrl/api/v1/admin/trilha/exercicios/$exId/'),
-                  headers: {'Authorization': 'Bearer $_token'},
+                final res = await ApiClient.delete(
+                  '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/exercicios/$exId/',
                 );
                 if (res.statusCode == 200) {
                   widget.onRefresh();

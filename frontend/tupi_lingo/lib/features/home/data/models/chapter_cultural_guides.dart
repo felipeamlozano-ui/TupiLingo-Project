@@ -48,9 +48,9 @@ class ChapterCulturalGuide {
           'alegria e honra por sua presença. Não havia pressa: a partilha de alimentos e água fresca acontecia '
           'antes de qualquer deliberação formal.',
       curiosidadeLinguistica:
-          'A saudação "Ereîur-pe?" significa literalmente "Vieste?". O sufixo interrogativo "-pe" transforma a '
+          'A saudação "Ereîur pe??" significa literalmente "Vieste?". O sufixo interrogativo "-pe" transforma a '
           'constatação de chegada em um gesto fraterno de reconhecimento da presença do outro.',
-      expressaoDestaque: 'Kauê, pa\'ĩ! Ereîur-pe?',
+      expressaoDestaque: 'Aué, pa\'ĩ! Ereîur pe??',
       expressaoTraducao: 'Salve, meu senhor! Vieste em paz?',
     ),
     2: const ChapterCulturalGuide(

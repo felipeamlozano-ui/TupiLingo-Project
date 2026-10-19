@@ -181,7 +181,8 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='TupiLingo Security <security@tupilingo.com>')
-DEV_MASTER_PASSCODE = config('DEV_MASTER_PASSCODE', default='tupi_master_2026')
+DEV_MASTER_PASSCODE = config('DEV_MASTER_PASSCODE', default='')
+BIRDBRAIN_TELEMETRY_SECRET = config('BIRDBRAIN_TELEMETRY_SECRET', default='')
 
 # Logging setup (base)
 LOGGING = {
@@ -225,3 +226,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 }
+
+SUPABASE_JWT_SECRET = config('SUPABASE_JWT_SECRET', default='super_secret_jwt_tupilingo_key_2026_dev')

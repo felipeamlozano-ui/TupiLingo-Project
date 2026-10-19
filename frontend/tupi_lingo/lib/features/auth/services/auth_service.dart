@@ -176,7 +176,7 @@ class AuthService {
         }
 
         // Se o usuário já possuía confirmação e não foi gerada nova sessão
-        if (user.confirmedAt != null && res.session == null) {
+        if (user.emailConfirmedAt != null && res.session == null) {
           throw const AuthException(
             'Este e-mail já está cadastrado. Faça login para continuar.',
             statusCode: '409',

@@ -15,7 +15,7 @@ class CurriculumRepositoryImpl implements CurriculumRepository {
       const CurriculumNode(
         id: 'node_saudacao',
         title: 'Saudações Tradicionais',
-        description: 'Primeiros cumprimentos: Kauê, Karai e convivência na aldeia.',
+        description: 'Primeiros cumprimentos: Aué, Karai e convivência na aldeia.',
         type: CurriculumNodeType.lesson,
         order: 1,
         isUnlocked: true,

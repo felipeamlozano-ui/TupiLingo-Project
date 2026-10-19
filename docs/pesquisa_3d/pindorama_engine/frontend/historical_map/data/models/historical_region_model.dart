@@ -81,7 +81,7 @@ class HistoricalRegionModel extends HistoricalRegion {
         culturalSummary:
             'Coração da Confederação dos Tamoios liderada por Cunhambebe. Famosos navegadores de canoas '
             'e guerreiros da floresta atlântica, falantes do Tupi clássico registrado por Jean de Léry e Hans Staden.',
-        vocabularyHighlights: const ['Iperoig', 'Tamoio', 'Karai', 'Tupã', 'Maracá'],
+        vocabularyHighlights: const ['Iperoig', 'Tamûîa', 'Karaíba', 'Tupã', 'Maraká', 'Meiembipe'],
         isUnlocked: true,
         requiredLevel: 1,
         lessonsCount: totalLessons,
@@ -98,7 +98,7 @@ class HistoricalRegionModel extends HistoricalRegion {
         culturalSummary:
             'Povo pacífico de navegadores e guardiões do mítico caminho sagrado do Peabiru, que ligava o Atlântico aos Andes. '
             'Grandes ceramistas e agricultores de mandioca e milho.',
-        vocabularyHighlights: const ['Peabiru', 'Meiembipe', 'Mandi\'oka', 'Avaxi'],
+        vocabularyHighlights: const ['Peabiru', 'Îurumerim', 'Mandi\'oka', 'Abati'],
         isUnlocked: cap2Unlocked,
         requiredLevel: 2,
         lessonsCount: 5,
@@ -149,7 +149,7 @@ class HistoricalRegionModel extends HistoricalRegion {
         culturalSummary:
             'Habitantes da costa sul da Bahia, foram os primeiros anfitriões dos navegadores portugueses em 1500. '
             'Exímios coletores de moluscos e conhecedores dos segredos das marés.',
-        vocabularyHighlights: const ['Pindorama', 'Mbya', 'Itaparica', 'Pirá'],
+        vocabularyHighlights: const ['Pindorama', 'Abá', 'Itaparica', 'Pirá'],
         isUnlocked: cap5Unlocked,
         requiredLevel: 5,
         lessonsCount: 6,

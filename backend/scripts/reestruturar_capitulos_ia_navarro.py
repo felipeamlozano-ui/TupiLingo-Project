@@ -34,7 +34,7 @@ REGRAS_SANEAMENTO = [
     # Ajuste de títulos e saudações históricas
     (r"\bKauê\b", "Aué"),
     (r"\bkauê\b", "aué"),
-    (r"che amigo", "xe irũ"),
+    (r"xe irũ", "xe irũ"),
     (r"Ygarapé puranga", "Ygarapé katu"),
     (r"Tuxaua", "Morubixaba"),
     (r"tuxaua", "morubixaba"),

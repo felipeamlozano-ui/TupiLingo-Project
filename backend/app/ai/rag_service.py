@@ -455,23 +455,11 @@ def _trigger_async_pool_replenishment(
     """
     Dispara o reabastecimento do pool em background protegido por lock distribuído no Redis.
     Nenhuma requisição de usuário bloqueia aguardando esta tarefa.
-    Lock distribuído: SET repor_lock:{variante}:{nivel} 1 NX EX 30
+    Lock distribuído unificado: SET lock:replenish:{variante}:{nivel} 1 NX EX 30
     """
-    r = get_redis_client()
-    if not r:
-        return
+    lock_key = f"lock:replenish:{variante_codigo}:{nivel_atual}"
 
-    lock_key = f"repor_lock:{variante_codigo}:{nivel_atual}"
-    # Lock de 30s evita disparar múltiplos workers simultâneos para o mesmo nível
-    acquired = bool(r.set(lock_key, "1", nx=True, ex=LOCK_TTL_SECONDS))
-    if not acquired:
-        logger.debug(
-            "[RAGService] Lock de reposição já ativo (%s). Job de reabastecimento ignorado para nivel %d.",
-            lock_key, nivel_atual,
-        )
-        return
-
-    # Tenta usar a fila Celery
+    # Tenta usar a fila Celery (a task se encarrega de adquirir o lock de forma exclusiva)
     try:
         if getattr(settings, "ENABLE_CELERY", False):
             from app.infra.workers import replenish_quiz_pool_task
@@ -487,6 +475,19 @@ def _trigger_async_pool_replenishment(
             return
     except Exception as exc:
         logger.debug("[RAGService] Celery indisponível (%s). Usando threading.Thread como fallback.", exc)
+
+    r = get_redis_client()
+    if not r:
+        return
+
+    # Lock de 30s para o fallback local em thread
+    acquired = bool(r.set(lock_key, "1", nx=True, ex=LOCK_TTL_SECONDS))
+    if not acquired:
+        logger.debug(
+            "[RAGService] Lock de reposição já ativo (%s). Job de reabastecimento ignorado para nivel %d.",
+            lock_key, nivel_atual,
+        )
+        return
 
     # Fallback assíncrono: daemon thread caso Celery/Django-RQ não estejam ativos
     t = threading.Thread(
@@ -505,29 +506,37 @@ def _trigger_async_pool_replenishment(
 def replenish_pool_for_variante(variante_codigo: str, nivel_atual: int, count: int = 15) -> None:
     """Gera pacotes em lote em background e adiciona ao pool do Redis com SADD garantindo não-colisão via pacote_id único."""
     r = get_redis_client()
-    if not r:
-        return
+    lock_key = f"lock:replenish:{variante_codigo}:{nivel_atual}"
+    try:
+        if not r:
+            return
 
-    key = _pool_key(variante_codigo, nivel_atual)
-    service = RAGService()
-    pipe = r.pipeline(transaction=False)
-    adicionados = 0
+        key = _pool_key(variante_codigo, nivel_atual)
+        service = RAGService()
+        pipe = r.pipeline(transaction=False)
+        adicionados = 0
 
-    for _ in range(count):
-        try:
-            quiz_dict = service._generate_hybrid_direct(nivel_atual, variante_codigo)
-            pipe.sadd(key, json.dumps(quiz_dict))
-            adicionados += 1
-        except Exception as exc:
-            logger.warning("[RAGService] Falha ao gerar pacote para reposição do pool: %s", exc)
+        for _ in range(count):
+            try:
+                quiz_dict = service._generate_hybrid_direct(nivel_atual, variante_codigo)
+                pipe.sadd(key, json.dumps(quiz_dict))
+                adicionados += 1
+            except Exception as exc:
+                logger.warning("[RAGService] Falha ao gerar pacote para reposição do pool: %s", exc)
 
-    if adicionados > 0:
-        pipe.expire(key, settings.QUIZ_CACHE_TTL)
-        pipe.execute()
-        logger.info(
-            "[RAGService] %d novos pacotes adicionados ao pool %s (TTL=%ds).",
-            adicionados, key, settings.QUIZ_CACHE_TTL,
-        )
+        if adicionados > 0:
+            pipe.expire(key, settings.QUIZ_CACHE_TTL)
+            pipe.execute()
+            logger.info(
+                "[RAGService] %d novos pacotes adicionados ao pool %s (TTL=%ds).",
+                adicionados, key, settings.QUIZ_CACHE_TTL,
+            )
+    finally:
+        if r:
+            try:
+                r.delete(lock_key)
+            except Exception:
+                pass
 
 
 # ── RAGSERVICE PRINCIPAL ─────────────────────────────────────────────────────
@@ -775,21 +784,22 @@ class RAGService:
         if len(esqueleto) < 10:
             termos_existentes = {item.termo_tupi.lower() for item in esqueleto}
             lexico_contingencia = [
-                EsqueletoItem(item_id=1, termo_tupi="tata", traducao_correta="fogo", distratores=["água", "vento", "pedra"], categoria="natureza", regra_contexto="Substantivo fundamental registrado por Anchieta e Navarro.", fonte_confianca="alta"),
-                EsqueletoItem(item_id=2, termo_tupi="y", traducao_correta="água / rio", distratores=["fogo", "terra", "sol"], categoria="natureza", regra_contexto="Base de topônimos como Tietê e Ipiranga.", fonte_confianca="alta"),
+                EsqueletoItem(item_id=1, termo_tupi="tatá", traducao_correta="fogo", distratores=["água", "vento", "pedra"], categoria="natureza", regra_contexto="Substantivo fundamental registrado por Anchieta e Navarro.", fonte_confianca="alta"),
+                EsqueletoItem(item_id=2, termo_tupi="'y", traducao_correta="água / rio", distratores=["fogo", "terra", "sol"], categoria="natureza", regra_contexto="Base de topônimos como Tietê e Ipiranga.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=3, termo_tupi="kûarasy", traducao_correta="sol", distratores=["lua", "estrela", "chuva"], categoria="natureza", regra_contexto="Astro celeste solar na cosmologia Tupi.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=4, termo_tupi="îasy", traducao_correta="lua", distratores=["sol", "nuvem", "relâmpago"], categoria="natureza", regra_contexto="Divindade lunar na tradição Tupi.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=5, termo_tupi="taba", traducao_correta="aldeia", distratores=["caminho", "canoa", "rio"], categoria="comunidade", regra_contexto="Agrupamento de habitações comunitárias.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=6, termo_tupi="oka", traducao_correta="casa / habitação", distratores=["flecha", "mata", "pedra"], categoria="comunidade", regra_contexto="Habitação tradicional indígena.", fonte_confianca="alta"),
-                EsqueletoItem(item_id=7, termo_tupi="aba", traducao_correta="homem / pessoa indígena", distratores=["casa", "pássaro", "arco"], categoria="social", regra_contexto="Designação para o ser humano pertencente à comunidade.", fonte_confianca="alta"),
+                EsqueletoItem(item_id=7, termo_tupi="abá", traducao_correta="homem / pessoa indígena", distratores=["casa", "pássaro", "arco"], categoria="social", regra_contexto="Designação para o ser humano pertencente à comunidade.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=8, termo_tupi="kunhã", traducao_correta="mulher", distratores=["rio", "terra", "peixe"], categoria="social", regra_contexto="Termo geral para mulher em Tupi Antigo.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=9, termo_tupi="îagûara", traducao_correta="onça / fera", distratores=["peixe", "pássaro", "cobra"], categoria="fauna", regra_contexto="Designava grandes carnívoros, especialmente a onça-pintada.", fonte_confianca="alta"),
-                EsqueletoItem(item_id=10, termo_tupi="pira", traducao_correta="peixe", distratores=["anta", "macaco", "onça"], categoria="fauna", regra_contexto="Origem de palavras como Piracicaba e piracema.", fonte_confianca="alta"),
+                EsqueletoItem(item_id=10, termo_tupi="pirá", traducao_correta="peixe", distratores=["anta", "macaco", "onça"], categoria="fauna", regra_contexto="Origem de palavras como Piracicaba e piracema.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=11, termo_tupi="gûyrá", traducao_correta="pássaro / ave", distratores=["peixe", "cobra", "onça"], categoria="fauna", regra_contexto="Termo genérico para aves.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=12, termo_tupi="ka'a", traducao_correta="mata / floresta", distratores=["praia", "fogo", "rio"], categoria="natureza", regra_contexto="Origem de caatinga e capoeira.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=13, termo_tupi="maraká", traducao_correta="chocalho sagrado", distratores=["canoa", "arco", "rede"], categoria="cultura", regra_contexto="Instrumento musical e ritualístico sagrado.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=14, termo_tupi="toryba", traducao_correta="alegria / felicidade", distratores=["tristeza", "medo", "cansaço"], categoria="abstrato", regra_contexto="Expressão de contentamento comunitário.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=15, termo_tupi="morubixaba", traducao_correta="chefe / liderança", distratores=["guerreiro jovem", "caçador", "navegador"], categoria="social", regra_contexto="Chefe político e militar de uma comunidade Tupinambá.", fonte_confianca="alta"),
+                EsqueletoItem(item_id=16, termo_tupi="itá", traducao_correta="pedra / ferro", distratores=["madeira", "terra", "água"], categoria="natureza", regra_contexto="Substantivo oxítono para pedra ou mineral.", fonte_confianca="alta"),
             ]
             for cand in lexico_contingencia:
                 if cand.termo_tupi.lower() not in termos_existentes:
@@ -934,12 +944,21 @@ class RAGService:
         )
 
         try:
-            db = SQLiteVectorDB("vector_store.db")
+            from app.ai.knowledge_graph import get_graph
             graph = get_graph()
+            embedder = get_embedder()
+            embedding = None
+            if embedder:
+                embs = list(embedder.embed([f"{tema} {variante_nome}"]))
+                if embs:
+                    embedding = embs[0].tolist()
+            if embedding is None:
+                embedding = [0.0] * 384
             contexto = graph.search_subgraph(
-                [0.0] * 384, top_k=3, neighbors=0
+                embedding, top_k=3, neighbors=0
             )[:2000]
-        except Exception:
+        except Exception as graph_err:
+            logger.debug("[RAGService][Legacy] Consulta a knowledge graph degradada: %s", graph_err)
             contexto = "Contexto indisponível."
 
         prompt = (
@@ -964,12 +983,14 @@ class RAGService:
             if 0 < len(questoes) < 10:
                 enunciados_existentes = {q.get("enunciado", "").lower() for q in questoes}
                 contingencia_questoes = [
-                    {"enunciado": "Qual é a tradução correta da palavra 'tata' em Tupi Antigo?", "alternativas": [{"letra": "A", "texto": "fogo"}, {"letra": "B", "texto": "pedra"}, {"letra": "C", "texto": "terra"}, {"letra": "D", "texto": "chuva"}], "resposta_correta": "A", "explicacao": "'tata' significa fogo em Tupi Antigo.", "categoria": "natureza"},
+                    {"enunciado": "Qual é a tradução correta da palavra 'tatá' em Tupi Antigo?", "alternativas": [{"letra": "A", "texto": "fogo"}, {"letra": "B", "texto": "pedra"}, {"letra": "C", "texto": "terra"}, {"letra": "D", "texto": "chuva"}], "resposta_correta": "A", "explicacao": "'tatá' significa fogo em Tupi Antigo.", "categoria": "natureza"},
                     {"enunciado": "Qual é o significado da palavra 'îagûara' em Tupi Antigo?", "alternativas": [{"letra": "A", "texto": "onça / fera"}, {"letra": "B", "texto": "pássaro"}, {"letra": "C", "texto": "peixe"}, {"letra": "D", "texto": "cobra"}], "resposta_correta": "A", "explicacao": "'îagûara' designa a onça ou felino carnívoro.", "categoria": "fauna"},
-                    {"enunciado": "O que significa 'y' na língua Tupi?", "alternativas": [{"letra": "A", "texto": "água / rio"}, {"letra": "B", "texto": "fogo"}, {"letra": "C", "texto": "sol"}, {"letra": "D", "texto": "lua"}], "resposta_correta": "A", "explicacao": "'y' é o vocábulo para água ou rio.", "categoria": "natureza"},
+                    {"enunciado": "O que significa ''y' na língua Tupi?", "alternativas": [{"letra": "A", "texto": "água / rio"}, {"letra": "B", "texto": "fogo"}, {"letra": "C", "texto": "sol"}, {"letra": "D", "texto": "lua"}], "resposta_correta": "A", "explicacao": "''y' é o vocábulo para água ou rio.", "categoria": "natureza"},
                     {"enunciado": "Qual o significado de 'taba' em Tupi Antigo?", "alternativas": [{"letra": "A", "texto": "aldeia / comunidade"}, {"letra": "B", "texto": "flecha"}, {"letra": "C", "texto": "canoa"}, {"letra": "D", "texto": "caminho"}], "resposta_correta": "A", "explicacao": "'taba' é o agrupamento de habitações indígenas.", "categoria": "comunidade"},
                     {"enunciado": "O que significa o termo 'kûarasy' em Tupi?", "alternativas": [{"letra": "A", "texto": "sol"}, {"letra": "B", "texto": "estrela"}, {"letra": "C", "texto": "nuvem"}, {"letra": "D", "texto": "vento"}], "resposta_correta": "A", "explicacao": "'kûarasy' é a estrela solar.", "categoria": "natureza"},
                     {"enunciado": "Qual o significado da palavra 'oka' em Tupi Antigo?", "alternativas": [{"letra": "A", "texto": "casa / habitação"}, {"letra": "B", "texto": "floresta"}, {"letra": "C", "texto": "rio"}, {"letra": "D", "texto": "arco"}], "resposta_correta": "A", "explicacao": "'oka' é a residência tradicional.", "categoria": "comunidade"},
+                    {"enunciado": "O que expressa a palavra 'abá' em Tupi?", "alternativas": [{"letra": "A", "texto": "homem / pessoa indígena"}, {"letra": "B", "texto": "aldeia"}, {"letra": "C", "texto": "casa"}, {"letra": "D", "texto": "rio"}], "resposta_correta": "A", "explicacao": "'abá' significa homem ou pessoa em Tupi Antigo.", "categoria": "social"},
+                    {"enunciado": "Qual elemento é designado pelo termo 'itá' em Tupi?", "alternativas": [{"letra": "A", "texto": "pedra / ferro"}, {"letra": "B", "texto": "fogo"}, {"letra": "C", "texto": "água"}, {"letra": "D", "texto": "vento"}], "resposta_correta": "A", "explicacao": "'itá' significa pedra ou ferro na língua Tupi.", "categoria": "natureza"},
                     {"enunciado": "O que representa o termo 'maraká' na cultura Tupi?", "alternativas": [{"letra": "A", "texto": "chocalho sagrado"}, {"letra": "B", "texto": "arco de guerra"}, {"letra": "C", "texto": "canoa veloz"}, {"letra": "D", "texto": "rede de dormir"}], "resposta_correta": "A", "explicacao": "'maraká' é o instrumento ritualístico sagrado.", "categoria": "cultura"},
                     {"enunciado": "O que significa a palavra 'toryba' em Tupi?", "alternativas": [{"letra": "A", "texto": "alegria / felicidade"}, {"letra": "B", "texto": "tristeza"}, {"letra": "C", "texto": "coragem"}, {"letra": "D", "texto": "paz"}], "resposta_correta": "A", "explicacao": "'toryba' expressa o sentimento de júbilo e alegria coletiva.", "categoria": "social"},
                 ]

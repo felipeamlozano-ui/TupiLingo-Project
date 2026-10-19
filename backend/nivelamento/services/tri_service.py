@@ -39,10 +39,14 @@ def evaluate_test(answers: List[Dict[str, Any]], current_level: int) -> Dict[str
     """
     if not answers:
         return {
-            "level": current_level,
-            "theta": 0.0,
+            "level": 1,
+            "theta": -3.0,
             "sem": 1.0,
             "cheating": False,
+            "converged": True,
+            "iterations": 0,
+            "num_correct": 0,
+            "total_questions": 0,
         }
 
     total_time = sum(ans.get("time_taken_seconds", 0.0) for ans in answers)

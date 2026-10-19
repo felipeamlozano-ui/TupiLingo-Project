@@ -28,17 +28,17 @@ class TrailVocabularyRepository {
   static final List<VocabularyBankItem> allTrailVocabulary = [
     // Capítulo 1: Saudações e Encontros
     const VocabularyBankItem(
-      tupi: 'Kauê',
+      tupi: 'Aué',
       pt: 'Olá / Salve',
-      pronuncia: 'ka-u-Ê',
+      pronuncia: 'a-u-É',
       cat: 'Saudações',
       capituloNumero: 1,
       licaoNumero: 1,
     ),
     const VocabularyBankItem(
-      tupi: 'Ereîur-pe',
+      tupi: 'Ereîur pe?',
       pt: 'Vieste? (Como vai?)',
-      pronuncia: 'e-re-i-UR-pe',
+      pronuncia: 'e-re-i-UR pe',
       cat: 'Saudações',
       capituloNumero: 1,
       licaoNumero: 1,
@@ -46,7 +46,7 @@ class TrailVocabularyRepository {
     const VocabularyBankItem(
       tupi: 'Pa\'ĩ',
       pt: 'Senhor / Tratamento respeitoso',
-      pronuncia: 'pa-IN',
+      pronuncia: 'pa-I',
       cat: 'Saudações',
       capituloNumero: 1,
       licaoNumero: 1,
@@ -230,7 +230,7 @@ class TrailVocabularyRepository {
       licaoNumero: 1,
     ),
     const VocabularyBankItem(
-      tupi: 'Mani\'oka',
+      tupi: 'Mani\'oká',
       pt: 'Mandioca',
       pronuncia: 'ma-ni-\'O-ka',
       cat: 'Alimentos',

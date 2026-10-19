@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tupi_lingo/core/security/crypto_engine.dart';
 
 enum LogLevel { debug, info, warning, error, security }
 
@@ -33,14 +36,14 @@ class EncryptedLogEntry {
       );
 }
 
-/// Gerenciador centralizado de logs da aplicação.
-/// Armazena eventos recentes em memória para exibição no console de desenvolvedor
-/// e emite mensagens formatadas no console durante o desenvolvimento local.
+/// Gerenciador centralizado de logs da aplicação com persistência cifrada AES-256-GCM.
 class AppLogger {
   static final AppLogger instance = AppLogger._();
   AppLogger._();
 
   static const int _maxInMemoryEntries = 200;
+  static const String _storageKeyEncryptedLogs = 'tupilingo_encrypted_app_logs_v1';
+
   final List<EncryptedLogEntry> _entries = [];
   bool _initialized = false;
 
@@ -51,6 +54,27 @@ class AppLogger {
     if (_initialized) return;
     _initialized = true;
 
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encryptedPayload = prefs.getString(_storageKeyEncryptedLogs);
+      if (encryptedPayload != null && encryptedPayload.isNotEmpty) {
+        final decrypted = await CryptoEngine.instance.decryptAesGcm(encryptedPayload);
+        if (decrypted != null && decrypted.isNotEmpty) {
+          final decoded = jsonDecode(decrypted);
+          if (decoded is List) {
+            _entries.clear();
+            for (final item in decoded) {
+              try {
+                _entries.add(EncryptedLogEntry.fromJson(item as Map<String, dynamic>));
+              } catch (_) {}
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('[AppLogger] Erro ao restaurar logs cifrados: $e');
+    }
+
     if (_entries.isEmpty) {
       seedDefaultLogs();
     }
@@ -58,7 +82,7 @@ class AppLogger {
 
   void seedDefaultLogs() {
     i('CORE_RUNTIME', 'Sessão do TupiLingo inicializada.');
-    i('NETWORK', 'Cliente de rede pronto para comunicação com o backend.');
+    i('SECURITY', 'Motor criptográfico AES-256-GCM / HMAC-SHA256 ativo.');
   }
 
   void _log(LogLevel level, String tag, String message) {
@@ -95,7 +119,23 @@ class AppLogger {
   Future<void> clearLogs() async {
     _entries.clear();
     logChangeNotifier.value++;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_storageKeyEncryptedLogs);
+    } catch (_) {}
   }
 
-  Future<void> flushToDisk() async {}
+  /// Persiste todos os logs em disco cifrados com AES-256-GCM
+  Future<void> flushToDisk() async {
+    try {
+      if (_entries.isEmpty) return;
+      final jsonStr = jsonEncode(_entries.map((e) => e.toJson()).toList());
+      final encryptedPayload = await CryptoEngine.instance.encryptAesGcm(jsonStr);
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_storageKeyEncryptedLogs, encryptedPayload);
+    } catch (e) {
+      debugPrint('[AppLogger] Erro ao persistir logs cifrados no disco: $e');
+    }
+  }
 }

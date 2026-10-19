@@ -21,7 +21,7 @@ CATEGORIAS_VALIDAS: frozenset[str] = frozenset(
 # Códigos reais de VarianteTupi.codigo no banco de dados.
 # Atualizar aqui quando novas variantes forem cadastradas.
 VARIANTES_VALIDAS: frozenset[str] = frozenset(
-    {"tupi", "tupi_contemporaneo", "tupinamba"}
+    {"tupi", "tupi_antigo", "tupi_revitalizado", "tupi_contemporaneo", "tupinamba"}
 )
 
 CLASSES_GRAMATICAIS_VALIDAS: frozenset[str] = frozenset(

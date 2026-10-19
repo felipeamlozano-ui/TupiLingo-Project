@@ -244,17 +244,17 @@ def run_seed():
     )
     StoryBlock.objects.create(
         licao=l1, tipo='dialogue', titulo='Encontro com o Pajé',
-        conteudo='Kauê! (Olá!). Seja muito bem-vindo à nossa taba. Meu nome é Karaíba.',
+        conteudo='Aué! (Olá!). Seja muito bem-vindo à nossa taba. Meu nome é Karaíba.',
         ordem=2, extra={'personagem': 'Pajé Karaíba', 'lado': 'esquerda'}, xp_bonus=5,
     )
     StoryBlock.objects.create(
         licao=l1, tipo='curiosity', titulo='Curiosidade Cultural',
-        conteudo='A palavra "Kauê" era usada amplamente no Tupi Antigo como uma saudação de respeito e amizade, equivalente a "Salve!" ou "Olá!".',
+        conteudo='A palavra "Aué" era usada amplamente no Tupi Antigo como uma saudação de respeito e amizade, equivalente a "Salve!" ou "Olá!".',
         ordem=3, xp_bonus=5,
     )
     VocabularyItem.objects.create(
-        licao=l1, palavra_tupi='Kauê', traducao_pt='Olá / Salve',
-        transliteracao='ka-u-Ê', exemplo_tupi='Kauê, che amigo!', exemplo_pt='Olá, meu amigo!',
+        licao=l1, palavra_tupi='Aué', traducao_pt='Olá / Salve',
+        transliteracao='a-u-É', exemplo_tupi='Aué, xe irũ!', exemplo_pt='Olá, meu amigo!',
         categoria='geral', classe_gramatical='interjeicao', ordem=1
     )
     VocabularyItem.objects.create(
@@ -276,15 +276,15 @@ def run_seed():
     criar_exercicio_escolha(
         l1, ordem=1,
         enunciado='Qual é a saudação tradicional em Tupi que significa "Olá!" ou "Salve!"?',
-        opcoes=['Kauê', 'Pirá', 'Tupã', 'Taba'], resposta_correta=0,
-        explicacao='"Kauê" é a saudação cordial tupi usada ao encontrar alguém.',
+        opcoes=['Aué', 'Pirá', 'Tupã', 'Taba'], resposta_correta=0,
+        explicacao='"Aué" é a saudação cordial tupi usada ao encontrar alguém.',
     )
     criar_exercicio_completar(
         l1, ordem=2,
         enunciado='Complete com a saudação correta:',
         texto_com_lacunas='Ao avistar um amigo na aldeia, dizemos: "___!"',
-        respostas_corretas=['Kauê'],
-        explicacao='"Kauê" expressa alegria ao saudar alguém na taba.',
+        respostas_corretas=['Aué'],
+        explicacao='"Aué" expressa alegria ao saudar alguém na taba.',
     )
     criar_exercicio_escolha(
         l1, ordem=3,
@@ -295,10 +295,10 @@ def run_seed():
     criar_exercicio_associacao(
         l1, ordem=4,
         enunciado='Associe cada palavra em Tupi à sua tradução:',
-        coluna_esquerda=['Kauê', 'Kunhã', 'Taba'],
+        coluna_esquerda=['Aué', 'Kunhã', 'Taba'],
         coluna_direita=['Aldeia', 'Olá', 'Mulher'],
         associacao_correta={'0': '1', '1': '2', '2': '0'},
-        explicacao='Kauê = Olá, Kunhã = Mulher, Taba = Aldeia.',
+        explicacao='Aué = Olá, Kunhã = Mulher, Taba = Aldeia.',
     )
 
     # Lição 2: Animais Sagrados da Mata
@@ -457,9 +457,9 @@ def run_seed():
 
     criar_exercicio_escolha(
         l4, ordem=1,
-        enunciado='Como traduzir a expressão: "Kauê, kunhã!"?',
+        enunciado='Como traduzir a expressão: "Aué, kunhã!"?',
         opcoes=['Adeus, guerreiro!', 'Olá, mulher!', 'Boa noite, pajé!', 'Venha até aqui!'], resposta_correta=1,
-        explicacao='"Kauê" é Olá e "kunhã" é mulher, logo: Olá, mulher!',
+        explicacao='"Aué" é Olá e "kunhã" é mulher, logo: Olá, mulher!',
         dificuldade='media', pontos_base=15,
     )
     criar_exercicio_completar(

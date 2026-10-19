@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'capitulos_admin.dart';
 import 'licoes_admin.dart';
 import 'exercicios_admin.dart';
 import 'platform_suite/platform_suite_shell.dart';
+import '../../../../core/config/app_config.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -44,57 +42,9 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
     });
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Sessão não encontrada.';
-        });
-        return;
-      }
+      final res = await ApiClient.get('${AppConfig.backendBaseUrl}/api/v1/admin/trilha/dados/');
 
-      final primaryUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      String? cachedWinner;
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        cachedWinner = prefs.getString('tupilingo_last_winning_api_url');
-      } catch (_) {}
-
-      final candidates = <String>{
-        if (cachedWinner != null && cachedWinner.isNotEmpty) cachedWinner,
-        primaryUrl,
-        'http://127.0.0.1:8000',
-        'http://10.12.229.10:8000',
-        'http://10.0.2.2:8000',
-      }.toList();
-
-      http.Response? res;
-
-      for (final candidate in candidates) {
-        try {
-          final candidateRes = await http.get(
-            Uri.parse('$candidate/api/v1/admin/trilha/dados/'),
-            headers: {
-              'Authorization': 'Bearer ${session.accessToken}',
-              'Content-Type': 'application/json',
-            },
-          ).timeout(const Duration(seconds: 6));
-
-          if (candidateRes.statusCode == 200 || candidateRes.statusCode == 403) {
-            res = candidateRes;
-            dotenv.env['API_URL'] = candidate;
-            try {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString('tupilingo_last_winning_api_url', candidate);
-            } catch (_) {}
-            break;
-          }
-        } catch (_) {
-          // Tenta próximo endpoint candidato
-        }
-      }
-
-      if (res != null && res.statusCode == 200) {
+      if (res.statusCode == 200) {
         final dynamic data = jsonDecode(utf8.decode(res.bodyBytes));
         if (data is Map<String, dynamic> && data['success'] == true) {
           if (mounted) {
@@ -110,11 +60,9 @@ class _AdminScreenState extends State<AdminScreen> with SingleTickerProviderStat
       if (mounted) {
         setState(() {
           _isLoading = false;
-          _errorMessage = res != null
-              ? (res.statusCode == 403
-                  ? 'Acesso restrito: usuário sem privilégios de staff/admin.'
-                  : 'Falha ao carregar dados administrativos (Status ${res.statusCode})')
-              : 'Não foi possível conectar com o servidor em nenhum dos endpoints de rede.';
+          _errorMessage = res.statusCode == 403
+              ? 'Acesso restrito: usuário sem privilégios de staff/admin.'
+              : 'Falha ao carregar dados administrativos (Status ${res.statusCode})';
         });
       }
     } catch (e) {

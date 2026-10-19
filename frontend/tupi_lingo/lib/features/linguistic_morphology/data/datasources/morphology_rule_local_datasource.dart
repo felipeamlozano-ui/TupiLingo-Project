@@ -54,17 +54,17 @@ class MorphologyRuleLocalDataSource {
     _familyCache['y'] = const MorphologicalFamily(
       rootSurface: 'y',
       sharedMeaningPt: 'água / rio',
-      memberWords: ['ygara', 'paranã', 'igarapé', 'y-kûab', 'y-membyra'],
+      memberWords: ['ygara', 'paranã', 'igarapé', 'ykûab', 'ymembyra'],
     );
-    _familyCache['oka'] = const MorphologicalFamily(
-      rootSurface: 'oka',
+    _familyCache['oká'] = const MorphologicalFamily(
+      rootSurface: 'oká',
       sharedMeaningPt: 'casa / habitação',
-      memberWords: ['oka', 'ok-eté', 'ok-i', 'oga-gûasu'],
+      memberWords: ['oká', 'oketé', 'okĩ', 'ogûasu'],
     );
     _familyCache['abá'] = const MorphologicalFamily(
       rootSurface: 'abá',
       sharedMeaningPt: 'ser humano / homem',
-      memberWords: ['abá', 'aba-eté', 'morubixaba', 'abá-mirĩ'],
+      memberWords: ['abá', 'abaeté', 'morubixaba', 'abamirĩ'],
     );
   }
 
@@ -107,7 +107,7 @@ class MorphologyRuleLocalDataSource {
     ),
     const MorphologicalRule(
       id: 'rule_loc_aba',
-      morphemeSurface: 'aba',
+      morphemeSurface: 'abá',
       morphemeType: MorphemeType.suffix,
       morphologicalFunction: MorphologicalFunction.locative,
       meaningPt: 'lugar de / instrumento de',

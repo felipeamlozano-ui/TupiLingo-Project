@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
+import 'package:tupi_lingo/core/audio/audio_manager.dart';
 import '../models/store_item.dart';
 import '../services/store_service.dart';
 
@@ -66,7 +67,7 @@ class _StoreScreenState extends State<StoreScreen> with SingleTickerProviderStat
     }
   }
 
-  // Dispara a compra com validação de saldo e diálogo de confirmação assinado
+  // Dispara a compra com Optimistic UI (< 16ms) e validação de saldo
   Future<void> _handlePurchase(StoreItem item) async {
     if (_conchas < item.price) {
       _showInsufficientFundsDialog(item);
@@ -74,87 +75,58 @@ class _StoreScreenState extends State<StoreScreen> with SingleTickerProviderStat
     }
 
     final confirmed = await _showPurchaseConfirmationDialog(item);
-    if (confirmed != true) return;
+    if (confirmed != true || !mounted) return;
 
-    // Loading overlay
-    if (!mounted) return;
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => Center(
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          decoration: BoxDecoration(
-            color: AppTheme.surface(context),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.border(context)),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CircularProgressIndicator(color: Color(0xFFD08A45)),
-                const SizedBox(height: 16),
-                Text(
-                  'Autenticando transação segura...',
-                  style: TextStyle(
-                    color: AppTheme.textPrimary(context),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'Assinatura HMAC-SHA256 em andamento',
-                  style: TextStyle(
-                    color: AppTheme.textSecondary(context),
-                    fontSize: 12,
-                  ),
-                ),
-              ],
+    // 1. Som de tap imediato (< 5ms)
+    AudioManager.instance.playTap();
+
+    // 2. Salva estado anterior para rollback
+    final prevConchas = _conchas;
+    final prevItems = List<StoreItem>.from(_allItems);
+
+    // 3. Atualização SÍNCRONA no mesmo frame (0ms de espera de rede)
+    setState(() {
+      _conchas -= item.price;
+      _allItems = _allItems.map((i) {
+        if (i.id == item.id) {
+          return i.copyWith(isUnlocked: true);
+        }
+        return i;
+      }).toList();
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color(0xFF0E5D4E),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        content: Row(
+          children: [
+            const Text('✨', style: TextStyle(fontSize: 20)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                '${item.name} desbloqueado com sucesso!',
+                style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
 
+    // 4. Confirmação transacional no backend em segundo plano (background)
     final result = await _storeService.purchaseCosmetic(item.id);
-
     if (!mounted) return;
-    Navigator.of(context, rootNavigator: true).pop(); // fecha loading
 
-    if (result.success) {
+    if (!result.success) {
+      // Rollback se a compra for rejeitada pelo servidor
       setState(() {
-        _conchas = result.newBalance;
-        _allItems = _allItems.map((i) {
-          if (i.id == item.id) {
-            return i.copyWith(isUnlocked: true);
-          }
-          return i;
-        }).toList();
+        _conchas = prevConchas;
+        _allItems = prevItems;
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: const Color(0xFF0E5D4E),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          content: Row(
-            children: [
-              const Text('✨', style: TextStyle(fontSize: 20)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  '${item.name} desbloqueado com sucesso!',
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: const Color(0xFFDC2626),
@@ -175,29 +147,59 @@ class _StoreScreenState extends State<StoreScreen> with SingleTickerProviderStat
           ),
         ),
       );
+    } else if (result.newBalance != _conchas) {
+      setState(() {
+        _conchas = result.newBalance;
+      });
     }
   }
 
-  // Equipa cosmético e atualiza a UI instantaneamente
+  // Equipa cosmético instantaneamente (Optimistic UI < 16ms)
   Future<void> _handleEquip(StoreItem item) async {
+    // 1. Som de tap imediato (< 5ms)
+    AudioManager.instance.playTap();
+
+    // 2. Salva estado anterior para rollback
+    final previousEquipped = Map<String, String>.from(_equippedItems);
+    final previousItems = List<StoreItem>.from(_allItems);
+    final typeKey = item.type.toServerString();
+
+    // 3. Atualização SÍNCRONA no mesmo frame (0ms)
+    setState(() {
+      _equippedItems[typeKey] = item.id;
+      _allItems = _allItems.map((i) {
+        if (i.type == item.type) {
+          return i.copyWith(isEquipped: i.id == item.id);
+        }
+        return i;
+      }).toList();
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${item.name} equipado com sucesso!'),
+        backgroundColor: const Color(0xFF0E5D4E),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 1),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+
+    // 4. Sincronização em background
     final success = await _storeService.equipCosmetic(item.id);
     if (!mounted) return;
 
-    if (success) {
+    if (!success) {
+      // Rollback imediato se falhar
       setState(() {
-        _equippedItems[item.type.toServerString()] = item.id;
-        _allItems = _allItems.map((i) {
-          if (i.type == item.type) {
-            return i.copyWith(isEquipped: i.id == item.id);
-          }
-          return i;
-        }).toList();
+        _equippedItems = previousEquipped;
+        _allItems = previousItems;
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${item.name} equipado com sucesso!'),
-          backgroundColor: const Color(0xFF0E5D4E),
+          content: const Text('Não foi possível equipar o item no servidor.'),
+          backgroundColor: const Color(0xFFDC2626),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),

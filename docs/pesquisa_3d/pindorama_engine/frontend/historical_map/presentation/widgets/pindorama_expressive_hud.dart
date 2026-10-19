@@ -283,38 +283,32 @@ class PindoramaExpressiveHud extends StatelessWidget {
     required PindoramaThemePalette palette,
     bool isActive = false,
   }) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24.0),
-      child: BackdropFilter(
-        filter: ui.ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: isActive
-                ? palette.accent.withValues(alpha: 0.25)
-                : palette.hudSurface,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: isActive ? palette.accent : palette.hudBorder,
-              width: 1.5,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black45,
-                blurRadius: 12.0,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: IconButton(
-            icon: Icon(
-              icon,
-              color: isActive ? palette.accent : Colors.white,
-              size: 20.0,
-            ),
-            tooltip: tooltip,
-            onPressed: onPressed,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: isActive
+            ? palette.accent.withValues(alpha: 0.25)
+            : palette.hudSurface,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: isActive ? palette.accent : palette.hudBorder,
+          width: 1.5,
         ),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 12.0,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon: Icon(
+          icon,
+          color: isActive ? palette.accent : Colors.white,
+          size: 20.0,
+        ),
+        tooltip: tooltip,
+        onPressed: onPressed,
       ),
     );
   }
@@ -326,29 +320,23 @@ class PindoramaExpressiveHud extends StatelessWidget {
     required Color accentColor,
     required PindoramaThemePalette palette,
   }) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(22.0),
-      child: BackdropFilter(
-        filter: ui.ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: palette.hudSurface,
-            borderRadius: BorderRadius.circular(22.0),
-            border: Border.all(color: palette.hudBorder, width: 1.5),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black45,
-                blurRadius: 12.0,
-                offset: Offset(0, 4),
-              ),
-            ],
+    return Container(
+      decoration: BoxDecoration(
+        color: palette.hudSurface,
+        borderRadius: BorderRadius.circular(22.0),
+        border: Border.all(color: palette.hudBorder, width: 1.5),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 12.0,
+            offset: Offset(0, 4),
           ),
-          child: IconButton(
-            icon: Icon(icon, color: accentColor, size: 22.0),
-            tooltip: tooltip,
-            onPressed: onPressed,
-          ),
-        ),
+        ],
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: accentColor, size: 22.0),
+        tooltip: tooltip,
+        onPressed: onPressed,
       ),
     );
   }

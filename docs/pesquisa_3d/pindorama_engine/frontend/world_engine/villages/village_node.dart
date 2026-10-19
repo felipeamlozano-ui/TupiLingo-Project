@@ -249,7 +249,7 @@ class VillageNode {
               licaoId: 1,
               title: 'Saudações Tradicionais',
               tupiTitle: 'Maíra-monhangaba',
-              description: 'Primeiros cumprimentos e acolhimento na taba: Kauê, Karai.',
+              description: 'Primeiros cumprimentos e acolhimento na taba: Aué, Karai.',
               difficulty: LessonDifficulty.iniciante,
               type: LessonType.vocabulario,
               status: LessonStatus.completed,

@@ -120,7 +120,7 @@ class _RiverGeometryPanelState extends State<RiverGeometryPanel> {
       final py = (p[1] as num).toDouble();
       final nx = cx + (px - cx) * scaleFactor;
       final ny = cy + (py - cy) * scaleFactor;
-      updated.add([nx.clamp(50.0, 3950.0), ny.clamp(50.0, 3950.0)]);
+      updated.add([nx.clamp(50.0, 9950.0), ny.clamp(50.0, 9950.0)]);
     }
     entity['bezier_points'] = updated;
     widget.onEntityChanged(entity);
@@ -149,8 +149,8 @@ class _RiverGeometryPanelState extends State<RiverGeometryPanel> {
     final dx = (last[0] as num).toDouble() - (secondLast[0] as num).toDouble();
     final dy = (last[1] as num).toDouble() - (secondLast[1] as num).toDouble();
     final step = (dx == 0 && dy == 0) ? const Offset(60.0, 40.0) : Offset(dx, dy);
-    final newX = ((last[0] as num).toDouble() + step.dx).clamp(50.0, 3950.0);
-    final newY = ((last[1] as num).toDouble() + step.dy).clamp(50.0, 3950.0);
+    final newX = ((last[0] as num).toDouble() + step.dx).clamp(50.0, 9950.0);
+    final newY = ((last[1] as num).toDouble() + step.dy).clamp(50.0, 9950.0);
     final updated = List<List<double>>.from(
       rawPts.map((p) => [(p[0] as num).toDouble(), (p[1] as num).toDouble()]),
     );
@@ -221,7 +221,7 @@ class _RiverGeometryPanelState extends State<RiverGeometryPanel> {
       final py = (p[1] as num).toDouble() - cy;
       final rx = cx + (px * cosT - py * sinT);
       final ry = cy + (px * sinT + py * cosT);
-      updatedPts.add([rx.clamp(50.0, 3950.0), ry.clamp(50.0, 3950.0)]);
+      updatedPts.add([rx.clamp(50.0, 9950.0), ry.clamp(50.0, 9950.0)]);
     }
 
     entity['bezier_points'] = updatedPts;

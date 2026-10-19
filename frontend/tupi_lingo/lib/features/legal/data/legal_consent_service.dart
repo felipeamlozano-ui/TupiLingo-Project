@@ -23,13 +23,11 @@ class LegalConsentService {
   /// Synchronous warm-up on app start via SharedPreferences
   void init(SharedPreferences prefs) {
     try {
-      final termsBool = prefs.getBool(_keyTermsAccepted) ?? false;
-      final disclaimerBool = prefs.getBool(_keyDisclaimerAccepted) ?? false;
-      final termsStr = prefs.getString(_keyTermsAccepted);
-      final disclaimerStr = prefs.getString(_keyDisclaimerAccepted);
+      final termsVal = prefs.get(_keyTermsAccepted);
+      final disclaimerVal = prefs.get(_keyDisclaimerAccepted);
 
-      final termsOk = termsBool || termsStr == 'true';
-      final disclaimerOk = disclaimerBool || disclaimerStr == 'true';
+      final termsOk = termsVal == true || termsVal == 'true';
+      final disclaimerOk = disclaimerVal == true || disclaimerVal == 'true';
 
       if (termsOk && disclaimerOk) {
         _isAcceptedMemory = true;
@@ -43,13 +41,11 @@ class LegalConsentService {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      final termsBool = prefs.getBool(_keyTermsAccepted) ?? false;
-      final disclaimerBool = prefs.getBool(_keyDisclaimerAccepted) ?? false;
-      final termsStr = prefs.getString(_keyTermsAccepted);
-      final disclaimerStr = prefs.getString(_keyDisclaimerAccepted);
+      final termsVal = prefs.get(_keyTermsAccepted);
+      final disclaimerVal = prefs.get(_keyDisclaimerAccepted);
 
-      final termsOk = termsBool || termsStr == 'true';
-      final disclaimerOk = disclaimerBool || disclaimerStr == 'true';
+      final termsOk = termsVal == true || termsVal == 'true';
+      final disclaimerOk = disclaimerVal == true || disclaimerVal == 'true';
 
       if (termsOk && disclaimerOk) {
         _isAcceptedMemory = true;

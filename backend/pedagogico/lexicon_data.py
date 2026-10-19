@@ -26,27 +26,27 @@ LEXICON_BY_VARIANT_CHAPTER: Dict[str, Dict[int, List[Dict[str, Any]]]] = {
                 "status": "completo"
             },
             {
-                "palavra": "Ereîur-pe",
+                "palavra": "Ereîur pe?",
                 "traducao": "Vieste?",
                 "variante": "tupi_antigo",
                 "categoria": "saudacoes",
                 "capitulo_introduzido": 1,
                 "licao_introduzida": 1,
                 "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_140",
-                "exemplo_uso": "Ereîur-pe, pa'ĩ?",
-                "transliteracao": "e-re-i-UR-pe",
+                "exemplo_uso": "Ereîur pe?, pa'i?",
+                "transliteracao": "e-re-i-UR pe",
                 "status": "completo"
             },
             {
-                "palavra": "Pa'ĩ",
+                "palavra": "Pa'i",
                 "traducao": "Senhor / Tratamento respeitoso",
                 "variante": "tupi_antigo",
                 "categoria": "saudacoes",
                 "capitulo_introduzido": 1,
                 "licao_introduzida": 1,
                 "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_142",
-                "exemplo_uso": "Pa'ĩ katu.",
-                "transliteracao": "pa-IN",
+                "exemplo_uso": "Pa'i katu.",
+                "transliteracao": "pa-I",
                 "status": "completo"
             },
             {

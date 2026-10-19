@@ -45,7 +45,7 @@ class PindoramaWorldDefaults {
       {
         'id': 1,
         'name_tupi': 'Ubatuba',
-        'name_portuguese': 'Lugar de Muitas Canoas',
+        'name_portuguese': 'Ajuntamento de Ubás (Cana-Brava)',
         'biome': 'Mata Atlântica',
         'village_style': 'canoas',
         'village_color': '#F59E0B',
@@ -57,8 +57,8 @@ class PindoramaWorldDefaults {
       },
       {
         'id': 2,
-        'name_tupi': 'Karióka',
-        'name_portuguese': 'Casa do Homem Branco',
+        'name_tupi': 'Kariîó-oka',
+        'name_portuguese': 'Casa de Carijós',
         'biome': 'Mata Atlântica',
         'village_style': 'taba_fort',
         'village_color': '#10B981',
@@ -89,8 +89,8 @@ class PindoramaWorldDefaults {
     return [
       {
         'id': 1,
-        'name_tupi': 'Paranapanema',
-        'name_portuguese': 'Rio da Água Ruim / Larga',
+        'name_tupi': 'Paranãpanema',
+        'name_portuguese': 'Rio Imprestável / Aziago (Sem Peixes)',
         'river_width': 6.0,
         'water_color': '#38BDF8',
         'flow_style': 'currents',
@@ -121,7 +121,7 @@ class PindoramaWorldDefaults {
         'from_name': 'Ubatuba',
         'to_id': 2,
         'to_type': 'Aldeia',
-        'to_name': 'Karióka',
+        'to_name': 'Kariîó-oka',
         'waypoints': [
           [1950.0, 1950.0],
           [2100.0, 2020.0],

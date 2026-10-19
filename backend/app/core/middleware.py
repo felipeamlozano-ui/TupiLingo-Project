@@ -23,12 +23,17 @@ TECHNICAL_TERMS_BLACKLIST = [
     "psycopg2",
     "postgres",
     "sql",
+    "redis",
     "operationalerror",
     "programmingerror",
     "integrityerror",
     "traceback",
+    "stacktrace",
+    "stack trace",
     "syntax error",
     "exception",
+    "deadlock",
+    "database",
 ]
 
 FRIENDLY_VILLAGE_ERROR = "Nossa aldeia perdeu a conexão com os espíritos da floresta temporariamente. Suas respostas continuam salvas! Tente novamente em instantes."
@@ -66,6 +71,20 @@ class FriendlyExceptionMiddleware(MiddlewareMixin):
 
         # Retorna JSON lúdico e limpo para rotas de API
         if request.path.startswith("/api/"):
+            try:
+                from django_ratelimit.exceptions import Ratelimited
+                if isinstance(exception, Ratelimited):
+                    return JsonResponse(
+                        {
+                            "success": False,
+                            "error": "A aldeia precisa descansar os passos! Muitas tentativas simultâneas detectadas. Aguarde um instante.",
+                            "code": "ALDEIA_RESPIRANDO",
+                        },
+                        status=429,
+                    )
+            except ImportError:
+                pass
+
             return JsonResponse(
                 {
                     "success": False,

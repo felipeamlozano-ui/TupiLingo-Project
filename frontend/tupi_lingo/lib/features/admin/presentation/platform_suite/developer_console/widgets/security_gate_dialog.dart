@@ -147,10 +147,9 @@ class SecurityGateDialog {
                         onPressed: dialogLoading
                             ? null
                             : () async {
-                                const kMasterPasscode = 'tupi_master_2026';
-                                if (passCtrl.text.trim() != kMasterPasscode) {
+                                if (passCtrl.text.trim().isEmpty) {
                                   setDialogState(() {
-                                    dialogError = 'Master Passcode incorreto.';
+                                    dialogError = 'Por favor, insira o Master Passcode.';
                                     dialogNotice = null;
                                   });
                                   return;
@@ -326,5 +325,7 @@ class SecurityGateDialog {
         },
       ),
     );
+    passCtrl.dispose();
+    otpCtrl.dispose();
   }
 }

@@ -32,6 +32,20 @@ BASE_DIR = Path(__file__).resolve().parent
 CHECKPOINTS_FILE = BASE_DIR / "checkpoints_config.json"
 
 
+def _get_telemetry_fallback_secret() -> str:
+    secret = os.environ.get("BIRDBRAIN_TELEMETRY_SECRET")
+    if secret:
+        return secret
+    try:
+        from django.conf import settings
+        configured_secret = getattr(settings, "BIRDBRAIN_TELEMETRY_SECRET", None)
+        if configured_secret:
+            return configured_secret
+        return getattr(settings, "SECRET_KEY", "") or os.environ.get("SECRET_KEY", "")
+    except Exception:
+        return os.environ.get("SECRET_KEY", "")
+
+
 class BirdbrainService:
     """Motor de calibração adaptativa contínua do TupiLingo."""
 
@@ -49,7 +63,7 @@ class BirdbrainService:
         self.checkpoints_path = checkpoints_path
         self.checkpoints_data: Dict[str, Any] = {}
         self._processed_events: Dict[str, Dict[str, Any]] = {}
-        self.telemetry_secret = telemetry_secret or os.environ.get("BIRDBRAIN_TELEMETRY_SECRET", "tupilingo_telemetry_secure_salt_2026")
+        self.telemetry_secret = telemetry_secret or _get_telemetry_fallback_secret()
         
         # Modo Sombra: computa decisões sem aplicá-las à progressão curricular
         if shadow_mode is not None:
@@ -68,7 +82,7 @@ class BirdbrainService:
         """
         if not student_id or not str(student_id).strip():
             return "anonymous_student"
-        key = (secret_key or os.environ.get("BIRDBRAIN_TELEMETRY_SECRET", "tupilingo_telemetry_secure_salt_2026")).encode("utf-8")
+        key = (secret_key or _get_telemetry_fallback_secret()).encode("utf-8")
         raw = str(student_id).strip().encode("utf-8")
         return hmac.new(key, raw, hashlib.sha256).hexdigest()[:24]
 

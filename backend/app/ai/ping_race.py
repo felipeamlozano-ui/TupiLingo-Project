@@ -187,6 +187,8 @@ class PingRaceRouter:
         metrics["sucessos"] += 1
         if latency_ms > 0:
             metrics["latencias"].append(latency_ms)
+            if len(metrics["latencias"]) > 100:
+                metrics["latencias"].pop(0)
 
     @classmethod
     def is_in_cooldown(cls, target: str) -> bool:
@@ -324,85 +326,89 @@ class PingRaceRouter:
         if not chain:
             return []
 
-        # 1. Filtra candidatos fora de erro fatal e fora de cooldown transitório
-        active_chain = [m for m in chain if not cls.is_fatal_disabled(m) and not cls.is_in_cooldown(m)]
-        if not active_chain:
-            # Apenas modelos que NÃO são fatais podem ter cooldown transitório resetado
-            non_fatal = [m for m in chain if not cls.is_fatal_disabled(m)]
-            if non_fatal:
-                logger.warning("[PingRace] Todos os modelos ativos estão em cooldown transitório. Resetando penalidades transitórias.")
-                r = get_redis_client()
-                if r:
-                    try:
-                        for m in non_fatal:
-                            r.delete(f"{REDIS_KEY_COOLDOWN_PREFIX}{m}")
-                    except Exception:
-                        pass
-                cls._local_cooldown_map.clear()
-                active_chain = list(non_fatal)
-            else:
-                logger.error("[PingRace] ⛔ Todos os modelos da cadeia estão fatalmente desativados (24h).")
-                active_chain = list(chain)
-
-        # Limita o pool concorrente a até 6 modelos top para economia de recursos
-        race_pool = active_chain[:6]
-        successful_results: list[tuple[str, float]] = []
-        failed_models: list[str] = []
-
-        logger.info("[PingRace] 🏁 Iniciando corrida simultânea entre %d modelos: %s", len(race_pool), race_pool)
-        t_start = time.monotonic()
-
-        # GANHO DE PERFORMANCE: ThreadPoolExecutor dispara pings simultâneos em I/O paralelo
-        with concurrent.futures.ThreadPoolExecutor(max_workers=len(race_pool)) as executor:
-            future_to_model = {
-                executor.submit(cls._ping_single_model, target): target
-                for target in race_pool
-            }
-            for future in concurrent.futures.as_completed(future_to_model):
-                target = future_to_model[future]
-                try:
-                    target_name, latency_ms = future.result()
-                    successful_results.append((target_name, latency_ms))
-                    logger.debug("[PingRace] Modelo %s respondeu em %.1f ms", target_name, latency_ms)
-                except Exception as e:
-                    failed_models.append(target)
-                    logger.debug("[PingRace] Modelo %s falhou no ping: %s", target, e)
-
-        # Ordena do mais rápido ao mais lento (Lowest Latency Ranking)
-        successful_results.sort(key=lambda x: x[1])
-        ranked_models = [m for m, _ in successful_results]
-
-        # Modelos que falharam ou não foram testados vão para o final da cadeia
-        for m in chain:
-            if m not in ranked_models:
-                ranked_models.append(m)
-
-        total_ms = int((time.monotonic() - t_start) * 1000)
-        logger.info(
-            "[PingRace] 🏆 Ranking estabelecido em %d ms! Vencedor: %s | Ordem completa: %s",
-            total_ms,
-            ranked_models[0] if ranked_models else "Nenhum",
-            ranked_models,
-        )
-
-        # 2. Persistência distribuída no Redis
         r = get_redis_client()
-        if r:
-            try:
-                # Salva o ranking com TTL longo (24h)
-                r.set(REDIS_KEY_RANKING, json.dumps(ranked_models), ex=TTL_RANKING_STORE)
-                # Marca a chave de frescor com TTL de 60s
-                r.set(REDIS_KEY_FRESH, "1", ex=TTL_FRESH_SECONDS)
-                # Libera o lock distribuído de revalidação
-                r.delete(REDIS_KEY_LOCK)
-            except Exception as exc:
-                logger.warning("[PingRace] Falha ao persistir ranking no Redis: %s", exc)
+        try:
+            # 1. Filtra candidatos fora de erro fatal e fora de cooldown transitório
+            active_chain = [m for m in chain if not cls.is_fatal_disabled(m) and not cls.is_in_cooldown(m)]
+            if not active_chain:
+                # Apenas modelos que NÃO são fatais podem ter cooldown transitório resetado
+                non_fatal = [m for m in chain if not cls.is_fatal_disabled(m)]
+                if non_fatal:
+                    logger.warning("[PingRace] Todos os modelos ativos estão em cooldown transitório. Resetando penalidades transitórias.")
+                    if r:
+                        try:
+                            for m in non_fatal:
+                                r.delete(f"{REDIS_KEY_COOLDOWN_PREFIX}{m}")
+                        except Exception:
+                            pass
+                    cls._local_cooldown_map.clear()
+                    active_chain = list(non_fatal)
+                else:
+                    logger.error("[PingRace] ⛔ Todos os modelos da cadeia estão fatalmente desativados (24h).")
+                    active_chain = list(chain)
 
-        # Atualiza cache local de contingência
-        cls._local_ranking_cache = list(ranked_models)
-        cls._local_ranking_ts = time.monotonic()
+            # Limita o pool concorrente a até 6 modelos top para economia de recursos
+            race_pool = active_chain[:6]
+            successful_results: list[tuple[str, float]] = []
+            failed_models: list[str] = []
 
-        return ranked_models
+            logger.info("[PingRace] 🏁 Iniciando corrida simultânea entre %d modelos: %s", len(race_pool), race_pool)
+            t_start = time.monotonic()
+
+            # GANHO DE PERFORMANCE: ThreadPoolExecutor dispara pings simultâneos em I/O paralelo
+            with concurrent.futures.ThreadPoolExecutor(max_workers=len(race_pool)) as executor:
+                future_to_model = {
+                    executor.submit(cls._ping_single_model, target): target
+                    for target in race_pool
+                }
+                for future in concurrent.futures.as_completed(future_to_model):
+                    target = future_to_model[future]
+                    try:
+                        target_name, latency_ms = future.result()
+                        successful_results.append((target_name, latency_ms))
+                        logger.debug("[PingRace] Modelo %s respondeu em %.1f ms", target_name, latency_ms)
+                    except Exception as e:
+                        failed_models.append(target)
+                        logger.debug("[PingRace] Modelo %s falhou no ping: %s", target, e)
+
+            # Ordena do mais rápido ao mais lento (Lowest Latency Ranking)
+            successful_results.sort(key=lambda x: x[1])
+            ranked_models = [m for m, _ in successful_results]
+
+            # Modelos que falharam ou não foram testados vão para o final da cadeia
+            for m in chain:
+                if m not in ranked_models:
+                    ranked_models.append(m)
+
+            total_ms = int((time.monotonic() - t_start) * 1000)
+            logger.info(
+                "[PingRace] 🏆 Ranking estabelecido em %d ms! Vencedor: %s | Ordem completa: %s",
+                total_ms,
+                ranked_models[0] if ranked_models else "Nenhum",
+                ranked_models,
+            )
+
+            # 2. Persistência distribuída no Redis
+            if r:
+                try:
+                    # Salva o ranking com TTL longo (24h)
+                    r.set(REDIS_KEY_RANKING, json.dumps(ranked_models), ex=TTL_RANKING_STORE)
+                    # Marca a chave de frescor com TTL de 60s
+                    r.set(REDIS_KEY_FRESH, "1", ex=TTL_FRESH_SECONDS)
+                except Exception as exc:
+                    logger.warning("[PingRace] Falha ao persistir ranking no Redis: %s", exc)
+
+            # Atualiza cache local de contingência
+            cls._local_ranking_cache = list(ranked_models)
+            cls._local_ranking_ts = time.monotonic()
+
+            return ranked_models
+        finally:
+            if r:
+                try:
+                    r.delete(REDIS_KEY_LOCK)
+                except Exception:
+                    pass
 
     @classmethod
     def _dispatch_async_revalidation(cls, chain: list[str]) -> None:

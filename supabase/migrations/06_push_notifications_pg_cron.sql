@@ -22,6 +22,7 @@ CREATE INDEX IF NOT EXISTS idx_push_tokens_user_id
 CREATE TABLE IF NOT EXISTS notification_queue (
     id                  BIGSERIAL PRIMARY KEY,
     user_id             INTEGER NOT NULL REFERENCES users_userprofile(id) ON DELETE CASCADE,
+    supabase_uid        VARCHAR(255),
     title               VARCHAR(200) NOT NULL,
     body                TEXT NOT NULL,
     notification_type   VARCHAR(50) NOT NULL DEFAULT 'streak_reminder',
@@ -39,6 +40,9 @@ CREATE INDEX IF NOT EXISTS idx_notif_queue_status_sched
 CREATE INDEX IF NOT EXISTS idx_notif_queue_user
     ON notification_queue (user_id, status);
 
+CREATE INDEX IF NOT EXISTS idx_notif_queue_supabase_uid
+    ON notification_queue (supabase_uid);
+
 -- ── 3. FUNÇÃO: ENFILEIRAR LEMBRETES DE OFENSIVA (STREAK EM RISCO) ─────────────
 -- Executada às 18:00 (Brasília) para alertar quem tem ofensiva ativa e ainda não praticou hoje.
 CREATE OR REPLACE FUNCTION fn_queue_streak_reminders()
@@ -53,9 +57,10 @@ BEGIN
     today_br := (CURRENT_TIMESTAMP AT TIME ZONE 'America/Sao_Paulo')::date;
 
     -- Enfileira notificação para usuários com streak ativo (> 0) que NÃO estudaram hoje
-    INSERT INTO notification_queue (user_id, title, body, notification_type, payload, status)
+    INSERT INTO notification_queue (user_id, supabase_uid, title, body, notification_type, payload, status)
     SELECT 
         u.id,
+        u.supabase_uid,
         '🔥 Sua ofensiva no TupiLingo está em perigo!',
         CASE 
             WHEN u.streak_atual = 1 THEN 'Você começou sua jornada ontem. Não perca seu ritmo: pratique 3 minutos de Tupi agora!'
@@ -94,9 +99,10 @@ BEGIN
     today_br := (CURRENT_TIMESTAMP AT TIME ZONE 'America/Sao_Paulo')::date;
 
     -- Envia lembrete semanal de novidades e curiosidades culturais
-    INSERT INTO notification_queue (user_id, title, body, notification_type, payload, status)
+    INSERT INTO notification_queue (user_id, supabase_uid, title, body, notification_type, payload, status)
     SELECT 
         u.id,
+        u.supabase_uid,
         '🌿 Novos Saberes de Pindorama!',
         'Capítulos, desafios temáticos e tesouros ancestrais esperam por você. Venha expandir seu vocabulário Tupi!',
         'new_content',

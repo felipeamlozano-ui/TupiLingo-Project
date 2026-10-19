@@ -18,8 +18,8 @@ class LinkedActivitiesPanel extends StatelessWidget {
     BuildContext context,
     List<Map<String, dynamic>> activities,
   ) {
+    final titleController = TextEditingController(text: 'Desafio de Gramática e Vocabulário');
     String selectedType = 'quiz';
-    String activityTitle = 'Desafio de Gramática e Vocabulário';
     int exerciseCount = 5;
     int xpReward = 25;
 
@@ -81,7 +81,7 @@ class LinkedActivitiesPanel extends StatelessWidget {
                           ),
                           onPressed: () {
                             setDialogState(() {
-                              activityTitle = tmpl['title'] as String;
+                              titleController.text = tmpl['title'] as String;
                               selectedType = tmpl['type'] as String;
                               exerciseCount = tmpl['count'] as int;
                               xpReward = tmpl['xp'] as int;
@@ -94,11 +94,9 @@ class LinkedActivitiesPanel extends StatelessWidget {
 
                     buildFieldLabel(dialogCtx, 'Título da Atividade'),
                     TextFormField(
-                      key: ValueKey('act_title_${DateTime.now().millisecondsSinceEpoch}'),
-                      initialValue: activityTitle,
+                      controller: titleController,
                       style: TextStyle(color: AppTheme.textPrimary(dialogCtx), fontSize: 13),
                       decoration: entityInputDecoration(dialogCtx, 'Nome da lição'),
-                      onChanged: (val) => activityTitle = val,
                     ),
                     const SizedBox(height: 12),
 
@@ -176,7 +174,7 @@ class LinkedActivitiesPanel extends StatelessWidget {
                   onPressed: () {
                     final newActivity = {
                       'id': 'act_${DateTime.now().millisecondsSinceEpoch}',
-                      'title': activityTitle,
+                      'title': titleController.text.trim(),
                       'type': selectedType,
                       'exercises_count': exerciseCount,
                       'xp': xpReward,
@@ -193,7 +191,9 @@ class LinkedActivitiesPanel extends StatelessWidget {
           },
         );
       },
-    );
+    ).then((_) {
+      titleController.dispose();
+    });
   }
 
   // Monta o item visual de cada atividade na lista com seu respectivo ícone temático e botão de remoção.

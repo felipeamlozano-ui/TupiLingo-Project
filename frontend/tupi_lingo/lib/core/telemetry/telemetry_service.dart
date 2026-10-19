@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/core/config/app_config.dart';
@@ -94,15 +95,25 @@ class TelemetryService extends Notifier<TelemetryState> {
   Timer? _sampleTimer;
   Timer? _flushTimer;
   final List<double> _latencySamples = [];
-  final int _maxHistoryLength = 20; // Reduzido de 40 para 20 para aliviar memória e GC
+  final List<FrameTiming> _timingBuffer = [];
+  final int _maxHistoryLength = 20;
 
   @override
   TelemetryState build() {
     ref.onDispose(() {
       _sampleTimer?.cancel();
       _flushTimer?.cancel();
+      SchedulerBinding.instance.removeTimingsCallback(_onReportTimings);
     });
     return const TelemetryState();
+  }
+
+  void _onReportTimings(List<FrameTiming> timings) {
+    if (!state.isRecording) return;
+    _timingBuffer.addAll(timings);
+    if (_timingBuffer.length > 300) {
+      _timingBuffer.removeRange(0, _timingBuffer.length - 300);
+    }
   }
 
   /// Inicia monitoramento e agendamento de upload em lote
@@ -110,12 +121,14 @@ class TelemetryService extends Notifier<TelemetryState> {
     if (state.isRecording) return;
     state = state.copyWith(isRecording: true);
 
+    SchedulerBinding.instance.addTimingsCallback(_onReportTimings);
     _sampleTimer = Timer.periodic(const Duration(seconds: 2), (_) => _collectSample());
     _flushTimer = Timer.periodic(const Duration(seconds: 120), (_) => flushTelemetry());
   }
 
   void stopMonitoring() {
     if (!state.isRecording) return;
+    SchedulerBinding.instance.removeTimingsCallback(_onReportTimings);
     _sampleTimer?.cancel();
     _flushTimer?.cancel();
     state = state.copyWith(isRecording: false);
@@ -124,12 +137,44 @@ class TelemetryService extends Notifier<TelemetryState> {
   void _collectSample() {
     if (!state.isRecording) return;
 
-    const totalFrames = 120;
-    const droppedFrames = 0;
-    const fps = 60.0;
-    const avgBuild = 1.2;
-    const avgRaster = 0.8;
-    const dropRate = 0.0;
+    final List<FrameTiming> samples = List<FrameTiming>.from(_timingBuffer);
+    _timingBuffer.clear();
+
+    double fps = 60.0;
+    double avgBuild = 1.2;
+    double avgRaster = 0.8;
+    int totalFrames = samples.length;
+    int droppedFrames = 0;
+    double dropRate = 0.0;
+
+    if (samples.isNotEmpty) {
+      double totalBuildMs = 0.0;
+      double totalRasterMs = 0.0;
+      double totalSpanMs = 0.0;
+
+      for (final t in samples) {
+        final bMs = t.buildDuration.inMicroseconds / 1000.0;
+        final rMs = t.rasterDuration.inMicroseconds / 1000.0;
+        final spanMs = t.totalSpan.inMicroseconds / 1000.0;
+        totalBuildMs += bMs;
+        totalRasterMs += rMs;
+        totalSpanMs += spanMs;
+
+        // Quadros com tempo total acima de 16.6ms (limite de 60 FPS)
+        if (spanMs > 16.6) {
+          droppedFrames++;
+        }
+      }
+
+      avgBuild = totalBuildMs / samples.length;
+      avgRaster = totalRasterMs / samples.length;
+      dropRate = (droppedFrames / samples.length) * 100.0;
+
+      final avgSpanMs = totalSpanMs / samples.length;
+      if (avgSpanMs > 0) {
+        fps = min(60.0, max(1.0, 1000.0 / avgSpanMs));
+      }
+    }
 
     // Estimativa segura de consumo de memória da aplicação
     final estimatedRam = 140.0 + (min(totalFrames / 1000, 45.0));

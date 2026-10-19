@@ -177,7 +177,7 @@ class NPC(models.Model):
     indigenous_nation = models.CharField(max_length=100)
     epoch = models.CharField(max_length=50, default='1554')
     lore = models.TextField()
-    dialogue_greeting = models.CharField(max_length=255, default='Kauê!')
+    dialogue_greeting = models.CharField(max_length=255, default='Aué!')
     village = models.ForeignKey(Village, on_delete=models.SET_NULL, null=True, blank=True, related_name='npcs')
 
     def __str__(self):

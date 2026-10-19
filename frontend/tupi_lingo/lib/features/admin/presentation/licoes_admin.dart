@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../../core/config/app_config.dart';
+import '../../../../core/network/api_client.dart';
 
 class LicoesAdminTab extends StatefulWidget {
   final List<dynamic> variantes;
@@ -21,9 +21,6 @@ class LicoesAdminTab extends StatefulWidget {
 class _LicoesAdminTabState extends State<LicoesAdminTab> {
   int? _selectedCapituloId;
 
-  String get _baseUrl => dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-  String? get _token => Supabase.instance.client.auth.currentSession?.accessToken;
-
   List<Map<String, dynamic>> get _allCapitulos {
     final List<Map<String, dynamic>> list = [];
     for (final v in widget.variantes) {
@@ -35,7 +32,7 @@ class _LicoesAdminTabState extends State<LicoesAdminTab> {
     return list;
   }
 
-  void _showLicaoDialog({Map<String, dynamic>? licao, required int capituloId}) {
+  Future<void> _showLicaoDialog({Map<String, dynamic>? licao, required int capituloId}) async {
     final isEditing = licao != null;
     final numeroController = TextEditingController(text: licao != null ? '${licao['numero']}' : '');
     final tituloController = TextEditingController(text: licao != null ? '${licao['titulo']}' : '');
@@ -43,7 +40,7 @@ class _LicoesAdminTabState extends State<LicoesAdminTab> {
     final xpController = TextEditingController(text: licao != null ? '${licao['xp_base']}' : '25');
     bool publicada = licao != null ? (licao['publicada'] ?? true) : true;
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (dialogCtx) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
@@ -111,6 +108,7 @@ class _LicoesAdminTabState extends State<LicoesAdminTab> {
               onPressed: () async {
                 final numVal = int.tryParse(numeroController.text.trim());
                 final tituloVal = tituloController.text.trim();
+                final descVal = descController.text.trim();
                 final xpVal = int.tryParse(xpController.text.trim()) ?? 25;
 
                 if (numVal == null || tituloVal.isEmpty) {
@@ -123,36 +121,22 @@ class _LicoesAdminTabState extends State<LicoesAdminTab> {
                 Navigator.pop(dialogCtx);
 
                 try {
-                  final uri = isEditing
-                      ? Uri.parse('$_baseUrl/api/v1/admin/trilha/licoes/${licao['id']}/')
-                      : Uri.parse('$_baseUrl/api/v1/admin/trilha/licoes/');
+                  final url = isEditing
+                      ? '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/licoes/${licao['id']}/'
+                      : '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/licoes/';
 
                   final body = {
                     'capitulo_id': capituloId,
                     'numero': numVal,
                     'titulo': tituloVal,
-                    'descricao': descController.text.trim(),
+                    'descricao': descVal,
                     'xp_base': xpVal,
                     'publicada': publicada,
                   };
 
                   final res = isEditing
-                      ? await http.put(
-                          uri,
-                          headers: {
-                            'Authorization': 'Bearer $_token',
-                            'Content-Type': 'application/json',
-                          },
-                          body: jsonEncode(body),
-                        )
-                      : await http.post(
-                          uri,
-                          headers: {
-                            'Authorization': 'Bearer $_token',
-                            'Content-Type': 'application/json',
-                          },
-                          body: jsonEncode(body),
-                        );
+                      ? await ApiClient.put(url, body: body)
+                      : await ApiClient.post(url, body: body);
 
                   if (res.statusCode == 200 || res.statusCode == 201) {
                     widget.onRefresh();
@@ -187,6 +171,10 @@ class _LicoesAdminTabState extends State<LicoesAdminTab> {
         ),
       ),
     );
+    numeroController.dispose();
+    tituloController.dispose();
+    descController.dispose();
+    xpController.dispose();
   }
 
   void _confirmDelete(int licaoId, String titulo) {
@@ -203,9 +191,8 @@ class _LicoesAdminTabState extends State<LicoesAdminTab> {
             onPressed: () async {
               Navigator.pop(ctx);
               try {
-                final res = await http.delete(
-                  Uri.parse('$_baseUrl/api/v1/admin/trilha/licoes/$licaoId/'),
-                  headers: {'Authorization': 'Bearer $_token'},
+                final res = await ApiClient.delete(
+                  '${AppConfig.backendBaseUrl}/api/v1/admin/trilha/licoes/$licaoId/',
                 );
                 if (res.statusCode == 200) {
                   widget.onRefresh();

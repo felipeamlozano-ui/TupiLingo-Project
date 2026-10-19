@@ -3,6 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:tupi_lingo/core/network/api_client.dart';
+import 'package:tupi_lingo/core/network/api_cache_manager.dart';
+import 'package:tupi_lingo/core/network/lesson_outbox_service.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import '../../dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'widgets/exercises/multiple_choice_view.dart';
@@ -123,22 +125,40 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
 
   Future<void> _fetchLesson() async {
     setState(() {
-      _isLoading = true;
+      _isLoading = _items.isEmpty;
       _errorMessage = null;
     });
 
+    final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+    final url = '$baseUrl/api/v1/trilha/licao/${widget.licaoId}/';
+
+    // 1. Tenta carregar imediatamente do cache local criptografado (0ms)
     try {
-      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      final response = await ApiClient.get('$baseUrl/api/v1/trilha/licao/${widget.licaoId}/');
+      final cachedJson = await ApiCacheManager.instance.getCachedResponse(url);
+      if (cachedJson != null && cachedJson.isNotEmpty) {
+        final cachedData = jsonDecode(cachedJson);
+        if (cachedData is Map<String, dynamic> && cachedData['success'] == true) {
+          _applyLessonData(cachedData);
+        }
+      }
+    } catch (_) {}
+
+    // 2. Revalidação de rede em background
+    try {
+      final response = await ApiClient.get(url).timeout(const Duration(seconds: 4));
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        final bodyStr = utf8.decode(response.bodyBytes);
+        final data = jsonDecode(bodyStr);
         if (data['success'] == true) {
-          _applyLessonData(data);
-        } else {
+          await ApiCacheManager.instance.saveResponse(url, bodyStr);
+          if (_items.isEmpty) {
+            _applyLessonData(data);
+          }
+        } else if (_items.isEmpty) {
           throw Exception(data['error'] ?? 'Erro desconhecido');
         }
-      } else {
+      } else if (_items.isEmpty) {
         String msg = 'Erro ao buscar lição (HTTP ${response.statusCode})';
         try {
           final errData = jsonDecode(utf8.decode(response.bodyBytes));
@@ -149,6 +169,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
         throw Exception(msg);
       }
     } catch (e) {
+      // Se já tínhamos os itens do cache, o aluno pode prosseguir 100% offline!
+      if (_items.isNotEmpty) {
+        return;
+      }
+
       if (mounted) {
         final String userMessage;
         if (e is SessionExpiredException) {
@@ -357,9 +382,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
   Future<void> _finishLesson() async {
     setState(() => _isLoading = true);
 
+    final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+    final int baseXp = (_licao?['xp_base'] as num?)?.toInt() ?? 20;
+    final int estimatedXp = baseXp + _bonusXp;
+
     try {
-      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      
       final payload = {
         'acertos': _acertos,
         'total_exercicios': _totalExercicios,
@@ -371,11 +398,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       final response = await ApiClient.post(
         '$baseUrl/api/v1/trilha/licao/${widget.licaoId}/concluir/',
         body: payload,
-      );
+      ).timeout(const Duration(seconds: 4));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
-        // Sincronização imediata de desempenho e histórico em toda a aplicação
         DashboardRepositoryImpl.invalidateCache();
         AppProgressionNotifier.instance.notifyProgressionChanged();
 
@@ -383,39 +409,48 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
           final List<dynamic> novasConquistas = data['novas_conquistas'] ?? [];
           final int? nivelAtual = data['nivel_atual'];
           _showVictoryDialog(
-            data['earned_xp'] ?? 0,
+            data['earned_xp'] ?? estimatedXp,
             novasConquistas,
             nivelAtual,
             completionData: data is Map<String, dynamic> ? data : null,
+            isOffline: false,
           );
         }
+        return;
       } else {
-        throw Exception('Falha ao concluir lição (HTTP ${response.statusCode}).');
+        throw Exception('Servidor retornou HTTP ${response.statusCode}');
       }
     } catch (e) {
-      if (mounted) {
+      if (e is SessionExpiredException && mounted) {
         setState(() => _isLoading = false);
-        final String userMessage;
-        if (e is SessionExpiredException) {
-          userMessage = 'Sua sessão expirou. Faça login novamente.';
-          Navigator.pushReplacementNamed(context, '/welcome');
-          return;
-        } else if (e is http.ClientException ||
-                   e.toString().toLowerCase().contains('timeout') ||
-                   e.toString().toLowerCase().contains('socket')) {
-          userMessage = 'Sem conexão com o servidor. Verifique sua internet.';
-        } else {
-          userMessage = 'Falha ao concluir lição. Tente novamente.';
-          debugPrint('[LessonPlayer] Erro não tratado em _finishLesson: $e');
-        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(userMessage),
-            action: SnackBarAction(
-              label: 'Tentar Novamente',
-              onPressed: _finishLesson,
-            ),
-          ),
+          const SnackBar(content: Text('Sua sessão expirou. Faça login novamente.')),
+        );
+        Navigator.pushReplacementNamed(context, '/welcome');
+        return;
+      }
+
+      // OFFLINE-FIRST: Salva lição no Outbox assinado com HMAC-SHA256 e exibe vitória imediatamente
+      debugPrint('[LessonPlayer] Conexão indisponível. Salvando lição ${widget.licaoId} no Outbox offline: $e');
+
+      await LessonOutboxService.instance.enqueueCompletedLesson(
+        licaoId: widget.licaoId,
+        acertos: _acertos,
+        totalExercicios: _totalExercicios,
+        tempoSegundos: 60,
+        bonusExploracaoXp: _bonusXp,
+        xpGanho: estimatedXp,
+      );
+
+      DashboardRepositoryImpl.invalidateCache();
+      AppProgressionNotifier.instance.notifyProgressionChanged();
+
+      if (mounted) {
+        _showVictoryDialog(
+          estimatedXp,
+          [],
+          null,
+          isOffline: true,
         );
       }
     }
@@ -426,6 +461,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     List<dynamic> novasConquistas,
     int? nivelAtual, {
     Map<String, dynamic>? completionData,
+    bool isOffline = false,
   }) {
     AudioManager.instance.playChestReward();
     showDialog(
@@ -462,6 +498,30 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
                 Text(
                   'Nível Adaptativo: $nivelAtual 🏹',
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _TupiColors.subtitle),
+                ),
+              ],
+              if (isOffline) ...[
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE8F5E9),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: const Color(0xFF81C784)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.offline_pin_rounded, size: 18, color: Color(0xFF2E7D32)),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Lição salva com segurança offline. Sincronização automática quando a rede voltar!',
+                          style: TextStyle(fontSize: 11, color: Color(0xFF2E7D32), fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
               if (novasConquistas.isNotEmpty) ...[

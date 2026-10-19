@@ -14,6 +14,7 @@ import hashlib
 import json
 import logging
 import random
+import re
 import threading
 import time
 from typing import Any
@@ -325,7 +326,9 @@ class SupabaseService:
 
         # ── 2. Fallback Secundário: Consulta Direta via PostgREST ─────────────
         try:
-            cats_formatted = ",".join(f'"{c}"' for c in cats_list)
+            sanitized_cats = [re.sub(r'[^a-zA-ZÀ-ÿ0-9_\s-]', '', str(c)).strip() for c in cats_list]
+            sanitized_cats = [c for c in sanitized_cats if c] or ["Vocabulário"]
+            cats_formatted = ",".join(f'"{c}"' for c in sanitized_cats)
             offset_aleatorio = random.randint(0, 100)
 
             params = {

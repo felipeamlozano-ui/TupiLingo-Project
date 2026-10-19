@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
+import 'package:tupi_lingo/core/services/device_permissions_and_locale_service.dart';
 import '../shared/metric_card.dart';
 import '../shared/status_badge.dart';
 
@@ -63,12 +64,13 @@ class _SecurityConsoleScreenState extends ConsumerState<SecurityConsoleScreen>
   Future<void> _pingPresence() async {
     try {
       final url = Uri.parse('${AppConfig.backendBaseUrl}/api/v1/platform/presence/ping/');
+      final loc = DevicePermissionsAndLocaleService.instance;
       await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'country_code': 'BR',
-          'country_name': 'Brasil',
+          'country_code': loc.currentCountryCode,
+          'country_name': loc.currentCountryName,
         }),
       ).timeout(const Duration(seconds: 3));
     } catch (_) {}

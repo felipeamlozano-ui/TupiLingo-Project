@@ -587,7 +587,7 @@ class Exercicio(models.Model):
     opcoes = models.JSONField(
         null=True, blank=True,
         verbose_name="Opções de Múltipla Escolha",
-        help_text='Lista de strings. Ex: ["Kauê", "Pirá", "Tupã", "Taba"]'
+        help_text='Lista de strings. Ex: ["Aué", "Pirá", "Tupã", "Taba"]'
     )
     resposta_correta = models.PositiveSmallIntegerField(
         null=True, blank=True,
@@ -604,7 +604,7 @@ class Exercicio(models.Model):
     respostas_corretas = models.JSONField(
         null=True, blank=True,
         verbose_name="Respostas Corretas (Lacunas)",
-        help_text='Lista de strings com respostas aceitas. Ex: ["Kauê"]'
+        help_text='Lista de strings com respostas aceitas. Ex: ["Aué"]'
     )
     tolerancia_levenshtein = models.PositiveSmallIntegerField(
         default=2,
@@ -617,7 +617,7 @@ class Exercicio(models.Model):
     coluna_esquerda = models.JSONField(
         null=True, blank=True,
         verbose_name="Coluna da Esquerda",
-        help_text='Lista de strings. Ex: ["Kauê", "Kunhã", "Taba"]'
+        help_text='Lista de strings. Ex: ["Aué", "Kunhã", "Taba"]'
     )
     coluna_direita = models.JSONField(
         null=True, blank=True,

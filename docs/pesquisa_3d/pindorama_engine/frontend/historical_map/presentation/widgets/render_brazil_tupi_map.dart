@@ -65,6 +65,14 @@ class RenderBrazilTupiMap extends RenderBox {
 
   final Paint _regionPaint = Paint()..style = PaintingStyle.fill;
   final Paint _regionBorderPaint = Paint()..style = PaintingStyle.stroke;
+  final Paint _shadowPaint = Paint()
+    ..color = Colors.black.withValues(alpha: 0.08)
+    ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
+
+  // Cache de Paths para renderização sem alocação por frame
+  Path? _cachedBrazilPath;
+  Path? _cachedAmazonRiver;
+  Path? _cachedParanaRiver;
 
   RenderBrazilTupiMap({
     required List<HistoricalRegion> initialRegions,
@@ -107,7 +115,8 @@ class RenderBrazilTupiMap extends RenderBox {
     }
   }
 
-  /// Reconstrói a QuadTree espacial mapeando as coordenadas normalizadas para pixels.
+  /// Reconstrói a QuadTree espacial mapeando as coordenadas normalizadas para pixels
+  /// e gera cache de objetos Path para evitar alocação a cada quadro no paint().
   void _rebuildSpatialIndex() {
     if (size.width <= 0 || size.height <= 0) return;
 
@@ -123,6 +132,29 @@ class RenderBrazilTupiMap extends RenderBox {
       final bounds = Rect.fromCircle(center: Offset(cx, cy), radius: radius + 8.0);
       _quadTree.insert(SpatialItem(bounds: bounds, data: r));
     }
+
+    final w = size.width;
+    final h = size.height;
+
+    // Cache do Contorno Continental do Brasil
+    _cachedBrazilPath = Path()
+      ..moveTo(w * 0.18, h * 0.12)
+      ..cubicTo(w * 0.35, h * 0.04, w * 0.55, h * 0.08, w * 0.85, h * 0.22)
+      ..cubicTo(w * 0.98, h * 0.30, w * 0.95, h * 0.45, w * 0.88, h * 0.60)
+      ..cubicTo(w * 0.82, h * 0.72, w * 0.72, h * 0.80, w * 0.60, h * 0.95)
+      ..cubicTo(w * 0.52, h * 0.99, w * 0.44, h * 0.90, w * 0.46, h * 0.78)
+      ..cubicTo(w * 0.40, h * 0.68, w * 0.30, h * 0.60, w * 0.24, h * 0.52)
+      ..cubicTo(w * 0.08, h * 0.44, w * 0.06, h * 0.28, w * 0.18, h * 0.12)
+      ..close();
+
+    // Cache dos Rios Sagrados Ancestrais
+    _cachedAmazonRiver = Path()
+      ..moveTo(w * 0.12, h * 0.25)
+      ..cubicTo(w * 0.35, h * 0.22, w * 0.60, h * 0.20, w * 0.80, h * 0.18);
+
+    _cachedParanaRiver = Path()
+      ..moveTo(w * 0.56, h * 0.52)
+      ..cubicTo(w * 0.54, h * 0.68, w * 0.52, h * 0.82, w * 0.50, h * 0.94);
   }
 
   // ── Hit-Testing O(log n) via QuadTree ──────────────────────────────────────
@@ -173,43 +205,24 @@ class RenderBrazilTupiMap extends RenderBox {
     final w = size.width;
     final h = size.height;
 
-    // 1. Desenho do Contorno Continental do Brasil (Vetor Suave)
-    final brazilPath = Path();
-    brazilPath.moveTo(w * 0.18, h * 0.12);
-    // Costa Norte
-    brazilPath.cubicTo(w * 0.35, h * 0.04, w * 0.55, h * 0.08, w * 0.85, h * 0.22);
-    // Ponta Nordeste
-    brazilPath.cubicTo(w * 0.98, h * 0.30, w * 0.95, h * 0.45, w * 0.88, h * 0.60);
-    // Litoral Sudeste
-    brazilPath.cubicTo(w * 0.82, h * 0.72, w * 0.72, h * 0.80, w * 0.60, h * 0.95);
-    // Extremo Sul
-    brazilPath.cubicTo(w * 0.52, h * 0.99, w * 0.44, h * 0.90, w * 0.46, h * 0.78);
-    // Fronteira Centro-Oeste / Bacia do Prata
-    brazilPath.cubicTo(w * 0.40, h * 0.68, w * 0.30, h * 0.60, w * 0.24, h * 0.52);
-    // Fronteira Amazônica / Acre / Colômbia
-    brazilPath.cubicTo(w * 0.08, h * 0.44, w * 0.06, h * 0.28, w * 0.18, h * 0.12);
-    brazilPath.close();
+    if (_cachedBrazilPath == null || _cachedAmazonRiver == null || _cachedParanaRiver == null) {
+      _rebuildSpatialIndex();
+    }
 
-    // Sombra do Continente
-    final shadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.08)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
-    canvas.drawPath(brazilPath, shadowPaint);
+    // 1. Desenho do Contorno Continental do Brasil (Cache)
+    if (_cachedBrazilPath != null) {
+      canvas.drawPath(_cachedBrazilPath!, _shadowPaint);
+      canvas.drawPath(_cachedBrazilPath!, _landPaint);
+      canvas.drawPath(_cachedBrazilPath!, _coastlinePaint);
+    }
 
-    // Terra
-    canvas.drawPath(brazilPath, _landPaint);
-    canvas.drawPath(brazilPath, _coastlinePaint);
-
-    // 2. Rios Sagrados Ancestrais (Amazonas / Rio Negro, São Francisco, Paraná)
-    final amazonRiver = Path()
-      ..moveTo(w * 0.12, h * 0.25)
-      ..cubicTo(w * 0.35, h * 0.22, w * 0.60, h * 0.20, w * 0.80, h * 0.18);
-    canvas.drawPath(amazonRiver, _riverPaint);
-
-    final paranaRiver = Path()
-      ..moveTo(w * 0.56, h * 0.52)
-      ..cubicTo(w * 0.54, h * 0.68, w * 0.52, h * 0.82, w * 0.50, h * 0.94);
-    canvas.drawPath(paranaRiver, _riverPaint);
+    // 2. Rios Sagrados Ancestrais (Cache)
+    if (_cachedAmazonRiver != null) {
+      canvas.drawPath(_cachedAmazonRiver!, _riverPaint);
+    }
+    if (_cachedParanaRiver != null) {
+      canvas.drawPath(_cachedParanaRiver!, _riverPaint);
+    }
 
     // 3. Demarcação das Aldeias e Regiões Históricas
     for (final r in _regions) {

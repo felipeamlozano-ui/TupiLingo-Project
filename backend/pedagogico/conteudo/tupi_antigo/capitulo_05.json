@@ -43,13 +43,13 @@
             "rag_id": "6d76a303c0b35f73a2ddcadb8b991ce238ae37340cc06afe9e01279806f6860f_chunk_412"
           }
         ],
-        "dica_cultural": "Na cultura desta variante, 'Mani'oka' possui grande relevância cotidiana."
+        "dica_cultural": "Na cultura desta variante, 'Mani'oká' possui grande relevância cotidiana."
       },
       "exercicios": [
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Mani'oka'?",
+          "enunciado": "Qual é o significado correto da palavra 'Mani'oká'?",
           "opcoes": [
             {
               "letra": "A",
@@ -70,7 +70,7 @@
           ],
           "resposta_correta": "B",
           "resposta_correta_termo": "Mani'oka",
-          "explicacao": "'Mani'oka' significa 'Mandioca' conforme atestado no RAG.",
+          "explicacao": "'Mani'oká' significa 'Mandioca' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
@@ -323,7 +323,7 @@
             "Kuabati"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Mani'oka' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "explicacao": "'Mani'oká' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
           "dificuldade": "media",
           "pontos_base": 15,
           "param_a": 1.2,
@@ -454,10 +454,10 @@
         {
           "ordem": 2,
           "tipo": "traducao",
-          "enunciado": "Traduza a palavra 'Mani'oka' para o Português:",
+          "enunciado": "Traduza a palavra 'Mani'oká' para o Português:",
           "termo_fonte": "Mani'oka",
           "traducao_esperada": "Mandioca",
-          "explicacao": "'Mani'oka' significa 'Mandioca'.",
+          "explicacao": "'Mani'oká' significa 'Mandioca'.",
           "dificuldade": "media",
           "pontos_base": 15,
           "itens_alvo": [

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import 'package:tupi_lingo/features/home/data/models/trail_map_models.dart';
 
@@ -104,11 +104,22 @@ class HomeController extends ChangeNotifier {
     }
 
     try {
-      final res = await http.get(
-        Uri.parse('$baseUrl/api/v1/trilha/mapa/'),
-        headers: {
-          'Content-Type': 'application/json',
+      final url = '$baseUrl/api/v1/trilha/mapa/';
+      final res = await ApiCacheManager.instance.getStaleWhileRevalidate(
+        url,
+        extraHeaders: {
           'Authorization': 'Bearer ${session.accessToken}',
+        },
+        onCacheAvailable: (cachedJson) {
+          try {
+            final data = jsonDecode(cachedJson);
+            if (data is Map<String, dynamic> && data['success'] == true) {
+              _parseTrailPayload(data);
+              _errorMessage = null;
+              _isLoading = false;
+              notifyListeners();
+            }
+          } catch (_) {}
         },
       ).timeout(const Duration(seconds: 10));
 
@@ -219,6 +230,33 @@ class HomeController extends ChangeNotifier {
     _capitulos = parsedCaps;
     _totalLicoesCompletas = totalCompletas;
     _totalLicoes = totalGeral;
+
+    // Pre-fetching silencioso em background dos JSONs das próximas 2 lições disponíveis
+    _prefetchNextLessons(parsedCaps);
+  }
+
+  void _prefetchNextLessons(List<CapituloMapData> caps) {
+    Future.microtask(() async {
+      try {
+        final availableLessons = <int>[];
+        for (final cap in caps) {
+          for (final licao in cap.licoes) {
+            if (licao.status == LicaoStatus.disponivel || licao.status == LicaoStatus.emAndamento) {
+              availableLessons.add(licao.id);
+              if (availableLessons.length >= 2) break;
+            }
+          }
+          if (availableLessons.length >= 2) break;
+        }
+
+        final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+        for (final licaoId in availableLessons) {
+          final url = '$baseUrl/api/v1/trilha/licao/$licaoId/';
+          // ApiCacheManager fará o fetch e gravará cifrado no cofre local AES-256-GCM
+          await ApiCacheManager.instance.getStaleWhileRevalidate(url);
+        }
+      } catch (_) {}
+    });
   }
 
   void updateFromPayload(Map<String, dynamic> data) {

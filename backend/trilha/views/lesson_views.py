@@ -430,85 +430,89 @@ def concluir_licao(request, licao_id: int):
         bonus_raw = 0
     bonus_exploracao = max(0, min(bonus_raw, 100))
 
-    user_lesson, _ = UserLesson.objects.get_or_create(usuario=user, licao=licao)
+    # Anti-replay e idempotência: valida nonce se enviado
+    nonce = body.get('nonce') or body.get('idempotency_key')
+    if nonce:
+        from users.store_crypto import mark_nonce_used
+        if not mark_nonce_used(str(nonce)):
+            logger.warning("Replay attack ou duplicata detectada para nonce: %s", nonce)
+            return JsonResponse({
+                'success': True,
+                'already_completed': True,
+                'replayed': True,
+                'message': 'Requisição já processada anteriormente.',
+            })
 
     from users.services.progress_service import ProgressService
     from users.services.streak_service import StreakService
     from nivelamento.models import UserVarianteLevel
 
-    # Sincroniza a variante ativa do usuário com a variante da lição concluída
-    variante_licao = licao.capitulo.trilha.variante
-    if user.variante_ativa_id != variante_licao.id:
-        user.variante_ativa = variante_licao
-        user.save(update_fields=['variante_ativa', 'updated_at'])
+    # SEC-002: Trava pessimista transacional atômica (select_for_update) contra Race Conditions
+    with transaction.atomic():
+        locked_user = UserProfile.objects.select_for_update().get(pk=user.pk)
+        user_lesson, _ = UserLesson.objects.select_for_update().get_or_create(usuario=locked_user, licao=licao)
 
-    # SEC-003: Idempotência com suporte a revisão — previne farm de XP infinito mas
-    # garante desbloqueio da próxima lição e registro de estudo diário (streak).
-    if user_lesson.status == 'concluida':
-        with transaction.atomic():
-            prox_licao = ProgressService.unlock_next_lesson(user, licao)
+        # Sincroniza a variante ativa do usuário com a variante da lição concluída
+        variante_licao = licao.capitulo.trilha.variante
+        if locked_user.variante_ativa_id != variante_licao.id:
+            locked_user.variante_ativa = variante_licao
+            locked_user.save(update_fields=['variante_ativa', 'updated_at'])
+
+        # SEC-003: Idempotência com suporte a revisão — previne farm de XP infinito
+        if user_lesson.status == 'concluida':
+            prox_licao = ProgressService.unlock_next_lesson(locked_user, licao)
             StreakService.register_study_activity(
-                user=user,
+                user=locked_user,
                 xp_ganho=0,
                 tempo_segundos=tempo_gasto,
                 is_lesson_completed=True,
                 exercicios_respondidos=total,
                 exercicios_corretos=acertos,
             )
-            user.refresh_from_db(fields=['xp_total', 'streak_atual', 'maior_streak', 'conchas'])
-            lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=licao.capitulo.trilha.variante).first()
-            ProgressService.invalidate_user_trail_cache(user.id, licao.capitulo.trilha.variante_id)
+            locked_user.refresh_from_db(fields=['xp_total', 'streak_atual', 'maior_streak', 'conchas'])
+            lvl_obj = UserVarianteLevel.objects.filter(user=locked_user, variante=licao.capitulo.trilha.variante).first()
+            ProgressService.invalidate_user_trail_cache(locked_user.id, licao.capitulo.trilha.variante_id)
             from users.services.statistics_service import StatisticsService
-            StatisticsService.invalidate_user_stats_cache(user.id)
+            StatisticsService.invalidate_user_stats_cache(locked_user.id)
 
-        return JsonResponse({
-            'success': True,
-            'already_completed': True,
-            'variante_id': variante_licao.id,
-            'variante_nome': variante_licao.nome,
-            'variante_codigo': variante_licao.codigo,
-            'earned_xp': 0,
-            'earned_conchas': 0,
-            'xp_total': user.xp_total,
-            'conchas': getattr(user, 'conchas', 0),
-            'streak_atual': user.streak_atual,
-            'dias_ofensiva': user.streak_atual,
-            'accuracy': user_lesson.accuracy,
-            'total_exercicios_servidor': total,
-            'nivel_atual': lvl_obj.nivel if lvl_obj else 1,
-            'novas_conquistas': [],
-            'proxima_licao_id': prox_licao.id if prox_licao else None,
-            'proxima_licao_desbloqueada': prox_licao is not None,
-            'message': 'Lição concluída! Ofensiva diária mantida.',
-        })
+            return JsonResponse({
+                'success': True,
+                'already_completed': True,
+                'variante_id': variante_licao.id,
+                'variante_nome': variante_licao.nome,
+                'variante_codigo': variante_licao.codigo,
+                'earned_xp': 0,
+                'earned_conchas': 0,
+                'xp_total': locked_user.xp_total,
+                'conchas': getattr(locked_user, 'conchas', 0),
+                'streak_atual': locked_user.streak_atual,
+                'dias_ofensiva': locked_user.streak_atual,
+                'accuracy': user_lesson.accuracy,
+                'total_exercicios_servidor': total,
+                'nivel_atual': lvl_obj.nivel if lvl_obj else 1,
+                'novas_conquistas': [],
+                'proxima_licao_id': prox_licao.id if prox_licao else None,
+                'proxima_licao_desbloqueada': prox_licao is not None,
+                'message': 'Lição concluída! Ofensiva diária mantida.',
+            })
 
-    # SEC-003: Derivar primeira_tentativa exclusivamente do estado do banco
-    primeira_tentativa = (
-        not UserLesson.objects.filter(
-            usuario=user,
-            licao=licao,
-            status='concluida',
-        ).exists()
-    )
+        # Primeira conclusão legítima
+        acertos = min(acertos, total)
+        accuracy = round(acertos / total, 2)
+        status_ex = (
+            ValidationResult.CORRETO if accuracy >= 0.9 else
+            ValidationResult.QUASE_CERTO if accuracy >= 0.7 else
+            ValidationResult.ERRADO
+        )
 
-    # Clamp acertos ao total real do servidor
-    acertos = min(acertos, total)
-    accuracy = round(acertos / total, 2)
-    status_ex = (
-        ValidationResult.CORRETO if accuracy >= 0.9 else
-        ValidationResult.QUASE_CERTO if accuracy >= 0.7 else
-        ValidationResult.ERRADO
-    )
+        earned_xp = calcular_xp_exercicio(
+            pontos_base=licao.xp_base,
+            primeira_tentativa=True,
+            resultado_status=status_ex,
+            bonus_exploracao=bonus_exploracao,
+        )
+        earned_conchas = 5
 
-    earned_xp = calcular_xp_exercicio(
-        pontos_base=licao.xp_base,
-        primeira_tentativa=primeira_tentativa,
-        resultado_status=status_ex,
-        bonus_exploracao=bonus_exploracao,
-    )
-    earned_conchas = 5 if primeira_tentativa else 1
-
-    with transaction.atomic():
         user_lesson.status = 'concluida'
         user_lesson.completion_percentage = 100.0
         user_lesson.accuracy = accuracy
@@ -517,25 +521,26 @@ def concluir_licao(request, licao_id: int):
         user_lesson.save()
 
         # Desbloqueia automaticamente a próxima lição da jornada
-        prox_licao = ProgressService.unlock_next_lesson(user, licao)
+        prox_licao = ProgressService.unlock_next_lesson(locked_user, licao)
 
         # Atualiza conchas do usuário atomicamente
-        user.conchas = getattr(user, 'conchas', 0) + earned_conchas
-        user.save(update_fields=['conchas', 'updated_at'])
+        locked_user.conchas = getattr(locked_user, 'conchas', 0) + earned_conchas
+        locked_user.save(update_fields=['conchas', 'updated_at'])
 
         # Registra no log de atividade diária e atualiza streak e XP de forma atômica
         StreakService.register_study_activity(
-            user=user,
+            user=locked_user,
             xp_ganho=earned_xp,
             tempo_segundos=tempo_gasto,
             is_lesson_completed=True,
             exercicios_respondidos=total,
             exercicios_corretos=acertos,
         )
-        user.refresh_from_db(fields=['xp_total', 'streak_atual', 'maior_streak', 'conchas'])
-        ProgressService.invalidate_user_trail_cache(user.id, licao.capitulo.trilha.variante_id)
+        locked_user.refresh_from_db(fields=['xp_total', 'streak_atual', 'maior_streak', 'conchas'])
+        ProgressService.invalidate_user_trail_cache(locked_user.id, licao.capitulo.trilha.variante_id)
         from users.services.statistics_service import StatisticsService
-        StatisticsService.invalidate_user_stats_cache(user.id)
+        StatisticsService.invalidate_user_stats_cache(locked_user.id)
+        user = locked_user
 
     # Nível atual para retorno imediato (sem bloquear worker Gunicorn)
     lvl_obj = UserVarianteLevel.objects.filter(user=user, variante=licao.capitulo.trilha.variante).first()

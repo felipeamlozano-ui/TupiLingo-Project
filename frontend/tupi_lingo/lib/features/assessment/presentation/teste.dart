@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:tupi_lingo/core/config/app_config.dart';
+import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import '../../dashboard/data/repositories/dashboard_repository_impl.dart';
@@ -89,18 +88,8 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
     });
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) throw Exception('Usuário não autenticado');
-
-      final String baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      final url = Uri.parse('$baseUrl/api/v1/trilha/variantes/');
-      
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session.accessToken}',
-        },
+      final response = await ApiClient.get(
+        '${AppConfig.backendBaseUrl}/api/v1/trilha/variantes/',
       ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -216,35 +205,20 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
     });
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) throw Exception('Usuário não autenticado');
-
-      final String baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-
       // 1. Atualiza variante ativa
-      final updateUrl = Uri.parse('$baseUrl/api/v1/auth/update-variante');
-      await http.post(
-        updateUrl,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session.accessToken}',
-        },
-        body: jsonEncode({'variante_id': variante['id']}),
+      await ApiClient.post(
+        '${AppConfig.backendBaseUrl}/api/v1/auth/update-variante',
+        body: {'variante_id': variante['id']},
       );
 
       // 2. Registra avaliação direta como nível 1
-      final evalUrl = Uri.parse('$baseUrl/api/v1/nivelamento/avaliar/');
-      await http.post(
-        evalUrl,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session.accessToken}',
-        },
-        body: jsonEncode({
+      await ApiClient.post(
+        '${AppConfig.backendBaseUrl}/api/v1/nivelamento/avaliar/',
+        body: {
           'variante_id': variante['id'],
           'current_level': 1,
           'answers': [],
-        }),
+        },
       );
 
       DashboardRepositoryImpl.invalidateCache();
@@ -271,20 +245,10 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
     });
 
     try {
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) throw Exception('Usuário não autenticado');
-      
-      final String baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-
       // 1. Atualizar a variante ativa do usuário
-      final updateUrl = Uri.parse('$baseUrl/api/v1/auth/update-variante');
-      final updateResponse = await http.post(
-        updateUrl,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session.accessToken}',
-        },
-        body: jsonEncode({'variante_id': variante['id']}),
+      final updateResponse = await ApiClient.post(
+        '${AppConfig.backendBaseUrl}/api/v1/auth/update-variante',
+        body: {'variante_id': variante['id']},
       );
 
       if (updateResponse.statusCode != 200) {
@@ -292,19 +256,14 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
       }
 
       // 2. Gerar Questões
-      final testUrl = Uri.parse('$baseUrl/api/v1/nivelamento/gerar-questao/');
       final payload = {
         'nivel_atual': _currentNivel,
         'variante_id': variante['id'],
       };
 
-      final response = await http.post(
-        testUrl,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${session.accessToken}',
-        },
-        body: jsonEncode(payload),
+      final response = await ApiClient.post(
+        '${AppConfig.backendBaseUrl}/api/v1/nivelamento/gerar-questao/',
+        body: payload,
       );
 
       if (response.statusCode == 200) {
@@ -431,21 +390,14 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
     int finalLvl = _currentNivel;
     
     try {
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session != null && _selectedVariante != null) {
-        final String baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-        
-        final response = await http.post(
-          Uri.parse('$baseUrl/api/v1/nivelamento/avaliar/'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ${session.accessToken}',
-          },
-          body: jsonEncode({
+      if (_selectedVariante != null) {
+        final response = await ApiClient.post(
+          '${AppConfig.backendBaseUrl}/api/v1/nivelamento/avaliar/',
+          body: {
             'current_level': _currentNivel,
             'variante_id': _selectedVariante!['id'],
             'answers': _userAnswers,
-          }),
+          },
         ).timeout(const Duration(seconds: 15));
             
         if (response.statusCode == 200) {

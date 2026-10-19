@@ -11,6 +11,7 @@ MUDANÇA CRÍTICA (v2 — Jornada Histórica):
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 
@@ -161,8 +162,8 @@ def gerar_questao_nivelamento(request):
     ]
     contingencia_questoes = [
         {"termo": "îagûara", "trad": "Onça / Fera", "enunciado": "Qual é a tradução de 'îagûara' em Tupi Antigo?"},
-        {"termo": "pira", "trad": "Peixe", "enunciado": "O que significa 'pira' no vocabulário Tupi?"},
-        {"termo": "tata", "trad": "Fogo", "enunciado": "Qual elemento natural é designado por 'tata'?"},
+        {"termo": "pirá", "trad": "Peixe", "enunciado": "O que significa 'pirá' no vocabulário Tupi?"},
+        {"termo": "tatá", "trad": "Fogo", "enunciado": "Qual elemento natural é designado por 'tatá'?"},
         {"termo": "'y", "trad": "Água / Rio", "enunciado": "O que expressa a palavra ''y' em Tupi?"},
         {"termo": "ka'a", "trad": "Mata / Floresta", "enunciado": "A palavra 'ka'a' se refere a qual ambiente?"},
         {"termo": "kunhã", "trad": "Mulher", "enunciado": "Qual é o significado de 'kunhã' nas fontes quinhentistas?"},
@@ -299,7 +300,7 @@ def avaliar_teste(request):
         answer_items = [
             AnswerItem(
                 attempt=attempt,
-                question_hash=str(hash(ans.get("question_text", "")))[:250],
+                question_hash=hashlib.sha256(ans.get("question_text", "").encode("utf-8")).hexdigest(),
                 question_text=ans.get("question_text", ""),
                 selected_letter=ans.get("selected_letter", ""),
                 is_correct=ans.get("is_correct", False),
@@ -408,11 +409,16 @@ def definir_nivel_inicial(request):
         nivel_raw = int(body.get('nivel', 1))
     except (ValueError, TypeError):
         return JsonResponse({"error": "Nível inválido."}, status=400)
-    nivel = max(1, min(10, nivel_raw))
-
     variante = VarianteTupi.objects.filter(id=variante_id, ativo=True).first()
     if not variante:
         return JsonResponse({"error": "Variante não encontrada."}, status=404)
+
+    # Impede que o cliente defina níveis arbitrários sem realizar o teste adaptativo
+    has_test_attempt = TestAttempt.objects.filter(user=user, variante=variante).exists()
+    if not has_test_attempt:
+        nivel = 1
+    else:
+        nivel = max(1, min(10, nivel_raw))
 
     lvl_obj, created = UserVarianteLevel.objects.get_or_create(
         user=user, variante=variante, defaults={'nivel': nivel}

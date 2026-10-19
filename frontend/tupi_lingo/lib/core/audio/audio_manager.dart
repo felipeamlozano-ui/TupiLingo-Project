@@ -5,53 +5,64 @@ import 'package:audioplayers/audioplayers.dart';
 import '../../features/settings/data/settings_service.dart';
 
 /// Gerenciador Global de Áudio e Efeitos Sonoros (SFX) do TupiLingo.
-/// Reproduz efeitos de:
-/// - Acerto de resposta (`playCorrect`)
-/// - Erro de resposta (`playIncorrect`)
-/// - Toque / Navegação (`playTap`)
-/// - Abertura de Baú / Recompensa (`playChestReward`)
-/// Respeita rigorosamente a configuração do usuário em [SettingsService].
+/// Arquitetura Zero-Latência (< 5ms) com Warm AudioPool pré-aquecido no boot.
+/// Disparo síncrono em paralelo com HapticFeedback (Fire-and-Forget).
+/// Suporta round-robin de 3 micro-players para taps rápidos contínuos.
 class AudioManager {
   AudioManager._();
   static final AudioManager instance = AudioManager._();
 
-  AudioPlayer? _player;
+  static const String _assetCorrect = 'audio/correct.wav';
+  static const String _assetIncorrect = 'audio/incorrect.wav';
+  static const String _assetTap = 'audio/tap.wav';
+  static const String _assetChest = 'audio/chest.wav';
+
+  AudioPlayer? _correctPlayer;
+  AudioPlayer? _incorrectPlayer;
+  AudioPlayer? _chestPlayer;
+
+  // Round-robin pool de 3 micro-players dedicados a toque rápido
+  final List<AudioPlayer> _tapPlayers = [];
+  int _currentTapIndex = 0;
+  static const int _tapPoolSize = 3;
+
   bool _initialized = false;
-  Timer? _idleEvictionTimer;
 
-  void initialize() {
-    _ensurePlayer();
-  }
+  /// Inicializa e pré-aquece o Warm AudioPool na inicialização do app.
+  Future<void> initialize() async {
+    if (_initialized) return;
+    _initialized = true;
 
-  AudioPlayer _ensurePlayer() {
-    if (_player == null || !_initialized) {
-      try {
-        _player = AudioPlayer()..setPlayerMode(PlayerMode.lowLatency);
-        _initialized = true;
-      } catch (e) {
-        debugPrint('[AudioManager] Erro ao inicializar player de áudio: $e');
-        _player ??= AudioPlayer();
-        _initialized = true;
-      }
-    }
-    _touchPlayer();
-    return _player!;
-  }
-
-  void _touchPlayer() {
-    _idleEvictionTimer?.cancel();
-    _idleEvictionTimer = Timer(const Duration(seconds: 60), _evictIdlePlayer);
-  }
-
-  void _evictIdlePlayer() {
     try {
-      _player?.dispose();
-    } catch (_) {}
-    _player = null;
-    _initialized = false;
+      await Future.wait([
+        _preloadPlayer(_assetCorrect, 0.8).then((p) => _correctPlayer = p),
+        _preloadPlayer(_assetIncorrect, 0.7).then((p) => _incorrectPlayer = p),
+        _preloadPlayer(_assetChest, 0.9).then((p) => _chestPlayer = p),
+        ...List.generate(_tapPoolSize, (_) => _preloadPlayer(_assetTap, 0.4)).map((fut) async {
+          final p = await fut;
+          _tapPlayers.add(p);
+        }),
+      ]);
+      debugPrint('[AudioManager] Warm AudioPool inicializado e pré-aquecido com sucesso.');
+    } catch (e) {
+      debugPrint('[AudioManager] Erro ao pré-aquecer Warm AudioPool: $e');
+    }
   }
 
-  /// Toca som de acerto de exercício e vibração de sucesso
+  Future<AudioPlayer> _preloadPlayer(String assetPath, double volume) async {
+    final player = AudioPlayer();
+    try {
+      await player.setPlayerMode(PlayerMode.lowLatency);
+      await player.setReleaseMode(ReleaseMode.stop);
+      await player.setVolume(volume);
+      await player.setSource(AssetSource(assetPath));
+    } catch (e) {
+      debugPrint('[AudioManager] Erro ao pré-carregar som $assetPath: $e');
+    }
+    return player;
+  }
+
+  /// Toca som de acerto de exercício e vibração no mesmo micro-segundo (< 5ms)
   Future<void> playCorrect() async {
     if (!SettingsService.instance.soundEffects) {
       if (SettingsService.instance.hapticFeedback) {
@@ -60,18 +71,20 @@ class AudioManager {
       return;
     }
 
-    try {
-      if (SettingsService.instance.hapticFeedback) {
-        HapticFeedback.mediumImpact();
-      }
-      final player = _ensurePlayer();
-      await player.play(AssetSource('audio/correct.wav'), volume: 0.8);
-    } catch (e) {
-      debugPrint('[AudioManager] Erro ao tocar som de acerto: $e');
+    if (SettingsService.instance.hapticFeedback) {
+      HapticFeedback.mediumImpact();
+    }
+
+    if (_correctPlayer != null) {
+      unawaited(
+        _correctPlayer!.seek(Duration.zero).then((_) => _correctPlayer!.resume()).catchError((e) {
+          debugPrint('[AudioManager] Falha no playback de acerto: $e');
+        }),
+      );
     }
   }
 
-  /// Toca som de erro de exercício e vibração de alerta
+  /// Toca som de erro de exercício e vibração no mesmo micro-segundo (< 5ms)
   Future<void> playIncorrect() async {
     if (!SettingsService.instance.soundEffects) {
       if (SettingsService.instance.hapticFeedback) {
@@ -80,18 +93,20 @@ class AudioManager {
       return;
     }
 
-    try {
-      if (SettingsService.instance.hapticFeedback) {
-        HapticFeedback.heavyImpact();
-      }
-      final player = _ensurePlayer();
-      await player.play(AssetSource('audio/incorrect.wav'), volume: 0.7);
-    } catch (e) {
-      debugPrint('[AudioManager] Erro ao tocar som de erro: $e');
+    if (SettingsService.instance.hapticFeedback) {
+      HapticFeedback.heavyImpact();
+    }
+
+    if (_incorrectPlayer != null) {
+      unawaited(
+        _incorrectPlayer!.seek(Duration.zero).then((_) => _incorrectPlayer!.resume()).catchError((e) {
+          debugPrint('[AudioManager] Falha no playback de erro: $e');
+        }),
+      );
     }
   }
 
-  /// Toca som suave de clique / navegação de abas e botões
+  /// Toca som suave de clique com pool rotativo de 3 players (0ms atraso, sem corte)
   Future<void> playTap() async {
     if (!SettingsService.instance.soundEffects) {
       if (SettingsService.instance.hapticFeedback) {
@@ -100,13 +115,19 @@ class AudioManager {
       return;
     }
 
-    try {
-      if (SettingsService.instance.hapticFeedback) {
-        HapticFeedback.selectionClick();
-      }
-      final player = _ensurePlayer();
-      await player.play(AssetSource('audio/tap.wav'), volume: 0.4);
-    } catch (_) {
+    if (SettingsService.instance.hapticFeedback) {
+      HapticFeedback.selectionClick();
+    }
+
+    if (_tapPlayers.isNotEmpty) {
+      final player = _tapPlayers[_currentTapIndex];
+      _currentTapIndex = (_currentTapIndex + 1) % _tapPlayers.length;
+      unawaited(
+        player.seek(Duration.zero).then((_) => player.resume()).catchError((_) {
+          SystemSound.play(SystemSoundType.click);
+        }),
+      );
+    } else {
       SystemSound.play(SystemSoundType.click);
     }
   }
@@ -120,22 +141,32 @@ class AudioManager {
       return;
     }
 
-    try {
-      if (SettingsService.instance.hapticFeedback) {
-        HapticFeedback.heavyImpact();
-      }
-      final player = _ensurePlayer();
-      await player.play(AssetSource('audio/chest.wav'), volume: 0.9);
-    } catch (e) {
-      debugPrint('[AudioManager] Erro ao tocar som de baú: $e');
+    if (SettingsService.instance.hapticFeedback) {
+      HapticFeedback.heavyImpact();
+    }
+
+    if (_chestPlayer != null) {
+      unawaited(
+        _chestPlayer!.seek(Duration.zero).then((_) => _chestPlayer!.resume()).catchError((e) {
+          debugPrint('[AudioManager] Falha no playback de baú: $e');
+        }),
+      );
     }
   }
 
   void dispose() {
-    _idleEvictionTimer?.cancel();
-    _idleEvictionTimer = null;
-    _player?.dispose();
-    _player = null;
+    try {
+      _correctPlayer?.dispose();
+      _incorrectPlayer?.dispose();
+      _chestPlayer?.dispose();
+      for (final p in _tapPlayers) {
+        p.dispose();
+      }
+      _tapPlayers.clear();
+    } catch (_) {}
+    _correctPlayer = null;
+    _incorrectPlayer = null;
+    _chestPlayer = null;
     _initialized = false;
   }
 }

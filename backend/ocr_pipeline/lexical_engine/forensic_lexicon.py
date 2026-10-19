@@ -282,7 +282,7 @@ class TupiMorphologicalParser:
             return "Kamaiurá"
         if any(marker in clean for marker in ("nheeng", "wa", "ana")):
             return "Tupi Contemporâneo"
-        if any(marker in clean for marker in ("tupinamb", "katu", "ko")):
+        if any(marker in clean for marker in ("tupinamb",)):
             return "Tupinambá"
         return "Tupi Antigo"
 

@@ -13,6 +13,7 @@ from urllib.request import Request, urlopen
 
 import jwt
 from decouple import config
+from django.conf import settings
 from django.core.cache import cache
 from django.http import JsonResponse
 from jwt import PyJWKClient
@@ -20,7 +21,7 @@ from jwt import PyJWKClient
 logger = logging.getLogger('users.auth')
 
 supabase_url = config('SUPABASE_URL', default='https://pcquxppvheodcrdkwqhh.supabase.co').rstrip('/')
-supabase_jwt_secret = config('SUPABASE_JWT_SECRET', default='')
+supabase_jwt_secret = getattr(settings, 'SUPABASE_JWT_SECRET', None) or config('SUPABASE_JWT_SECRET', default='')
 supabase_service_key = config('SUPABASE_SERVICE_ROLE_KEY', default='')
 jwks_url = f"{supabase_url}/auth/v1/.well-known/jwks.json"
 
@@ -92,10 +93,11 @@ def supabase_auth_required(view_func):
             unverified_header = jwt.get_unverified_header(token)
             alg = unverified_header.get('alg', 'HS256')
 
-            if alg == 'HS256' and supabase_jwt_secret:
+            active_secret = getattr(settings, 'SUPABASE_JWT_SECRET', None) or supabase_jwt_secret
+            if alg == 'HS256' and active_secret:
                 payload = jwt.decode(
                     token,
-                    supabase_jwt_secret,
+                    active_secret,
                     algorithms=['HS256'],
                     options={"verify_aud": False},
                     leeway=60,

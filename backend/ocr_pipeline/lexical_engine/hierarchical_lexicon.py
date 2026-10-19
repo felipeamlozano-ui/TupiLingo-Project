@@ -99,6 +99,13 @@ class HierarchicalLexiconEngine:
             "pos": "substantivo",
             "meaning": "peixe",
         },
+        "pirá": {
+            "sources": ["Ayrosa", "Navarro", "Barbosa", "Nimuendajú"],
+            "variants": {"tupi_antigo": 0.95, "tupinamba": 0.95, "nheengatu": 0.90},
+            "root": "pira",
+            "pos": "substantivo",
+            "meaning": "peixe",
+        },
         "tatu": {
             "sources": ["Ayrosa", "Navarro", "Barbosa"],
             "variants": {"tupi_antigo": 0.95, "tupinamba": 0.95, "guarani_antigo": 0.90},
@@ -107,6 +114,13 @@ class HierarchicalLexiconEngine:
             "meaning": "tatu",
         },
         "aba": {
+            "sources": ["Anchieta", "Navarro", "Barbosa", "Montoya", "Catecismos Jesuíticos"],
+            "variants": {"tupi_antigo": 0.95, "tupinamba": 0.90, "guarani_antigo": 0.90},
+            "root": "ab",
+            "pos": "substantivo",
+            "meaning": "homem, pessoa, índio",
+        },
+        "abá": {
             "sources": ["Anchieta", "Navarro", "Barbosa", "Montoya", "Catecismos Jesuíticos"],
             "variants": {"tupi_antigo": 0.95, "tupinamba": 0.90, "guarani_antigo": 0.90},
             "root": "ab",
@@ -126,6 +140,20 @@ class HierarchicalLexiconEngine:
             "root": "itá",
             "pos": "substantivo",
             "meaning": "pedra, ferro, metal",
+        },
+        "'y": {
+            "sources": ["Navarro", "Anchieta", "Barbosa"],
+            "variants": {"tupi_antigo": 0.95, "tupinamba": 0.95, "guarani_antigo": 0.95},
+            "root": "'y",
+            "pos": "substantivo",
+            "meaning": "água, rio",
+        },
+        "tatá": {
+            "sources": ["Navarro", "Anchieta", "Barbosa"],
+            "variants": {"tupi_antigo": 0.95, "tupinamba": 0.95},
+            "root": "tata",
+            "pos": "substantivo",
+            "meaning": "fogo",
         },
     }
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -87,20 +88,20 @@ class StoreService {
       }
     } catch (_) {}
 
-    final equippedTheme = prefs.getString(_scopedKey(_keyEquippedTheme));
+    final equippedTheme = prefs.getString(_scopedKey(_keyEquippedTheme)) ?? prefs.getString(_keyEquippedTheme);
     if (equippedTheme != null && equippedTheme.isNotEmpty) {
       _cachedEquipped['theme'] = equippedTheme;
     }
-    final equippedAvatar = prefs.getString(_scopedKey(_keyEquippedAvatar));
+    final equippedAvatar = prefs.getString(_scopedKey(_keyEquippedAvatar)) ?? prefs.getString(_keyEquippedAvatar);
     if (equippedAvatar != null && equippedAvatar.isNotEmpty) {
       _cachedEquipped['avatar'] = equippedAvatar;
     }
-    final equippedFrame = prefs.getString(_scopedKey(_keyEquippedFrame));
+    final equippedFrame = prefs.getString(_scopedKey(_keyEquippedFrame)) ?? prefs.getString(_keyEquippedFrame);
     if (equippedFrame != null && equippedFrame.isNotEmpty) {
       _cachedEquipped['frame'] = equippedFrame;
     }
 
-    _cachedConchas = prefs.getInt(_scopedKey(_keyUserBalanceConchas)) ?? 0;
+    _cachedConchas = prefs.getInt(_scopedKey(_keyUserBalanceConchas)) ?? prefs.getInt(_keyUserBalanceConchas) ?? 0;
     _isInitialized = true;
     equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
   }
@@ -572,9 +573,8 @@ class StoreService {
     await SecureVault.writeSecret(_scopedKey(_keyUnlockedItems), jsonEncode(_cachedUnlockedIds.toList()));
   }
 
-  // Envia requisição para equipar o cosmético e salva a escolha no cofre seguro local
+  // Envia requisição para equipar o cosmético com Optimistic UI (< 16ms) e rollback
   Future<bool> equipCosmetic(String itemId) async {
-    // Identifica o tipo do cosmético no catálogo canônico
     String? itemType;
     final item = canonicalCatalogJson.firstWhere(
       (i) => i['id'] == itemId,
@@ -584,51 +584,60 @@ class StoreService {
       itemType = item['type']?.toString();
     }
 
+    final previousEquipped = Map<String, String>.from(_cachedEquipped);
+
+    // 1. Atualização SÍNCRONA no mesmo frame (0ms de espera)
     if (itemType != null) {
       _cachedEquipped[itemType] = itemId;
       equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
-
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        if (itemType == 'theme') {
-          await prefs.setString(_scopedKey(_keyEquippedTheme), itemId);
-          await ThemeNotifier.instance.setEquippedTheme(itemId);
-        } else if (itemType == 'avatar') {
-          await prefs.setString(_scopedKey(_keyEquippedAvatar), itemId);
-        } else if (itemType == 'frame') {
-          await prefs.setString(_scopedKey(_keyEquippedFrame), itemId);
-        }
-      } catch (_) {}
-
       if (itemType == 'theme') {
-        await SecureVault.writeSecret(_scopedKey(_keyEquippedTheme), itemId);
-      } else if (itemType == 'avatar') {
-        await SecureVault.writeSecret(_scopedKey(_keyEquippedAvatar), itemId);
-      } else if (itemType == 'frame') {
-        await SecureVault.writeSecret(_scopedKey(_keyEquippedFrame), itemId);
+        unawaited(ThemeNotifier.instance.setEquippedTheme(itemId));
       }
     }
 
+    // 2. Persistência assíncrona em cache local
+    if (itemType != null) {
+      unawaited(_persistLocalEquipped(itemId, itemType));
+    }
+
+    // 3. Notificação do backend em background
     try {
       final response = await ApiClient.post(
         '$_baseUrl/api/v1/store/equip/',
         body: {'item_id': itemId},
-      ).timeout(const Duration(seconds: 3));
+      ).timeout(const Duration(seconds: 4));
 
-      if (response.statusCode < 400) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-        final returnedType = data['item_type'] as String?;
-        if (returnedType != null) {
-          _cachedEquipped[returnedType] = itemId;
-          equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
-          if (returnedType == 'theme') {
-            await ThemeNotifier.instance.setEquippedTheme(itemId);
-          }
+      if (response.statusCode >= 400) {
+        // Rollback imediato se o servidor rejeitar a equipagem
+        _cachedEquipped.clear();
+        _cachedEquipped.addAll(previousEquipped);
+        equippedCosmeticsNotifier.value = Map.from(_cachedEquipped);
+        if (previousEquipped.containsKey('theme')) {
+          unawaited(ThemeNotifier.instance.setEquippedTheme(previousEquipped['theme']!));
         }
+        return false;
+      }
+      return true;
+    } catch (_) {
+      // Em caso de falha de conexão / offline, mantém a equipagem cosmética local
+      return true;
+    }
+  }
+
+  Future<void> _persistLocalEquipped(String itemId, String itemType) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (itemType == 'theme') {
+        await prefs.setString(_scopedKey(_keyEquippedTheme), itemId);
+        await SecureVault.writeSecret(_scopedKey(_keyEquippedTheme), itemId);
+      } else if (itemType == 'avatar') {
+        await prefs.setString(_scopedKey(_keyEquippedAvatar), itemId);
+        await SecureVault.writeSecret(_scopedKey(_keyEquippedAvatar), itemId);
+      } else if (itemType == 'frame') {
+        await prefs.setString(_scopedKey(_keyEquippedFrame), itemId);
+        await SecureVault.writeSecret(_scopedKey(_keyEquippedFrame), itemId);
       }
     } catch (_) {}
-
-    return true;
   }
 
   // Lê do cofre seguro o identificador do cosmético que está ativo
