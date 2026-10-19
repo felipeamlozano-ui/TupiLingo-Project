@@ -25,44 +25,51 @@ echo.
 echo   [2] Dev Rapido / Economia de Cota (Django + Redis + Flutter Debug) [PADRAO]
 echo       - Sem workers! Economiza cotas de IA, CPU e mantem o terminal limpo.
 echo.
-echo   [3] Modo Producao Real (Backend Local + Tunel Cloudflare + Build APK)
-echo       - Backend de Producao (Gunicorn WSGI + Redis + Supabase, DEBUG=False),
-echo         Tunel reverso Cloudflare (trycloudflare.com) e geracao de APK Release.
+echo   [3] Modo Producao Completo (Backend Local + Tunel Cloudflare + Build APK)
+echo       - Sobe backend de producao, tunel Cloudflare e compila novo APK de Release.
 echo.
-echo   [4] Depuracao Wireless Wi-Fi + Flutter Producao [NOVO - TESTE REAL]
+echo   [4] Subir Apenas Backend Cloudflare (Para Rodar o APK sem Recompilar) [NOVO]
+echo       - Sobe o Backend (Gunicorn/Docker ou Python) e o Cloudflare Tunnel.
+echo         Ideal para quem ja tem o APK instalado no celular e so precisa da API online.
+echo.
+echo   [5] Servidor Local da Landing Page + Web App [TESTE NO NAVEGADOR]
+echo       - Inicia servidor HTTP local (http://127.0.0.1:8080) para testar a landing page
+echo         e o simulador do TupiLingo Web no Chrome/Edge sem restricoes de file://.
+echo.
+echo   [6] Depuracao Wireless Wi-Fi + Flutter Producao [TESTE REAL]
 echo       - Celular conectado por Wi-Fi (Android Studio Wireless Debugging),
 echo         ADB Reverse configurado e Flutter executado em MODO PRODUCAO (RELEASE AOT).
-echo         Permite testar a performance real (60/120 FPS, sem overhead do modo debug).
 echo.
-echo   [5] Apenas Backend Core (Django + Redis)
+echo   [7] Apenas Backend Core (Django + Redis Local)
 echo       - Sobe apenas os servicos de API no Docker (sem Flutter e sem workers).
 echo.
-echo   [6] Apenas Workers de IA (PDF Worker + Vocab Worker)
+echo   [8] Apenas Workers de IA (PDF Worker + Vocab Worker)
 echo       - Roda exclusivamente a ingestao e classificacao de dados em background.
 echo.
-echo   [7] TupiLingo OCR Research Grade (RFC v5/v6 GPU Local — RTX 5060) [EXCLUSIVO PC]
-echo       - Processamento arquivistico offline na GPU local: Doc AI WBF, Self-Consistency,
-echo         Calibracao Bayesiana, Token Super-Res, Benchmark Real e Dashboards.
+echo   [9] TupiLingo OCR Research Grade (RFC v5/v6 GPU Local — RTX 5060) [EXCLUSIVO PC]
+echo       - Processamento arquivistico offline na GPU local: Doc AI WBF, Benchmark e Dashboards.
 echo.
-echo   [8] Sair / Cancelar
+echo   [10] Sair / Cancelar
 echo.
 echo ===============================================================================
 
 set "CHOICE="
-set /p "CHOICE= Selecione uma opcao [1-8]: "
+set /p "CHOICE= Selecione uma opcao [1-10]: "
 
 :handle_choice
 if "%CHOICE%"=="1" goto opt_full
 if "%CHOICE%"=="2" goto opt_fast
 if "%CHOICE%"=="3" goto opt_prod_tunnel
-if "%CHOICE%"=="4" goto opt_wireless_release
-if "%CHOICE%"=="5" goto opt_backend_only
-if "%CHOICE%"=="6" goto opt_workers_only
-if "%CHOICE%"=="7" goto opt_research_ocr
-if "%CHOICE%"=="8" goto opt_exit
+if "%CHOICE%"=="4" goto opt_prod_serve_only
+if "%CHOICE%"=="5" goto opt_landing_page
+if "%CHOICE%"=="6" goto opt_wireless_release
+if "%CHOICE%"=="7" goto opt_backend_only
+if "%CHOICE%"=="8" goto opt_workers_only
+if "%CHOICE%"=="9" goto opt_research_ocr
+if "%CHOICE%"=="10" goto opt_exit
 
 echo.
-echo [!] Opcao invalida: "%CHOICE%"! Digite um numero de 1 a 8.
+echo [!] Opcao invalida: "%CHOICE%"! Digite um numero de 1 a 10.
 pause
 goto menu
 
@@ -211,14 +218,21 @@ goto prod_success_summary
 :opt_prod_serve_only
 echo.
 echo ===============================================================================
-echo   ETAPA 1/2: Iniciando Backend Docker de Producao (Gunicorn + Redis)
+echo   ETAPA 1/2: Iniciando Backend (Producao Gunicorn ou Python Local)
 echo ===============================================================================
 call :ensure_cloudflared
 if errorlevel 1 goto end
 
-echo [*] Iniciando servicos de backend em modo Producao Real (DEBUG=False)...
-cd /d "%PROJECT_DIR%backend"
-start "Docker Backend (Producao Gunicorn)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.tunnel.yml up django redis"
+where docker >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [*] Docker nao detectado. Iniciando Backend via Python local venv...
+    cd /d "%PROJECT_DIR%backend"
+    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+) else (
+    echo [*] Iniciando servicos de backend em modo Producao Real no Docker (Gunicorn + Redis)...
+    cd /d "%PROJECT_DIR%backend"
+    start "Docker Backend (Producao Gunicorn)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.tunnel.yml up django redis"
+)
 set "WAIT_TARGET_IP=127.0.0.1"
 call :wait_django
 
@@ -227,6 +241,11 @@ echo ===========================================================================
 echo   ETAPA 2/2: Inicializando Cloudflare Quick Tunnel
 echo ===============================================================================
 call :start_cloudflare
+echo [*] Aguardando URL publica gerada pelo Cloudflare...
+call :poll_cloudflare_url
+if not "!DETECTED_URL!"=="" (
+    set "CLOUDFLARE_URL=!DETECTED_URL!"
+)
 
 :: Carrega CLOUDFLARE_URL do .env se existir apenas para exibicao
 if not defined CLOUDFLARE_URL (
@@ -237,6 +256,25 @@ if not defined CLOUDFLARE_URL (
     )
 )
 goto prod_success_summary
+
+:: -------------------------------------------------------------------------------
+:: OPCAO 5: Servidor Local da Landing Page + Web App
+:: -------------------------------------------------------------------------------
+:opt_landing_page
+cls
+echo ===============================================================================
+echo   INICIANDO SERVIDOR LOCAL DA LANDING PAGE E SIMULADOR WEB
+echo ===============================================================================
+echo.
+echo [*] Iniciando servidor HTTP na porta 8080...
+echo [*] URL de acesso local: http://127.0.0.1:8080/landing-page/
+echo [*] O simulador Web executara com suporte total a CanvasKit e WebAssembly.
+echo.
+start "TupiLingo Web Local Server" cmd /k "python -m http.server 8080 --directory "%PROJECT_DIR%""
+timeout /t 2 >nul
+start http://127.0.0.1:8080/landing-page/
+goto end
+
 
 :prod_success_summary
 cls

@@ -1,0 +1,2202 @@
+/* ==============================================================================
+   TupiLingo • Design System Oficial (EdTech Gamificado & Vibrante)
+   Inspirado no Duolingo: Lúdico, Acessível, 3D Tátil e Culturalmente Rigoroso
+   ============================================================================== */
+
+:root {
+  /* ----------------------------------------------------------------------------
+     Paleta de Cores Oficial (Laranja Marca, Verde Natureza e Arejados)
+     ---------------------------------------------------------------------------- */
+  --bg-page: #FFFDF9;              /* Off-white quente e acolhedor */
+  --bg-surface: #FFFFFF;           /* Branco puro para cards */
+  --bg-alt: #F7F3E8;               /* Bege suave / Linho natural */
+  --bg-alt-warm: #F4EEDC;          /* Pergaminho suave */
+  --bg-card-hover: #FCFAF4;
+
+  /* Bordas Físicas (Sem excesso de gradientes, estilo Duolingo) */
+  --border-light: #F0EAE1;
+  --border-card: #E5DFC9;
+  --border-strong: #D3C9AF;
+
+  /* Cores de Ação Primárias (Laranja Marca TupiLingo / Capivara) */
+  --color-orange: #E07A2C;
+  --color-orange-hover: #EE8B3F;
+  --color-orange-shadow: #AB5513;   /* Relevo 3D inferior */
+  --color-orange-light: #FFF0E4;
+
+  /* Cores Secundárias (Verde Floresta / Natureza) */
+  --color-green: #2B825B;
+  --color-green-hover: #35986B;
+  --color-green-shadow: #1B583C;    /* Relevo 3D inferior */
+  --color-green-light: #EAF6F0;
+
+  /* Cores de Recompensa & Destaque */
+  --color-yellow: #F5A623;          /* Estrelas e Ofensiva */
+  --color-yellow-shadow: #C6810B;
+  --color-yellow-light: #FEF6E7;
+
+  --color-blue: #1CB0F6;            /* Elementos de interface / Acessibilidade */
+  --color-blue-shadow: #1588BE;
+  --color-blue-light: #E8F7FD;
+
+  --color-red: #FF4B4B;             /* Vidas e Corações */
+  --color-red-shadow: #C92A2A;
+  --color-red-light: #FFEBEB;
+
+  /* Tipografia & Contraste (Carvão quente, excelente legibilidade) */
+  --text-title: #2D271D;
+  --text-body: #5C5446;
+  --text-muted: #8E8474;
+  --text-inverse: #FFFFFF;
+
+  /* Fontes Oficiais */
+  --font-main: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+  /* Geometria Lúdica Arredondada */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 36px;
+  --radius-pill: 9999px;
+  --max-width: 1200px;
+
+  /* Sombras Físicas Limpas */
+  --shadow-sm: 0 2px 8px rgba(45, 39, 29, 0.05);
+  --shadow-md: 0 8px 24px rgba(45, 39, 29, 0.07);
+  --shadow-lg: 0 16px 40px rgba(45, 39, 29, 0.1);
+  --shadow-float: 0 20px 48px rgba(45, 39, 29, 0.12);
+}
+
+/* ==============================================================================
+   Reset & Configurações Globais
+   ============================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--bg-page);
+  color: var(--text-body);
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ==============================================================================
+   BOTÕES 3D TÁTEIS (Estilo Duolingo com Relevo Físico e Afundamento no Clique)
+   ============================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.95rem 1.85rem;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  transition: transform 0.1s ease, border-bottom-width 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  line-height: 1.2;
+}
+
+/* Botão Primário Laranja (Marca / Capivara) */
+.btn-primary {
+  background-color: var(--color-orange);
+  color: #FFFFFF;
+  border-bottom: 4px solid var(--color-orange-shadow);
+  box-shadow: 0 4px 12px rgba(224, 122, 44, 0.25);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-orange-hover);
+  transform: translateY(-2px);
+  border-bottom-width: 5px;
+  box-shadow: 0 6px 16px rgba(224, 122, 44, 0.32);
+}
+
+.btn-primary:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+  box-shadow: 0 2px 6px rgba(224, 122, 44, 0.2);
+}
+
+/* Botão Secundário Verde (Natureza / Floresta) */
+.btn-secondary {
+  background-color: var(--color-green);
+  color: #FFFFFF;
+  border-bottom: 4px solid var(--color-green-shadow);
+  box-shadow: 0 4px 12px rgba(43, 130, 91, 0.25);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-green-hover);
+  transform: translateY(-2px);
+  border-bottom-width: 5px;
+  box-shadow: 0 6px 16px rgba(43, 130, 91, 0.32);
+}
+
+.btn-secondary:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+  box-shadow: 0 2px 6px rgba(43, 130, 91, 0.2);
+}
+
+/* Botão Outline Limpo */
+.btn-outline {
+  background-color: #FFFFFF;
+  color: var(--text-title);
+  border: 2px solid var(--border-card);
+  border-bottom: 4px solid var(--border-strong);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-alt);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  border-bottom-width: 5px;
+}
+
+.btn-outline:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* Tamanhos Especiais */
+.btn-hero-lg {
+  padding: 1.15rem 2.1rem;
+  font-size: 1.05rem;
+  border-radius: 20px;
+}
+
+.btn-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.btn-text-block strong {
+  font-size: 1.05rem;
+  line-height: 1.1;
+}
+
+.btn-text-block small {
+  font-size: 0.74rem;
+  font-weight: 600;
+  opacity: 0.9;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  margin-top: 2px;
+}
+
+.btn-sm {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.88rem;
+  border-radius: var(--radius-sm);
+  border-bottom-width: 3px;
+}
+
+.btn-sm:hover {
+  border-bottom-width: 4px;
+}
+
+.btn-sm:active {
+  border-bottom-width: 1px;
+}
+
+.btn-xs {
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  border-bottom-width: 2px;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ==============================================================================
+   1. CABEÇALHO / NAVBAR (Design Minimalista, Alinhado e Limpo - Estilo Duolingo)
+   ============================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 68px;
+  background: rgba(254, 250, 246, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 2px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.site-header.scrolled {
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom-color: var(--border-card);
+  box-shadow: 0 4px 18px rgba(45, 39, 29, 0.05);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+/* 1.1 Zona Esquerda: Marca & Mascote */
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.logo-group:hover {
+  transform: scale(1.02);
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-family: var(--font-main);
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--text-title);
+  letter-spacing: -0.02em;
+}
+
+.brand-subtitle {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 1px;
+}
+
+/* 1.2 Zona Central: Links Nivelados e Sem Ruído */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-body);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  position: relative;
+  padding: 0.35rem 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-link:hover {
+  color: var(--color-orange);
+}
+
+.nav-link-mobile-only {
+  display: none;
+}
+
+/* 1.3 Zona Direita: CTAs com Hierarquia Clara */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+.nav-ghost-link {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-title);
+  text-decoration: none;
+  padding: 0.55rem 0.95rem;
+  border-radius: 12px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.nav-ghost-link:hover {
+  color: var(--color-orange);
+  background: var(--color-orange-light);
+}
+
+.nav-cta-btn {
+  padding: 0.6rem 1.15rem;
+  font-size: 0.88rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: 10px;
+  padding: 8px;
+  color: var(--text-title);
+  cursor: pointer;
+  line-height: 0;
+}
+
+.mobile-menu-toggle .menu-icon-close {
+  display: none;
+}
+
+.mobile-menu-toggle.active .menu-icon-open {
+  display: none;
+}
+
+.mobile-menu-toggle.active .menu-icon-close {
+  display: block;
+}
+
+/* ==============================================================================
+   2. HERO SECTION VIBRANTE (Estilo Duolingo com Palco 3D Flutuante)
+   ============================================================================== */
+.hero-section {
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  position: relative;
+  background: var(--bg-page);
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1.1rem;
+  background: var(--color-green-light);
+  border: 2px solid rgba(43, 130, 91, 0.2);
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--color-green);
+  width: fit-content;
+}
+
+.hero-title {
+  font-size: 3.4rem;
+  font-weight: 900;
+  line-height: 1.12;
+  color: var(--text-title);
+  letter-spacing: -0.03em;
+}
+
+.hero-title .highlight-orange {
+  color: var(--color-orange);
+  position: relative;
+  display: inline-block;
+}
+
+.hero-title .highlight-green {
+  color: var(--color-green);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  line-height: 1.65;
+  color: var(--text-body);
+  max-width: 580px;
+}
+
+.hero-cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.hero-social-proof {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+.proof-avatars {
+  display: flex;
+  gap: 4px;
+}
+
+.avatar-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 2px solid #FFFFFF;
+  box-shadow: var(--shadow-sm);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-title);
+}
+
+.proof-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.proof-text strong {
+  color: var(--text-title);
+  font-weight: 800;
+}
+
+.proof-text span {
+  color: var(--text-muted);
+}
+
+/* Palco 3D Flutuante & Parallax dos Stickers */
+.hero-stage-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+  perspective: 1200px;
+  z-index: 1;
+}
+
+/* Smartphone Mockup com Suave Movimento 3D */
+.phone-mockup-duo {
+  position: relative;
+  width: 310px;
+  height: 620px;
+  transform: rotate(-1.5deg);
+  animation: phoneBobbing 6s ease-in-out infinite alternate;
+  will-change: transform;
+  z-index: 3;
+}
+
+@keyframes phoneBobbing {
+  0% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+  100% {
+    transform: translateY(-16px) rotate(0.8deg);
+  }
+}
+
+.phone-case {
+  width: 100%;
+  height: 100%;
+  background: #2D271D;
+  border-radius: 46px;
+  padding: 11px;
+  box-shadow: 
+    0 24px 60px rgba(45, 39, 29, 0.22),
+    0 0 0 3px #E5DFC9,
+    0 0 0 6px #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-speaker-island {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 22px;
+  background: #1A1610;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+.phone-screen-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 36px;
+  overflow: hidden;
+  background: #F3F2E8;
+}
+
+.phone-screen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.phone-shadow-ground {
+  position: absolute;
+  bottom: -25px;
+  left: 10%;
+  width: 80%;
+  height: 28px;
+  background: radial-gradient(ellipse, rgba(45, 39, 29, 0.2) 0%, transparent 70%);
+  filter: blur(8px);
+  z-index: 1;
+  animation: groundShadow 6s ease-in-out infinite alternate;
+}
+
+@keyframes groundShadow {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(0.85); opacity: 0.45; }
+}
+
+/* Badges e Stickers Flutuantes (Gamification Vibes) */
+.floating-badge {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: 20px;
+  padding: 0.65rem 1.15rem;
+  box-shadow: var(--shadow-float);
+  animation: badgeFloat 5s ease-in-out infinite alternate;
+  animation-delay: var(--float-delay, 0s);
+  will-change: transform;
+  pointer-events: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-badge:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 16px 36px rgba(45, 39, 29, 0.18);
+}
+
+@keyframes badgeFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1.5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.badge-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.badge-svg-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.text-orange {
+  color: var(--color-orange);
+}
+
+.text-green {
+  color: var(--color-green);
+}
+
+.text-yellow {
+  color: var(--color-yellow);
+}
+
+.text-red {
+  color: var(--color-red);
+}
+
+.badge-flag {
+  font-size: 1.4rem;
+}
+
+.badge-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.badge-text strong {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--text-title);
+}
+
+.badge-text small {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.tupi-term {
+  color: var(--color-orange) !important;
+}
+
+/* Posicionamento Específico dos Stickers Orbitando */
+.badge-streak {
+  top: 12%;
+  left: -20px;
+}
+
+.badge-word {
+  top: 48%;
+  left: -40px;
+}
+
+.badge-xp {
+  top: 18%;
+  right: -25px;
+}
+
+.badge-heart {
+  bottom: 16%;
+  right: -15px;
+}
+
+.floating-mascot-speech {
+  position: absolute;
+  top: -8px;
+  right: 25px;
+  z-index: 5;
+}
+
+.speech-bubble {
+  display: inline-block;
+  background: #FFFFFF;
+  border: 2px solid var(--color-orange);
+  color: var(--color-orange);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.45rem 1rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-orange);
+}
+
+/* Divisor em Curva Orgânica */
+.curve-divider {
+  width: 100%;
+  line-height: 0;
+  margin-top: 3rem;
+}
+
+.curve-divider svg {
+  width: 100%;
+  height: 60px;
+}
+
+/* ==============================================================================
+   3. VITRINE INTERATIVA (SIMULADOR DO FLUTTER WEB LIMPO E TÁTIL)
+   ============================================================================== */
+.simulator-section {
+  background: var(--bg-alt);
+  padding: 4.5rem 0 5.5rem 0;
+  position: relative;
+}
+
+.section-heading {
+  max-width: 720px;
+  margin: 0 auto 3rem auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.sub-label {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-orange);
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-size: 2.45rem;
+  font-weight: 900;
+  line-height: 1.18;
+  color: var(--text-title);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+}
+
+.section-desc {
+  font-size: 1.1rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+/* Toolbar Card do Simulador */
+.sim-toolbar-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: 20px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.sim-device-toggle {
+  display: flex;
+  gap: 0.4rem;
+  background: var(--bg-alt);
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.device-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.86rem;
+  font-weight: 800;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.device-pill.active {
+  background: #FFFFFF;
+  color: var(--text-title);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.sim-address-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1.15rem;
+  background: var(--bg-page);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--text-body);
+}
+
+.status-dot-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-green);
+  box-shadow: 0 0 0 2px rgba(43, 130, 91, 0.2);
+}
+
+.sim-tech {
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  background: var(--color-orange-light);
+  color: var(--color-orange);
+  border-radius: var(--radius-pill);
+}
+
+.sim-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tool-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.86rem;
+  font-weight: 800;
+  border-radius: 10px;
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  color: var(--text-title);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tool-action-btn:hover {
+  background: var(--bg-alt);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.tool-action-primary {
+  background: var(--color-orange-light);
+  border-color: rgba(224, 122, 44, 0.35);
+  color: var(--color-orange);
+}
+
+.tool-action-primary:hover {
+  background: var(--color-orange);
+  color: #FFFFFF;
+}
+
+/* Moldura e Tela do Simulador */
+.sim-stage-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sim-device-frame {
+  position: relative;
+  background: #2D271D;
+  padding: 12px;
+  box-shadow: 
+    0 24px 60px rgba(45, 39, 29, 0.18),
+    0 0 0 3px var(--border-card),
+    0 0 0 8px #FFFFFF;
+  border-radius: 48px;
+  transition: width 0.35s ease, height 0.35s ease;
+}
+
+.sim-device-frame.sim-phone {
+  width: 390px;
+  height: 820px;
+  max-height: 85vh;
+}
+
+.sim-device-frame.sim-tablet {
+  width: 660px;
+  height: 860px;
+  max-height: 85vh;
+  border-radius: 36px;
+}
+
+.sim-notch {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 22px;
+  background: #15120C;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.sim-speaker {
+  width: 34px;
+  height: 4px;
+  background: #3B3326;
+  border-radius: 2px;
+}
+
+.sim-cam {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2A2318;
+  border: 1px solid #453B2D;
+}
+
+.sim-screen-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 38px;
+  overflow: hidden;
+  background: #F3F2E8;
+  position: relative;
+}
+
+.sim-device-frame.sim-tablet .sim-screen-wrapper {
+  border-radius: 26px;
+}
+
+.sim-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #F3F2E8;
+}
+
+/* Loader com Mascote Capivara */
+.sim-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #FAF7EE;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.sim-loader-overlay.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 280px;
+}
+
+.loader-mascot-bounce {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 1.25rem;
+}
+
+.mascot-loading-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  animation: mascotPop 2s ease-in-out infinite;
+}
+
+@keyframes mascotPop {
+  0%, 100% { transform: scale(0.94); }
+  50% { transform: scale(1.06); }
+}
+
+.loader-spin-halo {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--color-orange);
+  border-right-color: var(--color-green);
+  animation: spinHalo 1.2s linear infinite;
+}
+
+@keyframes spinHalo {
+  100% { transform: rotate(360deg); }
+}
+
+.loader-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--text-title);
+  margin-bottom: 0.35rem;
+}
+
+.loader-desc {
+  font-size: 0.88rem;
+  color: var(--text-body);
+  line-height: 1.4;
+  margin-bottom: 1.25rem;
+}
+
+.loader-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #E5DFC9;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loader-progress-inner {
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: var(--color-orange);
+  border-radius: 3px;
+  animation: barSlide 1.5s ease-in-out infinite;
+}
+
+@keyframes barSlide {
+  0% { left: -40%; }
+  100% { left: 100%; }
+}
+
+/* Aviso file:// */
+.sim-file-notice {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 253, 249, 0.96);
+  backdrop-filter: blur(8px);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.notice-box {
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: 20px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  max-width: 320px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.notice-emoji {
+  font-size: 2.2rem;
+}
+
+.notice-box h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-title);
+}
+
+.notice-box p {
+  font-size: 0.85rem;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+.notice-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.sim-mobile-hint {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.hint-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: 20px;
+  padding: 1.25rem 1.75rem;
+  box-shadow: var(--shadow-sm);
+  max-width: 780px;
+  width: 100%;
+}
+
+.hint-icon {
+  font-size: 2rem;
+}
+
+.hint-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+}
+
+.hint-text strong {
+  font-size: 0.98rem;
+  color: var(--text-title);
+  font-weight: 800;
+}
+
+.hint-text span {
+  font-size: 0.86rem;
+  color: var(--text-body);
+}
+
+/* ==============================================================================
+   4. COMO FUNCIONA / GAMIFICAÇÃO (Cards Estilo Unidades Duolingo)
+   ============================================================================== */
+.features-section {
+  padding: 6rem 0;
+  background: var(--bg-page);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.75rem;
+}
+
+.feature-card {
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-bottom: 5px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  transition: transform 0.15s ease, border-bottom-width 0.15s ease, box-shadow 0.15s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-bottom-width: 6px;
+  box-shadow: var(--shadow-md);
+}
+
+.feature-icon-bubble {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature-icon-bubble.bg-orange {
+  background: var(--color-orange-light);
+  border: 2px solid rgba(224, 122, 44, 0.25);
+}
+
+.feature-icon-bubble.bg-green {
+  background: var(--color-green-light);
+  border: 2px solid rgba(43, 130, 91, 0.25);
+}
+
+.feature-icon-bubble.bg-yellow {
+  background: var(--color-yellow-light);
+  border: 2px solid rgba(245, 166, 35, 0.25);
+}
+
+.feature-icon-bubble.bg-blue {
+  background: var(--color-blue-light);
+  border: 2px solid rgba(28, 176, 246, 0.25);
+}
+
+.feature-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--text-title);
+  line-height: 1.25;
+}
+
+.feature-text {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.feature-tag {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-green);
+  background: var(--color-green-light);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+}
+
+/* ==============================================================================
+   5. VALORIZAÇÃO CULTURAL E RIGOR ACADÊMICO (USP / PROF. NAVARRO)
+   ============================================================================== */
+.culture-section {
+  padding: 5.5rem 0;
+  background: var(--bg-alt);
+}
+
+.culture-card-wrapper {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3.5rem;
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-bottom: 6px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  padding: 3.5rem;
+  box-shadow: var(--shadow-sm);
+  align-items: center;
+}
+
+.culture-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.culture-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #FFF0E4;
+  border: 2px solid rgba(224, 122, 44, 0.3);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-orange);
+  width: fit-content;
+}
+
+.culture-title {
+  font-size: 2.15rem;
+  font-weight: 900;
+  color: var(--text-title);
+  line-height: 1.2;
+}
+
+.culture-lead {
+  font-size: 1.1rem;
+  color: var(--text-body);
+  line-height: 1.65;
+}
+
+.culture-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.check-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-green);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.check-item strong {
+  font-size: 1rem;
+  color: var(--text-title);
+  font-weight: 800;
+  display: block;
+}
+
+.check-item p {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  margin-top: 2px;
+}
+
+.culture-quote {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--color-orange);
+  background: var(--bg-page);
+  border-radius: 0 12px 12px 0;
+}
+
+.culture-quote blockquote {
+  font-style: italic;
+  font-weight: 700;
+  font-size: 0.96rem;
+  color: var(--text-title);
+}
+
+/* Card Visual de Etimologias */
+.parchment-card {
+  background: #FFFDF8;
+  border: 2px solid #E2D7BE;
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  box-shadow: 0 8px 24px rgba(45, 39, 29, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.parchment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed #E2D7BE;
+  padding-bottom: 0.75rem;
+}
+
+.parchment-tag {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-orange);
+}
+
+.parchment-stamp {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  background: var(--color-green-light);
+  color: var(--color-green);
+  border-radius: var(--radius-pill);
+}
+
+.etymology-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.term-name {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--text-title);
+}
+
+.term-breakdown {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-orange);
+}
+
+.term-meaning {
+  font-size: 0.9rem;
+  color: var(--text-body);
+}
+
+/* ==============================================================================
+   6. VITRINE DE TELAS REAIS (Showcase Amigável com Abas)
+   ============================================================================== */
+.showcase-section {
+  padding: 6rem 0;
+  background: var(--bg-page);
+}
+
+.showcase-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+
+.tab-pill {
+  padding: 0.75rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-bottom: 4px solid var(--border-strong);
+  color: var(--text-title);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tab-pill:hover {
+  background: var(--bg-alt);
+  transform: translateY(-2px);
+  border-bottom-width: 5px;
+}
+
+.tab-pill.active {
+  background: var(--color-orange);
+  border-color: var(--color-orange);
+  border-bottom: 4px solid var(--color-orange-shadow);
+  color: #FFFFFF;
+}
+
+.showcase-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.gallery-card {
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gallery-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.gallery-phone {
+  width: 210px;
+  height: 440px;
+  background: #2D271D;
+  border-radius: 32px;
+  padding: 8px;
+  box-shadow: 0 12px 30px rgba(45, 39, 29, 0.15);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.gallery-phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+.gallery-caption h4 {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--text-title);
+  margin-bottom: 0.35rem;
+}
+
+.gallery-caption p {
+  font-size: 0.9rem;
+  color: var(--text-body);
+}
+
+/* ==============================================================================
+   7. ENGENHARIA E TRANSPARÊNCIA (Dados Técnicos Limpos e Não-Intrusivos)
+   ============================================================================== */
+.tech-section {
+  padding: 5.5rem 0;
+  background: var(--bg-alt);
+}
+
+.tech-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.75rem;
+  margin-bottom: 3rem;
+}
+
+.tech-card-item {
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.tech-badge-header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.tech-badge-header .tech-icon {
+  font-size: 1.5rem;
+}
+
+.tech-badge-header h4 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-title);
+}
+
+.tech-card-item p {
+  font-size: 0.92rem;
+  color: var(--text-body);
+  line-height: 1.55;
+  flex-grow: 1;
+}
+
+.tech-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.code-pill {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  background: var(--bg-page);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+  color: var(--color-green);
+}
+
+/* Accordion de Instalação do APK */
+.install-accordion-card {
+  background: #FFFFFF;
+  border: 2px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.accordion-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.icon-bulb {
+  font-size: 1.8rem;
+}
+
+.bar-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bar-text strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-title);
+}
+
+.bar-text span {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.accordion-content {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px dashed var(--border-light);
+}
+
+.step-guide-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.step-guide-list li {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.55;
+}
+
+.step-guide-list li strong {
+  color: var(--text-title);
+  font-weight: 800;
+}
+
+/* ==============================================================================
+   8. BANNER FINAL DE CHAMADA PARA AÇÃO (CTA Duolingo)
+   ============================================================================== */
+.final-cta-section {
+  padding: 5rem 0;
+  background: var(--bg-page);
+}
+
+.final-cta-card {
+  background: linear-gradient(135deg, #FFFDF8 0%, #FFF5EC 100%);
+  border: 3px solid var(--color-orange);
+  border-radius: var(--radius-xl);
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 16px 40px rgba(224, 122, 44, 0.12);
+  position: relative;
+}
+
+.final-cta-mascot {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  animation: mascotPop 2.5s ease-in-out infinite;
+}
+
+.final-cta-title {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--text-title);
+  letter-spacing: -0.02em;
+  max-width: 650px;
+  line-height: 1.15;
+}
+
+.final-cta-desc {
+  font-size: 1.15rem;
+  color: var(--text-body);
+  max-width: 580px;
+}
+
+.final-cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+/* ==============================================================================
+   9. RODAPÉ INSTITUCIONAL (EdTech, Cultural e Acolhedor)
+   ============================================================================== */
+.site-footer {
+  background: #2D271D;
+  color: #ECE7DB;
+  padding: 5rem 0 2.5rem 0;
+  font-size: 0.92rem;
+}
+
+.site-footer a {
+  color: #ECE7DB;
+  transition: color 0.15s ease;
+}
+
+.site-footer a:hover {
+  color: var(--color-orange);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr 1.4fr;
+  gap: 3rem;
+  margin-bottom: 3.5rem;
+}
+
+.footer-col-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-col-brand .brand-title {
+  color: #FFFFFF;
+}
+
+.footer-mission {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #C8BFB0;
+  max-width: 360px;
+}
+
+.footer-license-pill {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  background: #3E3629;
+  border-radius: var(--radius-pill);
+  color: var(--color-orange-light);
+  width: fit-content;
+}
+
+.footer-col h5 {
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footer-link-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer-team-note {
+  font-size: 0.88rem;
+  color: #C8BFB0;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.footer-bottom-bar {
+  border-top: 1px solid #433B2E;
+  padding-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #A89F90;
+}
+
+/* ==============================================================================
+   10. MODAL DE FEEDBACK / CONTATO
+   ============================================================================== */
+.clean-modal {
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+}
+
+.clean-modal::backdrop {
+  background: rgba(45, 39, 29, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.modal-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border-card);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-icon {
+  font-size: 1.4rem;
+}
+
+.modal-header h3 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--text-title);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-title);
+}
+
+.form-input {
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 2px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  background: var(--bg-page);
+  color: var(--text-title);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.form-input:focus {
+  border-color: var(--color-orange);
+  background: #FFFFFF;
+}
+
+/* Toast */
+.toast-notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #FFFFFF;
+  border: 2px solid var(--color-green);
+  border-bottom: 4px solid var(--color-green-shadow);
+  color: var(--text-title);
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  transform: translateY(60px);
+  opacity: 0;
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+.toast-notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ==============================================================================
+   RESPONSIVIDADE E ADAPTAÇÃO MOBILE
+   ============================================================================== */
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 3rem;
+  }
+
+  .hero-content {
+    align-items: center;
+  }
+
+  .hero-title {
+    font-size: 2.85rem;
+  }
+
+  .cta-buttons {
+    justify-content: center;
+  }
+
+  .culture-card-wrapper {
+    grid-template-columns: 1fr;
+    padding: 2.5rem 1.75rem;
+    gap: 2.5rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .nav-links {
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border-bottom: 2px solid var(--border-card);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.25rem 1.5rem;
+    gap: 0.5rem;
+    display: none;
+    box-shadow: var(--shadow-md);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links .nav-link {
+    font-size: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .nav-link-mobile-only {
+    display: block;
+    color: var(--color-orange);
+    font-weight: 800;
+  }
+
+  .nav-ghost-link {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 2.3rem;
+  }
+
+  .floating-badge {
+    padding: 0.45rem 0.85rem;
+  }
+
+  .floating-badge small {
+    display: none;
+  }
+
+  .badge-streak {
+    left: 0px;
+    top: 5%;
+  }
+
+  .badge-word {
+    left: -10px;
+    top: 45%;
+  }
+
+  .badge-xp {
+    right: 0px;
+    top: 10%;
+  }
+
+  .badge-heart {
+    right: 0px;
+    bottom: 12%;
+  }
+
+  .phone-mockup-duo {
+    width: 270px;
+    height: 540px;
+  }
+
+  .sim-device-frame.sim-phone,
+  .sim-device-frame.sim-tablet {
+    width: 100%;
+    max-width: 380px;
+    height: 700px;
+    padding: 8px;
+    border-radius: 36px;
+  }
+
+  .sim-screen-wrapper {
+    border-radius: 28px;
+  }
+
+  .sim-toolbar-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sim-device-toggle {
+    justify-content: center;
+  }
+
+  .sim-quick-actions {
+    justify-content: center;
+  }
+
+  .hint-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==============================================================================
+   9. ÍCONES VETORIAIS E TOAST DUOLINGO-INSPIRED
+   ============================================================================== */
+.tech-svg-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-card);
+  border-radius: 12px;
+  color: var(--color-orange);
+  margin-bottom: 1rem;
+}
+
+.hint-svg-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-orange);
+  flex-shrink: 0;
+}
+
+.accordion-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--bg-alt);
+  border-radius: 10px;
+  color: var(--color-orange);
+  flex-shrink: 0;
+}
+
+.check-svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.toast-notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #FFFFFF;
+  color: var(--text-title);
+  border: 2px solid var(--border-card);
+  border-bottom: 4px solid var(--border-card);
+  padding: 0.85rem 1.35rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  font-weight: 800;
+  font-size: 0.95rem;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toast-notification.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.toast-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.toast-svg {
+  color: var(--color-green);
+  flex-shrink: 0;
+}
+

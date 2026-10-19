@@ -1,29 +1,27 @@
 /**
- * TupiLingo • Landing Page Interactions & Advanced Animations
- * Mobile-First, Accessible, Native Dialogs, 3D Hero Parallax & Scroll Reveal
+ * TupiLingo • Interações, Animações e Parallax 3D
+ * Design System Inspirado no Duolingo: Lúdico, Responsivo e Acessível
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
   initMobileMenu();
-  initHeroTilt();
-  initScrollReveal();
+  initHeroParallax();
+  initSimulator();
   initShowcaseTabs();
-  initAccordion();
+  initInstallAccordion();
   initFeedbackModal();
-  initCopyLink();
-  detectAndroidDevice();
 });
 
 /**
- * 1. Cabeçalho com Efeito de Compactação e Blur ao Rolar
+ * 1. Cabeçalho com Efeito de Compactação Suave
  */
 function initHeaderScroll() {
-  const header = document.getElementById('siteHeader');
+  const header = document.getElementById('header');
   if (!header) return;
 
   const onScroll = () => {
-    if (window.scrollY > 25) {
+    if (window.scrollY > 20) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
@@ -35,7 +33,7 @@ function initHeaderScroll() {
 }
 
 /**
- * 2. Menu Mobile Responsivo e Acessível
+ * 2. Menu Mobile Amigável e Acessível
  */
 function initMobileMenu() {
   const toggleBtn = document.getElementById('mobileMenuToggle');
@@ -43,9 +41,9 @@ function initMobileMenu() {
 
   if (!toggleBtn || !navLinks) return;
 
-  const toggleMenu = () => {
+  const toggle = (forceClose = false) => {
     const isOpen = navLinks.classList.contains('open');
-    if (isOpen) {
+    if (isOpen || forceClose) {
       navLinks.classList.remove('open');
       toggleBtn.classList.remove('active');
       toggleBtn.setAttribute('aria-expanded', 'false');
@@ -58,283 +56,302 @@ function initMobileMenu() {
 
   toggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    toggleMenu();
+    toggle();
   });
 
-  // Fechar ao clicar em qualquer link
   navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      toggleBtn.classList.remove('active');
-      toggleBtn.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', () => toggle(true));
   });
 
-  // Fechar ao clicar fora
   document.addEventListener('click', (e) => {
     if (!navLinks.contains(e.target) && !toggleBtn.contains(e.target)) {
-      navLinks.classList.remove('open');
-      toggleBtn.classList.remove('active');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggle(true);
     }
   });
 }
 
 /**
- * 3. Parallax e Tilt 3D Interativo no Celular Principal do Hero
+ * 3. Parallax 3D Interativo no Hero (Stickers Orbitando + Inclinação do Celular)
  */
-function initHeroTilt() {
-  const heroVisual = document.getElementById('heroVisual');
-  const heroPhone = document.getElementById('heroPhoneFrame');
+function initHeroParallax() {
+  const stage = document.getElementById('heroStage');
+  const phone = document.getElementById('heroPhoneMockup');
+  const badges = document.querySelectorAll('.floating-badge, .floating-mascot-speech');
 
-  if (!heroVisual || !heroPhone) return;
+  if (!stage) return;
 
-  // Habilita apenas em dispositivos com ponteiro fino (Desktop / Mouse)
+  // Habilita efeito apenas se o usuário tiver ponteiro fino (Desktop / Mouse)
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (!isFinePointer) return;
 
-  let bounds = heroVisual.getBoundingClientRect();
+  let bounds = stage.getBoundingClientRect();
   let isHovered = false;
 
   window.addEventListener('resize', () => {
-    bounds = heroVisual.getBoundingClientRect();
+    bounds = stage.getBoundingClientRect();
   });
 
-  heroVisual.addEventListener('mouseenter', () => {
+  stage.addEventListener('mouseenter', () => {
     isHovered = true;
-    bounds = heroVisual.getBoundingClientRect();
+    bounds = stage.getBoundingClientRect();
   });
 
-  heroVisual.addEventListener('mousemove', (e) => {
+  stage.addEventListener('mousemove', (e) => {
     if (!isHovered) return;
 
-    const x = e.clientX - bounds.left;
-    const y = e.clientY - bounds.top;
+    const mouseX = e.clientX - bounds.left;
+    const mouseY = e.clientY - bounds.top;
 
-    const xPercent = (x / bounds.width - 0.5) * 2; // -1 a 1
-    const yPercent = (y / bounds.height - 0.5) * 2; // -1 a 1
+    // Normaliza de -1 a 1 em relação ao centro do palco
+    const xRatio = (mouseX / bounds.width - 0.5) * 2;
+    const yRatio = (mouseY / bounds.height - 0.5) * 2;
 
-    const tiltX = -yPercent * 10; // Inclina para cima/baixo
-    const tiltY = xPercent * 12;  // Inclina para esquerda/direita
+    // Inclinação sutil do celular 3D
+    if (phone) {
+      const tiltX = -yRatio * 8;
+      const tiltY = xRatio * 10;
+      phone.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-8px)`;
+    }
 
-    heroPhone.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-8px)`;
+    // Deslocamento em profundidade (Parallax) para os badges flutuantes
+    badges.forEach(badge => {
+      const depth = parseFloat(badge.dataset.depth) || 0.4;
+      const moveX = xRatio * depth * 24;
+      const moveY = yRatio * depth * 24;
+      badge.style.transform = `translate3d(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px, 0)`;
+    });
   });
 
-  heroVisual.addEventListener('mouseleave', () => {
+  stage.addEventListener('mouseleave', () => {
     isHovered = false;
-    heroPhone.style.transform = '';
+    if (phone) {
+      phone.style.transform = '';
+    }
+    badges.forEach(badge => {
+      badge.style.transform = '';
+    });
   });
 }
 
 /**
- * 4. Sistema de Revelação ao Rolar a Página (Scroll Reveal)
+ * 4. Controle do Simulador Web (Dispositivos, Iframe, Fullscreen e Verificação Local)
  */
-function initScrollReveal() {
-  const revealElements = document.querySelectorAll('.reveal-on-scroll');
-  if (!revealElements.length) return;
+function initSimulator() {
+  const iframe = document.getElementById('tupiIframe');
+  const loader = document.getElementById('simLoader');
+  const fileNotice = document.getElementById('simFileNotice');
+  const btnPhone = document.getElementById('btnSimPhone');
+  const btnTablet = document.getElementById('btnSimTablet');
+  const simFrame = document.getElementById('simFrame');
+  const screenWrapper = document.getElementById('simScreenWrapper');
+  const reloadBtn = document.getElementById('simReloadBtn');
+  const fullscreenBtn = document.getElementById('simFullscreenBtn');
 
-  if (!('IntersectionObserver' in window)) {
-    revealElements.forEach(el => el.classList.add('is-revealed'));
-    return;
+  if (!iframe) return;
+
+  // Verificação de segurança: navegadores modernos barram WebAssembly via file:// (CORS)
+  const isFileProtocol = window.location.protocol === 'file:';
+  if (isFileProtocol && fileNotice) {
+    if (loader) loader.style.display = 'none';
+    fileNotice.style.display = 'flex';
   }
 
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-revealed');
-        obs.unobserve(entry.target);
+  // Oculta o loader quando o iframe carregar
+  const hideLoader = () => {
+    if (loader && !loader.classList.contains('loaded')) {
+      loader.classList.add('loaded');
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 450);
+    }
+  };
+
+  iframe.addEventListener('load', hideLoader);
+  setTimeout(hideLoader, 5000); // Fallback caso já esteja no cache
+
+  // Recarregar iframe
+  if (reloadBtn) {
+    reloadBtn.addEventListener('click', () => {
+      if (isFileProtocol && fileNotice) {
+        showToast('Para rodar o WebAssembly localmente, use a Opção 5 do dev.bat!');
+        return;
+      }
+      if (loader) {
+        loader.style.display = 'flex';
+        loader.classList.remove('loaded');
+      }
+      try {
+        iframe.src = './app/index.html?t=' + Date.now();
+      } catch (e) {
+        iframe.setAttribute('src', './app/index.html');
+      }
+      showToast('Recarregando o TupiLingo...');
+      setTimeout(hideLoader, 2500);
+    });
+  }
+
+  // Alternar entre Celular e Tablet
+  if (btnPhone && btnTablet && simFrame) {
+    btnPhone.addEventListener('click', () => {
+      simFrame.classList.remove('sim-tablet');
+      simFrame.classList.add('sim-phone');
+      btnPhone.classList.add('active');
+      btnTablet.classList.remove('active');
+    });
+
+    btnTablet.addEventListener('click', () => {
+      simFrame.classList.remove('sim-phone');
+      simFrame.classList.add('sim-tablet');
+      btnTablet.classList.add('active');
+      btnPhone.classList.remove('active');
+    });
+  }
+
+  // Expandir em Tela Cheia
+  if (fullscreenBtn && screenWrapper) {
+    fullscreenBtn.addEventListener('click', () => {
+      const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+      
+      if (!isFullscreen) {
+        const enterFullscreen = screenWrapper.requestFullscreen ||
+                                screenWrapper.webkitRequestFullscreen ||
+                                screenWrapper.mozRequestFullScreen;
+        if (enterFullscreen) {
+          enterFullscreen.call(screenWrapper).catch(() => {
+            window.open('./app/index.html', '_blank', 'noopener,noreferrer');
+          });
+        } else {
+          window.open('./app/index.html', '_blank', 'noopener,noreferrer');
+        }
+      } else {
+        const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exitFullscreen) {
+          exitFullscreen.call(document);
+        }
       }
     });
-  }, {
-    threshold: 0.12,
-    rootMargin: '0px 0px -40px 0px'
-  });
-
-  revealElements.forEach(el => observer.observe(el));
+  }
 }
 
 /**
- * 5. Filtro de Abas e Transição do Showcase
+ * 5. Filtro de Abas no Showcase de Telas Reais
  */
 function initShowcaseTabs() {
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const showcaseCards = document.querySelectorAll('.showcase-card');
+  const tabs = document.querySelectorAll('.tab-pill');
+  const cards = document.querySelectorAll('.gallery-card');
 
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetCategory = btn.dataset.category;
+  if (!tabs.length || !cards.length) return;
 
-      // Atualiza estado ativo
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetCategory = tab.dataset.tab;
 
-      // Filtra os cards com animação suave
-      showcaseCards.forEach(card => {
-        if (targetCategory === 'all' || card.dataset.category === targetCategory) {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      cards.forEach(card => {
+        if (card.dataset.category === targetCategory) {
           card.style.display = 'flex';
-          card.style.animation = 'fadeInUpScale 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(12px)';
+          setTimeout(() => {
+            card.style.transition = 'all 0.25s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 20);
         } else {
           card.style.display = 'none';
         }
       });
     });
   });
+
+  // Ativa a primeira aba por padrão
+  if (tabs[0]) {
+    tabs[0].click();
+  }
 }
 
 /**
- * 6. Accordion Acessível e Fluido para "Como Instalar"
+ * 6. Accordion Amigável do Guia de Instalação do APK
  */
-function initAccordion() {
-  const accordionItems = document.querySelectorAll('.accordion-item');
+function initInstallAccordion() {
+  const toggleBtn = document.getElementById('toggleInstallGuideBtn');
+  const content = document.getElementById('installGuideContent');
 
-  accordionItems.forEach(item => {
-    const header = item.querySelector('.accordion-header');
-    if (!header) return;
+  if (!toggleBtn || !content) return;
 
-    header.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-
-      // Fecha outros itens
-      accordionItems.forEach(otherItem => {
-        if (otherItem !== item) {
-          otherItem.classList.remove('active');
-          const otherHeader = otherItem.querySelector('.accordion-header');
-          if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
-        }
-      });
-
-      // Alterna o item atual
-      if (isActive) {
-        item.classList.remove('active');
-        header.setAttribute('aria-expanded', 'false');
-      } else {
-        item.classList.add('active');
-        header.setAttribute('aria-expanded', 'true');
-      }
-    });
+  toggleBtn.addEventListener('click', () => {
+    const isHidden = content.style.display === 'none';
+    if (isHidden) {
+      content.style.display = 'block';
+      toggleBtn.textContent = 'Ocultar Instruções';
+    } else {
+      content.style.display = 'none';
+      toggleBtn.textContent = 'Instruções';
+    }
   });
 }
 
 /**
- * 7. Janela Nativa de Diálogo para Feedback (<dialog>)
+ * 7. Modal de Feedback e Sugestões
  */
 function initFeedbackModal() {
   const modal = document.getElementById('feedbackModal');
-  const openButtons = document.querySelectorAll('.open-feedback-btn');
-  const closeButton = document.getElementById('closeModalBtn');
-  const feedbackForm = document.getElementById('feedbackForm');
+  const openBtn = document.getElementById('openFeedbackModalBtn');
+  const closeBtn = document.getElementById('closeFeedbackModalBtn');
 
   if (!modal) return;
 
-  openButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
       modal.showModal();
     });
-  });
+  }
 
-  if (closeButton) {
-    closeButton.addEventListener('click', () => {
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
       modal.close();
     });
   }
 
-  // Fechar ao clicar no backdrop
   modal.addEventListener('click', (e) => {
-    const dialogDimensions = modal.getBoundingClientRect();
+    const rect = modal.getBoundingClientRect();
     if (
-      e.clientX < dialogDimensions.left ||
-      e.clientX > dialogDimensions.right ||
-      e.clientY < dialogDimensions.top ||
-      e.clientY > dialogDimensions.bottom
+      e.clientX < rect.left ||
+      e.clientX > rect.right ||
+      e.clientY < rect.top ||
+      e.clientY > rect.bottom
     ) {
       modal.close();
     }
   });
 
-  // Envio de formulário
-  if (feedbackForm) {
-    feedbackForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const type = document.getElementById('feedbackType')?.value || 'Feedback';
-      const device = document.getElementById('feedbackDevice')?.value || 'Android';
-      const message = document.getElementById('feedbackMsg')?.value || '';
-
-      modal.close();
-      feedbackForm.reset();
-
-      showToast('Mensagem enviada com sucesso. Agradecemos sua colaboração.');
-      console.log(`[TupiLingo Feedback] Tipo: ${type} | Aparelho: ${device} | Mensagem: ${message}`);
-    });
-  }
+  window.submitFeedback = () => {
+    const name = document.getElementById('fbName')?.value || 'Amigo';
+    modal.close();
+    showToast(`Obrigado, ${name}! Sua sugestão foi registrada com sucesso.`);
+    const form = document.getElementById('feedbackForm');
+    if (form) form.reset();
+  };
 }
 
 /**
- * 8. Cópia do Link com Notificação Toast
- */
-function initCopyLink() {
-  const copyButtons = document.querySelectorAll('.copy-link-btn');
-
-  copyButtons.forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const urlToCopy = btn.dataset.url || 'https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk';
-
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(urlToCopy);
-        } else {
-          const tempInput = document.createElement('input');
-          tempInput.value = urlToCopy;
-          document.body.appendChild(tempInput);
-          tempInput.select();
-          document.execCommand('copy');
-          document.body.removeChild(tempInput);
-        }
-        showToast('Link do APK copiado para a área de transferência.');
-      } catch (err) {
-        showToast('Link do APK: ' + urlToCopy);
-      }
-    });
-  });
-}
-
-/**
- * 9. Sistema de Notificação Toast
+ * 8. Notificação Toast Estilo Duolingo
  */
 function showToast(message) {
   let toast = document.getElementById('siteToast');
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'siteToast';
-    toast.className = 'toast';
+    toast.className = 'toast-notification';
     document.body.appendChild(toast);
   }
 
-  toast.innerHTML = `
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-green-light);"><polyline points="20 6 9 17 4 12"/></svg>
-    <span>${message}</span>
-  `;
+  toast.innerHTML = `<span class="toast-content"><svg class="toast-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>${message}</span></span>`;
   toast.classList.add('show');
 
   setTimeout(() => {
     toast.classList.remove('show');
-  }, 3500);
+  }, 3600);
 }
-
-/**
- * 10. Detecção de Dispositivo Android
- */
-function detectAndroidDevice() {
-  const isAndroid = /Android/i.test(navigator.userAgent);
-  const devicePill = document.getElementById('deviceCompatibilityBadge');
-
-  if (devicePill && isAndroid) {
-    devicePill.innerHTML = `<strong>Dispositivo Android detectado.</strong> Pronto para download e instalação direta.`;
-    devicePill.style.borderColor = 'rgba(67, 160, 71, 0.4)';
-    devicePill.style.background = 'rgba(46, 125, 50, 0.15)';
-    devicePill.style.color = '#81C784';
-  }
-}
-

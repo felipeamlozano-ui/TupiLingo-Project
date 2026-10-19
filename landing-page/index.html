@@ -2,810 +2,771 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TupiLingo • Plataforma de Ensino e Preservação do Tupi Antigo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>TupiLingo • Plataforma de Aprendizado de Tupi Antigo</title>
   
-  <!-- SEO & Metadados -->
-  <meta name="description" content="Baixe o APK de testes do TupiLingo para Android. Aprenda Tupi Antigo com metodologia científica, gamificação progressiva e rigor filológico baseado no Método Moderno de Eduardo de Almeida Navarro.">
-  <meta name="keywords" content="TupiLingo, Tupi Antigo, Línguas Indígenas, Eduardo Navarro, APK Android, Gamificação, Preservação Linguística, Filologia">
-  <meta name="author" content="Felipe Augusto, Daniel Godoi, Rafael Augusto">
-  <meta name="theme-color" content="#0C150E">
+  <meta name="description" content="Aprenda Tupi Antigo de forma estruturada e interativa. Uma iniciativa aberta de salvaguarda linguística baseada na literatura filológica do Prof. Dr. Eduardo de Navarro (USP).">
+  <meta name="keywords" content="TupiLingo, Tupi Antigo, línguas indígenas, aprender tupi, Eduardo de Navarro, USP, filologia, morfologia, etimologia, flutter web">
+  <meta name="author" content="Projeto TupiLingo">
+  <meta name="theme-color" content="#E07A2C">
 
-  <!-- Open Graph / Meta Compartilhamento -->
+  <!-- Open Graph / Redes Sociais -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="TupiLingo • Plataforma de Ensino do Tupi Antigo">
-  <meta property="og:description" content="Plataforma de aprendizado gamificado do Tupi Antigo com base filológica rigorosa. Faça o download do APK para Android.">
-  <meta property="og:image" content="assets/screen_trilha.png">
-  <meta property="og:url" content="https://github.com/felipeamlozano-ui/TupiLingo-Project">
+  <meta property="og:url" content="https://felipeamlozano-ui.github.io/TupiLingo-Project/">
+  <meta property="og:title" content="TupiLingo • Estudo Estruturado de Tupi Antigo">
+  <meta property="og:description" content="Iniciativa aberta de salvaguarda linguística. Lições interativas de vocabulário, morfologia e tradução com rigor filológico.">
+  <meta property="og:image" content="assets/screen_welcome.png">
 
-  <!-- Fontes Oficiais -->
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TupiLingo • Plataforma de Aprendizado de Tupi Antigo">
+  <meta name="twitter:description" content="Lições interativas, fixação de vocabulário e metodologia filológica baseada nas obras do Prof. Dr. Eduardo de Navarro (USP).">
+  <meta name="twitter:image" content="assets/screen_welcome.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+
+  <!-- Google Fonts: Nunito & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Favicon Oficial (Urso Mascote do TupiLingo) -->
-  <link rel="icon" type="image/png" href="assets/logo.png">
-
-  <!-- Estilos Estruturais -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Elementos de Iluminação e Atmosfera Visual -->
-  <div class="bg-ambient-orb orb-1" aria-hidden="true"></div>
-  <div class="bg-ambient-orb orb-2" aria-hidden="true"></div>
-  <div class="bg-ambient-orb orb-3" aria-hidden="true"></div>
-
   <!-- ==============================================================================
-       Cabeçalho / Navegação
+       1. CABEÇALHO / NAVBAR (Design Minimalista, Alinhado e Limpo - Estilo Duolingo)
        ============================================================================== -->
-  <header class="site-header" id="siteHeader">
+  <header class="site-header" id="header">
     <div class="container nav-container">
-      <a href="#hero" class="logo-group" aria-label="Ir para o topo da página do TupiLingo">
-        <img src="assets/logo.png" alt="Mascote Oficial do TupiLingo" class="logo-img">
+      
+      <!-- Esquerda: Brand Oficial & Mascote -->
+      <a href="#inicio" class="logo-group" aria-label="TupiLingo - Página Inicial">
+        <img src="assets/logo.png" alt="Mascote TupiLingo" class="logo-img" width="40" height="40">
         <div class="brand-info">
           <span class="brand-title">TupiLingo</span>
-          <span class="brand-subtitle">v1.0.0-preview • Android</span>
+          <span class="brand-subtitle">Salvaguarda Linguística</span>
         </div>
       </a>
 
-      <nav aria-label="Navegação principal">
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#telas" class="nav-link">Interface</a></li>
-          <li><a href="#recursos" class="nav-link">Recursos</a></li>
-          <li><a href="#tecnico" class="nav-link">Arquitetura Técnica</a></li>
-          <li><a href="#como-instalar" class="nav-link">Como Instalar</a></li>
-          <li><a href="#autores" class="nav-link">Autores</a></li>
-          <li><a href="#contato" class="nav-link">Contato</a></li>
-        </ul>
+      <!-- Centro: Links de Navegação Nivelados (Sem Badges ou Ruído) -->
+      <nav class="nav-links" id="navLinks" aria-label="Navegação principal">
+        <a href="#metodo" class="nav-link">Metodologia</a>
+        <a href="#telas" class="nav-link">Interface</a>
+        <a href="#rigor-filologico" class="nav-link">Pesquisa</a>
+        <a href="#engenharia" class="nav-link">Transparência</a>
+        <a href="#demo-online" class="nav-link nav-link-mobile-only">Testar no Navegador</a>
       </nav>
 
+      <!-- Direita: Ações com Hierarquia Clara (Secundária + Destaque Tátil) -->
       <div class="nav-actions">
-        <a href="https://github.com/felipeamlozano-ui/TupiLingo-Project" target="_blank" rel="noopener noreferrer" class="nav-github-btn" title="Ver código no GitHub">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>GitHub</span>
+        <a href="#demo-online" class="nav-ghost-link" title="Testar o aplicativo no navegador">
+          Testar no Navegador
         </a>
-
-        <a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk" class="nav-cta-btn">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk" class="btn btn-primary btn-sm nav-cta-btn" id="navDownloadBtn" title="Baixar APK Android v1.0.0">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span>Baixar APK</span>
         </a>
-
-        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu de navegação" aria-expanded="false">
-          <svg class="menu-icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          <svg class="menu-icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        
+        <!-- Toggle Menu Mobile -->
+        <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Alternar menu de navegação" aria-expanded="false">
+          <svg class="menu-icon menu-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg class="menu-icon menu-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+
     </div>
   </header>
 
+  <!-- ==============================================================================
+       2. HERO SECTION (Comunicação Direta, Sóbria e Estruturada)
+       ============================================================================== -->
   <main>
-    <!-- ==============================================================================
-         Hero Section
-         ============================================================================== -->
-    <section class="hero-section" id="hero">
+    <section class="hero-section" id="inicio">
       <div class="container">
         <div class="hero-grid">
           
-          <!-- Texto & Chamadas -->
+          <!-- Lado Esquerdo: Conteúdo Editorial e Pedagógico -->
           <div class="hero-content">
-            <div class="status-tag">
-              <span class="status-dot-wrap">
-                <span class="status-dot"></span>
-                <span class="status-dot-ping"></span>
-              </span>
-              <span>Versão Preview v1.0.0 • Distribuição Pública</span>
+            
+            <div class="hero-pill-badge">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>Iniciativa Educacional Aberta • Sem Fins Lucrativos</span>
             </div>
 
             <h1 class="hero-title">
-              Preservação e Ensino do <span class="highlight">Tupi Antigo</span> no Android
+              Aprenda Tupi Antigo de forma <span class="highlight-orange">estruturada</span> e <span class="highlight-green">interativa</span>.
             </h1>
 
             <p class="hero-subtitle">
-              Aprenda a língua clássica indígena do Brasil com lições gamificadas, rigor linguístico e metodologia moderna baseada na obra de Eduardo de Almeida Navarro (USP). Uma experiência nativa fluida, inteligente e acessível.
+              Uma iniciativa aberta de salvaguarda linguística e preservação do patrimônio histórico brasileiro, fundamentada na literatura filológica do Prof. Dr. Eduardo de Navarro.
             </p>
 
-            <!-- Detecção de Dispositivo -->
-            <div id="deviceCompatibilityBadge" class="status-tag">
-              <span>Android 5.0 ou superior • Arquiteturas ARM64 / ARMv7</span>
-            </div>
-
-            <!-- Botões Principais de Conversão -->
+            <!-- Ações Principais (Double CTA com Botões 3D Táteis) -->
             <div class="hero-cta-group">
               <div class="cta-buttons">
-                <a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk" 
-                   class="btn btn-primary download-apk-btn" 
-                   id="mainDownloadBtn">
-                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  <span>Baixar APK (v1.0.0-preview)</span>
+                <a href="#demo-online" class="btn btn-primary btn-hero-lg" id="heroPlayWebBtn">
+                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+                  <span class="btn-text-block">
+                    <strong>Acessar via Web</strong>
+                    <small>Execução direta no navegador</small>
+                  </span>
                 </a>
 
-                <a href="#como-instalar" class="btn btn-secondary">
-                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                  <span>Instruções de Instalação</span>
+                <a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk" class="btn btn-secondary btn-hero-lg" id="heroDownloadApkBtn">
+                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  <span class="btn-text-block">
+                    <strong>Baixar APK (Android)</strong>
+                    <small>Pacote de instalação v1.0.0</small>
+                  </span>
                 </a>
-
-                <button type="button" class="btn btn-secondary copy-link-btn" title="Copiar link direto para transferência" data-url="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk">
-                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  <span>Copiar Link</span>
-                </button>
               </div>
 
-              <!-- Especificações Técnicas Resumidas -->
-              <div class="spec-list">
-                <div class="spec-item">
-                  <span>Pacote:</span>
-                  <strong>57.3 MB</strong>
+              <!-- Respaldo Metodológico -->
+              <div class="hero-social-proof">
+                <div class="proof-avatars">
+                  <span class="avatar-tag">USP</span>
+                  <span class="avatar-tag">FIL</span>
+                  <span class="avatar-tag">DOC</span>
                 </div>
-                <div class="spec-item">
-                  <span>Requisito:</span>
-                  <strong>Android 5.0+ (API 21)</strong>
-                </div>
-                <div class="spec-item">
-                  <span>Licença:</span>
-                  <strong>Código Aberto</strong>
-                </div>
-                <div class="spec-item">
-                  <span>Canal:</span>
-                  <a href="app-release.apk" download="app-release.apk" style="text-decoration: underline; color: var(--accent-green-light);">Download Direto Local</a>
+                <div class="proof-text">
+                  <strong>Metodologia Filológica USP</strong>
+                  <span>Baseado no <em>Método Moderno de Tupi Antigo</em> e no <em>Dicionário de Tupi Antigo</em></span>
                 </div>
               </div>
             </div>
+
           </div>
 
-          <!-- Moldura Visual de Celular com Tela Real do Aparelho e Efeito Flutuante -->
-          <div class="hero-visual" id="heroVisual">
-            <div class="hero-glow-aura" aria-hidden="true"></div>
-            <div class="phone-frame hero-phone-floating" id="heroPhoneFrame">
-              <div class="phone-island">
-                <span class="camera-lens"></span>
-              </div>
-              <div class="phone-screen">
-                <div class="screen-sheen" aria-hidden="true"></div>
-                <!-- Imagem da interface real do TupiLingo -->
-                <img src="assets/screen_trilha.png" alt="Interface real da trilha de lições do TupiLingo capturada de dispositivo Android" id="heroMockupImg">
+          <!-- Lado Direito: Palco 3D Flutuante com Ícones Vetoriais em Parallax -->
+          <div class="hero-stage-wrapper" id="heroStage">
+            
+            <!-- Badges Técnicos e Didáticos (Sem Emojis, com SVGs discretos) -->
+            <div class="floating-badge badge-streak" data-depth="0.35" style="--float-delay: 0s;">
+              <span class="badge-svg-icon text-orange">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-.5 2.5-2 4.5-4 6-2.5 1.8-4 4.5-4 7.5a8 8 0 0 0 16 0c0-3.5-2-6-4.5-8-1-1-1.5-2.5-1.5-4-1 1-1.5 2-2 3.5-.5-1.5-1.5-3-2-5z"/></svg>
+              </span>
+              <div class="badge-text">
+                <strong>Ofensiva Diária</strong>
+                <small>Fixação contínua</small>
               </div>
             </div>
+
+            <div class="floating-badge badge-word" data-depth="0.6" style="--float-delay: 1.2s;">
+              <span class="badge-svg-icon text-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </span>
+              <div class="badge-text">
+                <strong class="tupi-term">Aué!</strong>
+                <small>Saudação clássica</small>
+              </div>
+            </div>
+
+            <div class="floating-badge badge-xp" data-depth="0.45" style="--float-delay: 2.1s;">
+              <span class="badge-svg-icon text-yellow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </span>
+              <div class="badge-text">
+                <strong>Morfologia Ativa</strong>
+                <small>Radicais e posposições</small>
+              </div>
+            </div>
+
+            <div class="floating-badge badge-heart" data-depth="0.5" style="--float-delay: 0.8s;">
+              <span class="badge-svg-icon text-red">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </span>
+              <div class="badge-text">
+                <strong>Ciclo de Revisão</strong>
+                <small>Repetição espaçada</small>
+              </div>
+            </div>
+
+            <div class="floating-mascot-speech" data-depth="0.25">
+              <span class="speech-bubble">“Eikuaa nde rapo” • Conheça suas raízes</span>
+            </div>
+
+            <!-- Moldura do Smartphone Principal (Central) -->
+            <div class="phone-mockup-duo" id="heroPhoneMockup">
+              <div class="phone-case">
+                <div class="phone-speaker-island"></div>
+                <div class="phone-screen-container">
+                  <img src="assets/screen_welcome.png" alt="Interface de abertura do aplicativo TupiLingo" class="phone-screen-img" id="heroScreenImg">
+                </div>
+              </div>
+              <div class="phone-shadow-ground"></div>
+            </div>
+
           </div>
 
         </div>
       </div>
+
+      <!-- Divisor em Curva Orgânica Suave -->
+      <div class="curve-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
+          <path d="M0,32L60,42.7C120,53,240,75,360,69.3C480,64,600,32,720,26.7C840,21,960,43,1080,48C1200,53,1320,43,1380,37.3L1440,32L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z" fill="var(--bg-alt)"></path>
+        </svg>
+      </div>
     </section>
 
     <!-- ==============================================================================
-         Showcase de Telas do Aplicativo
+         3. VITRINE INTERATIVA (SIMULADOR WEB DO APLICATIVO)
          ============================================================================== -->
-    <section class="showcase-section" id="telas">
+    <section class="simulator-section" id="demo-online">
       <div class="container">
-        <div class="section-header reveal-on-scroll">
-          <span class="section-tag">Interface do Aplicativo</span>
-          <h2 class="section-title">Explore o TupiLingo na Prática</h2>
+        
+        <div class="section-heading text-center">
+          <span class="sub-label">Ambiente Interativo Web</span>
+          <h2 class="section-title">Teste os Exercícios Diretamente no Navegador</h2>
           <p class="section-desc">
-            Conheça o fluxo de lições, a dinâmica dos exercícios interativos e a experiência visual nativa construída para um aprendizado imersivo e prazeroso.
+            Pratique exercícios de leitura, fixação de vocabulário e tradução de sentenças em tempo real, sem necessidade de instalação prévia.
           </p>
         </div>
 
-        <!-- Filtros de Categoria -->
-        <div class="showcase-tabs reveal-on-scroll">
-          <button class="tab-btn active" data-category="all">Todas as Telas</button>
-          <button class="tab-btn" data-category="trilha">Trilha & Lições</button>
-          <button class="tab-btn" data-category="exercicios">Exercícios & Feedback</button>
-          <button class="tab-btn" data-category="pratica">Prática & Memória (SRS)</button>
-          <button class="tab-btn" data-category="mascote">Mascote & Diagnóstico</button>
+        <!-- Barra de Controle do Simulador -->
+        <div class="sim-toolbar-card">
+          <div class="sim-device-toggle" role="tablist">
+            <button type="button" class="device-pill active" id="btnSimPhone" data-device="phone">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="3" ry="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <span>Smartphone (390 × 844)</span>
+            </button>
+            <button type="button" class="device-pill" id="btnSimTablet" data-device="tablet">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <span>Tablet / Amplo</span>
+            </button>
+          </div>
+
+          <div class="sim-address-tag">
+            <span class="status-dot-pulse"></span>
+            <span class="sim-domain">tupilingo.app/app</span>
+            <span class="sim-tech">Flutter Web</span>
+          </div>
+
+          <div class="sim-quick-actions">
+            <button type="button" class="tool-action-btn" id="simReloadBtn" title="Recarregar tela">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              <span>Reiniciar</span>
+            </button>
+            <button type="button" class="tool-action-btn tool-action-primary" id="simFullscreenBtn" title="Expandir para tela cheia">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              <span>Tela Cheia</span>
+            </button>
+            <a href="./app/index.html" target="_blank" rel="noopener noreferrer" class="tool-action-btn" id="simNewTabBtn" title="Abrir em aba isolada">
+              <span>Nova Aba ↗</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Grid de Demonstração -->
-        <div class="showcase-grid">
+        <!-- Palco do Simulador -->
+        <div class="sim-stage-container">
+          <div class="sim-device-frame sim-phone" id="simFrame">
+            
+            <div class="sim-notch">
+              <span class="sim-speaker"></span>
+              <span class="sim-cam"></span>
+            </div>
 
-          <!-- Card 1: Mascote Urso -->
-          <div class="showcase-card reveal-on-scroll stagger-1" data-category="mascote">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_welcome.png" alt="Tela de acolhimento com o mascote urso do TupiLingo" loading="lazy">
+            <div class="sim-screen-wrapper" id="simScreenWrapper">
+              
+              <!-- Loader de Inicialização -->
+              <div class="sim-loader-overlay" id="simLoader">
+                <div class="loader-content">
+                  <div class="loader-mascot-bounce">
+                    <img src="assets/logo.png" alt="Carregando TupiLingo" class="mascot-loading-img">
+                    <div class="loader-spin-halo"></div>
+                  </div>
+                  <h3 class="loader-title">Inicializando Ambiente</h3>
+                  <p class="loader-desc">Carregando compêndio gramatical e exercícios interativos.</p>
+                  <div class="loader-progress-bar">
+                    <div class="loader-progress-inner"></div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Mascote Oficial & Acolhimento</h3>
-              <p>O mascote do TupiLingo acompanha sua jornada com a máxima ancestral: <em>"Eikuaa nde rapo, emo'ĩ nde rekove porãve"</em> (Conheça suas raízes, viva melhor).</p>
-            </div>
-          </div>
 
-          <!-- Card 2: Trilha Principal -->
-          <div class="showcase-card reveal-on-scroll stagger-2" data-category="trilha">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_trilha.png" alt="Trilha principal de lições do TupiLingo" loading="lazy">
+              <!-- Aviso de Protocolo Local file:// -->
+              <div class="sim-file-notice" id="simFileNotice" style="display: none;">
+                <div class="notice-box">
+                  <div class="notice-header-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  </div>
+                  <h4>Execução via Servidor Local</h4>
+                  <p>Por políticas de segurança de navegadores modernos, recursos compilados em WebAssembly exigem origem HTTP. Utilize o menu do <code>dev.bat</code>:</p>
+                  <div class="notice-actions">
+                    <a href="http://127.0.0.1:8080/landing-page/index.html" class="btn btn-primary btn-sm">Abrir no Servidor Local (Opção 5)</a>
+                    <a href="https://felipeamlozano-ui.github.io/TupiLingo-Project/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">Acessar no GitHub Pages</a>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Trilha de Aprendizado</h3>
-              <p>Progresso modular com nós de lições estilizados, iluminação temática da floresta, conquistas culturais e avanço dinâmico de experiência.</p>
-            </div>
-          </div>
 
-          <!-- Card 3: Modal da Lição -->
-          <div class="showcase-card reveal-on-scroll stagger-3" data-category="trilha">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_modal_licao.png" alt="Modal com resumo dos objetivos da lição" loading="lazy">
-              </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Entrada de Lição</h3>
-              <p>Resumo dos objetivos filológicos, vocábulos essenciais da sessão e pontuação estimada antes de dar início ao módulo.</p>
-            </div>
-          </div>
+              <!-- Iframe do App Flutter Web -->
+              <iframe 
+                src="./app/index.html" 
+                id="tupiIframe" 
+                class="sim-iframe" 
+                title="Simulador TupiLingo Web" 
+                allow="autoplay; fullscreen; clipboard-write; encrypted-media"
+                loading="lazy">
+              </iframe>
 
-          <!-- Card 4: Exercício Quiz -->
-          <div class="showcase-card reveal-on-scroll stagger-1" data-category="exercicios">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_exercicio.png" alt="Exercício interativo de vocabulário em Tupi Antigo" loading="lazy">
-              </div>
             </div>
-            <div class="showcase-info">
-              <h3>Exercícios Interativos</h3>
-              <p>Desafios estruturados de tradução, identificação de termos e regras de declinação com respostas visuais e táteis imediatas.</p>
-            </div>
-          </div>
 
-          <!-- Card 5: Seleção de Resposta -->
-          <div class="showcase-card reveal-on-scroll stagger-2" data-category="exercicios">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_acertou.png" alt="Estado ativo de seleção de resposta" loading="lazy">
-              </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Interação e Resposta Tátil</h3>
-              <p>Interface responsiva com realce visual em terracota, garantindo segurança na escolha antes do envio ao validador sintático.</p>
-            </div>
           </div>
-
-          <!-- Card 6: Sabedoria Ancestral -->
-          <div class="showcase-card reveal-on-scroll stagger-3" data-category="exercicios">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_feedback.png" alt="Explicação cultural e filológica da resposta correta" loading="lazy">
-              </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Sabedoria Ancestral</h3>
-              <p>Contextualização etimológica e histórica após cada acerto, relacionando os vocábulos ao uso cotidiano e à cosmovisão dos povos originários.</p>
-            </div>
-          </div>
-
-          <!-- Card 7: Centro de Prática SRS -->
-          <div class="showcase-card reveal-on-scroll stagger-1" data-category="pratica">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_pratica.png" alt="Centro de prática ancestral com repetição espaçada" loading="lazy">
-              </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Centro de Prática & SRS</h3>
-              <p>Revisão inteligente fundamentada na curva de retenção de memória, com sessões organizadas por temas culturais e vocabulário chave.</p>
-            </div>
-          </div>
-
-          <!-- Card 8: Perfil & Nível TRI -->
-          <div class="showcase-card reveal-on-scroll stagger-2" data-category="mascote">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_perfil.png" alt="Perfil do estudante com nível psicométrico TRI" loading="lazy">
-              </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Perfil e Habilidade</h3>
-              <p>Acompanhamento detalhado do histórico de estudo, ofensivas diárias, títulos honoríficos e calibração contínua do aprendizado.</p>
-            </div>
-          </div>
-
-          <!-- Card 9: Questionário de Nivelamento -->
-          <div class="showcase-card reveal-on-scroll stagger-3" data-category="mascote">
-            <div class="card-phone-mini">
-              <div class="phone-screen">
-                <img src="assets/screen_onboarding_nivel.png" alt="Questionário de diagnóstico inicial" loading="lazy">
-              </div>
-            </div>
-            <div class="showcase-info">
-              <h3>Diagnóstico Inicial</h3>
-              <p>Mapeamento rápido do nível de familiaridade, direcionando iniciantes absolutos e conhecedores prévios ao módulo mais adequado da trilha.</p>
-            </div>
-          </div>
-
         </div>
+
+        <!-- Orientação de Acesso para Dispositivos Móveis -->
+        <div class="sim-mobile-hint">
+          <div class="hint-card">
+            <span class="hint-svg-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="3" ry="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </span>
+            <div class="hint-text">
+              <strong>Acesso em dispositivos móveis e tablets</strong>
+              <span>Para resposta tátil otimizada e uso de teclado nativo, abra a versão web em tela cheia.</span>
+            </div>
+            <a href="./app/index.html" target="_blank" class="btn btn-secondary btn-sm">Abrir em Tela Inteira</a>
+          </div>
+        </div>
+
       </div>
     </section>
 
     <!-- ==============================================================================
-         Área Técnica Avançada (Otimização, Segurança, Arquitetura)
+         4. METODOLOGIA E MECÂNICA PEDAGÓGICA (Foco em Leitura, Morfologia e Tradução)
          ============================================================================== -->
-    <section class="technical-section" id="tecnico">
+    <section class="features-section" id="metodo">
       <div class="container">
-        <div class="section-header reveal-on-scroll">
-          <span class="section-tag">Engenharia de Software</span>
-          <h2 class="section-title">Especificações Técnicas & Arquitetura</h2>
+        
+        <div class="section-heading text-center">
+          <span class="sub-label">Estrutura Pedagógica</span>
+          <h2 class="section-title">Metodologia voltada à compreensão e fixação</h2>
           <p class="section-desc">
-            Documentação técnica sobre a pilha de execução nativa, camadas de criptografia, renderização gráfica acelerada e modelagem matemática.
-          </p>
-        </div>
-
-        <div class="tech-grid">
-
-          <!-- Card Técnico 1: Compilação & Arquitetura -->
-          <div class="tech-card reveal-on-scroll stagger-1">
-            <div class="tech-card-header">
-              <h3>Compilação Nativa & Camadas</h3>
-              <span class="tech-pill">AOT Runtime</span>
-            </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Pipeline compilado diretamente em código de máquina para arquiteturas ARM64 (aarch64) e ARMv7 pelo compilador nativo Dart AOT, eliminando gargalos de máquinas virtuais interpretadas.
-            </p>
-            <table class="tech-spec-table">
-              <tr>
-                <td class="label">Engine Frontend</td>
-                <td class="value">Flutter 3.44 / Dart 3.9</td>
-              </tr>
-              <tr>
-                <td class="label">API Backend</td>
-                <td class="value">Django 5.1 REST Framework</td>
-              </tr>
-              <tr>
-                <td class="label">Persistência</td>
-                <td class="value">PostgreSQL & Supabase RLS</td>
-              </tr>
-              <tr>
-                <td class="label">Compatibilidade</td>
-                <td class="value">Desugaring de APIs Java 8+ (D8/R8)</td>
-              </tr>
-              <tr>
-                <td class="label">Target SDK</td>
-                <td class="value">Android 15 (API 35) / Min API 21</td>
-              </tr>
-            </table>
-          </div>
-
-          <!-- Card Técnico 2: Segurança & Criptografia -->
-          <div class="tech-card reveal-on-scroll stagger-2">
-            <div class="tech-card-header">
-              <h3>Segurança & Criptografia</h3>
-              <span class="tech-pill">C++ FFI / AES-256</span>
-            </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Ofuscação binária de segredos e chaves de comunicação encapsuladas em bibliotecas nativas C++ via Dart Foreign Function Interface (FFI), protegendo contra engenharia reversa estática.
-            </p>
-            <table class="tech-spec-table">
-              <tr>
-                <td class="label">Ofuscação Nativa</td>
-                <td class="value">Binário C++ compilado via Dart FFI</td>
-              </tr>
-              <tr>
-                <td class="label">Integridade Dinâmica</td>
-                <td class="value">Validação por Checksum FNV-1a / HMAC</td>
-              </tr>
-              <tr>
-                <td class="label">Cache em Disco</td>
-                <td class="value">Criptografia AES-256-GCM</td>
-              </tr>
-              <tr>
-                <td class="label">Autenticação</td>
-                <td class="value">OAuth2 com PKCE Flow (RFC 7636)</td>
-              </tr>
-              <tr>
-                <td class="label">Proteção de Rede</td>
-                <td class="value">TLS 1.3 / Certificate Pinning</td>
-              </tr>
-            </table>
-          </div>
-
-          <!-- Card Técnico 3: Otimização Gráfica & Desempenho -->
-          <div class="tech-card reveal-on-scroll stagger-3">
-            <div class="tech-card-header">
-              <h3>Desempenho & Shaders</h3>
-              <span class="tech-pill">60 / 120 FPS</span>
-            </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Pipeline de renderização acelerado por GPU com fragment shaders customizados em GLSL/SPIR-V para efeitos atmosféricos de aura e neblina mística com consumo mínimo de bateria.
-            </p>
-            <table class="tech-spec-table">
-              <tr>
-                <td class="label">Pipeline Gráfico</td>
-                <td class="value">Impeller / Skia Hardware-Accelerated</td>
-              </tr>
-              <tr>
-                <td class="label">Shaders Customizados</td>
-                <td class="value">mystic_aura.frag, fog_of_war.frag</td>
-              </tr>
-              <tr>
-                <td class="label">Taxa de Atualização</td>
-                <td class="value">Suporte adaptativo a 60Hz / 120Hz</td>
-              </tr>
-              <tr>
-                <td class="label">Otimização de Rede</td>
-                <td class="value">HTTP/2 Coalescing & Cache ETag</td>
-              </tr>
-              <tr>
-                <td class="label">Tolerância Offline</td>
-                <td class="value">Fila transacional em SQLite nativo</td>
-              </tr>
-            </table>
-          </div>
-
-          <!-- Card Técnico 4: Psicolinguística & TRI -->
-          <div class="tech-card reveal-on-scroll stagger-4">
-            <div class="tech-card-header">
-              <h3>Psicometria & Algoritmos</h3>
-              <span class="tech-pill">TRI 2PL & SRS</span>
-            </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55;">
-              Calibração adaptativa do traço latente de conhecimento do estudante (&theta;) através da Teoria de Resposta ao Item combinada a intervalos ótimos de repetição espaçada.
-            </p>
-            <table class="tech-spec-table">
-              <tr>
-                <td class="label">Modelo de Aferição</td>
-                <td class="value">Modelo Logístico de 2 Parâmetros (TRI 2PL)</td>
-              </tr>
-              <tr>
-                <td class="label">Parâmetros de Item</td>
-                <td class="value">Discriminação (&alpha;) e Dificuldade (&beta;)</td>
-              </tr>
-              <tr>
-                <td class="label">Curva de Retenção</td>
-                <td class="value">Algoritmo SRS Intervalado Adaptativo</td>
-              </tr>
-              <tr>
-                <td class="label">Base Filológica</td>
-                <td class="value">Método Moderno de Tupi Antigo (Navarro)</td>
-              </tr>
-              <tr>
-                <td class="label">Classificação Erros</td>
-                <td class="value">Taxonomia Morfossintática Direcionada</td>
-              </tr>
-            </table>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ==============================================================================
-         Recursos e Pilares
-         ============================================================================== -->
-    <section class="features-section" id="recursos">
-      <div class="container">
-        <div class="section-header reveal-on-scroll">
-          <span class="section-tag">Pilares do Projeto</span>
-          <h2 class="section-title">Fundamentos do TupiLingo</h2>
-          <p class="section-desc">
-            A união equilibrada entre tecnologia móvel contemporânea e a principal referência acadêmica no ensino do Tupi Antigo.
+            Exercícios progressivos que conectam gramática histórica, etimologia e tradução contextualizada.
           </p>
         </div>
 
         <div class="features-grid">
           
-          <div class="feature-card reveal-on-scroll stagger-1">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <!-- Card 1 -->
+          <div class="feature-card">
+            <div class="feature-icon-bubble bg-orange">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             </div>
-            <h3>Base Filológica Reconhecida</h3>
-            <p>Vocabulário, ortografia e regras sintáticas estruturados rigorosamente sobre o <em>Método Moderno de Tupi Antigo</em> do Prof. Dr. Eduardo de Almeida Navarro (USP).</p>
-          </div>
-
-          <div class="feature-card reveal-on-scroll stagger-2">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-            <h3>Repetição Espaçada Inteligente (SRS)</h3>
-            <p>O algoritmo calcula os intervalos ótimos para apresentação e revisão de cada lexema estudado, transferindo o vocabulário para a retenção de longo prazo.</p>
-          </div>
-
-          <div class="feature-card reveal-on-scroll stagger-3">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            </div>
-            <h3>Gamificação Pedagógica</h3>
-            <p>Sistemas de ofensiva contínua (streak), conchas culturais, cosméticos temáticos e marcos de aprendizado para sustentar o engajamento diário.</p>
-          </div>
-
-          <div class="feature-card reveal-on-scroll stagger-4">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-            <h3>Privacidade e Transparência</h3>
-            <p>Sem anúncios ou telemetria invasiva de terceiros. Seus dados de aprendizado permanecem protegidos sob criptografia e armazenamento local no dispositivo.</p>
-          </div>
-
-          <div class="feature-card reveal-on-scroll stagger-5">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            </div>
-            <h3>Resiliência Offline</h3>
-            <p>Todo o conteúdo didático e as lições principais são armazenados no banco SQLite local, permitindo o estudo ininterrupto mesmo em locais sem sinal de internet.</p>
-          </div>
-
-          <div class="feature-card reveal-on-scroll stagger-6">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            </div>
-            <h3>Salvaguarda Cultural</h3>
-            <p>Projeto orientado à divulgação científica e preservação de patrimônio imaterial, aproximando o público contemporâneo da raiz fundacional da toponímia e cultura brasileira.</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ==============================================================================
-         Guia de Instalação (Accordion)
-         ============================================================================== -->
-    <section class="install-section" id="como-instalar">
-      <div class="container install-container">
-        <div class="section-header reveal-on-scroll">
-          <span class="section-tag">Guia Passo a Passo</span>
-          <h2 class="section-title">Como Instalar o APK no Android</h2>
-          <p class="section-desc">
-            O TupiLingo está em fase de pré-lançamento público e é disponibilizado diretamente pelo repositório oficial no GitHub. A instalação é simples, rápida e segura.
-          </p>
-        </div>
-
-        <div class="accordion-list reveal-on-scroll">
-
-          <!-- Passo 1 -->
-          <div class="accordion-item active">
-            <button class="accordion-header" aria-expanded="true">
-              <div class="accordion-title-wrap">
-                <span class="step-num">1</span>
-                <span class="step-title">Efetue o download do arquivo de instalação</span>
-              </div>
-              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="accordion-body">
-              <p>Clique no botão <strong>"Baixar APK (v1.0.0-preview)"</strong> no cabeçalho ou no topo da página. O navegador exibirá um alerta padrão informando que arquivos APK baixados diretamente podem trazer riscos. Toque em <strong>"Fazer o download mesmo assim"</strong> para concluir a transferência do pacote assinado de 57.3 MB.</p>
-            </div>
-          </div>
-
-          <!-- Passo 2 -->
-          <div class="accordion-item">
-            <button class="accordion-header" aria-expanded="false">
-              <div class="accordion-title-wrap">
-                <span class="step-num">2</span>
-                <span class="step-title">Acesse o pacote transferido</span>
-              </div>
-              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="accordion-body">
-              <p>Ao término do download, toque na notificação de conclusão (<em>app-release.apk</em>) na barra superior do seu dispositivo. Caso tenha descartado a notificação, abra o aplicativo <strong>"Arquivos"</strong> ou <strong>"Downloads"</strong> do seu aparelho e toque no arquivo correspondente.</p>
-            </div>
-          </div>
-
-          <!-- Passo 3 -->
-          <div class="accordion-item">
-            <button class="accordion-header" aria-expanded="false">
-              <div class="accordion-title-wrap">
-                <span class="step-num">3</span>
-                <span class="step-title">Conceda a permissão da fonte no navegador</span>
-              </div>
-              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="accordion-body">
-              <p>Caso o seu Android nunca tenha instalado aplicativos baixados pelo navegador em uso, um diálogo do sistema solicitará permissão de instalação de fontes desconhecidas. Toque em <strong>Configurações</strong> e ative o botão <strong>"Permitir desta fonte"</strong>.</p>
-            </div>
-          </div>
-
-          <!-- Passo 4 -->
-          <div class="accordion-item">
-            <button class="accordion-header" aria-expanded="false">
-              <div class="accordion-title-wrap">
-                <span class="step-num">4</span>
-                <span class="step-title">Confirme a instalação e inicie a experiência</span>
-              </div>
-              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="accordion-body">
-              <p>Retorne à janela do instalador e toque em <strong>"Instalar"</strong>. Em instantes o ícone do TupiLingo estará acessível em sua tela inicial e gaveta de aplicativos, pronto para utilização imediata.</p>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Aviso de Segurança Transparente -->
-        <div class="security-note reveal-on-scroll">
-          <svg class="security-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <div class="security-note-text">
-            <h4>Transparência sobre Instalação Direta</h4>
-            <p>
-              O alerta emitido pelo sistema operacional Android constitui procedimento de segurança padrão para qualquer aplicação instalada via arquivo APK (processo de <em>sideloading</em>). O <strong>TupiLingo</strong> é um projeto educacional e de código aberto com integridade auditável via repositório público no GitHub, sem códigos publicitários ou bibliotecas invasivas de rastreamento.
+            <h3 class="feature-title">Leitura e Tradução Interativa</h3>
+            <p class="feature-text">
+              Exercícios objetivos focados em identificar raízes lexicais, posposições e conjugações verbais em sentenças contextualizadas.
             </p>
+            <div class="feature-tag">Prática Textual</div>
           </div>
+
+          <!-- Card 2 -->
+          <div class="feature-card">
+            <div class="feature-icon-bubble bg-green">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+            <h3 class="feature-title">Trilha Progressiva em Unidades</h3>
+            <p class="feature-text">
+              Conteúdo estruturado por capítulos temáticos: saudações, elementos da natureza, parentesco e narrativas históricas com desbloqueio gradual.
+            </p>
+            <div class="feature-tag">Progressão Linear</div>
+          </div>
+
+          <!-- Card 3 (Morfologia e Gramática Contextualizada) -->
+          <div class="feature-card">
+            <div class="feature-icon-bubble bg-yellow">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <h3 class="feature-title">Morfologia e Vocabulário Etimológico</h3>
+            <p class="feature-text">
+              Compreensão da aglutinação e das raízes toponímicas que nomeiam rios, serras, fauna e flora em todo o território nacional.
+            </p>
+            <div class="feature-tag">Rigor Morfológico</div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="feature-card">
+            <div class="feature-icon-bubble bg-blue">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21.5 2v6h-6"/><path d="M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </div>
+            <h3 class="feature-title">Sistema de Repetição Espaçada</h3>
+            <p class="feature-text">
+              Algoritmo de revisão programada para consolidar vocábulos na memória de longo prazo, reforçando itens de maior dificuldade.
+            </p>
+            <div class="feature-tag">Retenção Contínua</div>
+          </div>
+
         </div>
 
       </div>
     </section>
 
     <!-- ==============================================================================
-         Seção de Autores e Créditos
+         5. RIGOR ACADÊMICO E FILOLÓGICO (USP / PROF. DR. EDUARDO DE NAVARRO)
          ============================================================================== -->
-    <section class="authors-section" id="autores">
+    <section class="culture-section" id="rigor-filologico">
       <div class="container">
-        <div class="section-header reveal-on-scroll">
-          <span class="section-tag">Equipe & Pesquisa</span>
-          <h2 class="section-title">Autores do Projeto</h2>
-          <p class="section-desc">
-            O TupiLingo une engenharia de software nativa, design de interação e pesquisa linguística aplicada para a valorização cultural.
-          </p>
+        
+        <div class="culture-card-wrapper">
+          <div class="culture-content">
+            <div class="culture-badge">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 22h16M2 7h20M12 2l10 5H2l10-5zM6 10v9M10 10v9M14 10v9M18 10v9"/></svg>
+              <span>Literatura Filológica da Universidade de São Paulo</span>
+            </div>
+            <h2 class="culture-title">Patrimônio linguístico fundamentado em metodologia científica</h2>
+            <p class="culture-lead">
+              O TupiLingo estrutura suas regras morfológicas, corpus textual e ortografia padronizada no <strong>Método Moderno de Tupi Antigo</strong> e no <strong>Dicionário de Tupi Antigo</strong> do <strong>Prof. Dr. Eduardo de Navarro (USP)</strong>.
+            </p>
+            
+            <div class="culture-checks">
+              <div class="check-item">
+                <span class="check-icon"><svg class="check-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <div>
+                  <strong>Fidelidade aos Registros Documentais dos Séculos XVI e XVII</strong>
+                  <p>Fontes primárias quinhentistas transcritas com rigor acadêmico e respeito filológico.</p>
+                </div>
+              </div>
+              <div class="check-item">
+                <span class="check-icon"><svg class="check-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <div>
+                  <strong>Salvaguarda Linguística das Raízes Nacionais</strong>
+                  <p>Valorização da matriz que deu origem a nomes como Paraná, Piauí, Ibirapuera e Tietê.</p>
+                </div>
+              </div>
+              <div class="check-item">
+                <span class="check-icon"><svg class="check-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <div>
+                  <strong>Finalidade Pública e Acesso Irrestrito</strong>
+                  <p>Desenvolvimento em código aberto, sem anúncios predatórios e sem comercialização de dados.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="culture-quote">
+              <blockquote>
+                “O conhecimento do Tupi Antigo permite compreender a toponímia, a história formativa e a identidade do Brasil.”
+              </blockquote>
+            </div>
+          </div>
+
+          <!-- Card de Amostras Etimológicas -->
+          <div class="culture-visual">
+            <div class="parchment-card">
+              <div class="parchment-header">
+                <span class="parchment-tag">Análise Etimológica</span>
+                <span class="parchment-stamp">Tronco Tupi</span>
+              </div>
+              <div class="etymology-sample">
+                <h4 class="term-name">Pindorama</h4>
+                <span class="term-breakdown">pindó (palmeira) + rama (terra / região)</span>
+                <p class="term-meaning">“Região das Palmeiras” — Designação histórica da terra.</p>
+              </div>
+              <div class="etymology-sample">
+                <h4 class="term-name">Ibirapuera</h4>
+                <span class="term-breakdown">ybyrá (árvore) + puera (antiga / pretérita)</span>
+                <p class="term-meaning">“Madeira antiga que jaz no charco”.</p>
+              </div>
+              <div class="etymology-sample">
+                <h4 class="term-name">Pipoca</h4>
+                <span class="term-breakdown">pí (pele) + poka (arrebentar / estalar)</span>
+                <p class="term-meaning">“Pele arrebentada pelo calor”.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="authors-grid">
-          
-          <!-- Autor 1: Felipe Augusto -->
-          <div class="author-card reveal-on-scroll stagger-1">
-            <div class="author-avatar">FA</div>
-            <div class="author-info">
-              <h4>Felipe Augusto</h4>
-              <p>Arquitetura de Software, Compilação Nativa & Backend Django</p>
-            </div>
-          </div>
-
-          <!-- Autor 2: Daniel Godoi -->
-          <div class="author-card reveal-on-scroll stagger-2">
-            <div class="author-avatar">DG</div>
-            <div class="author-info">
-              <h4>Daniel Godoi</h4>
-              <p>Engenharia Frontend Flutter, Design de Interface & Experiência</p>
-            </div>
-          </div>
-
-          <!-- Autor 3: Rafael Augusto -->
-          <div class="author-card reveal-on-scroll stagger-3">
-            <div class="author-avatar">RA</div>
-            <div class="author-info">
-              <h4>Rafael Augusto</h4>
-              <p>Modelagem Pedagógica, Pesquisa Linguística & Validação Filológica</p>
-            </div>
-          </div>
-
-        </div>
       </div>
     </section>
 
     <!-- ==============================================================================
-         Contato & Relato de Feedback
+         6. TELAS REAIS DO APLICATIVO (Showcase com Abas sem Emojis)
          ============================================================================== -->
-    <section class="container" id="contato" style="padding-top: 4rem; padding-bottom: 5rem;">
-      <div class="contact-banner reveal-on-scroll">
-        <div class="contact-info">
-          <h2>Contato & Canal de Contribuição</h2>
-          <p>
-            Seu feedback durante esta fase de testes é fundamental para refinarmos exercícios, tempos de resposta e compatibilidade antes do lançamento final.
+    <section class="showcase-section" id="telas">
+      <div class="container">
+        
+        <div class="section-heading text-center">
+          <span class="sub-label">Interface do Aplicativo</span>
+          <h2 class="section-title">Ambiente focado em clareza e retenção</h2>
+          <p class="section-desc">
+            Navegação linear, tipografia legível e validação imediata de respostas para uma prática consistente.
           </p>
-          <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
-            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">E-mail institucional de contato:</span>
-            <a href="mailto:felipe.a.m.lozano@gmail.com" class="contact-email-badge">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span>felipe.a.m.lozano@gmail.com</span>
+        </div>
+
+        <!-- Abas de Navegação das Telas (Limpos, sem emojis) -->
+        <div class="showcase-tabs" role="tablist">
+          <button type="button" class="tab-pill active" data-tab="trilha">Trilha de Lições</button>
+          <button type="button" class="tab-pill" data-tab="exercicio">Exercício Interativo</button>
+          <button type="button" class="tab-pill" data-tab="feedback">Validação e Sabedoria</button>
+          <button type="button" class="tab-pill" data-tab="nivelamento">Nivelamento e Preferências</button>
+        </div>
+
+        <!-- Galeria de Telas -->
+        <div class="showcase-gallery">
+          
+          <div class="gallery-card" data-category="trilha">
+            <div class="gallery-phone">
+              <img src="assets/screen_trilha.png" alt="Trilha de lições do TupiLingo com capítulos e nós de progresso">
+            </div>
+            <div class="gallery-caption">
+              <h4>Trilha Sequencial</h4>
+              <p>Capítulos temáticos estruturados com guias culturais e nós progressivos de lições.</p>
+            </div>
+          </div>
+
+          <div class="gallery-card" data-category="exercicio">
+            <div class="gallery-phone">
+              <img src="assets/screen_acertou.png" alt="Exercício interativo de múltipla escolha com alternativa selecionada">
+            </div>
+            <div class="gallery-caption">
+              <h4>Exercício Interativo</h4>
+              <p>Exercícios objetivos com seleção de respostas e identificação de raízes lexicais.</p>
+            </div>
+          </div>
+
+          <div class="gallery-card" data-category="feedback">
+            <div class="gallery-phone">
+              <img src="assets/screen_feedback.png" alt="Tela de validação da resposta com sabedoria ancestral e reforço cultural">
+            </div>
+            <div class="gallery-caption">
+              <h4>Validação e Sabedoria Ancestral</h4>
+              <p>Confirmação da resposta com contextualização semântica e valor cultural de cada vocábulo.</p>
+            </div>
+          </div>
+
+          <div class="gallery-card" data-category="nivelamento">
+            <div class="gallery-phone">
+              <img src="assets/screen_onboarding_nivel.png" alt="Tela de nivelamento e diagnóstico de proficiência em Tupi">
+            </div>
+            <div class="gallery-caption">
+              <h4>Nivelamento de Proficiência</h4>
+              <p>Calibração diagnóstica do seu conhecimento inicial para personalizar a jornada de estudo.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================================================
+         7. ENGENHARIA E TRANSPARÊNCIA (Dados Técnicos e Instalação)
+         ============================================================================== -->
+    <section class="tech-section" id="engenharia">
+      <div class="container">
+        
+        <div class="section-heading text-center">
+          <span class="sub-label">Engenharia Aberta</span>
+          <h2 class="section-title">Arquitetura de software e transparência</h2>
+          <p class="section-desc">
+            Construído em Flutter e Python, o TupiLingo é um projeto de código aberto, auditável e sem rastreamento de dados.
+          </p>
+        </div>
+
+        <div class="tech-cards-grid">
+          
+          <div class="tech-card-item">
+            <div class="tech-badge-header">
+              <span class="tech-svg-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="3" ry="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              </span>
+              <h4>Multiplataforma Nativo</h4>
+            </div>
+            <p>Desenvolvido em Flutter 3 com CanvasKit e compilação AOT (Ahead-of-Time), com suporte ao navegador e dispositivos Android 5.0 ou superior.</p>
+            <div class="tech-pill-row">
+              <span class="code-pill">Flutter 3.x</span>
+              <span class="code-pill">Dart 3</span>
+              <span class="code-pill">CanvasKit</span>
+            </div>
+          </div>
+
+          <div class="tech-card-item">
+            <div class="tech-badge-header">
+              <span class="tech-svg-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              </span>
+              <h4>Operação Offline</h4>
+            </div>
+            <p>O aplicativo opera de forma independente de conexão contínua após a carga inicial. Lições e vocabulário são preservados localmente.</p>
+            <div class="tech-pill-row">
+              <span class="code-pill">Local Storage</span>
+              <span class="code-pill">SQLite</span>
+              <span class="code-pill">Zero Tracking</span>
+            </div>
+          </div>
+
+          <div class="tech-card-item">
+            <div class="tech-badge-header">
+              <span class="tech-svg-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
+              <h4>Privacidade por Princípio</h4>
+            </div>
+            <p>Sem anúncios, sem telemetria comercial e sem coleta de informações pessoais. Todo o ciclo de repetição espaçada executa localmente no aparelho.</p>
+            <div class="tech-pill-row">
+              <span class="code-pill">LGPD Compliance</span>
+              <span class="code-pill">Sem Anúncios</span>
+              <span class="code-pill">Open Source</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Instruções de Instalação do APK -->
+        <div class="install-accordion-card" id="como-instalar">
+          <div class="accordion-top-bar">
+            <span class="accordion-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </span>
+            <div class="bar-text">
+              <strong>Como instalar o pacote APK no sistema Android</strong>
+              <span>Orientações para instalação direta sem loja de aplicativos</span>
+            </div>
+            <button type="button" class="btn btn-outline btn-xs" id="toggleInstallGuideBtn">Instruções</button>
+          </div>
+
+          <div class="accordion-content" id="installGuideContent" style="display: none;">
+            <ol class="step-guide-list">
+              <li>
+                <strong>1. Transferência do Pacote:</strong> Clique no botão "Baixar APK (Android)". O arquivo de instalação <code>app-release.apk</code> será salvo em seu dispositivo.
+              </li>
+              <li>
+                <strong>2. Permissão de Instalação:</strong> Ao iniciar o instalador, caso o Android solicite, autorize a opção "Instalar aplicativos desconhecidos" para o gerenciador de arquivos em uso.
+              </li>
+              <li>
+                <strong>3. Conclusão:</strong> Confirme a instalação. O ícone do TupiLingo estará disponível na gaveta de aplicativos para acesso imediato.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================================================
+         8. CHAMADA FINAL PARA AÇÃO
+         ============================================================================== -->
+    <section class="final-cta-section">
+      <div class="container">
+        <div class="final-cta-card">
+          <img src="assets/logo.png" alt="Mascote TupiLingo" class="final-cta-mascot">
+          <h2 class="final-cta-title">Inicie seus estudos de Tupi Antigo</h2>
+          <p class="final-cta-desc">
+            Plataforma aberta desenvolvida para estudantes, pesquisadores e interessados na matriz linguística histórica do Brasil.
+          </p>
+          <div class="final-cta-buttons">
+            <a href="#demo-online" class="btn btn-primary btn-hero-lg">
+              <span>Acessar via Web</span>
+            </a>
+            <a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk" class="btn btn-secondary btn-hero-lg">
+              <span>Baixar APK (Android)</span>
             </a>
           </div>
         </div>
-
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
-          <button type="button" class="btn btn-terracotta open-feedback-btn">
-            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Relatar Avaliação ou Bug</span>
-          </button>
-
-          <a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/issues" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            <span>Abrir Issue no GitHub</span>
-          </a>
-        </div>
       </div>
     </section>
+
   </main>
 
   <!-- ==============================================================================
-       Modal Nativo de Feedback (<dialog>)
-       ============================================================================== -->
-  <dialog id="feedbackModal">
-    <div class="modal-header">
-      <h3>Envio de Feedback ou Relato de Erro</h3>
-      <button type="button" class="close-btn" id="closeModalBtn" aria-label="Fechar janela de diálogo">&times;</button>
-    </div>
-    <form id="feedbackForm">
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="feedbackName">Nome ou Identificação (opcional)</label>
-          <input type="text" id="feedbackName" class="form-control" placeholder="Ex: Felipe ou Estudante">
-        </div>
-
-        <div class="form-group">
-          <label for="feedbackType">Classificação da Mensagem</label>
-          <select id="feedbackType" class="form-control">
-            <option value="bug">Relato de Inconsistência ou Erro Técnico</option>
-            <option value="filologia">Dúvida ou Correção de Conteúdo Filológico</option>
-            <option value="melhoria">Sugestão de Aprimoramento de Interface</option>
-            <option value="desempenho">Observação sobre Desempenho ou Fluidez</option>
-            <option value="outro">Outro Assunto</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="feedbackDevice">Modelo do Dispositivo / Versão do Android</label>
-          <input type="text" id="feedbackDevice" class="form-control" placeholder="Ex: Galaxy S24 FE (Android 14)">
-        </div>
-
-        <div class="form-group">
-          <label for="feedbackMsg">Descrição Detalhada *</label>
-          <textarea id="feedbackMsg" class="form-control" placeholder="Descreva com precisão o comportamento observado ou sua recomendação..." required></textarea>
-        </div>
-
-        <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
-          <button type="submit" class="btn btn-primary" style="flex: 1;">
-            <span>Transmitir Mensagem</span>
-          </button>
-        </div>
-      </div>
-    </form>
-  </dialog>
-
-  <!-- ==============================================================================
-       Rodapé do Projeto
+       9. RODAPÉ INSTITUCIONAL
        ============================================================================== -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
         
-        <div class="footer-brand">
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem;">
-            <img src="assets/logo.png" alt="Mascote TupiLingo" style="width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border-medium); background: var(--bg-surface);">
-            <h4 style="margin-bottom: 0;">TupiLingo</h4>
+        <div class="footer-col-brand">
+          <div class="logo-group">
+            <img src="assets/logo.png" alt="Mascote TupiLingo" class="logo-img" width="40" height="40">
+            <span class="brand-title">TupiLingo</span>
           </div>
-          <p>
-            Plataforma dedicada ao aprendizado sistemático, documentação e preservação filológica da língua clássica Tupi Antigo, construída sobre o legado acadêmico de Eduardo de Almeida Navarro.
+          <p class="footer-mission">
+            Plataforma aberta e gamificada para preservação, estudo e difusão do Tupi Antigo. Metodologia filológica inspirada na produção bibliográfica do Prof. Dr. Eduardo de Navarro (USP).
           </p>
+          <div class="footer-license-pill">
+            <span>Código Aberto sob Licença MIT</span>
+          </div>
         </div>
 
         <div class="footer-col">
           <h5>Navegação</h5>
-          <ul class="footer-links">
-            <li><a href="#hero">Início</a></li>
-            <li><a href="#telas">Telas em Produção</a></li>
-            <li><a href="#recursos">Pilares Pedagógicos</a></li>
-            <li><a href="#tecnico">Arquitetura Técnica</a></li>
-            <li><a href="#como-instalar">Guia de Instalação</a></li>
+          <ul class="footer-link-list">
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#demo-online">Simulador Web</a></li>
+            <li><a href="#metodo">Metodologia</a></li>
+            <li><a href="#rigor-filologico">Pesquisa Navarro (USP)</a></li>
+            <li><a href="#telas">Telas do Aplicativo</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h5>Distribuição Oficial</h5>
-          <ul class="footer-links">
-            <li><a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk">Download APK (GitHub Releases)</a></li>
-            <li><a href="app-release.apk" download="app-release.apk">Download Espelho Local</a></li>
-            <li><a href="https://github.com/felipeamlozano-ui/TupiLingo-Project" target="_blank" rel="noopener noreferrer">Repositório GitHub</a></li>
-            <li><a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases" target="_blank" rel="noopener noreferrer">Notas de Lançamento</a></li>
+          <h5>Distribuição & Código</h5>
+          <ul class="footer-link-list">
+            <li><a href="https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk">Download do APK Android (v1.0.0)</a></li>
+            <li><a href="https://github.com/felipeamlozano-ui/TupiLingo-Project" target="_blank" rel="noopener noreferrer">Repositório no GitHub ↗</a></li>
+            <li><a href="#como-instalar">Instruções de Instalação</a></li>
+            <li><a href="app/index.html" target="_blank">Acessar Web App Isolado</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h5>Autores & Contato</h5>
-          <ul class="footer-links">
-            <li><span>Felipe Augusto</span></li>
-            <li><span>Daniel Godoi</span></li>
-            <li><span>Rafael Augusto</span></li>
-            <li><a href="mailto:felipe.a.m.lozano@gmail.com" style="color: var(--accent-green-light); font-family: var(--font-mono); font-size: 0.8rem;">felipe.a.m.lozano@gmail.com</a></li>
-          </ul>
+          <h5>Contato Institucional</h5>
+          <p class="footer-team-note">
+            Projeto mantido por Felipe Lozano e colaboradores dedicados à salvaguarda e documentação das matrizes linguísticas brasileiras.
+          </p>
+          <button type="button" class="btn btn-outline btn-xs" id="openFeedbackModalBtn">
+            <span>Enviar Contato ou Sugestão</span>
+          </button>
         </div>
 
       </div>
 
-      <div class="footer-bottom">
-        <p>© 2026 TupiLingo • Autores: Felipe Augusto, Daniel Godoi e Rafael Augusto. Todos os direitos reservados.</p>
-        <p>Desenvolvido com Flutter & Django • Distribuível via GitHub Pages</p>
+      <div class="footer-bottom-bar">
+        <p>© 2026 TupiLingo • Projeto educacional e filológico sem fins lucrativos.</p>
+        <div class="footer-bottom-links">
+          <span>Salvaguarda e preservação documental da língua Tupi Antigo.</span>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts Interativos -->
+  <!-- ==============================================================================
+       10. MODAL DE CONTATO / FEEDBACK
+       ============================================================================== -->
+  <dialog id="feedbackModal" class="clean-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <h3>Contato e Contribuições</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeFeedbackModalBtn" aria-label="Fechar janela">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Envie sugestões gramaticais, correções de vocabulário ou dúvidas sobre o projeto pedagógico:</p>
+        <form id="feedbackForm" onsubmit="event.preventDefault(); window.submitFeedback();">
+          <div class="form-field">
+            <label for="fbName">Nome Completo:</label>
+            <input type="text" id="fbName" class="form-input" placeholder="Seu nome" required>
+          </div>
+          <div class="form-field">
+            <label for="fbEmail">Endereço de E-mail:</label>
+            <input type="email" id="fbEmail" class="form-input" placeholder="email@dominio.com" required>
+          </div>
+          <div class="form-field">
+            <label for="fbMessage">Mensagem ou Sugestão:</label>
+            <textarea id="fbMessage" class="form-input" rows="4" placeholder="Escreva sua mensagem aqui..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensagem</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Notificação Toast -->
+  <div class="toast-notification" id="siteToast" role="alert" aria-live="assertive"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
