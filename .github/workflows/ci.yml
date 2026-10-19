@@ -8,7 +8,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   lint-and-test:
@@ -44,8 +43,6 @@ jobs:
         run: |
           cd backend
           pytest --cov=app --cov-report=xml --ignore=scratch || true
-          
-      # Add SonarQube or other coverage reporting here
 
   security-scan:
     needs: lint-and-test
@@ -92,6 +89,10 @@ jobs:
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
+
+      - name: Set lowercase repository name
+        run: |
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
 
       - name: Build and Push Docker image
         id: build-and-push
