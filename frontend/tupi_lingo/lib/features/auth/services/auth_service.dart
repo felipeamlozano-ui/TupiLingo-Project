@@ -27,6 +27,24 @@ class AuthService {
     return msg.contains('captcha') || msg.contains('captcha_failed') || msg.contains('no captcha_token found');
   }
 
+  /// Retorna a URL canônica de redirecionamento para autenticação OAuth, confirmação de e-mail e recuperação de senha.
+  static String getAuthRedirectUrl() {
+    if (kIsWeb) {
+      var path = Uri.base.path;
+      if (path.isEmpty || path == '/') {
+        if (Uri.base.host.contains('github.io')) {
+          path = '/TupiLingo-Project/app/';
+        } else {
+          path = '/';
+        }
+      } else if (!path.endsWith('/')) {
+        path = '$path/';
+      }
+      return '${Uri.base.origin}$path';
+    }
+    return 'tupilingo://callback';
+  }
+
   /// Realiza login com e-mail e senha.
   /// 
   /// Tenta primeiro autenticação direta via Supabase Auth. Se houver exigência de Captcha
@@ -150,9 +168,11 @@ class AuthService {
       if (kDebugMode) {
         debugPrint('[AuthService] Tentando cadastro direto via Supabase Auth...');
       }
+      final emailRedirectUri = kIsWeb ? AuthService.getAuthRedirectUrl() : null;
       final res = await Supabase.instance.client.auth.signUp(
         email: cleanEmail,
         password: cleanPassword,
+        emailRedirectTo: emailRedirectUri,
         data: {
           'name': cleanName,
           'source': source,
@@ -286,7 +306,11 @@ class AuthService {
     }
 
     try {
-      await Supabase.instance.client.auth.resetPasswordForEmail(cleanEmail);
+      final resetRedirectUri = AuthService.getAuthRedirectUrl();
+      await Supabase.instance.client.auth.resetPasswordForEmail(
+        cleanEmail,
+        redirectTo: resetRedirectUri,
+      );
     } on AuthException catch (e) {
       if (_isCaptchaError(e.message)) {
         await _recoverViaBackend(cleanEmail);

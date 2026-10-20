@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/auth/presentation/recovery_otp.dart';
 import 'package:tupi_lingo/features/auth/services/auth_service.dart';
@@ -168,17 +167,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleGoogleLogin() async {
     try {
       // no web é só redirect normal, no app precisa do deep link customizado
-      if (kIsWeb) {
         await Supabase.instance.client.auth.signInWithOAuth(
           OAuthProvider.google,
-          redirectTo: Uri.base.origin,
+          redirectTo: AuthService.getAuthRedirectUrl(),
         );
-      } else {
-        await Supabase.instance.client.auth.signInWithOAuth(
-          OAuthProvider.google,
-          redirectTo: 'tupilingo://callback',
-        );
-      }
     } catch (e, stackTrace) {
       debugPrint('LOGIN GOOGLE ERRO: $e');
       debugPrint('STACKTRACE: $stackTrace');

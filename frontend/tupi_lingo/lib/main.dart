@@ -53,15 +53,17 @@ SUPABASE_ANON_KEY=${const String.fromEnvironment('SUPABASE_ANON_KEY')}
 API_URL=${const String.fromEnvironment('API_URL')}
 ''');
     }
-    final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
-    const envApiUrl = String.fromEnvironment('API_URL');
-    if (envApiUrl.trim().isNotEmpty) {
-      dotenv.env['API_URL'] = envApiUrl.trim();
-    } else if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) {
-      dotenv.env['API_URL'] = cachedWinningUrl;
-    } else if (dotenv.env['API_URL'] == null || dotenv.env['API_URL']!.trim().isEmpty) {
-      dotenv.env['API_URL'] = 'http://127.0.0.1:8000';
-    }
+  }
+
+  // Carrega endpoint vencedor do cache local para ambas as plataformas (Web e Mobile)
+  final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
+  const envApiUrl = String.fromEnvironment('API_URL');
+  if (envApiUrl.trim().isNotEmpty) {
+    dotenv.env['API_URL'] = envApiUrl.trim();
+  } else if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) {
+    dotenv.env['API_URL'] = cachedWinningUrl;
+  } else if (dotenv.env['API_URL'] == null || dotenv.env['API_URL']!.trim().isEmpty) {
+    dotenv.env['API_URL'] = 'http://127.0.0.1:8000';
   }
 
   final supabaseUrl = dotenv.env['SUPABASE_URL'];
