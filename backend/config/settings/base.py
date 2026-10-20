@@ -53,6 +53,11 @@ CORS_ALLOWED_ORIGINS = config(
     default='',
     cast=lambda v: [s.strip() for s in v.split(',') if s.strip()],
 )
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https:\/\/[a-zA-Z0-9-]+\.github\.io$',
+    r'^https:\/\/felipeamlozano-ui\.github\.io$',
+    r'^https:\/\/[a-zA-Z0-9-]+\.trycloudflare\.com$',
+]
 
 ROOT_URLCONF = 'config.urls'
 

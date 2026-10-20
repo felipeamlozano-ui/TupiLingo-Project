@@ -30,17 +30,13 @@ class AuthService {
   /// Retorna a URL canônica de redirecionamento para autenticação OAuth, confirmação de e-mail e recuperação de senha.
   static String getAuthRedirectUrl() {
     if (kIsWeb) {
-      var path = Uri.base.path;
-      if (path.isEmpty || path == '/') {
-        if (Uri.base.host.contains('github.io')) {
-          path = '/TupiLingo-Project/app/';
-        } else {
-          path = '/';
-        }
-      } else if (!path.endsWith('/')) {
-        path = '$path/';
+      final origin = Uri.base.origin;
+      final host = Uri.base.host;
+      final path = Uri.base.path;
+      if (host.contains('github.io') || path.contains('/TupiLingo-Project/app')) {
+        return '$origin/TupiLingo-Project/app/';
       }
-      return '${Uri.base.origin}$path';
+      return '$origin/';
     }
     return 'tupilingo://callback';
   }

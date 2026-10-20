@@ -41,16 +41,19 @@ CSRF_TRUSTED_ORIGINS = config(
     default='',
     cast=lambda v: [s.strip() for s in v.split(',') if s.strip()],
 )
+if 'https://felipeamlozano-ui.github.io' not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append('https://felipeamlozano-ui.github.io')
 if CLOUDFLARE_TUNNEL_DOMAIN:
     cf_origin = f"https://{CLOUDFLARE_TUNNEL_DOMAIN.replace('https://', '').replace('http://', '').strip('/')}"
     if cf_origin not in CSRF_TRUSTED_ORIGINS:
         CSRF_TRUSTED_ORIGINS.append(cf_origin)
 
-# CORS para requisições em produção
-CORS_ALLOWED_ORIGIN_REGEXES = []
+# CORS para requisições em produção (herda origens de base.py incluindo github.io e trycloudflare)
+CORS_ALLOWED_ORIGIN_REGEXES = list(CORS_ALLOWED_ORIGIN_REGEXES)
 if CLOUDFLARE_TUNNEL_DOMAIN:
     cf_clean = CLOUDFLARE_TUNNEL_DOMAIN.replace('https://', '').replace('http://', '').strip('/')
-    CORS_ALLOWED_ORIGIN_REGEXES.append(rf'^https:\/\/{re.escape(cf_clean)}$')
+    if cf_clean:
+        CORS_ALLOWED_ORIGIN_REGEXES.append(rf'^https:\/\/{re.escape(cf_clean)}$')
 
 # Headers de Segurança HTTP — SETTINGS-005
 SECURE_HSTS_SECONDS = 31536000

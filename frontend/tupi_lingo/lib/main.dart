@@ -26,9 +26,14 @@ import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_reposi
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Ativa roteamento limpo sem '#' para navegadores modernos
+  // Configura estratégia de URL: no GitHub Pages (hospedagem estática),
+  // usa hash strategy para navegação e recarregamento (F5) 100% livres de 404.
   if (kIsWeb) {
-    usePathUrlStrategy();
+    if (Uri.base.host.contains('github.io') || Uri.base.path.contains('/TupiLingo-Project/app')) {
+      setUrlStrategy(null);
+    } else {
+      usePathUrlStrategy();
+    }
   }
 
   // Preferências locais e variáveis de ambiente
