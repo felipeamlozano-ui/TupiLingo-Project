@@ -42,7 +42,12 @@ Future<void> main() async {
   if (kIsWeb) {
     const sbUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://pcquxppvheodcrdkwqhh.supabase.co');
     const sbKey = String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjcXV4cHB2aGVvZGNyZGt3cWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MjY4MTgsImV4cCI6MjA5MTQwMjgxOH0.19umF7nkdYtTGbC-xDKUhcQ37qgkqQDq77sgvQRGaOY');
-    const apiUrl = String.fromEnvironment('API_URL', defaultValue: 'http://127.0.0.1:8000');
+    const defaultTunnel = 'https://loud-wal-sue-teaching.trycloudflare.com';
+    const envApiUrl = String.fromEnvironment('API_URL');
+    final isHttps = Uri.base.scheme == 'https';
+    final apiUrl = envApiUrl.isNotEmpty
+        ? envApiUrl
+        : (isHttps ? defaultTunnel : 'http://127.0.0.1:8000');
     dotenv.loadFromString(envString: '''
 SUPABASE_URL=$sbUrl
 SUPABASE_ANON_KEY=$sbKey
@@ -61,12 +66,19 @@ API_URL=${const String.fromEnvironment('API_URL')}
   }
 
   // Carrega endpoint vencedor do cache local para ambas as plataformas (Web e Mobile)
-  final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
+  final rawCachedUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
   const envApiUrl = String.fromEnvironment('API_URL');
+  final isHttpsWeb = kIsWeb && Uri.base.scheme == 'https';
+  final cachedWinningUrl = (isHttpsWeb && rawCachedUrl != null && !rawCachedUrl.startsWith('https://'))
+      ? null
+      : rawCachedUrl;
+
   if (envApiUrl.trim().isNotEmpty) {
     dotenv.env['API_URL'] = envApiUrl.trim();
   } else if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) {
     dotenv.env['API_URL'] = cachedWinningUrl;
+  } else if (isHttpsWeb) {
+    dotenv.env['API_URL'] = 'https://loud-wal-sue-teaching.trycloudflare.com';
   } else if (dotenv.env['API_URL'] == null || dotenv.env['API_URL']!.trim().isEmpty) {
     dotenv.env['API_URL'] = 'http://127.0.0.1:8000';
   }
@@ -158,39 +170,46 @@ class _AuthGateState extends State<AuthGate> {
 
       if (mounted) setState(() => _loadingMessage = 'Conectando ao servidor...');
 
+      final isHttpsWeb = kIsWeb && Uri.base.scheme == 'https';
       final configuredUrl = (dotenv.env['API_URL']?.trim().isNotEmpty == true)
           ? dotenv.env['API_URL']!.trim()
-          : 'http://127.0.0.1:8000';
+          : (isHttpsWeb ? 'https://loud-wal-sue-teaching.trycloudflare.com' : 'http://127.0.0.1:8000');
 
       final prefs = await SharedPreferences.getInstance();
-      final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
+      final rawCached = prefs.getString('tupilingo_last_winning_api_url')?.trim();
+      final cachedWinningUrl = (isHttpsWeb && rawCached != null && !rawCached.startsWith('https://'))
+          ? null
+          : rawCached;
 
       // Consulta dinâmica de fallback ao túnel Cloudflare via Supabase Storage
       String? dynamicTunnelUrl;
       try {
         final configRes = await http
             .get(Uri.parse('https://pcquxppvheodcrdkwqhh.supabase.co/storage/v1/object/public/public-config/tunnel_url.json'))
-            .timeout(const Duration(milliseconds: 2500));
+            .timeout(const Duration(milliseconds: 3500));
         if (configRes.statusCode == 200) {
           final configData = jsonDecode(configRes.body);
           final rawUrl = configData['url']?.toString().trim();
           if (rawUrl != null && rawUrl.startsWith('http')) {
             dynamicTunnelUrl = rawUrl;
+            if (isHttpsWeb && rawUrl.startsWith('https://')) {
+              dotenv.env['API_URL'] = rawUrl;
+            }
           }
         }
       } catch (_) {}
 
       // Lista de candidatos de rede testados em paralelo:
-      // O primeiro a responder /api/health/ com 200 vence a corrida e assume a API!
+      // No HTTPS Web, descarta automaticamente qualquer URL insegura http:// (evita erro de Mixed Content)
       final candidateUrls = <String>{
         if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) cachedWinningUrl,
         if (dynamicTunnelUrl != null && dynamicTunnelUrl.isNotEmpty) dynamicTunnelUrl,
         configuredUrl,
-        if (kDebugMode || !kIsWeb) ...[
+        if (!isHttpsWeb && (kDebugMode || !kIsWeb)) ...[
           'http://127.0.0.1:8000',
           'http://10.0.2.2:8000',
         ],
-      }.toList();
+      }.where((url) => !isHttpsWeb || url.startsWith('https://')).toList();
 
       http.Response? response;
       const int maxAttempts = 3;
@@ -307,7 +326,7 @@ class _AuthGateState extends State<AuthGate> {
     for (final candidate in candidates) {
       http
           .get(Uri.parse('$candidate/api/health/'))
-          .timeout(const Duration(milliseconds: 1500))
+          .timeout(const Duration(milliseconds: 3500))
           .then((res) {
             if (!healthCompleter.isCompleted && res.statusCode == 200) {
               healthCompleter.complete(candidate);
