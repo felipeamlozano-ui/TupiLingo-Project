@@ -70,6 +70,10 @@ A aplicação Flutter foi desacoplada do iframe embutido e agora opera como uma 
 1. **Call to Action Duplo**:
    - `Testar no Navegador`: Abre a aplicação web Flutter completa e responsiva em tela cheia (`./app/`).
    - `Baixar APK (.apk)`: Baixa a versão nativa compilada para dispositivos Android.
-2. **Ambiente Local**:
-   - Ao executar um servidor local (`python -m http.server 8080`), acesse `http://localhost:8080/landing-page/` ou `http://localhost:8080/docs/`.
+2. **Acesso Online (GitHub Pages)**:
+   - Landing Page Oficial: `https://felipeamlozano-ui.github.io/TupiLingo-Project/`
+   - Aplicativo Web Autônomo: `https://felipeamlozano-ui.github.io/TupiLingo-Project/app/`
+
+3. **Ambiente de Teste Local (Opcional)**:
+   - Para testar localmente no seu computador antes de publicar, execute a Opção 5 do `dev.bat` ou execute um servidor HTTP (`python -m http.server 8080`).
 

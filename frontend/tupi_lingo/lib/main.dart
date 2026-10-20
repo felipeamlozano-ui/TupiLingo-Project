@@ -158,16 +158,31 @@ class _AuthGateState extends State<AuthGate> {
       final prefs = await SharedPreferences.getInstance();
       final cachedWinningUrl = prefs.getString('tupilingo_last_winning_api_url')?.trim();
 
+      // Consulta dinâmica de fallback ao túnel Cloudflare via Supabase Storage
+      String? dynamicTunnelUrl;
+      try {
+        final configRes = await http
+            .get(Uri.parse('https://pcquxppvheodcrdkwqhh.supabase.co/storage/v1/object/public/public-config/tunnel_url.json'))
+            .timeout(const Duration(milliseconds: 2500));
+        if (configRes.statusCode == 200) {
+          final configData = jsonDecode(configRes.body);
+          final rawUrl = configData['url']?.toString().trim();
+          if (rawUrl != null && rawUrl.startsWith('http')) {
+            dynamicTunnelUrl = rawUrl;
+          }
+        }
+      } catch (_) {}
+
       // Lista de candidatos de rede testados em paralelo:
-      // Em Release: apenas o endpoint configurado oficial
-      // Em Debug: inclui localhost e emulador para desenvolvimento
+      // O primeiro a responder /api/health/ com 200 vence a corrida e assume a API!
       final candidateUrls = <String>{
         if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) cachedWinningUrl,
-        if (kDebugMode) ...[
+        if (dynamicTunnelUrl != null && dynamicTunnelUrl.isNotEmpty) dynamicTunnelUrl,
+        configuredUrl,
+        if (kDebugMode || !kIsWeb) ...[
           'http://127.0.0.1:8000',
           'http://10.0.2.2:8000',
         ],
-        configuredUrl,
       }.toList();
 
       http.Response? response;
@@ -380,24 +395,61 @@ class _AuthGateState extends State<AuthGate> {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  'Endereço configurado: ${dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000'}',
+                  style: TextStyle(
+                    color: AppTheme.textSecondary(context).withValues(alpha: 0.6),
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _hasError = false;
-                      _loadingMessage = 'Verificando sua conta...';
-                    });
-                    _checkAuth();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFD08A45),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _hasError = false;
+                        _loadingMessage = 'Verificando sua conta...';
+                      });
+                      _checkAuth();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFD08A45),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: const Text(
+                      'Tentar Novamente',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
-                  child: const Text('Tentar Novamente'),
                 ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    onPressed: () => _showServerConfigDialog(context),
+                    icon: const Icon(Icons.settings_ethernet_rounded, size: 20),
+                    label: const Text(
+                      'Configurar Servidor (API)',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppTheme.textPrimary(context),
+                      side: BorderSide(color: AppTheme.border(context)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
                 TextButton(
                   onPressed: () async {
                     await Supabase.instance.client.auth.signOut();
@@ -437,6 +489,147 @@ class _AuthGateState extends State<AuthGate> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showServerConfigDialog(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentUrl = prefs.getString('tupilingo_last_winning_api_url') ??
+        dotenv.env['API_URL'] ??
+        'http://127.0.0.1:8000';
+    final controller = TextEditingController(text: currentUrl);
+    bool isDetecting = false;
+
+    if (!context.mounted) return;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppTheme.surface(context),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 24,
+                right: 24,
+                top: 24,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Configurar Servidor',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () => Navigator.pop(ctx),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Informe a URL do túnel Cloudflare (https://...trycloudflare.com) ou IP local do servidor.',
+                    style: TextStyle(
+                      color: AppTheme.textSecondary(context),
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      labelText: 'Endereço da API',
+                      hintText: 'https://exemplo.trycloudflare.com',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      prefixIcon: const Icon(Icons.link_rounded),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: isDetecting
+                        ? null
+                        : () async {
+                            setModalState(() => isDetecting = true);
+                            try {
+                              final res = await http
+                                  .get(Uri.parse(
+                                      'https://pcquxppvheodcrdkwqhh.supabase.co/storage/v1/object/public/public-config/tunnel_url.json'))
+                                  .timeout(const Duration(seconds: 4));
+                              if (res.statusCode == 200) {
+                                final data = jsonDecode(res.body);
+                                final url = data['url']?.toString().trim();
+                                if (url != null && url.isNotEmpty) {
+                                  controller.text = url;
+                                }
+                              }
+                            } catch (_) {}
+                            if (ctx.mounted) {
+                              setModalState(() => isDetecting = false);
+                            }
+                          },
+                    icon: isDetecting
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.sync_rounded, size: 18),
+                    label: Text(isDetecting ? 'Buscando...' : 'Detectar Cloudflare no Supabase'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () async {
+                      var target = controller.text.trim();
+                      if (target.isEmpty) return;
+                      if (!target.startsWith('http://') && !target.startsWith('https://')) {
+                        target = 'https://$target';
+                      }
+                      if (target.endsWith('/')) {
+                        target = target.substring(0, target.length - 1);
+                      }
+                      dotenv.env['API_URL'] = target;
+                      await prefs.setString('tupilingo_last_winning_api_url', target);
+                      if (ctx.mounted) Navigator.pop(ctx);
+                      if (mounted) {
+                        setState(() {
+                          _hasError = false;
+                          _loadingMessage = 'Conectando ao servidor configurado...';
+                        });
+                        _checkAuth();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFD08A45),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    child: const Text('Salvar e Conectar', style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

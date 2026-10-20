@@ -224,15 +224,18 @@ call :ensure_cloudflared
 if errorlevel 1 goto end
 
 where docker >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [*] Docker nao detectado. Iniciando Backend via Python local venv...
-    cd /d "%PROJECT_DIR%backend"
-    start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
-) else (
-    echo [*] Iniciando servicos de backend em modo Producao Real no Docker (Gunicorn + Redis)...
-    cd /d "%PROJECT_DIR%backend"
-    start "Docker Backend (Producao Gunicorn)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.tunnel.yml up django redis"
-)
+if %errorlevel% neq 0 goto :opt_prod_serve_local
+echo [*] Iniciando servicos de backend em modo Producao Real no Docker (Gunicorn + Redis)...
+cd /d "%PROJECT_DIR%backend"
+start "Docker Backend (Producao Gunicorn)" cmd /k "docker compose -f docker-compose.yml -f docker-compose.tunnel.yml up django redis"
+goto :opt_prod_serve_wait
+
+:opt_prod_serve_local
+echo [*] Docker nao detectado. Iniciando Backend via Python local venv...
+cd /d "%PROJECT_DIR%backend"
+start "Django Backend (Local Python)" cmd /k ".\venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000"
+
+:opt_prod_serve_wait
 set "WAIT_TARGET_IP=127.0.0.1"
 call :wait_django
 
@@ -254,6 +257,11 @@ if not defined CLOUDFLARE_URL (
             if /i "%%A"=="CLOUDFLARE_URL" set "CLOUDFLARE_URL=%%B"
         )
     )
+)
+
+if defined CLOUDFLARE_URL (
+    echo [*] Sincronizando URL com o Supabase para autodescoberta no aplicativo...
+    python "%PROJECT_DIR%tools\publish_tunnel.py" "!CLOUDFLARE_URL!" 2>nul
 )
 goto prod_success_summary
 
@@ -800,6 +808,8 @@ if "%CLOUDFLARE_URL:~-1%"=="/" set "CLOUDFLARE_URL=%CLOUDFLARE_URL:~0,-1%"
 powershell -NoProfile -Command "if (Test-Path '%PROJECT_DIR%backend\.env') { $c = Get-Content '%PROJECT_DIR%backend\.env'; if ($c -match '^CLOUDFLARE_URL=') { $c = $c -replace '^CLOUDFLARE_URL=.*', 'CLOUDFLARE_URL=%CLOUDFLARE_URL%' } else { $c += 'CLOUDFLARE_URL=%CLOUDFLARE_URL%' }; Set-Content -Path '%PROJECT_DIR%backend\.env' -Value $c }" 2>nul
 
 echo [*] URL Publica do Cloudflare confirmada: %CLOUDFLARE_URL%
+echo [*] Sincronizando URL com o Supabase para autodescoberta no aplicativo...
+python "%PROJECT_DIR%tools\publish_tunnel.py" "%CLOUDFLARE_URL%" 2>nul
 exit /b 0
 
 :: -------------------------------------------------------------------------------

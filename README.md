@@ -59,6 +59,12 @@
 [![AI Powered](https://img.shields.io/badge/AI-Powered-D08A45?style=for-the-badge)](#)
 [![Cross Platform](https://img.shields.io/badge/Cross-Platform-2563EB?style=for-the-badge)](#)
 
+<br/>
+
+[![Acessar Web App](https://img.shields.io/badge/Acessar_Web_App-Live_Demo-0E5D4E?style=for-the-badge&logo=googlechrome&logoColor=white)](https://felipeamlozano-ui.github.io/TupiLingo-Project/app/)
+[![Baixar APK Android](https://img.shields.io/badge/Baixar_APK-v1.0.0--preview-D08A45?style=for-the-badge&logo=android&logoColor=white)](https://github.com/felipeamlozano-ui/TupiLingo-Project/releases/download/v1.0.0-preview/app-release.apk)
+[![Landing Page Oficial](https://img.shields.io/badge/Landing_Page-GitHub_Pages-14532D?style=for-the-badge&logo=githubpages&logoColor=white)](https://felipeamlozano-ui.github.io/TupiLingo-Project/)
+
 </div>
 
 <br/>

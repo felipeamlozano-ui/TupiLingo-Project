@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/core/audio/audio_manager.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
@@ -269,6 +273,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     const Divider(height: 1),
+                    ListTile(
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: primaryColor.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(Icons.dns_rounded, color: primaryColor, size: 20),
+                      ),
+                      title: Text(
+                        'Servidor da API (Backend)',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000',
+                        style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: const Icon(Icons.edit_rounded, size: 16),
+                      onTap: () => _showEditServerDialog(context),
+                    ),
+                    const Divider(height: 1),
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -366,6 +397,141 @@ class _SettingsScreenState extends State<SettingsScreen> {
           fontSize: 12,
         ),
       ),
+    );
+  }
+
+  Future<void> _showEditServerDialog(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentUrl = prefs.getString('tupilingo_last_winning_api_url') ??
+        dotenv.env['API_URL'] ??
+        'http://127.0.0.1:8000';
+    final controller = TextEditingController(text: currentUrl);
+    bool isDetecting = false;
+
+    if (!context.mounted) return;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppTheme.surface(context),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 24,
+                right: 24,
+                top: 24,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Servidor da API',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () => Navigator.pop(ctx),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Configure a URL do túnel Cloudflare ou IP do servidor backend.',
+                    style: TextStyle(
+                      color: AppTheme.textSecondary(context),
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      labelText: 'Endereço da API',
+                      hintText: 'https://exemplo.trycloudflare.com',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      prefixIcon: const Icon(Icons.link_rounded),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: isDetecting
+                        ? null
+                        : () async {
+                            setModalState(() => isDetecting = true);
+                            try {
+                              final res = await http
+                                  .get(Uri.parse(
+                                      'https://pcquxppvheodcrdkwqhh.supabase.co/storage/v1/object/public/public-config/tunnel_url.json'))
+                                  .timeout(const Duration(seconds: 4));
+                              if (res.statusCode == 200) {
+                                final data = jsonDecode(res.body);
+                                final url = data['url']?.toString().trim();
+                                if (url != null && url.isNotEmpty) {
+                                  controller.text = url;
+                                }
+                              }
+                            } catch (_) {}
+                            if (ctx.mounted) {
+                              setModalState(() => isDetecting = false);
+                            }
+                          },
+                    icon: isDetecting
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.sync_rounded, size: 18),
+                    label: Text(isDetecting ? 'Buscando...' : 'Detectar Cloudflare no Supabase'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () async {
+                      var target = controller.text.trim();
+                      if (target.isEmpty) return;
+                      if (!target.startsWith('http://') && !target.startsWith('https://')) {
+                        target = 'https://$target';
+                      }
+                      if (target.endsWith('/')) {
+                        target = target.substring(0, target.length - 1);
+                      }
+                      dotenv.env['API_URL'] = target;
+                      await prefs.setString('tupilingo_last_winning_api_url', target);
+                      if (ctx.mounted) Navigator.pop(ctx);
+                      if (mounted) setState(() {});
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFD08A45),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    child: const Text('Salvar Endpoint', style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
