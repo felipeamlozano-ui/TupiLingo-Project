@@ -170,8 +170,8 @@ class _TermsOfUseScreenState extends State<TermsOfUseScreen> with SingleTickerPr
           title: 'A. Diacronia e Corpus Colonial',
           content:
               'O conteúdo linguístico do TupiLingo baseia-se primordialmente no corpus documental dos séculos XVI e XVII '
-              '(como as obras do Pe. José de Anchieta, Pe. Luís Figueira e cronistas coloniais) e na sistematização contemporânea '
-              'do Prof. Dr. Eduardo de Almeida Navarro. O usuário reconhece que tais registros representam transcrições históricas '
+              '(como as obras do Pe. José de Anchieta, Pe. Luís Figueira e cronistas coloniais) e na documentação filológica e histórica '
+              'do Tupi Antigo. O usuário reconhece que tais registros representam transcrições históricas '
               'sujeitas a limitações filológicas da época.',
         ),
         _buildInfoCard(

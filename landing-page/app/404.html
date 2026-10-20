@@ -41,13 +41,10 @@
       var search = window.location.search || '';
       var hash = window.location.hash || '';
 
-      // Se a URL solicitada for dentro do subapp (/TupiLingo-Project/app/...)
       if (pathname.indexOf('/TupiLingo-Project/app') !== -1) {
-        // Redireciona para a raiz do Flutter Web mantendo intactos todos os query params (ex: ?code=...) e hash
         var target = '/TupiLingo-Project/app/' + search + hash;
         window.location.replace(target);
       } else {
-        // Redireciona para a raiz da landing page
         window.location.replace('/TupiLingo-Project/' + search + hash);
       }
     })();

@@ -679,7 +679,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Método Navarro USP',
+                        'Tupi Antigo Clássico',
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -691,7 +691,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Preservação e Salvaguarda',
+                  'Salvaguarda e Preservação',
                   style: TextStyle(
                     fontSize: 10,
                     color: AppTheme.textSecondary(context),
