@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:tupi_lingo/features/auth/presentation/otp_verification.dart';
@@ -434,22 +434,46 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
         return;
       }
 
-      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+      var baseUrl = AppConfig.backendBaseUrl;
+      http.Response response;
 
-      final response = await http
-          .post(
-            Uri.parse('$baseUrl/api/v1/auth/register-user'),
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ${session.accessToken}',
-            },
-            body: jsonEncode({
-              'name': _nameController.text.trim(),
-              'source': _selectedSource ?? '',
-              'tupi_level': _selectedLevel ?? '',
-            }),
-          )
-          .timeout(const Duration(seconds: 10));
+      try {
+        response = await http
+            .post(
+              Uri.parse('$baseUrl/api/v1/auth/register-user'),
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ${session.accessToken}',
+              },
+              body: jsonEncode({
+                'name': _nameController.text.trim(),
+                'source': _selectedSource ?? '',
+                'tupi_level': _selectedLevel ?? '',
+              }),
+            )
+            .timeout(const Duration(seconds: 8));
+      } catch (err) {
+        final newUrl = await AppConfig.refreshTunnelUrl();
+        if (newUrl != null && newUrl != baseUrl) {
+          baseUrl = newUrl;
+          response = await http
+              .post(
+                Uri.parse('$baseUrl/api/v1/auth/register-user'),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ${session.accessToken}',
+                },
+                body: jsonEncode({
+                  'name': _nameController.text.trim(),
+                  'source': _selectedSource ?? '',
+                  'tupi_level': _selectedLevel ?? '',
+                }),
+              )
+              .timeout(const Duration(seconds: 8));
+        } else {
+          rethrow;
+        }
+      }
 
       if (!mounted) return;
 

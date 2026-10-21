@@ -94,18 +94,44 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
-        setState(() {
-          _variantes = List<Map<String, dynamic>>.from(data['variantes'] ?? []);
-          _isLoadingVariants = false;
-        });
+        if (mounted) {
+          setState(() {
+            _variantes = List<Map<String, dynamic>>.from(data['variantes'] ?? []);
+            _isLoadingVariants = false;
+          });
+        }
+        return;
       } else {
-        throw Exception('Erro ao buscar línguas.');
+        throw Exception('Erro ao buscar línguas (código ${response.statusCode}).');
       }
     } catch (e) {
-      setState(() {
-        _isLoadingVariants = false;
-        _feedbackMessage = 'Erro de conexão: $e';
-      });
+      // Se falhou (ex: URL de túnel antiga ou circuit breaker), tenta renovar o túnel dinamicamente e retentar
+      try {
+        final newUrl = await AppConfig.refreshTunnelUrl();
+        if (newUrl != null) {
+          final retryResponse = await ApiClient.get(
+            '$newUrl/api/v1/trilha/variantes/',
+          ).timeout(const Duration(seconds: 10));
+
+          if (retryResponse.statusCode == 200) {
+            final data = jsonDecode(utf8.decode(retryResponse.bodyBytes));
+            if (mounted) {
+              setState(() {
+                _variantes = List<Map<String, dynamic>>.from(data['variantes'] ?? []);
+                _isLoadingVariants = false;
+              });
+            }
+            return;
+          }
+        }
+      } catch (_) {}
+
+      if (mounted) {
+        setState(() {
+          _isLoadingVariants = false;
+          _feedbackMessage = 'Erro de conexão: $e';
+        });
+      }
     }
   }
 

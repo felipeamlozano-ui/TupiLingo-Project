@@ -6,7 +6,7 @@ import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
 import 'package:tupi_lingo/features/auth/services/auth_service.dart';
 
@@ -118,29 +118,53 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   /// UserProfile criado no Django, ficando em loop infinito de onboarding.
   Future<void> _registerUserInDjango(String accessToken) async {
     try {
-      final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-      // URLS-001: prefixo /api/v1/
-      final response = await http
-          .post(
-            Uri.parse('$baseUrl/api/v1/auth/register-user'),
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer $accessToken',
-            },
-            body: jsonEncode({
-              'name': widget.userName ?? '',
-              'source': widget.userSource ?? '',
-              'tupi_level': widget.nivel,
-            }),
-          )
-          .timeout(const Duration(seconds: 10));
+      var baseUrl = AppConfig.backendBaseUrl;
+      http.Response response;
+      try {
+        response = await http
+            .post(
+              Uri.parse('$baseUrl/api/v1/auth/register-user'),
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer $accessToken',
+              },
+              body: jsonEncode({
+                'name': widget.userName ?? '',
+                'source': widget.userSource ?? '',
+                'tupi_level': widget.nivel,
+              }),
+            )
+            .timeout(const Duration(seconds: 8));
+      } catch (err) {
+        if (kDebugMode) {
+          debugPrint('[OTP] Falha com baseUrl atual ($baseUrl): $err. Buscando túnel atualizado no Supabase...');
+        }
+        final newUrl = await AppConfig.refreshTunnelUrl();
+        if (newUrl != null && newUrl != baseUrl) {
+          baseUrl = newUrl;
+          response = await http
+              .post(
+                Uri.parse('$baseUrl/api/v1/auth/register-user'),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer $accessToken',
+                },
+                body: jsonEncode({
+                  'name': widget.userName ?? '',
+                  'source': widget.userSource ?? '',
+                  'tupi_level': widget.nivel,
+                }),
+              )
+              .timeout(const Duration(seconds: 8));
+        } else {
+          rethrow;
+        }
+      }
 
       if (kDebugMode) {
         debugPrint('[OTP] register-user status: ${response.statusCode}');
       }
     } catch (e) {
-      // Falha silenciosa com log — não bloqueia a navegação
-      // O AuthGate detectará exists=false e redirecionará para onboarding novamente
       if (kDebugMode) {
         debugPrint('[OTP] Erro ao registrar no Django: ${e.runtimeType}');
       }

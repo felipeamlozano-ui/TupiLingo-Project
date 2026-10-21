@@ -13,6 +13,7 @@ import 'package:tupi_lingo/features/assessment/presentation/teste.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/core/logging/app_logger.dart';
 import 'package:tupi_lingo/features/admin/presentation/platform_suite/platform_suite_shell.dart';
@@ -43,12 +44,11 @@ Future<void> main() async {
   if (kIsWeb) {
     const sbUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://pcquxppvheodcrdkwqhh.supabase.co');
     const sbKey = String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjcXV4cHB2aGVvZGNyZGt3cWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MjY4MTgsImV4cCI6MjA5MTQwMjgxOH0.19umF7nkdYtTGbC-xDKUhcQ37qgkqQDq77sgvQRGaOY');
-    const defaultTunnel = 'https://loud-wal-sue-teaching.trycloudflare.com';
     const envApiUrl = String.fromEnvironment('API_URL');
     final isHttps = Uri.base.scheme == 'https';
     final apiUrl = envApiUrl.isNotEmpty
         ? envApiUrl
-        : (isHttps ? defaultTunnel : 'http://127.0.0.1:8000');
+        : (isHttps ? '' : 'http://127.0.0.1:8000');
     dotenv.loadFromString(envString: '''
 SUPABASE_URL=$sbUrl
 SUPABASE_ANON_KEY=$sbKey
@@ -78,11 +78,15 @@ API_URL=${const String.fromEnvironment('API_URL')}
     dotenv.env['API_URL'] = envApiUrl.trim();
   } else if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) {
     dotenv.env['API_URL'] = cachedWinningUrl;
-  } else if (isHttpsWeb) {
-    dotenv.env['API_URL'] = 'https://loud-wal-sue-teaching.trycloudflare.com';
-  } else if (dotenv.env['API_URL'] == null || dotenv.env['API_URL']!.trim().isEmpty) {
+  } else if (!isHttpsWeb && (dotenv.env['API_URL'] == null || dotenv.env['API_URL']!.trim().isEmpty)) {
     dotenv.env['API_URL'] = 'http://127.0.0.1:8000';
   }
+
+  // Autodescoberta dinâmica antecipada do túnel Cloudflare via Supabase Storage
+  // Garante que novos usuários não logados e fluxos de cadastro já recebam o túnel ativo no boot.
+  try {
+    await AppConfig.refreshTunnelUrl();
+  } catch (_) {}
 
   final supabaseUrl = dotenv.env['SUPABASE_URL'];
   final supabaseKey = dotenv.env['SUPABASE_ANON_KEY'];
@@ -181,9 +185,7 @@ class _AuthGateState extends State<AuthGate> {
       if (mounted) setState(() => _loadingMessage = 'Conectando ao servidor...');
 
       final isHttpsWeb = kIsWeb && Uri.base.scheme == 'https';
-      final configuredUrl = (dotenv.env['API_URL']?.trim().isNotEmpty == true)
-          ? dotenv.env['API_URL']!.trim()
-          : (isHttpsWeb ? 'https://loud-wal-sue-teaching.trycloudflare.com' : 'http://127.0.0.1:8000');
+      final configuredUrl = AppConfig.backendBaseUrl;
 
       final prefs = await SharedPreferences.getInstance();
       final rawCached = prefs.getString('tupilingo_last_winning_api_url')?.trim();
@@ -194,19 +196,7 @@ class _AuthGateState extends State<AuthGate> {
       // Consulta dinâmica de fallback ao túnel Cloudflare via Supabase Storage
       String? dynamicTunnelUrl;
       try {
-        final configRes = await http
-            .get(Uri.parse('https://pcquxppvheodcrdkwqhh.supabase.co/storage/v1/object/public/public-config/tunnel_url.json'))
-            .timeout(const Duration(milliseconds: 3500));
-        if (configRes.statusCode == 200) {
-          final configData = jsonDecode(configRes.body);
-          final rawUrl = configData['url']?.toString().trim();
-          if (rawUrl != null && rawUrl.startsWith('http')) {
-            dynamicTunnelUrl = rawUrl;
-            if (isHttpsWeb && rawUrl.startsWith('https://')) {
-              dotenv.env['API_URL'] = rawUrl;
-            }
-          }
-        }
+        dynamicTunnelUrl = await AppConfig.refreshTunnelUrl();
       } catch (_) {}
 
       // Lista de candidatos de rede testados em paralelo:

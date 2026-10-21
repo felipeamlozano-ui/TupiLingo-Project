@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
@@ -17,10 +17,7 @@ class AuthService {
   AuthService._();
   static final AuthService instance = AuthService._();
 
-  String get _baseUrl {
-    final url = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
-    return url.endsWith('/') ? url.substring(0, url.length - 1) : url;
-  }
+  String get _baseUrl => AppConfig.backendBaseUrl;
 
   bool _isCaptchaError(dynamic error) {
     final msg = error.toString().toLowerCase();

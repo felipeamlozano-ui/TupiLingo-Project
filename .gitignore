@@ -274,7 +274,8 @@ backend/scratch/*.jpg
 !frontend/tupi_lingo/windows/runner/resources/**
 !frontend/tupi_lingo/web/**
 !backend/ground_truth/**
-
+!landing-page/**
+!docs/app/**
 # ------------------------------------------------------------------------------
 # 📄 PDFs & Documentos Binários
 # ------------------------------------------------------------------------------
