@@ -22,6 +22,7 @@ import 'package:tupi_lingo/features/settings/data/settings_service.dart';
 import 'package:tupi_lingo/core/audio/audio_manager.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
+import 'package:tupi_lingo/core/security/session_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -114,8 +115,17 @@ API_URL=${const String.fromEnvironment('API_URL')}
     if (kDebugMode) {
       debugPrint('[Auth] Evento: ${data.event}');
     }
-    if (data.event == AuthChangeEvent.signedIn ||
-        data.event == AuthChangeEvent.signedOut ||
+    final session = data.session;
+    if (session != null) {
+      unawaited(SessionManager.instance.saveSession(session));
+    }
+    if (data.event == AuthChangeEvent.signedOut) {
+      unawaited(SessionManager.instance.clearSession());
+      unawaited(ApiCacheManager.instance.clearAll());
+      DashboardRepositoryImpl.invalidateCache();
+      StoreService.instance.clearUserCache();
+      unawaited(ThemeNotifier.instance.reloadForUser());
+    } else if (data.event == AuthChangeEvent.signedIn ||
         data.event == AuthChangeEvent.userUpdated) {
       unawaited(ApiCacheManager.instance.clearAll());
       DashboardRepositoryImpl.invalidateCache();
@@ -150,24 +160,24 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   Future<void> _checkAuth() async {
-    final session = Supabase.instance.client.auth.currentSession;
+    if (mounted) setState(() => _loadingMessage = 'Validando sessão...');
 
+    // Validação resiliente: recupera de cache se necessário, faz refresh antecipado
+    // e tolera falhas de rede no F5 sem chamar signOut() destrutivo.
+    final isSessionValid = await SessionManager.instance.validateAndRefreshSession();
+
+    if (!isSessionValid) {
+      if (mounted) Navigator.pushReplacementNamed(context, '/welcome');
+      return;
+    }
+
+    final session = Supabase.instance.client.auth.currentSession;
     if (session == null) {
       if (mounted) Navigator.pushReplacementNamed(context, '/welcome');
       return;
     }
 
     try {
-      if (mounted) setState(() => _loadingMessage = 'Validando sessão...');
-
-      try {
-        await Supabase.instance.client.auth.getUser();
-      } catch (_) {
-        await Supabase.instance.client.auth.signOut();
-        if (mounted) Navigator.pushReplacementNamed(context, '/welcome');
-        return;
-      }
-
       if (mounted) setState(() => _loadingMessage = 'Conectando ao servidor...');
 
       final isHttpsWeb = kIsWeb && Uri.base.scheme == 'https';

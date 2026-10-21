@@ -264,6 +264,7 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
       final response = await ApiClient.post(
         '${AppConfig.backendBaseUrl}/api/v1/nivelamento/gerar-questao/',
         body: payload,
+        timeout: const Duration(seconds: 45),
       );
 
       if (response.statusCode == 200) {
@@ -288,10 +289,15 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
         throw Exception('Erro ao gerar questões: ${response.statusCode}');
       }
     } catch (e) {
+      final isTimeout = e.toString().toLowerCase().contains('timeout') ||
+          e.toString().toLowerCase().contains('tempo limite');
       setState(() {
         _isLoadingTest = false;
-        _feedbackMessage = 'Erro de conexão: $e';
-        _phase = 0; // Volta para seleção se falhar
+        _feedbackMessage = isTimeout
+            ? 'A geração das perguntas demorou mais que o esperado pelo servidor. Verifique sua conexão e tente novamente.'
+            : 'Erro ao carregar o teste: ${e.toString().replaceAll("Exception: ", "")}';
+        // Mantém _phase = 1 para exibir a tela de erro e o botão "Tentar Novamente",
+        // evitando o loop infinito de reset desorientador para _phase = 0.
       });
     }
   }
@@ -669,20 +675,65 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
       );
     }
     
-    if (_feedbackMessage != null) {
+    if (_feedbackMessage != null && _questions.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, size: 48, color: Colors.red),
-            const SizedBox(height: 16),
-            Text(_feedbackMessage!, textAlign: TextAlign.center),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => _startTestForVariante(_selectedVariante!),
-              child: const Text('Tentar Novamente'),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.wifi_off_rounded, size: 52, color: Colors.amber),
+              const SizedBox(height: 18),
+              Text(
+                'Falha na geração das questões',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _TupiColors.accent,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                _feedbackMessage!,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 14, color: _TupiColors.subtitle, height: 1.4),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.refresh_rounded, size: 20),
+                onPressed: () {
+                  if (_selectedVariante != null) {
+                    _startTestForVariante(_selectedVariante!);
+                  } else {
+                    setState(() {
+                      _feedbackMessage = null;
+                      _phase = 0;
+                    });
+                  }
+                },
+                label: const Text('Tentar Novamente'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _TupiColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _feedbackMessage = null;
+                    _phase = 0;
+                  });
+                },
+                child: const Text(
+                  'Voltar à seleção de língua',
+                  style: TextStyle(color: _TupiColors.subtitle),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     }

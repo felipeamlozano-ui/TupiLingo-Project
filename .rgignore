@@ -1,0 +1,17 @@
+# Prevent ripgrep/search from dumping huge data/dump files into LLM context
+codigos_projeto_python_dart.txt
+*.mp4
+*.pdf
+*.png
+*.jpg
+*.lock
+**/item_bank_irt.json
+**/node_modules/**
+**/venv/**
+**/.venv/**
+**/__pycache__/**
+**/.pytest_cache/**
+**/.ruff_cache/**
+**/build/**
+**/.dart_tool/**
+**/graphify-out/**

@@ -717,16 +717,16 @@ class RAGService:
             variante_codigo.replace("_", " ").title(),
         )
 
-        # ── GANHO DE PERFORMANCE: Teto de max_tokens reduzido ────────────────
+        # ── GANHO DE PERFORMANCE: Teto de max_tokens reduzido para acelerar geração síncrona ──
         if nivel_atual <= 3:
             tier = "iniciante"
-            max_tokens = 380   # Reduzido de 800 para 380 tokens de saída
+            max_tokens = 380   # Tokens suficientes para 10 enunciados/explicações concisas
         elif nivel_atual <= 7:
             tier = "intermediario"
-            max_tokens = 850   # Reduzido de 1500 para 850
+            max_tokens = 650   # Reduzido de 850 para 650 (ganho de ~3s em modelos secundários)
         else:
             tier = "avancado"
-            max_tokens = 1350  # Reduzido de 2000 para 1350
+            max_tokens = 800   # Reduzido de 1350 para 800 (ganho de ~8-10s em modelos secundários)
 
         system_prompt = _get_system_prompt(tier)
 
@@ -861,6 +861,7 @@ class RAGService:
                 chain=model_chain,
                 temperature=0.2,
                 max_tokens=max_tokens,
+                timeout=15.0,
             )
         except (AllModelsUnavailableError, Exception) as exc:
             # CRITÉRIO DE ACEITAÇÃO: Falha de todos os modelos resulta em fallback tratado
