@@ -126,6 +126,36 @@ class UserProfile(models.Model):
         blank=True
     )
 
+    # ── Onboarding & Tour Guiado ─────────────────────────────────────────────
+    motivation = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        verbose_name="Motivação do Aluno",
+        help_text="Motivo declarado no onboarding para aprender a língua indígena."
+    )
+    daily_goal_minutes = models.PositiveSmallIntegerField(
+        default=5,
+        verbose_name="Meta Diária (minutos)",
+        help_text="Meta diária de dedicação estipulada no onboarding."
+    )
+    onboarding_completed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Data de Conclusão do Onboarding",
+        help_text="Timestamp em que o usuário concluiu todo o fluxo de apresentação."
+    )
+    tour_part1_completed = models.BooleanField(
+        default=False,
+        verbose_name="Tour Parte 1 Concluído",
+        help_text="Se o spotlight no primeiro nó da trilha já foi apresentado."
+    )
+    tour_part2_completed = models.BooleanField(
+        default=False,
+        verbose_name="Tour Parte 2 Concluído",
+        help_text="Se o tour dos contadores de ofensiva, conchas e prática já foi apresentado."
+    )
+
     # ── Timestamps ───────────────────────────────────────────────────────────
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -17,6 +17,8 @@ class TrailTabView extends StatelessWidget {
   final void Function(CapituloMapData, ChestRewardMapData) onChestTap;
   final void Function(CapituloMapData, ChestRewardMapData?) onCollectedChestTap;
 
+  final GlobalKey? targetNodeKey;
+
   const TrailTabView({
     super.key,
     required this.capitulos,
@@ -29,6 +31,7 @@ class TrailTabView extends StatelessWidget {
     required this.onLessonTap,
     required this.onChestTap,
     required this.onCollectedChestTap,
+    this.targetNodeKey,
   });
 
   @override
@@ -90,6 +93,7 @@ class TrailTabView extends StatelessWidget {
                     onLessonTap: onLessonTap,
                     onChestTap: onChestTap,
                     onCollectedChestTap: onCollectedChestTap,
+                    targetNodeKey: targetNodeKey,
                   ),
                 ]),
               ),

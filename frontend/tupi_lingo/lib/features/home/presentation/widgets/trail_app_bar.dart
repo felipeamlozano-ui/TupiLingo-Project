@@ -12,8 +12,11 @@ class TrailAppBar extends StatelessWidget {
   final VoidCallback onThemeToggle;
   final VoidCallback? onMapTap;
   final VoidCallback? onConchasTap;
-
   final bool showThemeToggle;
+
+  final GlobalKey? streakKey;
+  final GlobalKey? conchasKey;
+  final GlobalKey? xpKey;
 
   const TrailAppBar({
     super.key,
@@ -27,6 +30,9 @@ class TrailAppBar extends StatelessWidget {
     this.onMapTap,
     this.onConchasTap,
     this.showThemeToggle = true,
+    this.streakKey,
+    this.conchasKey,
+    this.xpKey,
   });
 
   static const Color _accent = Color(0xFFD08A45);
@@ -112,6 +118,7 @@ class TrailAppBar extends StatelessWidget {
                 children: [
                   // Ofensiva diária (Streak)
                   _buildTopStat(
+                    key: streakKey,
                     context: context,
                     iconData: Icons.local_fire_department_rounded,
                     label: '$streakDays',
@@ -121,6 +128,7 @@ class TrailAppBar extends StatelessWidget {
 
                   // Conchas
                   GestureDetector(
+                    key: conchasKey,
                     onTap: onConchasTap,
                     child: _buildTopStat(
                       context: context,
@@ -133,6 +141,7 @@ class TrailAppBar extends StatelessWidget {
 
                   // XP acumulado
                   GestureDetector(
+                    key: xpKey,
                     onTap: onXpTap,
                     child: _buildTopStat(
                       context: context,
@@ -179,6 +188,7 @@ class TrailAppBar extends StatelessWidget {
   }
 
   Widget _buildTopStat({
+    Key? key,
     required BuildContext context,
     required IconData iconData,
     required String label,
@@ -186,6 +196,7 @@ class TrailAppBar extends StatelessWidget {
   }) {
     final isDark = AppTheme.isDark(context);
     return Container(
+      key: key,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
         color: AppTheme.surface(context),

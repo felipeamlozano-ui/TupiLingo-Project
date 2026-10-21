@@ -24,6 +24,7 @@ import 'package:tupi_lingo/core/audio/audio_manager.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import 'package:tupi_lingo/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:tupi_lingo/core/security/session_manager.dart';
+import 'package:tupi_lingo/features/onboarding/presentation/intro_flow_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -289,8 +290,7 @@ class _AuthGateState extends State<AuthGate> {
             );
           }
         } else {
-
-          Navigator.pushReplacementNamed(context, '/register');
+          Navigator.pushReplacementNamed(context, '/intro');
         }
       } else {
         setState(() {
@@ -682,6 +682,7 @@ class MyApp extends StatelessWidget {
             '/home': (_) => const HomeScreen(),
             '/register': (_) => const RegisterScreen(),
             '/welcome': (_) => const WelcomeScreen(),
+            '/intro': (_) => const IntroFlowScreen(),
             '/admin/platform': (_) => const PlatformSuiteShell(initialIndex: 0),
             '/admin/developer': (_) => const PlatformSuiteShell(initialIndex: 0),
             '/admin/security': (_) => const PlatformSuiteShell(initialIndex: 1),
@@ -761,7 +762,7 @@ class WelcomeScreen extends StatelessWidget {
                 height: 70,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/register');
+                    Navigator.pushReplacementNamed(context, '/intro');
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 4,

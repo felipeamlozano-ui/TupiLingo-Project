@@ -13,6 +13,8 @@ class TrailCanvasView extends StatelessWidget {
   final void Function(CapituloMapData cap, ChestRewardMapData chest) onChestTap;
   final void Function(CapituloMapData cap, ChestRewardMapData? chest) onCollectedChestTap;
 
+  final GlobalKey? targetNodeKey;
+
   const TrailCanvasView({
     super.key,
     required this.cap,
@@ -22,6 +24,7 @@ class TrailCanvasView extends StatelessWidget {
     required this.onLessonTap,
     required this.onChestTap,
     required this.onCollectedChestTap,
+    this.targetNodeKey,
   });
 
   // Constrói a sequência ondulada vertical com conectores, nós interativos e baú de recompensas
@@ -139,7 +142,12 @@ class TrailCanvasView extends StatelessWidget {
                           ),
                         ),
                       ),
-                    _build3DNodeButton(context, licao, isTarget: isTarget),
+                    _build3DNodeButton(
+                      context,
+                      licao,
+                      isTarget: isTarget,
+                      targetKey: isTarget ? targetNodeKey : null,
+                    ),
                   ],
                 ),
               ),
@@ -167,7 +175,12 @@ class TrailCanvasView extends StatelessWidget {
   }
 
   // Botão circular estilizado em 3D com relevo, cor de status e reflexo brilhante
-  Widget _build3DNodeButton(BuildContext context, LicaoMapData licao, {bool isTarget = false}) {
+  Widget _build3DNodeButton(
+    BuildContext context,
+    LicaoMapData licao, {
+    bool isTarget = false,
+    Key? targetKey,
+  }) {
     final isCompleted = licao.status == LicaoStatus.concluida;
     final isInProgress = licao.status == LicaoStatus.emAndamento;
     final isAvailable = licao.status == LicaoStatus.disponivel;
@@ -246,6 +259,7 @@ class TrailCanvasView extends StatelessWidget {
     }
 
     return GestureDetector(
+      key: targetKey,
       onTap: () => onLessonTap(licao),
       child: Column(
         mainAxisSize: MainAxisSize.min,

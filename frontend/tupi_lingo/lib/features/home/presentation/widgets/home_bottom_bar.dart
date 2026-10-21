@@ -8,11 +8,14 @@ class HomeBottomBar extends StatelessWidget {
   final bool isAdmin;
   final ValueChanged<int> onTabSelected;
 
+  final GlobalKey? practiceTabKey;
+
   const HomeBottomBar({
     super.key,
     required this.currentTabIndex,
     required this.isAdmin,
     required this.onTabSelected,
+    this.practiceTabKey,
   });
 
   @override
@@ -50,8 +53,8 @@ class HomeBottomBar extends StatelessWidget {
             label: 'Trilha',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.fitness_center_rounded),
-            activeIcon: Icon(Icons.fitness_center_rounded, color: primaryEmerald),
+            icon: Icon(Icons.fitness_center_rounded, key: practiceTabKey),
+            activeIcon: Icon(Icons.fitness_center_rounded, color: primaryEmerald, key: practiceTabKey),
             label: 'Prática',
           ),
           BottomNavigationBarItem(

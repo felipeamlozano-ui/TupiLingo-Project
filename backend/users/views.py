@@ -16,6 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
 from django_ratelimit.decorators import ratelimit
 
+from django.utils import timezone
 from .decorators import supabase_auth_required
 from .models import UserProfile
 
@@ -109,6 +110,9 @@ def check_user(request):
         "dias_ofensiva": user.streak_atual if user else 0,
         "maior_streak": user.maior_streak if user else 0,
         "conchas": getattr(user, 'conchas', 0) if user else 0,
+        "tour_part1_completed": getattr(user, 'tour_part1_completed', False) if user else False,
+        "tour_part2_completed": getattr(user, 'tour_part2_completed', False) if user else False,
+        "onboarding_completed": bool(user and user.onboarding_completed_at),
         "variante_ativa": variante_ativa_data,
     })
 
@@ -136,6 +140,10 @@ def register_user(request):
 
     name = body.get('name', '').strip()
     source = body.get('source', '').strip()
+    motivation = body.get('motivation', '').strip()[:100]
+    daily_goal_minutes = int(body.get('daily_goal_minutes') or 5)
+    demo_xp = int(body.get('demo_earned_xp') or 0)
+    demo_conchas = int(body.get('demo_earned_conchas') or 0)
 
     if not name:
         return JsonResponse({'error': 'O campo "name" é obrigatório'}, status=400)
@@ -211,9 +219,12 @@ def register_user(request):
                 'email': email,
                 'name': name,
                 'source': source,
+                'motivation': motivation,
+                'daily_goal_minutes': daily_goal_minutes,
+                'onboarding_completed_at': timezone.now(),
                 'variante_ativa': variante_obj,
-                'xp_total': 0,
-                'conchas': 0,
+                'xp_total': demo_xp,
+                'conchas': demo_conchas,
                 'streak_atual': 0,
             },
         )
@@ -236,6 +247,43 @@ def register_user(request):
         "status": "Cadastro realizado com sucesso",
         "created": True,
     }, status=201)
+
+
+@supabase_auth_required
+def sync_onboarding(request):
+    """
+    Sincroniza o progresso do tour guiado ou conclusão do onboarding.
+    Chamado pelo Flutter quando o usuário avança no tour da Home.
+    """
+    user_id = request.user_data.get('sub')
+    profile = UserProfile.objects.filter(supabase_uid=user_id).first()
+    if not profile:
+        return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+
+    try:
+        body = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({'error': 'Corpo da requisição inválido'}, status=400)
+
+    updated_fields = ['updated_at']
+    if 'tour_part1' in body:
+        profile.tour_part1_completed = bool(body['tour_part1'])
+        updated_fields.append('tour_part1_completed')
+    if 'tour_part2' in body:
+        profile.tour_part2_completed = bool(body['tour_part2'])
+        updated_fields.append('tour_part2_completed')
+    if body.get('onboarding_completed'):
+        if not profile.onboarding_completed_at:
+            profile.onboarding_completed_at = timezone.now()
+            updated_fields.append('onboarding_completed_at')
+
+    profile.save(update_fields=updated_fields)
+    return JsonResponse({
+        'status': 'success',
+        'tour_part1_completed': profile.tour_part1_completed,
+        'tour_part2_completed': profile.tour_part2_completed,
+        'onboarding_completed': bool(profile.onboarding_completed_at),
+    })
 
 
 @csrf_exempt

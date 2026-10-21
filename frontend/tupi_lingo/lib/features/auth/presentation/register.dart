@@ -14,6 +14,7 @@ import 'steps/step_level_widget.dart';
 import 'steps/step_name_widget.dart';
 import 'steps/step_source_widget.dart';
 import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
+import 'package:tupi_lingo/features/onboarding/data/onboarding_repository.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -106,6 +107,24 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
       ),
     );
     _progressAnimController.forward();
+    _loadOnboardingDraft();
+  }
+
+  Future<void> _loadOnboardingDraft() async {
+    final draft = await OnboardingRepository.instance.loadDraft();
+    if (draft != null && mounted) {
+      setState(() {
+        if (draft.name != null && draft.name!.isNotEmpty && _nameController.text.isEmpty) {
+          _nameController.text = draft.name!;
+        }
+        if (draft.source != null && draft.source!.isNotEmpty) {
+          _selectedSource = draft.source;
+        }
+        if (draft.tupiLevel != null && draft.tupiLevel!.isNotEmpty) {
+          _selectedLevel = draft.tupiLevel;
+        }
+      });
+    }
   }
 
   // Libera os controllers de texto, animações e o pageView da memória pra evitar vazamento no encerramento da tela.
@@ -296,6 +315,9 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
       if (!mounted) return;
 
       if (user != null) {
+        await OnboardingRepository.instance.clearDraft();
+        await OnboardingRepository.instance.setOnboardingCompleted();
+        if (!mounted) return;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -478,6 +500,8 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
       if (!mounted) return;
 
       if (response.statusCode == 201 || response.statusCode == 200) {
+        await OnboardingRepository.instance.clearDraft();
+        await OnboardingRepository.instance.setOnboardingCompleted();
         await LegalConsentService.instance.saveConsent(termsAccepted: true, disclaimerAccepted: true);
         if (!mounted) return;
         Navigator.pushReplacement(

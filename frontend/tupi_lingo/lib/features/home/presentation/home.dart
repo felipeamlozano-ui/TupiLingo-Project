@@ -32,6 +32,7 @@ import 'widgets/home_bottom_bar.dart';
 import 'widgets/lesson_start_modal.dart';
 import 'tabs/practice_tab_view.dart';
 import 'tabs/trail_tab_view.dart';
+import 'package:tupi_lingo/features/onboarding/presentation/tour/tour_controller.dart';
 
 // Paleta de cores com identidade visual Tupi para a tela inicial
 class _TupiColors {
@@ -51,6 +52,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   int _currentTabIndex = 0; // 0: Trilha, 1: Prática, 2: Perfil, 3: Admin (se autorizado)
   int _selectedCapituloIndex = 0;
   bool _isAdmin = false;
+
+  final GlobalKey _streakKey = GlobalKey();
+  final GlobalKey _conchasKey = GlobalKey();
+  final GlobalKey _xpKey = GlobalKey();
+  final GlobalKey _targetNodeKey = GlobalKey();
+  final GlobalKey _practiceTabKey = GlobalKey();
 
   AnimationController? _pulseController;
   AnimationController? _floatController;
@@ -497,6 +504,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         }
         _isLoading = false;
       });
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          TourController.instance.maybeStartPart1(
+            context: context,
+            targetNodeKey: _targetNodeKey,
+          );
+        }
+      });
     }
   }
 
@@ -851,6 +867,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       streakDays: _streakDays,
       conchas: _conchas,
       xpTotal: _xpTotal,
+      streakKey: _streakKey,
+      conchasKey: _conchasKey,
+      xpKey: _xpKey,
       showThemeToggle: isCustomThemesEnabled,
       onLanguageTap: () => _showLanguageSwitcher(context),
       onXpTap: () => Navigator.push(
@@ -867,6 +886,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     return TrailTabView(
       capitulos: _capitulos,
       selectedCapituloIndex: _selectedCapituloIndex,
+      targetNodeKey: _targetNodeKey,
       onSelectCapituloIndex: (idx) => setState(() => _selectedCapituloIndex = idx),
       pulseController: _pulseController,
       floatController: _floatController,
@@ -1118,6 +1138,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               unlockedLessonId: nextLicaoId,
               newStreak: _streakDays,
             );
+
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                TourController.instance.maybeStartPart2(
+                  context: context,
+                  streakKey: _streakKey,
+                  conchasKey: _conchasKey,
+                  xpKey: _xpKey,
+                  practiceTabKey: _practiceTabKey,
+                );
+              }
+            });
           } else {
             DashboardRepositoryImpl.invalidateCache();
             AppProgressionNotifier.instance.notifyProgressUpdated();
@@ -1282,6 +1314,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       currentTabIndex: _currentTabIndex,
       isAdmin: _isAdmin,
       onTabSelected: _switchTab,
+      practiceTabKey: _practiceTabKey,
     );
   }
 
