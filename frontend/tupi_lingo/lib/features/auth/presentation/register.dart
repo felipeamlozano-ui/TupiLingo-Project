@@ -469,6 +469,7 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
               },
               body: jsonEncode({
                 'name': _nameController.text.trim(),
+                'email': session.user.email ?? '',
                 'source': _selectedSource ?? '',
                 'tupi_level': _selectedLevel ?? '',
               }),
@@ -487,6 +488,7 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                 },
                 body: jsonEncode({
                   'name': _nameController.text.trim(),
+                  'email': session.user.email ?? '',
                   'source': _selectedSource ?? '',
                   'tupi_level': _selectedLevel ?? '',
                 }),

@@ -131,14 +131,11 @@ TEMAS_PREDEFINIDOS = [
 ]
 
 
+from users.helpers import get_or_provision_user
+
+
 def _get_user_or_error(request) -> tuple[UserProfile | None, JsonResponse | None]:
-    supabase_uid = request.user_data.get("sub")
-    if not supabase_uid:
-        return None, JsonResponse({"error": "UNAUTHORIZED"}, status=401)
-    user = UserProfile.objects.filter(supabase_uid=supabase_uid).first()
-    if not user:
-        return None, JsonResponse({"error": "Usuário não encontrado."}, status=404)
-    return user, None
+    return get_or_provision_user(request)
 
 
 def _get_embedding_vector(texto: str) -> list[float] | None:

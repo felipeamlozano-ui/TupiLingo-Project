@@ -19,6 +19,7 @@ from django_ratelimit.decorators import ratelimit
 from django.utils import timezone
 from .decorators import supabase_auth_required
 from .models import UserProfile
+from .helpers import extract_user_email, get_or_provision_user
 
 logger = logging.getLogger('users.views')
 
@@ -66,24 +67,21 @@ def check_user(request):
     mas o e-mail verificado pertence a um perfil existente, re-sincroniza o supabase_uid.
     """
     user_id = request.user_data.get('sub')
-    email = (request.user_data.get('email') or '').strip().lower()
+    email = extract_user_email(request.user_data)
 
     user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
 
     # Reconciliação automática estritamente para e-mails comprovadamente verificados no token
-    if not user and email:
-        if _is_email_verified(request.user_data):
-            existing = UserProfile.objects.select_related('variante_ativa').filter(email__iexact=email).first()
-            if existing:
-                logger.info(
-                    "Reconciliando supabase_uid em check_user para %s (antigo=%s, novo=%s)",
-                    email, existing.supabase_uid, user_id,
-                )
-                existing.supabase_uid = user_id
-                existing.save(update_fields=['supabase_uid'])
-                user = existing
-        else:
-            logger.warning("Reconciliação ignorada para %s: e-mail não verificado no token.", email)
+    if not user and email and not email.endswith('@anon.tupilingo.internal'):
+        existing = UserProfile.objects.select_related('variante_ativa').filter(email__iexact=email).first()
+        if existing:
+            logger.info(
+                "Reconciliando supabase_uid em check_user para %s (antigo=%s, novo=%s)",
+                email, existing.supabase_uid, user_id,
+            )
+            existing.supabase_uid = user_id
+            existing.save(update_fields=['supabase_uid'])
+            user = existing
 
     exists = user is not None
 
@@ -124,11 +122,11 @@ def check_user(request):
 @supabase_auth_required
 def register_user(request):
     """
-    Cria o perfil do usuário após a conclusão do onboarding.
-    Não define mais tupi_level — o nível é definido pelo teste de nivelamento por variante.
+    Cria ou reconcilia o perfil do usuário após a conclusão do onboarding.
+    Garante integridade e auto-recuperação sem falso 200.
     """
     user_id = request.user_data.get('sub')
-    email = (request.user_data.get('email') or '').strip().lower()
+    email = extract_user_email(request.user_data)
 
     try:
         body = json.loads(request.body)
@@ -138,18 +136,25 @@ def register_user(request):
     if not email and body.get('email'):
         email = str(body.get('email', '')).strip().lower()
 
+    if not email:
+        final_email = f"{user_id}@anon.tupilingo.internal"
+    else:
+        final_email = email
+
     name = body.get('name', '').strip()
+    if not name:
+        user_metadata = request.user_data.get('user_metadata') or {}
+        name = user_metadata.get('name') or user_metadata.get('full_name') or (email.split('@')[0] if email else 'Aluno')
+    name = str(name)[:150]
+
     source = body.get('source', '').strip()
+    if source not in VALID_SOURCES:
+        source = 'outro'
+
     motivation = body.get('motivation', '').strip()[:100]
     daily_goal_minutes = int(body.get('daily_goal_minutes') or 5)
     demo_xp = int(body.get('demo_earned_xp') or 0)
     demo_conchas = int(body.get('demo_earned_conchas') or 0)
-
-    if not name:
-        return JsonResponse({'error': 'O campo "name" é obrigatório'}, status=400)
-
-    if source not in VALID_SOURCES:
-        source = 'outro'
 
     variante_id = body.get('variante_id')
     variante_obj = None
@@ -157,66 +162,56 @@ def register_user(request):
         from trilha.models import VarianteTupi
         variante_obj = VarianteTupi.objects.filter(id=variante_id, ativo=True).first()
 
-    # Se já existe pelo supabase_uid, atualiza dados básicos e variante se enviada
+    # 1. Se já existe pelo supabase_uid, atualiza dados básicos e variante se enviada
     existing_by_uid = UserProfile.objects.filter(supabase_uid=user_id).first()
     if existing_by_uid:
+        if name and existing_by_uid.name != name:
+            existing_by_uid.name = name
+        if email and (not existing_by_uid.email or existing_by_uid.email.endswith('@anon.tupilingo.internal')):
+            existing_by_uid.email = email
+        if source and not existing_by_uid.source:
+            existing_by_uid.source = source
         if variante_obj and not existing_by_uid.variante_ativa:
             existing_by_uid.variante_ativa = variante_obj
-            existing_by_uid.save(update_fields=['variante_ativa', 'updated_at'])
+        if demo_xp > 0 and existing_by_uid.xp_total == 0:
+            existing_by_uid.xp_total = demo_xp
+        if demo_conchas > 0 and existing_by_uid.conchas == 0:
+            existing_by_uid.conchas = demo_conchas
+        if not existing_by_uid.onboarding_completed_at:
+            existing_by_uid.onboarding_completed_at = timezone.now()
+        existing_by_uid.save()
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 
-    # Se já existe por e-mail no Django (ex: conta recriada no Supabase), reconcilia apenas se o e-mail estiver confirmado
-    if email:
+    # 2. Se já existe por e-mail no Django (ex: conta recriada no Supabase ou OAuth), reconcilia
+    if email and not email.endswith('@anon.tupilingo.internal'):
         existing_by_email = UserProfile.objects.filter(email__iexact=email).first()
         if existing_by_email:
-            if not _is_email_verified(request.user_data):
-                logger.warning(
-                    "Bloqueando tentativa de reconciliação para e-mail não confirmado: %s (uid=%s)",
-                    email, user_id
-                )
-                return JsonResponse({
-                    'error': 'E-mail associado a um perfil existente, mas ainda não verificado. Por favor, confirme seu e-mail.',
-                    'code': 'EMAIL_NOT_VERIFIED'
-                }, status=403)
-
             logger.info(
-                "Reconciliando supabase_uid no registro para %s (antigo=%s, novo=%s) com reset de progresso",
+                "Reconciliando supabase_uid no registro para %s (antigo=%s, novo=%s)",
                 email, existing_by_email.supabase_uid, user_id,
             )
             existing_by_email.supabase_uid = user_id
             if name:
                 existing_by_email.name = name
-            existing_by_email.source = source
-            # Garante que novo cadastro inicie com estado limpo (0 XP, 0 Conchas, 0 Streak)
-            existing_by_email.xp_total = 0
-            existing_by_email.conchas = 0
-            existing_by_email.streak_atual = 0
-            existing_by_email.maior_streak = 0
-            existing_by_email.dias_estudados_total = 0
-            existing_by_email.ultimo_dia_estudado = None
+            if source:
+                existing_by_email.source = source
             if variante_obj:
                 existing_by_email.variante_ativa = variante_obj
+            if demo_xp > 0 and existing_by_email.xp_total == 0:
+                existing_by_email.xp_total = demo_xp
+            if demo_conchas > 0 and existing_by_email.conchas == 0:
+                existing_by_email.conchas = demo_conchas
+            if not existing_by_email.onboarding_completed_at:
+                existing_by_email.onboarding_completed_at = timezone.now()
             existing_by_email.save()
-
-            # Limpa registros antigos de teste e lições
-            try:
-                from nivelamento.models import TestAttempt, UserVarianteLevel
-                from users.models import UserLesson, DailyStudyLog
-                TestAttempt.objects.filter(user=existing_by_email).delete()
-                UserVarianteLevel.objects.filter(user=existing_by_email).delete()
-                UserLesson.objects.filter(usuario=existing_by_email).delete()
-                DailyStudyLog.objects.filter(user=existing_by_email).delete()
-            except Exception as e:
-                logger.warning("Falha ao limpar progresso legado do usuário %s: %s", email, e)
-
             return JsonResponse({"status": "Perfil reconciliado com sucesso", "created": False})
 
-    # API-003: get_or_create atômico evita race condition TOCTOU
+    # 3. get_or_create atômico com defaults resilientes
     try:
         profile, created = UserProfile.objects.get_or_create(
             supabase_uid=user_id,
             defaults={
-                'email': email,
+                'email': final_email,
                 'name': name,
                 'source': source,
                 'motivation': motivation,
@@ -228,25 +223,25 @@ def register_user(request):
                 'streak_atual': 0,
             },
         )
-    except IntegrityError:
-        logger.warning("Conflito de integridade ao criar UserProfile para uid=%s", user_id)
-        existing_user = UserProfile.objects.filter(email__iexact=email).first()
+    except IntegrityError as exc:
+        logger.warning("Conflito de integridade ao criar UserProfile para uid=%s: %s", user_id, exc)
+        existing_user = UserProfile.objects.filter(supabase_uid=user_id).first()
+        if not existing_user and email and not email.endswith('@anon.tupilingo.internal'):
+            existing_user = UserProfile.objects.filter(email__iexact=email).first()
+            if existing_user:
+                existing_user.supabase_uid = user_id
+                existing_user.save()
         if existing_user:
-            existing_user.supabase_uid = user_id
-            existing_user.xp_total = 0
-            existing_user.conchas = 0
-            existing_user.save()
-            return JsonResponse({"status": "Usuario re-sincronizado", "created": False})
-        return JsonResponse({"status": "Usuario ja registrado", "created": False})
+            return JsonResponse({"status": "Usuario ja registrado", "created": False})
+
+        logger.error("Falha irrecuperável ao criar/reconciliar UserProfile para uid=%s", user_id)
+        return JsonResponse({"error": "Erro ao criar perfil de usuário"}, status=500)
 
     if not created:
         return JsonResponse({"status": "Usuario ja registrado", "created": False})
 
-    logger.info("Novo UserProfile criado: uid=%s", user_id)
-    return JsonResponse({
-        "status": "Cadastro realizado com sucesso",
-        "created": True,
-    }, status=201)
+    logger.info("Novo UserProfile criado com sucesso: uid=%s (email=%s)", user_id, final_email)
+    return JsonResponse({"status": "Usuario criado com sucesso", "created": True}, status=201)
 
 
 @supabase_auth_required
@@ -255,10 +250,9 @@ def sync_onboarding(request):
     Sincroniza o progresso do tour guiado ou conclusão do onboarding.
     Chamado pelo Flutter quando o usuário avança no tour da Home.
     """
-    user_id = request.user_data.get('sub')
-    profile = UserProfile.objects.filter(supabase_uid=user_id).first()
-    if not profile:
-        return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+    profile, err = get_or_provision_user(request)
+    if err:
+        return err
 
     try:
         body = json.loads(request.body)
@@ -311,9 +305,9 @@ def update_variante_ativa(request):
         if not variante:
             return JsonResponse({'error': 'Variante inválida ou inativa.'}, status=404)
 
-        user = UserProfile.objects.filter(supabase_uid=user_id).first()
-        if not user:
-            return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+        user, err = get_or_provision_user(request)
+        if err:
+            return err
 
         user.variante_ativa = variante
         user.save(update_fields=['variante_ativa', 'updated_at'])
@@ -376,10 +370,9 @@ def get_profile(request):
         get_all_achievements_with_status,
     )
 
-    user_id = request.user_data.get('sub')
-    user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
-    if not user:
-        return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+    user, err = get_or_provision_user(request)
+    if err:
+        return err
 
     # 1. Nível calibrado na variante ativa
     nivel_atual = 1
@@ -531,10 +524,9 @@ def dashboard_stats(request):
     para o Painel de Desempenho & Memória (sem mocks ou seeds),
     com cache Redis otimizado de 30s e suporte a refresh forçado.
     """
-    user_id = request.user_data.get('sub')
-    user = UserProfile.objects.select_related('variante_ativa').filter(supabase_uid=user_id).first()
-    if not user:
-        return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+    user, err = get_or_provision_user(request)
+    if err:
+        return err
 
     force_refresh = request.GET.get('refresh') in ('1', 'true', 'True')
 

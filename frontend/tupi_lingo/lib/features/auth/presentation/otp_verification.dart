@@ -130,6 +130,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               },
               body: jsonEncode({
                 'name': widget.userName ?? '',
+                'email': widget.email,
                 'source': widget.userSource ?? '',
                 'tupi_level': widget.nivel,
               }),
@@ -151,6 +152,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 },
                 body: jsonEncode({
                   'name': widget.userName ?? '',
+                  'email': widget.email,
                   'source': widget.userSource ?? '',
                   'tupi_level': widget.nivel,
                 }),

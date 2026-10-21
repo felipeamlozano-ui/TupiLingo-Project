@@ -47,9 +47,12 @@ def _validate_with_supabase_api(token: str) -> dict | None:
                 user_id = data.get('id')
                 if not user_id:
                     return None
+                email = data.get('email', '')
+                if not email and isinstance(data.get('user_metadata'), dict):
+                    email = data['user_metadata'].get('email', '')
                 return {
                     'sub': user_id,
-                    'email': data.get('email', ''),
+                    'email': email,
                     'user_metadata': data.get('user_metadata', {}),
                     'app_metadata': data.get('app_metadata', {}),
                     'exp': time.time() + 300,
@@ -137,6 +140,11 @@ def supabase_auth_required(view_func):
         if aud and aud not in ('authenticated',):
             logger.warning("Rejeitando token JWT com aud incompatível: %s", aud)
             return JsonResponse({'error': 'Finalidade do token incompatível com acesso autenticado.'}, status=401)
+
+        if not payload.get('email') and isinstance(payload.get('user_metadata'), dict):
+            payload['email'] = payload['user_metadata'].get('email', '')
+        if not payload.get('email') and isinstance(payload.get('app_metadata'), dict):
+            payload['email'] = payload['app_metadata'].get('email', '')
 
         request.user_data = payload
         ttl = max(30, min(int(payload.get('exp', 0) - time.time()), 300))

@@ -28,6 +28,9 @@ DEFAULT_UNLOCKED_ITEMS = {
 }
 
 
+from .helpers import get_or_provision_user
+
+
 @csrf_exempt
 @require_GET
 @ratelimit(key='ip', rate='60/m', block=True)
@@ -37,10 +40,9 @@ def get_store_catalog(request):
     Retorna o catálogo completo da Loja de Conchas, o saldo atual do usuário,
     os itens já desbloqueados, os itens equipados e a assinatura digital do estado.
     """
-    user_id = request.user_data.get('sub')
-    user = UserProfile.objects.filter(supabase_uid=user_id).first()
-    if not user:
-        return JsonResponse({'error': 'Perfil de usuário não encontrado'}, status=404)
+    user, err = get_or_provision_user(request)
+    if err:
+        return err
 
     # Coleta cosméticos já desbloqueados
     user_cosmetics = UserCosmetic.objects.filter(user=user)
@@ -104,6 +106,10 @@ def purchase_cosmetic(request):
         return JsonResponse({'error': 'Item não encontrado no catálogo'}, status=404)
 
     price = item.get('price', 0)
+
+    _, err = get_or_provision_user(request)
+    if err:
+        return err
 
     with transaction.atomic():
         user = UserProfile.objects.select_for_update().filter(supabase_uid=user_id).first()
@@ -202,9 +208,9 @@ def equip_cosmetic(request):
     if item_type == 'special_lesson':
         return JsonResponse({'error': 'Lições especiais não são equipáveis (são acessadas diretamente)'}, status=400)
 
-    user = UserProfile.objects.filter(supabase_uid=user_id).first()
-    if not user:
-        return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+    user, err = get_or_provision_user(request)
+    if err:
+        return err
 
     # Verifica se o item está desbloqueado
     is_unlocked = (item_id in DEFAULT_UNLOCKED_ITEMS) or UserCosmetic.objects.filter(user=user, item_id=item_id).exists()

@@ -10,15 +10,12 @@ from users.models import UserProfile, UserLesson
 from trilha.models import Licao
 
 
+from users.helpers import get_or_provision_user
+
+
 def _get_user(request) -> tuple:
-    """Resolve o UserProfile a partir do JWT. Retorna (user, error_response)."""
-    supabase_uid = request.user_data.get("sub")
-    if not supabase_uid:
-        return None, JsonResponse({"error": "UNAUTHORIZED"}, status=401)
-    user = UserProfile.objects.filter(supabase_uid=supabase_uid).first()
-    if not user:
-        return None, JsonResponse({"error": "Usuário não encontrado."}, status=404)
-    return user, None
+    """Resolve o UserProfile a partir do JWT com tolerância a falhas e auto-provisionamento. Retorna (user, error_response)."""
+    return get_or_provision_user(request)
 
 
 def _get_or_create_user_lesson(user: UserProfile, licao: Licao) -> UserLesson:

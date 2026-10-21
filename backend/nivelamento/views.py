@@ -33,31 +33,16 @@ from trilha.models import VarianteTupi
 logger = logging.getLogger("nivelamento.views")
 
 
+from users.helpers import get_or_provision_user
+
+
 def _get_user_or_error(request) -> tuple[UserProfile | None, JsonResponse | None]:
-    """Helper: resolve o UserProfile a partir do JWT ou retorna erro 401/404."""
-    supabase_uid = request.user_data.get("sub")
-    if not supabase_uid:
-        return None, JsonResponse(
-            {"success": False, "error": {"code": "UNAUTHORIZED", "message": "Token sem identificação."}},
-            status=401,
-        )
-
-    # GANHO DE PERFORMANCE: .only() carrega estritamente os campos identificadores
-    user = UserProfile.objects.filter(supabase_uid=supabase_uid).only('id', 'supabase_uid').first()
-
-    if not user:
-        email = (request.user_data.get("email") or "").strip().lower()
-        if email:
-            existing = UserProfile.objects.filter(email__iexact=email).first()
-            if existing:
-                existing.supabase_uid = supabase_uid
-                existing.save(update_fields=['supabase_uid'])
-                user = existing
-
-    if not user:
+    """Helper: resolve o UserProfile a partir do JWT de forma resiliente."""
+    user, err = get_or_provision_user(request)
+    if err:
         return None, JsonResponse(
             {"success": False, "error": {"code": "NOT_FOUND", "message": "Usuário não encontrado."}},
-            status=404,
+            status=err.status_code,
         )
     return user, None
 

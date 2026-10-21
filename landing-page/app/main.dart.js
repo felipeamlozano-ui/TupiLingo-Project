@@ -116615,45 +116615,47 @@ o.toString
 s.bY(A.dy(m,m,m,l,B.bJ,B.D,m,A.Y(A.b([p,B.aq,A.aj(A.l(a,m,m,m,m,A.y(m,m,A.c(o).ax.a===B.b?B.x:B.w,m,m,m,m,m,m,m,m,14,m,m,B.ai,m,m,!0,m,m,m,m,m,m,m,m),m,m),1,m)],t.p),B.l,B.i,B.j,0),m,B.a3,12,m,m,B.aO,m,m,m,new A.az(r,new A.ap(q,1,B.A,-1)),m,m))},
 vc(a){return this.OP(a,!0)},
 vg(a){return this.aAA(a)},
-aAA(a){var s=0,r=A.p(t.H),q=1,p=[],o=this,n,m,l,k,j,i,h,g,f,e,d,c,b
-var $async$vg=A.q(function(a0,a1){if(a0===1){p.push(a1)
+aAA(a0){var s=0,r=A.p(t.H),q=1,p=[],o=this,n,m,l,k,j,i,h,g,f,e,d,c,b,a
+var $async$vg=A.q(function(a1,a2){if(a1===1){p.push(a2)
 s=q}for(;;)switch(s){case 0:q=3
 n=A.dA()
 m=null
 q=7
 k=A.cg(A.j(n)+"/api/v1/auth/register-user",0,null)
 j=t.N
-i=A.G(["Content-Type","application/json","Authorization","Bearer "+a],j,j)
+i=A.G(["Content-Type","application/json","Authorization","Bearer "+a0],j,j)
 h=o.a
 g=h.e
-f=h.f
+f=h.c
+e=h.f
 s=10
-return A.h(A.jF(k,B.F.dT(A.G(["name",g,"source",f,"tupi_level",h.d],j,j),null),null,i).c7(B.dQ),$async$vg)
-case 10:m=a1
+return A.h(A.jF(k,B.F.dT(A.G(["name",g,"email",f,"source",e,"tupi_level",h.d],j,j),null),null,i).c7(B.dQ),$async$vg)
+case 10:m=a2
 q=3
 s=9
 break
 case 7:q=6
-c=p.pop()
+b=p.pop()
 s=11
 return A.h(A.nM(),$async$vg)
-case 11:d=a1
-l=d
+case 11:c=a2
+l=c
 s=l!=null&&l!==n?12:14
 break
 case 12:n=l
 k=A.cg(A.j(n)+"/api/v1/auth/register-user",0,null)
 j=t.N
-i=A.G(["Content-Type","application/json","Authorization","Bearer "+a],j,j)
+i=A.G(["Content-Type","application/json","Authorization","Bearer "+a0],j,j)
 h=o.a
 g=h.e
-f=h.f
+f=h.c
+e=h.f
 s=15
-return A.h(A.jF(k,B.F.dT(A.G(["name",g,"source",f,"tupi_level",h.d],j,j),null),null,i).c7(B.dQ),$async$vg)
-case 15:m=a1
+return A.h(A.jF(k,B.F.dT(A.G(["name",g,"email",f,"source",e,"tupi_level",h.d],j,j),null),null,i).c7(B.dQ),$async$vg)
+case 15:m=a2
 s=13
 break
-case 14:throw c
+case 14:throw b
 case 13:s=9
 break
 case 6:s=3
@@ -116662,7 +116664,7 @@ case 9:q=1
 s=5
 break
 case 3:q=2
-b=p.pop()
+a=p.pop()
 s=5
 break
 case 2:s=1
@@ -117125,10 +117127,10 @@ return A.o($async$uY,r)},
 aCe(a){var s=this.c
 s.toString
 A.hA(null,!0,new A.aV7(this,a),s,t.H)},
-nO(){var s=0,r=A.p(t.H),q,p=2,o=[],n=[],m=this,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5
-var $async$nO=A.q(function(a7,a8){if(a7===1){o.push(a8)
-s=p}for(;;)switch(s){case 0:a3=m.e
-if(B.d.aR(a3.a.a).length===0){m.hu("Por favor, preencha seu nome.")
+nO(){var s=0,r=A.p(t.H),q,p=2,o=[],n=[],m=this,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6
+var $async$nO=A.q(function(a8,a9){if(a8===1){o.push(a9)
+s=p}for(;;)switch(s){case 0:a4=m.e
+if(B.d.aR(a4.a.a).length===0){m.hu("Por favor, preencha seu nome.")
 s=1
 break}if(m.Q==null){m.hu("Selecione seu n\xedvel de conhecimento.")
 s=1
@@ -117138,9 +117140,9 @@ f=$.cD().b
 f===$&&A.a()
 l=f.gc8().e.a
 if(l==null){m.hu("Sess\xe3o expirada. Fa\xe7a login novamente.")
-a3=m.c
-if(a3!=null){f=t.X
-A.i9(a3,"/login",f,f)}n=[1]
+a4=m.c
+if(a4!=null){f=t.X
+A.i9(a4,"/login",f,f)}n=[1]
 s=5
 break}k=A.dA()
 j=null
@@ -117148,38 +117150,42 @@ p=8
 f=A.cg(A.j(k)+"/api/v1/auth/register-user",0,null)
 e=t.N
 d=A.G(["Content-Type","application/json","Authorization","Bearer "+l.c],e,e)
-c=B.d.aR(a3.a.a)
-b=m.z
+c=B.d.aR(a4.a.a)
+b=l.r.z
 if(b==null)b=""
-a=m.Q
+a=m.z
+if(a==null)a=""
+a0=m.Q
 s=11
-return A.h(A.jF(f,B.F.dT(A.G(["name",c,"source",b,"tupi_level",a==null?"":a],e,e),null),null,d).c7(B.dQ),$async$nO)
-case 11:j=a8
+return A.h(A.jF(f,B.F.dT(A.G(["name",c,"email",b,"source",a,"tupi_level",a0==null?"":a0],e,e),null),null,d).c7(B.dQ),$async$nO)
+case 11:j=a9
 p=4
 s=10
 break
 case 8:p=7
-a4=o.pop()
+a5=o.pop()
 s=12
 return A.h(A.nM(),$async$nO)
-case 12:a1=a8
-i=a1
+case 12:a2=a9
+i=a2
 s=i!=null&&i!==k?13:15
 break
 case 13:k=i
 f=A.cg(A.j(k)+"/api/v1/auth/register-user",0,null)
 e=t.N
 d=A.G(["Content-Type","application/json","Authorization","Bearer "+l.c],e,e)
-a3=B.d.aR(a3.a.a)
-c=m.z
+a4=B.d.aR(a4.a.a)
+c=l.r.z
 if(c==null)c=""
-b=m.Q
+b=m.z
+if(b==null)b=""
+a=m.Q
 s=16
-return A.h(A.jF(f,B.F.dT(A.G(["name",a3,"source",c,"tupi_level",b==null?"":b],e,e),null),null,d).c7(B.dQ),$async$nO)
-case 16:j=a8
+return A.h(A.jF(f,B.F.dT(A.G(["name",a4,"email",c,"source",b,"tupi_level",a==null?"":a],e,e),null),null,d).c7(B.dQ),$async$nO)
+case 16:j=a9
 s=14
 break
-case 15:throw a4
+case 15:throw a5
 case 14:s=10
 break
 case 7:s=4
@@ -117188,28 +117194,28 @@ case 10:if(m.c==null){n=[1]
 s=5
 break}s=j.b===201||j.b===200?17:19
 break
-case 17:a3=$.iq()
+case 17:a4=$.iq()
 s=20
-return A.h(a3.vR(),$async$nO)
+return A.h(a4.vR(),$async$nO)
 case 20:s=21
-return A.h(a3.uj(),$async$nO)
+return A.h(a4.uj(),$async$nO)
 case 21:s=22
 return A.h($.S0().jp(!0,!0),$async$nO)
-case 22:a3=m.c
-if(a3==null){n=[1]
+case 22:a4=m.c
+if(a4==null){n=[1]
 s=5
-break}A.oz(a3,A.ei(new A.aUV(m),!1,null,t.z))
+break}A.oz(a4,A.ei(new A.aUV(m),!1,null,t.z))
 s=18
 break
-case 19:try{a3=j
-h=B.F.bu(A.eF(A.eD(a3.e)).aT(a3.w),null)
-a2=J.af(h,"error")
-g=a2==null?"Erro ao salvar perfil. Tente novamente.":a2
-m.hu(J.an(g))}catch(a6){m.hu("Erro ao salvar perfil. Tente novamente.")}case 18:n.push(6)
+case 19:try{a4=j
+h=B.F.bu(A.eF(A.eD(a4.e)).aT(a4.w),null)
+a3=J.af(h,"error")
+g=a3==null?"Erro ao salvar perfil. Tente novamente.":a3
+m.hu(J.an(g))}catch(a7){m.hu("Erro ao salvar perfil. Tente novamente.")}case 18:n.push(6)
 s=5
 break
 case 4:p=3
-a5=o.pop()
+a6=o.pop()
 if(m.c!=null)m.hu("Erro de conex\xe3o. Verifique sua internet.")
 n.push(6)
 s=5
