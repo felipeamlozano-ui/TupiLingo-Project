@@ -156,7 +156,7 @@ def gerar_questao_nivelamento(request):
     # ── Validação defensiva rigorosa de integridade das alternativas ───────
     questoes_finais = []
     fallbacks_garantia = [
-        "Onça / Fera", "Pássaro / Ave", "Peixe", "Casa / Habitação", "Mãe", "Pai",
+        "Onça / Fera", "Pássaro / Ave", "Peixe", "Praça da aldeia / Terreiro", "Mãe", "Pai",
         "Homem / Pessoa", "Mulher", "Filho / Filha", "Água / Rio", "Sol", "Lua",
         "Aldeia", "Mata / Floresta", "Fogo", "Caminho / Trilha"
     ]
@@ -167,7 +167,7 @@ def gerar_questao_nivelamento(request):
         {"termo": "'y", "trad": "Água / Rio", "enunciado": "O que expressa a palavra ''y' em Tupi?"},
         {"termo": "ka'a", "trad": "Mata / Floresta", "enunciado": "A palavra 'ka'a' se refere a qual ambiente?"},
         {"termo": "kunhã", "trad": "Mulher", "enunciado": "Qual é o significado de 'kunhã' nas fontes quinhentistas?"},
-        {"termo": "oka", "trad": "Casa / Habitação", "enunciado": "O que designa o termo 'oka' na aldeia?"},
+        {"termo": "oká", "trad": "Praça da aldeia / Terreiro", "enunciado": "O que designa o termo 'oká' na aldeia quinhentista?"},
         {"termo": "taba", "trad": "Aldeia", "enunciado": "Qual é a tradução de 'taba' em Tupi Antigo?"},
         {"termo": "kûarasy", "trad": "Sol", "enunciado": "A qual astro se refere 'kûarasy'?"},
         {"termo": "îasy", "trad": "Lua", "enunciado": "Qual astro celeste é chamado de 'îasy'?"},

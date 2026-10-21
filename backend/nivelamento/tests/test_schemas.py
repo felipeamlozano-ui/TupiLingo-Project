@@ -12,31 +12,31 @@ from nivelamento.schemas import GenerateQuestionPayload, QuestionData
 class TestGenerateQuestionPayload:
     def test_nivel_valido_limites(self):
         for nivel in range(1, 11):
-            payload = GenerateQuestionPayload(nivel_atual=nivel)
+            payload = GenerateQuestionPayload(nivel_atual=nivel, variante_id=1)
             assert payload.nivel_atual == nivel
 
     def test_nivel_zero_invalido(self):
         with pytest.raises(ValidationError):
-            GenerateQuestionPayload(nivel_atual=0)
+            GenerateQuestionPayload(nivel_atual=0, variante_id=1)
 
     def test_nivel_11_invalido(self):
         with pytest.raises(ValidationError):
-            GenerateQuestionPayload(nivel_atual=11)
+            GenerateQuestionPayload(nivel_atual=11, variante_id=1)
 
     def test_nivel_negativo_invalido(self):
         with pytest.raises(ValidationError):
-            GenerateQuestionPayload(nivel_atual=-5)
+            GenerateQuestionPayload(nivel_atual=-5, variante_id=1)
 
     def test_acertou_anterior_none_padrao(self):
-        payload = GenerateQuestionPayload(nivel_atual=5)
+        payload = GenerateQuestionPayload(nivel_atual=5, variante_id=1)
         assert payload.acertou_anterior is None
 
     def test_acertou_anterior_true(self):
-        payload = GenerateQuestionPayload(nivel_atual=3, acertou_anterior=True)
+        payload = GenerateQuestionPayload(nivel_atual=3, variante_id=1, acertou_anterior=True)
         assert payload.acertou_anterior is True
 
     def test_acertou_anterior_false(self):
-        payload = GenerateQuestionPayload(nivel_atual=3, acertou_anterior=False)
+        payload = GenerateQuestionPayload(nivel_atual=3, variante_id=1, acertou_anterior=False)
         assert payload.acertou_anterior is False
 
 

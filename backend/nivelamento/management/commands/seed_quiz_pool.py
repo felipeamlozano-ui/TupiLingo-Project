@@ -1,12 +1,11 @@
 """
 Django Management Command: seed_quiz_pool
 
-Carrega pacotes de questões estáticas validadas para o Question Pool do Redis.
-Garante:
-  1. Validação estrita linha-a-linha contra o JSON Schema antes de qualquer escrita.
-  2. Carga atômica em lote via Redis Pipeline (SADD com pacote_id UUID anti-colisão).
-  3. Zero chamadas externas de rede.
-  4. Relatório detalhado de rejeição caso o arquivo contenha dados corrompidos.
+Carrega pacotes de questões curadas para o Question Pool do Redis (Staging/Benchmark).
+NOTA DE ARQUITETURA (RFC v4 — Nivelamento Sob Demanda):
+  O endpoint de nivelamento em produção gera questões dinamicamente no momento do clique (on-the-fly)
+  ancoradas no acervo RAG de Eduardo Navarro. Este comando permanece disponível para ambientes de
+  teste de carga, staging, benchmarks de SLO e contingência de alta volumetria.
 """
 
 from __future__ import annotations
@@ -25,7 +24,7 @@ from app.schemas.quiz import QuizResponse, QuizItem
 
 
 class Command(BaseCommand):
-    help = "Valida e descarrega pacotes de questões estáticas no Question Pool do Redis."
+    help = "Valida e descarrega pacotes de questões curadas no Question Pool do Redis para staging e benchmark."
 
     def add_arguments(self, parser):
         parser.add_argument(

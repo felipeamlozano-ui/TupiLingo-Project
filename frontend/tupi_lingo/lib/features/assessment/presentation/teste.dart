@@ -683,20 +683,41 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
   Widget _buildTestPhase() {
     if (_isLoadingTest) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(color: _TupiColors.primary),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                'Preparando perguntas de ${_selectedVariante?['nome']} para você...',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16, color: _TupiColors.subtitle, fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 48,
+                height: 48,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(_TupiColors.primary),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 28),
+              Text(
+                'Elaborando seu teste de ${_selectedVariante?['nome'] ?? "Tupi"}...',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: _TupiColors.accent,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Consultando o acervo de Eduardo de Almeida Navarro (USP) e gerando perguntas dinâmicas sob demanda...',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: _TupiColors.subtitle,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ),
         ),
       );
     }

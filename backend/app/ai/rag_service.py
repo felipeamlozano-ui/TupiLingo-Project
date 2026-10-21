@@ -207,10 +207,10 @@ Você é um linguista especialista na língua e cultura Tupi. Crie enunciados co
 
 ### EXEMPLO FEW-SHOT:
 Entrada:
-[{"id": 1, "termo": "oka", "trad": "casa / habitação"}]
+[{"id": 1, "termo": "oká", "trad": "praça da aldeia / terreiro"}]
 
 Saída JSON esperada:
-{"questoes": [{"item_id": 1, "enunciado": "No contexto da organização social da aldeia, o que significa o termo 'oka'?", "explicacao": "'oka' refere-se à habitação tradicional na aldeia.", "curiosidade": "Várias famílias habitavam a mesma moradia comunitária."}]}
+{"questoes": [{"item_id": 1, "enunciado": "No contexto da organização social da aldeia quinhentista, o que designa o termo 'oká'?", "explicacao": "'oká' refere-se à praça da aldeia ou terreiro comunitário na ortografia de Navarro.", "curiosidade": ""}]}
 
 Retorne ESTRITAMENTE o JSON no formato solicitado, sem markdown ou texto extra."""
 
@@ -279,15 +279,16 @@ def _build_prompt(
 def source_authority_weight(source_filename: str) -> float:
     """
     Ponderação por autoridade da fonte no RAG (Prof. Dr. Eduardo de Almeida Navarro).
-    - 1.0: Obras de Eduardo de Almeida Navarro (Dicionário de Tupi Antigo 2013, Método Moderno 2005)
-    - 0.85: Fontes quinhentistas primárias (Anchieta 1595, Figueira 1621, Cartas de 1645)
+    - 1.0: Obras de Eduardo de Almeida Navarro (Dicionário de Tupi Antigo 2013, Método Moderno, Cartas de 1645, Topônimos)
+    - 0.95: Fontes acadêmicas orientadas por Navarro, linguística histórica e revitalização (Mistieri, Potiguara Kuapa, Aryon Rodrigues)
+    - 0.85: Fontes quinhentistas primárias clássicas (Anchieta, Figueira)
     - 0.30: Fontes secundárias
     """
     s = str(source_filename).lower()
-    if any(k in s for k in ["navarro", "dicionario", "metodo", "eduardo", "01.pdf"]):
+    if any(k in s for k in ["navarro", "dicionário", "dicionario", "metodo", "eduardo", "1645", "download.pdf", "lexicon_data"]):
         return 1.0
-    if any(k in s for k in ["anchieta", "figueira", "camarao", "quinhentista", "gramatica"]):
-        return 0.85
+    if any(k in s for k in ["mistieri", "potiguara", "kuapa", "rodrigues", "anchieta", "figueira"]):
+        return 0.95
     return 0.30
 
 
@@ -635,68 +636,17 @@ class RAGService:
         variante_codigo: str,
     ) -> dict[str, Any]:
         """
-        Engine de Nivelamento com Producer-Consumer contínuo e Circuit Breaker:
-          1. Consumo O(1) do Question Pool (SPOP) no Redis (SLO: P50 < 2ms, P99 < 10ms).
-          2. Verificação de watermark (< 15 unidades): dispara reposição em lote até 30 unidades com lock.
-          3. Circuito de segurança: se pool esgotado (0 unidades), registra evento de capacidade
-             estruturado [CAPACITY_EVENT] e aciona fallback síncrono via LLM sob demanda.
-          4. Embaralhamento obrigatório via _shuffle_quiz_response em todas as saídas.
+        Engine de Nivelamento Dinâmico Sob Demanda (RFC v4 — Sem Pool Estático):
+          1. As questões são geradas EM TEMPO REAL no momento do clique do usuário via RAG + LLM.
+          2. Consulta dinâmica ao acervo lexicográfico e semântico de Eduardo Navarro.
+          3. PingRaceRouter seleciona automaticamente o modelo mais rápido da cadeia (P50 < 800ms).
+          4. Embaralhamento imprevisível obrigatório via _shuffle_quiz_response.
+          5. Fallback determinístico seguro caso haja oscilação de conectividade externa.
         """
-        r = get_redis_client()
-        pool_key = _pool_key(variante_codigo, nivel_atual)
-
-        # ── 1. CONSUMO O(1) DO QUESTION POOL (REDIS SPOP) ────────────────────
-        if r:
-            try:
-                pooled_json = r.spop(pool_key)
-                if not pooled_json and variante_codigo == "tupinamba":
-                    # Fallback de pool: Tupinambá e Tupi Antigo compartilham a mesma matriz histórica
-                    alt_key = _pool_key("tupi", nivel_atual)
-                    pooled_json = r.spop(alt_key)
-                    if pooled_json:
-                        pool_key = alt_key
-
-                if pooled_json:
-                    pool_size = r.scard(pool_key)
-                    logger.info(
-                        "[RAGService] ⚡ POOL HIT para %s! Restam %d pacotes no estoque.",
-                        pool_key, pool_size,
-                    )
-                    # Reposição do pool por watermark em lote:
-                    # Quando o pool cair abaixo de 15 unidades, dispara reposição até 30 unidades
-                    if pool_size < WATERMARK_LOW:
-                        deficit = max(1, TARGET_POOL_SIZE - pool_size)
-                        _trigger_async_pool_replenishment(
-                            variante_codigo=variante_codigo,
-                            nivel_atual=nivel_atual,
-                            target_count=deficit,
-                        )
-
-                    pooled_data = json.loads(pooled_json)
-                    quiz_resp = QuizResponse.model_validate(pooled_data)
-                    # Embaralhamento obrigatório e imprevisível
-                    shuffled = _shuffle_quiz_response(quiz_resp)
-                    shuffled.cache_hit = True
-                    return shuffled.model_dump()
-            except Exception as pool_exc:
-                logger.warning("[RAGService] Falha ao consultar Question Pool: %s", pool_exc)
-
-        # ── 2. CIRCUITO DE SEGURANÇA: POOL ZERADO (CAPACITY EVENT) ───────────
-        # Registra evento de capacidade estruturado (não é erro silencioso)
-        logger.warning(
-            "[CAPACITY_EVENT] Question Pool zerado para variante=%s, nivel=%d. "
-            "Circuito de segurança ativado: acionando fallback de geração síncrona via LLM.",
+        logger.info(
+            "[RAGService] Geração dinâmica sob demanda iniciada para variante=%s, nivel=%d.",
             variante_codigo, nivel_atual,
         )
-
-        # Dispara job assíncrono para repor até 30 unidades sem bloquear esta requisição
-        _trigger_async_pool_replenishment(
-            variante_codigo=variante_codigo,
-            nivel_atual=nivel_atual,
-            target_count=TARGET_POOL_SIZE,
-        )
-
-        # Fallback gracioso para geração síncrona via LLM sob demanda
         quiz_dict = self._generate_hybrid_direct(nivel_atual, variante_codigo)
         quiz_resp = QuizResponse.model_validate(quiz_dict)
         shuffled = _shuffle_quiz_response(quiz_resp)
@@ -789,7 +739,7 @@ class RAGService:
                 EsqueletoItem(item_id=3, termo_tupi="kûarasy", traducao_correta="sol", distratores=["lua", "estrela", "chuva"], categoria="natureza", regra_contexto="Astro celeste solar na cosmologia Tupi.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=4, termo_tupi="îasy", traducao_correta="lua", distratores=["sol", "nuvem", "relâmpago"], categoria="natureza", regra_contexto="Divindade lunar na tradição Tupi.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=5, termo_tupi="taba", traducao_correta="aldeia", distratores=["caminho", "canoa", "rio"], categoria="comunidade", regra_contexto="Agrupamento de habitações comunitárias.", fonte_confianca="alta"),
-                EsqueletoItem(item_id=6, termo_tupi="oka", traducao_correta="casa / habitação", distratores=["flecha", "mata", "pedra"], categoria="comunidade", regra_contexto="Habitação tradicional indígena.", fonte_confianca="alta"),
+                EsqueletoItem(item_id=6, termo_tupi="oká", traducao_correta="praça da aldeia / terreiro", distratores=["flecha", "mata", "pedra"], categoria="comunidade", regra_contexto="Espaço comunitário central da aldeia quinhentista.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=7, termo_tupi="abá", traducao_correta="homem / pessoa indígena", distratores=["casa", "pássaro", "arco"], categoria="social", regra_contexto="Designação para o ser humano pertencente à comunidade.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=8, termo_tupi="kunhã", traducao_correta="mulher", distratores=["rio", "terra", "peixe"], categoria="social", regra_contexto="Termo geral para mulher em Tupi Antigo.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=9, termo_tupi="îagûara", traducao_correta="onça / fera", distratores=["peixe", "pássaro", "cobra"], categoria="fauna", regra_contexto="Designava grandes carnívoros, especialmente a onça-pintada.", fonte_confianca="alta"),
@@ -815,7 +765,7 @@ class RAGService:
         if not esqueleto:
             return self._generate_legacy(nivel_atual, variante_codigo)
 
-        # ── Etapa 1.5: Recuperação Semântica de Chunks via pgvector no Supabase ───────
+        # ── Etapa 1.5: Recuperação Semântica de Chunks via pgvector / Acervo Navarro ──
         rag_chunks: list[dict[str, Any]] = []
         categorias_rag = _NIVEL_RAG_CATEGORIAS.get(nivel_atual, ["Vocabulário"])
         try:
@@ -834,6 +784,26 @@ class RAGService:
             )
         except Exception as rag_exc:
             logger.warning("[RAGService] Falha ao recuperar chunks via pgvector: %s", rag_exc)
+
+        # Fallback de busca local no vector_store.db (acervo Navarro de alta fidelidade)
+        if not rag_chunks:
+            try:
+                vdb = get_db()
+                if vdb:
+                    local_res = vdb.query(query_text=f"{tema} {variante_nome}", n_results=3)
+                    docs_found = local_res.get("documents", [])
+                    metas_found = local_res.get("metadatas", [])
+                    if docs_found and isinstance(docs_found[0], list):
+                        docs_found = docs_found[0]
+                        metas_found = metas_found[0] if metas_found else []
+                    for doc, meta in zip(docs_found, metas_found):
+                        rag_chunks.append({
+                            "document_text": doc,
+                            "categoria": meta.get("categoria", "Vocabulário") if isinstance(meta, dict) else "Vocabulário",
+                            "filename": meta.get("filename", "Dicionário Tupi.pdf") if isinstance(meta, dict) else "Dicionário Tupi.pdf",
+                        })
+            except Exception as local_rag_exc:
+                logger.debug("[RAGService] Busca local RAG fallback: %s", local_rag_exc)
 
         # ── Etapa 2: Prompt Builder com Payload Mínimo e Contexto do RAG ─────
         prompt_usuario = _build_prompt(

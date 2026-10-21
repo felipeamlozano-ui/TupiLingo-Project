@@ -49,31 +49,21 @@ class QuizPoolCircuitBreakerTest(TestCase):
         self.variante = "tupi"
         self.nivel = 1
 
-    @patch("app.ai.rag_service.get_redis_client")
     @patch("app.ai.rag_service.FallbackOrchestrator.execute_with_fallback")
     @patch("app.ai.rag_service.supabase_service.obter_esqueleto_quiz")
-    def test_pool_zerado_aciona_circuito_de_seguranca_e_capacity_event(
+    def test_geracao_dinamica_sob_demanda_sem_pool_estatico(
         self,
         mock_obter_esqueleto: MagicMock,
         mock_llm: MagicMock,
-        mock_get_redis: MagicMock,
     ):
         """
-        Força o pool a zero (SPOP retorna None).
-        Deve:
-        - Emitir o log estruturado [CAPACITY_EVENT].
-        - Não lançar exceção para o chamador.
-        - Cair para geração síncrona via LLM.
-        - Retornar 10 questões válidas com 'fonte_confianca'.
-        - Ter cache_hit = False.
+        Geração 100% dinâmica sob demanda (RFC v4):
+        - Não consome pool estático no momento do clique do usuário.
+        - Executa RAG + LLM em tempo real.
+        - Retorna 10 questões válidas com 'fonte_confianca'.
+        - Garante cache_hit = False.
+        - Garante 4 alternativas únicas A, B, C, D.
         """
-        # Configura o Redis mockado com pool vazio
-        mock_redis = MagicMock()
-        mock_redis.spop.return_value = None
-        mock_redis.scard.return_value = 0
-        mock_redis.set.return_value = True  # lock adquirido
-        mock_get_redis.return_value = mock_redis
-
         # Mock do esqueleto Supabase
         itens_esqueleto = [
             EsqueletoItem(
@@ -101,24 +91,15 @@ class QuizPoolCircuitBreakerTest(TestCase):
             ]
         )
 
-        with self.assertLogs("app.ai.rag_service", level="WARNING") as cm:
-            resultado = self.service.generate(nivel_atual=self.nivel, variante_codigo=self.variante)
+        resultado = self.service.generate(nivel_atual=self.nivel, variante_codigo=self.variante)
 
-        # 1. Verifica se o evento de capacidade estruturado foi registrado
-        capacity_event_logs = [log for log in cm.output if "[CAPACITY_EVENT]" in log]
-        self.assertTrue(
-            len(capacity_event_logs) > 0,
-            "O log estruturado [CAPACITY_EVENT] deve ser registrado quando o pool estiver zerado.",
-        )
-        self.assertIn("Question Pool zerado para variante=tupi, nivel=1", capacity_event_logs[0])
-
-        # 2. Resposta deve ser válida sem erros para o usuário
+        # 1. Resposta sob demanda deve ser sempre gerada em tempo real (cache_hit = False)
         self.assertIn("questoes", resultado)
         self.assertEqual(len(resultado["questoes"]), 10)
         self.assertFalse(resultado.get("cache_hit", True))
         self.assertIsNotNone(resultado.get("pacote_id"))
 
-        # 3. Cada questão deve ter 4 alternativas únicas e fonte_confianca
+        # 2. Cada questão deve ter 4 alternativas únicas e fonte_confianca
         for q in resultado["questoes"]:
             self.assertIn("fonte_confianca", q)
             self.assertIn(q["fonte_confianca"], ["alta", "média", "baixa"])
@@ -127,78 +108,25 @@ class QuizPoolCircuitBreakerTest(TestCase):
             self.assertEqual(sorted(letras), ["A", "B", "C", "D"])
 
     @patch("app.ai.rag_service.get_redis_client")
-    @patch("app.ai.rag_service._trigger_async_pool_replenishment")
-    def test_pool_com_estoque_abaixo_da_watermark_dispara_reposicao(
-        self,
-        mock_repor: MagicMock,
-        mock_get_redis: MagicMock,
-    ):
-        """
-        Consome um pacote do pool quando o estoque está abaixo do watermark (10 < 15).
-        Deve retornar o pacote imediatamente e disparar a reposição assíncrona da diferença.
-        """
-        mock_redis = MagicMock()
-        # Pacote simulado no Redis
-        pacote_simulado = {
-            "pacote_id": "33333333-3333-3333-3333-333333333333",
-            "provider": "RedisPool",
-            "modelo": "seed-tupi-v1",
-            "tempo_total_ms": 1,
-            "cache_hit": True,
-            "questoes": [
-                {
-                    "item_id": i,
-                    "enunciado": f"Enunciado {i}?",
-                    "alternativas": [
-                        {"letra": "A", "texto": "Opção A"},
-                        {"letra": "B", "texto": "Opção B"},
-                        {"letra": "C", "texto": "Opção C"},
-                        {"letra": "D", "texto": "Opção D"},
-                    ],
-                    "resposta_correta": "A",
-                    "explicacao": f"Explicação {i}.",
-                    "categoria": "geral",
-                    "variante": "tupi",
-                    "dificuldade": "facil",
-                    "curiosidade": "",
-                    "regra_contexto": "",
-                    "fonte_confianca": "alta",
-                }
-                for i in range(1, 11)
-            ],
-        }
-        mock_redis.spop.return_value = json.dumps(pacote_simulado)
-        # Estoque restante pós-SPOP é 10 (abaixo de 15)
-        mock_redis.scard.return_value = 10
-        mock_get_redis.return_value = mock_redis
-
-        resultado = self.service.generate(nivel_atual=1, variante_codigo="tupi")
-
-        # Verifica consumo imediato
-        self.assertEqual(len(resultado["questoes"]), 10)
-        self.assertTrue(resultado["cache_hit"])
-
-        # Verifica se o reabastecimento foi disparado para a diferença até 30 unidades
-        mock_repor.assert_called_once_with(
-            variante_codigo="tupi",
-            nivel_atual=1,
-            target_count=TARGET_POOL_SIZE - 10,  # 30 - 10 = 20 pacotes
-        )
-
-    @patch("app.ai.rag_service.get_redis_client")
     def test_distributed_lock_evita_jobs_duplicados(self, mock_get_redis: MagicMock):
         """
-        Verifica se o lock distribuído repor_lock:{variante}:{nivel} com EX 30
+        Verifica se o lock distribuído lock:replenish:{variante}:{nivel} com EX 30
         impede que múltiplos workers tentem reabastecer concorrentemente.
         """
-        mock_redis = MagicMock()
-        # Primeiro worker adquire o lock
-        mock_redis.set.return_value = False  # Lock já retido por outro processo
-        mock_get_redis.return_value = mock_redis
+        from app.core.config import settings
+        original_celery = settings.ENABLE_CELERY
+        settings.ENABLE_CELERY = False
+        try:
+            mock_redis = MagicMock()
+            # Primeiro worker adquire o lock
+            mock_redis.set.return_value = False  # Lock já retido por outro processo
+            mock_get_redis.return_value = mock_redis
 
-        with patch("app.ai.rag_service.threading.Thread") as mock_thread:
-            _trigger_async_pool_replenishment(variante_codigo="tupi", nivel_atual=1, target_count=15)
-            # Não deve ter iniciado nova thread
-            mock_thread.assert_not_called()
+            with patch("app.ai.rag_service.threading.Thread") as mock_thread:
+                _trigger_async_pool_replenishment(variante_codigo="tupi", nivel_atual=1, target_count=15)
+                # Não deve ter iniciado nova thread
+                mock_thread.assert_not_called()
 
-        mock_redis.set.assert_called_once_with("repor_lock:tupi:1", "1", nx=True, ex=30)
+            mock_redis.set.assert_called_once_with("lock:replenish:tupi:1", "1", nx=True, ex=30)
+        finally:
+            settings.ENABLE_CELERY = original_celery
