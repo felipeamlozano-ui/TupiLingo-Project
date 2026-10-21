@@ -333,10 +333,17 @@ def _montar_quiz_response(
     quiz_items: list[QuizItem] = []
     for idx, esq in enumerate(esqueleto, start=1):
         llm = llm_map.get(esq.item_id) or llm_map.get(idx)
+        _templates_fallback = [
+            f"Qual é o significado da palavra '{esq.termo_tupi}' em {variante_codigo.replace('_', ' ').title()}?",
+            f"Nas fontes coloniais e método de Navarro, como se traduz '{esq.termo_tupi}'?",
+            f"Assinale a alternativa que corresponde à tradução correta de '{esq.termo_tupi}':",
+            f"O que expressa o vocábulo '{esq.termo_tupi}' na tradição Tupi?",
+            f"De acordo com a lexicografia quinhentista, qual o sentido de '{esq.termo_tupi}'?",
+        ]
         enunciado = (
             llm.enunciado
             if llm and llm.enunciado
-            else f"O que significa '{esq.termo_tupi}' em {variante_codigo.replace('_', ' ').title()}?"
+            else random.choice(_templates_fallback)
         )
         explicacao = (
             llm.explicacao
@@ -680,59 +687,87 @@ class RAGService:
 
         system_prompt = _get_system_prompt(tier)
 
-        # ── Etapa 1: RPC Supabase (Consulta Léxica) ──────────────────────────
+        # ── Etapa 1: Resolução Dinâmica e Aleatória do Esqueleto Lexical (Navarro) ──
         t_rpc = time.monotonic()
+        esqueleto: list[EsqueletoItem] = []
+        termos_existentes: set[str] = set()
+
+        # 1.1 Tenta extrair aleatoriamente do banco de dados relacional (VocabularyItem)
         try:
-            esqueleto = supabase_service.obter_esqueleto_quiz(
-                variante_codigo=variante_codigo,
-                categoria=categoria,
-                quantidade=10,
+            from trilha.models import VocabularyItem
+            var_slug = _canonical_variant(variante_codigo)
+            var_filter = "tupi_revitalizado" if var_slug == "tupi_revitalizado" else "tupi"
+
+            qs = list(
+                VocabularyItem.objects.filter(
+                    licao__capitulo__trilha__variante__codigo__in=[var_filter, "tupi", "tupi_antigo"],
+                    traducao_pt__isnull=False,
+                ).exclude(traducao_pt="")
             )
-        except (SupabaseRPCTimeoutError, SupabaseRPCError, SupabaseServiceError) as exc:
-            logger.warning("[RAGService] RPC Supabase indisponível (%s). Ativando contingência léxica autêntica.", exc)
-            esqueleto = []
+            # Se não encontrar filtrando por variante, busca em todo o acervo ativo
+            if len(qs) < 10:
+                qs = list(VocabularyItem.objects.filter(traducao_pt__isnull=False).exclude(traducao_pt=""))
 
-        # Complementa com geral se retornou menos de 10 itens
-        if len(esqueleto) < 10 and categoria != "geral":
-            try:
-                extras = supabase_service.obter_esqueleto_quiz(
-                    variante_codigo=variante_codigo,
-                    categoria="geral",
-                    quantidade=10,
-                )
-                termos_existentes = {item.termo_tupi.lower() for item in esqueleto}
-                for extra in extras:
-                    if extra.termo_tupi.lower() not in termos_existentes:
-                        extra.item_id = len(esqueleto) + 1
-                        esqueleto.append(extra)
-                        termos_existentes.add(extra.termo_tupi.lower())
-                        if len(esqueleto) >= 10:
-                            break
-            except Exception as extra_exc:
-                logger.warning("[RAGService] Falha ao complementar esqueleto com geral: %s", extra_exc)
+            if len(qs) >= 10:
+                pool_traducoes = list({v.traducao_pt.strip() for v in qs if v.traducao_pt})
+                # Amostragem 100% aleatória e imprevisível a cada clique do usuário
+                amostra_db = random.sample(qs, min(len(qs), 10))
+                random.shuffle(amostra_db)
 
-        # Se variante for 'tupinamba' e tivermos menos de 10 itens, complementa com vocabulário de 'tupi'
-        if len(esqueleto) < 10 and variante_codigo == "tupinamba":
-            try:
-                extras_tupi = supabase_service.obter_esqueleto_quiz(
-                    variante_codigo="tupi",
-                    categoria=categoria,
-                    quantidade=10,
-                )
-                termos_existentes = {item.termo_tupi.lower() for item in esqueleto}
-                for extra in extras_tupi:
-                    if extra.termo_tupi.lower() not in termos_existentes:
-                        extra.item_id = len(esqueleto) + 1
-                        esqueleto.append(extra)
-                        termos_existentes.add(extra.termo_tupi.lower())
-                        if len(esqueleto) >= 10:
-                            break
-            except Exception as tupi_exc:
-                logger.warning("[RAGService] Falha ao complementar esqueleto com tupi para tupinamba: %s", tupi_exc)
+                for idx, v in enumerate(amostra_db, start=1):
+                    trad = v.traducao_pt.strip()
+                    dist_candidatos = [t for t in pool_traducoes if t.lower() != trad.lower() and not t.startswith("[")]
+                    distratores = random.sample(dist_candidatos, min(3, len(dist_candidatos))) if len(dist_candidatos) >= 3 else ["fogo", "água", "sol"]
+                    esqueleto.append(
+                        EsqueletoItem(
+                            item_id=idx,
+                            termo_tupi=v.palavra_tupi,
+                            traducao_correta=trad,
+                            distratores=distratores,
+                            categoria=v.categoria or categoria,
+                            regra_contexto=f"Verbete autêntico de Eduardo Navarro. {v.exemplo_tupi or ''} ({v.exemplo_pt or ''})".strip(),
+                            fonte_confianca="alta",
+                        )
+                    )
+                    termos_existentes.add(v.palavra_tupi.lower())
+        except Exception as db_vocab_exc:
+            logger.debug("[RAGService] Falha ao consultar VocabularyItem local: %s", db_vocab_exc)
 
-        # Complemento com vocabulário autêntico único para garantir exatamente 10 questões distintas
+        # 1.2 Complementação Dinâmica com LEXICON_BY_VARIANT_CHAPTER (Navarro)
         if len(esqueleto) < 10:
-            termos_existentes = {item.termo_tupi.lower() for item in esqueleto}
+            try:
+                from pedagogico.lexicon_data import LEXICON_BY_VARIANT_CHAPTER
+                nav_items = []
+                for var_k, ch_dict in LEXICON_BY_VARIANT_CHAPTER.items():
+                    for ch_num, it_list in ch_dict.items():
+                        nav_items.extend(it_list)
+                random.shuffle(nav_items)
+                all_trads = [it["traducao"].strip() for it in nav_items if it.get("traducao")]
+                for it in nav_items:
+                    w = it.get("palavra", "").strip()
+                    trad = it.get("traducao", "").strip()
+                    if w and w.lower() not in termos_existentes and not trad.startswith("["):
+                        dist_cands = [t for t in all_trads if t.lower() != trad.lower() and not t.startswith("[")]
+                        distratos = random.sample(dist_cands, min(3, len(dist_cands))) if len(dist_cands) >= 3 else ["flecha", "mata", "canoa"]
+                        esqueleto.append(
+                            EsqueletoItem(
+                                item_id=len(esqueleto) + 1,
+                                termo_tupi=w,
+                                traducao_correta=trad,
+                                distratores=distratos,
+                                categoria=it.get("categoria", "geral"),
+                                regra_contexto=f"Verbete Navarro. Ex: {it.get('exemplo_uso', '')}",
+                                fonte_confianca="alta",
+                            )
+                        )
+                        termos_existentes.add(w.lower())
+                        if len(esqueleto) >= 10:
+                            break
+            except Exception as lex_err:
+                logger.debug("[RAGService] Consulta a LEXICON_BY_VARIANT_CHAPTER falhou: %s", lex_err)
+
+        # 1.3 Contingência Léxica Embaralhada (Nunca Repetitiva)
+        if len(esqueleto) < 10:
             lexico_contingencia = [
                 EsqueletoItem(item_id=1, termo_tupi="tatá", traducao_correta="fogo", distratores=["água", "vento", "pedra"], categoria="natureza", regra_contexto="Substantivo fundamental registrado por Anchieta e Navarro.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=2, termo_tupi="'y", traducao_correta="água / rio", distratores=["fogo", "terra", "sol"], categoria="natureza", regra_contexto="Base de topônimos como Tietê e Ipiranga.", fonte_confianca="alta"),
@@ -751,6 +786,7 @@ class RAGService:
                 EsqueletoItem(item_id=15, termo_tupi="morubixaba", traducao_correta="chefe / liderança", distratores=["guerreiro jovem", "caçador", "navegador"], categoria="social", regra_contexto="Chefe político e militar de uma comunidade Tupinambá.", fonte_confianca="alta"),
                 EsqueletoItem(item_id=16, termo_tupi="itá", traducao_correta="pedra / ferro", distratores=["madeira", "terra", "água"], categoria="natureza", regra_contexto="Substantivo oxítono para pedra ou mineral.", fonte_confianca="alta"),
             ]
+            random.shuffle(lexico_contingencia)
             for cand in lexico_contingencia:
                 if cand.termo_tupi.lower() not in termos_existentes:
                     cloned = copy.deepcopy(cand)
@@ -824,30 +860,38 @@ class RAGService:
         provider_usado = "LLM"
         modelo_usado = "fast-tier"
 
+        # Variação de templates determinísticos caso haja queda de rede
+        _templates_enunciado = [
+            "Qual é o significado da palavra '{termo}' em Tupi Antigo?",
+            "Nas fontes clássicas e no método de Navarro, como se traduz '{termo}'?",
+            "Assinale a alternativa correspondente à tradução correta de '{termo}':",
+            "O que expressa o vocábulo '{termo}' nas fontes quinhentistas?",
+            "De acordo com o léxico de Eduardo Navarro, qual o sentido de '{termo}'?",
+        ]
+
         try:
             llm_response: LLMQuizResponse = FallbackOrchestrator.execute_with_fallback(
                 prompt=f"{system_prompt}\n\n{prompt_usuario}",
                 schema=LLMQuizResponse,
                 chain=model_chain,
-                temperature=0.2,
+                temperature=0.7,   # Temperatura ajustada para enunciados criativos e diversificados
                 max_tokens=max_tokens,
                 timeout=15.0,
             )
         except (AllModelsUnavailableError, Exception) as exc:
-            # CRITÉRIO DE ACEITAÇÃO: Falha de todos os modelos resulta em fallback tratado
-            # Monta questões heurísticas determinísticas perfeitamente válidas a partir do esqueleto
             logger.error("[RAGService] Todos os modelos falharam (%s). Gerando fallback determinístico.", exc)
-            llm_response = LLMQuizResponse(
-                questoes=[
+            fallback_items = []
+            for item in esqueleto:
+                tmpl = random.choice(_templates_enunciado)
+                fallback_items.append(
                     LLMQuizItem(
                         item_id=item.item_id,
-                        enunciado=f"Qual a tradução correta da palavra '{item.termo_tupi}'?",
+                        enunciado=tmpl.format(termo=item.termo_tupi),
                         explicacao=f"'{item.termo_tupi}' significa '{item.traducao_correta}'. {item.regra_contexto}".strip(),
                         curiosidade="",
                     )
-                    for item in esqueleto
-                ]
-            )
+                )
+            llm_response = LLMQuizResponse(questoes=fallback_items)
 
         llm_ms = int((time.monotonic() - t_llm) * 1000)
         tempo_total_ms = int((time.monotonic() - t_total) * 1000)

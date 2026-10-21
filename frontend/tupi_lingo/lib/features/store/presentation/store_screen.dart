@@ -401,17 +401,27 @@ class _StoreScreenState extends State<StoreScreen> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     final isDark = AppTheme.isDark(context);
 
-    return Scaffold(
-      backgroundColor: AppTheme.bg(context),
-      appBar: AppBar(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, dynamic result) {
+        if (didPop) return;
+        ScaffoldMessenger.of(context).clearSnackBars();
+        Navigator.of(context).pop(_conchas);
+      },
+      child: Scaffold(
         backgroundColor: AppTheme.bg(context),
-        foregroundColor: AppTheme.textPrimary(context),
-        elevation: 0,
-        titleSpacing: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Navigator.of(context).pop(_conchas),
-        ),
+        appBar: AppBar(
+          backgroundColor: AppTheme.bg(context),
+          foregroundColor: AppTheme.textPrimary(context),
+          elevation: 0,
+          titleSpacing: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: () {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              Navigator.of(context).pop(_conchas);
+            },
+          ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -555,6 +565,7 @@ class _StoreScreenState extends State<StoreScreen> with SingleTickerProviderStat
                     _buildSpecialLessonsTab(),
                   ],
                 ),
+      ),
     );
   }
 

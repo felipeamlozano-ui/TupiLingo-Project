@@ -84,9 +84,24 @@ def verificar_resposta(request):
             })
         elif ex_unificado.tipo == 'completar':
             respostas_usuario = body.get('respostas', [])
+            respostas_corretas = [r for r in (ex_unificado.respostas_corretas or []) if (r or '').strip()]
+            if not respostas_corretas:
+                # Auto-recuperação resiliente: se respostas_corretas estiver vazio no banco
+                import re
+                if ex_unificado.explicacao:
+                    quoted = re.findall(r"['\"]([^'\"]+)['\"]", ex_unificado.explicacao)
+                    if quoted:
+                        respostas_corretas = [quoted[-1]]
+                        ex_unificado.respostas_corretas = respostas_corretas
+                        ex_unificado.save(update_fields=['respostas_corretas'])
+                elif ex_unificado.opcoes:
+                    respostas_corretas = [ex_unificado.opcoes[0]]
+                    ex_unificado.respostas_corretas = respostas_corretas
+                    ex_unificado.save(update_fields=['respostas_corretas'])
+
             resultado = validar_lista_lacunas(
                 respostas_usuario=respostas_usuario,
-                respostas_corretas=ex_unificado.respostas_corretas or [],
+                respostas_corretas=respostas_corretas,
                 tolerancia=ex_unificado.tolerancia_levenshtein,
             )
             status = (
@@ -100,8 +115,8 @@ def verificar_resposta(request):
             elif status == ValidationResult.QUASE_CERTO:
                 msg = resultado['resultados'][0].get('mensagem', 'Quase lá!') if resultado['resultados'] else 'Quase lá!'
             else:
-                resp_esperada = ', '.join(ex_unificado.respostas_corretas or [])
-                msg = f'Incorreto. A resposta certa era: "{resp_esperada}".'
+                resp_esperada = ', '.join(respostas_corretas)
+                msg = f'Incorreto. A resposta certa era: "{resp_esperada}".' if resp_esperada else 'Incorreto.'
             if ex_unificado.explicacao:
                 msg += f' — {ex_unificado.explicacao}'
             return JsonResponse({
@@ -168,9 +183,18 @@ def verificar_resposta(request):
         if not ex:
             return JsonResponse({'error': 'Exercício não encontrado.'}, status=404)
         respostas_usuario = body.get('respostas', [])
+        respostas_corretas = [r for r in (ex.respostas_corretas or []) if (r or '').strip()]
+        if not respostas_corretas and ex.explicacao:
+            import re
+            quoted = re.findall(r"['\"]([^'\"]+)['\"]", ex.explicacao)
+            if quoted:
+                respostas_corretas = [quoted[-1]]
+                ex.respostas_corretas = respostas_corretas
+                ex.save(update_fields=['respostas_corretas'])
+
         resultado = validar_lista_lacunas(
             respostas_usuario=respostas_usuario,
-            respostas_corretas=ex.respostas_corretas,
+            respostas_corretas=respostas_corretas,
             tolerancia=ex.tolerancia_levenshtein,
         )
         status = (
@@ -184,8 +208,8 @@ def verificar_resposta(request):
         elif status == ValidationResult.QUASE_CERTO:
             msg = resultado['resultados'][0].get('mensagem', 'Quase lá!') if resultado['resultados'] else 'Quase lá!'
         else:
-            resp_esperada = ', '.join(ex.respostas_corretas or [])
-            msg = f'Incorreto. A resposta certa era: "{resp_esperada}".'
+            resp_esperada = ', '.join(respostas_corretas)
+            msg = f'Incorreto. A resposta certa era: "{resp_esperada}".' if resp_esperada else 'Incorreto.'
         if ex.explicacao:
             msg += f' — {ex.explicacao}'
         return JsonResponse({

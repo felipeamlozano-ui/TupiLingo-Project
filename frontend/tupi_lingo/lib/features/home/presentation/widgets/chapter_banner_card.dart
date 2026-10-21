@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../data/models/chapter_cultural_guides.dart';
 import '../../data/models/trail_map_models.dart';
 
-// Card em destaque no topo da trilha com resumo do capítulo, progresso e acesso ao guia cultural
+// Card em destaque no topo da trilha com resumo do capítulo, progresso e acesso ao guia do capítulo
 class ChapterBannerCard extends StatelessWidget {
   final CapituloMapData cap;
   final VoidCallback onCulturalGuideTap;
@@ -11,6 +12,25 @@ class ChapterBannerCard extends StatelessWidget {
     required this.cap,
     required this.onCulturalGuideTap,
   });
+
+  String _formatFriendlyDescription(String raw, int chapterNum) {
+    if (raw.contains('RAG') || raw.contains('Domínio temático:') || raw.trim().isEmpty) {
+      final guide = ChapterCulturalGuide.getForChapter(chapterNum);
+      if (raw.contains('Domínio temático:')) {
+        final match = RegExp(r'Domínio temático:\s*([A-Za-z0-9_À-ÿ\s]+)\.').firstMatch(raw);
+        if (match != null) {
+          final temaRaw = match.group(1)!.trim();
+          final temaFormatado = temaRaw.replaceAllMapped(
+            RegExp(r'([a-zà-ÿ])([A-ZÀ-ß])'),
+            (m) => '${m[1]} e ${m[2]}',
+          );
+          return '${guide.subtitulo} • Domine os termos de $temaFormatado e os saberes de Pindorama.';
+        }
+      }
+      return '${guide.subtitulo} • Vocabulário prático e saberes ancestrais da cultura Tupi.';
+    }
+    return raw.replaceAll(RegExp(r'\.?\s*Conteúdo estritamente rastreável ao RAG\.?', caseSensitive: false), '').trim();
+  }
 
   // Renderiza o gradiente verde floresta com título, descrição e barra percentual de conclusão
   @override
@@ -63,10 +83,10 @@ class ChapterBannerCard extends StatelessWidget {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('🏛️', style: TextStyle(fontSize: 12)),
+                      Text('📖', style: TextStyle(fontSize: 12)),
                       SizedBox(width: 4),
                       Text(
-                        'Guia Cultural',
+                        'Guia do Capítulo',
                         style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -86,7 +106,7 @@ class ChapterBannerCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            cap.descricao,
+            _formatFriendlyDescription(cap.descricao, cap.numero),
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.85),
               fontSize: 13,

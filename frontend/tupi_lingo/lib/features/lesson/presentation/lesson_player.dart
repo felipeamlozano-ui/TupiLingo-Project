@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import 'package:tupi_lingo/core/network/lesson_outbox_service.dart';
-import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
 import '../../dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'widgets/exercises/multiple_choice_view.dart';
 import 'widgets/exercises/fill_in_the_blank_view.dart';
@@ -88,24 +87,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
   void _applyLessonData(Map<String, dynamic> data) {
     _licao = data['licao'];
     final List<dynamic> storyBlocks = data['story_blocks'] ?? [];
-    final List<dynamic> exercicios = data['exercicios'] ?? [];
+    final List<dynamic> exerciciosRaw = List<dynamic>.from(data['exercicios'] ?? []);
+    final List<dynamic> vocab = data['vocabulario'] ?? [];
 
     _items = [];
     _totalExercicios = 0;
     _exercicioPrimeiraTentativa.clear();
 
-    for (var sb in storyBlocks) {
-      sb['is_story'] = true;
-      _items.add(Map<String, dynamic>.from(sb));
-    }
-    for (var ex in exercicios) {
-      ex['is_story'] = false;
-      _items.add(Map<String, dynamic>.from(ex));
-      _totalExercicios++;
-      _exercicioPrimeiraTentativa[ex['id']] = true;
-    }
-
-    final List<dynamic> vocab = data['vocabulario'] ?? [];
     _lessonVocabulary = {};
     for (var v in vocab) {
       final tupi = v['palavra_tupi']?.toString();
@@ -115,8 +103,95 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       }
     }
 
-    // Ordena tudo pela ordem definida no Django
-    _items.sort((a, b) => (a['ordem'] as int).compareTo(b['ordem'] as int));
+    // 1. Contexto narrativo e saberes culturais (Story blocks)
+    final List<Map<String, dynamic>> stories = [];
+    for (var sb in storyBlocks) {
+      final item = Map<String, dynamic>.from(sb);
+      item['is_story'] = true;
+      item['is_vocab'] = false;
+      stories.add(item);
+    }
+    stories.sort((a, b) => ((a['ordem'] as num?)?.toInt() ?? 0).compareTo((b['ordem'] as num?)?.toInt() ?? 0));
+    _items.addAll(stories);
+
+    // 2. Apresentação do Vocabulário (Flashcards de Onboarding - Tarefa 3)
+    // Apresenta palavras novas antes dos exercícios avaliativos
+    final List<Map<String, dynamic>> vocabIntroCards = [];
+    if (vocab.isNotEmpty) {
+      for (var v in vocab) {
+        vocabIntroCards.add({
+          'id': 'vocab_${v['id'] ?? v['palavra_tupi']}',
+          'is_story': false,
+          'is_vocab': true,
+          'palavra_tupi': v['palavra_tupi']?.toString() ?? '',
+          'traducao_pt': v['traducao_pt']?.toString() ?? '',
+          'transliteracao': v['transliteracao']?.toString() ?? '',
+          'exemplo_tupi': v['exemplo_tupi']?.toString() ?? '',
+          'exemplo_pt': v['exemplo_pt']?.toString() ?? '',
+          'audio': v['audio']?.toString(),
+        });
+      }
+    } else {
+      // Fallback inteligente: se o payload não trouxe vocabulário explícito,
+      // extrai os termos-alvo dos exercícios para não deixar o aluno sem introdução
+      for (var ex in exerciciosRaw) {
+        final target = ex['palavra_alvo'] ??
+            (ex['respostas_lacunas'] is List && (ex['respostas_lacunas'] as List).isNotEmpty
+                ? ex['respostas_lacunas'][0]
+                : (ex['itens_alvo'] is List && (ex['itens_alvo'] as List).isNotEmpty ? ex['itens_alvo'][0] : null));
+        if (target != null && target.toString().trim().isNotEmpty) {
+          final targetStr = target.toString().trim();
+          if (!vocabIntroCards.any((c) => c['palavra_tupi']?.toString().toLowerCase() == targetStr.toLowerCase())) {
+            final pt = _lessonVocabulary[targetStr] ?? (ex['traducao_pt']?.toString() ?? '');
+            vocabIntroCards.add({
+              'id': 'vocab_inferred_$targetStr',
+              'is_story': false,
+              'is_vocab': true,
+              'palavra_tupi': targetStr,
+              'traducao_pt': pt,
+              'transliteracao': '',
+              'exemplo_tupi': ex['texto_com_lacunas']?.toString() ?? '',
+              'exemplo_pt': ex['explicacao']?.toString() ?? '',
+              'audio': null,
+            });
+          }
+        }
+      }
+    }
+    _items.addAll(vocabIntroCards);
+
+    // 3. Escalonamento Pedagógico (Scaffolding - Tarefa 3):
+    // Reconhecimento Passivo (Múltipla Escolha) -> Associação -> Produção Ativa (Completar com Digitação)
+    int getScaffoldingWeight(String? tipo) {
+      switch (tipo) {
+        case 'escolha_multipla':
+          return 1;
+        case 'associacao':
+          return 2;
+        case 'completar':
+          return 3;
+        default:
+          return 4;
+      }
+    }
+
+    exerciciosRaw.sort((a, b) {
+      final wA = getScaffoldingWeight(a['tipo']?.toString());
+      final wB = getScaffoldingWeight(b['tipo']?.toString());
+      if (wA != wB) return wA.compareTo(wB);
+      final ordA = (a['ordem'] as num?)?.toInt() ?? 0;
+      final ordB = (b['ordem'] as num?)?.toInt() ?? 0;
+      return ordA.compareTo(ordB);
+    });
+
+    for (var ex in exerciciosRaw) {
+      final item = Map<String, dynamic>.from(ex);
+      item['is_story'] = false;
+      item['is_vocab'] = false;
+      _items.add(item);
+      _totalExercicios++;
+      _exercicioPrimeiraTentativa[item['id']] = true;
+    }
 
     setState(() {
       _isLoading = false;
@@ -424,7 +499,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         DashboardRepositoryImpl.invalidateCache();
-        AppProgressionNotifier.instance.notifyProgressionChanged();
 
         if (mounted) {
           final List<dynamic> novasConquistas = data['novas_conquistas'] ?? [];
@@ -464,7 +538,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       );
 
       DashboardRepositoryImpl.invalidateCache();
-      AppProgressionNotifier.instance.notifyProgressionChanged();
 
       if (mounted) {
         _showVictoryDialog(
@@ -641,6 +714,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
 
     final currentItem = _items[_currentIndex];
     final isStory = currentItem['is_story'] == true;
+    final isVocab = currentItem['is_vocab'] == true;
 
     return Scaffold(
       backgroundColor: _TupiColors.background,
@@ -674,7 +748,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
             constraints: const BoxConstraints(maxWidth: 700),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: isStory ? _buildStoryBlock(currentItem) : _buildExercicioBlock(currentItem),
+              child: isStory
+                  ? _buildStoryBlock(currentItem)
+                  : isVocab
+                      ? _buildVocabIntroBlock(currentItem)
+                      : _buildExercicioBlock(currentItem),
             ),
           ),
         ),
@@ -747,6 +825,219 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
                   elevation: 0,
                 ),
                 child: const Text('CONTINUAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Flashcard Introdutório de Vocabulário (Tarefa 3)
+  Widget _buildVocabIntroBlock(Map<String, dynamic> item) {
+    void handleContinue() {
+      _nextItem();
+    }
+
+    final palavraTupi = item['palavra_tupi']?.toString() ?? '';
+    final traducaoPt = item['traducao_pt']?.toString() ?? '';
+    final transliteracao = item['transliteracao']?.toString() ?? '';
+    final exemploTupi = item['exemplo_tupi']?.toString() ?? '';
+    final exemploPt = item['exemplo_pt']?.toString() ?? '';
+
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.enter): handleContinue,
+        const SingleActivator(LogicalKeyboardKey.numpadEnter): handleContinue,
+      },
+      child: Focus(
+        autofocus: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: _TupiColors.accent.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: _TupiColors.accent.withValues(alpha: 0.25)),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('✨', style: TextStyle(fontSize: 14)),
+                      SizedBox(width: 6),
+                      Text(
+                        'APRESENTAÇÃO DO VOCABULÁRIO',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          color: _TupiColors.accent,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              'Aprenda este termo antes de iniciar os exercícios:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: _TupiColors.subtitle,
+              ),
+            ),
+            const SizedBox(height: 18),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: const Color(0xFFE5DFD3), width: 1.5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 16,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 8),
+                      Text(
+                        palavraTupi,
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w900,
+                          color: _TupiColors.accent,
+                          letterSpacing: -0.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      if (transliteracao.isNotEmpty) ...[
+                        const SizedBox(height: 6),
+                        Text(
+                          '/$transliteracao/',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w500,
+                            color: _TupiColors.subtitle.withValues(alpha: 0.85),
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 18),
+                      Container(
+                        height: 2,
+                        width: 70,
+                        color: _TupiColors.border,
+                      ),
+                      const SizedBox(height: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.translate_rounded, size: 22, color: _TupiColors.primary),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Text(
+                              traducaoPt.isNotEmpty ? traducaoPt : 'Significado contextual',
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
+                                color: _TupiColors.primary,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (exemploTupi.isNotEmpty || exemploPt.isNotEmpty) ...[
+                        const SizedBox(height: 22),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFAF7F0),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: const Color(0xFFEADECA)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Row(
+                                children: [
+                                  Icon(Icons.format_quote_rounded, size: 18, color: _TupiColors.accent),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'Exemplo de Uso:',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w800,
+                                      color: _TupiColors.accent,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (exemploTupi.isNotEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  exemploTupi,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: _TupiColors.accent,
+                                  ),
+                                ),
+                              ],
+                              if (exemploPt.isNotEmpty) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  exemploPt,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontStyle: FontStyle.italic,
+                                    color: _TupiColors.subtitle,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: handleContinue,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _TupiColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 0,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('VAMOS PRATICAR 🏹', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                  ],
+                ),
               ),
             ),
           ],
@@ -830,8 +1121,22 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
   @override
   Widget build(BuildContext context) {
     final tipo = widget.item['tipo'];
-    final enunciado = widget.item['enunciado'] ?? '';
     final leftCount = (widget.item['coluna_esquerda'] as List<dynamic>?)?.length ?? 0;
+
+    // Mascara a resposta correta caso tenha sido revelada no enunciado entre aspas (ex: 'Abá katu.')
+    String enunciado = widget.item['enunciado'] ?? '';
+    final correctAnswers = (widget.item['respostas_lacunas'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
+        (widget.item['respostas'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
+        [];
+    final target = widget.item['palavra_alvo']?.toString() ??
+        (widget.item['itens_alvo'] is List && (widget.item['itens_alvo'] as List).isNotEmpty
+            ? widget.item['itens_alvo'][0].toString()
+            : (correctAnswers.isNotEmpty ? correctAnswers[0] : null));
+
+    if (tipo == 'completar' && target != null && target.trim().isNotEmpty) {
+      final escaped = RegExp.escape(target.trim());
+      enunciado = enunciado.replaceAll(RegExp(r'\b' + escaped + r'\b', caseSensitive: false), '______');
+    }
 
     final bool canVerify = tipo == 'escolha_multipla'
         ? _selectedOption != null
@@ -890,19 +1195,23 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
                           textController: _textController,
                           onChanged: (_) => setState(() {}),
                           wordTranslations: widget.wordTranslations,
+                          targetWord: target,
+                          correctAnswers: correctAnswers,
+                          sentenceTranslation: widget.item['traducao_pt']?.toString() ?? widget.item['significado_pt']?.toString(),
+                          explanation: widget.item['explicacao']?.toString(),
                         )
-                      : tipo == 'associacao'
-                          ? MatchingColumnsView(
-                              key: ValueKey(widget.item['id']),
-                              leftItems: widget.item['coluna_esquerda'] as List<dynamic>? ?? [],
-                              rightItems: widget.item['coluna_direita'] as List<dynamic>? ?? [],
-                              initialAssociations: _associations,
-                              onAssociationsChanged: (map) => setState(() {
-                                _associations.clear();
-                                _associations.addAll(map);
-                              }),
-                            )
-                          : Center(child: Text('Tipo de exercício não suportado: $tipo')),
+                  : tipo == 'associacao'
+                      ? MatchingColumnsView(
+                          key: ValueKey(widget.item['id']),
+                          leftItems: widget.item['coluna_esquerda'] as List<dynamic>? ?? [],
+                          rightItems: widget.item['coluna_direita'] as List<dynamic>? ?? [],
+                          initialAssociations: _associations,
+                          onAssociationsChanged: (map) => setState(() {
+                            _associations.clear();
+                            _associations.addAll(map);
+                          }),
+                        )
+                      : Center(child: Text('Tipo de exercício não suportado: $tipo')),
             ),
           ),
           const SizedBox(height: 16),

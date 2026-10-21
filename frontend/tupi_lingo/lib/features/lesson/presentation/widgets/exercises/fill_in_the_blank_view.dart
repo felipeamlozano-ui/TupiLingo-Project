@@ -9,6 +9,10 @@ class FillInTheBlankView extends StatefulWidget {
   final TextEditingController textController;
   final ValueChanged<String> onChanged;
   final Map<String, String>? wordTranslations;
+  final String? targetWord;
+  final List<String>? correctAnswers;
+  final String? sentenceTranslation;
+  final String? explanation;
 
   const FillInTheBlankView({
     super.key,
@@ -16,6 +20,10 @@ class FillInTheBlankView extends StatefulWidget {
     required this.textController,
     required this.onChanged,
     this.wordTranslations,
+    this.targetWord,
+    this.correctAnswers,
+    this.sentenceTranslation,
+    this.explanation,
   });
 
   @override
@@ -32,6 +40,31 @@ class _FillInTheBlankViewState extends State<FillInTheBlankView> {
   String? _selectedWord;
   String? _selectedTranslation;
   String? _selectedPhonetic;
+
+  // Dicionário canônico de sentenças e locuções para exibição de contexto em Português
+  static final Map<String, String> _knownSentencesPt = {
+    'aba katu': 'Pessoa boa / Homem bom',
+    'aba katu.': 'Pessoa boa / Homem bom',
+    'xe aba katu': 'Eu sou uma pessoa boa',
+    'xe aba katu.': 'Eu sou uma pessoa boa',
+    'iande aba': 'Nós somos homens / pessoas',
+    'iande aba.': 'Nós somos homens / pessoas',
+    'iande aba katu': 'Nós somos pessoas boas',
+    'iande aba katu.': 'Nós somos pessoas boas',
+    'aba poranga': 'Pessoa bela / Homem bonito',
+    'oka poranga': 'Casa formosa / Bela morada',
+    'oka katu': 'Casa boa / Habitação agradável',
+    'taba poranga': 'Aldeia formosa / Bela aldeia',
+    'che taba poranga': 'Minha bela aldeia',
+    'aue pai': 'Salve, meu senhor!',
+    'aue pai.': 'Salve, meu senhor!',
+    'kaue pai': 'Salve, meu senhor!',
+    'ereiur pe': 'Vieste em paz? (Como vai?)',
+    'ereiur pe?': 'Vieste em paz? (Como vai?)',
+    'y poranga': 'Água pura e límpida',
+    'kaa poranga': 'Mata formosa',
+    'tupa katu': 'O divino é bom',
+  };
 
   // Dicionário canônico de fallback para tradução instantânea em tempo real (0ms)
   static final Map<String, Map<String, String>> _fallbackDict = {
@@ -228,6 +261,64 @@ class _FillInTheBlankViewState extends State<FillInTheBlankView> {
                 : const SizedBox.shrink(),
           ),
 
+          // Contexto em Português da Frase (Subtítulo Pedagógico de Apoio)
+          Builder(
+            builder: (context) {
+              final contextPt = _resolvePortugueseContext();
+              if (contextPt == null || contextPt.isEmpty) return const SizedBox.shrink();
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF162520) : const Color(0xFFEAF3F1),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF1EC9A5).withValues(alpha: 0.35) : const Color(0xFF0E5D4E).withValues(alpha: 0.25),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: (isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E)).withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.translate_rounded,
+                        size: 14,
+                        color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Complete a frase para dizer: ',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppTheme.textSecondary(context),
+                          ),
+                          children: [
+                            TextSpan(
+                              text: '"$contextPt"',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+
           // Card com a frase e palavras clicáveis com dica estilo Duolingo
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
@@ -243,7 +334,7 @@ class _FillInTheBlankViewState extends State<FillInTheBlankView> {
                 ),
               ],
             ),
-            child: _buildInteractiveSentence(context, widget.textoComLacunas),
+            child: _buildInteractiveSentence(context),
           ),
           const SizedBox(height: 6),
           Row(
@@ -290,81 +381,190 @@ class _FillInTheBlankViewState extends State<FillInTheBlankView> {
     );
   }
 
-  Widget _buildInteractiveSentence(BuildContext context, String texto) {
-    if (!texto.contains('___')) {
-      return _buildClickableWordsRow(texto);
+  /// Oculta a palavra-alvo caso o texto do exercício venha completo sem o marcador de lacuna
+  String _resolveEffectiveSentence() {
+    var raw = widget.textoComLacunas.trim();
+    if (raw.isEmpty) return raw;
+
+    // Se já contém marcador de lacuna explícito (2 ou mais underscores consecutivos)
+    if (RegExp(r'_{2,}').hasMatch(raw)) {
+      return raw;
     }
 
-    final parts = texto.split('___');
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        _buildClickableWordsRow(parts[0]),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-          decoration: BoxDecoration(
-            color: _primary.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: _primary, width: 1.8),
-          ),
-          child: Text(
-            widget.textController.text.trim().isNotEmpty
-                ? widget.textController.text.trim()
-                : ' ______ ',
-            style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: _primary,
-            ),
-          ),
-        ),
-        if (parts.length > 1) _buildClickableWordsRow(parts[1]),
-      ],
-    );
+    // Se a frase veio sem lacuna (ex: 'Abá katu.'), descobre a palavra-alvo para ocultar dinamicamente
+    String? target = widget.targetWord;
+    if (target == null || target.isEmpty) {
+      if (widget.correctAnswers != null && widget.correctAnswers!.isNotEmpty) {
+        target = widget.correctAnswers!.first;
+      }
+    }
+    if ((target == null || target.isEmpty) && widget.explanation != null) {
+      final match = RegExp(r"'([^']+)'").firstMatch(widget.explanation!);
+      if (match != null) {
+        target = match.group(1);
+      }
+    }
+
+    if (target != null && target.trim().isNotEmpty) {
+      final clean = _cleanToken(target);
+      if (clean.isNotEmpty) {
+        // Substitui a palavra-alvo com limites de palavra
+        final boundaryRegex = RegExp(r'\b' + RegExp.escape(clean) + r'\b', caseSensitive: false);
+        if (boundaryRegex.hasMatch(raw)) {
+          return raw.replaceFirst(boundaryRegex, '______');
+        }
+        final relaxedRegex = RegExp(RegExp.escape(clean), caseSensitive: false);
+        if (relaxedRegex.hasMatch(raw)) {
+          return raw.replaceFirst(relaxedRegex, '______');
+        }
+      }
+    }
+
+    // Fallback: se tem 2+ palavras e nenhuma lacuna, oculta a última palavra
+    final words = raw.split(RegExp(r'\s+'));
+    if (words.length >= 2) {
+      final lastWord = words.last;
+      return raw.replaceFirst(lastWord, '______');
+    }
+
+    return '______';
   }
 
-  Widget _buildClickableWordsRow(String segment) {
-    final tokens = segment.split(RegExp(r'\s+')).where((t) => t.isNotEmpty).toList();
-    if (tokens.isEmpty) return const SizedBox.shrink();
+  /// Resolve o significado da frase em Português para dar suporte pedagógico ao aluno
+  String? _resolvePortugueseContext() {
+    if (widget.sentenceTranslation != null && widget.sentenceTranslation!.trim().isNotEmpty) {
+      return widget.sentenceTranslation!.trim();
+    }
+
+    // Normaliza chave de busca (sem acentos e pontuações)
+    final normalizedKey = _cleanToken(widget.textoComLacunas.toLowerCase())
+        .replaceAll('ã', 'a')
+        .replaceAll('á', 'a')
+        .replaceAll('é', 'e')
+        .replaceAll('ê', 'e')
+        .replaceAll('í', 'i')
+        .replaceAll('î', 'i')
+        .replaceAll('õ', 'o')
+        .replaceAll('ó', 'o')
+        .replaceAll('ú', 'u')
+        .replaceAll('û', 'u')
+        .trim();
+
+    if (_knownSentencesPt.containsKey(normalizedKey)) {
+      return _knownSentencesPt[normalizedKey];
+    }
+
+    for (final e in _knownSentencesPt.entries) {
+      if (e.key == normalizedKey || normalizedKey.contains(e.key)) {
+        return e.value;
+      }
+    }
+
+    // Extrai significado entre parênteses da explicação se houver (ex: "(Bom / Belo)")
+    if (widget.explanation != null) {
+      final parenMatch = RegExp(r'\(([^)]+)\)').firstMatch(widget.explanation!);
+      if (parenMatch != null && parenMatch.group(1) != null) {
+        return parenMatch.group(1)!.trim();
+      }
+    }
+
+    return null;
+  }
+
+  /// Renderiza a sentença completa em um Wrap plano único:
+  /// Preserva o widget visual da lacuna [ ______ ] e todos os tokens ao redor dela
+  Widget _buildInteractiveSentence(BuildContext context) {
+    final effectiveSentence = _resolveEffectiveSentence();
+    final tokens = effectiveSentence.split(RegExp(r'\s+')).where((t) => t.isNotEmpty).toList();
+
+    final List<Widget> widgets = [];
+
+    for (final token in tokens) {
+      if (RegExp(r'_{2,}').hasMatch(token)) {
+        // Extrai pontuação colada na lacuna (ex: "______.")
+        final punctuation = token.replaceAll(RegExp(r'[_]'), '');
+
+        widgets.add(
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                decoration: BoxDecoration(
+                  color: _primary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: _primary, width: 2.0),
+                ),
+                child: Text(
+                  widget.textController.text.trim().isNotEmpty
+                      ? widget.textController.text.trim()
+                      : ' ______ ',
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: _primary,
+                  ),
+                ),
+              ),
+              if (punctuation.isNotEmpty)
+                Text(
+                  punctuation,
+                  style: const TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: _accent,
+                  ),
+                ),
+            ],
+          ),
+        );
+      } else {
+        widgets.add(_buildWordChip(token));
+      }
+    }
 
     return Wrap(
       spacing: 6,
-      runSpacing: 6,
+      runSpacing: 8,
       crossAxisAlignment: WrapCrossAlignment.center,
-      children: tokens.map((token) {
-        final clean = _cleanToken(token);
-        final isSelected = _selectedWord != null && _selectedWord == clean;
+      children: widgets,
+    );
+  }
 
-        return GestureDetector(
-          onTap: () => _onWordTapped(token),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-            decoration: BoxDecoration(
-              color: isSelected ? _primary.withValues(alpha: 0.2) : Colors.transparent,
-              borderRadius: BorderRadius.circular(6),
-              border: isSelected
-                  ? Border.all(color: _primary, width: 1.5)
-                  : const Border(
-                      bottom: BorderSide(
-                        color: Color(0xFFD08A45),
-                        width: 1.2,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-            ),
-            child: Text(
-              token,
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color: isSelected ? _primary : _accent,
-                height: 1.4,
-              ),
-            ),
+  Widget _buildWordChip(String token) {
+    final clean = _cleanToken(token);
+    final isSelected = _selectedWord != null && _selectedWord == clean;
+
+    return GestureDetector(
+      onTap: () => _onWordTapped(token),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        decoration: BoxDecoration(
+          color: isSelected ? _primary.withValues(alpha: 0.2) : Colors.transparent,
+          borderRadius: BorderRadius.circular(6),
+          border: isSelected
+              ? Border.all(color: _primary, width: 1.5)
+              : const Border(
+                  bottom: BorderSide(
+                    color: Color(0xFFD08A45),
+                    width: 1.2,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+        ),
+        child: Text(
+          token,
+          style: TextStyle(
+            fontSize: 19,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+            color: isSelected ? _primary : _accent,
+            height: 1.35,
           ),
-        );
-      }).toList(),
+        ),
+      ),
     );
   }
 }
+

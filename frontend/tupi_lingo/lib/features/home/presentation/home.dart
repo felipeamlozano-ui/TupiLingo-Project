@@ -93,6 +93,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   }
 
   Timer? _idleTimer;
+  Timer? _progressionDebounceTimer;
+
+  /// Atualiza status do jogador garantindo progressão monotônica para impedir
+  /// oscilações visuais rápidas (flicker) decorrentes de roundtrips assíncronos fora de ordem.
+  void _updatePlayerStats({int? xp, int? streak, int? conchas, bool force = false}) {
+    if (!mounted) return;
+    setState(() {
+      if (xp != null && (force || xp >= _xpTotal)) {
+        _xpTotal = xp;
+      }
+      if (streak != null && (force || streak >= _streakDays)) {
+        _streakDays = streak;
+      }
+      if (conchas != null && (force || conchas >= _conchas)) {
+        _conchas = conchas;
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -176,17 +194,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     }
   }
 
-  // Atualiza conchas locais e recarrega os dados quando o progresso global é notificado
+  // Atualiza conchas locais e recarrega os dados quando o progresso global é notificado (com debounce anti-flicker)
   void _onProgressionUpdated() {
-    if (mounted) {
-      final gained = AppProgressionNotifier.instance.lastConchasGained;
-      if (gained > 0) {
-        setState(() {
-          _conchas += gained;
-        });
-      }
-      _loadUserDataAndTrail();
+    if (!mounted) return;
+    final gained = AppProgressionNotifier.instance.consumeLastConchasGained();
+    if (gained > 0) {
+      _updatePlayerStats(conchas: _conchas + gained);
     }
+    _progressionDebounceTimer?.cancel();
+    _progressionDebounceTimer = Timer(const Duration(milliseconds: 250), () {
+      if (mounted) {
+        _loadUserDataAndTrail();
+      }
+    });
   }
 
   // Instancia controladores de animação para os efeitos de pulso e flutuação da trilha
@@ -213,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _idleTimer?.cancel();
+    _progressionDebounceTimer?.cancel();
     AppProgressionNotifier.instance.removeListener(_onProgressionUpdated);
     _pulseController?.dispose();
     _floatController?.dispose();
@@ -328,15 +349,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               _varianteId = userVarId;
               _varianteNome = varianteAtiva['nome']?.toString() ?? _varianteNome;
             }
-            if (mounted) {
-              setState(() {
-                _xpTotal = (profileData['xp_total'] as num?)?.toInt() ?? _xpTotal;
-                _streakDays = (profileData['streak_atual'] as num?)?.toInt() ??
-                    (profileData['dias_ofensiva'] as num?)?.toInt() ??
-                    _streakDays;
-                _conchas = (profileData['conchas'] as num?)?.toInt() ?? _conchas;
-              });
-            }
+            _updatePlayerStats(
+              xp: (profileData['xp_total'] as num?)?.toInt(),
+              streak: (profileData['streak_atual'] as num?)?.toInt() ??
+                  (profileData['dias_ofensiva'] as num?)?.toInt(),
+              conchas: (profileData['conchas'] as num?)?.toInt(),
+            );
           }
         } catch (_) {}
       }
@@ -381,14 +399,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   void _processMapData(Map<String, dynamic> mapData, {bool isFromCache = false}) {
     if (mapData['user_stats'] is Map<String, dynamic>) {
       final us = mapData['user_stats'] as Map<String, dynamic>;
-      if (mounted) {
-        setState(() {
-          _xpTotal = (us['xp_total'] as num?)?.toInt() ?? 0;
-          _streakDays = (us['streak_atual'] as num?)?.toInt() ??
-              (us['dias_ofensiva'] as num?)?.toInt() ??
-              0;
-          _conchas = (us['conchas'] as num?)?.toInt() ?? 0;
-        });
+      final int? newXp = (us['xp_total'] as num?)?.toInt();
+      final int? newStreak = (us['streak_atual'] as num?)?.toInt() ??
+          (us['dias_ofensiva'] as num?)?.toInt();
+      final int? newConchas = (us['conchas'] as num?)?.toInt();
+
+      if (isFromCache) {
+        // Se for cache inicial, popula apenas se a memória estiver zerada (cold start)
+        if (_xpTotal == 0 && _conchas == 0 && _streakDays == 0) {
+          _updatePlayerStats(xp: newXp, streak: newStreak, conchas: newConchas);
+        }
+      } else {
+        _updatePlayerStats(xp: newXp, streak: newStreak, conchas: newConchas);
       }
     }
 
@@ -816,9 +838,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       ),
     );
     if (updatedConchas != null && mounted) {
-      setState(() {
-        _conchas = updatedConchas;
-      });
+      _updatePlayerStats(conchas: updatedConchas, force: true);
     }
   }
 
@@ -925,18 +945,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                   final xpGanho = (data['recompensa_xp'] as num?)?.toInt() ?? 75;
                   final conchasGanho = (data['recompensa_conchas'] as num?)?.toInt() ?? 50;
 
-                  setState(() {
-                    _xpTotal = (data['xp_total'] as num?)?.toInt() ?? (_xpTotal + xpGanho);
-                    _conchas += conchasGanho;
-                  });
+                  _updatePlayerStats(
+                    xp: (data['xp_total'] as num?)?.toInt() ?? (_xpTotal + xpGanho),
+                    conchas: (data['conchas'] as num?)?.toInt() ?? (_conchas + conchasGanho),
+                  );
 
                   DashboardRepositoryImpl.invalidateCache();
                   AppProgressionNotifier.instance.notifyProgressUpdated(
                     xpGained: xpGanho,
-                    conchasGained: conchasGanho,
                   );
-
-                  _loadUserDataAndTrail();
 
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -1067,28 +1084,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             if (result is Map<String, dynamic>) {
               nextLicaoId = (result['proxima_licao_id'] as num?)?.toInt();
               final earnedXp = (result['earned_xp'] as num?)?.toInt() ?? 0;
+              final earnedConchas = (result['earned_conchas'] as num?)?.toInt() ?? 0;
               final totalXp = (result['xp_total'] as num?)?.toInt();
+              final totalConchas = (result['conchas'] as num?)?.toInt();
               final streak = (result['streak_atual'] as num?)?.toInt() ??
                   (result['dias_ofensiva'] as num?)?.toInt();
-              if (totalXp != null && totalXp > 0) {
-                _xpTotal = totalXp;
-              } else if (earnedXp > 0) {
-                _xpTotal += earnedXp;
-              }
-              if (streak != null && streak > 0) {
-                _streakDays = streak;
-              }
+
+              _updatePlayerStats(
+                xp: (totalXp != null && totalXp > 0) ? totalXp : (_xpTotal + earnedXp),
+                conchas: (totalConchas != null && totalConchas > 0) ? totalConchas : (_conchas + earnedConchas),
+                streak: streak,
+              );
+
               final returnedVid = (result['variante_id'] as num?)?.toInt();
               if (returnedVid != null && returnedVid > 0) {
-                _varianteId = returnedVid;
-                if (result['variante_nome'] != null) {
-                  _varianteNome = result['variante_nome'].toString();
-                }
+                setState(() {
+                  _varianteId = returnedVid;
+                  if (result['variante_nome'] != null) {
+                    _varianteNome = result['variante_nome'].toString();
+                  }
+                });
               }
             }
             _optimisticallyUnlockLesson(licao.id, unlockedNextLessonId: nextLicaoId);
 
             DashboardRepositoryImpl.invalidateCache();
+            // Invalida o cache HTTP da trilha para atualizar o mapa limpo
+            final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
+            ApiCacheManager.instance.invalidate('$baseUrl/api/v1/trilha/$_varianteId/capitulos/');
+
             AppProgressionNotifier.instance.notifyProgressUpdated(
               completedLessonId: licao.id,
               unlockedLessonId: nextLicaoId,

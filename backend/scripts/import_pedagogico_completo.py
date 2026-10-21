@@ -249,9 +249,13 @@ def importar_variante(var_dir: str, var_codigo: str):
                         ))
 
                     elif tipo_ex == "completar":
-                        texto_lacunas = ex_data.get("texto_com_lacunas", "")
+                        texto_lacunas = ex_data.get("texto_com_lacunas") or ex_data.get("frase_com_lacunas") or ""
                         respostas = ex_data.get("respostas_lacunas") or ex_data.get("respostas_corretas") or []
-                        if not respostas and ex_data.get("itens_alvo"):
+                        if not respostas and ex_data.get("palavra_correta"):
+                            respostas = [ex_data.get("palavra_correta")]
+                        elif not respostas and ex_data.get("palavras_corretas"):
+                            respostas = ex_data.get("palavras_corretas")
+                        elif not respostas and ex_data.get("itens_alvo"):
                             respostas = ex_data.get("itens_alvo")
 
                         exercicios_batch.append(Exercicio(

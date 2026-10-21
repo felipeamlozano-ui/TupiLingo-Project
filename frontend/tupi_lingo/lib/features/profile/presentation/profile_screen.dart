@@ -58,7 +58,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _openStoreFromProfile() async {
+    final balance = StoreService.instance.cachedConchas;
+    FocusManager.instance.primaryFocus?.unfocus();
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    await Navigator.of(context, rootNavigator: true).push<int>(
+      MaterialPageRoute(
+        builder: (_) => StoreScreen(initialConchas: balance),
+      ),
+    );
+
+    if (!mounted) return;
+    try {
+      await _fetchProfile();
+    } catch (e) {
+      debugPrint('[ProfileScreen] Erro ao sincronizar dados pós-loja: $e');
+    } finally {
+      if (mounted && _isLoading) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   Future<void> _fetchProfile() async {
+    if (!mounted) return;
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -69,7 +95,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (session == null) {
         if (mounted) {
           setState(() {
-            _isLoading = false;
             _errorMessage = 'Sessão não encontrada. Por favor, faça login novamente.';
           });
         }
@@ -85,6 +110,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
       final response = await ApiClient.get('$baseUrl/api/v1/auth/profile');
+
+      if (!mounted) return;
 
       if (response.statusCode == 200) {
         final dynamic data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -108,7 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Celebração motivacional de subida de nível
           if (_previousLevelInMemory != null && currentLevel > _previousLevelInMemory!) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              _showLevelUpCelebration(currentLevel);
+              if (mounted) {
+                _showLevelUpCelebration(currentLevel);
+              }
             });
           }
           _previousLevelInMemory = currentLevel;
@@ -120,7 +149,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _desempenhoCapitulo = desempenho;
               _achievementsDesbloqueadas = unlocked;
               _achievementsBloqueadas = locked;
-              _isLoading = false;
             });
           }
           return;
@@ -129,22 +157,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (mounted) {
         setState(() {
-          _isLoading = false;
           _errorMessage = 'Falha ao carregar perfil (Status ${response.statusCode})';
         });
       }
     } on SessionExpiredException catch (e) {
       if (mounted) {
         setState(() {
-          _isLoading = false;
           _errorMessage = e.message;
         });
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          _isLoading = false;
           _errorMessage = 'Erro de conexão: $e';
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
         });
       }
     }
@@ -551,15 +582,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             userName: name,
             size: 68,
             showEditBadge: true,
-            onTap: () async {
-              final balance = StoreService.instance.cachedConchas;
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => StoreScreen(initialConchas: balance),
-                ),
-              );
-            },
+            onTap: _openStoreFromProfile,
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -612,15 +635,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         final frameCfg = FrameCosmeticConfig.catalog[frameId];
                         final label = '${avatarCfg?.icon ?? '👤'} ${avatarCfg?.label ?? 'Avatar'} • ${frameCfg?.icon ?? '🪵'}';
                         return InkWell(
-                          onTap: () async {
-                            final balance = StoreService.instance.cachedConchas;
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => StoreScreen(initialConchas: balance),
-                              ),
-                            );
-                          },
+                          onTap: _openStoreFromProfile,
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),

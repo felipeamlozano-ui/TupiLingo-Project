@@ -369,6 +369,44 @@ def sincronizar_banco_dados():
                                     'resposta_correta': ex_data.get("resposta_correta", 0)
                                 }
                             )
+                        elif tipo_ex == "completar":
+                            palavra = ex_data.get("palavra_correta") or (ex_data.get("respostas_lacunas") or [""])[0]
+                            texto_l = ex_data.get("texto_com_lacunas") or ex_data.get("frase_com_lacunas") or ""
+                            ExercicioCompletar.objects.update_or_create(
+                                licao=licao_obj,
+                                ordem=ordem_ex,
+                                defaults={
+                                    'enunciado': enunciado_ex,
+                                    'texto_com_lacunas': texto_l,
+                                    'respostas_corretas': [palavra] if palavra else [],
+                                    'tolerancia_levenshtein': 2,
+                                    'explicacao': explicacao_ex,
+                                    'dificuldade': dificuldade_ex,
+                                    'pontos_base': pts,
+                                }
+                            )
+
+                        respostas_list = []
+                        if tipo_ex == "completar":
+                            p = ex_data.get("palavra_correta") or (ex_data.get("respostas_lacunas") or [""])[0]
+                            if p:
+                                respostas_list = [p]
+                        Exercicio.objects.update_or_create(
+                            licao=licao_obj,
+                            ordem=ordem_ex,
+                            defaults={
+                                'tipo': tipo_ex,
+                                'enunciado': enunciado_ex,
+                                'explicacao': explicacao_ex,
+                                'dificuldade': dificuldade_ex,
+                                'pontos_base': pts,
+                                'opcoes': ex_data.get("opcoes", []) if tipo_ex == "escolha_multipla" else None,
+                                'resposta_correta': ex_data.get("resposta_correta", 0) if tipo_ex == "escolha_multipla" else None,
+                                'texto_com_lacunas': ex_data.get("texto_com_lacunas") or ex_data.get("frase_com_lacunas") or "",
+                                'respostas_corretas': respostas_list,
+                                'tolerancia_levenshtein': 2,
+                            }
+                        )
 
                     # Cria itens de vocabulário se houver
                     bloco = ld.get("bloco_ensino", {})

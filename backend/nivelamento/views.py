@@ -14,6 +14,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import random
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -171,7 +172,12 @@ def gerar_questao_nivelamento(request):
         {"termo": "taba", "trad": "Aldeia", "enunciado": "Qual é a tradução de 'taba' em Tupi Antigo?"},
         {"termo": "kûarasy", "trad": "Sol", "enunciado": "A qual astro se refere 'kûarasy'?"},
         {"termo": "îasy", "trad": "Lua", "enunciado": "Qual astro celeste é chamado de 'îasy'?"},
+        {"termo": "itá", "trad": "Pedra / Ferro", "enunciado": "A qual elemento mineral se refere 'itá'?"},
+        {"termo": "maraká", "trad": "Chocalho sagrado", "enunciado": "O que representa 'maraká' na tradição Tupi?"},
+        {"termo": "toryba", "trad": "Alegria / Felicidade", "enunciado": "Qual sentimento expressa a palavra 'toryba'?"},
+        {"termo": "morubixaba", "trad": "Chefe / Liderança", "enunciado": "A qual papel social se refere 'morubixaba'?"},
     ]
+    random.shuffle(contingencia_questoes)
     letras_esperadas = ["A", "B", "C", "D"]
 
     for idx, q in enumerate(result.get("questoes", [])):

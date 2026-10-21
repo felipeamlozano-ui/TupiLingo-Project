@@ -24,18 +24,32 @@ import unicodedata
 logger = logging.getLogger(__name__)
 
 
+def _normalize_tupi(text: str, ignore_glottal: bool = False) -> str:
+    """
+    Normalização avançada e fonético-ortográfica para a língua Tupi e variantes:
+    - Normalização Unicode NFKC para uniformizar caracteres especiais e compatibilidade.
+    - Remove pontuação periférica (. , ! ? " ' ` ; :) que o usuário possa ter digitado por hábito.
+    - Unifica apóstrofos/cortes de voz (' ’ ‘ ʻ ʼ ` ´ ′) para apóstrofo padrão ASCII '.
+    - Converte 'ç' para 's' (variação entre ortografia jesuítica colonial e Navarro moderno).
+    - Remove diacríticos via NFD + descarte de marcas 'Mn' (á, é, í, ó, ú, â, ê, î, ô, û, ŷ, ã, ẽ, ĩ, õ, ũ, ỹ).
+    - Opcionalmente ignora o corte de voz / hífen para tolerar omissões (ex: nhe'engatu == nheengatu).
+    """
+    if not text:
+        return ""
+    text = unicodedata.normalize('NFKC', text.strip()).strip(' .,!?:;"\'`´~^')
+    for apo in ('’', '‘', 'ʻ', 'ʼ', '`', '´', '′'):
+        text = text.replace(apo, "'")
+    text = text.lower()
+    text = text.replace('ç', 's')
+    text = ''.join(c for c in unicodedata.normalize('NFD', text) if unicodedata.category(c) != 'Mn')
+    if ignore_glottal:
+        text = text.replace("'", "").replace("-", "")
+    return text
+
+
 def _normalize(text: str) -> str:
-    """
-    Normaliza texto para comparação:
-    - Strip de espaços
-    - Lowercase
-    - Remove diacríticos (acentos) via decomposição unicode NFD + filtro de Mn
-    """
-    text = text.strip().lower()
-    return ''.join(
-        c for c in unicodedata.normalize('NFD', text)
-        if unicodedata.category(c) != 'Mn'
-    )
+    """Compatibilidade retroativa com código existente."""
+    return _normalize_tupi(text, ignore_glottal=False)
 
 
 def _levenshtein(s1: str, s2: str) -> int:
@@ -65,16 +79,14 @@ def _levenshtein(s1: str, s2: str) -> int:
 def _run_levenshtein_query(resposta_usuario: str, resposta_correta: str) -> int:
     """
     Calcula a distância de Levenshtein entre as duas respostas usando Python puro.
-    Aplica normalização (sem acentos, lowercase) antes de comparar.
-
-    Retorna a distância (int). Menor = mais próximo. 0 = idêntico.
+    Aplica normalização fonético-ortográfica Tupi antes de comparar.
     """
-    return _levenshtein(_normalize(resposta_usuario), _normalize(resposta_correta))
+    return _levenshtein(_normalize_tupi(resposta_usuario), _normalize_tupi(resposta_correta))
 
 
 def _normalize_fallback(text: str) -> str:
     """Alias mantido por compatibilidade com código legado que possa usar este helper."""
-    return _normalize(text)
+    return _normalize_tupi(text)
 
 
 
@@ -117,9 +129,8 @@ def validar_resposta_fuzzy_global(
     tolerancia_levenshtein: int = 2,
 ) -> ValidationResult:
     """
-    Validação global unificada com tolerância a pequenos erros de digitação:
-    1. Executa prioritariamente via extensão PostgreSQL pg_trgm + unaccent (RPC validar_resposta_fuzzy_trgm).
-    2. Fallback determinístico em Python puro (Levenshtein + unicodedata NFD) se o banco estiver offline.
+    Validação global unificada com tolerância a pequenos erros de digitação e acentuação Tupi.
+    Executa verificação local em Python puro de alta precisão (sub-milissegundo).
     """
     u_raw = (resposta_usuario or '').strip()
     c_raw = (resposta_correta or '').strip()
@@ -133,36 +144,12 @@ def validar_resposta_fuzzy_global(
             similaridade=0.0,
         )
 
-    # 1. Tentativa via RPC nativa PostgreSQL (pg_trgm)
-    try:
-        from app.services.supabase_service import supabase_service
-        rpc_result = supabase_service.validar_resposta_fuzzy_trgm(
-            resposta_usuario=u_raw,
-            resposta_esperada=c_raw,
-            limiar_correto=limiar_correto,
-            limiar_quase=limiar_quase,
-        )
-        if rpc_result and "status" in rpc_result:
-            sim = float(rpc_result.get("similaridade", 0.0))
-            st = rpc_result.get("status", ValidationResult.ERRADO)
-            msg = rpc_result.get("mensagem", "")
-            dist = 0 if st == ValidationResult.CORRETO else (1 if st == ValidationResult.QUASE_CERTO else 3)
-            return ValidationResult(
-                status=st,
-                distancia=dist,
-                resposta_correta=c_raw,
-                mensagem=msg,
-                similaridade=sim,
-            )
-    except Exception as exc:
-        logger.debug("[ValidationService] Fallback para Levenshtein local (pg_trgm indisponível: %s)", exc)
+    # 1. Verificação fonético-ortográfica Tupi (sem diacríticos, unificando ç/s e apóstrofos)
+    u_norm = _normalize_tupi(u_raw)
+    c_norm = _normalize_tupi(c_raw)
 
-    # 2. Fallback Local em Python (Levenshtein + normalização sem diacríticos)
-    distancia = _run_levenshtein_query(u_raw, c_raw)
-    max_len = max(len(u_raw), len(c_raw), 1)
-    sim_estimada = max(0.0, 1.0 - (distancia / max_len))
-
-    if distancia == 0:
+    # Se normalizado for idêntico (ex: Tataguâsu vs Tatagûasu vs Tataguaçu vs Tataguasu)
+    if u_norm == c_norm:
         return ValidationResult(
             status=ValidationResult.CORRETO,
             distancia=0,
@@ -171,15 +158,38 @@ def validar_resposta_fuzzy_global(
             similaridade=1.0,
         )
 
-    if 0 < distancia <= tolerancia_levenshtein:
+    # Tolerância a omissão de apóstrofo/corte de voz (ex: tembiu vs tembi'u, nheengatu vs nhe'engatu)
+    u_no_glottal = _normalize_tupi(u_raw, ignore_glottal=True)
+    c_no_glottal = _normalize_tupi(c_raw, ignore_glottal=True)
+    if u_no_glottal == c_no_glottal:
+        return ValidationResult(
+            status=ValidationResult.CORRETO,
+            distancia=0,
+            resposta_correta=c_raw,
+            mensagem="Correto! 🎉",
+            similaridade=0.98,
+        )
+
+    # 2. Distância de Levenshtein entre as formas normalizadas
+    distancia = _levenshtein(u_norm, c_norm)
+    max_len = max(len(u_norm), len(c_norm), 1)
+    sim_estimada = max(0.0, 1.0 - (distancia / max_len))
+
+    # Regras dinâmicas de tolerância:
+    if distancia <= 1 and max_len >= 4:
         return ValidationResult(
             status=ValidationResult.QUASE_CERTO,
             distancia=distancia,
             resposta_correta=c_raw,
-            mensagem=(
-                f"Quase lá! Verifique a escrita de '{c_raw}'. "
-                f"Você digitou '{u_raw}'."
-            ),
+            mensagem=f"Quase lá! Verifique a escrita de '{c_raw}'. Você digitou '{u_raw}'.",
+            similaridade=sim_estimada,
+        )
+    elif distancia <= tolerancia_levenshtein and max_len >= 6:
+        return ValidationResult(
+            status=ValidationResult.QUASE_CERTO,
+            distancia=distancia,
+            resposta_correta=c_raw,
+            mensagem=f"Quase lá! Verifique a escrita de '{c_raw}'. Você digitou '{u_raw}'.",
             similaridade=sim_estimada,
         )
 
@@ -187,7 +197,7 @@ def validar_resposta_fuzzy_global(
         status=ValidationResult.ERRADO,
         distancia=distancia,
         resposta_correta=c_raw,
-        mensagem=f"Incorreto. A resposta correta era '{c_raw}'.",
+        mensagem=f"Incorreto. A resposta certa era: '{c_raw}'.",
         similaridade=sim_estimada,
     )
 
@@ -233,11 +243,21 @@ def validar_lista_lacunas(
     acertos = 0
     algum_quase = False
 
-    # Garante que as listas têm o mesmo tamanho
-    total = max(len(respostas_corretas), len(respostas_usuario))
+    corretas_validas = [c for c in (respostas_corretas or []) if (c or '').strip()]
+    if not corretas_validas:
+        return {
+            'resultados': [],
+            'tudo_correto': False,
+            'algum_quase': False,
+            'acertos': 0,
+            'total': 0,
+        }
+
+    # Garante que as listas têm o mesmo tamanho baseando-se nas respostas válidas
+    total = max(len(corretas_validas), len(respostas_usuario))
     for i in range(total):
         usuario = respostas_usuario[i] if i < len(respostas_usuario) else ''
-        correta = respostas_corretas[i] if i < len(respostas_corretas) else ''
+        correta = corretas_validas[i] if i < len(corretas_validas) else corretas_validas[0]
 
         resultado = validar_resposta_completar(usuario, correta, tolerancia)
         resultados.append(resultado.to_dict())

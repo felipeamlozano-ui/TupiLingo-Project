@@ -1,4 +1,18 @@
 /// Model e repositório com os Guias Culturais autênticos e individualizados para cada capítulo da trilha TupiLingo.
+class ChapterVocabItem {
+  final String tupi;
+  final String portugues;
+  final String? transliteracao;
+  final String? exemplo;
+
+  const ChapterVocabItem({
+    required this.tupi,
+    required this.portugues,
+    this.transliteracao,
+    this.exemplo,
+  });
+}
+
 class ChapterCulturalGuide {
   final int numero;
   final String titulo;
@@ -8,6 +22,7 @@ class ChapterCulturalGuide {
   final String curiosidadeLinguistica;
   final String expressaoDestaque;
   final String expressaoTraducao;
+  final List<ChapterVocabItem> vocabulario;
 
   const ChapterCulturalGuide({
     required this.numero,
@@ -18,6 +33,7 @@ class ChapterCulturalGuide {
     required this.curiosidadeLinguistica,
     required this.expressaoDestaque,
     required this.expressaoTraducao,
+    this.vocabulario = const [],
   });
 
   static ChapterCulturalGuide getForChapter(int numero, {String? defaultTitulo}) {
@@ -33,6 +49,11 @@ class ChapterCulturalGuide {
               'No Tupi Antigo, os conceitos de tempo e espaço entrelaçam-se: as raízes morfológicas expressam não apenas a ação, mas a relação do falante com a terra.',
           expressaoDestaque: 'Aîeté katu!',
           expressaoTraducao: 'É a mais pura verdade! / Muito bem!',
+          vocabulario: const [
+            ChapterVocabItem(tupi: 'Abá', portugues: 'Homem / Pessoa', transliteracao: 'a-BA', exemplo: 'Abá katu.'),
+            ChapterVocabItem(tupi: 'Katu', portugues: 'Bom / Belo', transliteracao: 'ka-TU', exemplo: 'Xé abá katu.'),
+            ChapterVocabItem(tupi: 'Aué', portugues: 'Olá / Salve', transliteracao: 'a-u-É', exemplo: 'Aué, pa\'ĩ!'),
+          ],
         );
   }
 
@@ -52,6 +73,15 @@ class ChapterCulturalGuide {
           'constatação de chegada em um gesto fraterno de reconhecimento da presença do outro.',
       expressaoDestaque: 'Aué, pa\'ĩ! Ereîur pe??',
       expressaoTraducao: 'Salve, meu senhor! Vieste em paz?',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Aué', portugues: 'Olá / Salve / Bem-vindo', transliteracao: 'a-u-É', exemplo: 'Aué, pa\'ĩ!'),
+        ChapterVocabItem(tupi: 'Pa\'ĩ', portugues: 'Senhor / Pai espiritual', transliteracao: 'pa-ING', exemplo: 'Aué, pa\'ĩ!'),
+        ChapterVocabItem(tupi: 'Ereîur pe?', portugues: 'Você veio? (Saudação fraterna)', transliteracao: 'e-re-i-UR pe', exemplo: 'Ereîur pe, che amigo?'),
+        ChapterVocabItem(tupi: 'Abá', portugues: 'Homem / Pessoa indígena', transliteracao: 'a-BA', exemplo: 'Abá katu.'),
+        ChapterVocabItem(tupi: 'Katu', portugues: 'Bom / Belo / Bem', transliteracao: 'ka-TU', exemplo: 'Xé abá katu.'),
+        ChapterVocabItem(tupi: 'Xé', portugues: 'Eu / Meu', transliteracao: 'XE', exemplo: 'Xé abá katu.'),
+        ChapterVocabItem(tupi: 'Îandé', portugues: 'Nós (todos nós inclusos)', transliteracao: 'yan-DE', exemplo: 'Îandé abá.'),
+      ],
     ),
     2: const ChapterCulturalGuide(
       numero: 2,
@@ -68,6 +98,14 @@ class ChapterCulturalGuide {
           'O termo moderno "Carioca" deriva de "Kari\'oka" — a "casa do homem branco".',
       expressaoDestaque: 'Che taba porangeté!',
       expressaoTraducao: 'Minha aldeia é formosa e próspera!',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Taba', portugues: 'Aldeia / Povoado indígena', transliteracao: 'ta-BA', exemplo: 'Che taba porangeté!'),
+        ChapterVocabItem(tupi: 'Oka', portugues: 'Casa / Maloca familiar', transliteracao: 'o-KA', exemplo: 'Oka pupé.'),
+        ChapterVocabItem(tupi: 'Ocara', portugues: 'Pátio central da aldeia', transliteracao: 'o-ka-RA', exemplo: 'Ocara rupi.'),
+        ChapterVocabItem(tupi: 'Porang', portugues: 'Belo / Bonito / Formoso', transliteracao: 'po-RANG', exemplo: 'Taba porang.'),
+        ChapterVocabItem(tupi: 'Che / Se', portugues: 'Meu / Minha / Eu', transliteracao: 'SHE', exemplo: 'Che taba.'),
+        ChapterVocabItem(tupi: 'Petyma', portugues: 'Tabaco sagrado / Fumo', transliteracao: 'pe-ty-MA', exemplo: 'Petyma apuã.'),
+      ],
     ),
     3: const ChapterCulturalGuide(
       numero: 3,
@@ -84,6 +122,13 @@ class ChapterCulturalGuide {
           'garganta. É a palavra raiz para água, rio e líquidos vitais.',
       expressaoDestaque: 'Y poranga sykyîe\'yma!',
       expressaoTraducao: 'Água pura e límpida que sacia a sede!',
+      vocabulario: [
+        ChapterVocabItem(tupi: '\'Y', portugues: 'Água / Rio / Líquido vital', transliteracao: 'Y [ɨ]', exemplo: '\'Y poranga.'),
+        ChapterVocabItem(tupi: 'Paraná', portugues: 'Grande rio / Mar', transliteracao: 'pa-ra-NA', exemplo: 'Paraná pupé.'),
+        ChapterVocabItem(tupi: 'Pirá', portugues: 'Peixe', transliteracao: 'pi-RA', exemplo: 'Pirá katu.'),
+        ChapterVocabItem(tupi: 'Kanôa', portugues: 'Canoa de tronco único', transliteracao: 'ka-no-A', exemplo: 'Kanôa y rupi.'),
+        ChapterVocabItem(tupi: '\'Y rembé', portugues: 'Margem do rio', transliteracao: 'Y rem-BE', exemplo: '\'Y rembé rupi.'),
+      ],
     ),
     4: const ChapterCulturalGuide(
       numero: 4,
@@ -100,6 +145,13 @@ class ChapterCulturalGuide {
           'Abacaxi ("fruto cheiroso") e Mandioca ("casa de Mani").',
       expressaoDestaque: 'Ka\'ape jasy tatagûasu oîapirõ.',
       expressaoTraducao: 'Na mata cerrada, a luz da lua clareia o caminho.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Ka\'a', portugues: 'Mata / Floresta nativa', transliteracao: 'ka-A', exemplo: 'Ka\'a pupé.'),
+        ChapterVocabItem(tupi: 'Ybyrá', portugues: 'Árvore / Madeira nobre', transliteracao: 'y-by-RA', exemplo: 'Ybyrá ári.'),
+        ChapterVocabItem(tupi: 'Manioka', portugues: 'Mandioca sagrada', transliteracao: 'ma-ni-O-ka', exemplo: 'Manioka katu.'),
+        ChapterVocabItem(tupi: 'Kûarasy', portugues: 'Sol / Astro rei', transliteracao: 'kua-ra-SY', exemplo: 'Kûarasy ohesapé.'),
+        ChapterVocabItem(tupi: 'Pindorama', portugues: 'Terra das Palmeiras (Brasil)', transliteracao: 'pin-do-RA-ma', exemplo: 'Pindorama yby.'),
+      ],
     ),
     5: const ChapterCulturalGuide(
       numero: 5,
@@ -116,6 +168,13 @@ class ChapterCulturalGuide {
           'importava nomes latinos, o Tupi nomeava os bichos pelo comportamento: "Tatu" (casca grossa).',
       expressaoDestaque: 'Jagûara morubixaba ka\'arusupe.',
       expressaoTraducao: 'A grande onça é soberana nas matas densas.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Jagûara', portugues: 'Onça-pintada / Grande felino', transliteracao: 'ja-gua-RA', exemplo: 'Jagûara morubixaba.'),
+        ChapterVocabItem(tupi: 'Tatu', portugues: 'Tatu (casca grossa protetora)', transliteracao: 'ta-TU', exemplo: 'Tatu ka\'ape.'),
+        ChapterVocabItem(tupi: 'Guyra', portugues: 'Pássaro / Ave cantante', transliteracao: 'guy-RA', exemplo: 'Guyra porang.'),
+        ChapterVocabItem(tupi: 'So\'o', portugues: 'Animal de caça / Carne', transliteracao: 'so-O', exemplo: 'So\'o ka\'a suí.'),
+        ChapterVocabItem(tupi: 'Tapira', portugues: 'Anta / Grande mamífero', transliteracao: 'ta-pi-RA', exemplo: 'Tapira y pupé.'),
+      ],
     ),
     6: const ChapterCulturalGuide(
       numero: 6,
@@ -132,6 +191,13 @@ class ChapterCulturalGuide {
           'sobre a fumaça perfumada de lenhas nobres para conservação prolongada.',
       expressaoDestaque: 'Mokaém pyra pirá katu!',
       expressaoTraducao: 'O peixe moqueado na brasa está excelente!',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Tata', portugues: 'Fogo sagrado / Chama viva', transliteracao: 'ta-TA', exemplo: 'Tata ohendy.'),
+        ChapterVocabItem(tupi: 'Tatagûasu', portugues: 'Grande fogueira comunitária', transliteracao: 'ta-ta-gua-SU', exemplo: 'Tatagûasu oka py.'),
+        ChapterVocabItem(tupi: 'Cauim', portugues: 'Bebida fermentada cerimonial', transliteracao: 'ka-u-ING', exemplo: 'Cauim tororype.'),
+        ChapterVocabItem(tupi: 'Mokaém', portugues: 'Moquear / Defumar sobre a brasa', transliteracao: 'mo-ka-ENG', exemplo: 'Mokaém pyra pirá.'),
+        ChapterVocabItem(tupi: 'U\'i', portugues: 'Farinha de mandioca fina', transliteracao: 'u-I', exemplo: 'U\'i manioka suí.'),
+      ],
     ),
     7: const ChapterCulturalGuide(
       numero: 7,
@@ -147,6 +213,13 @@ class ChapterCulturalGuide {
           '(tybyra) para homens, reforçando o respeito e a responsabilidade intergeracional.',
       expressaoDestaque: 'Che sy, che ruba, che ta\'yra.',
       expressaoTraducao: 'Minha mãe, meu pai e meu amado filho.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Sy', portugues: 'Mãe progenitora', transliteracao: 'SY', exemplo: 'Che sy porang.'),
+        ChapterVocabItem(tupi: 'Ruba / Tuba', portugues: 'Pai de família', transliteracao: 'ru-BA', exemplo: 'Che ruba katu.'),
+        ChapterVocabItem(tupi: 'Ta\'yra', portugues: 'Filho (do homem)', transliteracao: 'ta-Y-ra', exemplo: 'Che ta\'yra.'),
+        ChapterVocabItem(tupi: 'Kunhã', portugues: 'Mulher', transliteracao: 'ku-NHANG', exemplo: 'Kunhã poranga.'),
+        ChapterVocabItem(tupi: 'Kunhãtã', portugues: 'Menina / Jovem mulher', transliteracao: 'ku-nha-TANG', exemplo: 'Kunhãtã tororype.'),
+      ],
     ),
     8: const ChapterCulturalGuide(
       numero: 8,
@@ -162,6 +235,13 @@ class ChapterCulturalGuide {
           'escrita e o grafismo corporal eram compreendidos como a mesmíssima arte de registrar significados.',
       expressaoDestaque: 'Uruku t-eté pe omoatyrõ.',
       expressaoTraducao: 'O urucum escarlate orna e protege o corpo.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Uruku', portugues: 'Urucum (tinta vermelha corporal)', transliteracao: 'u-ru-KU', exemplo: 'Uruku t-eté pe.'),
+        ChapterVocabItem(tupi: 'Îandypaba', portugues: 'Genipapo (tinta escura protetora)', transliteracao: 'yan-dy-PA-ba', exemplo: 'Îandypaba kûatiara.'),
+        ChapterVocabItem(tupi: 'Kûatiara', portugues: 'Pintar / Escrever / Desenhar', transliteracao: 'kua-ti-A-ra', exemplo: 'Kûatiara t-eté.'),
+        ChapterVocabItem(tupi: 'T-eté', portugues: 'Corpo humano', transliteracao: 'te-TE', exemplo: 'Che reté.'),
+        ChapterVocabItem(tupi: 'Po', portugues: 'Mão habilidosa', transliteracao: 'PO', exemplo: 'Che po.'),
+      ],
     ),
     9: const ChapterCulturalGuide(
       numero: 9,
@@ -177,6 +257,13 @@ class ChapterCulturalGuide {
           'famoso estádio do Maracanã ("semelhante ao maracá" ou "rio das maracanãs").',
       expressaoDestaque: 'Paîé maracá omonhyrõ tekó.',
       expressaoTraducao: 'O som do maracá do pajé harmoniza a existência.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Paîé', portugues: 'Pajé / Curador e filósofo', transliteracao: 'pa-i-E', exemplo: 'Paîé maracá oipyký.'),
+        ChapterVocabItem(tupi: 'Maracá', portugues: 'Chocalho ritual com sementes', transliteracao: 'ma-ra-KA', exemplo: 'Maracá sunung.'),
+        ChapterVocabItem(tupi: 'Petym', portugues: 'Tabaco sagrado / Fumo ritual', transliteracao: 'pe-TYNG', exemplo: 'Petym timbó.'),
+        ChapterVocabItem(tupi: 'Tekó', portugues: 'Costumes / Modo ancestral de viver', transliteracao: 'te-KO', exemplo: 'Tekó katu.'),
+        ChapterVocabItem(tupi: 'Karai', portugues: 'Sábio profeta / Homem venerado', transliteracao: 'ka-ra-I', exemplo: 'Karai oñe\'ẽ.'),
+      ],
     ),
     10: const ChapterCulturalGuide(
       numero: 10,
@@ -192,6 +279,13 @@ class ChapterCulturalGuide {
           'A linguagem Tupi descreve os objetos com admirável precisão estrutural e poética.',
       expressaoDestaque: 'Marombyra py\'aguasu n\'osyny.',
       expressaoTraducao: 'O guerreiro de coração valente nunca recua.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Marombyra', portugues: 'Guerreiro defensor da tribo', transliteracao: 'ma-rom-BY-ra', exemplo: 'Marombyra py\'aguasu.'),
+        ChapterVocabItem(tupi: 'Ybyrapára', portugues: 'Arco de madeira curvada', transliteracao: 'y-by-ra-PA-ra', exemplo: 'Ybyrapára guasu.'),
+        ChapterVocabItem(tupi: 'Uba', portugues: 'Flecha emplumada', transliteracao: 'u-BA', exemplo: 'Uba poporõ.'),
+        ChapterVocabItem(tupi: 'Tacape', portugues: 'Clava guerreira de pau-brasil', transliteracao: 'ta-ka-PE', exemplo: 'Tacape jepytaso.'),
+        ChapterVocabItem(tupi: 'Py\'aguasu', portugues: 'Corajoso / Coração valente', transliteracao: 'py-a-gua-SU', exemplo: 'Abá py\'aguasu.'),
+      ],
     ),
     11: const ChapterCulturalGuide(
       numero: 11,
@@ -208,6 +302,13 @@ class ChapterCulturalGuide {
           'um conhecimento astronômico e ecológico refinadíssimo.',
       expressaoDestaque: 'Jasy ohesapé pyhare pyahu.',
       expressaoTraducao: 'A lua cheia ilumina a noite límpida.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Jasy', portugues: 'Lua / Astro da noite', transliteracao: 'ja-SY', exemplo: 'Jasy ohesapé.'),
+        ChapterVocabItem(tupi: 'Kûarasy', portugues: 'Sol / Astro rei do dia', transliteracao: 'kua-ra-SY', exemplo: 'Kûarasy ohesapé.'),
+        ChapterVocabItem(tupi: 'Tupĩ', portugues: 'Via Láctea / Caminho da Anta', transliteracao: 'tu-PING', exemplo: 'Tupĩ ara py.'),
+        ChapterVocabItem(tupi: 'Iasytatagûasu', portugues: 'Estrela Dalva / Grande estrela', transliteracao: 'ja-sy-ta-ta-gua-SU', exemplo: 'Iasytatagûasu oîatá.'),
+        ChapterVocabItem(tupi: 'Ara', portugues: 'Dia / Céu / Tempo atmosférico', transliteracao: 'a-RA', exemplo: 'Ara poranga.'),
+      ],
     ),
     12: const ChapterCulturalGuide(
       numero: 12,
@@ -223,6 +324,12 @@ class ChapterCulturalGuide {
           'ritmo vocal acompanhava o compasso dos passos no chão batido da terra.',
       expressaoDestaque: 'Îandé poracé tororype taba py!',
       expressaoTraducao: 'Dancemos todos com imensa alegria na aldeia!',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Poracé', portugues: 'Dança ritual / Canto festivo', transliteracao: 'po-ra-SE', exemplo: 'Îandé poracé.'),
+        ChapterVocabItem(tupi: 'Mimbira', portugues: 'Flauta de taquara', transliteracao: 'mim-bi-RA', exemplo: 'Mimbira sunung.'),
+        ChapterVocabItem(tupi: 'Tororype', portugues: 'Com imensa alegria e júbilo', transliteracao: 'to-ro-ry-PE', exemplo: 'Tororype taba py.'),
+        ChapterVocabItem(tupi: 'Nhe\'eng', portugues: 'Falar / Cantar / Falar a língua', transliteracao: 'nhe-ENG', exemplo: 'A-nhe\'eng tupi.'),
+      ],
     ),
     13: const ChapterCulturalGuide(
       numero: 13,
@@ -238,6 +345,12 @@ class ChapterCulturalGuide {
           'brotou a raiz que salvou toda a nação da fome.',
       expressaoDestaque: 'Abati katu oîemombuku.',
       expressaoTraducao: 'O milho dourado cresce forte e farto.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Abati', portugues: 'Milho dourado', transliteracao: 'a-ba-TI', exemplo: 'Abati katu.'),
+        ChapterVocabItem(tupi: 'Îerimum', portugues: 'Abóbora nativa', transliteracao: 'ye-ri-MUNG', exemplo: 'Îerimum tyba.'),
+        ChapterVocabItem(tupi: 'Kumandá', portugues: 'Feijão tradicional da roça', transliteracao: 'ku-man-DA', exemplo: 'Kumandá katu.'),
+        ChapterVocabItem(tupi: 'Amāna', portugues: 'Chuva que nutre a terra', transliteracao: 'a-MA-na', exemplo: 'Amāna o\'ar.'),
+      ],
     ),
     14: const ChapterCulturalGuide(
       numero: 14,
@@ -253,6 +366,12 @@ class ChapterCulturalGuide {
           'assim como "Cuia" (Kuîa) e "Cesto" (Panakũ).',
       expressaoDestaque: 'Kuîa py y poranga tekokatu.',
       expressaoTraducao: 'Na cuia pura, a água traz saúde e bem-estar.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Igaçaba', portugues: 'Grande vaso de barro cerâmico', transliteracao: 'i-ga-SA-ba', exemplo: 'Igaçaba cauim pupé.'),
+        ChapterVocabItem(tupi: 'Kuîa', portugues: 'Cuia / Cabaça polida', transliteracao: 'ku-I-a', exemplo: 'Kuîa py y poranga.'),
+        ChapterVocabItem(tupi: 'Panakũ', portugues: 'Cesto de palha trançada', transliteracao: 'pa-na-KUNG', exemplo: 'Panakũ manioka rerekó.'),
+        ChapterVocabItem(tupi: 'Inĩ', portugues: 'Rede de dormir de algodão', transliteracao: 'i-NING', exemplo: 'Inĩ pupé a-kere.'),
+      ],
     ),
     15: const ChapterCulturalGuide(
       numero: 15,
@@ -268,6 +387,12 @@ class ChapterCulturalGuide {
           '(Y + Panema). A toponímia brasileira é um museu a céu aberto da língua Tupi.',
       expressaoDestaque: 'Paranaguasu piranga jasy oîatá.',
       expressaoTraducao: 'Sobre o mar imenso, a lua caminha gloriosa.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Paranaguasu', portugues: 'Oceano / Mar sem fim', transliteracao: 'pa-ra-na-gua-SU', exemplo: 'Paranaguasu piranga.'),
+        ChapterVocabItem(tupi: 'Ypa\'ũ', portugues: 'Ilha costeira', transliteracao: 'y-pa-UNG', exemplo: 'Ypa\'ũ poranga.'),
+        ChapterVocabItem(tupi: 'Sambaqui', portugues: 'Monumento de conchas e mariscos', transliteracao: 'sam-ba-KI', exemplo: 'Sambaqui itá rupi.'),
+        ChapterVocabItem(tupi: 'Ytu', portugues: 'Cachoeira / Salto d\'água', transliteracao: 'y-TU', exemplo: 'Ytu osereré.'),
+      ],
     ),
     16: const ChapterCulturalGuide(
       numero: 16,
@@ -283,6 +408,12 @@ class ChapterCulturalGuide {
           'fato ou se o recebeu dos seus bisavós, valorizando a fidelidade da tradição oral.',
       expressaoDestaque: 'Monã yby porang omoeté.',
       expressaoTraducao: 'O criador venerou a terra com bondade e beleza.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Monã', portugues: 'O Criador primordial', transliteracao: 'mo-NANG', exemplo: 'Monã yby omoeté.'),
+        ChapterVocabItem(tupi: 'Somondabu', portugues: 'As grandes águas da renovação', transliteracao: 'so-mon-da-BU', exemplo: 'Somondabu yby rupi.'),
+        ChapterVocabItem(tupi: 'Tupi', portugues: 'Ancestral mítico e virtuoso', transliteracao: 'tu-PI', exemplo: 'Tupi retama.'),
+        ChapterVocabItem(tupi: 'Tekohar', portugues: 'Lugar onde se vive a cultura', transliteracao: 'te-ko-HAR', exemplo: 'Tekohar katu.'),
+      ],
     ),
     17: const ChapterCulturalGuide(
       numero: 17,
@@ -298,6 +429,12 @@ class ChapterCulturalGuide {
           'mas aquilo que se harmoniza perfeitamente com a realidade das coisas.',
       expressaoDestaque: 'Che ñe\'ẽ aîeté, n\'aîapu\'i.',
       expressaoTraducao: 'Minha palavra é reta e verdadeira, jamais minto.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Aîeté', portugues: 'Verdade absoluta / Autenticidade', transliteracao: 'ai-e-TE', exemplo: 'Aîeté katu!'),
+        ChapterVocabItem(tupi: 'Ñe\'ẽ', portugues: 'Palavra / Fala honrada', transliteracao: 'nhe-ENG', exemplo: 'Che ñe\'ẽ aîeté.'),
+        ChapterVocabItem(tupi: 'Morubixaba', portugues: 'Líder / Chefe sábio', transliteracao: 'mo-ru-bi-XA-ba', exemplo: 'Morubixaba oñe\'ẽ.'),
+        ChapterVocabItem(tupi: 'Tuba', portugues: 'Líder respeitado / Patriarca', transliteracao: 'tu-BA', exemplo: 'Tuba taba py.'),
+      ],
     ),
     18: const ChapterCulturalGuide(
       numero: 18,
@@ -313,6 +450,11 @@ class ChapterCulturalGuide {
           'liderança como um serviço devotado à coletividade e não como um privilégio de dominação.',
       expressaoDestaque: 'Morubixaba oîukyrã oipota taba supé.',
       expressaoTraducao: 'O sábio líder busca sempre a prosperidade de sua gente.',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Morubixaba', portugues: 'Cacique / Líder benevolente', transliteracao: 'mo-ru-bi-XA-ba', exemplo: 'Morubixaba oipota taba supé.'),
+        ChapterVocabItem(tupi: 'Tekoporã', portugues: 'O bem-viver comunitário', transliteracao: 'te-ko-po-RANG', exemplo: 'Tekoporã taba py.'),
+        ChapterVocabItem(tupi: 'Nhyrõ', portugues: 'Perdão / Conciliação fraterna', transliteracao: 'nhy-RO', exemplo: 'Nhyrõ tekó.'),
+      ],
     ),
     19: const ChapterCulturalGuide(
       numero: 19,
@@ -328,6 +470,12 @@ class ChapterCulturalGuide {
           'filosofias profundas com admirável síntese poética.',
       expressaoDestaque: 'Îasó Yvy Marã\'ey katy!',
       expressaoTraducao: 'Caminhemos rumo à Terra Sagrada Sem Males!',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Yvy Marã\'ey', portugues: 'Terra Sem Mal / Paraíso sagrado', transliteracao: 'y-VY ma-ra-E-y', exemplo: 'Îasó Yvy Marã\'ey katy!'),
+        ChapterVocabItem(tupi: 'Yvy', portugues: 'Terra / Chão sagrado', transliteracao: 'y-VY', exemplo: 'Yvy poranga.'),
+        ChapterVocabItem(tupi: 'Marã', portugues: 'Mal / Discórdia / Ruína', transliteracao: 'ma-RANG', exemplo: 'Marã\'ey.'),
+        ChapterVocabItem(tupi: 'Guataba', portugues: 'Caminhada / Peregrinação sagrada', transliteracao: 'gua-ta-BA', exemplo: 'Guataba tekó py.'),
+      ],
     ),
     20: const ChapterCulturalGuide(
       numero: 20,
@@ -344,6 +492,13 @@ class ChapterCulturalGuide {
           'Tamanduá, Capivara e Poti. O Brasil fala Tupi sem perceber.',
       expressaoDestaque: 'Tupi ñe\'ẽ nomanói, oikové tekobe katúpe!',
       expressaoTraducao: 'A língua Tupi não morreu: ela vive com força e dignidade!',
+      vocabulario: [
+        ChapterVocabItem(tupi: 'Teko', portugues: 'Cultura / Modo ancestral de vida', transliteracao: 'te-KO', exemplo: 'Teko oikové.'),
+        ChapterVocabItem(tupi: 'Nhe\'engatu', portugues: 'Língua boa / Boa comunicação', transliteracao: 'nhe-eng-ga-TU', exemplo: 'A-nhe\'eng nhe\'engatu.'),
+        ChapterVocabItem(tupi: 'Pindorama', portugues: 'Brasil ancestral', transliteracao: 'pin-do-RA-ma', exemplo: 'Pindorama yby.'),
+        ChapterVocabItem(tupi: 'Oikové', portugues: 'Está vivo / Tem vida', transliteracao: 'oi-ko-VE', exemplo: 'Tupi ñe\'ẽ oikové!'),
+        ChapterVocabItem(tupi: 'Nomanói', portugues: 'Não morreu / Jamais morrerá', transliteracao: 'no-ma-NO-i', exemplo: 'Tupi nomanói!'),
+      ],
     ),
   };
 }
