@@ -34,9 +34,9 @@ Quando você alterar o código do aplicativo Flutter em `frontend/tupi_lingo/` e
 1. **Compilar a versão Web com base relativa**:
    ```bash
    cd frontend/tupi_lingo
-   flutter build web --base-href ./ --release
+   flutter build web --release --base-href "/TupiLingo-Project/app/"
    ```
-   *(A flag `--base-href ./` garante que o app encontre seus scripts e CanvasKit em qualquer subdiretório ou GitHub Pages).*
+   *(A flag `--base-href "/TupiLingo-Project/app/"` garante que o app encontre seus scripts, assets e CanvasKit no subcaminho do GitHub Pages).*
 
 2. **Copiar os arquivos gerados para a pasta `app/`**:
    No Windows (PowerShell):
