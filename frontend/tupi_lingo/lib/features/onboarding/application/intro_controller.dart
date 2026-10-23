@@ -23,7 +23,7 @@ class IntroController extends ChangeNotifier {
   bool get isAnswerVerified => _isAnswerVerified;
   bool get isLastAnswerCorrect => _isLastAnswerCorrect;
 
-  static const int totalSteps = 10;
+  static const int totalSteps = 9;
 
   IntroController() {
     _loadInitialDraft();
@@ -147,16 +147,14 @@ class IntroController extends ChangeNotifier {
       case 3:
         return 'source';
       case 4:
-        return 'level_declaration';
-      case 5:
         return 'daily_goal';
-      case 6:
+      case 5:
         return 'preparing_trail';
-      case 7:
+      case 6:
         return 'plan_summary';
-      case 8:
+      case 7:
         return 'demo_lesson';
-      case 9:
+      case 8:
         return 'celebration_and_save';
       default:
         return 'step_$step';

@@ -138,10 +138,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             .timeout(const Duration(seconds: 8));
       } catch (err) {
         if (kDebugMode) {
-          debugPrint('[OTP] Falha com baseUrl atual ($baseUrl): $err. Buscando túnel atualizado no Supabase...');
+          debugPrint('[OTP] Falha com baseUrl atual ($baseUrl): $err. Redescobrindo backend ativo...');
         }
-        final newUrl = await AppConfig.refreshTunnelUrl();
-        if (newUrl != null && newUrl != baseUrl) {
+        final newUrl = await AppConfig.discoverWorkingBackendUrl();
+        if (newUrl.isNotEmpty && newUrl != baseUrl) {
           baseUrl = newUrl;
           response = await http
               .post(
@@ -168,7 +168,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       }
     } catch (e) {
       if (kDebugMode) {
-        debugPrint('[OTP] Erro ao registrar no Django: ${e.runtimeType}');
+        debugPrint('[OTP] Erro ao registrar no Django: $e');
       }
     }
   }

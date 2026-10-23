@@ -66,7 +66,7 @@ class _IntroFlowScreenState extends State<IntroFlowScreen> {
               onBack: _controller.currentStep > 0
                   ? () => _controller.previousStep()
                   : null,
-              onSkip: _controller.currentStep < 8
+              onSkip: _controller.currentStep < 7
                   ? () {
                       // Permite pular direto para o cadastro se o usuário tiver pressa
                       Navigator.pushReplacement(
@@ -88,7 +88,6 @@ class _IntroFlowScreenState extends State<IntroFlowScreen> {
                   _buildStep1YouAlreadySpeakTupi(),
                   _buildStep2Motivation(),
                   _buildStep3Source(),
-                  _buildStep4Level(),
                   _buildStep5DailyGoal(),
                   _buildStep6Preparing(),
                   _buildStep7PlanSummary(),
@@ -427,7 +426,7 @@ class _IntroFlowScreenState extends State<IntroFlowScreen> {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Como você descobriu o TupiLingo?',
+                  'Onde você nos encontrou?',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
@@ -488,144 +487,6 @@ class _IntroFlowScreenState extends State<IntroFlowScreen> {
           Tupi3DButton.forest(
             text: 'CONTINUAR',
             onPressed: _controller.draft.source != null
-                ? () => _controller.nextStep()
-                : null,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==========================================
-  // ETAPA 4: Declaração de Nível
-  // ==========================================
-  Widget _buildStep4Level() {
-    final levels = [
-      {
-        'id': 'nenhum',
-        'title': 'Novo por aqui',
-        'subtitle': 'Não conheço nada de Tupi (começar do zero)',
-        'icon': Icons.fiber_new_rounded,
-        'color': const Color(0xFF2196F3),
-      },
-      {
-        'id': 'iniciante',
-        'title': 'Iniciante',
-        'subtitle': 'Nunca estudei, mas conheço algumas palavras soltas',
-        'icon': Icons.eco_rounded,
-        'color': const Color(0xFF4CAF50),
-      },
-      {
-        'id': 'intermediario',
-        'title': 'Intermediário',
-        'subtitle': 'Conheço frases básicas e estrutura gramatical inicial',
-        'icon': Icons.trending_up_rounded,
-        'color': const Color(0xFFFF9800),
-      },
-      {
-        'id': 'avancado',
-        'title': 'Avançado',
-        'subtitle': 'Consigo formar sentenças e interpretar textos antigos',
-        'icon': Icons.star_rounded,
-        'color': const Color(0xFFD08A45),
-      },
-    ];
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              const MascotAvatar(size: 65, mood: MascotMood.happy),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'Quanto você já conhece de Tupi?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    color: AppTheme.textPrimary(context),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Você pode começar do zero absoluto ou fazer o teste de nivelamento adaptativo depois.',
-            style: TextStyle(fontSize: 14, color: AppTheme.textSecondary(context)),
-          ),
-          const SizedBox(height: 20),
-          ...levels.map((item) {
-            final isSelected = _controller.draft.tupiLevel == item['id'];
-            final color = item['color'] as Color;
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: InkWell(
-                onTap: () => _controller.setTupiLevel(item['id'] as String),
-                borderRadius: BorderRadius.circular(16),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? color.withValues(alpha: 0.12)
-                        : AppTheme.surface(context),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: isSelected ? color : AppTheme.border(context),
-                      width: isSelected ? 2 : 1,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: color.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(item['icon'] as IconData, color: color, size: 24),
-                      ),
-                      const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['title'] as String,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: isSelected ? color : AppTheme.textPrimary(context),
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              item['subtitle'] as String,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: AppTheme.textSecondary(context),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (isSelected)
-                        Icon(Icons.check_circle_rounded, color: color, size: 22),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }),
-          const SizedBox(height: 24),
-          Tupi3DButton(
-            text: 'CONTINUAR',
-            onPressed: _controller.draft.tupiLevel != null
                 ? () => _controller.nextStep()
                 : null,
           ),

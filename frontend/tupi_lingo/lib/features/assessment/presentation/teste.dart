@@ -88,8 +88,13 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
     });
 
     try {
+      var baseUrl = AppConfig.backendBaseUrl;
+      if (!await AppConfig.checkHealth(baseUrl)) {
+        baseUrl = await AppConfig.discoverWorkingBackendUrl();
+      }
+
       final response = await ApiClient.get(
-        '${AppConfig.backendBaseUrl}/api/v1/trilha/variantes/',
+        '$baseUrl/api/v1/trilha/variantes/',
       ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -105,10 +110,10 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
         throw Exception('Erro ao buscar línguas (código ${response.statusCode}).');
       }
     } catch (e) {
-      // Se falhou (ex: URL de túnel antiga ou circuit breaker), tenta renovar o túnel dinamicamente e retentar
+      // Se falhou, tenta redescobrir backend ativo e retentar
       try {
-        final newUrl = await AppConfig.refreshTunnelUrl();
-        if (newUrl != null) {
+        final newUrl = await AppConfig.discoverWorkingBackendUrl();
+        if (newUrl.isNotEmpty) {
           final retryResponse = await ApiClient.get(
             '$newUrl/api/v1/trilha/variantes/',
           ).timeout(const Duration(seconds: 10));
@@ -480,13 +485,23 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
   }
 
   Future<bool> _handleBackAttempt() async {
+    // Se estiver na seleção de variantes (fase 0), permite voltar livremente
+    if (_phase == 0) {
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+        return true;
+      }
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      return false;
+    }
+
     // Se o teste já foi finalizado (fase 2), permite voltar para a Home diretamente
     if (_phase == 2) {
       Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       return false;
     }
 
-    // Se estiver em andamento (fase 1) ou na seleção (fase 0)
+    // Se estiver em andamento (fase 1)
     final shouldQuit = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -579,18 +594,42 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
     
     if (_feedbackMessage != null && _variantes.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, size: 48, color: Colors.red),
-            const SizedBox(height: 16),
-            Text(_feedbackMessage!, textAlign: TextAlign.center),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _fetchVariantes,
-              child: const Text('Tentar Novamente'),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 52, color: _TupiColors.danger),
+              const SizedBox(height: 16),
+              Text(
+                _feedbackMessage!,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 14, color: _TupiColors.subtitle),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _TupiColors.accent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                onPressed: () async {
+                  await AppConfig.discoverWorkingBackendUrl();
+                  _fetchVariantes();
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Tentar Novamente'),
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                },
+                child: const Text('Ir para a Trilha Principal', style: TextStyle(color: _TupiColors.accent, fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
         ),
       );
     }

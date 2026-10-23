@@ -83,10 +83,10 @@ API_URL=${const String.fromEnvironment('API_URL')}
     dotenv.env['API_URL'] = 'http://127.0.0.1:8000';
   }
 
-  // Autodescoberta dinâmica antecipada do túnel Cloudflare via Supabase Storage
-  // Garante que novos usuários não logados e fluxos de cadastro já recebam o túnel ativo no boot.
+  // Autodescoberta dinâmica antecipada do backend (local ou túnel Cloudflare via Supabase Storage)
+  // Garante que novos usuários não logados e fluxos de cadastro já recebam o endpoint ativo no boot.
   try {
-    await AppConfig.refreshTunnelUrl();
+    await AppConfig.discoverWorkingBackendUrl();
   } catch (_) {}
 
   final supabaseUrl = dotenv.env['SUPABASE_URL'];

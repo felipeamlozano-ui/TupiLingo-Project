@@ -12,7 +12,6 @@ import 'package:tupi_lingo/features/auth/services/auth_service.dart';
 import 'steps/step_credentials_widget.dart';
 import 'steps/step_level_widget.dart';
 import 'steps/step_name_widget.dart';
-import 'steps/step_source_widget.dart';
 import 'package:tupi_lingo/features/legal/data/legal_consent_service.dart';
 import 'package:tupi_lingo/features/onboarding/data/onboarding_repository.dart';
 
@@ -45,14 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
 
   static const Color _primaryTerracotta = Color(0xFFD08A45);
   static const Color _forestGreen = Color(0xFF0E5D4E);
-
-  final List<Map<String, dynamic>> _sourceOptions = const [
-    {'value': 'redes_sociais', 'label': 'Redes Sociais', 'icon': Icons.share},
-    {'value': 'indicacao', 'label': 'Indicação de amigo', 'icon': Icons.people},
-    {'value': 'escola', 'label': 'Escola / Universidade', 'icon': Icons.school},
-    {'value': 'pesquisa', 'label': 'Pesquisa na internet', 'icon': Icons.search},
-    {'value': 'outro', 'label': 'Outro', 'icon': Icons.more_horiz},
-  ];
 
   final List<Map<String, dynamic>> _levelOptions = const [
     {
@@ -91,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
     super.initState();
     final session = Supabase.instance.client.auth.currentSession;
     _isGoogleUser = session != null;
-    _totalSteps = _isGoogleUser ? 3 : 4;
+    _totalSteps = _isGoogleUser ? 2 : 3;
 
     _progressAnimController = AnimationController(
       vsync: this,
@@ -125,6 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
         }
       });
     }
+    _selectedSource ??= 'outro';
   }
 
   // Libera os controllers de texto, animações e o pageView da memória pra evitar vazamento no encerramento da tela.
@@ -200,18 +192,12 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
         }
         return true;
       case 1:
-        if (_selectedSource == null) {
-          _showSnackBar('Selecione como você conheceu o TupiLingo.');
-          return false;
-        }
-        return true;
-      case 2:
         if (_selectedLevel == null) {
           _showSnackBar('Selecione seu nível de conhecimento.');
           return false;
         }
         return true;
-      case 3:
+      case 2:
         return _validateCredentials();
       default:
         return true;
@@ -564,12 +550,6 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                         StepNameWidget(
                           nameController: _nameController,
                           onContinue: _nextStep,
-                          continueButton: _buildContinueButton(),
-                        ),
-                        StepSourceWidget(
-                          sourceOptions: _sourceOptions,
-                          selectedSource: _selectedSource,
-                          onSelectSource: (val) => setState(() => _selectedSource = val),
                           continueButton: _buildContinueButton(),
                         ),
                         StepLevelWidget(
