@@ -8,14 +8,20 @@ class HomeBottomBar extends StatelessWidget {
   final bool isAdmin;
   final ValueChanged<int> onTabSelected;
 
+  final GlobalKey? trailTabKey;
   final GlobalKey? practiceTabKey;
+  final GlobalKey? profileTabKey;
+  final GlobalKey? settingsTabKey;
 
   const HomeBottomBar({
     super.key,
     required this.currentTabIndex,
     required this.isAdmin,
     required this.onTabSelected,
+    this.trailTabKey,
     this.practiceTabKey,
+    this.profileTabKey,
+    this.settingsTabKey,
   });
 
   @override
@@ -48,8 +54,8 @@ class HomeBottomBar extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.explore_rounded),
-            activeIcon: Icon(Icons.explore_rounded, color: accentGold),
+            icon: Icon(Icons.explore_rounded, key: trailTabKey),
+            activeIcon: Icon(Icons.explore_rounded, color: accentGold, key: trailTabKey),
             label: 'Trilha',
           ),
           BottomNavigationBarItem(
@@ -58,13 +64,13 @@ class HomeBottomBar extends StatelessWidget {
             label: 'Prática',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.person_rounded),
-            activeIcon: Icon(Icons.person_rounded, color: accentGold),
+            icon: Icon(Icons.person_rounded, key: profileTabKey),
+            activeIcon: Icon(Icons.person_rounded, color: accentGold, key: profileTabKey),
             label: 'Perfil',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.settings_rounded),
-            activeIcon: Icon(Icons.settings_rounded, color: primaryEmerald),
+            icon: Icon(Icons.settings_rounded, key: settingsTabKey),
+            activeIcon: Icon(Icons.settings_rounded, color: primaryEmerald, key: settingsTabKey),
             label: 'Ajustes',
           ),
           if (isAdmin)

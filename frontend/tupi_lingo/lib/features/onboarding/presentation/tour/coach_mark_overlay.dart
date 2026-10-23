@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/audio/audio_manager.dart';
 import '../widgets/mascot_avatar.dart';
 import '../widgets/speech_bubble.dart';
 
@@ -10,6 +11,7 @@ class TourStepTarget {
   final MascotMood mascotMood;
   final bool requiresTap; // Se true, o usuário precisa tocar no próprio alvo para prosseguir
   final ShapeBorder shape;
+  final bool autoScroll;
 
   const TourStepTarget({
     required this.key,
@@ -17,6 +19,7 @@ class TourStepTarget {
     required this.description,
     this.mascotMood = MascotMood.talking,
     this.requiresTap = false,
+    this.autoScroll = false,
     this.shape = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(16)),
     ),
@@ -128,6 +131,7 @@ class CoachMarkOverlay {
                                   children: [
                                     TextButton(
                                       onPressed: () {
+                                        AudioManager.instance.playTap();
                                         hide();
                                         onSkip();
                                       },
@@ -142,6 +146,7 @@ class CoachMarkOverlay {
                                     const SizedBox(width: 4),
                                     ElevatedButton(
                                       onPressed: () {
+                                        AudioManager.instance.playTap();
                                         hide();
                                         onNext();
                                       },
@@ -158,7 +163,11 @@ class CoachMarkOverlay {
                                         elevation: 0,
                                       ),
                                       child: Text(
-                                        target.requiresTap ? 'TOQUE NO NÓ' : 'ENTENDI',
+                                        target.requiresTap
+                                            ? 'TOQUE NO NÓ'
+                                            : (currentStep != null && totalSteps != null && currentStep == totalSteps
+                                                ? 'COMEÇAR JORNADA!'
+                                                : 'PRÓXIMO'),
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,

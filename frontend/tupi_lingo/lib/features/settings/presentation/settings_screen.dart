@@ -8,12 +8,15 @@ import 'package:tupi_lingo/core/audio/audio_manager.dart';
 import 'package:tupi_lingo/core/network/api_cache_manager.dart';
 import 'package:tupi_lingo/features/settings/data/settings_service.dart';
 import 'package:tupi_lingo/features/legal/presentation/terms_of_use_screen.dart';
+import 'package:tupi_lingo/features/onboarding/data/onboarding_repository.dart';
 
 /// Tela de Configurações e Preferências do Usuário.
 /// Permite ao aluno personalizar sons, vibrações, notificações,
 /// acessibilidade e desempenho (redução de animações/VRAM).
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final VoidCallback? onReplayTour;
+
+  const SettingsScreen({super.key, this.onReplayTour});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -239,9 +242,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ],
                 ),
+                // 5. Tutorial e Ajuda
+                _buildSectionHeader(context, 'TUTORIAL E GUIA', Icons.explore_rounded, accentGold),
+                _buildCard(
+                  context,
+                  children: [
+                    ListTile(
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: accentGold.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(Icons.help_outline_rounded, color: accentGold, size: 20),
+                      ),
+                      title: Text(
+                        'Rever Tour do Aplicativo',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary(context),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Apresentar novamente todo o mapa, funções e recursos',
+                        style: TextStyle(color: AppTheme.textSecondary(context), fontSize: 12),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 14),
+                      onTap: () async {
+                        AudioManager.instance.playTap();
+                        await OnboardingRepository.instance.resetTourStatus();
+                        if (widget.onReplayTour != null) {
+                          widget.onReplayTour!();
+                        } else if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Tour redefinido! Retorne à Trilha para iniciar.'),
+                              backgroundColor: Color(0xFFD08A45),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 20),
 
-                // 5. Jurídico e Transparência
+                // 6. Jurídico e Transparência
                 _buildSectionHeader(context, 'SOBRE E LEGAL', Icons.info_outline_rounded, primaryColor),
                 _buildCard(
                   context,

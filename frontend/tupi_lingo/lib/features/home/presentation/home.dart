@@ -53,11 +53,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   int _selectedCapituloIndex = 0;
   bool _isAdmin = false;
 
+  final GlobalKey _chapterBannerKey = GlobalKey();
+  final GlobalKey _targetNodeKey = GlobalKey();
+  final GlobalKey _languageKey = GlobalKey();
   final GlobalKey _streakKey = GlobalKey();
   final GlobalKey _conchasKey = GlobalKey();
   final GlobalKey _xpKey = GlobalKey();
-  final GlobalKey _targetNodeKey = GlobalKey();
+  final GlobalKey _trailTabKey = GlobalKey();
   final GlobalKey _practiceTabKey = GlobalKey();
+  final GlobalKey _profileTabKey = GlobalKey();
+  final GlobalKey _settingsTabKey = GlobalKey();
 
   AnimationController? _pulseController;
   AnimationController? _floatController;
@@ -507,9 +512,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          TourController.instance.maybeStartPart1(
+          TourController.instance.maybeStartFullTour(
             context: context,
+            chapterBannerKey: _chapterBannerKey,
             targetNodeKey: _targetNodeKey,
+            languageKey: _languageKey,
+            streakKey: _streakKey,
+            conchasKey: _conchasKey,
+            xpKey: _xpKey,
+            trailTabKey: _trailTabKey,
+            practiceTabKey: _practiceTabKey,
+            profileTabKey: _profileTabKey,
+            settingsTabKey: _settingsTabKey,
           );
         }
       });
@@ -546,12 +560,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     final primaryEmerald = isDark ? const Color(0xFF1EC9A5) : const Color(0xFF0E5D4E);
 
     final navItems = [
-      (index: 0, label: 'Trilha', icon: Icons.explore_rounded, activeColor: accentGold),
-      (index: 1, label: 'Prática', icon: Icons.fitness_center_rounded, activeColor: primaryEmerald),
-      (index: 2, label: 'Perfil', icon: Icons.person_rounded, activeColor: accentGold),
-      (index: 3, label: 'Ajustes', icon: Icons.settings_rounded, activeColor: primaryEmerald),
+      (index: 0, label: 'Trilha', icon: Icons.explore_rounded, activeColor: accentGold, key: _trailTabKey),
+      (index: 1, label: 'Prática', icon: Icons.fitness_center_rounded, activeColor: primaryEmerald, key: _practiceTabKey),
+      (index: 2, label: 'Perfil', icon: Icons.person_rounded, activeColor: accentGold, key: _profileTabKey),
+      (index: 3, label: 'Ajustes', icon: Icons.settings_rounded, activeColor: primaryEmerald, key: _settingsTabKey),
       if (_isAdmin)
-        (index: 4, label: 'Painel Admin', icon: Icons.admin_panel_settings_rounded, activeColor: primaryEmerald),
+        (index: 4, label: 'Painel Admin', icon: Icons.admin_panel_settings_rounded, activeColor: primaryEmerald, key: null),
     ];
 
     return Container(
@@ -655,6 +669,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     },
                     borderRadius: BorderRadius.circular(14),
                     child: Container(
+                      key: item.key,
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                       decoration: BoxDecoration(
                         color: isSelected
@@ -770,7 +785,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             ),
             TickerMode(
               enabled: currentTab == 3,
-              child: const RepaintBoundary(child: SettingsScreen()),
+              child: RepaintBoundary(
+                child: SettingsScreen(
+                  onReplayTour: () {
+                    _switchTab(0);
+                    Future.delayed(const Duration(milliseconds: 350), () {
+                      if (!mounted) return;
+                      TourController.instance.maybeStartFullTour(
+                        context: context,
+                        chapterBannerKey: _chapterBannerKey,
+                        targetNodeKey: _targetNodeKey,
+                        languageKey: _languageKey,
+                        streakKey: _streakKey,
+                        conchasKey: _conchasKey,
+                        xpKey: _xpKey,
+                        trailTabKey: _trailTabKey,
+                        practiceTabKey: _practiceTabKey,
+                        profileTabKey: _profileTabKey,
+                        settingsTabKey: _settingsTabKey,
+                        force: true,
+                      );
+                    });
+                  },
+                ),
+              ),
             ),
             if (_isAdmin)
               TickerMode(
@@ -870,6 +908,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       streakKey: _streakKey,
       conchasKey: _conchasKey,
       xpKey: _xpKey,
+      languageKey: _languageKey,
       showThemeToggle: isCustomThemesEnabled,
       onLanguageTap: () => _showLanguageSwitcher(context),
       onXpTap: () => Navigator.push(
@@ -887,6 +926,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       capitulos: _capitulos,
       selectedCapituloIndex: _selectedCapituloIndex,
       targetNodeKey: _targetNodeKey,
+      chapterBannerKey: _chapterBannerKey,
       onSelectCapituloIndex: (idx) => setState(() => _selectedCapituloIndex = idx),
       pulseController: _pulseController,
       floatController: _floatController,
@@ -1139,17 +1179,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               newStreak: _streakDays,
             );
 
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (mounted) {
-                TourController.instance.maybeStartPart2(
-                  context: context,
-                  streakKey: _streakKey,
-                  conchasKey: _conchasKey,
-                  xpKey: _xpKey,
-                  practiceTabKey: _practiceTabKey,
-                );
-              }
-            });
+            // Progresso consolidado na trilha
           } else {
             DashboardRepositoryImpl.invalidateCache();
             AppProgressionNotifier.instance.notifyProgressUpdated();
@@ -1314,7 +1344,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       currentTabIndex: _currentTabIndex,
       isAdmin: _isAdmin,
       onTabSelected: _switchTab,
+      trailTabKey: _trailTabKey,
       practiceTabKey: _practiceTabKey,
+      profileTabKey: _profileTabKey,
+      settingsTabKey: _settingsTabKey,
     );
   }
 

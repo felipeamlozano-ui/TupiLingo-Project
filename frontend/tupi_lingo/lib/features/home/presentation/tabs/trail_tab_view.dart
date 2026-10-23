@@ -18,6 +18,7 @@ class TrailTabView extends StatelessWidget {
   final void Function(CapituloMapData, ChestRewardMapData?) onCollectedChestTap;
 
   final GlobalKey? targetNodeKey;
+  final GlobalKey? chapterBannerKey;
 
   const TrailTabView({
     super.key,
@@ -32,6 +33,7 @@ class TrailTabView extends StatelessWidget {
     required this.onChestTap,
     required this.onCollectedChestTap,
     this.targetNodeKey,
+    this.chapterBannerKey,
   });
 
   @override
@@ -78,9 +80,12 @@ class TrailTabView extends StatelessWidget {
                   const SizedBox(height: 14),
 
                   // Card Principal da Unidade / Capítulo
-                  ChapterBannerCard(
-                    cap: cap,
-                    onCulturalGuideTap: () => onCulturalGuideTap(cap),
+                  KeyedSubtree(
+                    key: chapterBannerKey,
+                    child: ChapterBannerCard(
+                      cap: cap,
+                      onCulturalGuideTap: () => onCulturalGuideTap(cap),
+                    ),
                   ),
                   const SizedBox(height: 24),
 

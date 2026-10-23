@@ -14,6 +14,7 @@ class OnboardingRepository {
   static const String _completedKeyPrefix = 'tupilingo_onboarding_completed_v1_';
   static const String _tourPart1KeyPrefix = 'tupilingo_tour_part1_v1_';
   static const String _tourPart2KeyPrefix = 'tupilingo_tour_part2_v1_';
+  static const String _tourFullV2KeyPrefix = 'tupilingo_tour_full_v2_';
 
   SharedPreferences? _prefs;
 
@@ -77,7 +78,38 @@ class OnboardingRepository {
     } catch (_) {}
   }
 
-  /// Verifica se a Parte 1 do Tour Guiado da Home já foi exibida.
+  /// Verifica se o Tour Guiado Completo da Home já foi exibido.
+  Future<bool> isFullTourCompleted([String? userId]) async {
+    try {
+      final prefs = await _getPrefs();
+      return prefs.getBool(_userKey(_tourFullV2KeyPrefix, userId)) ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Marca o Tour Guiado Completo como concluído.
+  Future<void> setFullTourCompleted([String? userId]) async {
+    try {
+      final prefs = await _getPrefs();
+      await prefs.setBool(_userKey(_tourFullV2KeyPrefix, userId), true);
+      await prefs.setBool(_userKey(_tourPart1KeyPrefix, userId), true);
+      await prefs.setBool(_userKey(_tourPart2KeyPrefix, userId), true);
+      _syncTourProgressToBackend(part1: true, part2: true);
+    } catch (_) {}
+  }
+
+  /// Redefine o estado do tour para permitir ao usuário rever todo o tour.
+  Future<void> resetTourStatus([String? userId]) async {
+    try {
+      final prefs = await _getPrefs();
+      await prefs.remove(_userKey(_tourFullV2KeyPrefix, userId));
+      await prefs.remove(_userKey(_tourPart1KeyPrefix, userId));
+      await prefs.remove(_userKey(_tourPart2KeyPrefix, userId));
+    } catch (_) {}
+  }
+
+  /// Verifica se a Parte 1 do Tour Guiado da Home já foi exibida (legado).
   Future<bool> isTourPart1Completed([String? userId]) async {
     try {
       final prefs = await _getPrefs();
@@ -87,7 +119,7 @@ class OnboardingRepository {
     }
   }
 
-  /// Marca a Parte 1 do Tour como concluída.
+  /// Marca a Parte 1 do Tour como concluída (legado).
   Future<void> setTourPart1Completed([String? userId]) async {
     try {
       final prefs = await _getPrefs();
@@ -96,7 +128,7 @@ class OnboardingRepository {
     } catch (_) {}
   }
 
-  /// Verifica se a Parte 2 do Tour Guiado da Home já foi exibida.
+  /// Verifica se a Parte 2 do Tour Guiado da Home já foi exibida (legado).
   Future<bool> isTourPart2Completed([String? userId]) async {
     try {
       final prefs = await _getPrefs();
@@ -106,7 +138,7 @@ class OnboardingRepository {
     }
   }
 
-  /// Marca a Parte 2 do Tour como concluída.
+  /// Marca a Parte 2 do Tour como concluída (legado).
   Future<void> setTourPart2Completed([String? userId]) async {
     try {
       final prefs = await _getPrefs();

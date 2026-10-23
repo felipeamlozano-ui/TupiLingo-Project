@@ -17,6 +17,7 @@ class TrailAppBar extends StatelessWidget {
   final GlobalKey? streakKey;
   final GlobalKey? conchasKey;
   final GlobalKey? xpKey;
+  final GlobalKey? languageKey;
 
   const TrailAppBar({
     super.key,
@@ -33,6 +34,7 @@ class TrailAppBar extends StatelessWidget {
     this.streakKey,
     this.conchasKey,
     this.xpKey,
+    this.languageKey,
   });
 
   static const Color _accent = Color(0xFFD08A45);
@@ -58,6 +60,7 @@ class TrailAppBar extends StatelessWidget {
           // Variante Ativa Badge com Seletor de Idioma
           Flexible(
             child: GestureDetector(
+              key: languageKey,
               onTap: onLanguageTap,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
