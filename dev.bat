@@ -278,7 +278,9 @@ echo [*] Iniciando servidor HTTP na porta 8080...
 echo [*] URL de acesso local: http://127.0.0.1:8080/landing-page/
 echo [*] O simulador Web executara com suporte total a CanvasKit e WebAssembly.
 echo.
-start "TupiLingo Web Local Server" cmd /k "python -m http.server 8080 --directory "%PROJECT_DIR%""
+pushd "%PROJECT_DIR%"
+start "TupiLingo Web Local Server" cmd /k python -m http.server 8080
+popd
 timeout /t 2 >nul
 start http://127.0.0.1:8080/landing-page/
 goto end
