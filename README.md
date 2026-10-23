@@ -15,8 +15,8 @@
   <rect width="1200" height="220" rx="18" fill="url(#dots)"/>
   <g transform="translate(60,58)">
     <text x="0" y="0" font-family="Helvetica, Arial, sans-serif" font-size="56" font-weight="700" fill="#F3F2E8">TupiLingo</text>
-    <text x="0" y="42" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#F3F2E8" opacity="0.92">Enterprise AI Platform for Indigenous Language Learning &amp; Revitalization</text>
-    <text x="0" y="74" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#D08A45">Adaptive Learning · Retrieval-Augmented Generation · Multi-LLM Orchestration · Item Response Theory</text>
+    <text x="0" y="42" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#F3F2E8" opacity="0.92">Plataforma de IA Adaptativa para Salvaguarda, Ensino e Revitalização do Tupi Antigo</text>
+    <text x="0" y="74" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#D08A45">Rigor Filológico (Navarro, 2013) · RAG Fundamentado em Evidências · Orquestração Multi-LLM · TRI 3PL Progressivo</text>
   </g>
   <g transform="translate(980,40)" opacity="0.9">
     <circle cx="0" cy="0" r="46" fill="none" stroke="#F3F2E8" stroke-width="2" opacity="0.5"/>
@@ -27,37 +27,37 @@
 
 # TupiLingo
 
-**Enterprise platform for the preservation, teaching, and revitalization of Tupi languages (Old Tupi, Tupinambá, and Contemporary Tupi), powered by adaptive AI, hybrid Retrieval-Augmented Generation, and multi-provider LLM orchestration.**
+**Plataforma educacional e científica aberta para o ensino estruturado, preservação e revitalização do Tupi Antigo Clássico (séc. XVI–XVII) e do Tupi Antigo Revitalizado, impulsionada por Psicometria Adaptativa (TRI 3PL), RAG Filológico Fundamentado em Evidências e Orquestração Multi-LLM Resiliente.**
 
 <br/>
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.35-02569B?style=for-the-badge&logo=flutter&logoColor=white)](#)
-[![Dart](https://img.shields.io/badge/Dart-3.9-0175C2?style=for-the-badge&logo=dart&logoColor=white)](#)
-[![Python](https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white)](#)
-[![Django](https://img.shields.io/badge/Django-5.1-092E20?style=for-the-badge&logo=django&logoColor=white)](#)
+[![Flutter](https://img.shields.io/badge/Flutter-3.44-02569B?style=for-the-badge&logo=flutter&logoColor=white)](#09--arquitetura-flutter-mobile--web)
+[![Dart](https://img.shields.io/badge/Dart-3.12+-0175C2?style=for-the-badge&logo=dart&logoColor=white)](#09--arquitetura-flutter-mobile--web)
+[![Python](https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white)](#08--arquitetura-do-backend-django)
+[![Django](https://img.shields.io/badge/Django-5.1-092E20?style=for-the-badge&logo=django&logoColor=white)](#08--arquitetura-do-backend-django)
 
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791?style=for-the-badge&logo=postgresql&logoColor=white)](#)
-[![Supabase](https://img.shields.io/badge/Supabase-BaaS-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](#)
-[![SQLite](https://img.shields.io/badge/SQLite-GraphRAG-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](#)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791?style=for-the-badge&logo=postgresql&logoColor=white)](#17--arquitetura-de-banco-de-dados--supabase)
+[![Supabase](https://img.shields.io/badge/Supabase-Auth_%2B_RLS_%2B_PGMQ-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](#17--arquitetura-de-banco-de-dados--supabase)
+[![SQLite](https://img.shields.io/badge/SQLite-Vector_DB_%2B_GraphRAG-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](#06--pipeline-rag-filológico--ocr)
+[![Protobuf](https://img.shields.io/badge/Protobuf-v3_Binary-4285F4?style=for-the-badge&logo=googleprotobuf&logoColor=white)](#20--engenharia-de-performance)
 
-[![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)](#)
-[![Qwen](https://img.shields.io/badge/Alibaba-Qwen-FF6A00?style=for-the-badge&logo=alibabacloud&logoColor=white)](#)
-[![LiteLLM](https://img.shields.io/badge/Router-LiteLLM-6E56CF?style=for-the-badge)](#)
-[![FastEmbed](https://img.shields.io/badge/Embeddings-FastEmbed-2E8B57?style=for-the-badge)](#)
-[![RAG](https://img.shields.io/badge/Pipeline-Hybrid_RAG-8A2BE2?style=for-the-badge)](#)
-[![TRI](https://img.shields.io/badge/Adaptive-IRT_%2F_TRI-B8860B?style=for-the-badge)](#)
+[![Groq](https://img.shields.io/badge/Groq-LPU_Inference-F55036?style=for-the-badge)](#05--infraestrutura-de-ia--malha-multi-provedor)
+[![Gemini](https://img.shields.io/badge/Google-Gemini_2.5_%2F_3.6-4285F4?style=for-the-badge&logo=google&logoColor=white)](#05--infraestrutura-de-ia--malha-multi-provedor)
+[![Qwen](https://img.shields.io/badge/Alibaba-DashScope_Qwen-FF6A00?style=for-the-badge&logo=alibabacloud&logoColor=white)](#05--infraestrutura-de-ia--malha-multi-provedor)
+[![FastEmbed](https://img.shields.io/badge/Embeddings-FastEmbed_Local-2E8B57?style=for-the-badge)](#06--pipeline-rag-filológico--ocr)
+[![TRI 3PL](https://img.shields.io/badge/Psicometria-TRI_3PL_%2B_SM2-B8860B?style=for-the-badge)](#07--motor-psicométrico-adaptativo-tri-3pl--srs-sm-2)
 
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](#)
-[![Redis](https://img.shields.io/badge/Redis-Cache_%2F_Broker-DC382D?style=for-the-badge&logo=redis&logoColor=white)](#)
-[![Celery](https://img.shields.io/badge/Celery-Async_Workers-37814A?style=for-the-badge&logo=celery&logoColor=white)](#)
-[![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)](#)
-[![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-Tracing-425CC7?style=for-the-badge&logo=opentelemetry&logoColor=white)](#)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](#15--infraestrutura-docker)
+[![Redis](https://img.shields.io/badge/Redis-PingRace_%2B_Circuit_Breaker-DC382D?style=for-the-badge&logo=redis&logoColor=white)](#05--infraestrutura-de-ia--malha-multi-provedor)
+[![Celery](https://img.shields.io/badge/Celery-Async_Pool_Workers-37814A?style=for-the-badge&logo=celery&logoColor=white)](#08--arquitetura-do-backend-django)
+[![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)](#19--observabilidade--console-sre-in-app)
+[![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-Tracing-425CC7?style=for-the-badge&logo=opentelemetry&logoColor=white)](#19--observabilidade--console-sre-in-app)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](#-license)
-[![Architecture](https://img.shields.io/badge/Architecture-Distributed-16A34A?style=for-the-badge)](#)
-[![Enterprise Ready](https://img.shields.io/badge/Enterprise-Ready-0E5D4E?style=for-the-badge)](#)
-[![AI Powered](https://img.shields.io/badge/AI-Powered-D08A45?style=for-the-badge)](#)
-[![Cross Platform](https://img.shields.io/badge/Cross-Platform-2563EB?style=for-the-badge)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](#25--licença--créditos-acadêmicos)
+[![Architecture](https://img.shields.io/badge/Architecture-Distributed-16A34A?style=for-the-badge)](#04--arquitetura-ponta-a-ponta)
+[![Filologia](https://img.shields.io/badge/Filologia-Navarro_2013-0E5D4E?style=for-the-badge)](#01--visão--rigor-filológico)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-D08A45?style=for-the-badge)](#05--infraestrutura-de-ia--malha-multi-provedor)
+[![Cross Platform](https://img.shields.io/badge/Cross--Platform-Web_%26_Android-2563EB?style=for-the-badge)](#09--arquitetura-flutter-mobile--web)
 
 <br/>
 
@@ -70,952 +70,713 @@
 <br/>
 
 <div align="center">
-<sub>Built to preserve and democratize access to one of Brazil's most significant linguistic heritages — through software engineering, applied AI, and cultural stewardship.</sub>
+<sub>Construído para preservar e democratizar o acesso a um dos maiores patrimônios linguísticos e históricos do Brasil — unindo engenharia de sistemas distribuídos, inteligência artificial aplicada e rigor filológico.</sub>
 </div>
 
 <br/>
 
 ---
 
-## Table of Contents
+## Sumário
 
-| # | Section |
+| # | Seção |
 |---|---|
-| 01 | [Vision](#01--vision) |
-| 02 | [Why TupiLingo?](#02--why-tupilingo) |
-| 03 | [Platform Overview](#03--platform-overview) |
-| 04 | [Complete Architecture](#04--complete-architecture) |
-| 05 | [AI Infrastructure](#05--ai-infrastructure) |
-| 06 | [Retrieval-Augmented Generation Pipeline](#06--retrieval-augmented-generation-pipeline) |
-| 07 | [Adaptive Learning Engine (IRT / TRI)](#07--adaptive-learning-engine-irt--tri) |
-| 08 | [Backend Architecture](#08--backend-architecture) |
-| 09 | [Flutter Architecture](#09--flutter-architecture) |
-| 10 | [Design System](#10--design-system) |
-| 11 | [Learning Experience](#11--learning-experience) |
-| 12 | [Repository Structure](#12--repository-structure) |
-| 13 | [Development Environment](#13--development-environment) |
-| 14 | [Docker Infrastructure](#14--docker-infrastructure) |
-| 15 | [API Documentation](#15--api-documentation) |
-| 16 | [Database Architecture](#16--database-architecture) |
-| 17 | [Security](#17--security) |
-| 18 | [Observability](#18--observability) |
-| 19 | [Performance](#19--performance) |
-| 20 | [Testing Strategy](#20--testing-strategy) |
-| 21 | [CI/CD Pipeline](#21--cicd-pipeline) |
-| 22 | [Contributing](#22--contributing) |
-| 23 | [Roadmap](#23--roadmap) |
-| 24 | [Documentation Index](#24--documentation-index) |
-| 25 | [License](#25--license) |
-| 26 | [Credits](#26--credits) |
+| 01 | [Visão & Rigor Filológico](#01--visão--rigor-filológico) |
+| 02 | [Por que o TupiLingo?](#02--por-que-o-tupilingo) |
+| 03 | [Diagnóstico Completo do Projeto (O que Tem vs. O que é Futuro)](#03--diagnóstico-completo-do-projeto-o-que-tem-vs-o-que-é-futuro) |
+| 04 | [Arquitetura Ponta a Ponta](#04--arquitetura-ponta-a-ponta) |
+| 05 | [Infraestrutura de IA & Malha Multi-Provedor](#05--infraestrutura-de-ia--malha-multi-provedor) |
+| 06 | [Pipeline RAG Filológico & OCR](#06--pipeline-rag-filológico--ocr) |
+| 07 | [Motor Psicométrico Adaptativo (TRI 3PL & SRS SM-2)](#07--motor-psicométrico-adaptativo-tri-3pl--srs-sm-2) |
+| 08 | [Arquitetura do Backend (Django)](#08--arquitetura-do-backend-django) |
+| 09 | [Arquitetura Flutter (Mobile & Web)](#09--arquitetura-flutter-mobile--web) |
+| 10 | [Design System & Economia Gamificada (Loja de Conchas)](#10--design-system--economia-gamificada-loja-de-conchas) |
+| 11 | [Experiência de Aprendizado e Fluxos do Aluno](#11--experiência-de-aprendizado-e-fluxos-do-aluno) |
+| 12 | [Landing Page Oficial & Deploy Web](#12--landing-page-oficial--deploy-web) |
+| 13 | [Estrutura Real do Repositório](#13--estrutura-real-do-repositório) |
+| 14 | [Ambiente de Desenvolvimento](#14--ambiente-de-desenvolvimento) |
+| 15 | [Infraestrutura Docker](#15--infraestrutura-docker) |
+| 16 | [Documentação Completa da API (`/api/v1/`)](#16--documentação-completa-da-api-apiv1) |
+| 17 | [Arquitetura de Banco de Dados & Supabase](#17--arquitetura-de-banco-de-dados--supabase) |
+| 18 | [Segurança Forense, Criptografia & Hardening RLS](#18--segurança-forense-criptografia--hardening-rls) |
+| 19 | [Observabilidade & Console SRE In-App](#19--observabilidade--console-sre-in-app) |
+| 20 | [Engenharia de Performance](#20--engenharia-de-performance) |
+| 21 | [Estratégia de Testes & Benchmarks Filológicos](#21--estratégia-de-testes--benchmarks-filológicos) |
+| 22 | [Pipeline de CI/CD](#22--pipeline-de-cicd) |
+| 23 | [Roadmap & Features Futuras (Mapa Interativo de Pindorama)](#23--roadmap--features-futuras-mapa-interativo-de-pindorama) |
+| 24 | [Como Contribuir](#24--como-contribuir) |
+| 25 | [Licença & Créditos Acadêmicos](#25--licença--créditos-acadêmicos) |
 
 ---
 
-## 01 · Vision
+## 01 · Visão & Rigor Filológico
 
-> **TupiLingo** exists at the intersection of three disciplines that rarely meet in production software: computational linguistics, distributed AI systems engineering, and cultural preservation.
+> O **TupiLingo** nasce na interseção entre três disciplinas que raramente se encontram em sistemas de produção: **filologia documental tupinológica**, **engenharia de sistemas distribuídos de IA** e **psicometria computacional**.
 
-### Mission
-Preserve and democratize access to Tupi linguistic heritage — Old Tupi, Tupinambá, and Contemporary Tupi — through adaptive, AI-driven education that is resilient, low-cost to operate, and available even in low-connectivity environments.
+### Missão
+Preservar e democratizar o aprendizado da língua matriz da história brasileira — em suas vertentes **Tupi Antigo (Língua Clássica da Costa, séc. XVI–XVII)** e **Tupi Antigo Revitalizado** — por meio de uma plataforma gamificada, gratuita, cientificamente rigorosa e resiliente a falhas de conectividade ou provedores em nuvem.
 
-### Vision
-To become the leading open technological ecosystem dedicated to Brazilian indigenous languages, combining rigorous NLP engineering with community-driven cultural stewardship.
+### Fundamentação Filológica Canônica
+Todo o conteúdo pedagógico, léxico e gramatical do projeto passou por **saneamento filológico estrito** (`saneamento_filologico_navarro.py` e `audit_navarro_dictionary_full.py`) fundamentado nas obras de referência:
+- **Prof. Dr. Eduardo de Almeida Navarro (USP):** *Dicionário de Tupi Antigo: A Língua Indígena Clássica do Brasil* (Global Editora, 2013) e *Método Moderno de Tupi Antigo* (1998/2005).
+- **Pe. José de Anchieta:** *Arte de Gramática da Língua mais Usada na Costa do Brasil* (1595).
+- **Pe. Luís Figueira:** *Arte da Língua Brasílica* (1621).
 
-### Engineering Principles
+### Princípios de Engenharia e Filologia
 
-| Principle | Description |
+| Princípio | Implementação Real no Código |
 |---|---|
-| **Resilience over elegance** | Every critical path (AI inference, quiz generation) has a deterministic fallback that does not depend on any external provider. |
-| **Cost-aware by design** | Local embeddings (FastEmbed) and a 29-model fallback chain minimize cloud spend during heavy ingestion and inference workloads. |
-| **Idempotent by default** | Workers write with `ON CONFLICT DO UPDATE` semantics and only commit local state after remote persistence succeeds. |
-| **Observability first** | Every worker, router decision, and API call is designed to be traceable via OpenTelemetry and Prometheus. |
-| **Offline-capable** | A local Ollama fallback and a heuristic quiz generator guarantee availability even with zero connectivity. |
-
-### Educational Principles
-- Adaptive difficulty calibrated per learner via Item Response Theory (IRT/TRI), not static curricula.
-- Vocabulary, grammar, history, and mythology are treated as **first-class semantic categories**, not generic tags.
-- Historical primary sources (colonial letters, travel accounts, grammars) are treated as living pedagogical material, not static archives.
-
-### Cultural Preservation Principles
-- Dialectal variants (Old Tupi, Tupinambá, Contemporary Tupi) are represented as distinct learning tracks, never collapsed into a single "generic Tupi."
-- Mythology and cosmology (Tupã, Curupira, Anhangá) are preserved as cultural content, not merely translated vocabulary.
-- Source material provenance is preserved through the RAG pipeline's category and chunk metadata.
+| **Zero Alucinação Lexical** | O motor `EvidenceGroundedRAG` (`pedagogico/filologia/rag_engine.py`) proíbe inferência conjectural: se um lema não consta nas fontes homologadas, o sistema emite **Declaração Mandatória de Incerteza** e coloca candidatos não revisados em quarentena (`PhilologicalStatus.QUARENTENA`). |
+| **Pureza de Variantes** | Separação estrita entre **Tupi Antigo Clássico** e **Tupi Antigo Revitalizado**, expurgando nheengatismos indevidos (como *puranga* no lugar de *katu* ou *tuxaua* no lugar de *morubixaba*) e construções macarrônicas. |
+| **Resiliência Determinística** | Todo caminho crítico de IA (`rag_service.py`, `views_pratica.py`) possui fallback imediato para um **Gerador Heurístico Determinístico** (`heuristica_service.py`), garantindo **100% de uptime** mesmo sem internet ou cotas de LLM. |
+| **Psicometria em Tempo Real** | Calibração contínua da habilidade do aluno ($\theta$) via **Teoria de Resposta ao Item (TRI 3PL)** vetorizada em NumPy (`tri_engine_vectorized.py`) e sessões progressivas sub-milissegundo no Redis (`tri_progressive_service.py`). |
+| **Offline-First & Criptografia** | Lições concluídas sem internet são armazenadas localmente no `LessonOutboxService` com assinatura `HMAC-SHA256` + nonce anti-replay (`CryptoEngine` / `store_crypto.py`) e sincronizadas quando a rede retorna. |
 
 ---
 
-## 02 · Why TupiLingo?
+## 02 · Por que o TupiLingo?
 
-Most language-learning applications optimize for high-resource languages with abundant training data, native speakers, and commercial incentives. Tupi languages have none of these advantages at scale — which is precisely why the platform's engineering has to work harder.
+Aplicativos tradicionais de idiomas são projetados para línguas comerciais de altíssima disponibilidade de dados (inglês, espanhol, francês). O Tupi Antigo enfrenta desafios estruturais opostos:
 
-TupiLingo addresses three structural problems:
+1. **Escassez de Corpus Digital Limpo:** As fontes primárias existem majoritariamente em gramáticas quinhentistas/seiscentistas e dicionários acadêmicos densos, exigindo um pipeline próprio de OCR com pré-processamento em OpenCV (`ocr_pipeline/pdf_worker.py`) e validação heurística de sanidade.
+2. **Risco de Alucinação em LLMs Genéricos:** Modelos de linguagem comerciais frequentemente misturam Tupi Antigo, Guarani Paraguaio e Nheengatu Amazônico, inventando palavras inexistentes. O TupiLingo resolve isso ancorando os LLMs em um grafo e repositório filológico verificado, usando a IA apenas para redação pedagógica de enunciados e geração controlada de distratores.
+3. **Instabilidade de Provedores de IA Gratuitos/Low-Cost:** Para manter a iniciativa aberta e sustentável, o backend implementa uma malha de **6 provedores cloud + Ollama local** com corrida de latência (*Ping Race*) e Circuit Breaker distribuído.
 
-1. **Scarcity of digitized material.** Grammars and manuscripts exist mostly as scanned colonial-era documents, requiring OCR-resilient ingestion rather than clean text imports.
-2. **Absence of a large-scale training corpus.** Instead of fine-tuning a dedicated model (cost-prohibitive for a niche language), TupiLingo orchestrates general-purpose LLMs through RAG, grounding generation in verified source material.
-3. **Fragile availability of AI infrastructure.** A single-provider dependency is unacceptable for an educational tool used daily; the platform therefore treats AI availability as a distributed-systems problem, not an API integration detail.
+---
 
-### TupiLingo vs. Traditional Language Apps
+## 03 · Diagnóstico Completo do Projeto (O que Tem vs. O que é Futuro)
 
-| Dimension | Traditional Apps (Duolingo-style) | TupiLingo |
+Esta tabela reflete a auditoria exata do código-fonte atual (`backend/`, `frontend/tupi_lingo/`, `landing-page/`, `supabase/`), separando com total transparência o que está **100% ativo em produção** do que foi **descontinuado ou movido para o Roadmap Futuro**.
+
+### ✅ O que o Projeto TEM Ativo Hoje
+
+| Domínio | Funcionalidade Ativa | Localização no Código |
 |---|---|---|
-| Content source | Human-authored curricula | RAG over primary historical & academic sources |
-| Difficulty model | Fixed lesson trees | Item Response Theory (θ-based adaptive calibration) |
-| AI dependency | None or single-vendor | 6 cloud providers + local Ollama, with automatic failover |
-| Offline resilience | Limited or none | Deterministic heuristic quiz engine with 100% uptime guarantee |
-| Target language resourcing | High-resource languages | Low-resource, endangered indigenous languages |
-| Content categories | Generic vocabulary/grammar | Vocabulary, Grammar, History, Mythology, Unknown (semantic classification) |
-| Cost model | Human content teams | Local embeddings + free-tier/low-cost LLM fallback chain |
+| **Variantes Linguísticas** | **2 Variantes Homologadas:** **Tupi Antigo** (`tupi_antigo`, 20 capítulos, 80 lições) e **Tupi Antigo Revitalizado** (`tupi_revitalizado`, 20 capítulos, 80 lições) — totalizando **40 capítulos**, **160 lições**, **320 StoryBlocks**, **344 itens de vocabulário** e **486 exercícios**. | `backend/trilha/models.py`, `backend/pedagogico/` |
+| **Onboarding & Demo 90s** | Fluxo imersivo em **9 etapas** com o **Mascote Tupi** (estados animados de humor), palavras Tupi do cotidiano, escolha de motivação, meta diária e **lição demonstrativa interativa** antes mesmo do cadastro. | `lib/features/onboarding/presentation/intro_flow_screen.dart` |
+| **Tour Guiado (Spotlight)** | Tutorial interativo em 2 partes destacando o banner do capítulo, primeiro nó da trilha, seletor de variante, ofensiva, conchas, XP e barra de navegação (reexecutável nos Ajustes). | `lib/features/onboarding/presentation/tour/tour_controller.dart` |
+| **Aba 1: Trilha Serpenteante** | Caminho vertical com botões 3D táteis, seletor horizontal de capítulos, **Guia Cultural e Gramatical** por capítulo, **Baús de Artefatos Indígenas** com partículas Marajoaras e **monitor térmico** (pausa GPU após 8s ocioso). | `lib/features/home/presentation/tabs/trail_tab_view.dart`, `trail_canvas_view.dart` |
+| **Player de Lições & Validação** | StoryBlocks narrativos + exercícios de **Múltipla Escolha**, **Completar Lacunas (tokens clicáveis)** e **Associação de Colunas**, com validação fuzzy (`unaccent` + Levenshtein + trigramas `pg_trgm`). | `lib/features/lesson/`, `backend/users/services/validation_service.py` |
+| **Aba 2: Prática Contextualizada** | **6 temas predefinidos** (*Natureza e Rios*, *Animais e Caça*, *Mitologia e Tupã*, *Aldeia e Cotidiano*, *Guerra e Rituais*, *Culinária e Roça*) + **Tema Livre via IA** + **Flashcards de Revisão Espaçada (SM-2)** com banco de vocabulário desbloqueado por capítulo. | `lib/features/home/presentation/tabs/practice_tab_view.dart`, `lib/features/pratica/` |
+| **Nivelamento & TRI 3PL** | Teste adaptativo por variante (`TesteScreen`), cálculo vetorizado MAP/EAP (`VectorizedTRIEngine`), **TRI Progressivo em Tempo Real** (< 1ms no Redis com detecção matemática de chute) e **Calibrador NLP Zero-Shot** (`NLPItemCalibrator`). | `backend/nivelamento/services/`, `lib/features/assessment/presentation/teste.dart` |
+| **Aba 3: Perfil & Analytics** | Medidor psicométrico (`NivelGauge`), Radar de Maestria (`MasteryRadarChart`), Gráfico 3D de XP (`Progress3DBarChart`), Ofensiva (`StreakCard`), Galeria de **46 Conquistas (`AchievementGallery`)** e histórico de lições. | `lib/features/profile/`, `lib/features/dashboard/` |
+| **Loja de Conchas (Cosméticos)** | Economia gamificada com compra e ativação auditada por `HMAC-SHA256`: **4 Temas Visuais** (*Floresta de Jade*, *Areia Sagrada*, *Noite Estrelada de Tupã*, *Chama da Caapora*), **5 Avatares**, **Molduras** e **Lições Especiais**. | `lib/features/store/`, `backend/users/views_store.py`, `store_catalog.py` |
+| **Aba 4: Ajustes & Autodescoberta** | Efeitos sonoros, notificações locais, temas, termos legais (`TermsOfUseScreen`) e **Parallel Endpoint Race** (corrida automática entre cache, túnel Cloudflare via Supabase Storage e IP local). | `lib/features/settings/`, `lib/main.dart` |
+| **Aba 5: Console Admin & SRE** | Gestão CRUD in-app de Capítulos, Lições e Exercícios + **Platform & Security Suite** protegida por OTP Enclave (`LiveOps`, `Observatory`, `Feature Flags`, `Crash Intel`, `Zero-Leak AES-GCM Logs`, `SOC Audit Trail SHA-256`). | `lib/features/admin/`, `backend/platform_telemetry/` |
+| **Malha Multi-LLM & RAG** | Roteador inteligente com **PingRace + Circuit Breaker** (Groq, Gemini, DashScope/Qwen, OpenRouter, SambaNova, Cerebras, Ollama) + **21.295 chunks** no Supabase + `vector_store.db` SQLite + `EvidenceGroundedRAG`. | `backend/app/ai/`, `backend/pedagogico/filologia/` |
+
+### 🔮 O que NÃO Está Ativo na Interface Atual (Movido para Features Futuras / Removido)
+
+| Item | Status Atual no Repositório | Motivo / Destino |
+|---|---|---|
+| **Mapa Histórico Interativo de Pindorama (2D/3D)** | **Feature Futura (Desativado na UI e nas URLs)** | Os modelos (`backend/world_builder/`) e shaders existem como fundação técnica, mas a rota `/api/v1/world/` está comentada em `config/urls.py` e a navegação principal foi simplificada para a **Trilha de Capítulos**. Previsto no **Roadmap v2.0**. |
+| **Motor Nativo Rust / WebGPU (`tupi_wgpu_engine`)** | **Protótipo Experimental (Futuro)** | Localizado em `native/tupi_wgpu_engine/` para futura renderização gráfica de alta performance do Mapa de Pindorama; não é exigido na compilação padrão atual. |
+| **Trilhas Isoladas de *Tupinambá* e *Kamaiurá*** | **Expurgadas no Saneamento Filológico** | Removidas pelo script `saneamento_filologico_navarro.py` para evitar contaminação entre troncos/famílias distintas e concentrar 100% do rigor documental no **Tupi Antigo** e **Tupi Antigo Revitalizado**. Novas línguas Tupi-Guarani entrarão no Roadmap com curadoria dedicada. |
+| **Reconhecimento de Voz (Pronúncia via Microfone)** | **Planejado (Roadmap)** | Modelos de áudio (`whisper-large-v3-turbo`) já estão mapeados e segregados em `router.py`, mas a captura de voz pelo aluno ainda não faz parte do player de exercícios atual. |
 
 ---
 
-## 03 · Platform Overview
+## 04 · Arquitetura Ponta a Ponta
 
-TupiLingo is composed of five cooperating subsystems: a **document ingestion pipeline**, an **asynchronous semantic classification layer**, a **multi-provider AI mesh**, a **Django backend with an adaptive quiz engine**, and a **Flutter cross-platform client**.
-
-### Layer Responsibilities
-
-| Layer | Responsibility |
-|---|---|
-| **Flutter Client** (`tupi_lingo`) | Learning journey UI, authentication (OTP), lesson player, gamification, offline caching. |
-| **Django API** | REST endpoints, business rules, RPC-based quiz engine, TRI calibration, rate limiting. |
-| **AI Router** (LiteLLM-based) | Provider abstraction, ping-race latency routing, sequential fallback across 29 models. |
-| **RAG Engine** | PDF/OCR ingestion, semantic chunking, FastEmbed embeddings, hybrid vector + BM25 retrieval. |
-| **Supabase / PostgreSQL** | User data, learning progress, RAG document categories, authentication. |
-| **SQLite (GraphRAG)** | Local, zero-cost vector store for ingested document chunks prior to classification. |
-| **Redis + Celery** | Caching, async task queues, worker orchestration. |
-| **Docker / Nginx / Gunicorn** | Containerized deployment, reverse proxying, WSGI serving in production. |
-
----
-
-## 04 · Complete Architecture
-
-The diagram below traces the full path of a document from ingestion to an adaptive quiz question served to a learner.
+O diagrama abaixo descreve o fluxo completo desde a ingestão documental e saneamento filológico até a entrega de lições e práticas adaptativas no cliente Flutter (Mobile e Web).
 
 ```mermaid
 flowchart TD
-    subgraph ING["Document Ingestion & Vectorization"]
-        PDFS[("/pdfs directory\nGrammars & Manuscripts")] --> PDFW["PDF Worker\npdf_worker.py"]
-        PDFW --> OCR["Tesseract OCR\n+ Auto-Orientation"]
-        PDFW --> FE["FastEmbed\nBAAI/bge-small-en-v1.5\n(local, zero-cost)"]
-        OCR --> CHUNK["Semantic Chunking"]
+    subgraph ING["1. Ingestão Documental, OCR & Filologia"]
+        PDFS[("39 PDFs Históricos\n& Dicionário Navarro")] --> PDFW["PDF Worker\nocr_pipeline/pdf_worker.py"]
+        PDFW --> OCR["OpenCV + Tesseract OCR\n+ Validação de Sanidade"]
+        PDFW --> FE["FastEmbed Local\nBAAI/bge-small-en-v1.5"]
+        OCR --> CHUNK["Chunking Linguístico\n+ Deduplicação MinHash"]
         FE --> CHUNK
-        CHUNK --> SQLITE[("SQLite GraphRAG\nvector_store.db")]
+        CHUNK --> SQLITE[("SQLite Vector Store\nvector_store.db + GraphRAG")]
+        NAVARRO[("Léxico Homologado\nPhilologicalRepository")] --> EGRAG["EvidenceGroundedRAG\nTiers A / B / Quarentena"]
     end
 
-    subgraph CLASS["Asynchronous Semantic Classification"]
-        SQLITE --> VW["Vocabulary Worker\nextract_vocab_from_rag.py"]
-        VW <--> ROUTER["AI Router\nPing Race + Fallback Chain"]
-        ROUTER <--> MESH["Multi-Provider AI Mesh\nDashScope · Groq · OpenRouter\nGemini · SambaNova · Cerebras · Ollama"]
-        VW --> SUPA[("Supabase / PostgreSQL\nrag_document_categories")]
+    subgraph CLASS["2. Classificação Semântica & Malha Multi-LLM"]
+        SQLITE --> VW["Vocab Worker\nextract_vocab_from_rag.py"]
+        VW <--> ROUTER["AI Router\nPingRace + FallbackOrchestrator"]
+        ROUTER <--> MESH["Malha Multi-LLM (6 Clouds + Local)\nGroq · Gemini · DashScope (Qwen)\nOpenRouter · SambaNova · Cerebras · Ollama"]
+        VW --> SUPA[("Supabase PostgreSQL\n21.295 Chunks + RLS + PGMQ")]
     end
 
-    subgraph SERVE["Backend & Adaptive Quiz Engine"]
-        USERS(("Learners\nMobile / Web")) <--> FLUTTER["Flutter App\ntupi_lingo"]
-        FLUTTER <--> DJANGO["Django REST API"]
-        DJANGO <--> QUIZ["Quiz Engine\nrag_service.py\nRPC Engine (RFC v3.0)\nTRI Calibration"]
+    subgraph SERVE["3. Backend Django & Motores Adaptativos"]
+        USERS(("Alunos\nAndroid / Web")) <--> FLUTTER["Flutter Client\ntupi_lingo (Riverpod)"]
+        FLUTTER <-->|"REST JSON + Protobuf\n+ Parallel Endpoint Race"| DJANGO["Django 5.1 REST API"]
+        DJANGO <--> TRI["Motor Psicométrico\nVectorizedTRIEngine (3PL)\n+ TRIProgressiveEngine (Redis)"]
+        DJANGO <--> QUIZ["RAGService & Prática\nPool Assíncrono Celery\n+ Cache Semântico pgvector"]
+        QUIZ <--> EGRAG
         QUIZ <--> SUPA
         QUIZ <--> ROUTER
-        QUIZ -.fallback.-> HEUR["Deterministic Heuristic\nGenerator (offline-safe)"]
+        QUIZ -.->|"Fallback 100% Offline"| HEUR["Gerador Heurístico\nDeterminístico"]
     end
 
     style ING fill:#0E5D4E11,stroke:#0E5D4E
     style CLASS fill:#B8AF6422,stroke:#B8AF64
-    style SERVE fill:#2563EB11,stroke:#2563EB
+    style SERVE fill:#D08A4515,stroke:#D08A45
 ```
-
-**End-to-end flow:**
-1. Raw PDFs (grammars, colonial manuscripts, dictionaries) land in `/pdfs` and are picked up by the **PDF Worker**.
-2. Text is extracted via `PyPDF2` for native PDFs, or via **Tesseract OCR** with auto-orientation detection for scanned material.
-3. Extracted text is semantically chunked and embedded locally using **FastEmbed**, avoiding API costs during large ingestion batches (>1.2 GB).
-4. Chunks and vectors are persisted to a local **SQLite GraphRAG** store (`vector_store.db`).
-5. The **Vocabulary Worker** reads unclassified chunks (`category_extracted = 0`) and submits them to the AI Router for semantic classification.
-6. The **AI Router** selects the lowest-latency available provider via ping-race, or fails over sequentially across up to 29 models if the primary fails.
-7. Classified chunks are persisted idempotently to **Supabase/PostgreSQL** (`rag_document_categories`) via `ON CONFLICT (chunk_id) DO UPDATE`.
-8. At quiz time, the **Quiz Engine** retrieves calibrated vocabulary/grammar items through Supabase RPCs, uses the AI Router only for pedagogical phrasing and distractor generation, and falls back to a **deterministic heuristic engine** if all LLM providers are unavailable.
-9. The **Flutter client** renders the adaptive lesson and quiz experience to the learner.
 
 ---
 
-## 05 · AI Infrastructure
+## 05 · Infraestrutura de IA & Malha Multi-Provedor
 
-### Multi-Provider AI Mesh
+O TupiLingo opera uma camada própria de roteamento e resiliência em `backend/app/ai/` (`router.py`, `ping_race.py`, `fallback.py`, `invoker.py`) que abstrai **6 provedores em nuvem** e **1 provedor local offline**.
 
-TupiLingo does not depend on a single LLM vendor. Instead, it operates a routing layer (built on `LiteLLM`) that abstracts six cloud providers plus a fully offline local option.
+### Catálogo de Provedores e Especialidades (`router.py`)
 
-| Provider | Representative Models | Role in the System |
+| Provedor | Modelos Integrados | Papel Arquitetural |
 |---|---|---|
-| **Alibaba Cloud (DashScope)** | `qwen-plus`, `qwen3.6-plus`, `qwen-turbo`, `qwen-max`, `qwen3.7-max`, `qwen3.8-max`, `qwen2.5-coder` | **Primary workhorse** for the vocabulary worker and the quiz generator. |
-| **Groq Cloud (LPU)** | `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `qwen3.8-27b`, `allam-2-7b`, `compound` | Ultra-low-latency inference for chat and quiz support. |
-| **OpenRouter (Free Tiers)** | `minimax-m2.7:free`, `gemma-4-31b-it:free`, `poolside/laguna-xs`, `north-mini-code` | Tertiary, zero-cost contingency layer. |
-| **Google Gemini** | `gemini-2.5-flash` | Multimodal processing and general-purpose support. |
-| **Cerebras & SambaNova** | `qwen-3.8-27b`, `DeepSeek-V3.2`, `Meta-Llama-3.3-70B-Instruct` | Hardware-accelerated failover for peak demand. |
-| **Ollama (Local)** | `qwen2.5:1.5b`, `llama3.2:1b` | 100% offline inference for disconnected environments. |
+| **Groq Cloud (LPU)** | `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `qwen/qwen3.8-27b`, `allam-2-7b`, `openai/gpt-oss-safeguard-20b` | **Topo da cadeia `_CHAIN_FAST` (~200–400ms):** inferência de baixíssima latência para prática temática e extração de vocabulário. |
+| **Google Gemini** | `gemini-2.5-flash`, `gemini-3.6-flash`, `gemini-2.5-flash-lite` | Inferência estruturada rápida, janelas de contexto longas (`_CHAIN_LONG_CONTEXT` > 30k tokens) e alta estabilidade. |
+| **Alibaba Cloud (DashScope)** | `qwen-max`, `qwen3.7-max`, `qwen3.8-max`, `qwen-plus`, `qwen3.6-plus`, `qwen-turbo`, `qwen-coder-plus` | Especialistas em validação psicométrica, saídas JSON estruturadas e geração profunda de quizzes. |
+| **SambaNova Cloud** | `DeepSeek-V3.2`, `DeepSeek-V3.1`, `Meta-Llama-3.3-70B-Instruct`, `MiniMax-M3`, `gemma-4-31B-it` | Aceleração em hardware dedicado para failover de raciocínio e geração de distratores. |
+| **Cerebras Cloud** | `qwen-3.8-27b`, `gpt-oss-120b` | Alta taxa de tokens/segundo (contexto de 131k, 450 RPM) na cadeia rápida. |
+| **OpenRouter (Free Tiers)** | `google/gemma-4-31b-it:free`, `google/gemma-4-26b-a4b-it:free`, `poolside/laguna-xs-2.1:free`, `cohere/north-mini-code:free`, `minimax/minimax-m3:free`, `nvidia/nemotron-3-super-120b-a12b:free` | Camada de contingência custo-zero para absorver picos de carga sem custo adicional. |
+| **Ollama (Local Offline)** | `qwen2.5:1.5b-instruct`, `qwen2.5:1.5b`, `llama3.2:1b` | Cadeia `_CHAIN_LOCAL_ONLY` para execução 100% desconectada da internet. |
 
-> **Model segregation.** Moderation models (`meta-llama/llama-prompt-guard`), audio/speech models (`whisper-large-v3-turbo`, `canopylabs/orpheus-v1`), and embedding/reranker models are strictly isolated from the text-inference queue to avoid cross-contamination of the fallback chain.
+> **Isolamento Estrito de Modelos Auxiliares:** Modelos de guarda/moderação (`meta-llama/llama-prompt-guard-2-86m`), áudio (`whisper-large-v3-turbo`, `canopylabs/orpheus-v1`) e embeddings/rerankers (`nvidia/llama-nemotron-rerank-vl-1b-v2:free`) ficam segregados em catálogos dedicados para jamais contaminarem as filas de geração textual.
 
-### LiteLLM Router Architecture
-
-The router (`router.py`) exposes a single call interface to the rest of the platform while internally managing provider selection, health state, and fallback ordering. Two cooperating strategies drive provider selection:
-
-- **`ping_race.py`** — dispatches parallel micro-pings to all chain candidates and elects the lowest-latency provider available *at that moment*.
-- **`fallback.py`** — on any failure (rate limit `429`, `402`, timeout, `5xx`, or malformed JSON), fails over **immediately** to the next model in the chain, with no exponential backoff delay.
+### PingRaceRouter & Circuit Breaker Distribuído (`ping_race.py`)
 
 ```mermaid
 sequenceDiagram
-    participant Worker as Vocab / Quiz Worker
-    participant Router as AI Router
-    participant Gemini
-    participant Groq
-    participant DashScope
-    participant OpenRouter
+    participant Service as RAGService / Prática
+    participant PR as PingRaceRouter (Redis)
+    participant Orch as FallbackOrchestrator
+    participant Groq as Groq LPU
+    participant Gemini as Google Gemini
+    participant Heur as Fallback Heurístico
 
-    Worker->>Router: request(chunk)
-    par Ping Race
-        Router->>Gemini: micro-ping
-        Router->>Groq: micro-ping
-        Router->>DashScope: micro-ping
-        Router->>OpenRouter: micro-ping
+    Service->>PR: get_ranked_models(chain)
+    PR-->>Service: Modelos ordenados por latência real (excluindo banidos/cooldown)
+    Service->>Orch: execute_with_fallback(ranked_chain)
+    Orch->>Groq: generate_structured(prompt)
+    alt Sucesso (< 400ms)
+        Groq-->>Orch: JSON validado via Pydantic
+        Orch->>PR: record_success("groq/...")
+        Orch-->>Service: QuizResponse
+    else Erro 429 (Rate Limit) ou 401/402/403/404 (Fatal)
+        Groq-->>Orch: Exception
+        Orch->>PR: record_failure() / record_fatal_failure(TTL=24h)
+        Orch->>Gemini: Failover imediato para próximo modelo
+        Gemini-->>Orch: JSON validado via Pydantic
+        Orch-->>Service: QuizResponse
+    else Todos os provedores indisponíveis
+        Orch-->>Service: AllModelsUnavailableError
+        Service->>Heur: Geração determinística instantânea (0ms de rede)
+        Heur-->>Service: QuizResponse válido
     end
-    DashScope-->>Router: 142ms
-    Groq-->>Router: 61ms
-    Gemini-->>Router: 189ms
-    OpenRouter-->>Router: 210ms
-    Router->>Groq: inference(chunk)
-    Groq-->>Router: result
-    Router-->>Worker: result
 ```
 
-### Failover Chain
-
-If the elected provider fails mid-request, the router advances sequentially through the remaining models in the chain — up to **29 models** — for the same chunk, without discarding it.
-
-```mermaid
-flowchart LR
-    A["Primary: qwen-plus\n(DashScope)"] -->|"429 / 5xx / timeout"| B["Next: qwen-turbo"]
-    B -->|fail| C["Next: gpt-oss-120b\n(Groq)"]
-    C -->|fail| D["Next: gemini-2.5-flash"]
-    D -->|fail| E["... up to 29 models"]
-    E -->|all fail| F["Deterministic Heuristic\nEngine (no AI required)"]
-
-    style A fill:#16A34A22,stroke:#16A34A
-    style F fill:#EA580C22,stroke:#EA580C
-```
-
-### Retry Strategy
-
-| Mechanism | Behavior |
-|---|---|
-| **Timeout** | Each provider call is bounded; unresponsive providers are cut short rather than blocking the chunk. |
-| **Fail-fast** | No exponential backoff between chain hops — the router assumes provider failure is often persistent within a short window and moves on immediately. |
-| **Sequential exhaustion** | A chunk is never discarded on a single-provider failure; it is retried across the full 29-model chain before falling back to the deterministic engine. |
-| **Circuit breaking (implicit)** | Ping-race naturally deprioritizes consistently slow/unresponsive providers by never selecting them as the fastest candidate. |
-| **Idempotent writes** | `Tenacity`-backed retries around persistence ensure a chunk's classification is committed exactly once via `ON CONFLICT DO UPDATE`. |
+- **Banimento Automático de Erros Fatais (`record_fatal_failure`):** Erros de cota esgotada, chave inválida ou modelo depreciado (`401`, `402`, `403`, `404`) desativam o modelo automaticamente no Redis por **24 horas** (`FATAL_BAN_TTL_SECONDS = 86400`), evitando desperdício de latência em chamadas subsequentes.
+- **Cooldown de Erros Transientes (`record_failure`):** Timeouts e erros `429`/`5xx` colocam o provedor em janela curta de resfriamento enquanto o tráfego flui pelos demais provedores.
 
 ---
 
-## 06 · Retrieval-Augmented Generation Pipeline
+## 06 · Pipeline RAG Filológico & OCR
 
-```mermaid
-flowchart LR
-    A["1. OCR\nTesseract + Auto-Orientation"] --> B["2. Text Extraction\nPyPDF2 / OCR fallback"]
-    B --> C["3. Semantic Chunking"]
-    C --> D["4. Embeddings\nFastEmbed BAAI/bge-small"]
-    D --> E["5. Vector Store\nSQLite GraphRAG"]
-    E --> F["6. Hybrid Retrieval\nVector Similarity + BM25"]
-    F --> G["7. Prompt Construction"]
-    G --> H["8. Quiz / Lesson Generation\nvia AI Router"]
-```
+O sistema combina duas camadas complementares de recuperação de conhecimento:
 
-| Stage | Description |
-|---|---|
-| **OCR** | `Tesseract` with automatic page-orientation detection, used for scanned colonial manuscripts and legacy grammars. |
-| **Text Extraction** | Native-text PDFs are parsed via `PyPDF2`; OCR is used as a resilient fallback path. |
-| **Semantic Chunking** | Documents are split into semantically coherent chunks rather than fixed-size windows. |
-| **Embedding** | Local, zero-cost embeddings via `FastEmbed` (`BAAI/bge-small-en-v1.5`), avoiding cloud embedding costs on large ingestion batches. |
-| **Vector Store** | Chunks and vectors are stored in a local SQLite-based GraphRAG store before being classified and promoted to Supabase. |
-| **Hybrid Retrieval** | Combines vector similarity search with `Rank BM25` lexical matching for more robust retrieval on short, terminology-dense Tupi text. |
-| **Classification** | The Vocabulary Worker labels each chunk into one of five semantic categories: **Vocabulary**, **Grammar**, **History**, **Mythology**, or **Unknown**. |
-| **Generation** | The AI Router is invoked only for pedagogical phrasing and distractor generation — factual content is grounded in retrieved chunks, not free generation. |
+### 1. Motor RAG Fundamentado em Evidências (`pedagogico/filologia/`)
+Construído sobre o repositório filológico homologado (`lexicon_repository.py`), impõe um contrato rigoroso (`RAGResponseContract`) com **4 níveis de prioridade**:
+1. **`EXACT_LEMMA` (Confiança 1.0 · `TIER_A_TRANSCRICAO_LITERAL`):** Correspondência exata com o lema documental de Navarro (2013).
+2. **`NORMALIZED_LEMMA` (Confiança 0.95 · `TIER_B_NORMALIZACAO_PESQUISA`):** Busca normalizada (remoção controlada de diacríticos via `normalize_tupi`) preservando a nota ortográfica da grafia original.
+3. **`DOCUMENTED_VARIANT` (Confiança 0.90 · `TIER_B_NORMALIZACAO_PESQUISA`):** Variantes dialetais ou históricas explicitamente remissivas no dicionário.
+4. **`NO_EVIDENCE_DECLARED` (Confiança 0.0 · `TIER_E_HIPOTESE_NAO_VERIFICADA`):** Declaração explícita de ausência documental — o sistema se recusa a inventar traduções ou promover similaridade vetorial isolada a gabarito oficial.
 
-### Semantic Categories
-
-| Category | Description |
-|---|---|
-| `Vocabulário` | Dictionaries, glossaries, and term-to-term translations. |
-| `Gramática` | Syntactic rules, verb conjugation, affixes, and morphology. |
-| `História` | Colonial letters, travel accounts (Hans Staden, Thevet), conflicts, and settlement records. |
-| `Mitologia` | Legends, mythical entities (Tupã, Curupira, Anhangá), rituals, and cosmology. |
-| `Desconhecido` | Strictly reserved for summaries, indexes, and content-free noise. |
+### 2. Pipeline OCR Industrial & GraphRAG Híbrido (`ocr_pipeline/pdf_worker.py` & `rag_service.py`)
+- **Renderização e Pré-processamento:** Renderiza páginas a **300 DPI** via `pypdfium2`, corrige orientação com `OpenCV`, aplica binarização adaptativa/denoising e extrai texto com score de confiança por palavra via `pytesseract`.
+- **Filtro Anti-Ruído & Deduplicação:** `validar_sanidade_chunk` descarta páginas corrompidas e `compute_shingles` (Jaccard / MinHash) elimina quase-duplicatas.
+- **Busca Híbrida Ponderada por Autoridade (`source_authority_weight`):** Combina busca vetorial (`FastEmbed` + `SQLiteVectorDB` / `pgvector`), ranking lexical `BM25` (`rank_bm25`) e subgrafos de coocorrência (`KnowledgeGraphService` em `NetworkX`), atribuindo peso máximo (`1.5x`) às obras canônicas de Navarro e Anchieta.
 
 ---
 
-## 07 · Adaptive Learning Engine (IRT / TRI)
+## 07 · Motor Psicométrico Adaptativo (TRI 3PL & SRS SM-2)
 
-TupiLingo calibrates question difficulty per learner using **Item Response Theory** (Teoria de Resposta ao Item), rather than a fixed lesson sequence.
+### 1. Teoria de Resposta ao Item — Modelo Logístico de 3 Parâmetros (3PL)
+Em vez de listas estáticas, a proficiência latente $\theta \in [-3.0, +3.0]$ do aluno é calculada para cada variante linguística usando o modelo 3PL vetorizado (`tri_engine_vectorized.py`):
 
-### The 3-Parameter Logistic Model
+$$P_i(\theta) = c_i + \frac{1 - c_i}{1 + e^{-D \cdot a_i (\theta - b_i)}}$$
 
-$$P(\theta) = c + \frac{1 - c}{1 + e^{-a(\theta - b)}}$$
+Onde $D = 1.702$ é a constante de escala normal, e cada exercício possui:
+- **$a_i$ (Discriminação):** Capacidade do item de diferenciar alunos de níveis próximos.
+- **$b_i$ (Dificuldade):** Localização do item na régua psicométrica $[-3.0, +3.0]$.
+- **$c_i$ (Acerto Casual / Guessing):** Probabilidade piso de acerto por chute.
 
-| Symbol | Meaning |
-|---|---|
-| $\theta$ | Learner's current estimated ability level. |
-| $a$ | Item discrimination — how sharply the item separates learners of different ability. |
-| $b$ | Item difficulty — the ability level at which a learner has a 50% (adjusted) chance of answering correctly. |
-| $c$ | Guessing parameter — the floor probability of a correct answer regardless of ability. |
+A seleção do próximo item maximiza a **Informação de Fisher**:
 
-### How Calibration Drives Lesson Selection
+$$I_i(\theta) = D^2 a_i^2 \frac{(P_i(\theta) - c_i)^2}{(1 - c_i)^2} \frac{1 - P_i(\theta)}{P_i(\theta)}$$
 
-```mermaid
-flowchart TD
-    A["Learner answers item"] --> B["Update θ estimate"]
-    B --> C{"Select next item\nmaximizing information\nat current θ"}
-    C --> D["Vocabulary / Grammar\nitem pool"]
-    D --> E["Serve calibrated\nquestion"]
-    E --> A
-```
+### 2. Calibrador NLP Zero-Shot (`nlp_item_calibrator.py`)
+Para eliminar o problema de *Cold-Start* em novas questões geradas via RAG, o `NLPItemCalibrator` infere analiticamente os parâmetros $(a, b, c)$ antes mesmo de haver histórico humano:
+- **Inferência de Dificuldade ($b$):** Avalia densidade léxica, subordinações sintáticas e **marcadores morfológicos complexos do Tupi Antigo** (nasalizações `~`, `mb`, `nd`, `ng`; prefixos relacionais `r-`, `s-`, `t-`; prefixos número-pessoais `a-`, `ere-`, `o-`, `oro-`, `îa-`, `pe-`; sufixos nominalizadores `-ba'e`, `-paba`, `-saba`, `-rama`; e oclusivas glotais `'`).
+- **Inferência de Chute ($c$) e Discriminação ($a$):** Calcula a similaridade de cosseno entre os embeddings leves da resposta correta e dos distratores (distratores semanticamente próximos reduzem a facilidade de eliminação superficial).
 
-- The engine selects, from the available vocabulary and grammar item pool, the question that provides **maximum information** at the learner's current ability estimate — neither trivially easy nor unreachably hard.
-- **Distractors** (plausible wrong answers) are generated by the AI Router based on retrieved RAG context, keeping them linguistically and semantically plausible rather than random.
-- If all cloud LLMs are simultaneously unavailable, a **deterministic heuristic generator** produces a valid lesson immediately without any external AI dependency — guaranteeing 100% availability of the core learning loop.
+### 3. TRI Progressivo em Tempo Real & Anti-Chute (`tri_progressive_service.py` — RFC v3.2)
+Durante sessões de Prática Temática:
+- Cada resposta atualiza o estado da sessão no Redis (`tri_session:<id>`) em **< 1ms**.
+- **Detector Matemático de Chute (`detectar_chute_matematico`):** Cruza a probabilidade $P_i(\theta)$ com a latência cognitiva (`time_taken_seconds`). Respostas dadas em tempo incompatível com a leitura em itens de alta dificuldade são flagadas como chute, protegendo o $\theta$ contra inflação artificial e ajustando a recompensa de XP/Conchas.
+
+### 4. Repetição Espaçada SM-2 (`VocabularyProgress` & `srs_service.py`)
+Cada vocábulo estudado possui agendamento individual baseado no algoritmo **SuperMemo-2** (`repetitions`, `ease_factor`, `interval_days`, `next_review`), priorizando automaticamente as palavras com menor taxa de retenção na aba de Prática e nos Flashcards.
 
 ---
 
-## 08 · Backend Architecture
+## 08 · Arquitetura do Backend (Django)
 
-The backend is a Django 5.1 project (Python 3.13+) exposing a REST API via Django REST Framework, with dedicated services for AI orchestration, RAG, and background workers.
+O backend (`backend/`) é construído em **Django 5.1** e **Python 3.13+**, estruturado em módulos de domínio coesos:
 
 ```
 backend/
-├── app/                      # Core business rules & shared services
-├── config/                   # Django settings (dev / production split)
-├── docker/                   # Dockerfiles & container entrypoints
-├── nivelamento/               # RAG engine & PDF processing module
-├── trilha/                    # Learning-track module (journey, XP, streaks)
-├── users/                     # User management, auth, OTP
-├── router/                    # LiteLLM-based multi-provider AI router
-├── workers/                   # PDF Worker, Vocabulary Worker (Celery tasks)
-├── rag/                       # Chunking, retrieval, hybrid search
-├── observability/             # OpenTelemetry & Prometheus instrumentation
-└── manage.py
+├── app/
+│   ├── ai/                     # Malha Multi-LLM (router, ping_race, fallback, rag_service, knowledge_graph)
+│   │   └── providers/          # Adaptadores: groq, gemini, dashscope, sambanova, cerebras, openai, ollama
+│   ├── core/                   # Settings Pydantic, FriendlyExceptionMiddleware, OpenTelemetry
+│   ├── infra/                  # Configuração Celery e workers assíncronos (replenish_quiz_pool_task)
+│   ├── schemas/                # Contratos Pydantic (QuizItem, EsqueletoItem, ExtractedTerm)
+│   └── services/               # SupabaseService (connection pool HTTPX + RPCs) e VaultService
+├── config/                     # Settings Django divididos (base.py, development.py, production.py) e URLs
+├── nivelamento/                # Avaliação diagnóstica, VectorizedTRIEngine, TRIProgressiveEngine, NLPItemCalibrator
+├── ocr_pipeline/               # pdf_worker.py (300 DPI, OpenCV, Tesseract, MinHash, FastEmbed)
+├── pedagogico/                 # Currículo canônico, lexicon_data.py e motor filológico (filologia/)
+├── platform_telemetry/         # Observabilidade SRE, FeatureFlags, AuditLog SHA-256, CrashCluster, OTP Enclave
+├── proto_gen/                  # Classes Python geradas do Protocol Buffers (tupilingo_pb2.py)
+├── scripts/                    # Auditoria filológica Navarro, importação pedagógica, benchmarks SLO e Proto
+├── trilha/                     # VarianteTupi, Capitulo, Licao, StoryBlock, Exercicio, UserChestReward, Prática
+├── users/                      # UserProfile, UserLesson, Achievement, DailyStudyLog, Loja de Conchas, Validação Fuzzy
+└── world_builder/              # Modelos de território/épocas (reservados para a Feature Futura do Mapa Pindorama)
 ```
-
-### Key Responsibilities
-
-| Component | Responsibility |
-|---|---|
-| **Services** | Encapsulate business logic (e.g. `rag_service.py`, `achievement_service.py`) independent of HTTP concerns. |
-| **RPC Engine (RFC v3.0)** | Queries vocabulary/grammar terms directly via Supabase RPC, minimizing LLM calls to only pedagogical phrasing and distractors. |
-| **Authentication** | JWT-based sessions, integrated with Supabase Auth and OTP verification. |
-| **Rate Limiting** | `django-ratelimit` protects API routes from abuse. |
-| **Async Workers** | Celery tasks backed by Redis handle PDF ingestion and vocabulary classification without blocking API request cycles. |
-| **AI Services** | Wrap the AI Router, exposing a single internal interface regardless of which provider ultimately serves the request. |
 
 ---
 
-## 09 · Flutter Architecture
+## 09 · Arquitetura Flutter (Mobile & Web)
 
-The mobile/web client (`frontend/tupi_lingo`) follows **Clean Architecture**, separating presentation concerns from business rules and data access.
-
-```mermaid
-flowchart TD
-    subgraph Presentation
-        W["Widgets"] --> P["Pages"]
-        P --> SM["State Management"]
-    end
-    subgraph Domain
-        E["Entities"] --> UC["Use Cases"]
-    end
-    subgraph Data
-        REP["Repositories"] --> DS["Datasources"]
-        DS --> DTO["DTOs"]
-    end
-    Presentation --> Domain
-    Domain --> Data
-    Data --> Supabase[("Supabase\nAPI")]
-```
+O aplicativo multiplataforma (`frontend/tupi_lingo/`) utiliza **Flutter 3.44 / Dart 3.12+** com **Riverpod**, **Clean Architecture** por feature e suporte nativo a **Android** e **Web (GitHub Pages SPA)**:
 
 ```
 frontend/tupi_lingo/lib/
-├── core/            # Cross-cutting utilities, error handling, constants
-├── features/         # Modular feature packages (auth, lessons, quiz, profile)
-│   └── <feature>/
-│       ├── presentation/
-│       ├── domain/
-│       └── data/
-├── shared/           # Shared widgets and services
-├── theme/            # Design tokens, colors, typography
-└── routing/          # App navigation and route guards
+├── core/
+│   ├── algorithms/             # QuadTree espacial
+│   ├── audio/                  # AudioManager (efeitos táteis, acerto, erro, baú)
+│   ├── config/                 # AppConfig + autodescoberta de backend / túnel Cloudflare
+│   ├── logging/                # AppLogger com logs criptografados (EncryptedLogEntry)
+│   ├── network/                # ApiClient, ApiCacheManager (Frame-0 cache), LessonOutboxService, PinnedHttpClient
+│   ├── notifications/          # NotificationService (lembretes locais de ofensiva)
+│   ├── proto/                  # Contratos binários Protobuf (tupilingo.pb.dart)
+│   ├── security/               # CryptoEngine (AES-GCM + HMAC-SHA256), SessionManager, SecurityGuard, DeveloperEnclaveSession
+│   ├── telemetry/              # TelemetryService (monitoramento de FPS, frame timing e memória)
+│   ├── theme/                  # AppTheme (modo claro/escuro + 4 temas cosméticos da loja)
+│   └── widgets/                # Componentes globais: TupiButton, TupiCard, UserAvatarWidget, Badges
+└── features/
+    ├── adaptive_leveling/      # Rastreador cognitivo e planejador de dificuldade
+    ├── adaptive_srs/           # Agendador contextual de revisão espaçada
+    ├── admin/                  # AdminScreen (CRUD Trilha) + PlatformSuiteShell (Developer & Security Console)
+    ├── assessment/             # TesteScreen (nivelamento inicial adaptativo por variante)
+    ├── auth/                   # Login, Cadastro multi-etapas, Verificação OTP e Recuperação de Senha
+    ├── curriculum/             # Grafo de pré-requisitos e objetivos pedagógicos
+    ├── dashboard/              # ProgressDashboardScreen, MasteryRadarChart, Progress3DBarChart
+    ├── feature_flags/          # Controle dinâmico de flags remotas/locais
+    ├── home/                   # HomeScreen, TrailTabView, PracticeTabView, TrailCanvasView, Guia Cultural
+    ├── knowledge_graph/        # Extração e travessia de subgrafos semânticos v2
+    ├── legal/                  # Consentimento LGPD, Termos de Uso e Declaração de Salvaguarda Linguística
+    ├── lesson/                 # LessonPlayerScreen (StoryBlocks, Múltipla Escolha, Lacunas, Associação)
+    ├── linguistic_morphology/  # Parser morfológico Tupi, decomposição de afixos e validador
+    ├── phonology/              # Conversor fonético IPA e similaridade fonológica
+    ├── pratica/                # ThematicPracticeScreen + ThematicOutboxService
+    ├── profile/                # ProfileScreen, NivelGauge, AchievementGallery, StreakCard
+    ├── rewards/                # IndigenousArtifactChest + sistema de partículas Marajoara
+    ├── semantic_search/        # Motor de busca lexical com Trie autocomplete e ranking
+    ├── settings/               # SettingsScreen (áudio, temas, tour, servidor API)
+    └── store/                  # StoreScreen e StoreService (Loja de Conchas auditada)
 ```
 
-- **State Management:** feature-scoped state, isolating UI rebuilds from network and business-logic changes.
-- **Services:** thin wrappers over `supabase_flutter` and the Django REST API, exposed to the domain layer through repository interfaces.
-- **Theme:** centralizes the design tokens described in [Section 10](#10--design-system), ensuring visual consistency across the app.
-- **Feature Modules:** each learning capability (lessons, quizzes, achievements, profile) is isolated as an independently testable module.
-
 ---
 
-## 10 · Design System
+## 10 · Design System & Economia Gamificada (Loja de Conchas)
 
-### Color Tokens
+### Identidade Visual Ancestral
+A paleta de cores e a tipografia (`Nunito`, `Plus Jakarta Sans` e `JetBrains Mono`) foram desenhadas para evocar a floresta tropical, a cerâmica marajoara e os pigmentos naturais (urucum e jenipapo):
 
-| Token | Value | Usage |
+| Token | Hex | Aplicação na Interface |
 |---|---|---|
-| Primary (Forest Green) | `#0E5D4E` | Primary actions, brand identity |
-| Secondary (Moss Gold) | `#B8AF64` | Accents, achievements, highlights |
-| Background (Warm Beige) | `#F3F2E8` | App background, cards |
-| Accent (Earth Orange) | `#D08A45` | Calls to action, streak indicators |
-| Neutral (Slate Gray) | `#475569` | Secondary text, borders |
+| **Verde Floresta (Primary)** | `#0E5D4E` | Ações principais, cabeçalhos culturais, destaques de proficiência |
+| **Laranja Urucum (CTA / Accent)** | `#D08A45` | Botões 3D táteis, indicadores de ofensiva (streak), nós ativos da trilha |
+| **Ouro Musgo (Secondary)** | `#B8AF64` | Medalhas, conquistas desbloqueadas, detalhes de baús |
+| **Pergaminho Quente (Background)** | `#F3F2E8` | Fundo principal no modo claro, reduzindo fadiga visual na leitura |
+| **Noite de Tupã (Dark Surface)** | `#060B15` | Superfície escura profunda para o modo noturno |
 
-### Typography, Spacing & Radius
-
-| Token | Guideline |
-|---|---|
-| Typography | System-native fonts on each platform, with a consistent type scale across headings, body, and captions. |
-| Spacing | 4px base unit grid for consistent padding/margin across widgets. |
-| Radius | Rounded corners (12–20px) applied consistently to cards, buttons, and modals for a warm, approachable feel. |
-| Icons | Consistent line-icon set across navigation and feature entry points. |
-
-### Visual Philosophy
-The palette intentionally evokes **forest, earth, and heritage** rather than a generic ed-tech aesthetic — reflecting the platform's dual identity as both a technology product and a cultural preservation effort.
+### Loja de Conchas (`store_catalog.py` & `StoreScreen`)
+Os alunos ganham **Conchas** ao concluir lições, coletar baús de capítulo e realizar práticas temáticas, podendo trocá-las na Loja por cosméticos persistidos no banco e protegidos contra adulteração por recibos `HMAC-SHA256` (`CosmeticPurchaseAudit`):
+- **Temas Visuais Completos:** *Floresta de Jade* (padrão), *Areia Sagrada de Pindorama* (40 conchas), *Noite Estrelada de Tupã* (80 conchas) e *Chama Sagrada da Caapora* (120 conchas).
+- **Avatares Indígenas & Fauna:** *Arara Canindé*, *Guerreiro Maraká*, *Xamã da Floresta*, *Onça Pintada Mística*, *Tamanduá Guardião*.
+- **Molduras de Perfil & Lições Especiais:** Molduras temáticas (*Plumas Reais*, *Cerâmica Marajoara*, *Ouro de Pindorama*) e conteúdos extras desbloqueáveis.
 
 ---
 
-## 11 · Learning Experience
+## 11 · Experiência de Aprendizado e Fluxos do Aluno
 
-| Feature | Description |
-|---|---|
-| **Journey Map** | Navigation across thematic modules and dialectal variants (Old Tupi, Tupinambá, Contemporary Tupi). |
-| **Interactive Lesson Player** | Translation exercises, term identification, listening, and grammatical association activities. |
-| **XP & Streaks** | Experience points and daily streak tracking via `achievement_service.py`. |
-| **Achievements & Badges** | Milestone-based gamification tied to learning progress. |
-| **Historical Lessons** | Content grounded in primary colonial-era sources, surfaced through the RAG pipeline's `História` category. |
-| **Vocabulary & Grammar Modules** | Adaptive item pools calibrated via the TRI engine. |
-| **Dialectal Variants** | Old Tupi, Tupinambá, and Contemporary Tupi presented as distinct, explicit learning tracks. |
-| **Performance Reports** | Progress and mastery reporting per learner, derived from θ estimates over time. |
+```mermaid
+flowchart LR
+    A["Boas-Vindas & Mascote Tupi\n(IntroFlow 9 Etapas)"] --> B["Demo Interativa 90s\n(Sem Cadastro Prévio)"]
+    B --> C["Cadastro + OTP\nou Login"]
+    C --> D["Escolha de Variante\n& Nivelamento TRI"]
+    D --> E["Tour Guiado Spotlight\n(Parte 1 e Parte 2)"]
+    E --> F["Trilha de Capítulos\n+ Baús Marajoaras"]
+    E --> G["Prática Temática IA\n+ Flashcards SM-2"]
+    F --> H["Recalibração TRI (θ)\n+ XP, Streak e Conchas"]
+    G --> H
+```
+
+1. **Introdução Imersiva (`IntroFlowScreen`):** O aluno conhece o mascote Tupi, descobre quantas palavras em Tupi já fala no dia a dia (*pipoca, abacaxi, guri, mirim, carioca*), escolhe sua motivação e experimenta imediatamente uma **lição demonstrativa interativa**.
+2. **Seleção de Variante e Nivelamento (`TesteScreen`):** O estudante escolhe entre **Tupi Antigo** ou **Tupi Antigo Revitalizado**, podendo iniciar do zero (Nível 1) ou realizar o teste adaptativo TRI para ser posicionado automaticamente no nível correspondente (1 a 10).
+3. **Navegação Principal em 4 Abas (+ Admin):**
+   - **Trilha:** 20 capítulos progressivos por variante, cada um com **Guia Cultural e Gramatical**, 4 lições estruturadas e **Baú de Recompensa** ao final.
+   - **Prática:** Sessões geradas dinamicamente sobre 6 eixos temáticos culturais ou qualquer tema livre digitado pelo aluno, além de **Flashcards de Revisão Espaçada**.
+   - **Perfil:** Painel completo de evolução psicométrica ($\theta$), calendário/ofensiva, gráficos de maestria por categoria, **Loja de Conchas** e galeria de **46 medalhas**.
+   - **Ajustes:** Preferências de som, notificações, aparência, repetição do Tour Guiado, diagnóstico de servidor e documentação legal.
 
 ---
 
-## 12 · Repository Structure
+## 12 · Landing Page Oficial & Deploy Web
+
+O diretório `landing-page/` hospeda a página institucional de divulgação científica e acesso rápido ao ecossistema:
+- **Palco 3D Flutuante em Parallax:** Demonstração visual da interface, insígnias de ofensiva e rigor metodológico.
+- **Integração Direta com o Flutter Web (`/app/`):** O workflow `.github/workflows/deploy-pages.yml` compila automaticamente o aplicativo Flutter Web em modo release (`--base-href "/TupiLingo-Project/app/"`), injeta o arquivo `.nojekyll` e publica tanto a Landing Page quanto o Web App no GitHub Pages, com roteamento SPA resiliente a recarregamento (`404.html` + estratégia de hash no GitHub Pages).
+
+---
+
+## 13 · Estrutura Real do Repositório
 
 ```
 TupiLingo/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml                      # Lint (Ruff + MyPy), Pytest, Trivy Security Scan e Build Docker
+│       └── deploy-pages.yml            # Build Flutter Web + Deploy automático para GitHub Pages
 ├── backend/
-│   ├── app/
-│   │   ├── models/
-│   │   ├── serializers/
-│   │   └── views/
-│   ├── config/
-│   │   ├── settings/
-│   │   │   ├── base.py
-│   │   │   ├── development.py
-│   │   │   └── production.py
-│   │   └── urls.py
-│   ├── docker/
-│   │   ├── Dockerfile
-│   │   └── entrypoint.sh
-│   ├── nivelamento/
-│   │   ├── pdf_worker.py
-│   │   └── extract_vocab_from_rag.py
-│   ├── trilha/
-│   ├── users/
-│   ├── router/
-│   │   ├── ping_race.py
-│   │   └── fallback.py
-│   ├── workers/
-│   ├── observability/
-│   └── manage.py
-│
+│   ├── app/                            # Core AI Mesh, RAGService, SupabaseService, Vault, Schemas, Workers
+│   ├── config/                         # Settings Django (base, development, production), ASGI/WSGI, URLs
+│   ├── docker/                         # Dockerfiles e entrypoints para Django e Workers
+│   ├── docs/                           # Relatórios técnicos de pesquisa e migrações RFC
+│   ├── nivelamento/                    # Motor TRI 3PL vetorizado, TRI Progressivo e Calibrador NLP
+│   ├── ocr_pipeline/                   # Worker de OCR (300 DPI, OpenCV, Tesseract, FastEmbed)
+│   ├── pedagogico/                     # Currículo, léxico canônico e motor filológico (Navarro 2013)
+│   ├── platform_telemetry/             # Telemetria SRE, Feature Flags, AuditLog SHA-256 e OTP Enclave
+│   ├── proto_gen/                      # Contratos Protobuf compilados para Python
+│   ├── scripts/                        # Saneamento filológico, auditoria Navarro, seeds e benchmarks
+│   ├── trilha/                         # Modelos e views de Variantes, Capítulos, Lições e Prática Temática
+│   ├── users/                          # Autenticação, Perfil, Streaks, SRS, Conquistas e Loja de Conchas
+│   ├── world_builder/                  # Modelos reservados para a Feature Futura do Mapa de Pindorama
+│   ├── docker-compose.yml              # Orquestração base de containers
+│   ├── manage.py
+│   └── requirements.txt
 ├── frontend/
 │   └── tupi_lingo/
-│       ├── lib/
-│       │   ├── core/
-│       │   ├── features/
-│       │   ├── shared/
-│       │   ├── theme/
-│       │   └── routing/
-│       ├── assets/
+│       ├── lib/                        # Código-fonte Dart/Flutter (18 módulos em features/ + core/)
+│       ├── web/                        # Bootstrap web, manifest.json, index.html e 404.html
+│       ├── assets/                     # Áudios (.wav), imagens e fragment shaders (.frag)
 │       └── pubspec.yaml
-│
-├── docs/
-│   ├── architecture/
-│   ├── api/
-│   ├── deployment/
-│   ├── security/
-│   ├── ai/
-│   ├── frontend/
-│   ├── backend/
-│   └── assets/
-│
-├── scripts/
+├── landing-page/                       # Landing Page estática + subdiretório /app com build Flutter Web
+├── native/
+│   └── tupi_wgpu_engine/               # Protótipo experimental em Rust/WebGPU (Feature Futura)
+├── proto/                              # Definições .proto (Protocol Buffers v3)
 ├── supabase/
-├── docker-compose.yml
-├── docker-compose.dev.yml
+│   └── migrations/                     # 01_quiz_engine.sql até 07_sec_p0_hardening_rls_and_rpc.sql
 └── README.md
 ```
 
-### Repository Map
-
-| Directory | Responsibility |
-|---|---|
-| `backend/app` | Business rules, models, serializers, and API views. |
-| `backend/workers` | PDF Worker and Vocabulary Worker task definitions. |
-| `backend/nivelamento` | RAG ingestion and vocabulary extraction module. |
-| `backend/router` | LiteLLM-based AI routing, ping-race and fallback logic. |
-| `backend/config` | Environment-split Django settings. |
-| `backend/observability` | OpenTelemetry and Prometheus instrumentation. |
-| `frontend/lib/features` | Modular Flutter feature packages (Clean Architecture). |
-| `docs/` | Architecture, API, deployment, security, and AI documentation. |
-| `supabase/` | Supabase-specific configuration and RPC definitions. |
-
 ---
 
-## 13 · Development Environment
+## 14 · Ambiente de Desenvolvimento
 
-### Requirements
+### Pré-requisitos
 
-| Tool | Version | Required |
+| Ferramenta | Versão | Obrigatório |
 |---|---|---|
-| Flutter SDK | `^3.12.2` or later | ✅ |
-| Python | `3.13+` | ✅ |
-| Docker & Docker Compose | Latest stable | ⚙️ Recommended |
-| Supabase account | — | ✅ |
+| **Python** | `3.13+` | ✅ |
+| **Flutter SDK** | `3.44+` (Dart `>=3.12.0 <4.0.0`) | ✅ |
+| **PostgreSQL / Supabase** | PostgreSQL 15+ com `pgvector`, `pg_trgm`, `unaccent` | ✅ |
+| **Redis** | `7.x+` (Cache, PingRace e sessões TRI Progressivo) | ⚙️ Recomendado (possui fallback em memória local) |
+| **Docker & Docker Compose** | Última versão estável | ⚙️ Opcional |
 
-### 1. Clone the Repository
+### 1. Clonar o Repositório
 
 ```bash
-git clone https://github.com/<your-org>/tupilingo.git
-cd tupilingo
+git clone https://github.com/felipeamlozano-ui/TupiLingo-Project.git
+cd TupiLingo-Project
 ```
 
-### 2. Backend Setup
+### 2. Configurar e Executar o Backend (Django)
 
 ```bash
 cd backend
-cp .env.example .env
-# Fill in DASHSCOPE_API_KEY, GROQ_API_KEY, GEMINI_API_KEY, SUPABASE_URL, etc.
-```
-
-**Option A — Local Python:**
-
-```bash
-python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+python -m venv venv
+# Windows (PowerShell):
+.\venv\Scripts\Activate.ps1
+# Linux / macOS:
+source venv/bin/activate
 
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 ```
 
-**Option B — Docker Compose:**
-
-```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
-```
-
-The API becomes available at `http://localhost:8000`.
-
-### 3. Frontend Setup
+### 3. Configurar e Executar o Frontend (Flutter)
 
 ```bash
 cd frontend/tupi_lingo
 flutter pub get
-# Configure frontend/tupi_lingo/.env with your Supabase keys
-flutter run
+
+# Executar no Chrome (Web) ou dispositivo Android conectado:
+flutter run -d chrome
+# Build para GitHub Pages:
+flutter build web --release --base-href "/TupiLingo-Project/app/"
 ```
 
-### 4. Maintenance / ETL Scripts
+### 4. Scripts Filológicos e de Manutenção
 
 ```bash
-# Continuous vocabulary extraction
-docker exec backend-vocab_worker-1 python manage.py extract_vocab_from_rag --continuous
+# Saneamento filológico completo segundo Navarro (2013):
+python backend/scripts/saneamento_filologico_navarro.py
 
-# Cleanup of corrupted chunks
-docker exec backend-vocab_worker-1 python manage.py cleanup_corrupted_chunks
+# Importação completa do conteúdo pedagógico para o banco:
+python backend/scripts/import_pedagogico_completo.py
+
+# Extração contínua de vocabulário via RAG Worker:
+python backend/manage.py extract_vocab_from_rag --continuous
 ```
-
-### Environment Variables
-
-| Variable | Required | Description | Default | Environment |
-|---|---|---|---|---|
-| `DEBUG` | ⚙️ | Enables Django debug mode | `True` | Development |
-| `PRODUCTION` | ⚙️ | Toggles production-hardened settings | `False` | Production |
-| `SECRET_KEY` | ✅ | Django cryptographic signing key | — | All |
-| `SUPABASE_URL` | ✅ | Supabase project endpoint | — | All |
-| `SUPABASE_KEY` | ✅ | Supabase anon/service role key | — | All |
-| `DATABASE_URL` | ✅ | PostgreSQL connection string | — | All |
-| `GEMINI_API_KEY` | ⚙️ | Google Gemini access | — | AI Router |
-| `DASHSCOPE_API_KEY` | ⚙️ | Alibaba DashScope (Qwen) access | — | AI Router |
-| `GROQ_API_KEY` | ⚙️ | Groq Cloud access | — | AI Router |
-| `OPENROUTER_API_KEY` | ⚙️ | OpenRouter free-tier access | — | AI Router |
-| `CEREBRAS_API_KEY` | ⚙️ | Cerebras access | — | AI Router |
-| `SAMBANOVA_API_KEY` | ⚙️ | SambaNova access | — | AI Router |
-| `USE_SUPABASE_QUIZ_ENGINE` | ⚙️ | Enables the RPC Hybrid Quiz Engine (RFC v3.0) | `true` | Backend |
-| `REDIS_URL` | ✅ | Redis connection string for cache/broker | — | All |
 
 ---
 
-## 14 · Docker Infrastructure
+## 15 · Infraestrutura Docker
 
-| Service | Role |
+A orquestração em `backend/docker-compose.yml` isola os serviços em rede interna (`tupilingo_net`) com cache persistente de modelos HuggingFace/FastEmbed:
+
+| Serviço | Papel |
 |---|---|
-| **Docker Compose** | Orchestrates all services for local and staging environments. |
-| **Redis** | Cache layer and Celery message broker. |
-| **Celery** | Executes asynchronous ETL and classification tasks. |
-| **Nginx** | Reverse proxy in front of the Django/Gunicorn stack. |
-| **Gunicorn** | Production WSGI server for the Django API. |
-
-```mermaid
-flowchart LR
-    Flutter -->|HTTPS| Nginx
-    Nginx --> Gunicorn
-    Gunicorn --> Django
-    Django --> PostgreSQL[("PostgreSQL /\nSupabase")]
-    Django --> Redis[("Redis")]
-    Celery["Celery Workers"] --> Redis
-    Celery --> PostgreSQL
-    Celery --> SQLite[("SQLite\nGraphRAG")]
-    PDFWorker["PDF Worker"] --> SQLite
-    VocabWorker["Vocabulary Worker"] --> SQLite
-    VocabWorker --> PostgreSQL
-```
-
-```bash
-# Development stack
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
-
-# Production stack
-docker compose -f docker-compose.yml up -d --build
-```
+| `django` | API REST servida via Gunicorn com pool de conexões para o Supabase e Redis. |
+| `nginx` | Proxy reverso de borda servindo arquivos estáticos e mídia em modo somente-leitura (`:ro`). |
+| `pdf_worker` | Container dedicado (profile `workers`) para OCR e vetorização de PDFs em `/app/pdfs`. |
+| `vocab_worker` | Container dedicado (profile `workers`) para classificação semântica assíncrona de chunks. |
 
 ---
 
-## 15 · API Documentation
+## 16 · Documentação Completa da API (`/api/v1/`)
 
-Endpoints are grouped by domain. All authenticated routes require a valid JWT bearer token issued via Supabase Auth.
+Todas as rotas autenticadas exigem o header `Authorization: Bearer <supabase_jwt>`.
 
-### Authentication
+### Autenticação, Onboarding & Perfil (`users/urls.py`)
 
-| Method | Endpoint | Description |
+| Método | Endpoint | Descrição |
 |---|---|---|
-| `POST` | `/api/auth/login` | Authenticate a user and issue a session token. |
-| `POST` | `/api/auth/register` | Create a new user account. |
-| `POST` | `/api/auth/otp/verify` | Verify a one-time password for identity confirmation. |
-| `POST` | `/api/auth/password/reset` | Trigger the password-recovery flow. |
+| `POST` | `/api/v1/auth/login` | Autentica usuário via e-mail/senha no Supabase Auth com proteção de rate-limit. |
+| `POST` | `/api/v1/auth/register` | Cria conta e dispara código OTP de verificação por e-mail. |
+| `POST` | `/api/v1/auth/recover-password` | Inicia fluxo de recuperação de senha via OTP. |
+| `POST` | `/api/v1/auth/resend-code` | Reenvia código OTP com controle de cooldown. |
+| `POST` | `/api/v1/auth/check-user` | Verifica existência do perfil, variante ativa e se já realizou o nivelamento (`ja_testou`). |
+| `POST` | `/api/v1/auth/register-user` | Registra o `UserProfile` no Django após confirmação do OTP. |
+| `POST` | `/api/v1/auth/onboarding` | Sincroniza motivação, meta diária (`daily_goal_minutes`) e status do Tour Guiado. |
+| `POST` | `/api/v1/auth/update-variante` | Alterna a variante ativa do aluno (`Tupi Antigo` ↔ `Tupi Antigo Revitalizado`). |
+| `GET` | `/api/v1/auth/profile` | Retorna perfil completo, nível TRI, ofensiva, conquistas e cosméticos equipados (JSON). |
+| `GET` | `/api/v1/auth/profile/proto` | Retorna o perfil serializado em binário **Protocol Buffers** (`application/x-protobuf`). |
+| `GET` | `/api/v1/dashboard/stats/` | Estatísticas autênticas de estudo diário, maestria por categoria e histórico semanal. |
 
-### Quiz & Adaptive Learning
+### Trilha, Lições & Validação Fuzzy (`trilha/urls.py`)
 
-| Method | Endpoint | Description |
+| Método | Endpoint | Descrição |
 |---|---|---|
-| `POST` | `/api/quiz/generate` | Generate an adaptively calibrated quiz for the current learner. |
-| `POST` | `/api/quiz/submit` | Submit answers and update the learner's θ estimate. |
-| `GET` | `/api/quiz/history` | Retrieve past quiz attempts and scores. |
+| `GET` | `/api/v1/trilha/variantes/` | Lista as variantes linguísticas ativas homologadas. |
+| `GET` | `/api/v1/trilha/<variante_id>/capitulos/` | Retorna todos os capítulos, lições, status de desbloqueio e baús de recompensa. |
+| `GET` | `/api/v1/trilha/licao/<licao_id>/` | Retorna os `StoryBlocks` e os exercícios da lição. |
+| `POST` | `/api/v1/trilha/licao/<licao_id>/concluir/` | Conclui a lição (suporta recibo offline `HMAC-SHA256`), recalibra $\theta$ (BirdBrain TRI), atualiza ofensiva e desbloqueia a próxima lição. |
+| `POST` | `/api/v1/trilha/capitulo/<cap_id>/bau/<idx>/coletar/` | Coleta baú cultural do capítulo de forma idempotente (+XP e +Conchas). |
+| `POST` | `/api/v1/exercicios/verificar/` | Valida resposta aberta/lacuna com normalização Unicode, distância de Levenshtein e trigramas. |
 
-### Progress & Lessons
+### Prática Temática & TRI Progressivo (`trilha/views_pratica.py`)
 
-| Method | Endpoint | Description |
+| Método | Endpoint | Descrição |
 |---|---|---|
-| `GET` | `/api/progress` | Retrieve the learner's overall progress, XP, and streaks. |
-| `GET` | `/api/lessons` | List available lessons for the learner's current track. |
-| `GET` | `/api/lessons/{id}` | Retrieve a specific lesson's content. |
+| `GET` | `/api/v1/pratica/temas/` | Lista os eixos temáticos disponíveis para prática contextualizada. |
+| `POST` | `/api/v1/pratica/gerar-tematico/` | Inicia sessão de prática adaptativa via RAG + Malha Multi-LLM (ou fallback heurístico). |
+| `POST` | `/api/v1/pratica/responder-item/` | Atualiza $\theta$ em tempo real (< 1ms no Redis), detecta chute e calcula XP/Conchas do item. |
+| `POST` | `/api/v1/pratica/sincronizar-lote/` | Sincroniza em lote respostas de prática realizadas em modo offline. |
+| `POST` | `/api/v1/pratica/finalizar/` | Consolida atomicamente os ganhos de XP, Conchas e $\theta$ da sessão no PostgreSQL. |
 
-### Variants & Content
+### Nivelamento Adaptativo (`nivelamento/urls.py`)
 
-| Method | Endpoint | Description |
+| Método | Endpoint | Descrição |
 |---|---|---|
-| `GET` | `/api/variants` | List available dialectal variants (Old Tupi, Tupinambá, Contemporary Tupi). |
-| `GET` | `/api/vocabulary` | Query classified vocabulary items. |
+| `POST` | `/api/v1/nivelamento/gerar-questao/` | Gera questão adaptativa calibrada para o $\theta$ provisório do aluno na variante. |
+| `POST` | `/api/v1/nivelamento/avaliar/` | Executa estimação Bayesiana MAP/EAP 3PL, registra `TestAttempt` e define o nível (1–10). |
+| `GET` | `/api/v1/nivelamento/check-variante/` | Verifica se o aluno já possui nivelamento concluído para determinada variante. |
+| `POST` | `/api/v1/nivelamento/definir-nivel-inicial/` | Define nível 1 diretamente quando o aluno opta por começar do zero. |
 
-### Health & Workers
+### Loja de Conchas & Console SRE (`users/views_store.py` & `platform_telemetry/urls.py`)
 
-| Method | Endpoint | Description |
+| Método | Endpoint | Descrição |
 |---|---|---|
-| `GET` | `/api/health` | Liveness/readiness probe for the API. |
-| `GET` | `/api/workers/status` | Current status of PDF and vocabulary workers. |
-
-### Example Payload — Quiz Generation
-
-```json
-{
-  "user_id": "usr_2f9a1c",
-  "variant": "tupinamba",
-  "category": "vocabulario",
-  "theta": 0.42
-}
-```
-
-```json
-{
-  "quiz_id": "qz_88b1",
-  "items": [
-    {
-      "term": "abá",
-      "prompt": "What does 'abá' mean in Tupinambá?",
-      "options": ["man", "water", "fire", "house"],
-      "correct": "man",
-      "difficulty_b": 0.35
-    }
-  ]
-}
-```
+| `GET` | `/api/v1/store/catalog/` | Catálogo de temas, avatares, molduras, saldo de conchas e itens já desbloqueados. |
+| `POST` | `/api/v1/store/purchase/` | Compra atômica (`SELECT ... FOR UPDATE`) com geração de recibo `HMAC-SHA256`. |
+| `POST` | `/api/v1/store/equip/` | Equipa tema visual, avatar ou moldura no perfil do usuário. |
+| `GET` | `/api/v1/platform/overview/` | Visão geral SRE (saúde de serviços, presença online, métricas de FPS/latência, crashes). |
+| `POST` | `/api/v1/platform/auth/otp/request/` | Solicita código OTP para abertura do Developer/Security Enclave. |
 
 ---
 
-## 16 · Database Architecture
+## 17 · Arquitetura de Banco de Dados & Supabase
 
-TupiLingo uses a three-tier persistence model, each tier chosen for a distinct latency/cost/durability tradeoff.
-
-| Store | Purpose |
-|---|---|
-| **PostgreSQL (Supabase)** | Source of truth for users, progress, and classified RAG categories. |
-| **SQLite (`vector_store.db`)** | Local, zero-cost GraphRAG store for pre-classification chunk staging. |
-| **Redis** | Ephemeral cache and Celery broker; not a system of record. |
+O sistema utiliza persistência em três camadas: **PostgreSQL no Supabase** (fonte da verdade transacional + `pgvector` + `pg_trgm` + `PGMQ`), **SQLite Local (`vector_store.db`)** (acervo vetorial bruto e grafo de conhecimento) e **Redis** (estado efêmero de sessões TRI, cache de trilhas e PingRace).
 
 ```mermaid
 erDiagram
-    USERS ||--o{ PROGRESS : has
-    USERS ||--o{ QUIZ_ATTEMPTS : submits
-    RAG_DOCUMENT_CATEGORIES ||--o{ QUIZ_ITEMS : sources
-    VARIANTS ||--o{ RAG_DOCUMENT_CATEGORIES : classifies
+    VarianteTupi ||--o{ Capitulo : possui
+    Capitulo ||--o{ Licao : contem
+    Licao ||--o{ StoryBlock : apresenta
+    Licao ||--o{ Exercicio : avalia
+    UserProfile ||--o{ UserLesson : progride
+    UserProfile ||--o{ UserVarianteLevel : calibra_theta
+    UserProfile ||--o{ TestAttempt : realiza
+    TestAttempt ||--o{ AnswerItem : registra
+    UserProfile ||--o{ DailyStudyLog : contabiliza
+    UserProfile ||--o{ VocabularyProgress : revisa_sm2
+    UserProfile ||--o{ UserAchievement : conquista
+    UserProfile ||--o{ UserCosmetic : desbloqueia
+    UserProfile ||--o{ CosmeticPurchaseAudit : audita_hmac
+    UserProfile ||--o{ UserChestReward : coleta_bau
 
-    USERS {
-        uuid id
-        string email
-        timestamp created_at
+    UserProfile {
+        int id PK
+        uuid supabase_uid UK
+        string email UK
+        int variante_ativa_id FK
+        int xp_total
+        int conchas
+        int streak_atual
+        int maior_streak
+        date ultimo_dia_estudado
     }
-    PROGRESS {
-        uuid user_id
-        float theta
-        int xp
-        int streak
+    UserVarianteLevel {
+        int id PK
+        int user_id FK
+        int variante_id FK
+        int nivel "1 a 10"
+        float current_theta "-3.0 a +3.0"
+        float current_se
     }
-    QUIZ_ATTEMPTS {
-        uuid id
-        uuid user_id
-        uuid quiz_id
-        jsonb answers
-        timestamp submitted_at
+    Licao {
+        int id PK
+        int capitulo_id FK
+        int ordem
+        string titulo
+        int xp_recompensa
     }
-    RAG_DOCUMENT_CATEGORIES {
-        uuid chunk_id
-        string category
-        string variant
-        text content
-    }
-    QUIZ_ITEMS {
-        uuid id
-        uuid chunk_id
-        float difficulty_b
-        float discrimination_a
-    }
-    VARIANTS {
-        string code
-        string display_name
+    CosmeticPurchaseAudit {
+        int id PK
+        int user_id FK
+        string item_id
+        int item_price
+        string hmac_receipt "HMAC-SHA256"
     }
 ```
 
 ---
 
-## 17 · Security
+## 18 · Segurança Forense, Criptografia & Hardening RLS
 
-TupiLingo follows standard enterprise practices for authentication, secret management, and API hardening.
+A segurança foi desenhada em profundidade tanto no banco (migrações `05_enforce_rls_and_security.sql` e `07_sec_p0_hardening_rls_and_rpc.sql`) quanto no cliente Flutter:
 
-| Control | Implementation |
+| Camada | Controle Implementado |
 |---|---|
-| **Authentication** | JWT-based sessions issued via Supabase Auth. |
-| **Identity Verification** | OTP (One-Time Password) confirmation on registration and sensitive actions. |
-| **Secrets Management** | All credentials injected via environment variables; never committed to source control. |
-| **Docker Secrets** | Production deployments inject secrets at the container-runtime level, not baked into images. |
-| **Rate Limiting** | `django-ratelimit` protects authentication and generation-heavy endpoints from abuse. |
-| **CORS** | Explicit allow-list of trusted origins for cross-origin requests. |
-| **CSRF Protection** | Enabled for all state-changing, cookie-authenticated endpoints. |
-| **Input Validation** | Pydantic and DRF serializers validate all inbound payloads before reaching business logic. |
-| **OWASP Alignment** | API design follows OWASP API Security Top 10 guidance for authentication, rate limiting, and injection prevention. |
-
-> **Credential handling:** API keys for AI providers, Supabase, and the database are never logged, never exposed to the Flutter client, and are scoped exclusively to backend services.
+| **Row Level Security (RLS) Total** | Todas as tabelas públicas do Supabase possuem RLS ativo. Cada usuário autenticado só acessa linhas onde `auth.uid() = supabase_uid`. |
+| **Hardening de RPCs `SECURITY DEFINER`** | Todas as funções críticas (`fn_record_user_activity`, `get_secret`, `fn_check_and_reset_streaks`, `enfileirar_respostas_pgmq`) possuem `SET search_path = public, pg_temp` contra *Search Path Hijacking* e tiveram execução revogada de `PUBLIC`/`anon`/`authenticated`, restritas apenas ao `service_role`. |
+| **Outbox Offline Assinado (`HMAC-SHA256`)** | O `CryptoEngine` assina cada lição concluída offline com chave derivada e `nonce` único; o backend valida a assinatura em `store_crypto.py` (`verify_outbox_lesson`) e bloqueia ataques de *replay*. |
+| **Auditoria Encadeada (Blockchain-like)** | O modelo `AuditLog` (`platform_telemetry/models.py`) calcula um `signature_hash` SHA-256 encadeado ao hash do registro anterior (`prev_hash`), tornando qualquer adulteração retroativa imediatamente detectável. |
+| **Logs Locais Zero-Leak (`AES-GCM`)** | No cliente Flutter, o `AppLogger` criptografa entradas sensíveis de diagnóstico em memória/disco via `AES-GCM` antes de exibi-las exclusivamente no console autenticado por OTP. |
+| **Remoção de `.env` do Bundle Mobile** | Credenciais nunca são empacotadas nos assets de produção do APK/Web (`FLUTTER-004`). |
 
 ---
 
-## 18 · Observability
+## 19 · Observabilidade & Console SRE In-App
 
-```mermaid
-flowchart LR
-    API["Django API"] --> OTel["OpenTelemetry\nSDK"]
-    Workers["Celery Workers"] --> OTel
-    Router["AI Router"] --> OTel
-    OTel --> Collector["OTel Collector"]
-    Collector --> Prom["Prometheus"]
-    Collector --> Tracing["Distributed Tracing\nBackend"]
-    Prom --> Alerting["Alerting"]
-```
+Além da instrumentação de backend via **OpenTelemetry** (`app/core/telemetry.py`) e **Prometheus** (`django-prometheus`), o TupiLingo inclui uma suíte completa de engenharia de plataforma acessível em `/admin/platform` e `/admin/security` (protegida por verificação OTP de desenvolvedor):
+- **LiveOps & Presença em Tempo Real:** Monitoramento de usuários ativos, sessões e status dos serviços (`ServiceHealth`: Django, Supabase, LiteLLM, Redis).
+- **Observatory (Telemetria do Cliente):** Coleta anônima de FPS médio, tempo de thread de UI/Raster, quedas de frame e consumo de memória por classe de dispositivo (`PerformanceSnapshot`).
+- **Feature Flags Dinâmicas:** Ativação/desativação em tempo real de funcionalidades com percentual de *rollout* sem necessidade de novo deploy.
+- **Crash Intelligence:** Agrupamento automático de exceções por *fingerprint* SHA-256 (`CrashCluster`).
 
-| System | Objective |
+---
+
+## 20 · Engenharia de Performance
+
+| Otimização | Impacto Medido / Objetivo |
 |---|---|
-| **OpenTelemetry** | Distributed tracing across API requests, worker tasks, and AI Router calls. |
-| **Prometheus** | Metrics collection: request latency, worker throughput, provider failover rate. |
-| **Health Checks** | Liveness and readiness probes for the API and worker containers. |
-| **Logging** | Structured logs for worker cycles, chunk classification outcomes, and router decisions. |
-| **Alerting** | Threshold-based alerts on elevated failover rate or worker backlog. |
+| **Renderização Frame-0 via Cache Local (`ApiCacheManager`)** | A trilha de capítulos é desenhada instantaneamente (< 10ms) a partir do cache local antes do roundtrip de rede, eliminando telas brancas de carregamento. |
+| **Parallel Endpoint Race (`_raceCandidateEndpoints`)** | No boot do app, dispara *healthchecks* concorrentes para os endpoints candidatos e elege o servidor ativo mais rápido em ~10–50ms. |
+| **Monitor Térmico de GPU (`_resetIdleTimer`)** | Pausa automaticamente os `AnimationControllers` de pulso e flutuação da trilha após 8 segundos sem toque na tela, zerando o uso ocioso de GPU em celulares e navegadores. |
+| **Serialização Binária Protobuf (`tupilingo.proto`)** | Reduz o tamanho do payload de perfil e progresso em comparação ao JSON tradicional (validado por `benchmark_proto_vs_json.py`). |
+| **Pool de Quizzes Pré-Aquecido (`replenish_quiz_pool_task`)** | Workers Celery reabastecem em segundo plano os pacotes de exercícios no Redis para entrega sub-300ms. |
 
 ---
 
-## 19 · Performance
+## 21 · Estratégia de Testes & Benchmarks Filológicos
 
-| Metric | Target |
+O projeto conta com suítes de testes automatizados e benchmarks científicos dedicados:
+- **Testes de Backend (`pytest`):** Testes unitários e de integração cobrindo autenticação, cálculo de ofensiva, validação fuzzy de exercícios, calibrador TRI 3PL, loja de conchas e fallback de IA.
+- **Benchmark Filológico & Adversarial RAG (`pedagogico/filologia/benchmark_rag.py` & `adversarial_rag_benchmark.py`):** Avalia precisão de recuperação lexical e resistência a prompts adversariais (tentativas de induzir alucinações ou falsos cognatos em Tupi Antigo), calculando intervalos de confiança de Wilson (*Wilson Score Interval*).
+- **Benchmark de SLO do Pool de Quizzes (`scripts/benchmark_quiz_pool_slo.py`):** Mede latências P50, P95 e P99 do motor híbrido de geração de questões.
+- **Análise Estática Contínua:** `ruff` e `mypy` no backend Python; `flutter analyze` com 0 issues no frontend Dart.
+
+---
+
+## 22 · Pipeline de CI/CD
+
+O repositório opera dois pipelines automatizados no GitHub Actions (`.github/workflows/`):
+
+1. **`ci.yml` (Integração Contínua & Segurança):**
+   - Executa lint com **Ruff** e checagem de tipos com **MyPy** (`Python 3.13` + `uv`).
+   - Executa a suíte de testes **Pytest** com relatório de cobertura XML.
+   - Roda o scanner de vulnerabilidades **Trivy** (`CRITICAL,HIGH`) em todo o repositório.
+   - Constrói e publica a imagem Docker de produção no GitHub Container Registry (`ghcr.io`).
+2. **`deploy-pages.yml` (Deploy Contínuo da Landing Page + Flutter Web App):**
+   - A cada `push` na branch `main`, configura o Flutter SDK estável, compila o aplicativo web (`flutter build web --release --base-href "/TupiLingo-Project/app/"`), sincroniza os artefatos em `landing-page/app/`, garante a presença do `.nojekyll` e publica no **GitHub Pages**.
+
+---
+
+## 23 · Roadmap & Features Futuras (Mapa Interativo de Pindorama)
+
+| Fase / Funcionalidade | Status Atual |
 |---|---|
-| Quiz generation latency | < 300 ms (RPC-hybrid path) |
-| RAG retrieval latency | < 50 ms (local SQLite hybrid search) |
-| AI Router failover recovery | < 150 ms per hop |
-| PDF ingestion throughput | Batch-processed asynchronously, decoupled from user-facing latency |
-
-**Techniques employed:**
-- **Redis caching** for frequently accessed vocabulary and progress data.
-- **Async workers** (Celery) decouple heavy ingestion/classification from the request-response cycle.
-- **Ping-race latency routing** minimizes tail latency on AI-dependent endpoints.
-- **Batch processing** for PDF ingestion and vocabulary extraction, avoiding synchronous blocking of the API.
-
----
-
-## 20 · Testing Strategy
-
-| Layer | Approach |
-|---|---|
-| **Unit Tests** | Backend services and Flutter domain logic tested in isolation. |
-| **Integration Tests** | Django API endpoints tested against a test database and mocked AI Router. |
-| **Widget Tests** | Flutter widget-level tests for lesson player, quiz UI, and journey map. |
-| **Golden Tests** | Visual regression tests for key Flutter screens against the design system. |
-| **API Tests** | Contract tests for REST endpoints, including error-path and rate-limit behavior. |
-| **Worker Tests** | PDF Worker and Vocabulary Worker tested against fixture documents and simulated provider failures. |
-| **Coverage** | Coverage tracked per module, with emphasis on the AI Router fallback chain and TRI calibration logic. |
+| **Saneamento Filológico Canônico (Navarro, 2013) — Tupi Antigo & Revitalizado** | 🟢 **Em Produção** |
+| **Motor Psicométrico TRI 3PL Vetorizado + TRI Progressivo em Tempo Real** | 🟢 **Em Produção** |
+| **Calibrador NLP Zero-Shot para Morfologia Tupi** | 🟢 **Em Produção** |
+| **Malha Multi-LLM (6 Provedores + Ollama) com PingRace e Circuit Breaker** | 🟢 **Em Produção** |
+| **Onboarding com Mascote Tupi, Demo de 90s e Tour Guiado Spotlight** | 🟢 **Em Produção** |
+| **Loja de Conchas (Temas, Avatares, Molduras) com Auditoria HMAC-SHA256** | 🟢 **Em Produção** |
+| **Sincronização Offline Outbox Criptografada + Hardening Forense RLS** | 🟢 **Em Produção** |
+| **Console Administrativo In-App + Suíte SRE / Security Enclave OTP** | 🟢 **Em Produção** |
+| **🗺️ Mapa Histórico Interativo de Pindorama (2D/3D World Builder)** | 🔵 **Feature Futura (v2.0)** — *Modelos de territórios, aldeias, rios e épocas históricas (`world_builder`) já estruturados no backend para futura exploração cartográfica interativa com WebGPU (`tupi_wgpu_engine`).* |
+| **🎙️ Reconhecimento de Voz e Prática de Pronúncia Fonética** | 🔵 **Feature Futura** — *Integração da captura de áudio no app com os modelos Whisper e conversor IPA (`phonology/`).* |
+| **🌱 Expansão para Novas Línguas da Família Tupi-Guarani** | 🔵 **Feature Futura** — *Inclusão futura de Nheengatu Amazônico e Guarani Mbyá em trilhas isoladas com curadoria documental própria.* |
+| **🏫 Painel Pedagógico para Escolas e Comunidades Indígenas** | 🔵 **Feature Futura** — *Gestão de turmas e trilhas customizadas por educadores.* |
 
 ---
 
-## 21 · CI/CD Pipeline
+## 24 · Como Contribuir
 
-```mermaid
-flowchart LR
-    Push["Push / PR"] --> Lint["Lint\n(Python + Dart)"]
-    Lint --> Tests["Unit & Integration Tests"]
-    Tests --> Build["Build\n(Docker images, Flutter binaries)"]
-    Build --> Scan["Security Scan"]
-    Scan --> Deploy["Deploy\n(staging / production)"]
-```
+Contribuições em engenharia de software, linguística computacional e filologia tupi são muito bem-vindas!
 
-```yaml
-# Simplified CI reference
-stages:
-  - lint
-  - test
-  - build
-  - security-scan
-  - deploy
-
-lint:
-  script:
-    - flutter analyze
-    - ruff check backend/
-
-test:
-  script:
-    - pytest backend/
-    - flutter test
-
-build:
-  script:
-    - docker build -f backend/docker/Dockerfile -t tupilingo-backend .
-    - flutter build apk --release
-
-deploy:
-  script:
-    - docker compose -f docker-compose.yml up -d --build
-  when: manual
-```
+1. Faça um *fork* do projeto e crie uma branch a partir de `main` (`git checkout -b feat/minha-melhoria`).
+2. Siga o padrão **Conventional Commits** (`feat:`, `fix:`, `docs:`, `refactor:`, `perf:`, `test:`).
+3. Certifique-se de que nenhuma regra filológica de Navarro (2013) foi violada e que `flutter analyze` e `pytest` passam sem erros.
+4. Abra um **Pull Request** detalhando as alterações técnicas ou documentais.
 
 ---
 
-## 22 · Contributing
+## 25 · Licença & Créditos Acadêmicos
 
-Contributions are welcome. TupiLingo follows a standard Git Flow model with Conventional Commits.
+Este projeto é distribuído sob a licença **MIT**.
 
-### Branching Model
-
-| Branch | Usage |
-|---|---|
-| `main` | Production-ready code only. |
-| `develop` | Integration branch for upcoming releases. |
-| `feature/*` | New features, branched from `develop`. |
-| `fix/*` | Bug fixes, branched from `develop` or `main` for hotfixes. |
-
-### Conventional Commits
-
-```
-feat:     a new feature
-fix:      a bug fix
-docs:     documentation-only changes
-refactor: code change that neither fixes a bug nor adds a feature
-perf:     performance improvement
-test:     adding or correcting tests
-ci:       CI/CD configuration changes
-```
-
-### Contribution Workflow
-
-```bash
-git checkout -b feature/my-feature
-git commit -m "feat: add adaptive distractor caching"
-git push origin feature/my-feature
-```
-
-Then open a **Pull Request** against `develop`, following the repository's issue and PR templates.
-
-### Code Review Expectations
-- All PRs require at least one approving review before merge.
-- CI (lint, tests, build) must pass before merge is enabled.
-- Changes touching the AI Router fallback chain or the TRI calibration logic require an accompanying test.
-
----
-
-## 23 · Roadmap
-
-| Phase | Status |
-|---|---|
-| Adaptive TRI Engine | 🟢 Shipped |
-| Historical Narrative Lessons | 🟢 Shipped |
-| Hybrid RAG Retrieval (Vector + BM25) | 🟢 Shipped |
-| Multi-Provider AI Mesh with Ping Race | 🟢 Shipped |
-| Offline Learning Mode | 🟡 In Progress |
-| Speech Recognition for Pronunciation | 🟡 In Progress |
-| Community Content Contributions | 🔵 Planned |
-| Teacher / Educator Dashboard | 🔵 Planned |
-| Additional Dialectal Variants | 🔵 Planned |
-
----
-
-## 24 · Documentation Index
-
-Further documentation is organized under `docs/`:
-
-```
-docs/
-├── architecture/     # System-level architecture decisions
-├── api/              # Endpoint references and payload schemas
-├── deployment/        # Docker, environment, and release procedures
-├── security/          # Threat model and hardening guidelines
-├── ai/                 # AI Router, RAG, and TRI internals
-├── frontend/           # Flutter architecture and design system
-├── backend/             # Django services and worker internals
-└── assets/              # Diagrams and supporting media
-```
-
----
-
-## 25 · License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for full terms.
-
----
-
-## 26 · Credits
-
-TupiLingo is built on the shoulders of academic and historical work on Tupi languages, including colonial-era travel accounts, missionary grammars, and contemporary linguistic scholarship. The platform aims to make this material accessible and pedagogically useful without diminishing its cultural and historical context.
+### Reconhecimento Acadêmico
+O TupiLingo presta homenagem ao trabalho monumental de linguistas, filólogos e pesquisadores dedicados às línguas indígenas do Brasil, em especial ao **Prof. Dr. Eduardo de Almeida Navarro (FFLCH-USP)**, cuja obra lexicográfica e pedagógica tornou possível o estudo rigoroso do Tupi Antigo no século XXI, e aos registros históricos quinhentistas e seiscentistas que preservaram a memória linguística da costa brasileira.
 
 <div align="center">
 
@@ -1027,8 +788,9 @@ TupiLingo is built on the shoulders of academic and historical work on Tupi lang
   <circle cx="600" cy="45" r="6" fill="#0E5D4E"/>
 </svg>
 
-**Building technology to preserve one of Brazil's greatest linguistic heritages.**
+**"Eikuaa nde rapo, emo'ĩ nde rekove porãve."**  
+*(Conheça suas raízes, fortaleça sua vida.)*
 
-*TupiLingo — Indigenous Language AI Platform*
+*TupiLingo — Plataforma Aberta de IA para Salvaguarda do Tupi Antigo*
 
 </div>
