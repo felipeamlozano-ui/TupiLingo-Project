@@ -792,7 +792,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     Future.delayed(const Duration(milliseconds: 350), () {
                       if (!mounted) return;
                       TourController.instance.maybeStartFullTour(
-                        context: context,
+                        context: this.context,
                         chapterBannerKey: _chapterBannerKey,
                         targetNodeKey: _targetNodeKey,
                         languageKey: _languageKey,

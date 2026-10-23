@@ -1,21 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <script>
-    (function () {
-      var p = window.location.pathname;
-      var b = '/';
-      if (p.indexOf('/TupiLingo-Project/app') !== -1) {
-        b = '/TupiLingo-Project/app/';
-      } else if (p.indexOf('/landing-page/app') !== -1) {
-        b = '/landing-page/app/';
-      } else {
-        var lastSlash = p.lastIndexOf('/');
-        b = lastSlash >= 0 ? p.substring(0, lastSlash + 1) : '/';
-      }
-      document.write('<base href="' + b + '">');
-    })();
-  </script>
+  <base href="/TupiLingo-Project/app/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">

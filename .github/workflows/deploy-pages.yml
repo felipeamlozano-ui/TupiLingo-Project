@@ -35,8 +35,10 @@ jobs:
           cd frontend/tupi_lingo
           flutter pub get
           flutter build web --release --base-href "/TupiLingo-Project/app/"
+          rm -rf ../../landing-page/app
           mkdir -p ../../landing-page/app
           cp -r build/web/* ../../landing-page/app/
+          touch ../../landing-page/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
