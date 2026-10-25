@@ -436,6 +436,14 @@ class HistoricoResposta(models.Model):
         related_name='historico_respostas',
         verbose_name="Usuário"
     )
+    exercicio = models.ForeignKey(
+        'trilha.Exercicio',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='historicos_resposta',
+        verbose_name="Exercício da Trilha"
+    )
     vocabulary_item = models.ForeignKey(
         'trilha.VocabularyItem',
         on_delete=models.SET_NULL,
@@ -464,6 +472,55 @@ class HistoricoResposta(models.Model):
 
     def __str__(self):
         return f"{self.user.name} - {self.palavra_tupi} ({self.status})"
+
+
+# ─── ItemExposure (Rastreamento de Exposição Anti-repetição e BirdBrain) ─────
+
+class ItemExposure(models.Model):
+    """
+    Rastreia cada exposição de uma versão de exercício a um usuário específico.
+    Permite rotação anti-repetição (LRU) e alimentação do BirdBrain com dados reais por item.
+    """
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name='exposicoes_exercicios',
+        verbose_name="Usuário"
+    )
+    exercicio = models.ForeignKey(
+        'trilha.Exercicio',
+        on_delete=models.CASCADE,
+        related_name='exposicoes',
+        verbose_name="Exercício"
+    )
+    versao = models.ForeignKey(
+        'trilha.ExercicioVersao',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='exposicoes',
+        verbose_name="Versão Específica"
+    )
+    distractor_signature = models.CharField(
+        max_length=64,
+        blank=True,
+        verbose_name="Assinatura dos Distratores"
+    )
+    shown_at = models.DateTimeField(auto_now_add=True, verbose_name="Apresentado em")
+    answered_correct = models.BooleanField(null=True, blank=True, verbose_name="Acertou na 1ª Tentativa?")
+    time_ms = models.IntegerField(null=True, blank=True, verbose_name="Tempo de Resposta (ms)")
+
+    class Meta:
+        db_table = 'users_item_exposure'
+        verbose_name = "Exposição de Item"
+        verbose_name_plural = "Exposições de Itens"
+        indexes = [
+            models.Index(fields=['user', 'exercicio', '-shown_at'], name='idx_exposure_user_ex_time'),
+            models.Index(fields=['user', '-shown_at'], name='idx_exposure_user_time'),
+        ]
+
+    def __str__(self):
+        return f"{self.user.name} -> Ex #{self.exercicio_id} v#{self.versao_id} ({self.shown_at.date()})"
 
 
 # ─── Cosméticos da Loja de Conchas (RFC Loja Segura) ─────────────────────────

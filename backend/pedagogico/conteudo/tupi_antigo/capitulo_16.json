@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Peabiru'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "C",
-              "texto": "Trilha sagrada transcontinental"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "O Grande Caminho Ancestral",
+            "Nuvem cinzenta",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Peabiru",
           "explicacao": "'Peabiru' significa 'Trilha sagrada transcontinental' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Peabiru"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Seguindo os marcos de pedra polida da rota milenar que une o litoral atlântico às cordilheiras distantes.",
+              "enunciado": "Ao estudar o tema culminante 'A Trilha do Peabiru e os Caminhos', qual é o significado de 'Peabiru'?",
+              "payload": {
+                "opcoes": [
+                  "O Grande Caminho Ancestral",
+                  "Nuvem cinzenta",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Peabiru' traduz-se fielmente por 'O Grande Caminho Ancestral'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em reflexão com as lideranças e sábios sobre A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Qual conceito sagrado e histórico em Tupi Antigo é expresso por 'Peabiru'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "O Grande Caminho Ancestral",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Peabiru' refere-se a 'O Grande Caminho Ancestral'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na oratória solene perante toda a comunidade reunida.",
+              "enunciado": "Ao proclamar a força de 'Peabiru', a que realidade sublime o orador se reporta?",
+              "payload": {
+                "opcoes": [
+                  "O Grande Caminho Ancestral",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Reporta-se com reverência a 'O Grande Caminho Ancestral'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão formal da tradição dos antepassados.",
+              "enunciado": "Assinale a alternativa que traduz com rigor etnolinguístico 'Peabiru':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "O Grande Caminho Ancestral",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Peabiru' é 'O Grande Caminho Ancestral'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Peabiru": "Trilha sagrada transcontinental"
+            "Peabiru": "Grande caminho ancestral",
+            "Pé": "Trilha batida",
+            "Guataba": "Caminhada prolongada"
           },
           "coluna_esquerda": [
-            "Peabiru"
+            "Peabiru",
+            "Pé",
+            "Guataba"
           ],
           "coluna_direita": [
-            "Trilha sagrada transcontinental"
+            "Trilha batida",
+            "Caminhada prolongada",
+            "Grande caminho ancestral"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Peabiru"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Trilha do Peabiru e os Caminhos (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba"
+                ],
+                "coluna_direita": [
+                  "Trilha batida",
+                  "Caminhada prolongada",
+                  "Grande caminho ancestral"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Grande caminho ancestral",
+                  "Pé": "Trilha batida",
+                  "Guataba": "Caminhada prolongada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Trilha do Peabiru e os Caminhos (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de A Trilha do Peabiru e os Caminhos com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba"
+                ],
+                "coluna_direita": [
+                  "Caminhada prolongada",
+                  "Grande caminho ancestral",
+                  "Trilha batida"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Grande caminho ancestral",
+                  "Pé": "Trilha batida",
+                  "Guataba": "Caminhada prolongada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Trilha do Peabiru e os Caminhos (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba"
+                ],
+                "coluna_direita": [
+                  "Trilha batida",
+                  "Caminhada prolongada",
+                  "Grande caminho ancestral"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Grande caminho ancestral",
+                  "Pé": "Trilha batida",
+                  "Guataba": "Caminhada prolongada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Trilha do Peabiru e os Caminhos (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba"
+                ],
+                "coluna_direita": [
+                  "Caminhada prolongada",
+                  "Grande caminho ancestral",
+                  "Trilha batida"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Grande caminho ancestral",
+                  "Pé": "Trilha batida",
+                  "Guataba": "Caminhada prolongada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Trilha do Peabiru e os Caminhos (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba"
+                ],
+                "coluna_direita": [
+                  "Trilha batida",
+                  "Caminhada prolongada",
+                  "Grande caminho ancestral"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Grande caminho ancestral",
+                  "Pé": "Trilha batida",
+                  "Guataba": "Caminhada prolongada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -140,6 +340,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Pé"
+          ],
+          "respostas_corretas": [
+            "Pé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Invocando o conceito sagrado de 'Pé' perante a natureza viva.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Vereda na mata bom/nobre):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Pé"
+                ]
+              },
+              "explicacao": "'Pé' completa a oração com solenidade e exatidão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Expressando respeito às forças da ancestralidade.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Vereda na mata):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Pé"
+                ]
+              },
+              "explicacao": "'Pé' afirma a presença da entidade ou elemento.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração comunitária da cultura e memória.",
+              "enunciado": "Qual termo completa a oração afirmativa: 'Ahecha ______' (Eu contemplo Vereda na mata)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Pé"
+                ]
+              },
+              "explicacao": "'Pé' é o objeto da visão sagrada.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ensinamento dos guardiões da memória.",
+              "enunciado": "Insira a palavra canônica na oração: 'I porang ______':",
+              "payload": {
+                "texto_com_lacunas": "I porang ______.",
+                "respostas_corretas": [
+                  "Pé"
+                ]
+              },
+              "explicacao": "'Pé' é o núcleo enaltecido na frase.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -147,37 +412,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Pé'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Caminho / Vereda"
-            },
-            {
-              "letra": "B",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Vereda na mata",
+            "Canoa furada",
+            "Vento frio",
+            "Rio lamacento"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Pé",
           "explicacao": "'Pé' traduz-se fielmente como 'Caminho / Vereda'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Pé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo dos fundamentos lexicais sobre 'Pé'.",
+              "enunciado": "Qual é o significado de 'Pé' no contexto tradicional de A Trilha do Peabiru e os Caminhos?",
+              "payload": {
+                "opcoes": [
+                  "Vereda na mata",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio lamacento"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pé' traduz-se como 'Vereda na mata'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao rememorar as palavras de grande valor em A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "A qual conceito o termo 'Pé' se reporta em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Vereda na mata",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pé' refere-se a 'Vereda na mata'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação e diálogo com os mais velhos.",
+              "enunciado": "Selecione o equivalente exato para 'Pé':",
+              "payload": {
+                "opcoes": [
+                  "Vereda na mata",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pé' corresponde a 'Vereda na mata'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual alternativa traduz 'Pé' com máxima autenticidade?",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Vereda na mata",
+                  "Toca funda",
+                  "Céu cinzento"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pé' traduz-se como 'Vereda na mata'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: 'A-gûatá pé rupi.'",
-          "texto_com_lacunas": "A-gûatá pé rupi.",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Gûatá"
           ],
@@ -186,6 +513,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Gûatá"
+          ],
+          "respostas_corretas": [
+            "Guataba"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença existencial com o termo sagrado 'Guataba'.",
+              "enunciado": "Complete a frase afirmativa: 'Hetá ______' (Há muito/muita Marcha dos guerreiros):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Guataba"
+                ]
+              },
+              "explicacao": "'Guataba' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diálogo sobre as histórias da mata viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Vive Marcha dos guerreiros):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Guataba"
+                ]
+              },
+              "explicacao": "'Guataba' é o sujeito atuante.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Declaração de respeito tradicional.",
+              "enunciado": "Qual vocábulo preenche: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Guataba"
+                ]
+              },
+              "explicacao": "'Guataba' é o elemento reverenciado.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações clássicas.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Guataba"
+                ]
+              },
+              "explicacao": "'Guataba' é o substantivo qualificado com bondade.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,30 +585,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Gûatá'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Terra firme"
-            },
-            {
-              "letra": "D",
-              "texto": "Viajar a pé"
-            }
+            "Marcha dos guerreiros",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "D",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Gûatá",
           "explicacao": "'Gûatá' traduz-se fielmente como 'Viajar a pé'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Gûatá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo léxico aprofundado para o termo 'Guataba'.",
+              "enunciado": "Qual é o significado de 'Guataba'?",
+              "payload": {
+                "opcoes": [
+                  "Marcha dos guerreiros",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Guataba' traduz-se como 'Marcha dos guerreiros'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Reflexão etnolinguística com os guardiões da língua.",
+              "enunciado": "A que entidade ou elemento corresponde 'Guataba'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Marcha dos guerreiros",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Guataba' corresponde a 'Marcha dos guerreiros'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de vocabulário avançado de A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Assinale a tradução precisa de 'Guataba':",
+              "payload": {
+                "opcoes": [
+                  "Marcha dos guerreiros",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Guataba' traduz-se por 'Marcha dos guerreiros'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Fechamento lexical da Lição 2.",
+              "enunciado": "Qual alternativa descreve com exatidão 'Guataba'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Marcha dos guerreiros",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Guataba' é 'Marcha dos guerreiros'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -271,9 +725,9 @@
           "enunciado": "No contexto de 'A Trilha do Peabiru e os Caminhos', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Peabiru",
-            "Mopé",
-            "Tegûatá",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Peabiru' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -281,7 +735,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 1.447,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Peabiru'?",
+              "payload": {
+                "opcoes": [
+                  "Peabiru",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Peabiru' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Selecione o termo autêntico e consagrado deste módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Peabiru",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Peabiru' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente de vocabulário.",
+              "enunciado": "Qual termo representa o conceito primordial estudado em A Trilha do Peabiru e os Caminhos?",
+              "payload": {
+                "opcoes": [
+                  "Peabiru",
+                  "Paraná",
+                  "Ybyrá",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Peabiru' é o termo fundamental de A Trilha do Peabiru e os Caminhos.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,17 +810,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 1.547,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Pé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Pé'.",
+              "enunciado": "Complete a locução solene: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Pé"
+                ]
+              },
+              "explicacao": "'Pé' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva em contextos rituais.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Afirmação de presença):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Pé"
+                ]
+              },
+              "explicacao": "'Pé' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Qual vocábulo preenche com exatidão: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Pé"
+                ]
+              },
+              "explicacao": "'Pé' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Trilha do Peabiru e os Caminhos':",
           "opcoes": [
-            "Uso harmônico de 'Gûatá'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Peabiru'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Gûatá' expressa a construção genuína documentada nas fontes clássicas.",
@@ -318,7 +879,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 1.697,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Peabiru'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Peabiru'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Peabiru' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "O que representa 'Peabiru' na memória coletiva dos povos?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de A Trilha do Peabiru e os Caminhos",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico de A Trilha do Peabiru e os Caminhos.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico e histórico.",
+              "enunciado": "Qual afirmação sobre 'Peabiru' é historicamente exata?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas e orais",
+                  "É palavra inventada",
+                  "É gíria recente",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas e orais.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -326,9 +943,9 @@
           "enunciado": "Ao revisar as estruturas de A Trilha do Peabiru e os Caminhos, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -336,7 +953,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 1.447,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de nobreza e bondade em A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou sagrado' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades superiores.",
+              "enunciado": "Para qualificar positivamente 'Peabiru', qual raiz é adicionada?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com elevação o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de louvor.",
+              "enunciado": "Qual é a ordem correta para dizer 'O Grande Caminho Ancestral bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu peabiru",
+                  "Peabiru katu",
+                  "Katu aíba",
+                  "Peabiru poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o modificador atributivo.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -372,19 +1045,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 16:",
           "pares_corretos": {
-            "Peabiru": "Trilha sagrada transcontinental",
-            "Pé": "Caminho / Vereda",
-            "Gûatá": "Viajar a pé"
+            "Peabiru": "Caminho transcontinental",
+            "Pé": "Trilha estreita",
+            "Guataba": "Jornada a pé",
+            "Tapé": "Estrada histórica"
           },
           "coluna_esquerda": [
             "Peabiru",
             "Pé",
-            "Gûatá"
+            "Guataba",
+            "Tapé"
           ],
           "coluna_direita": [
-            "Trilha sagrada transcontinental",
-            "Caminho / Vereda",
-            "Viajar a pé"
+            "Trilha estreita",
+            "Jornada a pé",
+            "Estrada histórica",
+            "Caminho transcontinental"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1069,158 @@
             "Peabiru",
             "Pé",
             "Gûatá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 16 (A Trilha do Peabiru e os Caminhos) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 16 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba",
+                  "Tapé"
+                ],
+                "coluna_direita": [
+                  "Estrada histórica",
+                  "Caminho transcontinental",
+                  "Trilha estreita",
+                  "Jornada a pé"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Caminho transcontinental",
+                  "Pé": "Trilha estreita",
+                  "Guataba": "Jornada a pé",
+                  "Tapé": "Estrada histórica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 16 (A Trilha do Peabiru e os Caminhos) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de A Trilha do Peabiru e os Caminhos com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba",
+                  "Tapé"
+                ],
+                "coluna_direita": [
+                  "Trilha estreita",
+                  "Jornada a pé",
+                  "Estrada histórica",
+                  "Caminho transcontinental"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Caminho transcontinental",
+                  "Pé": "Trilha estreita",
+                  "Guataba": "Jornada a pé",
+                  "Tapé": "Estrada histórica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 16 (A Trilha do Peabiru e os Caminhos) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba",
+                  "Tapé"
+                ],
+                "coluna_direita": [
+                  "Jornada a pé",
+                  "Estrada histórica",
+                  "Caminho transcontinental",
+                  "Trilha estreita"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Caminho transcontinental",
+                  "Pé": "Trilha estreita",
+                  "Guataba": "Jornada a pé",
+                  "Tapé": "Estrada histórica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 16 (A Trilha do Peabiru e os Caminhos) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba",
+                  "Tapé"
+                ],
+                "coluna_direita": [
+                  "Estrada histórica",
+                  "Jornada a pé",
+                  "Caminho transcontinental",
+                  "Trilha estreita"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Caminho transcontinental",
+                  "Pé": "Trilha estreita",
+                  "Guataba": "Jornada a pé",
+                  "Tapé": "Estrada histórica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 16 (A Trilha do Peabiru e os Caminhos) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Peabiru",
+                  "Pé",
+                  "Guataba",
+                  "Tapé"
+                ],
+                "coluna_direita": [
+                  "Trilha estreita",
+                  "Caminho transcontinental",
+                  "Estrada histórica",
+                  "Jornada a pé"
+                ],
+                "pares_corretos": {
+                  "Peabiru": "Caminho transcontinental",
+                  "Pé": "Trilha estreita",
+                  "Guataba": "Jornada a pé",
+                  "Tapé": "Estrada histórica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Peabiru' para o Português:",
           "termo_fonte": "Peabiru",
           "traducao_esperada": "Trilha sagrada transcontinental",
@@ -406,6 +1229,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Peabiru"
+          ],
+          "opcoes": [
+            "O Grande Caminho Ancestral",
+            "Nuvem de tempestade escura",
+            "Fogo apagado",
+            "Caminho pedregoso"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 16 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Peabiru'?",
+              "payload": {
+                "opcoes": [
+                  "O Grande Caminho Ancestral",
+                  "Nuvem de tempestade escura",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Peabiru' traduz-se fielmente por 'O Grande Caminho Ancestral'.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Consolidação final dos conceitos de A Trilha do Peabiru e os Caminhos.",
+              "enunciado": "Assinale a alternativa que define com fidelidade 'Peabiru':",
+              "payload": {
+                "opcoes": [
+                  "Noite chuvosa",
+                  "O Grande Caminho Ancestral",
+                  "Peixe pequeno",
+                  "Folhagem seca"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Peabiru' significa 'O Grande Caminho Ancestral'.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prova de mestria no encerramento da jornada.",
+              "enunciado": "Identifique a opção em que 'Peabiru' é empregado com seu sentido original:",
+              "payload": {
+                "opcoes": [
+                  "O Grande Caminho Ancestral",
+                  "Cesto de pesca",
+                  "Flecha curta",
+                  "Areia fina"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Corresponde a 'O Grande Caminho Ancestral'.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese e certificação da lição perante os anciãos.",
+              "enunciado": "Qual conceito tradicional encerra com maestria a lição de 'Peabiru'?",
+              "payload": {
+                "opcoes": [
+                  "Caminho estreito",
+                  "O Grande Caminho Ancestral",
+                  "Árvore caída",
+                  "Vento leve"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Peabiru' é 'O Grande Caminho Ancestral'.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
           ]
         }
       ],

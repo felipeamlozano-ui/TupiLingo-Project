@@ -51,30 +51,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'U'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Comer"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Caminhar",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "U",
           "explicacao": "'U' significa 'Comer' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "U"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Durante o deslocamento coletivo entre as aldeias parentes ao longo do caminho batido.",
+              "enunciado": "Ao estudar o tema 'Ações Cotidianas e Verbos do Dia', qual é o significado exato de 'Wata'?",
+              "payload": {
+                "opcoes": [
+                  "Caminhar",
+                  "Nuvem escura",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Wata' traduz-se fielmente por 'Caminhar'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de estudos sobre as tradições e termos de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Qual conceito fundamental em Tupi Revitalizado é expresso por 'Wata'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Caminhar",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Wata' refere-se a 'Caminhar'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a prática oral das expressões de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Se o falante diz 'Wata katu', a qual elemento de excelência ele se refere?",
+              "payload": {
+                "opcoes": [
+                  "Caminhar",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Refere-se a 'Caminhar'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão rápida de vocabulário temático.",
+              "enunciado": "Assinale a opção que traduz com rigor 'Wata':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Caminhar",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Wata' é 'Caminhar'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -82,30 +144,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'I'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Beber"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Comer / Ingerir",
+            "Pedra pontiaguda",
+            "Canoa quebrada",
+            "Noite sem luar"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "I",
           "explicacao": "'I' significa 'Beber' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "I"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo léxico aprofundado dos elementos de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Qual é o significado correto da palavra 'U'?",
+              "payload": {
+                "opcoes": [
+                  "Comer / Ingerir",
+                  "Pedra pontiaguda",
+                  "Canoa quebrada",
+                  "Noite sem luar"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'U' traduz-se fielmente por 'Comer / Ingerir'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão de conceitos fundamentais com os sábios da aldeia.",
+              "enunciado": "A que se refere o vocábulo 'U' em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Comer / Ingerir",
+                  "Rio lamacento",
+                  "Vento frio"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'U' refere-se a 'Comer / Ingerir'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício oral de fixação semântica.",
+              "enunciado": "Assinale a alternativa que traz a correspondência de 'U':",
+              "payload": {
+                "opcoes": [
+                  "Comer / Ingerir",
+                  "Madeira podre",
+                  "Flecha sem ponta",
+                  "Cesto rasgado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "A correspondência exata é 'Comer / Ingerir'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Identificação visual e conceitual de termos tradicionais.",
+              "enunciado": "Selecione o equivalente em português para 'U':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de terra",
+                  "Comer / Ingerir",
+                  "Ninho abandonado",
+                  "Raiz seca"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'U' traduz-se como 'Comer / Ingerir'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -113,16 +237,19 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "U": "Comer",
-            "I": "Beber"
+            "Wata": "Caminhar pelo caminho",
+            "'U": "Comer a refeição",
+            "Kere": "Dormir na rede de tucum"
           },
           "coluna_esquerda": [
-            "U",
-            "I"
+            "Wata",
+            "'U",
+            "Kere"
           ],
           "coluna_direita": [
-            "Comer",
-            "Beber"
+            "Comer a refeição",
+            "Dormir na rede de tucum",
+            "Caminhar pelo caminho"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -130,6 +257,138 @@
           "itens_alvo": [
             "U",
             "I"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema Ações Cotidianas e Verbos do Dia (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere"
+                ],
+                "coluna_direita": [
+                  "Comer a refeição",
+                  "Dormir na rede de tucum",
+                  "Caminhar pelo caminho"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar pelo caminho",
+                  "'U": "Comer a refeição",
+                  "Kere": "Dormir na rede de tucum"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema Ações Cotidianas e Verbos do Dia (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de Ações Cotidianas e Verbos do Dia com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere"
+                ],
+                "coluna_direita": [
+                  "Dormir na rede de tucum",
+                  "Caminhar pelo caminho",
+                  "Comer a refeição"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar pelo caminho",
+                  "'U": "Comer a refeição",
+                  "Kere": "Dormir na rede de tucum"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema Ações Cotidianas e Verbos do Dia (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere"
+                ],
+                "coluna_direita": [
+                  "Comer a refeição",
+                  "Dormir na rede de tucum",
+                  "Caminhar pelo caminho"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar pelo caminho",
+                  "'U": "Comer a refeição",
+                  "Kere": "Dormir na rede de tucum"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema Ações Cotidianas e Verbos do Dia (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere"
+                ],
+                "coluna_direita": [
+                  "Dormir na rede de tucum",
+                  "Caminhar pelo caminho",
+                  "Comer a refeição"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar pelo caminho",
+                  "'U": "Comer a refeição",
+                  "Kere": "Dormir na rede de tucum"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema Ações Cotidianas e Verbos do Dia (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere"
+                ],
+                "coluna_direita": [
+                  "Comer a refeição",
+                  "Dormir na rede de tucum",
+                  "Caminhar pelo caminho"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar pelo caminho",
+                  "'U": "Comer a refeição",
+                  "Kere": "Dormir na rede de tucum"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -177,7 +436,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: 'A-sawa taba pupé.'",
-          "texto_com_lacunas": "A-sawa taba pupé.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Sawa"
           ],
@@ -186,6 +445,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Sawa"
+          ],
+          "respostas_corretas": [
+            "'U"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo uma sentença com o vocábulo ''U' no cotidiano comunitário.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Comer alimento bom/boa):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "'U"
+                ]
+              },
+              "explicacao": "''U' completa a oração com precisão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Prática oral de adjetivos atributivos.",
+              "enunciado": "Preencha a lacuna com ''U': 'Ahecha ______' (Eu vejo):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "'U"
+                ]
+              },
+              "explicacao": "''U' é o objeto da percepção visual.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de termos práticos da vida tribal.",
+              "enunciado": "Complete a frase de elogio: 'I puranga a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "'U"
+                ]
+              },
+              "explicacao": "''U' completa o sujeito da qualidade.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações com verbos de ação.",
+              "enunciado": "Qual termo completa a oração: 'Oikó ______'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "'U"
+                ]
+              },
+              "explicacao": "''U' é a forma canônica atestada.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,37 +517,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Sawa'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Ir"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Comer alimento",
+            "Canoa furada",
+            "Vento frio",
+            "Rio seco"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Sawa",
           "explicacao": "'Sawa' traduz-se fielmente como 'Ir'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Sawa"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No dicionário da língua, estudando a exata tradução de ''U'.",
+              "enunciado": "Qual é o significado de ''U'?",
+              "payload": {
+                "opcoes": [
+                  "Comer alimento",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio seco"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''U' traduz-se como 'Comer alimento'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao revisar os elementos da cultura material e da língua.",
+              "enunciado": "A qual conceito o termo ''U' corresponde?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Comer alimento",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''U' é 'Comer alimento'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida de vocabulário de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Selecione o equivalente correto para ''U':",
+              "payload": {
+                "opcoes": [
+                  "Comer alimento",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''U' corresponde a 'Comer alimento'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Prática comparativa de termos tradicionais.",
+              "enunciado": "Assinale a tradução precisa de ''U':",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Comer alimento",
+                  "Toca funda",
+                  "Céu nublado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''U' é 'Comer alimento'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: 'A-kere inĩ pupé.'",
-          "texto_com_lacunas": "A-kere inĩ pupé.",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Kere"
           ],
@@ -232,6 +618,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Kere"
+          ],
+          "respostas_corretas": [
+            "Kere"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença afirmativa sobre a presença de 'Kere' na comunidade.",
+              "enunciado": "Complete a frase: 'Hetá ______' (Há muito/muita Dormir tranquilo):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Kere"
+                ]
+              },
+              "explicacao": "'Kere' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construindo frases sobre a vida cotidiana.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Dormir tranquilo):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Kere"
+                ]
+              },
+              "explicacao": "'Kere' é o termo correto.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática oral de conversação.",
+              "enunciado": "Qual termo completa: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Kere"
+                ]
+              },
+              "explicacao": "'Kere' preenche o objeto.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática com predicados nominais.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Kere"
+                ]
+              },
+              "explicacao": "'Kere' é o substantivo qualificado.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -239,30 +690,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kere'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Dormir"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Dormir tranquilo",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Kere",
           "explicacao": "'Kere' traduz-se fielmente como 'Dormir'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Kere"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exame da tradição lexical para o substantivo 'Kere'.",
+              "enunciado": "Qual é o significado de 'Kere'?",
+              "payload": {
+                "opcoes": [
+                  "Dormir tranquilo",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kere' significa 'Dormir tranquilo'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da herança linguística dos povos ancestrais.",
+              "enunciado": "A qual conceito refere-se 'Kere'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Dormir tranquilo",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kere' é 'Dormir tranquilo'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida no vocabulário de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Assinale a tradução exata de 'Kere':",
+              "payload": {
+                "opcoes": [
+                  "Dormir tranquilo",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kere' traduz-se por 'Dormir tranquilo'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual opção define 'Kere'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Dormir tranquilo",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kere' é 'Dormir tranquilo'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -315,10 +828,10 @@
           "tipo": "escolha_multipla",
           "enunciado": "No contexto de 'Ações Cotidianas e Verbos do Dia', qual termo representa a forma canônica aprendida?",
           "opcoes": [
-            "Sawa",
-            "Mokere",
-            "Teaué",
-            "Kutuba"
+            "Wata",
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Sawa' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -326,7 +839,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.395,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Wata'?",
+              "payload": {
+                "opcoes": [
+                  "Wata",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Wata' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Selecione o termo autêntico do módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Wata",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Wata' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente.",
+              "enunciado": "Qual termo representa a raiz aprendida em Ações Cotidianas e Verbos do Dia?",
+              "payload": {
+                "opcoes": [
+                  "Wata",
+                  "Paraná",
+                  "Ywyra",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Wata' é o termo estudado.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -345,17 +914,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 0.495,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "'U"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com ''U'.",
+              "enunciado": "Complete a locução: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "'U"
+                ]
+              },
+              "explicacao": "''U' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Está presente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "'U"
+                ]
+              },
+              "explicacao": "''U' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Qual vocábulo preenche: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "'U"
+                ]
+              },
+              "explicacao": "''U' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Ações Cotidianas e Verbos do Dia':",
           "opcoes": [
-            "Uso harmônico de 'Aué'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Wata'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Aué' expressa a construção genuína documentada nas fontes clássicas.",
@@ -363,7 +983,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 0.645,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Wata'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Wata'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Wata' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "O que representa 'Wata' na vida comunitária?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de Ações Cotidianas e Verbos do Dia",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico.",
+              "enunciado": "Qual afirmação sobre 'Wata' é rigorosamente correta?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas",
+                  "É palavra inventada",
+                  "É termo de gíria moderna",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -371,9 +1047,9 @@
           "enunciado": "Ao revisar as estruturas de Ações Cotidianas e Verbos do Dia, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -381,7 +1057,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.395,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de excelência em Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou de qualidade' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades.",
+              "enunciado": "Para dizer que 'Wata' é bom, qual palavra é posposta?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com positividade o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "Qual é a ordem correta para dizer 'Caminhar bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu wata",
+                  "Wata katu",
+                  "Katu aíba",
+                  "Wata poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o adjetivo atributivo: substantivo + katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -422,22 +1154,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 12:",
           "pares_corretos": {
-            "U": "Comer",
-            "I": "Beber",
-            "Sawa": "Ir",
-            "Kere": "Dormir"
+            "Wata": "Caminhar alegre",
+            "'U": "Alimentar a família",
+            "Kere": "Descansar na rede",
+            "Apo": "Trabalhar e fazer"
           },
           "coluna_esquerda": [
-            "U",
-            "I",
-            "Sawa",
-            "Kere"
+            "Wata",
+            "'U",
+            "Kere",
+            "Apo"
           ],
           "coluna_direita": [
-            "Comer",
-            "Beber",
-            "Ir",
-            "Dormir"
+            "Alimentar a família",
+            "Descansar na rede",
+            "Trabalhar e fazer",
+            "Caminhar alegre"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -447,11 +1179,158 @@
             "I",
             "Sawa",
             "Kere"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 12 (Ações Cotidianas e Verbos do Dia) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 12 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere",
+                  "Apo"
+                ],
+                "coluna_direita": [
+                  "Trabalhar e fazer",
+                  "Caminhar alegre",
+                  "Alimentar a família",
+                  "Descansar na rede"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar alegre",
+                  "'U": "Alimentar a família",
+                  "Kere": "Descansar na rede",
+                  "Apo": "Trabalhar e fazer"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 12 (Ações Cotidianas e Verbos do Dia) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de Ações Cotidianas e Verbos do Dia com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere",
+                  "Apo"
+                ],
+                "coluna_direita": [
+                  "Alimentar a família",
+                  "Descansar na rede",
+                  "Trabalhar e fazer",
+                  "Caminhar alegre"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar alegre",
+                  "'U": "Alimentar a família",
+                  "Kere": "Descansar na rede",
+                  "Apo": "Trabalhar e fazer"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 12 (Ações Cotidianas e Verbos do Dia) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere",
+                  "Apo"
+                ],
+                "coluna_direita": [
+                  "Descansar na rede",
+                  "Trabalhar e fazer",
+                  "Caminhar alegre",
+                  "Alimentar a família"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar alegre",
+                  "'U": "Alimentar a família",
+                  "Kere": "Descansar na rede",
+                  "Apo": "Trabalhar e fazer"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 12 (Ações Cotidianas e Verbos do Dia) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere",
+                  "Apo"
+                ],
+                "coluna_direita": [
+                  "Trabalhar e fazer",
+                  "Descansar na rede",
+                  "Caminhar alegre",
+                  "Alimentar a família"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar alegre",
+                  "'U": "Alimentar a família",
+                  "Kere": "Descansar na rede",
+                  "Apo": "Trabalhar e fazer"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 12 (Ações Cotidianas e Verbos do Dia) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Wata",
+                  "'U",
+                  "Kere",
+                  "Apo"
+                ],
+                "coluna_direita": [
+                  "Alimentar a família",
+                  "Caminhar alegre",
+                  "Trabalhar e fazer",
+                  "Descansar na rede"
+                ],
+                "pares_corretos": {
+                  "Wata": "Caminhar alegre",
+                  "'U": "Alimentar a família",
+                  "Kere": "Descansar na rede",
+                  "Apo": "Trabalhar e fazer"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'U' para o Português:",
           "termo_fonte": "U",
           "traducao_esperada": "Comer",
@@ -460,6 +1339,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "U"
+          ],
+          "opcoes": [
+            "Caminhar",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 12 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Wata'?",
+              "payload": {
+                "opcoes": [
+                  "Caminhar",
+                  "Nuvem de chuva",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Wata' traduz-se fielmente por 'Caminhar'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos elementos essenciais que estruturam o domínio de Ações Cotidianas e Verbos do Dia.",
+              "enunciado": "A qual conceito o termo central 'Wata' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Animal de toca",
+                  "Caminhar",
+                  "Pássaro que canta",
+                  "Rio largo"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Wata' é 'Caminhar'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração das conquistas de aprendizado na aldeia.",
+              "enunciado": "Se os guerreiros exclamam 'Wata katu!', o que eles celebram?",
+              "payload": {
+                "opcoes": [
+                  "A presença e excelência de caminhar",
+                  "A aproximação da tempestade",
+                  "A perda das sementes",
+                  "A quebra da canoa"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Celebram a excelência de 'Caminhar'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese conclusiva do Capítulo 12.",
+              "enunciado": "Em resumo definitivo, 'Wata' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "O elemento sagrado de caminhar",
+                  "A escuridão da noite fria",
+                  "O silêncio do pântano",
+                  "O combate corpo a corpo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Wata' simboliza 'Caminhar'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

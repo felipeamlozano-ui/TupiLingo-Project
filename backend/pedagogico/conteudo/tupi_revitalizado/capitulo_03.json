@@ -75,6 +75,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Yawaraté"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na oficina de revitalização linguística e etnozoologia, os professores indígenas apresentam os animais sagrados.",
+              "enunciado": "Ao estudar a preservação da fauna nativa, qual predador imponente é denominado 'Yawaraté'?",
+              "payload": {
+                "opcoes": [
+                  "Onça pintada",
+                  "Veado-campeiro",
+                  "Tamanduá-mirim",
+                  "Lobo-guará"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yawaraté' é a forma padronizada no tupi contemporâneo e nheengatu para designar a onça pintada (Panthera onca).",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante um documentário sobre as florestas tropicais guiado por lideranças da juventude indígena.",
+              "enunciado": "Qual animal símbolo de força e soberania da mata viva é designado por 'Yawaraté'?",
+              "payload": {
+                "opcoes": [
+                  "Macaco-bugio",
+                  "Onça pintada / Grande felino",
+                  "Jacaré-tinga",
+                  "Capivara dos pântanos"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O termo 'Yawaraté' une a raiz yawa (cão/fera) ao sufixo intensificador -té (verdadeiro/legítimo), nomeando a onça pintada.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "No mapa de biodiversidade da aldeia sustentável, as crianças colocam as etiquetas nos animais das matas de galeria.",
+              "enunciado": "Ao avistar a estampa com manchas e rosetas do felino majestoso, qual etiqueta em tupi as crianças escolhem?",
+              "payload": {
+                "opcoes": [
+                  "Yawaraté",
+                  "Akuti",
+                  "So'o",
+                  "Pira"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yawaraté' representa a onça com suas marcas rosetadas características.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Em uma roda de conversa contemporânea sobre a proteção das reservas ambientais.",
+              "enunciado": "Qual o significado correto do termo moderno 'Yawaraté'?",
+              "payload": {
+                "opcoes": [
+                  "Peixe elétrico",
+                  "Onça pintada",
+                  "Pássaro de rapina",
+                  "Árvore sagrada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Yawaraté' traduz-se fielmente como 'Onça pintada'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -106,6 +180,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Tatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Monitorando a trilha ecológica na reserva indígena, os alunos identificam buracos no solo argiloso.",
+              "enunciado": "Ao identificar as tocas escavadas na terra pelo animal de couraça, qual mamífero é chamado de 'Tatu'?",
+              "payload": {
+                "opcoes": [
+                  "Tatu",
+                  "Porco-espinho",
+                  "Paca rajada",
+                  "Cutia veloz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tatu' é o mamífero da ordem Cingulata, conhecido pela carapaça articulada e hábitos fossoriais.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na cartilha ilustrada de animais do cerrado e da mata atlântica distribuída nas escolas da comunidade.",
+              "enunciado": "Qual espécie blindada por placas dérmicas móveis é denominada 'Tatu'?",
+              "payload": {
+                "opcoes": [
+                  "Jabuti da restinga",
+                  "Tatu acouraçado",
+                  "Teiú dos campos",
+                  "Iguana das árvores"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tatu' mantém sua forma original nas línguas tupi-guarani modernas.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O guia ambiental explica o papel ecológico do animal que areja o solo com suas tocas profundas.",
+              "enunciado": "A qual destes animais se refere a expressão 'tatu yby rupi' (o tatu pelos caminhos da terra)?",
+              "payload": {
+                "opcoes": [
+                  "Ao tatu que escava o chão",
+                  "À coruja do ninho alto",
+                  "Ao peixe do lago fundo",
+                  "À borboleta azul"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "A frase descreve com exatidão o deslocamento terrestre do tatu.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação rápida de vocabulário básico de zoologia contemporânea.",
+              "enunciado": "Selecione o equivalente zoológico exato do substantivo 'Tatu':",
+              "payload": {
+                "opcoes": [
+                  "Anta",
+                  "Tatu",
+                  "Preá",
+                  "Quati"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tatu' é o substantivo comum inalterado para os animais cingulados.",
+              "param_a": 1.0,
+              "param_b": -1.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -114,15 +262,18 @@
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
             "Yawaraté": "Onça pintada",
-            "Tatu": "Tatu"
+            "Tatu": "Tatu escavador",
+            "Ka'a": "A mata viva"
           },
           "coluna_esquerda": [
             "Yawaraté",
-            "Tatu"
+            "Tatu",
+            "Ka'a"
           ],
           "coluna_direita": [
-            "Onça pintada",
-            "Tatu"
+            "Tatu escavador",
+            "A mata viva",
+            "Onça pintada"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -130,6 +281,138 @@
           "itens_alvo": [
             "Yawaraté",
             "Tatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No painel interativo da escola comunitária, os estudantes organizam as fichas zoológicas e botânicas.",
+              "enunciado": "Associe os vocábulos em Tupi Revitalizado aos seus significados em Português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Yawaraté",
+                  "Tatu",
+                  "Ka'a"
+                ],
+                "coluna_direita": [
+                  "Tatu escavador",
+                  "A mata viva",
+                  "Onça pintada"
+                ],
+                "pares_corretos": {
+                  "Yawaraté": "Onça pintada",
+                  "Tatu": "Tatu escavador",
+                  "Ka'a": "A mata viva"
+                }
+              },
+              "explicacao": "Yawaraté->Onça pintada, Tatu->Tatu escavador, Ka'a->A mata viva. Derangement estrito perfeito.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Atividade de conexão visual entre os guardiões da fauna e os elementos florestais.",
+              "enunciado": "Conecte os nomes indígenas contemporâneos às características de cada elemento:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Yawaraté",
+                  "Tatu"
+                ],
+                "coluna_direita": [
+                  "Predador soberano da floresta",
+                  "Animal com carapaça que cava o solo",
+                  "A floresta e sua rica vegetação"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "A floresta e sua rica vegetação",
+                  "Yawaraté": "Predador soberano da floresta",
+                  "Tatu": "Animal com carapaça que cava o solo"
+                }
+              },
+              "explicacao": "Ka'a->Floresta, Yawaraté->Predador, Tatu->Animal carapaça. Zero pontos fixos.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática de leitura no círculo de estudos com termos essenciais da biodiversidade.",
+              "enunciado": "Ligue com precisão os conceitos ecológicos às suas palavras em tupi:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tatu",
+                  "Ka'a",
+                  "Yawaraté"
+                ],
+                "coluna_direita": [
+                  "Bioma florestal",
+                  "Felino pintado majestoso",
+                  "Mamífero de casca dura"
+                ],
+                "pares_corretos": {
+                  "Tatu": "Mamífero de casca dura",
+                  "Ka'a": "Bioma florestal",
+                  "Yawaraté": "Felino pintado majestoso"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Jogos educativos em aplicativo para reforço da memória lexical viva.",
+              "enunciado": "Faça a correlação perfeita entre os três substantivos aprendidos na Lição 1:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Yawaraté",
+                  "Tatu",
+                  "Ka'a"
+                ],
+                "coluna_direita": [
+                  "Floresta preservada",
+                  "Onça de belas rosetas",
+                  "Tatu das tocas"
+                ],
+                "pares_corretos": {
+                  "Yawaraté": "Onça de belas rosetas",
+                  "Tatu": "Tatu das tocas",
+                  "Ka'a": "Floresta preservada"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Revisão rápida de conhecimentos tradicionais antes do teste de unidade.",
+              "enunciado": "Una cada termo em tupi à sua definição exata:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Tatu",
+                  "Yawaraté"
+                ],
+                "coluna_direita": [
+                  "Grande onça pintada",
+                  "A mata densa",
+                  "Animal cingulado"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "A mata densa",
+                  "Tatu": "Animal cingulado",
+                  "Yawaraté": "Grande onça pintada"
+                }
+              },
+              "explicacao": "Derangement absoluto em 100% dos pares.",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -186,6 +469,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Akuti"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na horta comunitária da aldeia, os moradores observam um pequeno roedor veloz recolhendo sementes sob as árvores.",
+              "enunciado": "Complete a frase observada pelo agricultor: '______ ka'a.' (A cutia na mata):",
+              "payload": {
+                "texto_com_lacunas": "______ ka'a.",
+                "respostas_corretas": [
+                  "Akuti"
+                ]
+              },
+              "explicacao": "'Akuti' (Cutia) completa a frase com fidelidade ao falar tupi revitalizado.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante o plantio de castanheiras, lembra-se que este roedor é o maior dispersor natural de castanhas da floresta.",
+              "enunciado": "Qual animal dispersor de sementes preenche a frase: 'Oikó ______ ywyra rupi' (Está a cutia junto à árvore)?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______ ywyra rupi.",
+                "respostas_corretas": [
+                  "Akuti"
+                ]
+              },
+              "explicacao": "'Akuti' é o dispersor essencial de sementes das florestas neotropicais.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Um conto infantil sobre os animais espertos que enterram sementes saborosas para o inverno.",
+              "enunciado": "Complete com o nome da esperta criatura: 'I pukú ______ pysy' (A cutia tem pés compridos):",
+              "payload": {
+                "texto_com_lacunas": "I pukú ______ pysy.",
+                "respostas_corretas": [
+                  "Akuti"
+                ]
+              },
+              "explicacao": "'Akuti' é o termo para a cutia (Dasyprocta), roedor ágil de patas finas.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exame de escrita dos termos novos em frases afirmativas simples.",
+              "enunciado": "Preencha a lacuna: 'Ahecha ______' (Eu vi a cutia):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Akuti"
+                ]
+              },
+              "explicacao": "'Akuti' atua como objeto direto na sentença cotidiana.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,10 +562,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Akuti"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O professor de ciências na aldeia mostra imagens de roedores médios típicos da fauna brasileira.",
+              "enunciado": "Qual animal mamífero das matas é identificado pelo nome 'Akuti'?",
+              "payload": {
+                "opcoes": [
+                  "Cutia",
+                  "Tamanduá",
+                  "Quati",
+                  "Mico-leão"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Akuti' traduz-se diretamente como 'Cutia' no léxico revitalizado e nheengatu.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Anotando termos que deram origem a nomes de bairros e rios no Brasil.",
+              "enunciado": "A qual destes pequenos mamíferos a palavra 'Akuti' (ou Cotia) se refere?",
+              "payload": {
+                "opcoes": [
+                  "Lebre selvagem",
+                  "Cutia (roedor florestal)",
+                  "Gambá de cauda peluda",
+                  "Rato do banhado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Akuti' deu origem ao nome do município de Cotia e outros topônimos brasileiros.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Estudando a etimologia e as adaptações da fauna nos biomas de transição.",
+              "enunciado": "Qual a correta identificação para o vocábulo 'Akuti'?",
+              "payload": {
+                "opcoes": [
+                  "Jacaré-açu",
+                  "Cutia",
+                  "Gavião-pega-macaco",
+                  "Cervo do pantanal"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Akuti' é o roedor diurno do gênero Dasyprocta.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão dos animais terrestres estudados nas atividades da manhã.",
+              "enunciado": "Selecione o animal correto referenciado pelo termo 'Akuti':",
+              "payload": {
+                "opcoes": [
+                  "Cutia ágil",
+                  "Anta brasileira",
+                  "Paca noturna",
+                  "Tartaruga da terra"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Akuti' é a cutia, conhecida pela extrema agilidade ao fugir.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
           "texto_com_lacunas": "______ katu.",
@@ -232,6 +651,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "So'o"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Os caçadores da reserva comunitária retornam com alimentos sustentáveis para as famílias da aldeia.",
+              "enunciado": "Complete a saudação comunitária pela boa caça obtida: '______ katu!' (Boa caça!):",
+              "payload": {
+                "texto_com_lacunas": "______ katu!",
+                "respostas_corretas": [
+                  "So'o"
+                ]
+              },
+              "explicacao": "'So'o' significa animal de caça ou carne comestível no tupi revitalizado.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Preparando o moquém na festa de comemoração da colheita e caça sustentável.",
+              "enunciado": "Preencha com o termo que designa o alimento de carne: 'Awa oreruré ______' (Aquele homem trouxe a caça):",
+              "payload": {
+                "texto_com_lacunas": "Awa oreruré ______.",
+                "respostas_corretas": [
+                  "So'o"
+                ]
+              },
+              "explicacao": "'So'o' é a carne e o animal caçado para subsistência alimentar.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Trabalhando a concordância e uso de posposições em frases cotidianas.",
+              "enunciado": "Complete a expressão que indica fartura de alimento: 'Hetá ______ ka'a pupé' (Há muita caça na floresta):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______ ka'a pupé.",
+                "respostas_corretas": [
+                  "So'o"
+                ]
+              },
+              "explicacao": "'So'o' expressa os animais de caça presentes na mata.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "No dicionário escolar bilíngue, completa-se a ficha de termos culinários tradicionais.",
+              "enunciado": "Insira o vocábulo que traduz 'carne/caça': 'Oka pupé oĩ ______':",
+              "payload": {
+                "texto_com_lacunas": "Oka pupé oĩ ______.",
+                "respostas_corretas": [
+                  "So'o"
+                ]
+              },
+              "explicacao": "'So'o' é o termo genérico para carne e animais de caça.",
+              "param_a": 1.2,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -263,6 +744,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "So'o"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na aula de vocabulário temático sobre subsistência e ecologia tradicional.",
+              "enunciado": "Em Tupi Contemporâneo, qual é o significado do termo 'So'o'?",
+              "payload": {
+                "opcoes": [
+                  "Animal de caça / Carne",
+                  "Fruta do mato",
+                  "Peixe da corredeira",
+                  "Raiz cultivada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'So'o' é o termo genérico para animais de caça e carne comestível.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando alimentos vegetais de alimentos de origem animal na tradição alimentar indígena.",
+              "enunciado": "O que representa o termo 'So'o' na partilha alimentar da aldeia?",
+              "payload": {
+                "opcoes": [
+                  "Farinha de mandioca torrada",
+                  "Carne / Animal de caça",
+                  "Bebida de milho fermentada",
+                  "Mel de abelha silvestre"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'So'o' corresponde aos alimentos cárneos provenientes da caça.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão geral dos substantivos da Lição 2 com exemplos de uso oral.",
+              "enunciado": "Ao ouvir a frase 'So'o katu!', o ouvinte compreende que:",
+              "payload": {
+                "opcoes": [
+                  "A caça foi boa e farta",
+                  "O rio está perigoso para navegar",
+                  "O sol está se pondo no horizonte",
+                  "A mandioca secou no sol"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'So'o katu' expressa o contentamento com a boa caça obtida.",
+              "param_a": 1.2,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Comparando vocabulários entre o tupi e outras línguas indígenas da família Tupi-Guarani.",
+              "enunciado": "Assinale a tradução exata do substantivo 'So'o':",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Carne / Caça",
+                  "Flecha emplumada",
+                  "Fogueira cerimonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'So'o' refere-se ao animal de caça e sua carne.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -328,7 +883,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.974,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Fixação ortográfica e fonética da onça pintada no sistema de escrita contemporâneo.",
+              "enunciado": "No contexto da fauna da floresta viva, qual é a forma correta do grande predador felino em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Yawaraté",
+                  "Moyawara",
+                  "Teyawaraté",
+                  "Kuyawa"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yawaraté' é a forma lexical padronizada moderna para a onça pintada.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Reconhecimento das adaptações morfológicas do vocábulo 'Yawaraté'.",
+              "enunciado": "Qual sufixo enriquece o termo 'Yawaraté' para indicar que se trata da fera verdadeira por excelência?",
+              "payload": {
+                "opcoes": [
+                  "-eté / -té (verdadeiro/legítimo)",
+                  "-miri (pequeno)",
+                  "-tinga (branco)",
+                  "-pixuna (preto)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "O sufixo -té/-eté denota excelência e autenticidade ('a verdadeira fera').",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Distinguindo o vocábulo da onça de animais aquáticos ou agrícolas.",
+              "enunciado": "Selecione o vocábulo canônico que representa o felino ápice da floresta:",
+              "payload": {
+                "opcoes": [
+                  "Pira",
+                  "Yawaraté",
+                  "Manioka",
+                  "Paranã"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Yawaraté' é a única denominação zoológica para o felino predador.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -347,7 +958,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.874,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construção de frases afirmativas que descrevem o comportamento do tatu na terra.",
+              "enunciado": "Complete a sentença adaptativa: 'Se ______ katu' (Meu bom tatu):",
+              "payload": {
+                "texto_com_lacunas": "Se ______ katu.",
+                "respostas_corretas": [
+                  "Tatu"
+                ]
+              },
+              "explicacao": "'Tatu' completa harmoniosamente a locução com possessivo e adjetivo.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Fixação de preposições e posposições de lugar com o mamífero cavador.",
+              "enunciado": "Preencha a lacuna da frase viva: 'Oikó ______ yby rupi' (O tatu está pelo chão):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______ yby rupi.",
+                "respostas_corretas": [
+                  "Tatu"
+                ]
+              },
+              "explicacao": "'Tatu' é o sujeito da sentença descritiva de locomoção.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificando o bicho de casca resistente no ambiente do cerrado.",
+              "enunciado": "Qual animal encouraçado preenche a expressão: 'Puranga ______' (Belo tatu):",
+              "payload": {
+                "texto_com_lacunas": "Puranga ______.",
+                "respostas_corretas": [
+                  "Tatu"
+                ]
+              },
+              "explicacao": "'Tatu' é o substantivo qualificado por 'puranga' (bonito/bom).",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -365,7 +1023,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -1.724,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Compreensão do nicho ecológico da cutia nas florestas de terra firme.",
+              "enunciado": "Qual relação ecológica e alimentar caracteriza o substantivo 'Akuti'?",
+              "payload": {
+                "opcoes": [
+                  "Roedor que enterra sementes e frutos duros",
+                  "Fera que caça peixes em alto mar",
+                  "Ave que faz ninhos nas nuvens",
+                  "Cobra venenosa que vive na lama"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Akuti' (cutia) é amplamente conhecida por quebrar coquilhos e enterrar sementes pela mata.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Classificação zoológica e descritiva dos animais menores da floresta.",
+              "enunciado": "Ao ouvir sobre um animal terrestre ágil, que vive comendo no chão da mata, a que termo se refere?",
+              "payload": {
+                "opcoes": [
+                  "Akuti (cutia)",
+                  "Pirarucu (peixe)",
+                  "Arara (ave)",
+                  "Urutu (serpente)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Akuti' é o mamífero roedor ágil do chão da floresta.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática de fixação comparativa entre predadores e animais frugívoros da terra.",
+              "enunciado": "Qual destes termos refere-se especificamente a um roedor frugívoro?",
+              "payload": {
+                "opcoes": [
+                  "Yawaraté",
+                  "Akuti",
+                  "So'o",
+                  "Tupã"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Akuti' é a cutia frugívora, em contraste com o carnívoro Yawaraté.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -383,7 +1097,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.974,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe e qualificadores atributivos na comunicação cotidiana.",
+              "enunciado": "Ao dizer 'So'o katu' em Tupi Contemporâneo, o que o adjetivo 'katu' agrega ao animal de caça?",
+              "payload": {
+                "opcoes": [
+                  "Indica que é uma caça de excelente qualidade ou farta",
+                  "Indica que o animal fugiu velozmente",
+                  "Indica que a carne estragou no calor",
+                  "Indica que o animal é muito pequeno"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' significa 'bom, bem feito, de qualidade'. Logo, 'So'o katu' expressa carne boa ou caça proveitosa.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Expressões tradicionais de celebração por conquistas na subsistência.",
+              "enunciado": "Qual adjetivo completa com entusiasmo o termo da caça bem-sucedida: 'So'o ______!'?",
+              "payload": {
+                "opcoes": [
+                  "katu (bom/ótimo)",
+                  "aíba (mau)",
+                  "piranga (vermelho)",
+                  "pixuna (preto)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é o adjetivo canônico positivo que acompanha o substantivo de caça.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Posicionamento correto dos adjetivos qualificadores em Tupi Revitalizado.",
+              "enunciado": "Qual é a estrutura natural e correta para 'boa caça' na língua?",
+              "payload": {
+                "opcoes": [
+                  "Katu so'o",
+                  "So'o katu",
+                  "Katu oikó",
+                  "So'o teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O adjetivo atributivo sucede diretamente o substantivo: So'o + katu = So'o katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -436,10 +1206,10 @@
             "So'o"
           ],
           "coluna_direita": [
-            "Onça pintada",
-            "Tatu",
-            "Cutia",
-            "Animal de caça"
+            "Tatu de carapaça dura",
+            "Cutia dispersora de sementes",
+            "Carne / Animal de caça",
+            "Onça pintada majestosa"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -449,11 +1219,158 @@
             "Tatu",
             "Akuti",
             "So'o"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de revisão final: conecte os quatro animais e elementos da fauna terrestre contemporânea.",
+              "enunciado": "Desafio da Aldeia: Correlacione cada termo vivo em Tupi Revitalizado à sua tradução em Português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Yawaraté",
+                  "Tatu",
+                  "Akuti",
+                  "So'o"
+                ],
+                "coluna_direita": [
+                  "Tatu de carapaça dura",
+                  "Cutia dispersora de sementes",
+                  "Carne / Animal de caça",
+                  "Onça pintada majestosa"
+                ],
+                "pares_corretos": {
+                  "Yawaraté": "Onça pintada majestosa",
+                  "Tatu": "Tatu de carapaça dura",
+                  "Akuti": "Cutia dispersora de sementes",
+                  "So'o": "Carne / Animal de caça"
+                }
+              },
+              "explicacao": "Derangement estrito: Yawaraté->Onça (índice 3), Tatu->Tatu (índice 0), Akuti->Cutia (índice 1), So'o->Carne (índice 2). Zero pontos fixos.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No encontro etnoambiental, os estudantes organizam os papéis ecológicos dos quatro animais estudados.",
+              "enunciado": "Associe os termos da fauna aos seus papéis descritivos na floresta tropical:",
+              "payload": {
+                "coluna_esquerda": [
+                  "So'o",
+                  "Akuti",
+                  "Tatu",
+                  "Yawaraté"
+                ],
+                "coluna_direita": [
+                  "Roedor que quebra e dispersa sementes",
+                  "Predador ápice das florestas",
+                  "Sustento alimentar da caça sustentável",
+                  "Animal escavador de túneis na terra"
+                ],
+                "pares_corretos": {
+                  "So'o": "Sustento alimentar da caça sustentável",
+                  "Akuti": "Roedor que quebra e dispersa sementes",
+                  "Tatu": "Animal escavador de túneis na terra",
+                  "Yawaraté": "Predador ápice das florestas"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática de consolidação dos vocábulos da fauna da mata para encerramento do capítulo.",
+              "enunciado": "Ligue cada animal em Tupi Revitalizado à sua definição correspondente:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Akuti",
+                  "Yawaraté",
+                  "So'o",
+                  "Tatu"
+                ],
+                "coluna_direita": [
+                  "Felino de manchas rosetadas",
+                  "Carne comestível ou caça",
+                  "Mamífero couraçado",
+                  "Pequeno roedor frugívoro"
+                ],
+                "pares_corretos": {
+                  "Akuti": "Pequeno roedor frugívoro",
+                  "Yawaraté": "Felino de manchas rosetadas",
+                  "So'o": "Carne comestível ou caça",
+                  "Tatu": "Mamífero couraçado"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Jogo da memória interativo para finalização da trilha dos animais da terra.",
+              "enunciado": "Correlacione com exatidão os quatro substantivos aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tatu",
+                  "So'o",
+                  "Yawaraté",
+                  "Akuti"
+                ],
+                "coluna_direita": [
+                  "Onça pintada soberana",
+                  "Cutia da mata",
+                  "Tatu das galerias",
+                  "Carne de caça farta"
+                ],
+                "pares_corretos": {
+                  "Tatu": "Tatu das galerias",
+                  "So'o": "Carne de caça farta",
+                  "Yawaraté": "Onça pintada soberana",
+                  "Akuti": "Cutia da mata"
+                }
+              },
+              "explicacao": "Nenhum par na posição idêntica.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Prova de mestria na terminologia da fauna neotropical viva.",
+              "enunciado": "Faça a correlação final dos animais da terra em Tupi Revitalizado:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Yawaraté",
+                  "Akuti",
+                  "Tatu",
+                  "So'o"
+                ],
+                "coluna_direita": [
+                  "Alimento cárneo da caça",
+                  "Onça pintada feroz",
+                  "Cutia veloz",
+                  "Tatu de casca articulada"
+                ],
+                "pares_corretos": {
+                  "Yawaraté": "Onça pintada feroz",
+                  "Akuti": "Cutia veloz",
+                  "Tatu": "Tatu de casca articulada",
+                  "So'o": "Alimento cárneo da caça"
+                }
+              },
+              "explicacao": "Derangement perfeito: Yawaraté->Onça (1), Akuti->Cutia (2), Tatu->Tatu casca (3), So'o->Alimento (0).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Yawaraté' para o Português:",
           "termo_fonte": "Yawaraté",
           "traducao_esperada": "Onça pintada",
@@ -462,6 +1379,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Yawaraté"
+          ],
+          "opcoes": [
+            "Onça pintada",
+            "Tamanduá-bandeira",
+            "Capivara do lago",
+            "Mico-estrela"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última pergunta do teste de consolidação da fauna de Pindorama perante os educadores.",
+              "enunciado": "Qual é a tradução precisa do vocábulo contemporâneo 'Yawaraté'?",
+              "payload": {
+                "opcoes": [
+                  "Onça pintada",
+                  "Tamanduá-bandeira",
+                  "Capivara do lago",
+                  "Mico-estrela"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yawaraté' é a onça pintada no tupi revitalizado e contemporâneo.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O instrutor ambiental pede aos alunos que apontem o animal guardião da floresta tropical.",
+              "enunciado": "Se os guias apontarem na trilha dizendo 'Yawaraté oikó!', qual animal foi localizado?",
+              "payload": {
+                "opcoes": [
+                  "Bando de macacos",
+                  "Onça pintada majestosa",
+                  "Cardume de piranhas",
+                  "Revoada de tucanos"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Yawaraté' é a onça pintada.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão e síntese do vocábulo soberano do Capítulo 3 de Tupi Revitalizado.",
+              "enunciado": "A qual felino se refere com precisão a denominação 'Yawaraté'?",
+              "payload": {
+                "opcoes": [
+                  "Onça pintada",
+                  "Gato mourisco",
+                  "Jaguatirica pequena",
+                  "Suçuarana parda"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yawaraté' denota a onça pintada com seu poder e exuberância visual.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Concluindo o módulo com a fixação permanente do léxico da biodiversidade.",
+              "enunciado": "Em resumo da primeira lição, 'Yawaraté' é consagrado como:",
+              "payload": {
+                "opcoes": [
+                  "Pássaro das manhãs",
+                  "Onça pintada",
+                  "Peixe de rio",
+                  "Planta ornamental"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Yawaraté' é a onça pintada.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

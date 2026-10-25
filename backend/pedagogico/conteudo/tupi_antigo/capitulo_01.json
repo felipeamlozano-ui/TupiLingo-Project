@@ -59,100 +59,307 @@
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Aué'?",
+          "enunciado": "Ao se aproximar de uma aldeia Tupinambá na orla atlântica, um jovem guerreiro estende a mão direita em sinal amistoso e exclama 'Aué!'. Qual é o sentido desta saudação tradicional?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Olá / Salve"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Adeus / Até logo",
+            "Olá / Salve",
+            "Silêncio / Calma",
+            "Perigo adiante"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 1,
           "resposta_correta_termo": "Aué",
-          "explicacao": "'Aué' significa 'Olá / Salve' conforme atestado no RAG.",
+          "explicacao": "'Aué' é a saudação clássica quinhentista de chegada e acolhimento ('Olá / Salve'), registrada por Eduardo Navarro (2013, p. 23).",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.1,
+          "param_b": -1.2,
+          "param_c": 0.25,
           "itens_alvo": [
             "Aué"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao desembarcar na praia ensolarada de areias claras, um mensageiro Tupinambá vem ao seu encontro erguendo a mão aberta em sinal de boas-vindas.",
+              "enunciado": "O mensageiro acolhe você com serenidade e pronuncia a saudação cerimonial: 'Aué!'. Qual o significado dessa saudação?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.2,
+              "param_c": 0.25,
+              "explicacao": "'Aué' significa 'Olá / Salve', servindo como a saudação de acolhida mais tradicional documentada em fontes quinhentistas.",
+              "payload": {
+                "opcoes": [
+                  "Adeus / Até logo",
+                  "Olá / Salve",
+                  "Silêncio / Calma",
+                  "Perigo adiante"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No relato dos primeiros viajantes europeus do século XVI, registra-se que os povos da costa celebravam a aproximação pacífica com uma interjeição sonora.",
+              "enunciado": "Nos registros históricos do litoral, a interjeição 'Aué' era dita no exato momento da chegada. Em português corrente, esse termo corresponde a:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "Na acolhida tupi clássica, 'Aué' traduz-se fielmente como 'Olá / Salve'.",
+              "payload": {
+                "opcoes": [
+                  "Olá / Salve",
+                  "Venha cá",
+                  "Quem é você?",
+                  "Boa viagem"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Junto às canoas amarradas na foz do rio, dois remadores se encontram ao amanhecer para iniciar a pesca da maré matutina.",
+              "enunciado": "Ao avistar seu companheiro de travessia na praia, o canoeiro saúda afetuosamente: 'Aué, xe irũ!'. O que a palavra 'Aué' comunica nessa fala?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "Combinada com o pronome e o vocativo ('xe irũ' = meu amigo), 'Aué' abre o diálogo como um caloroso 'Olá / Salve'.",
+              "payload": {
+                "opcoes": [
+                  "Um aviso de tempestade",
+                  "Uma saudação amistosa de chegada ('Olá / Salve')",
+                  "Uma ordem para remar rápido",
+                  "Um pedido de silêncio na praia"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "No estudo linguístico do léxico quinhentista conduzido por Eduardo Navarro, a interjeição de acolhimento é analisada em seus contextos de uso.",
+              "enunciado": "Segundo a gramática histórica do Tupi Antigo, qual alternativa expressa o valor semântico exato da interjeição 'Aué'?",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "O termo 'Aué' expressa a saudação interpessoal imediata ('Olá / Salve'), atestada amplamente na literatura colonial.",
+              "payload": {
+                "opcoes": [
+                  "Obrigado / Agradeço",
+                  "Adeus / Até breve",
+                  "Olá / Salve",
+                  "Por favor / Com licença"
+                ],
+                "resposta_correta": 2
+              }
+            }
           ]
         },
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Ereîur pe?'?",
+          "enunciado": "Ao cruzar a entrada da aldeia, o anfitrião se levanta e pergunta ao viajante recém-chegado: 'Ereîur pe?'. Qual o sentido dessa pergunta cerimonial?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "C",
-              "texto": "Vieste?"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Vieste? / Você chegou?",
+            "Para onde vai?",
+            "Trouxe caça fresca?",
+            "Quem enviou você?"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Ereîur pe?",
-          "explicacao": "'Ereîur pe?' significa 'Vieste?' conforme atestado no RAG.",
+          "explicacao": "'Ereîur pe?' é a indagação canônica de chegada em Tupi Antigo (composta do verbo 'îur' na 2ª pessoa e a partícula interrogativa 'pe').",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.0,
+          "param_c": 0.25,
           "itens_alvo": [
             "Ereîur pe?"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Um mensageiro que caminhou dias pelas trilhas litorâneas chega à paliçada da taba ao entardecer, coberto de poeira.",
+              "enunciado": "Ao ver o mensageiro atravessar o portão da aldeia, o líder comunitário indaga com cordialidade: 'Ereîur pe?'. O que ele está perguntando?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "A pergunta 'Ereîur pe?' significa literalmente 'Vieste?' ou 'Você veio/chegou?'.",
+              "payload": {
+                "opcoes": [
+                  "Vieste? / Você chegou?",
+                  "Para onde você vai?",
+                  "Trouxe caça fresca?",
+                  "Quem enviou você?"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Após uma longa expedição de caça na mata atlântica, os jovens guerreiros retornam com arcos e cestos cheios ao terreiro central.",
+              "enunciado": "Os parentes acolhem os caçadores com a pergunta afetuosa: 'Ereîur pe?'. O sentido exato dessa expressão é:",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "A fórmula de boas-vindas confirma o retorno saudável dos viajantes: 'Vieste?'.",
+              "payload": {
+                "opcoes": [
+                  "Onde está a trilha?",
+                  "Vieste? (Chegaste?)",
+                  "Sentem fome?",
+                  "Partiremos amanhã?"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na análise gramatical do Tupi quinhentista, estuda-se a composição das partículas interrogativas enclíticas.",
+              "enunciado": "Na construção 'Ereîur pe?', a partícula 'pe' introduz uma interrogação direta à segunda pessoa. Sabendo disso, qual a tradução correta?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "O prefixo 'ere-' marca a 2ª pessoa do singular do verbo 'îur' (vir), resultando em 'Vieste?'.",
+              "payload": {
+                "opcoes": [
+                  "Eu vim?",
+                  "Ele já veio?",
+                  "Vieste? (Tu vieste?)",
+                  "Nós chegamos?"
+                ],
+                "resposta_correta": 2
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Um ancião de postura venerável recebe um convidado de honra em sua oca sob a luz suave das lamparinas de resina.",
+              "enunciado": "Com tom respeitoso, o ancião formula: 'Ereîur pe, pa'i?'. Como se traduz essa pergunta de cortesia?",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "A pergunta indaga a chegada do interlocutor reverenciado: 'Vieste, senhor?'.",
+              "payload": {
+                "opcoes": [
+                  "Partirás agora, senhor?",
+                  "Vieste, senhor?",
+                  "Onde descansará, senhor?",
+                  "Aceita um trago d'água, senhor?"
+                ],
+                "resposta_correta": 1
+              }
+            }
           ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Pa'i'?",
+          "enunciado": "Durante uma assembleia no centro da aldeia, os mais jovens dirigem-se a uma autoridade venerável usando o vocativo 'Pa'i'. O que essa palavra expressa?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "C",
-              "texto": "Senhor / Tratamento respeitoso"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Guerreiro principiante",
+            "Inimigo reconciliado",
+            "Senhor / Tratamento respeitoso",
+            "Viajante estrangeiro"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 2,
           "resposta_correta_termo": "Pa'i",
-          "explicacao": "'Pa'i' significa 'Senhor / Tratamento respeitoso' conforme atestado no RAG.",
+          "explicacao": "'Pa'i' é o tratamento de respeito ('Senhor / Pai respeitável') amplamente atestado em fontes jesuíticas e crônicas quinhentistas.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.1,
+          "param_b": -1.15,
+          "param_c": 0.25,
           "itens_alvo": [
             "Pa'i"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao redor da grande fogueira central, os membros da comunidade se reúnem para ouvir os conselhos dos mais velhos.",
+              "enunciado": "Um jovem caçador aproxima-se do ancião com postura respeitosa e inicia sua fala com 'Pa'i'. Qual é o significado desse termo honorífico?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "'Pa'i' é empregado para demonstrar deferência e veneração: 'Senhor / Tratamento respeitoso'.",
+              "payload": {
+                "opcoes": [
+                  "Guerreiro principiante",
+                  "Inimigo reconciliado",
+                  "Senhor / Tratamento respeitoso",
+                  "Pássaro sagrado"
+                ],
+                "resposta_correta": 2
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em documentos do século XVI transcritos no Dicionário de Navarro, observa-se o emprego frequente de vocativos corteses nas tabas litorâneas.",
+              "enunciado": "Nos diálogos coloniais registrados entre autoridades indígenas e padres cronistas, a palavra 'Pa'i' funcionava como:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Funcionava como vocativo de alta consideração moral e social: 'Senhor'.",
+              "payload": {
+                "opcoes": [
+                  "Companheiro de folguedo",
+                  "Senhor / Tratamento respeitoso",
+                  "Irmão caçula",
+                  "Prisioneiro de guerra"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Dois moradores da aldeia conversam sobre a conduta justa de seu líder na distribuição dos frutos da colheita.",
+              "enunciado": "Eles comentam: 'Pa'i katu'. Sabendo que 'katu' significa bom ou virtuoso, qual a melhor tradução dessa frase?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "'Pa'i katu' traduz-se como 'Bom senhor' ou 'Senhor virtuoso', unindo respeito e elogio de caráter.",
+              "payload": {
+                "opcoes": [
+                  "Bom senhor / Senhor virtuoso",
+                  "Guerreiro feroz",
+                  "Chefe severo",
+                  "Ancião enfermo"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Você está aprendendo as convenções de etiqueta e hospitalidade dos povos tupis antes de entrar em território amigo.",
+              "enunciado": "Para demonstrar respeito genuíno ao líder de uma aldeia que o recebe em sua oca, qual termo em Tupi Antigo você deve empregar?",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "O vocativo formal de deferência é 'Pa'i'.",
+              "payload": {
+                "opcoes": [
+                  "Pa'i",
+                  "Taba",
+                  "Pira",
+                  "Yby"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         },
         {
           "ordem": 4,
           "tipo": "associacao",
-          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "enunciado": "Desafio das Saudações: Conecte cada termo em Tupi Antigo ao seu sentido tradicional correspondente:",
           "pares_corretos": {
             "Aué": "Olá / Salve",
             "Ereîur pe?": "Vieste?",
@@ -164,17 +371,157 @@
             "Pa'i"
           ],
           "coluna_direita": [
-            "Olá / Salve",
             "Vieste?",
-            "Senhor / Tratamento respeitoso"
+            "Senhor / Tratamento respeitoso",
+            "Olá / Salve"
           ],
-          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "explicacao": "Pares canônicos das primeiras saudações quinhentistas aprendidas na lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.1,
+          "param_c": 0.2,
           "itens_alvo": [
             "Aué",
             "Ereîur pe?",
             "Pa'i"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao desembarcar na praia pacífica, você precisa estabelecer contato amistoso correlacionando as palavras essenciais de boas-vindas.",
+              "enunciado": "Ligue cada expressão tupi à sua correspondência exata em língua portuguesa:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.1,
+              "param_c": 0.2,
+              "explicacao": "Aué = Olá/Salve; Ereîur pe? = Vieste?; Pa'i = Senhor/Respeito.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Aué",
+                  "Ereîur pe?",
+                  "Pa'i"
+                ],
+                "coluna_direita": [
+                  "Vieste?",
+                  "Senhor / Tratamento respeitoso",
+                  "Olá / Salve"
+                ],
+                "pares_corretos": {
+                  "Aué": "Olá / Salve",
+                  "Ereîur pe?": "Vieste?",
+                  "Pa'i": "Senhor / Tratamento respeitoso"
+                }
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No portal de entrada da taba, o guarda e o conselheiro testam sua familiaridade com as saudações cotidianas.",
+              "enunciado": "Associe as saudações e formas de tratamento aos seus significados autênticos:",
+              "dificuldade": "facil",
+              "param_a": 1.25,
+              "param_b": -1.0,
+              "param_c": 0.2,
+              "explicacao": "Associação correta dos termos de acolhida.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ereîur pe?",
+                  "Pa'i",
+                  "Aué"
+                ],
+                "coluna_direita": [
+                  "Olá / Salve",
+                  "Vieste?",
+                  "Senhor / Tratamento respeitoso"
+                ],
+                "pares_corretos": {
+                  "Ereîur pe?": "Vieste?",
+                  "Pa'i": "Senhor / Tratamento respeitoso",
+                  "Aué": "Olá / Salve"
+                }
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O pajé estende folhas com símbolos e convida você a decifrar a sabedoria das primeiras palavras trocadas na praia.",
+              "enunciado": "Correlacione os termos ouvidos no primeiro encontro aos seus sentidos tradicionais:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.05,
+              "param_c": 0.2,
+              "explicacao": "Pares fundamentais de acolhimento interpessoal.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pa'i",
+                  "Aué",
+                  "Ereîur pe?"
+                ],
+                "coluna_direita": [
+                  "Olá / Salve",
+                  "Vieste?",
+                  "Senhor / Tratamento respeitoso"
+                ],
+                "pares_corretos": {
+                  "Pa'i": "Senhor / Tratamento respeitoso",
+                  "Aué": "Olá / Salve",
+                  "Ereîur pe?": "Vieste?"
+                }
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Diante dos cronistas reunidos na feitoria, os termos de contato registrados no século XVI são revisados para assegurar a boa comunicação.",
+              "enunciado": "Conecte as expressões do vocabulário quinhentista às suas equivalências exatas:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.85,
+              "param_c": 0.2,
+              "explicacao": "Identificação semântica dos termos documentados por Navarro (2013).",
+              "payload": {
+                "coluna_esquerda": [
+                  "Aué",
+                  "Pa'i",
+                  "Ereîur pe?"
+                ],
+                "coluna_direita": [
+                  "Senhor / Tratamento respeitoso",
+                  "Vieste?",
+                  "Olá / Salve"
+                ],
+                "pares_corretos": {
+                  "Aué": "Olá / Salve",
+                  "Pa'i": "Senhor / Tratamento respeitoso",
+                  "Ereîur pe?": "Vieste?"
+                }
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Para concluir o ritual de acolhimento e receber as boas-vindas da aldeia, você deve responder com rapidez aos pares verbais.",
+              "enunciado": "Una com precisão cada expressão tupi à respectiva tradução em português:",
+              "dificuldade": "medio",
+              "param_a": 1.35,
+              "param_b": -0.75,
+              "param_c": 0.2,
+              "explicacao": "Fixação consolidada dos termos básicos de acolhimento.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ereîur pe?",
+                  "Aué",
+                  "Pa'i"
+                ],
+                "coluna_direita": [
+                  "Senhor / Tratamento respeitoso",
+                  "Vieste?",
+                  "Olá / Salve"
+                ],
+                "pares_corretos": {
+                  "Ereîur pe?": "Vieste?",
+                  "Aué": "Olá / Salve",
+                  "Pa'i": "Senhor / Tratamento respeitoso"
+                }
+              }
+            }
           ]
         }
       ],
@@ -232,139 +579,517 @@
         {
           "ordem": 1,
           "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: 'Abá katu.'",
-          "texto_com_lacunas": "Abá katu.",
+          "enunciado": "Para elogiar a integridade e virtude de um caçador da taba, o ancião declara: 'Abá _____'. Complete com o adjetivo correspondente a 'bom/virtuoso':",
+          "texto_com_lacunas": "Abá _____.",
           "respostas_lacunas": [
+            "katu",
             "Katu"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Katu' (Bom / Belo).",
-          "dificuldade": "media",
+          "explicacao": "Em Tupi Antigo, os adjetivos sucedem os substantivos: 'abá' (homem/pessoa) + 'katu' (bom) forma 'Abá katu' (Homem bom/virtuoso).",
+          "dificuldade": "medio",
           "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.8,
+          "param_c": 0.15,
           "itens_alvo": [
             "Katu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No terreiro da aldeia, os moradores destacam a generosidade de um guerreiro que compartilhou o alimento com as famílias necessitadas.",
+              "enunciado": "Eles dizem com admiração: 'Abá _____'. Digite o adjetivo tupi que significa 'bom' ou 'virtuoso':",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.15,
+              "explicacao": "'Katu' é a raiz que designa qualidade positiva, bondade e beleza.",
+              "payload": {
+                "texto_com_lacunas": "Abá _____.",
+                "respostas_lacunas": [
+                  "katu",
+                  "Katu"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Você está aprendendo como os povos tupis qualificam as pessoas sábias que guardam a memória dos antepassados.",
+              "enunciado": "Para dizer 'pessoa de bom coração / homem reto', a expressão correta é: 'Abá _____'. Preencha a lacuna:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.15,
+              "explicacao": "A ordem canônica coloca o atributo após a entidade: 'Abá katu'.",
+              "payload": {
+                "texto_com_lacunas": "Abá _____.",
+                "respostas_lacunas": [
+                  "katu",
+                  "Katu"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao contemplar o trabalho habilidoso na construção de uma nova canoa, o mestre construtor elogia o aprendiz.",
+              "enunciado": "Ele afirma que o jovem é prestativo dizendo: 'Abá _____'. Complete a frase em Tupi Antigo:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.15,
+              "explicacao": "Completa-se com 'katu' (bom/virtuoso).",
+              "payload": {
+                "texto_com_lacunas": "Abá _____.",
+                "respostas_lacunas": [
+                  "katu",
+                  "Katu"
+                ]
+              }
+            }
           ]
         },
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Antigo, como se traduz 'Katu'?",
+          "enunciado": "Na fala cotidiana e nas cerimônias dos povos tupinambás, a raiz 'Katu' possui grande alcance semântico. Qual seu significado principal?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Bom / Belo"
-            },
-            {
-              "letra": "B",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Áspero / Amargo",
+            "Bom / Belo / Virtuoso",
+            "Cansado / Lento",
+            "Distante / Esquecido"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 1,
           "resposta_correta_termo": "Katu",
-          "explicacao": "'Katu' traduz-se fielmente como 'Bom / Belo'.",
+          "explicacao": "'Katu' traduz-se fielmente como 'Bom / Belo / Virtuoso', funcionando como adjetivo e predicativo.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.1,
+          "param_b": -1.1,
+          "param_c": 0.25,
           "itens_alvo": [
             "Katu"
-          ]
-        },
-        {
-          "ordem": 2,
-          "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: '______ abá.'",
-          "texto_com_lacunas": "______ abá.",
-          "respostas_lacunas": [
-            "Îandé"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Îandé' (Nós (inclusivo)).",
-          "dificuldade": "media",
-          "pontos_base": 15,
-          "itens_alvo": [
-            "Îandé"
-          ]
-        },
-        {
-          "ordem": 4,
-          "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Antigo, como se traduz 'Îandé'?",
-          "opcoes": [
+          "versoes": [
             {
-              "letra": "A",
-              "texto": "Céu noturno"
+              "versao_numero": 1,
+              "contexto_cena": "Ao provar da água límpida que brota da nascente na mata, o guia tupi sorri satisfeito e exclama: 'I katu!'.",
+              "enunciado": "O que o adjetivo 'katu' expressa sobre a água ou qualquer coisa apreciada?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "'Katu' qualifica aquilo que é agradável, bom ou saudável.",
+              "payload": {
+                "opcoes": [
+                  "Que é perigosa",
+                  "Que é boa / pura",
+                  "Que está quente",
+                  "Que está turva"
+                ],
+                "resposta_correta": 1
+              }
             },
             {
-              "letra": "B",
-              "texto": "Grande rio"
+              "versao_numero": 2,
+              "contexto_cena": "No Dicionário de Navarro (2013), o verbete 'katu' é apresentado com suas múltiplas aplicações morfológicas.",
+              "enunciado": "Conforme a filologia do Tupi Antigo, a raiz 'Katu' corresponde em língua portuguesa a:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "'Katu' é o termo central para a noção de qualidade positiva ('Bom / Belo').",
+              "payload": {
+                "opcoes": [
+                  "Bom / Belo",
+                  "Triste / Escuro",
+                  "Forte / Agressivo",
+                  "Frio / Gelado"
+                ],
+                "resposta_correta": 0
+              }
             },
             {
-              "letra": "C",
-              "texto": "Nós (inclusivo)"
+              "versao_numero": 3,
+              "contexto_cena": "Durante um cântico tradicional que celebra a harmonia da aldeia e a fertilidade das roças de mandioca.",
+              "enunciado": "O verso exalta os bons costumes dos antepassados usando a palavra 'Katu'. O sentido valorizado no canto é:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Enfatiza a nobreza e a bondade das ações.",
+              "payload": {
+                "opcoes": [
+                  "A severidade da guerra",
+                  "A bondade e a beleza das tradições",
+                  "O receio de tempestades",
+                  "A velocidade dos animais"
+                ],
+                "resposta_correta": 1
+              }
             },
             {
-              "letra": "D",
-              "texto": "Terra firme"
+              "versao_numero": 4,
+              "contexto_cena": "Ao comparar diferentes línguas indígenas da família Tupi-Guarani, linguistas notam a permanência dessa raiz.",
+              "enunciado": "Qual das opções a seguir apresenta antônimos diretos que NÃO poderiam traduzir 'Katu'?",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "'Katu' significa bom/belo, portanto 'Mau / Feio' seriam seus opostos.",
+              "payload": {
+                "opcoes": [
+                  "Mau / Ruim",
+                  "Belo / Digno",
+                  "Bom / Saudável",
+                  "Virtuoso / Corretor"
+                ],
+                "resposta_correta": 0
+              }
             }
-          ],
-          "resposta_correta": "C",
-          "resposta_correta_termo": "Îandé",
-          "explicacao": "'Îandé' traduz-se fielmente como 'Nós (inclusivo)'.",
-          "dificuldade": "facil",
-          "pontos_base": 10,
-          "itens_alvo": [
-            "Îandé"
           ]
         },
         {
           "ordem": 3,
           "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: '______ abá katu.'",
+          "enunciado": "Para afirmar a identidade de toda a comunidade reunida incluindo quem ouve ('Nós somos pessoas'), diz-se: '______ abá.' Complete com o pronome inclusivo:",
+          "texto_com_lacunas": "______ abá.",
+          "respostas_lacunas": [
+            "Îandé",
+            "îandé"
+          ],
+          "explicacao": "'Îandé' é o pronome da 1ª pessoa do plural inclusivo (eu + tu + todos nós juntos).",
+          "dificuldade": "medio",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -0.75,
+          "param_c": 0.15,
+          "itens_alvo": [
+            "Îandé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O orador fala à assembleia de todas as famílias da taba, enfatizando a união de todos os presentes.",
+              "enunciado": "Ele proclama a todos que o escutam: '______ abá' (Nós todos somos gente humana). Preencha a lacuna:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.15,
+              "explicacao": "Utiliza-se o pronome 'Îandé' para incluir o interlocutor no coletivo.",
+              "payload": {
+                "texto_com_lacunas": "______ abá.",
+                "respostas_lacunas": [
+                  "Îandé",
+                  "îandé"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na língua tupi, existe distinção rigorosa entre o nós que inclui quem ouve e o nós que exclui.",
+              "enunciado": "Para dizer 'Nós (eu e você juntos)', o pronome obrigatório é: '______'. Preencha a lacuna:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.15,
+              "explicacao": "'Îandé' é a forma inclusiva por excelência em Tupi Antigo.",
+              "payload": {
+                "texto_com_lacunas": "______ abá.",
+                "respostas_lacunas": [
+                  "Îandé",
+                  "îandé"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Reunidos na grande praça cerimonial antes da dança coletiva, os cantores entoam a pertença comum.",
+              "enunciado": "Eles cantam: '______ abá katu' (Nós somos gente boa). Digite o pronome correto:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.65,
+              "param_c": 0.15,
+              "explicacao": "'Îandé' expressa o nós coletivo.",
+              "payload": {
+                "texto_com_lacunas": "______ abá katu.",
+                "respostas_lacunas": [
+                  "Îandé",
+                  "îandé"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual é a função gramatical e o significado exato do pronome 'Îandé' no Tupi Antigo?",
+          "opcoes": [
+            "Eles (terceira pessoa do plural)",
+            "Vós (segunda pessoa do plural)",
+            "Nós (primeira pessoa do plural inclusiva)",
+            "Eu sozinho (primeira pessoa do singular)"
+          ],
+          "resposta_correta": 2,
+          "resposta_correta_termo": "Îandé",
+          "explicacao": "'Îandé' é o pronome nós inclusivo, que abrange o falante e os ouvintes.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "param_a": 1.2,
+          "param_b": -0.95,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Îandé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao ensinar as bases da sociabilidade indígena, o professor de línguas originárias explica os pronomes coletivos.",
+              "enunciado": "Em Tupi Antigo, quando o pronome 'Îandé' é pronunciado, quem está incluído na mensagem?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "'Îandé' inclui quem fala e também quem ouve ('todos nós').",
+              "payload": {
+                "opcoes": [
+                  "Apenas os que estão ausentes",
+                  "Apenas os anciãos da tribo",
+                  "Tanto quem fala quanto quem escuta ('Nós inclusivo')",
+                  "Apenas os visitantes de longe"
+                ],
+                "resposta_correta": 2
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No estudo comparativo de sintaxe tupi, analisa-se a tradução de diálogos históricos entre viajantes e aldeões.",
+              "enunciado": "Como traduzir a palavra 'Îandé' para a língua portuguesa?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Traduz-se fielmente como 'Nós' (com valor inclusivo).",
+              "payload": {
+                "opcoes": [
+                  "Nós (inclusivo)",
+                  "Aquele homem",
+                  "Eles todos",
+                  "Vós outros"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Dois amigos conversam à beira do caminho e um deles recorda que ambos pertencem ao mesmo povo.",
+              "enunciado": "Ao dizer 'Îandé tupi', o falante afirma:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Nós somos tupis', unindo ambos na mesma identidade.",
+              "payload": {
+                "opcoes": [
+                  "Eles são tupis",
+                  "Nós somos tupis",
+                  "Vós sois tupis",
+                  "Eu sou tupi sozinho"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ao consultar tabelas de pronomes pessoais na obra de Eduardo Navarro.",
+              "enunciado": "Qual das alternativas abaixo opõe-se corretamente a 'Îandé', representando a terceira pessoa ('eles/elas')?",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "'Îandé' é estritamente 1ª pessoa plural inclusiva ('nós').",
+              "payload": {
+                "opcoes": [
+                  "A'eita (eles/elas)",
+                  "Xe (eu)",
+                  "Endé (tu)",
+                  "Oré (nós exclusivo)"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
+        },
+        {
+          "ordem": 5,
+          "tipo": "completar",
+          "enunciado": "Para se apresentar dizendo 'Eu sou uma pessoa boa / Eu sou um homem virtuoso', diz-se: '______ abá katu.' Preencha com o pronome da 1ª pessoa do singular:",
           "texto_com_lacunas": "______ abá katu.",
           "respostas_lacunas": [
-            "Xé"
+            "Xé",
+            "xé"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Xé' (Eu / Meu).",
-          "dificuldade": "media",
+          "explicacao": "'Xé' é o pronome da primeira pessoa do singular ('Eu / Meu').",
+          "dificuldade": "medio",
           "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.85,
+          "param_c": 0.15,
           "itens_alvo": [
             "Xé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao chegar a uma nova aldeia, o viajante pacífico faz sua autoapresentação com firmeza e honestidade.",
+              "enunciado": "Ele diz: '______ abá katu' (Eu sou uma pessoa boa). Digite o pronome da primeira pessoa:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.15,
+              "explicacao": "O pronome 'Xé' inicia a frase nominal de autorreferência.",
+              "payload": {
+                "texto_com_lacunas": "______ abá katu.",
+                "respostas_lacunas": [
+                  "Xé",
+                  "xé"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em frases que indicam posse ou sujeito de predicados nominais em Tupi Antigo.",
+              "enunciado": "Para expressar 'Eu' ou 'Meu', utiliza-se a partícula monossilábica: '______'. Complete a lacuna:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.15,
+              "explicacao": "'Xé' funciona tanto como pronome reto/oblíquo quanto possessivo ('meu/minha').",
+              "payload": {
+                "texto_com_lacunas": "______ abá katu.",
+                "respostas_lacunas": [
+                  "Xé",
+                  "xé"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Um guerreiro responde a uma pergunta sobre sua conduta pessoal perante o conselho da aldeia.",
+              "enunciado": "Ele declara: '______ abá' (Eu sou homem/pessoa). Preencha a palavra que falta:",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.15,
+              "explicacao": "A autoria da declaração pertence à 1ª pessoa: 'Xé'.",
+              "payload": {
+                "texto_com_lacunas": "______ abá.",
+                "respostas_lacunas": [
+                  "Xé",
+                  "xé"
+                ]
+              }
+            }
           ]
         },
         {
           "ordem": 6,
           "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Antigo, como se traduz 'Xé'?",
+          "enunciado": "Em Tupi Antigo, como se traduz e se emprega o pronome fundamental 'Xé'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Eu / Meu"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Tu / Teu",
+            "Eu / Meu",
+            "Ele / Dele",
+            "Vós / Vosso"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 1,
           "resposta_correta_termo": "Xé",
-          "explicacao": "'Xé' traduz-se fielmente como 'Eu / Meu'.",
+          "explicacao": "'Xé' traduz-se fielmente como 'Eu / Meu', marcando a primeira pessoa do singular.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.05,
+          "param_c": 0.25,
           "itens_alvo": [
             "Xé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Em um diálogo amigável na praia, o habitante da terra aponta para o próprio peito para dizer quem ele é.",
+              "enunciado": "Ao apontar para si mesmo, ele pronuncia a palavra 'Xé'. O que significa esse termo?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "É o pronome pessoal da primeira pessoa singular: 'Eu'.",
+              "payload": {
+                "opcoes": [
+                  "Aquele homem ali",
+                  "Eu / Meu",
+                  "O chefe da taba",
+                  "O mar aberto"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao analisar a frase 'Xe irũ' (Meu amigo / Meu companheiro) anotada em manuscritos coloniais.",
+              "enunciado": "Nessa construção, qual papel a palavra 'Xe' desempenha?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Atua como pronome possessivo proclítico ('Meu').",
+              "payload": {
+                "opcoes": [
+                  "Pronome possessivo de 1ª pessoa ('Meu')",
+                  "Verbo de ação ('correr')",
+                  "Advérbio de lugar ('ali')",
+                  "Preposição de origem ('de')"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante o aprendizado inicial das saudações, você precisa diferenciar 'Eu' de 'Nós'.",
+              "enunciado": "Se 'Îandé' significa 'Nós', qual palavra representa 'Eu'?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "'Xé' é a forma singular e 'Îandé' a forma plural inclusiva.",
+              "payload": {
+                "opcoes": [
+                  "Endé",
+                  "A'e",
+                  "Xé",
+                  "Oré"
+                ],
+                "resposta_correta": 2
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Nos textos do Padre José de Anchieta e de Eduardo Navarro sobre a língua brasílica.",
+              "enunciado": "Qual das seguintes frases utiliza 'Xé' como sujeito de um predicativo de forma correta?",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "'Xé abá' significa 'Eu sou pessoa/homem'.",
+              "payload": {
+                "opcoes": [
+                  "Xé abá (Eu sou pessoa)",
+                  "Xé pe? (Vieste tu?)",
+                  "Xé oka (A casa deles)",
+                  "Xé ma'ẽ (Eles viram)"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         }
       ],
@@ -420,75 +1145,302 @@
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "No contexto de 'Saudações e Boas-Vindas', qual termo representa a forma canônica aprendida?",
+          "enunciado": "Revisando os primeiros diálogos na orla, um ancião quer saber se você recorda a saudação de acolhida mais tradicional. Qual termo você deve escolher?",
           "opcoes": [
             "Aué",
-            "Moereîur pe?",
+            "Mo'e",
             "Tepa'ĩ",
             "Kukatu"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Aué' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
-          "dificuldade": "media",
+          "explicacao": "'Aué' é o vocábulo central de saudação e acolhimento atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
+          "dificuldade": "medio",
           "pontos_base": 15,
           "param_a": 1.2,
-          "param_b": -2.5,
-          "param_c": 0.25
+          "param_b": -0.8,
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao passar pelos sentinelas que guardam a entrada da taba à beira-mar, você deve pronunciar a saudação clássica correta.",
+              "enunciado": "Qual palavra em Tupi Antigo representa a saudação tradicional de encontro e chegada ('Olá / Salve')?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "'Aué' é a forma atestada de boas-vindas.",
+              "payload": {
+                "opcoes": [
+                  "Aué",
+                  "Mo'e",
+                  "Tepa'ĩ",
+                  "Kukatu"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Você ouve um grupo de jovens retornando da coleta de ostras na enseada saldando os que ficaram na praia.",
+              "enunciado": "Eles gritam alegremente: 'Aué!'. A que corresponde essa exclamação na língua portuguesa?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "Corresponde ao cumprimento 'Olá / Salve'.",
+              "payload": {
+                "opcoes": [
+                  "Socorro / Cuidado",
+                  "Olá / Salve",
+                  "Adeus / Até nunca",
+                  "Depressa / Corram"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Nos autos teatrais compostos no século XVI em língua tupi para ensino e comunicação.",
+              "enunciado": "Os personagens iniciam diálogos de paz utilizando a palavra canônica de chegada. Essa palavra é:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Trata-se de 'Aué', documentado nas fontes quinhentistas.",
+              "payload": {
+                "opcoes": [
+                  "Aué",
+                  "Pira",
+                  "Yby",
+                  "Tata"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         },
         {
           "ordem": 2,
           "tipo": "completar",
-          "enunciado": "Complete a sentença tradicional de Saudações e Boas-Vindas: 'Xe ____ katu'.",
-          "frase_com_lacunas": "Xe _____ katu.",
-          "palavra_correta": "Ereîur pe?",
-          "opcoes_banco": [
-            "Ereîur pe?",
-            "Pa'i",
-            "Katu",
-            "abá"
+          "enunciado": "Complete a fórmula respeitosa de recepção dirigida ao senhor da taba: '_____ katu, pa'i.' Complete com a saudação de acolhida:",
+          "texto_com_lacunas": "_____ katu, pa'i.",
+          "respostas_lacunas": [
+            "Aué",
+            "aué"
           ],
-          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Ereîur pe?'.",
-          "dificuldade": "media",
+          "explicacao": "'Aué katu' expressa um caloroso e respeitoso 'Muito bem-vindo / Salve!', seguido do vocativo 'pa'i' (senhor).",
+          "dificuldade": "medio",
           "pontos_base": 15,
           "param_a": 1.25,
-          "param_b": -2.4,
-          "param_c": 0.25
+          "param_b": -0.7,
+          "param_c": 0.15,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No momento em que o visitante mais esperado atravessa os limites da aldeia sob os aplausos da comunidade.",
+              "enunciado": "O orador saúda: '_____ katu, pa'i!' (Muito bem-vindo, senhor!). Digite a saudação de entrada que falta:",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.75,
+              "param_c": 0.15,
+              "explicacao": "A saudação tradicional é 'Aué'.",
+              "payload": {
+                "texto_com_lacunas": "_____ katu, pa'i.",
+                "respostas_lacunas": [
+                  "Aué",
+                  "aué"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao cruzar com o canoeiro que ancora na beira do mangue com a rede farta.",
+              "enunciado": "Você deseja saudá-lo com amizade: '_____, xe irũ!' (Olá, meu companheiro!). Complete com a interjeição correta:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.15,
+              "explicacao": "Utiliza-se 'Aué' para saudar companheiros e amigos.",
+              "payload": {
+                "texto_com_lacunas": "_____, xe irũ!",
+                "respostas_lacunas": [
+                  "Aué",
+                  "aué"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante uma reconstituição histórica das primeiras conversas entre habitantes da costa.",
+              "enunciado": "A frase de boas-vindas começa com a saudação de chegada: '_____!'. Preencha a palavra correta:",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.0,
+              "param_c": 0.15,
+              "explicacao": "A palavra canônica de acolhida é 'Aué'.",
+              "payload": {
+                "texto_com_lacunas": "_____!",
+                "respostas_lacunas": [
+                  "Aué",
+                  "aué"
+                ]
+              }
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
-          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Saudações e Boas-Vindas':",
+          "enunciado": "Na convivência tradicional, quando alguém se dirige ao conselheiro da taba com veneração, qual título honorífico é empregado?",
           "opcoes": [
-            "Uso harmônico de 'Pa'i'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Pa'i",
+            "Kurumi",
+            "Kunhã",
+            "Tupã"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Pa'i' expressa a construção genuína documentada nas fontes clássicas.",
-          "dificuldade": "dificil",
-          "pontos_base": 20,
-          "param_a": 1.3,
-          "param_b": -2.25,
-          "param_c": 0.25
+          "explicacao": "'Pa'i' expressa a consideração e reverência filial/social ao líder respeitado.",
+          "dificuldade": "medio",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.85,
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Diante de uma figura comunitária que inspira confiança e retidão de conduta na taba.",
+              "enunciado": "Qual vocativo de honra e cortesia é utilizado para chamá-lo em Tupi Antigo?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "'Pa'i' é o vocativo reverente por excelência.",
+              "payload": {
+                "opcoes": [
+                  "Pa'i",
+                  "Kurumi",
+                  "Kunhã",
+                  "Tupã"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao analisar cartas quinhentistas escritas em língua tupi.",
+              "enunciado": "O termo 'Pa'i' é traduzido em português como:",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Senhor' ou 'Tratamento respeitoso'.",
+              "payload": {
+                "opcoes": [
+                  "Menino pequeno",
+                  "Senhor / Tratamento respeitoso",
+                  "Rio caudaloso",
+                  "Canoa de casca"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Em uma situação em que você deseja agradecer a hospitalidade de um ancião que lhe ofereceu abrigo.",
+              "enunciado": "Você conclui sua saudação com reverência chamando-o de:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Diz-se 'Pa'i'.",
+              "payload": {
+                "opcoes": [
+                  "Pa'i",
+                  "Yby",
+                  "Pira",
+                  "Oka"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         },
         {
           "ordem": 4,
           "tipo": "escolha_multipla",
-          "enunciado": "Ao revisar as estruturas de Saudações e Boas-Vindas, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "enunciado": "Qual das seguintes palavras expressa a ideia de 'bom, belo, virtuoso ou de boa qualidade' em Tupi Antigo?",
           "opcoes": [
-            "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxiri (feio)",
+            "Katu (bom / belo)",
+            "Aba (pessoa)",
+            "Iby (terra)"
           ],
-          "resposta_correta": 0,
-          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
-          "dificuldade": "media",
+          "resposta_correta": 1,
+          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' atestada no Navarro (2013).",
+          "dificuldade": "facil",
           "pontos_base": 15,
-          "param_a": 1.2,
-          "param_b": -2.5,
-          "param_c": 0.25
+          "param_a": 1.15,
+          "param_b": -1.0,
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao avaliar uma cesta de palha trançada com perfeição ou um arco bem talhado em madeira nobre.",
+              "enunciado": "O artesão afirma que a peça tem excelente feitura usando o termo:",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "'Katu' qualifica tudo que é bem feito, agradável e nobre.",
+              "payload": {
+                "opcoes": [
+                  "Tata",
+                  "Katu",
+                  "Ybyra",
+                  "Paranã"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No estudo da formação de palavras da língua tupi, nota-se a presença frequente de sufixos e adjetivos de aprovação.",
+              "enunciado": "Em 'Abá katu', qual palavra exerce a função de adjetivo qualificando 'abá'?",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Katu' é o adjetivo que qualifica o substantivo anterior.",
+              "payload": {
+                "opcoes": [
+                  "Abá",
+                  "Katu",
+                  "Ambas juntas sem distinção",
+                  "Nenhuma das duas"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao amanhecer com um céu límpido e ventos brandos sobre a enseada.",
+              "enunciado": "Os canoeiros celebram o tempo favorável dizendo que o dia está:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "'Katu' indica que as condições são boas e propícias.",
+              "payload": {
+                "opcoes": [
+                  "Katu (bom / favorável)",
+                  "Aiba (ruim / adverso)",
+                  "Poxi (mau / perigoso)",
+                  "Asy (doloroso)"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         }
       ]
     },
@@ -537,7 +1489,7 @@
         {
           "ordem": 1,
           "tipo": "associacao",
-          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 1:",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais aprendidos ao longo de todo o Capítulo 1:",
           "pares_corretos": {
             "Aué": "Olá / Salve",
             "Ereîur pe?": "Vieste?",
@@ -551,32 +1503,263 @@
             "Katu"
           ],
           "coluna_direita": [
-            "Olá / Salve",
             "Vieste?",
-            "Senhor / Tratamento respeitoso",
-            "Bom / Belo"
+            "Bom / Belo",
+            "Olá / Salve",
+            "Senhor / Tratamento respeitoso"
           ],
-          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
-          "dificuldade": "media",
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados no Capítulo 1 com derangement estrito das colunas.",
+          "dificuldade": "medio",
           "pontos_base": 20,
+          "param_a": 1.25,
+          "param_b": -0.8,
+          "param_c": 0.2,
           "itens_alvo": [
             "Aué",
             "Ereîur pe?",
             "Pa'i",
             "Katu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No conselho solene que encerra a primeira etapa de sua jornada, os líderes da taba pedem que você demonstre domínio completo dos cumprimentos.",
+              "enunciado": "Ligue cada termo em Tupi Antigo ao seu sentido canônico em língua portuguesa:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.2,
+              "explicacao": "Associação de 4 pares básicos do Capítulo 1.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Aué",
+                  "Ereîur pe?",
+                  "Pa'i",
+                  "Katu"
+                ],
+                "coluna_direita": [
+                  "Vieste?",
+                  "Bom / Belo",
+                  "Olá / Salve",
+                  "Senhor / Tratamento respeitoso"
+                ],
+                "pares_corretos": {
+                  "Aué": "Olá / Salve",
+                  "Ereîur pe?": "Vieste?",
+                  "Pa'i": "Senhor / Tratamento respeitoso",
+                  "Katu": "Bom / Belo"
+                }
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diante das canoas prontas para seguir pelo litoral, você confere o significado das palavras essenciais de acolhida.",
+              "enunciado": "Associe os termos aos seus respectivos significados com precisão:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.2,
+              "explicacao": "Fixação consolidada dos termos de saudação e tratamento.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pa'i",
+                  "Katu",
+                  "Aué",
+                  "Ereîur pe?"
+                ],
+                "coluna_direita": [
+                  "Bom / Belo",
+                  "Senhor / Tratamento respeitoso",
+                  "Vieste?",
+                  "Olá / Salve"
+                ],
+                "pares_corretos": {
+                  "Pa'i": "Senhor / Tratamento respeitoso",
+                  "Katu": "Bom / Belo",
+                  "Aué": "Olá / Salve",
+                  "Ereîur pe?": "Vieste?"
+                }
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O pajé desenha quatro símbolos na areia da praia e testa sua memória rápida antes do pôr do sol.",
+              "enunciado": "Conecte os vocábulos tupis com suas equivalências exatas:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.2,
+              "explicacao": "Verificação de acervo lexical consolidado.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ereîur pe?",
+                  "Aué",
+                  "Katu",
+                  "Pa'i"
+                ],
+                "coluna_direita": [
+                  "Senhor / Tratamento respeitoso",
+                  "Vieste?",
+                  "Bom / Belo",
+                  "Olá / Salve"
+                ],
+                "pares_corretos": {
+                  "Ereîur pe?": "Vieste?",
+                  "Aué": "Olá / Salve",
+                  "Katu": "Bom / Belo",
+                  "Pa'i": "Senhor / Tratamento respeitoso"
+                }
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Durante o intercâmbio de conhecimentos entre duas aldeias vizinhas reunidas para uma celebração festiva.",
+              "enunciado": "Correlacione as formas de expressão do diálogo cerimonial às suas traduções:",
+              "dificuldade": "medio",
+              "param_a": 1.35,
+              "param_b": -0.65,
+              "param_c": 0.2,
+              "explicacao": "Associação de pares cerimoniais.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu",
+                  "Pa'i",
+                  "Ereîur pe?",
+                  "Aué"
+                ],
+                "coluna_direita": [
+                  "Olá / Salve",
+                  "Vieste?",
+                  "Senhor / Tratamento respeitoso",
+                  "Bom / Belo"
+                ],
+                "pares_corretos": {
+                  "Katu": "Bom / Belo",
+                  "Pa'i": "Senhor / Tratamento respeitoso",
+                  "Ereîur pe?": "Vieste?",
+                  "Aué": "Olá / Salve"
+                }
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "O grande desafio final do Capítulo 1: uma prova de agilidade mental com todas as raízes ensinadas até aqui.",
+              "enunciado": "Una cada termo em Tupi Antigo à sua respectiva definição:",
+              "dificuldade": "medio",
+              "param_a": 1.4,
+              "param_b": -0.6,
+              "param_c": 0.2,
+              "explicacao": "Consolidação total das 4 raízes da introdução.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Aué",
+                  "Katu",
+                  "Pa'i",
+                  "Ereîur pe?"
+                ],
+                "coluna_direita": [
+                  "Bom / Belo",
+                  "Vieste?",
+                  "Olá / Salve",
+                  "Senhor / Tratamento respeitoso"
+                ],
+                "pares_corretos": {
+                  "Aué": "Olá / Salve",
+                  "Katu": "Bom / Belo",
+                  "Pa'i": "Senhor / Tratamento respeitoso",
+                  "Ereîur pe?": "Vieste?"
+                }
+              }
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
-          "enunciado": "Traduza a palavra 'Aué' para o Português:",
-          "termo_fonte": "Aué",
-          "traducao_esperada": "Olá / Salve",
-          "explicacao": "'Aué' significa 'Olá / Salve'.",
-          "dificuldade": "media",
+          "tipo": "completar",
+          "enunciado": "Síntese do Capítulo 1: complete a declaração de acolhida solene em Tupi Antigo: '_____ katu, pa'i.' Digite a saudação tradicional de boas-vindas:",
+          "texto_com_lacunas": "_____ katu, pa'i.",
+          "respostas_lacunas": [
+            "Aué",
+            "aué"
+          ],
+          "explicacao": "'Aué' é a saudação canônica quinhentista de acolhida ('Olá / Salve').",
+          "dificuldade": "medio",
           "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -0.85,
+          "param_c": 0.15,
           "itens_alvo": [
             "Aué"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Para selar sua aceitação na comunidade litorânea, o visitante profere a saudação de paz e honra diante de todos.",
+              "enunciado": "Ele saúda o líder com respeito: '_____ katu, pa'i!' (Muito bem-vindo, senhor!). Digite a palavra que completa a frase:",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.15,
+              "explicacao": "'Aué' inicia a saudação tradicional de boas-vindas.",
+              "payload": {
+                "texto_com_lacunas": "_____ katu, pa'i.",
+                "respostas_lacunas": [
+                  "Aué",
+                  "aué"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao reencontrar seu melhor amigo às margens do rio no final da jornada do Capítulo 1.",
+              "enunciado": "Você se aproxima e diz alegremente: '_____, xe irũ!' (Olá, meu companheiro!). Complete a lacuna:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -0.95,
+              "param_c": 0.15,
+              "explicacao": "Utiliza-se 'Aué' para cumprimentar amigos.",
+              "payload": {
+                "texto_com_lacunas": "_____, xe irũ!",
+                "respostas_lacunas": [
+                  "Aué",
+                  "aué"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Relembrando os primeiros diálogos registrados pelos cronistas quinhentistas entre povos originários e visitantes.",
+              "enunciado": "A interjeição tradicional de chegada e paz é: '_____'. Digite o vocábulo tupi:",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.05,
+              "param_c": 0.15,
+              "explicacao": "Trata-se de 'Aué'.",
+              "payload": {
+                "texto_com_lacunas": "_____",
+                "respostas_lacunas": [
+                  "Aué",
+                  "aué"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Na assembleia de encerramento do primeiro grande ciclo de estudos sobre o Tupi Antigo da costa.",
+              "enunciado": "Como um verdadeiro praticante da língua, declare a saudação de abertura em uma palavra: '_____!'. Preencha a lacuna:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.15,
+              "explicacao": "Conclui-se o ciclo com 'Aué'.",
+              "payload": {
+                "texto_com_lacunas": "_____!",
+                "respostas_lacunas": [
+                  "Aué",
+                  "aué"
+                ]
+              }
+            }
           ]
         }
       ],

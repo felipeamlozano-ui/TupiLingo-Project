@@ -59,104 +59,311 @@
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Katu'?",
+          "enunciado": "No movimento de revitalização linguística e no cotidiano das aldeias contemporâneas, a raiz 'Katu' é amplamente utilizada para qualificar pessoas, coisas e intenções. Qual o seu significado?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Bom / Belo"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Escuro / Noturno",
+            "Bom / Belo / Positivo",
+            "Veloz / Fugaz",
+            "Silencioso / Deserto"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 1,
           "resposta_correta_termo": "Katu",
-          "explicacao": "'Katu' significa 'Bom / Belo' conforme atestado no RAG.",
+          "explicacao": "'Katu' é a raiz central em Tupi Revitalizado que expressa bondade, beleza e bem-estar.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.1,
+          "param_b": -1.15,
+          "param_c": 0.25,
           "itens_alvo": [
             "Katu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao chegar à escola indígena da aldeia pela manhã, o professor acolhe os alunos mostrando uma placa de boas práticas comunitárias.",
+              "enunciado": "No topo da placa, lê-se a palavra 'Katu' destacada em cores vivas. Qual é o sentido dessa palavra fundamental?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "'Katu' significa 'Bom / Belo', sendo o alicerce de valores comunitários.",
+              "payload": {
+                "opcoes": [
+                  "Escuro / Noturno",
+                  "Bom / Belo / Positivo",
+                  "Veloz / Fugaz",
+                  "Silencioso / Deserto"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante uma oficina de revitalização da língua com jovens lideranças indígenas reunidas no centro cultural.",
+              "enunciado": "Ao expressar que um projeto coletivo é benéfico e traz harmonia para a comunidade, os participantes usam a palavra 'Katu' para indicar:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "'Katu' denota tudo aquilo que é virtuoso e propício ao bem viver.",
+              "payload": {
+                "opcoes": [
+                  "Que a ação é boa e construtiva",
+                  "Que o plano foi adiado",
+                  "Que o caminho é perigoso",
+                  "Que falta alimento"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Em um aplicativo de mensagens utilizado entre falantes do idioma revitalizado, a reação mais comum para aprovar uma ideia é 'Katu!'.",
+              "enunciado": "Em língua portuguesa moderna, a exclamação 'Katu!' equivale a:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Equivale a 'Muito bom! / Perfeito! / Que beleza!'.",
+              "payload": {
+                "opcoes": [
+                  "Cuidado!",
+                  "Que bom! / Belo!",
+                  "Até logo!",
+                  "Não entendi!"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ao analisar a estrutura das saudações diárias em Tupi Revitalizado, nota-se que a raiz 'Katu' é a base formadora dos cumprimentos.",
+              "enunciado": "Qual dos seguintes pares de palavras em português melhor traduz o sentido primário de 'Katu'?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Traduz-se fielmente por 'Bom' e 'Belo'.",
+              "payload": {
+                "opcoes": [
+                  "Bom / Belo",
+                  "Triste / Feio",
+                  "Rápido / Fugaz",
+                  "Alto / Distante"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         },
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Katu koema'?",
+          "enunciado": "Ao despontar os primeiros raios de sol sobre as copas das árvores na aldeia, qual expressão em Tupi Revitalizado é usada para saudar o dia?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Bom dia"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Katu koema",
+            "Katu pytuna",
+            "Aweté panhe",
+            "Ereîur pe"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Katu koema",
-          "explicacao": "'Katu koema' significa 'Bom dia' conforme atestado no RAG.",
+          "explicacao": "'Katu koema' é a saudação matinal por excelência em Tupi Revitalizado ('Bom dia', de 'koema' = manhã).",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
           "itens_alvo": [
             "Katu koema"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Logo ao amanhecer, os membros da comunidade saem de suas casas e se cumprimentam no pátio antes das tarefas da manhã.",
+              "enunciado": "Para desejar 'Bom dia' a quem cruza seu caminho nas primeiras horas da manhã, diz-se:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "'Katu koema' combina 'katu' (bom) e 'koema' (manhã).",
+              "payload": {
+                "opcoes": [
+                  "Katu koema",
+                  "Katu pytuna",
+                  "Aweté panhe",
+                  "Taba katu"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O rádio comunitário indígena entra no ar às seis da manhã transmitindo notícias locais em língua originária.",
+              "enunciado": "O locutor abre a transmissão com voz calorosa saudando todos os ouvintes: 'Katu koema, panhe!'. O que ele está dizendo?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "Ele está desejando 'Bom dia a todos!'.",
+              "payload": {
+                "opcoes": [
+                  "Boa noite a todos!",
+                  "Bom dia a todos!",
+                  "Até logo a todos!",
+                  "Bem-vindos ao almoço!"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na sala de aula da comunidade, os alunos aprendem os períodos do dia e seus cumprimentos correspondentes.",
+              "enunciado": "Sabendo que 'koema' significa aurora ou manhã, qual das expressões abaixo expressa literalmente 'boa manhã' ou 'bom dia'?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Katu koema' é a construção regular para o amanhecer.",
+              "payload": {
+                "opcoes": [
+                  "Katu pytuna",
+                  "Katu koema",
+                  "Katu karuka",
+                  "Aweté koema"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ao encontrar um colega de estudos no início de um dia ensolarado, você deseja praticar a conversação em Tupi Revitalizado.",
+              "enunciado": "Qual a saudação ideal para iniciar o diálogo logo pela manhã?",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "Inicia-se com 'Katu koema'.",
+              "payload": {
+                "opcoes": [
+                  "Katu koema",
+                  "Pytuna katu",
+                  "Aweté mirĩ",
+                  "Xe sÿ"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Katu pytuna'?",
+          "enunciado": "Quando o sol se põe no horizonte e as estrelas surgem sobre a floresta, qual saudação é empregada para desejar 'Boa noite' em Tupi Revitalizado?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Boa noite"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Katu koema",
+            "Katu pytuna",
+            "Aweté katu",
+            "Kunumĩ katu"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 1,
           "resposta_correta_termo": "Katu pytuna",
-          "explicacao": "'Katu pytuna' significa 'Boa noite' conforme atestado no RAG.",
+          "explicacao": "'Katu pytuna' significa 'Boa noite' (formado por 'katu' = bom e 'pytuna' = noite/escuridão).",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
           "itens_alvo": [
             "Katu pytuna"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao redor do fogo comunitário antes de recolher-se à oca para dormir, as famílias se despedem amigavelmente.",
+              "enunciado": "Para desejar uma noite tranquila e abençoada a quem vai dormir, a expressão tradicional é:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "'Katu pytuna' é a saudação noturna consagrada.",
+              "payload": {
+                "opcoes": [
+                  "Katu koema",
+                  "Katu pytuna",
+                  "Aweté katu",
+                  "Kunumĩ katu"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de conversa noturna sob o céu estrelado, você ouve um ancião encerrar o encontro dizendo: 'Katu pytuna, panhe!'.",
+              "enunciado": "O que essa despedida significa na língua portuguesa?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Boa noite a todos!'.",
+              "payload": {
+                "opcoes": [
+                  "Bom dia a todos!",
+                  "Boa tarde a todos!",
+                  "Boa noite a todos!",
+                  "Bom almoço a todos!"
+                ],
+                "resposta_correta": 2
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao estudar os elementos que compõem o léxico de tempo, você aprende a palavra 'pytuna' (noite/trevas).",
+              "enunciado": "A combinação de 'Katu' com 'Pytuna' expressa o desejo de:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Expressa o desejo de uma noite boa e descansada ('Boa noite').",
+              "payload": {
+                "opcoes": [
+                  "Um dia ensolarado",
+                  "Uma boa noite de descanso",
+                  "Uma caçada perigosa",
+                  "Uma viagem apressada"
+                ],
+                "resposta_correta": 1
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "No aplicativo pedagógico, você é desafiado a escolher a saudação adequada para o horário das 21h.",
+              "enunciado": "Qual saudação em Tupi Revitalizado você deve enviar às 21h?",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "Às 21h utiliza-se 'Katu pytuna'.",
+              "payload": {
+                "opcoes": [
+                  "Katu koema",
+                  "Katu pytuna",
+                  "Aweté",
+                  "Kuñataĩ"
+                ],
+                "resposta_correta": 1
+              }
+            }
           ]
         },
         {
           "ordem": 4,
           "tipo": "associacao",
-          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "enunciado": "Desafio das Saudações Cotidianas: Conecte cada expressão em Tupi Revitalizado ao seu significado correto:",
           "pares_corretos": {
-            "Puranga": "Bom / Belo",
+            "Katu": "Bom / Belo",
             "Katu koema": "Bom dia",
-            "Katu pykói": "Boa noite"
+            "Katu pytuna": "Boa noite"
           },
           "coluna_esquerda": [
             "Katu",
@@ -164,17 +371,157 @@
             "Katu pytuna"
           ],
           "coluna_direita": [
-            "Bom / Belo",
             "Bom dia",
-            "Boa noite"
+            "Boa noite",
+            "Bom / Belo"
           ],
-          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "explicacao": "Associação canônica dos primeiros cumprimentos diários em Tupi Revitalizado.",
           "dificuldade": "facil",
           "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.1,
+          "param_c": 0.2,
           "itens_alvo": [
             "Katu",
             "Katu koema",
             "Katu pytuna"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No mural da escola da aldeia, os alunos organizam as primeiras saudações em pares para treino dos novos aprendizes.",
+              "enunciado": "Associe as saudações aos períodos do dia e conceitos corretos:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.1,
+              "param_c": 0.2,
+              "explicacao": "Katu = Bom/Belo; Katu koema = Bom dia; Katu pytuna = Boa noite.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu",
+                  "Katu koema",
+                  "Katu pytuna"
+                ],
+                "coluna_direita": [
+                  "Bom dia",
+                  "Boa noite",
+                  "Bom / Belo"
+                ],
+                "pares_corretos": {
+                  "Katu": "Bom / Belo",
+                  "Katu koema": "Bom dia",
+                  "Katu pytuna": "Boa noite"
+                }
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante um jogo de cartas ilustradas com momentos do sol e da lua na aldeia contemporânea.",
+              "enunciado": "Conecte cada expressão em Tupi Revitalizado à sua tradução correspondente:",
+              "dificuldade": "facil",
+              "param_a": 1.25,
+              "param_b": -1.0,
+              "param_c": 0.2,
+              "explicacao": "Pares de saudação matinal, noturna e qualidade.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu koema",
+                  "Katu pytuna",
+                  "Katu"
+                ],
+                "coluna_direita": [
+                  "Boa noite",
+                  "Bom / Belo",
+                  "Bom dia"
+                ],
+                "pares_corretos": {
+                  "Katu koema": "Bom dia",
+                  "Katu pytuna": "Boa noite",
+                  "Katu": "Bom / Belo"
+                }
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Você prepara um pequeno guia de bolso de saudações para os novos visitantes da comunidade.",
+              "enunciado": "Ligue os termos em Tupi aos seus significados em língua portuguesa:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.05,
+              "param_c": 0.2,
+              "explicacao": "Correspondência de termos diários.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu pytuna",
+                  "Katu",
+                  "Katu koema"
+                ],
+                "coluna_direita": [
+                  "Bom dia",
+                  "Boa noite",
+                  "Bom / Belo"
+                ],
+                "pares_corretos": {
+                  "Katu pytuna": "Boa noite",
+                  "Katu": "Bom / Belo",
+                  "Katu koema": "Bom dia"
+                }
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Em um teste de fixação de vocabulário básico antes de avançar para novas lições.",
+              "enunciado": "Una cada termo de acolhimento à sua definição precisa:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.85,
+              "param_c": 0.2,
+              "explicacao": "Fixação de termos fundamentais de convivência.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu",
+                  "Katu pytuna",
+                  "Katu koema"
+                ],
+                "coluna_direita": [
+                  "Bom dia",
+                  "Bom / Belo",
+                  "Boa noite"
+                ],
+                "pares_corretos": {
+                  "Katu": "Bom / Belo",
+                  "Katu pytuna": "Boa noite",
+                  "Katu koema": "Bom dia"
+                }
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Na roda de boas-vindas com as crianças da escola indígena, um jogo de rapidez testa a memória.",
+              "enunciado": "Associe rapidamente as expressões aos seus respectivos significados:",
+              "dificuldade": "medio",
+              "param_a": 1.35,
+              "param_b": -0.75,
+              "param_c": 0.2,
+              "explicacao": "Consolidação dos três termos da Lição 1.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu koema",
+                  "Katu",
+                  "Katu pytuna"
+                ],
+                "coluna_direita": [
+                  "Boa noite",
+                  "Bom dia",
+                  "Bom / Belo"
+                ],
+                "pares_corretos": {
+                  "Katu koema": "Bom dia",
+                  "Katu": "Bom / Belo",
+                  "Katu pytuna": "Boa noite"
+                }
+              }
+            }
           ]
         }
       ],
@@ -190,7 +537,7 @@
     {
       "numero": 2,
       "titulo": "Aprofundando o Saber: Aweté",
-      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "descricao": "Construção de frases, reciprocidade social e expansão contextual do vocabulário comunitário.",
       "xp_base": 30,
       "bloco_ensino": {
         "tipo": "apresentacao_lexical",
@@ -212,7 +559,7 @@
             "classe_gramatical": "substantivo",
             "categoria": "pessoas",
             "exemplo_uso": "Kunumĩ katu.",
-            "exemplo_pt": "Menino bom.",
+            "exemplo_pt": "Menino bom / prestativo.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55"
           },
           {
@@ -222,149 +569,563 @@
             "classe_gramatical": "substantivo",
             "categoria": "pessoas",
             "exemplo_uso": "Kuñataĩ katu.",
-            "exemplo_pt": "Menina formosa.",
+            "exemplo_pt": "Menina formosa / talentosa.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55"
           }
         ],
-        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+        "dica_cultural": "A reciprocidade expressa por 'Aweté' fundamenta as relações de solidariedade nas aldeias contemporâneas."
       },
       "exercicios": [
         {
           "ordem": 1,
           "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: '______ katu!'",
+          "enunciado": "Complete a frase de agradecimento tradicional com o termo correto:",
           "texto_com_lacunas": "______ katu!",
           "respostas_lacunas": [
             "Aweté"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Aweté' (Obrigado / Valeu).",
-          "dificuldade": "media",
+          "explicacao": "'Aweté' é a interjeição de gratidão e celebração, formando 'Aweté katu!' (Muito obrigado!).",
+          "dificuldade": "facil",
           "pontos_base": 15,
+          "param_a": 1.15,
+          "param_b": -1.05,
+          "param_c": 0.25,
           "itens_alvo": [
             "Aweté"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao receber uma cesta de frutas frescas colhidas pela família vizinha na aldeia, você expressa sua gratidão de forma calorosa.",
+              "enunciado": "Complete a fórmula de agradecimento: '______ katu!'",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "'Aweté katu!' traduz-se como 'Muito obrigado!' ou 'Valeu demais!'.",
+              "payload": {
+                "texto_com_lacunas": "______ katu!",
+                "respostas_lacunas": [
+                  "Aweté"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Um companheiro experiente conserta o remo da sua canoa antes de partirem juntos para a pescaria matinal no grande rio.",
+              "enunciado": "Agradeça ao seu companheiro preenchendo a palavra que falta: '______ xe irũ!'",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'Aweté' para agradecer diretamente a um companheiro ('xe irũ').",
+              "payload": {
+                "texto_com_lacunas": "______ xe irũ!",
+                "respostas_lacunas": [
+                  "Aweté"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao término do mutirão coletivo (puxirum) para construir a cobertura da escola da floresta, a liderança saúda todos os presentes.",
+              "enunciado": "Complete o agradecimento direcionado à coletividade: '______ panhe!'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Aweté panhe!' significa 'Obrigado a todos!'.",
+              "payload": {
+                "texto_com_lacunas": "______ panhe!",
+                "respostas_lacunas": [
+                  "Aweté"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "No grupo de mensagens da juventude da aldeia, alguém envia o áudio de um canto ancestral recuperado para os estudantes.",
+              "enunciado": "Demonstre gratidão intensa na mensagem completando a expressão de apreço: '______ teité!'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "'Aweté teité!' exprime gratidão sincera e profunda.",
+              "payload": {
+                "texto_com_lacunas": "______ teité!",
+                "respostas_lacunas": [
+                  "Aweté"
+                ]
+              }
+            }
           ]
         },
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Aweté'?",
+          "enunciado": "No convívio diário em Tupi Revitalizado, qual é o significado de 'Aweté'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Obrigado / Valeu"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Obrigado / Valeu",
+            "Rio profundo",
+            "Noite escura",
+            "Caminho tortuoso"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Aweté",
-          "explicacao": "'Aweté' traduz-se fielmente como 'Obrigado / Valeu'.",
+          "explicacao": "'Aweté' é a expressão corrente de gratidão e celebração.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.1,
+          "param_b": -1.15,
+          "param_c": 0.25,
           "itens_alvo": [
             "Aweté"
-          ]
-        },
-        {
-          "ordem": 2,
-          "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
-          "texto_com_lacunas": "______ katu.",
-          "respostas_lacunas": [
-            "Kunumĩ"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Kunumĩ' (Menino / Garoto).",
-          "dificuldade": "media",
-          "pontos_base": 15,
-          "itens_alvo": [
-            "Kunumĩ"
-          ]
-        },
-        {
-          "ordem": 4,
-          "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kunumĩ'?",
-          "opcoes": [
+          "versoes": [
             {
-              "letra": "A",
-              "texto": "Céu noturno"
+              "versao_numero": 1,
+              "contexto_cena": "Ao receber um presente artesanal esculpido em madeira nativa, a anfitriã indígena sorri e pronuncia com gentileza a palavra 'Aweté!'.",
+              "enunciado": "Qual o significado da palavra expressa pela anfitriã?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "'Aweté' corresponde a 'Obrigado / Valeu'.",
+              "payload": {
+                "opcoes": [
+                  "Obrigado / Valeu",
+                  "Chegue devagar",
+                  "Afastem-se todos",
+                  "O sol se escondeu"
+                ],
+                "resposta_correta": 0
+              }
             },
             {
-              "letra": "B",
-              "texto": "Grande rio"
+              "versao_numero": 2,
+              "contexto_cena": "Durante uma roda de partilha cultural, os jovens agradecem as orientações dadas pelos mais velhos sobre a preservação da mata.",
+              "enunciado": "Qual palavra em Tupi Revitalizado os jovens devem pronunciar para formalizar o agradecimento?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "A palavra adequada é 'Aweté'.",
+              "payload": {
+                "opcoes": [
+                  "Aweté",
+                  "Pytuna",
+                  "Koema",
+                  "Kunumĩ"
+                ],
+                "resposta_correta": 0
+              }
             },
             {
-              "letra": "C",
-              "texto": "Menino / Garoto"
+              "versao_numero": 3,
+              "contexto_cena": "O coordenador de uma oficina de mapeamento territorial encerra o dia festejando o resultado com a frase: 'Aweté katu, panhe!'.",
+              "enunciado": "Essa saudação de encerramento significa em língua portuguesa:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Muito obrigado a todos!' ou 'Valeu demais, pessoal!'.",
+              "payload": {
+                "opcoes": [
+                  "Muito obrigado a todos!",
+                  "Tenham cuidado na estrada!",
+                  "A reunião foi cancelada!",
+                  "Vamos iniciar a marcha!"
+                ],
+                "resposta_correta": 0
+              }
             },
             {
-              "letra": "D",
-              "texto": "Terra firme"
+              "versao_numero": 4,
+              "contexto_cena": "Em estudos sobre a sociolinguística das línguas originárias contemporâneas, analisa-se a função pragmática de 'Aweté'.",
+              "enunciado": "Qual é a função primordial da interjeição 'Aweté' na convivência comunitária?",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "Expressa reciprocidade ética, gratidão e reconhecimento mútuo.",
+              "payload": {
+                "opcoes": [
+                  "Expressar reciprocidade e gratidão",
+                  "Anunciar uma tempestade iminente",
+                  "Ordenar o silêncio durante a caça",
+                  "Indicar a direção do norte magnético"
+                ],
+                "resposta_correta": 0
+              }
             }
-          ],
-          "resposta_correta": "C",
-          "resposta_correta_termo": "Kunumĩ",
-          "explicacao": "'Kunumĩ' traduz-se fielmente como 'Menino / Garoto'.",
-          "dificuldade": "facil",
-          "pontos_base": 10,
-          "itens_alvo": [
-            "Kunumĩ"
           ]
         },
         {
           "ordem": 3,
           "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "enunciado": "Complete a frase que descreve um jovem da aldeia:",
+          "texto_com_lacunas": "______ katu.",
+          "respostas_lacunas": [
+            "Kunumĩ"
+          ],
+          "explicacao": "'Kunumĩ' significa menino ou jovem garoto, compondo 'Kunumĩ katu' (Menino bom / gentil).",
+          "dificuldade": "medio",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.95,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Kunumĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Um rapazinho ligeiro da comunidade ajuda com dedicação a carregar as redes de pesca na margem do lago.",
+              "enunciado": "O ancião elogia a presteza do rapaz completando: '______ katu.'",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "O termo para rapaz ou menino é 'Kunumĩ'.",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_lacunas": [
+                  "Kunumĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na sala de aula da aldeia viva, o professor convida o jovem estudante para demonstrar o exercício no quadro.",
+              "enunciado": "O professor o chama com respeito e carinho: 'Eîur koape, ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "Chama o garoto com 'Kunumĩ'.",
+              "payload": {
+                "texto_com_lacunas": "Eîur koape, ______!",
+                "respostas_lacunas": [
+                  "Kunumĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante uma gincana de arco e flecha tradicional entre os jovens da comunidade, o narrador anuncia a pontaria certeira.",
+              "enunciado": "Complete a frase da narração: 'Osoykẽ ko ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "'Ko kunumĩ' refere-se a 'este menino / jovem garoto'.",
+              "payload": {
+                "texto_com_lacunas": "Osoykẽ ko ______!",
+                "respostas_lacunas": [
+                  "Kunumĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Apresentando o filho mais jovem aos visitantes que acabam de desembarcar da canoa comunitária.",
+              "enunciado": "Preencha a frase de apresentação familiar: 'Ko taîra ko ______ katu.'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'Kunumĩ' para destacar o jovem rapaz.",
+              "payload": {
+                "texto_com_lacunas": "Ko taîra ko ______ katu.",
+                "respostas_lacunas": [
+                  "Kunumĩ"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Em Tupi Revitalizado, a que pessoa se refere a palavra 'Kunumĩ'?",
+          "opcoes": [
+            "Menino / Garoto",
+            "Ancião sábio",
+            "Mulher adulta",
+            "Artesão experiente"
+          ],
+          "resposta_correta": 0,
+          "resposta_correta_termo": "Kunumĩ",
+          "explicacao": "'Kunumĩ' é a palavra que designa menino ou jovem garoto.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Kunumĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No terreiro central da aldeia, um dos anciãos chama afetuosamente um garoto para escutar histórias dos antepassados.",
+              "enunciado": "Ao ouvir a palavra 'Kunumĩ!', você sabe que o ancião está chamando:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "'Kunumĩ' refere-se ao jovem garoto ou menino.",
+              "payload": {
+                "opcoes": [
+                  "Um menino / garoto",
+                  "Um guerreiro veterano",
+                  "Um líder regional",
+                  "Um visitante estrangeiro"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao consultar uma tabela de termos de parentesco e faixas etárias preparada para as escolas indígenas.",
+              "enunciado": "Qual é a tradução precisa do vocábulo 'Kunumĩ'?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "Traduz-se diretamente como 'Menino / Garoto'.",
+              "payload": {
+                "opcoes": [
+                  "Menino / Garoto",
+                  "Mãe de família",
+                  "Chefe de aldeia",
+                  "Guardião da floresta"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Em uma crônica contemporânea sobre os jogos tradicionais das crianças nos dias de verão à beira d'água.",
+              "enunciado": "A expressão 'kunumĩ marangatu' descreve com exatidão:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Descreve um menino bondoso, de coração nobre.",
+              "payload": {
+                "opcoes": [
+                  "Um menino bondoso e íntegro",
+                  "Uma noite de ventania fria",
+                  "Uma trilha rochosa e íngreme",
+                  "Um barco de carga pesada"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Identificando vocábulos do cotidiano infantil no projeto de documentação oral da comunidade.",
+              "enunciado": "Qual dos seguintes termos pertence à mesma categoria semântica de 'Kunumĩ' ao descrever a juventude?",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "'Kuñataĩ' é o par correspondente feminino (menina/jovem).",
+              "payload": {
+                "opcoes": [
+                  "Kuñataĩ",
+                  "Aweté",
+                  "Koema",
+                  "Pytuna"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
+        },
+        {
+          "ordem": 5,
+          "tipo": "completar",
+          "enunciado": "Complete a frase que descreve uma jovem garota na comunidade:",
           "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Kuñataĩ"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Kuñataĩ' (Menina / Jovem).",
-          "dificuldade": "media",
+          "explicacao": "'Kuñataĩ' significa menina ou jovem mulher, formando 'Kuñataĩ katu' (Menina bondosa / prendada).",
+          "dificuldade": "medio",
           "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.9,
+          "param_c": 0.25,
           "itens_alvo": [
             "Kuñataĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Uma jovem da comunidade tece uma esteira de buriti com padrões geométricos cheios de harmonia e cor.",
+              "enunciado": "A mestra artesã elogia a dedicação da aprendiz: '______ katu.'",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "'Kuñataĩ' é o termo que designa a jovem garota ou menina.",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_lacunas": [
+                  "Kuñataĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No ensaio do coral da escola indígena, a jovem solista encanta a todos com um canto de boas-vindas.",
+              "enunciado": "A coordenadora pedagógica celebra seu talento: 'Opurahéi katu ko ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Ko kuñataĩ' significa 'esta jovem menina'.",
+              "payload": {
+                "texto_com_lacunas": "Opurahéi katu ko ______!",
+                "respostas_lacunas": [
+                  "Kuñataĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Uma aluna dedicada chega cedo à sala de informática da aldeia para pesquisar sobre plantas medicinais da região.",
+              "enunciado": "Complete a frase de registro da monitora: 'Oporandu ko ______.'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "A frase é completada pelo substantivo 'Kuñataĩ'.",
+              "payload": {
+                "texto_com_lacunas": "Oporandu ko ______.",
+                "respostas_lacunas": [
+                  "Kuñataĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desejando um amanhecer alegre e cheio de energia para a filha mais nova antes da ida ao colégio.",
+              "enunciado": "Complete a saudação matinal cheia de afeto materno: 'Katu koema, xe ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'Kuñataĩ' ('minha menina / jovem garota').",
+              "payload": {
+                "texto_com_lacunas": "Katu koema, xe ______!",
+                "respostas_lacunas": [
+                  "Kuñataĩ"
+                ]
+              }
+            }
           ]
         },
         {
           "ordem": 6,
           "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kuñataĩ'?",
+          "enunciado": "Em Tupi Revitalizado, como se traduz a palavra 'Kuñataĩ'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Menina / Jovem"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Menina / Jovem",
+            "Mata densa",
+            "Canto de pássaro",
+            "Vento da tarde"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Kuñataĩ",
-          "explicacao": "'Kuñataĩ' traduz-se fielmente como 'Menina / Jovem'.",
+          "explicacao": "'Kuñataĩ' é o substantivo empregado para menina ou jovem mulher.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
           "itens_alvo": [
             "Kuñataĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao escutar as lideranças femininas incentivarem a formação das novas gerações para defender as terras originárias.",
+              "enunciado": "A palavra 'Kuñataĩ' é constantemente proferida para inspirar:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "'Kuñataĩ' designa as meninas e jovens mulheres.",
+              "payload": {
+                "opcoes": [
+                  "Meninas e jovens mulheres",
+                  "Caçadores experientes",
+                  "Visitantes de passagem",
+                  "Comerciantes do porto"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No dicionário ilustrado de Tupi Revitalizado, a imagem que ilustra o verbete 'Kuñataĩ' apresenta:",
+              "enunciado": "Qual figura corresponde exatamente à palavra 'Kuñataĩ'?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "Corresponde à figura de uma jovem menina.",
+              "payload": {
+                "opcoes": [
+                  "Uma jovem menina da comunidade",
+                  "Um remo esculpido em cedro",
+                  "Uma estrela brilhante no céu",
+                  "Uma árvore florida na clareira"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Em um mural poético contemporâneo pintado na entrada da escola, lê-se o lema 'Kuñataĩ rete katu'.",
+              "enunciado": "Essa homenagem destaca de forma especial:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Enfatiza a beleza, saúde e virtude das jovens meninas.",
+              "payload": {
+                "opcoes": [
+                  "A saúde e dignidade das jovens",
+                  "A velocidade das canoas a motor",
+                  "A chegada da chuva no inverno",
+                  "O comércio de sementes nativas"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Para contrapor com clareza os termos 'Kunumĩ' e 'Kuñataĩ' em um exercício de distinção social.",
+              "enunciado": "Qual alternativa define de modo correto a diferença entre os dois vocábulos?",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "'Kunumĩ' é o jovem menino e 'Kuñataĩ' é a jovem menina.",
+              "payload": {
+                "opcoes": [
+                  "'Kunumĩ' refere-se ao garoto e 'Kuñataĩ' refere-se à garota",
+                  "'Kuñataĩ' é saudação noturna e 'Kunumĩ' é saudação matinal",
+                  "'Kunumĩ' é agradecimento e 'Kuñataĩ' é pedido de desculpas",
+                  "Ambos significam chuva forte sem distinção"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         }
       ],
@@ -374,13 +1135,13 @@
           "Kunumĩ",
           "Kuñataĩ"
         ],
-        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+        "mensagem": "Excelente! Cada frase praticada consolida sua fixação e autonomia comunicativa."
       }
     },
     {
       "numero": 3,
       "titulo": "Prática Adaptativa: Saudações e Boas-Vindas",
-      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de Saudações e Boas-Vindas.",
+      "descricao": "Lição dinâmica com inteligência psicométrica com foco no vocabulário de saudações, convivência e gentileza.",
       "xp_base": 30,
       "is_dynamic_ai": true,
       "ai_prompt_theme": "Saudações e Boas-Vindas",
@@ -394,25 +1155,25 @@
       ],
       "bloco_ensino": {
         "tipo": "pratica_adaptativa_ia",
-        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'Saudações e Boas-Vindas'.",
+        "dica_cultural": "Esta lição integra a base filológica às dinâmicas reais de conversação nas comunidades revitalizadas.",
         "itens_apresentados": [
           {
             "palavra": "Katu",
-            "traducao": "Termo de consolidação",
+            "traducao": "Bom / Belo",
             "transliteracao": "katu",
-            "classe_gramatical": "vocabulo_chave",
+            "classe_gramatical": "adjetivo",
             "categoria": "adaptativo_ia",
             "exemplo_uso": "Katu katu!",
-            "exemplo_pt": "Uso contextual de Katu."
+            "exemplo_pt": "Muito bom / excelente!"
           },
           {
-            "palavra": "Katu koema",
-            "traducao": "Termo de consolidação",
-            "transliteracao": "katu koema",
-            "classe_gramatical": "vocabulo_chave",
+            "palavra": "Aweté",
+            "traducao": "Obrigado / Valeu",
+            "transliteracao": "aweté",
+            "classe_gramatical": "interjeicao",
             "categoria": "adaptativo_ia",
-            "exemplo_uso": "Xe Katu koema!",
-            "exemplo_pt": "Uso contextual de Katu koema."
+            "exemplo_uso": "Aweté katu!",
+            "exemplo_pt": "Muito obrigado!"
           }
         ]
       },
@@ -420,82 +1181,397 @@
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "No contexto de 'Saudações e Boas-Vindas', qual termo representa a forma canônica aprendida?",
+          "enunciado": "No contexto de saudações e acolhimento comunitário, qual é a raiz central que expressa qualidade positiva?",
           "opcoes": [
             "Katu",
-            "Mokatu koema",
-            "Tekatu pytuna",
-            "Kuaweté"
+            "Pytuna",
+            "Koema",
+            "Aweté"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Katu' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
-          "dificuldade": "media",
+          "resposta_correta_termo": "Katu",
+          "explicacao": "'Katu' é a raiz central de adjetivação positiva ('bom, belo, benéfico').",
+          "dificuldade": "medio",
           "pontos_base": 15,
           "param_a": 1.2,
-          "param_b": -2.5,
-          "param_c": 0.25
+          "param_b": -0.85,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Katu",
+            "Aweté"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao chegar à aldeia no meio da manhã, você vê as crianças recebendo os visitantes com sorrisos e gestos amigáveis.",
+              "enunciado": "Qual palavra funciona como alicerce linguístico para desejar o bem aos recém-chegados?",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Katu' é a raiz formadora de todo voto de bondade e beleza.",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Pytuna",
+                  "Ibi",
+                  "Ybytu"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de conversa onde os anfitriões oferecem água fresca e frutas da estação aos convidados.",
+              "enunciado": "Qual é a reação mais respeitosa e natural para expressar gratidão em Tupi Revitalizado?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Responde-se prontamente com 'Aweté!'.",
+              "payload": {
+                "opcoes": [
+                  "Aweté!",
+                  "Pytuna!",
+                  "Koema!",
+                  "Kunumĩ!"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante uma avaliação pedagógica sobre a morfologia das saudações tradicionais.",
+              "enunciado": "Qual elemento comum está presente tanto em 'Katu koema' (bom dia) quanto em 'Katu pytuna' (boa noite)?",
+              "dificuldade": "facil",
+              "param_a": 1.1,
+              "param_b": -1.15,
+              "param_c": 0.25,
+              "explicacao": "O elemento comum é o modificador positivo 'Katu'.",
+              "payload": {
+                "opcoes": [
+                  "O adjetivo Katu",
+                  "A partícula negativa Um",
+                  "O sufixo temporal Mirĩ",
+                  "O verbo de movimento Syk"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Em um aplicativo móvel de ensino do idioma, você deve escolher a saudação adequada ao pôr do sol.",
+              "enunciado": "Quando a luz solar dá lugar às primeiras estrelas, qual saudação completa a transição do dia?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'Katu pytuna'.",
+              "payload": {
+                "opcoes": [
+                  "Katu pytuna",
+                  "Katu koema",
+                  "Aweté mirĩ",
+                  "Kunumĩ katu"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         },
         {
           "ordem": 2,
           "tipo": "completar",
-          "enunciado": "Complete a sentença tradicional de Saudações e Boas-Vindas: 'Xe ____ katu'.",
-          "frase_com_lacunas": "Xe _____ katu.",
-          "palavra_correta": "Katu koema",
-          "opcoes_banco": [
-            "Katu koema",
-            "Katu pytuna",
-            "Aweté",
-            "abá"
+          "enunciado": "Complete o diálogo tradicional de acolhimento e cordialidade:",
+          "texto_com_lacunas": "______ koema, panhe!",
+          "respostas_lacunas": [
+            "Katu"
           ],
-          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Katu koema'.",
-          "dificuldade": "media",
+          "explicacao": "'Katu koema' é a fórmula clássica para 'Bom dia'.",
+          "dificuldade": "medio",
           "pontos_base": 15,
-          "param_a": 1.25,
-          "param_b": -2.4,
-          "param_c": 0.25
+          "param_a": 1.2,
+          "param_b": -0.85,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Katu",
+            "Aweté"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O professor reúne todos os estudantes no pátio da escola indígena logo nas primeiras horas do dia.",
+              "enunciado": "Complete a saudação matinal do professor: '______ koema, panhe!'",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'Katu' para formar 'Katu koema' (Bom dia).",
+              "payload": {
+                "texto_com_lacunas": "______ koema, panhe!",
+                "respostas_lacunas": [
+                  "Katu"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao receber a ajuda generosa de uma família para transportar os cestos até a aldeia.",
+              "enunciado": "Complete o agradecimento com o termo de reciprocidade: '______ katu, xe irũ!'",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "Agradece-se com 'Aweté'.",
+              "payload": {
+                "texto_com_lacunas": "______ katu, xe irũ!",
+                "respostas_lacunas": [
+                  "Aweté"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na despedida ao redor da fogueira comunal, antes de cada família caminhar para suas casas sob a noite escura.",
+              "enunciado": "Complete o voto de repouso noturno: 'Katu ______, panhe!'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'pytuna' ('Katu pytuna' = Boa noite).",
+              "payload": {
+                "texto_com_lacunas": "Katu ______, panhe!",
+                "respostas_lacunas": [
+                  "pytuna"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "A anciã elogia com carinho o jovem garoto que trouxe lenha seca para a cozinha comunitária.",
+              "enunciado": "Complete o elogio carinhoso da anciã: 'Ko ______ oiko katu.'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "'Ko kunumĩ' significa 'este menino'.",
+              "payload": {
+                "texto_com_lacunas": "Ko ______ oiko katu.",
+                "respostas_lacunas": [
+                  "kunumĩ"
+                ]
+              }
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
-          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Saudações e Boas-Vindas':",
+          "enunciado": "Qual correlação temporal e linguística está perfeitamente correta em Tupi Revitalizado?",
           "opcoes": [
-            "Uso harmônico de 'Katu pytuna'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Katu koema para as primeiras horas da manhã",
+            "Katu pytuna ao meio-dia sob sol a pino",
+            "Aweté para solicitar silêncio e calma",
+            "Kuñataĩ para saudar um idoso experiente"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Katu pytuna' expressa a construção genuína documentada nas fontes clássicas.",
-          "dificuldade": "dificil",
-          "pontos_base": 20,
-          "param_a": 1.3,
-          "param_b": -2.25,
-          "param_c": 0.25
+          "resposta_correta_termo": "Katu koema",
+          "explicacao": "'Katu koema' é a saudação adequada ao amanhecer e início do dia.",
+          "dificuldade": "medio",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -0.8,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Katu koema",
+            "Katu pytuna"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao organizar o cronograma de saudações para os novos alunos da escola bilíngue da aldeia.",
+              "enunciado": "Qual correspondência de momento do dia e cumprimento está correta?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "'Katu koema' corresponde pontualmente ao amanhecer.",
+              "payload": {
+                "opcoes": [
+                  "Katu koema nas primeiras horas da manhã",
+                  "Katu pytuna às dez horas ensolaradas",
+                  "Aweté para avisar sobre perigo na mata",
+                  "Kunumĩ para indicar o horário de dormir"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma situação prática: um visitante recebe um prato de beiju quentinho preparado na aldeia.",
+              "enunciado": "Qual atitude comunicativa demonstra educação autêntica segundo os valores comunitários?",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Dizer 'Aweté!' para agradecer a oferta do alimento.",
+              "payload": {
+                "opcoes": [
+                  "Dizer 'Aweté!' ao receber o alimento",
+                  "Dizer 'Katu pytuna' com o sol brilhando",
+                  "Chamar a anfitriã de 'Kunumĩ'",
+                  "Gritar 'Koema!' e afastar-se da oca"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao analisar a ordem dos termos nas construções 'Kunumĩ katu' e 'Kuñataĩ katu'.",
+              "enunciado": "Qual regra gramatical fundamental do idioma é evidenciada nessas duas expressões?",
+              "dificuldade": "dificil",
+              "param_a": 1.35,
+              "param_b": -0.65,
+              "param_c": 0.25,
+              "explicacao": "O adjetivo descritivo pospõe-se ao substantivo que qualifica.",
+              "payload": {
+                "opcoes": [
+                  "O adjetivo 'katu' vem logo após o substantivo que qualifica",
+                  "O adjetivo deve obrigatoriamente iniciar toda oração",
+                  "Substantivos jovens não aceitam adjetivação",
+                  "O pronome sempre substitui o adjetivo final"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Durante uma dinâmica interativa de perguntas e respostas rápidas sobre convívio social.",
+              "enunciado": "Qual par de expressões compõe a melhor fórmula de cordialidade ao longo de um dia inteiro?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Katu koema' pela manhã e 'Katu pytuna' ao anoitecer.",
+              "payload": {
+                "opcoes": [
+                  "'Katu koema' de manhã e 'Katu pytuna' à noite",
+                  "'Pytuna' ao acordar e 'Koema' ao deitar",
+                  "'Aweté' para perguntar e 'Katu' para calar",
+                  "'Kuñataĩ' para saudar e 'Kunumĩ' para despedir"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         },
         {
           "ordem": 4,
           "tipo": "escolha_multipla",
-          "enunciado": "Ao revisar as estruturas de Saudações e Boas-Vindas, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "enunciado": "Como se distinguem social e linguisticamente os termos 'Kunumĩ' e 'Kuñataĩ'?",
           "opcoes": [
-            "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "'Kunumĩ' é o jovem garoto e 'Kuñataĩ' é a jovem menina",
+            "'Kuñataĩ' refere-se ao cacique e 'Kunumĩ' ao pajé",
+            "'Kunumĩ' é cumprimento matinal e 'Kuñataĩ' é noturno",
+            "Ambos significam tempestade passageira"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
-          "dificuldade": "media",
+          "resposta_correta_termo": "Kunumĩ",
+          "explicacao": "'Kunumĩ' designa o rapaz ou menino, e 'Kuñataĩ' a menina ou jovem moça.",
+          "dificuldade": "medio",
           "pontos_base": 15,
           "param_a": 1.2,
-          "param_b": -2.5,
-          "param_c": 0.25
+          "param_b": -0.9,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Kunumĩ",
+            "Kuñataĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Em um mural ilustrado no centro cultural da aldeia, fotos mostram as crianças em diferentes atividades esportivas e culturais.",
+              "enunciado": "Para legendar com exatidão a foto dos meninos jogando bola e a das meninas dançando, usam-se:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "'Kunumĩ' para os meninos e 'Kuñataĩ' para as meninas.",
+              "payload": {
+                "opcoes": [
+                  "'Kunumĩ' para os garotos e 'Kuñataĩ' para as garotas",
+                  "'Aweté' para os garotos e 'Katu' para as garotas",
+                  "'Koema' para todos e 'Pytuna' para as lideranças",
+                  "'Ibi' para as meninas e 'Ybytu' para os meninos"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Uma comissão de jovens lideranças femininas indígenas é convidada para discursar sobre sustentabilidade ambiental.",
+              "enunciado": "A cerimonialista apresenta as jovens oradoras utilizando com orgulho a expressão:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'Kuñataĩ marangatu' ou simplesmente 'Kuñataĩ' para as jovens.",
+              "payload": {
+                "opcoes": [
+                  "Kuñataĩ marangatu",
+                  "Katu pytuna teité",
+                  "Aweté koema guasu",
+                  "Pytuna mirĩ katu"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao redigir uma mensagem de encerramento após uma oficina colaborativa entre várias comunidades vizinhas.",
+              "enunciado": "Qual sequência de palavras em Tupi Revitalizado transmite: 'Muito obrigado! Boa noite a todos!'?",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "'Aweté katu! Katu pytuna panhe!' expressa exatamente essa mensagem.",
+              "payload": {
+                "opcoes": [
+                  "Aweté katu! Katu pytuna panhe!",
+                  "Katu koema! Kunumĩ kuñataĩ!",
+                  "Pytuna teité! Koema katu panhe!",
+                  "Eîur koape! Aweté koema teité!"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Durante uma transmissão ao vivo da rádio escolar comunitária pelas redes sociais.",
+              "enunciado": "O locutor deseja homenagear um companheiro leal com a frase: 'Muito obrigado, meu amigo!'. Em Tupi, ele diz:",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "Diz-se 'Aweté katu, xe irũ!'.",
+              "payload": {
+                "opcoes": [
+                  "Aweté katu, xe irũ!",
+                  "Katu koema, xe taba!",
+                  "Kunumĩ pytuna, xe anama!",
+                  "Kuñataĩ koema, xe retama!"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         }
       ]
     },
     {
       "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
-      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "descricao": "Revisão adaptativa integrando todos os itens essenciais de acolhimento e convívio ensinados no capítulo.",
       "xp_base": 35,
       "bloco_ensino": {
         "tipo": "revisao_sintese",
@@ -531,17 +1607,17 @@
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_55"
           }
         ],
-        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+        "dica_cultural": "A consolidação do vocabulário sela o domínio prático necessário para aprofundar sua imersão na língua."
       },
       "exercicios": [
         {
           "ordem": 1,
           "tipo": "associacao",
-          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 1:",
+          "enunciado": "Desafio da Aldeia: Correlacione cada termo fundamental em Tupi Revitalizado à sua tradução correta:",
           "pares_corretos": {
-            "Puranga": "Bom / Belo",
+            "Katu": "Bom / Belo",
             "Katu koema": "Bom dia",
-            "Katu pykói": "Boa noite",
+            "Katu pytuna": "Boa noite",
             "Aweté": "Obrigado / Valeu"
           },
           "coluna_esquerda": [
@@ -551,32 +1627,307 @@
             "Aweté"
           ],
           "coluna_direita": [
-            "Bom / Belo",
-            "Bom dia",
             "Boa noite",
-            "Obrigado / Valeu"
+            "Obrigado / Valeu",
+            "Bom / Belo",
+            "Bom dia"
           ],
-          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
-          "dificuldade": "media",
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados ao longo do Capítulo 1.",
+          "dificuldade": "medio",
           "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": -0.85,
+          "param_c": 0.2,
           "itens_alvo": [
             "Katu",
             "Katu koema",
             "Katu pytuna",
             "Aweté"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No grande mural de acolhimento na entrada da aldeia, os novos aprendizes realizam uma rodada rápida de correspondência de termos.",
+              "enunciado": "Conecte cada expressão em Tupi Revitalizado ao seu significado correto:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.9,
+              "param_c": 0.2,
+              "explicacao": "Katu = Bom/Belo; Katu koema = Bom dia; Katu pytuna = Boa noite; Aweté = Obrigado/Valeu.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu",
+                  "Katu koema",
+                  "Katu pytuna",
+                  "Aweté"
+                ],
+                "coluna_direita": [
+                  "Boa noite",
+                  "Obrigado / Valeu",
+                  "Bom / Belo",
+                  "Bom dia"
+                ],
+                "pares_corretos": {
+                  "Katu": "Bom / Belo",
+                  "Katu koema": "Bom dia",
+                  "Katu pytuna": "Boa noite",
+                  "Aweté": "Obrigado / Valeu"
+                }
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em um jogo de cartas interativo no aplicativo de revitalização linguística, as palavras surgem reorganizadas para testar seus reflexos.",
+              "enunciado": "Ligue cada termo em língua originária à sua definição precisa em português:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.8,
+              "param_c": 0.2,
+              "explicacao": "Associação de saudações e gratidão com derangement.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu koema",
+                  "Aweté",
+                  "Katu",
+                  "Katu pytuna"
+                ],
+                "coluna_direita": [
+                  "Obrigado / Valeu",
+                  "Boa noite",
+                  "Bom dia",
+                  "Bom / Belo"
+                ],
+                "pares_corretos": {
+                  "Katu koema": "Bom dia",
+                  "Aweté": "Obrigado / Valeu",
+                  "Katu": "Bom / Belo",
+                  "Katu pytuna": "Boa noite"
+                }
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a gincana de encerramento do primeiro ciclo de estudos na comunidade indígena litorânea.",
+              "enunciado": "Correlacione os pares com velocidade e precisão para somar pontos de fixação:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.85,
+              "param_c": 0.2,
+              "explicacao": "Fixação ágil dos cumprimentos e noções de bondade.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Aweté",
+                  "Katu pytuna",
+                  "Katu koema",
+                  "Katu"
+                ],
+                "coluna_direita": [
+                  "Bom dia",
+                  "Bom / Belo",
+                  "Obrigado / Valeu",
+                  "Boa noite"
+                ],
+                "pares_corretos": {
+                  "Aweté": "Obrigado / Valeu",
+                  "Katu pytuna": "Boa noite",
+                  "Katu koema": "Bom dia",
+                  "Katu": "Bom / Belo"
+                }
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Você prepara um resumo ilustrado de conversação básica para apoiar novos voluntários e pesquisadores.",
+              "enunciado": "Conecte os conceitos para assegurar que o guia de acolhimento esteja perfeitamente claro:",
+              "dificuldade": "medio",
+              "param_a": 1.35,
+              "param_b": -0.75,
+              "param_c": 0.2,
+              "explicacao": "Relações corretas entre as expressões diárias.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu pytuna",
+                  "Katu",
+                  "Aweté",
+                  "Katu koema"
+                ],
+                "coluna_direita": [
+                  "Bom / Belo",
+                  "Bom dia",
+                  "Boa noite",
+                  "Obrigado / Valeu"
+                ],
+                "pares_corretos": {
+                  "Katu pytuna": "Boa noite",
+                  "Katu": "Bom / Belo",
+                  "Aweté": "Obrigado / Valeu",
+                  "Katu koema": "Bom dia"
+                }
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Na roda de conversa com os anciãos, os estudantes mais novos mostram como memorizaram os cumprimentos sem hesitação.",
+              "enunciado": "Una cada termo proferido pelos anciãos ao seu equivalente na língua nacional:",
+              "dificuldade": "dificil",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.2,
+              "explicacao": "Consolidação com alto poder discriminativo.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu",
+                  "Aweté",
+                  "Katu pytuna",
+                  "Katu koema"
+                ],
+                "coluna_direita": [
+                  "Bom dia",
+                  "Boa noite",
+                  "Bom / Belo",
+                  "Obrigado / Valeu"
+                ],
+                "pares_corretos": {
+                  "Katu": "Bom / Belo",
+                  "Aweté": "Obrigado / Valeu",
+                  "Katu pytuna": "Boa noite",
+                  "Katu koema": "Bom dia"
+                }
+              }
+            },
+            {
+              "versao_numero": 6,
+              "contexto_cena": "No desafio final contra o tempo na plataforma digital da aldeia para conquistar a insígnia de Acolhimento.",
+              "enunciado": "Associe os termos com máxima precisão para selar a maestria sobre o vocabulário inicial:",
+              "dificuldade": "dificil",
+              "param_a": 1.45,
+              "param_b": -0.65,
+              "param_c": 0.2,
+              "explicacao": "Maestria no repertório de saudações e reciprocidade comunitária.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Katu koema",
+                  "Katu pytuna",
+                  "Aweté",
+                  "Katu"
+                ],
+                "coluna_direita": [
+                  "Obrigado / Valeu",
+                  "Bom / Belo",
+                  "Bom dia",
+                  "Boa noite"
+                ],
+                "pares_corretos": {
+                  "Katu koema": "Bom dia",
+                  "Katu pytuna": "Boa noite",
+                  "Aweté": "Obrigado / Valeu",
+                  "Katu": "Bom / Belo"
+                }
+              }
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
-          "enunciado": "Traduza a palavra 'Katu' para o Português:",
-          "termo_fonte": "Katu",
-          "traducao_esperada": "Bom / Belo",
-          "explicacao": "'Katu' significa 'Bom / Belo'.",
-          "dificuldade": "media",
+          "tipo": "completar",
+          "enunciado": "Complete a frase completando a raiz de qualidade ou cortesia que fecha o ciclo de aprendizado:",
+          "texto_com_lacunas": "______ katu!",
+          "respostas_lacunas": [
+            "Aweté"
+          ],
+          "explicacao": "Fixação de 'Aweté katu!' (Muito obrigado!) como coroamento do aprendizado.",
+          "dificuldade": "medio",
           "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -0.85,
+          "param_c": 0.25,
           "itens_alvo": [
-            "Katu"
+            "Aweté",
+            "Katu",
+            "Kunumĩ",
+            "Kuñataĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao final da cerimônia de conclusão do primeiro ciclo de estudos de Tupi Revitalizado na aldeia.",
+              "enunciado": "Você expressa profunda gratidão aos professores e anciãos completando: '______ katu!'",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "'Aweté katu!' é a fórmula máxima de gratidão.",
+              "payload": {
+                "texto_com_lacunas": "______ katu!",
+                "respostas_lacunas": [
+                  "Aweté"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao alvorecer do segundo dia na comunidade, você saúda o barqueiro que se prepara para a travessia do rio.",
+              "enunciado": "Deseje uma boa manhã ao barqueiro completando o vocábulo da aurora: 'Katu ______!'",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'koema' para formar 'Katu koema' (Bom dia).",
+              "payload": {
+                "texto_com_lacunas": "Katu ______!",
+                "respostas_lacunas": [
+                  "koema"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na despedida ao cair da noite, quando as estrelas iluminam o caminho entre as ocas da aldeia.",
+              "enunciado": "Deseje uma boa noite serena a todos os companheiros de jornada: 'Katu ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'pytuna' para compor 'Katu pytuna' (Boa noite).",
+              "payload": {
+                "texto_com_lacunas": "Katu ______!",
+                "respostas_lacunas": [
+                  "pytuna"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Observando com ternura e admiração o jovem garoto que cuida das mudas de árvores nativas no viveiro comunitário.",
+              "enunciado": "Complete a frase com o substantivo jovem masculino correto: 'Ko ______ oiko katu.'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "'Ko kunumĩ' significa 'este garoto / menino'.",
+              "payload": {
+                "texto_com_lacunas": "Ko ______ oiko katu.",
+                "respostas_lacunas": [
+                  "kunumĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Na festa de celebração da colheita, uma jovem moça lidera a ciranda tradicional entoando canções de harmonia.",
+              "enunciado": "Complete a frase enaltecendo o talento e a presença da jovem: 'Ko ______ opurahéi katu.'",
+              "dificuldade": "dificil",
+              "param_a": 1.35,
+              "param_b": -0.65,
+              "param_c": 0.25,
+              "explicacao": "'Ko kuñataĩ' refere-se à jovem moça ou garota.",
+              "payload": {
+                "texto_com_lacunas": "Ko ______ opurahéi katu.",
+                "respostas_lacunas": [
+                  "kuñataĩ"
+                ]
+              }
+            }
           ]
         }
       ],
@@ -589,10 +1940,10 @@
           "Kunumĩ",
           "Kuñataĩ"
         ],
-        "mensagem": "Parabéns! Você completou com maestria o Capítulo 1 de Tupi Contemporaneo."
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 1 de Tupi Revitalizado."
       }
     }
   ],
   "total_licoes": 4,
-  "total_exercicios": 12
+  "total_exercicios": 16
 }

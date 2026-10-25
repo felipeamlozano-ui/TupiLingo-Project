@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Gûyrá'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "C",
-              "texto": "Pássaro / Ave"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Pássaro / Ave",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Gûyrá",
           "explicacao": "'Gûyrá' significa 'Pássaro / Ave' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Gûyrá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao ouvir a sinfonia matinal de asas e gorjeios ecoando no dossel da floresta virgem.",
+              "enunciado": "Ao estudar o tema 'As Aves e o Canto da Mata', qual é o significado exato de 'Gûyrá'?",
+              "payload": {
+                "opcoes": [
+                  "Pássaro / Ave",
+                  "Nuvem escura",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Gûyrá' traduz-se fielmente por 'Pássaro / Ave'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de estudos sobre as tradições e termos de As Aves e o Canto da Mata.",
+              "enunciado": "Qual conceito fundamental em Tupi Antigo é expresso por 'Gûyrá'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Pássaro / Ave",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Gûyrá' refere-se a 'Pássaro / Ave'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a prática oral das expressões de As Aves e o Canto da Mata.",
+              "enunciado": "Se o falante diz 'Gûyrá katu', a qual elemento de excelência ele se refere?",
+              "payload": {
+                "opcoes": [
+                  "Pássaro / Ave",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Refere-se a 'Pássaro / Ave'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão rápida de vocabulário temático.",
+              "enunciado": "Assinale a opção que traduz com rigor 'Gûyrá':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Pássaro / Ave",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Gûyrá' é 'Pássaro / Ave'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Gûyrá": "Pássaro / Ave"
+            "Gûyrá": "Pássaro da mata",
+            "Tukan": "Tucano de bico longo",
+            "Arara": "Arara de penas vermelhas"
           },
           "coluna_esquerda": [
-            "Gûyrá"
+            "Gûyrá",
+            "Tukan",
+            "Arara"
           ],
           "coluna_direita": [
-            "Pássaro / Ave"
+            "Tucano de bico longo",
+            "Arara de penas vermelhas",
+            "Pássaro da mata"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Gûyrá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Aves e o Canto da Mata (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara"
+                ],
+                "coluna_direita": [
+                  "Tucano de bico longo",
+                  "Arara de penas vermelhas",
+                  "Pássaro da mata"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Pássaro da mata",
+                  "Tukan": "Tucano de bico longo",
+                  "Arara": "Arara de penas vermelhas"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Aves e o Canto da Mata (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de As Aves e o Canto da Mata com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara"
+                ],
+                "coluna_direita": [
+                  "Arara de penas vermelhas",
+                  "Pássaro da mata",
+                  "Tucano de bico longo"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Pássaro da mata",
+                  "Tukan": "Tucano de bico longo",
+                  "Arara": "Arara de penas vermelhas"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Aves e o Canto da Mata (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara"
+                ],
+                "coluna_direita": [
+                  "Tucano de bico longo",
+                  "Arara de penas vermelhas",
+                  "Pássaro da mata"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Pássaro da mata",
+                  "Tukan": "Tucano de bico longo",
+                  "Arara": "Arara de penas vermelhas"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Aves e o Canto da Mata (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara"
+                ],
+                "coluna_direita": [
+                  "Arara de penas vermelhas",
+                  "Pássaro da mata",
+                  "Tucano de bico longo"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Pássaro da mata",
+                  "Tukan": "Tucano de bico longo",
+                  "Arara": "Arara de penas vermelhas"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Aves e o Canto da Mata (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara"
+                ],
+                "coluna_direita": [
+                  "Tucano de bico longo",
+                  "Arara de penas vermelhas",
+                  "Pássaro da mata"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Pássaro da mata",
+                  "Tukan": "Tucano de bico longo",
+                  "Arara": "Arara de penas vermelhas"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -131,7 +331,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ ybyrá ári.'",
-          "texto_com_lacunas": "______ ybyrá ári.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Tukan"
           ],
@@ -140,6 +340,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Tukan"
+          ],
+          "respostas_corretas": [
+            "Tukan"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo uma sentença com o vocábulo 'Tukan' no cotidiano comunitário.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Tucano colorido bom/boa):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Tukan"
+                ]
+              },
+              "explicacao": "'Tukan' completa a oração com precisão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Prática oral de adjetivos atributivos.",
+              "enunciado": "Preencha a lacuna com 'Tukan': 'Ahecha ______' (Eu vejo):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Tukan"
+                ]
+              },
+              "explicacao": "'Tukan' é o objeto da percepção visual.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de termos práticos da vida tribal.",
+              "enunciado": "Complete a frase de elogio: 'I puranga a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "Tukan"
+                ]
+              },
+              "explicacao": "'Tukan' completa o sujeito da qualidade.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações com verbos de ação.",
+              "enunciado": "Qual termo completa a oração: 'Oikó ______'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Tukan"
+                ]
+              },
+              "explicacao": "'Tukan' é a forma canônica atestada.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -147,37 +412,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Tukan'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Terra firme"
-            },
-            {
-              "letra": "D",
-              "texto": "Tucano"
-            }
+            "Tucano colorido",
+            "Canoa furada",
+            "Vento frio",
+            "Rio seco"
           ],
-          "resposta_correta": "D",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Tukan",
           "explicacao": "'Tukan' traduz-se fielmente como 'Tucano'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Tukan"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No dicionário da língua, estudando a exata tradução de 'Tukan'.",
+              "enunciado": "Qual é o significado de 'Tukan'?",
+              "payload": {
+                "opcoes": [
+                  "Tucano colorido",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio seco"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tukan' traduz-se como 'Tucano colorido'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao revisar os elementos da cultura material e da língua.",
+              "enunciado": "A qual conceito o termo 'Tukan' corresponde?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Tucano colorido",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tukan' é 'Tucano colorido'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida de vocabulário de As Aves e o Canto da Mata.",
+              "enunciado": "Selecione o equivalente correto para 'Tukan':",
+              "payload": {
+                "opcoes": [
+                  "Tucano colorido",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tukan' corresponde a 'Tucano colorido'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Prática comparativa de termos tradicionais.",
+              "enunciado": "Assinale a tradução precisa de 'Tukan':",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Tucano colorido",
+                  "Toca funda",
+                  "Céu nublado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tukan' é 'Tucano colorido'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ ka'a pupé.'",
-          "texto_com_lacunas": "______ ka'a pupé.",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Arara"
           ],
@@ -186,6 +513,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Arara"
+          ],
+          "respostas_corretas": [
+            "Arara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença afirmativa sobre a presença de 'Arara' na comunidade.",
+              "enunciado": "Complete a frase: 'Hetá ______' (Há muito/muita Arara barulhenta):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Arara"
+                ]
+              },
+              "explicacao": "'Arara' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construindo frases sobre a vida cotidiana.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Arara barulhenta):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Arara"
+                ]
+              },
+              "explicacao": "'Arara' é o termo correto.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática oral de conversação.",
+              "enunciado": "Qual termo completa: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Arara"
+                ]
+              },
+              "explicacao": "'Arara' preenche o objeto.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática com predicados nominais.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Arara"
+                ]
+              },
+              "explicacao": "'Arara' é o substantivo qualificado.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,30 +585,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Arara'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Arara"
-            },
-            {
-              "letra": "B",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Arara barulhenta",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Arara",
           "explicacao": "'Arara' traduz-se fielmente como 'Arara'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Arara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exame da tradição lexical para o substantivo 'Arara'.",
+              "enunciado": "Qual é o significado de 'Arara'?",
+              "payload": {
+                "opcoes": [
+                  "Arara barulhenta",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Arara' significa 'Arara barulhenta'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da herança linguística dos povos ancestrais.",
+              "enunciado": "A qual conceito refere-se 'Arara'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Arara barulhenta",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Arara' é 'Arara barulhenta'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida no vocabulário de As Aves e o Canto da Mata.",
+              "enunciado": "Assinale a tradução exata de 'Arara':",
+              "payload": {
+                "opcoes": [
+                  "Arara barulhenta",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Arara' traduz-se por 'Arara barulhenta'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual opção define 'Arara'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Arara barulhenta",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Arara' é 'Arara barulhenta'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -271,9 +725,9 @@
           "enunciado": "No contexto de 'As Aves e o Canto da Mata', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Gûyrá",
-            "Motukan",
-            "Tearara",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Gûyrá' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -281,7 +735,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -0.658,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre As Aves e o Canto da Mata.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Gûyrá'?",
+              "payload": {
+                "opcoes": [
+                  "Gûyrá",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Gûyrá' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de As Aves e o Canto da Mata.",
+              "enunciado": "Selecione o termo autêntico do módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Gûyrá",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Gûyrá' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente.",
+              "enunciado": "Qual termo representa a raiz aprendida em As Aves e o Canto da Mata?",
+              "payload": {
+                "opcoes": [
+                  "Gûyrá",
+                  "Paraná",
+                  "Ybyrá",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Gûyrá' é o termo estudado.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,17 +810,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -0.558,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Tukan"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Tukan'.",
+              "enunciado": "Complete a locução: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Tukan"
+                ]
+              },
+              "explicacao": "'Tukan' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Está presente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Tukan"
+                ]
+              },
+              "explicacao": "'Tukan' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em As Aves e o Canto da Mata.",
+              "enunciado": "Qual vocábulo preenche: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Tukan"
+                ]
+              },
+              "explicacao": "'Tukan' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'As Aves e o Canto da Mata':",
           "opcoes": [
-            "Uso harmônico de 'Arara'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Gûyrá'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Arara' expressa a construção genuína documentada nas fontes clássicas.",
@@ -318,7 +879,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -0.408,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em As Aves e o Canto da Mata.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Gûyrá'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Gûyrá'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Gûyrá' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de As Aves e o Canto da Mata.",
+              "enunciado": "O que representa 'Gûyrá' na vida comunitária?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de As Aves e o Canto da Mata",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico.",
+              "enunciado": "Qual afirmação sobre 'Gûyrá' é rigorosamente correta?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas",
+                  "É palavra inventada",
+                  "É termo de gíria moderna",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -326,9 +943,9 @@
           "enunciado": "Ao revisar as estruturas de As Aves e o Canto da Mata, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -336,7 +953,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -0.658,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de excelência em As Aves e o Canto da Mata.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou de qualidade' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades.",
+              "enunciado": "Para dizer que 'Gûyrá' é bom, qual palavra é posposta?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com positividade o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de As Aves e o Canto da Mata.",
+              "enunciado": "Qual é a ordem correta para dizer 'Pássaro / Ave bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu gûyrá",
+                  "Gûyrá katu",
+                  "Katu aíba",
+                  "Gûyrá poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o adjetivo atributivo: substantivo + katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -372,19 +1045,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 8:",
           "pares_corretos": {
-            "Gûyrá": "Pássaro / Ave",
-            "Tukan": "Tucano",
-            "Arara": "Arara"
+            "Gûyrá": "Ave que voa livre",
+            "Tukan": "Tucano da copa",
+            "Arara": "Arara graciosa",
+            "Gûyrapitinga": "Garça branca"
           },
           "coluna_esquerda": [
             "Gûyrá",
             "Tukan",
-            "Arara"
+            "Arara",
+            "Gûyrapitinga"
           ],
           "coluna_direita": [
-            "Pássaro / Ave",
-            "Tucano",
-            "Arara"
+            "Tucano da copa",
+            "Arara graciosa",
+            "Garça branca",
+            "Ave que voa livre"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1069,158 @@
             "Gûyrá",
             "Tukan",
             "Arara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 8 (As Aves e o Canto da Mata) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 8 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara",
+                  "Gûyrapitinga"
+                ],
+                "coluna_direita": [
+                  "Garça branca",
+                  "Ave que voa livre",
+                  "Tucano da copa",
+                  "Arara graciosa"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Ave que voa livre",
+                  "Tukan": "Tucano da copa",
+                  "Arara": "Arara graciosa",
+                  "Gûyrapitinga": "Garça branca"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 8 (As Aves e o Canto da Mata) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de As Aves e o Canto da Mata com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara",
+                  "Gûyrapitinga"
+                ],
+                "coluna_direita": [
+                  "Tucano da copa",
+                  "Arara graciosa",
+                  "Garça branca",
+                  "Ave que voa livre"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Ave que voa livre",
+                  "Tukan": "Tucano da copa",
+                  "Arara": "Arara graciosa",
+                  "Gûyrapitinga": "Garça branca"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 8 (As Aves e o Canto da Mata) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara",
+                  "Gûyrapitinga"
+                ],
+                "coluna_direita": [
+                  "Arara graciosa",
+                  "Garça branca",
+                  "Ave que voa livre",
+                  "Tucano da copa"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Ave que voa livre",
+                  "Tukan": "Tucano da copa",
+                  "Arara": "Arara graciosa",
+                  "Gûyrapitinga": "Garça branca"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 8 (As Aves e o Canto da Mata) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara",
+                  "Gûyrapitinga"
+                ],
+                "coluna_direita": [
+                  "Garça branca",
+                  "Arara graciosa",
+                  "Ave que voa livre",
+                  "Tucano da copa"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Ave que voa livre",
+                  "Tukan": "Tucano da copa",
+                  "Arara": "Arara graciosa",
+                  "Gûyrapitinga": "Garça branca"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 8 (As Aves e o Canto da Mata) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Gûyrá",
+                  "Tukan",
+                  "Arara",
+                  "Gûyrapitinga"
+                ],
+                "coluna_direita": [
+                  "Tucano da copa",
+                  "Ave que voa livre",
+                  "Garça branca",
+                  "Arara graciosa"
+                ],
+                "pares_corretos": {
+                  "Gûyrá": "Ave que voa livre",
+                  "Tukan": "Tucano da copa",
+                  "Arara": "Arara graciosa",
+                  "Gûyrapitinga": "Garça branca"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Gûyrá' para o Português:",
           "termo_fonte": "Gûyrá",
           "traducao_esperada": "Pássaro / Ave",
@@ -406,6 +1229,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Gûyrá"
+          ],
+          "opcoes": [
+            "Pássaro / Ave",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 8 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Gûyrá'?",
+              "payload": {
+                "opcoes": [
+                  "Pássaro / Ave",
+                  "Nuvem de chuva",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Gûyrá' traduz-se fielmente por 'Pássaro / Ave'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos elementos essenciais que estruturam o domínio de As Aves e o Canto da Mata.",
+              "enunciado": "A qual conceito o termo central 'Gûyrá' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Animal de toca",
+                  "Pássaro / Ave",
+                  "Pássaro que canta",
+                  "Rio largo"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Gûyrá' é 'Pássaro / Ave'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração das conquistas de aprendizado na aldeia.",
+              "enunciado": "Se os guerreiros exclamam 'Gûyrá katu!', o que eles celebram?",
+              "payload": {
+                "opcoes": [
+                  "A presença e excelência de pássaro / ave",
+                  "A aproximação da tempestade",
+                  "A perda das sementes",
+                  "A quebra da canoa"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Celebram a excelência de 'Pássaro / Ave'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese conclusiva do Capítulo 8.",
+              "enunciado": "Em resumo definitivo, 'Gûyrá' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "O elemento sagrado de pássaro / ave",
+                  "A escuridão da noite fria",
+                  "O silêncio do pântano",
+                  "O combate corpo a corpo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Gûyrá' simboliza 'Pássaro / Ave'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

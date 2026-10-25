@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Tata'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Fogo",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Tata",
           "explicacao": "'Tata' significa 'Fogo' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Tata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na preparação da fogueira comunitária para aquecer a oca nas noites frias de Pindorama.",
+              "enunciado": "Ao estudar o tema 'O Fogo, o Barro e os Utensílios', qual é o significado exato de 'Tata'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo",
+                  "Nuvem escura",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tata' traduz-se fielmente por 'Fogo'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de estudos sobre as tradições e termos de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Qual conceito fundamental em Tupi Antigo é expresso por 'Tata'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Fogo",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tata' refere-se a 'Fogo'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a prática oral das expressões de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Se o falante diz 'Tata katu', a qual elemento de excelência ele se refere?",
+              "payload": {
+                "opcoes": [
+                  "Fogo",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Refere-se a 'Fogo'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão rápida de vocabulário temático.",
+              "enunciado": "Assinale a opção que traduz com rigor 'Tata':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Fogo",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tata' é 'Fogo'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Tata": "Fogo"
+            "Tata": "Fogo / Chama viva",
+            "Itá": "Pedra dura de faísca",
+            "Ña'ẽ": "Vasilha de barro cozido"
           },
           "coluna_esquerda": [
-            "Tata"
+            "Tata",
+            "Itá",
+            "Ña'ẽ"
           ],
           "coluna_direita": [
-            "Fogo"
+            "Pedra dura de faísca",
+            "Vasilha de barro cozido",
+            "Fogo / Chama viva"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Tata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema O Fogo, o Barro e os Utensílios (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Pedra dura de faísca",
+                  "Vasilha de barro cozido",
+                  "Fogo / Chama viva"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo / Chama viva",
+                  "Itá": "Pedra dura de faísca",
+                  "Ña'ẽ": "Vasilha de barro cozido"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema O Fogo, o Barro e os Utensílios (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de O Fogo, o Barro e os Utensílios com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Vasilha de barro cozido",
+                  "Fogo / Chama viva",
+                  "Pedra dura de faísca"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo / Chama viva",
+                  "Itá": "Pedra dura de faísca",
+                  "Ña'ẽ": "Vasilha de barro cozido"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema O Fogo, o Barro e os Utensílios (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Pedra dura de faísca",
+                  "Vasilha de barro cozido",
+                  "Fogo / Chama viva"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo / Chama viva",
+                  "Itá": "Pedra dura de faísca",
+                  "Ña'ẽ": "Vasilha de barro cozido"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema O Fogo, o Barro e os Utensílios (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Vasilha de barro cozido",
+                  "Fogo / Chama viva",
+                  "Pedra dura de faísca"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo / Chama viva",
+                  "Itá": "Pedra dura de faísca",
+                  "Ña'ẽ": "Vasilha de barro cozido"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema O Fogo, o Barro e os Utensílios (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Pedra dura de faísca",
+                  "Vasilha de barro cozido",
+                  "Fogo / Chama viva"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo / Chama viva",
+                  "Itá": "Pedra dura de faísca",
+                  "Ña'ẽ": "Vasilha de barro cozido"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -131,7 +331,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ okar pupé.'",
-          "texto_com_lacunas": "______ okar pupé.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Tatagûasu"
           ],
@@ -140,6 +340,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Tatagûasu"
+          ],
+          "respostas_corretas": [
+            "Tatagûasu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo uma sentença com o vocábulo 'Tatagûasu' no cotidiano comunitário.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Fogueira grande bom/boa):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Tatagûasu"
+                ]
+              },
+              "explicacao": "'Tatagûasu' completa a oração com precisão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Prática oral de adjetivos atributivos.",
+              "enunciado": "Preencha a lacuna com 'Tatagûasu': 'Ahecha ______' (Eu vejo):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Tatagûasu"
+                ]
+              },
+              "explicacao": "'Tatagûasu' é o objeto da percepção visual.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de termos práticos da vida tribal.",
+              "enunciado": "Complete a frase de elogio: 'I puranga a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "Tatagûasu"
+                ]
+              },
+              "explicacao": "'Tatagûasu' completa o sujeito da qualidade.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações com verbos de ação.",
+              "enunciado": "Qual termo completa a oração: 'Oikó ______'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Tatagûasu"
+                ]
+              },
+              "explicacao": "'Tatagûasu' é a forma canônica atestada.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -147,37 +412,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Tatagûasu'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande fogueira"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Fogueira grande",
+            "Canoa furada",
+            "Vento frio",
+            "Rio seco"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Tatagûasu",
           "explicacao": "'Tatagûasu' traduz-se fielmente como 'Grande fogueira'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Tatagûasu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No dicionário da língua, estudando a exata tradução de 'Tatagûasu'.",
+              "enunciado": "Qual é o significado de 'Tatagûasu'?",
+              "payload": {
+                "opcoes": [
+                  "Fogueira grande",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio seco"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tatagûasu' traduz-se como 'Fogueira grande'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao revisar os elementos da cultura material e da língua.",
+              "enunciado": "A qual conceito o termo 'Tatagûasu' corresponde?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Fogueira grande",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tatagûasu' é 'Fogueira grande'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida de vocabulário de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Selecione o equivalente correto para 'Tatagûasu':",
+              "payload": {
+                "opcoes": [
+                  "Fogueira grande",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tatagûasu' corresponde a 'Fogueira grande'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Prática comparativa de termos tradicionais.",
+              "enunciado": "Assinale a tradução precisa de 'Tatagûasu':",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Fogueira grande",
+                  "Toca funda",
+                  "Céu nublado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tatagûasu' é 'Fogueira grande'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
-          "texto_com_lacunas": "______ katu.",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Itá"
           ],
@@ -186,6 +513,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Itá"
+          ],
+          "respostas_corretas": [
+            "Itá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença afirmativa sobre a presença de 'Itá' na comunidade.",
+              "enunciado": "Complete a frase: 'Hetá ______' (Há muito/muita Pedra de amolar):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Itá"
+                ]
+              },
+              "explicacao": "'Itá' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construindo frases sobre a vida cotidiana.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Pedra de amolar):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Itá"
+                ]
+              },
+              "explicacao": "'Itá' é o termo correto.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática oral de conversação.",
+              "enunciado": "Qual termo completa: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Itá"
+                ]
+              },
+              "explicacao": "'Itá' preenche o objeto.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática com predicados nominais.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Itá"
+                ]
+              },
+              "explicacao": "'Itá' é o substantivo qualificado.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,30 +585,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Itá'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Pedra / Machado de pedra"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Pedra de amolar",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Itá",
           "explicacao": "'Itá' traduz-se fielmente como 'Pedra / Machado de pedra'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Itá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exame da tradição lexical para o substantivo 'Itá'.",
+              "enunciado": "Qual é o significado de 'Itá'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra de amolar",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Itá' significa 'Pedra de amolar'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da herança linguística dos povos ancestrais.",
+              "enunciado": "A qual conceito refere-se 'Itá'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Pedra de amolar",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Itá' é 'Pedra de amolar'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida no vocabulário de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Assinale a tradução exata de 'Itá':",
+              "payload": {
+                "opcoes": [
+                  "Pedra de amolar",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Itá' traduz-se por 'Pedra de amolar'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual opção define 'Itá'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Pedra de amolar",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Itá' é 'Pedra de amolar'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -271,9 +725,9 @@
           "enunciado": "No contexto de 'O Fogo, o Barro e os Utensílios', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Tata",
-            "Motatagûasu",
-            "Teitá",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Tata' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -281,7 +735,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -0.921,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Tata'?",
+              "payload": {
+                "opcoes": [
+                  "Tata",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tata' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Selecione o termo autêntico do módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Tata",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tata' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente.",
+              "enunciado": "Qual termo representa a raiz aprendida em O Fogo, o Barro e os Utensílios?",
+              "payload": {
+                "opcoes": [
+                  "Tata",
+                  "Paraná",
+                  "Ybyrá",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tata' é o termo estudado.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,17 +810,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -0.821,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Tatagûasu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Tatagûasu'.",
+              "enunciado": "Complete a locução: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Tatagûasu"
+                ]
+              },
+              "explicacao": "'Tatagûasu' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Está presente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Tatagûasu"
+                ]
+              },
+              "explicacao": "'Tatagûasu' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Qual vocábulo preenche: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Tatagûasu"
+                ]
+              },
+              "explicacao": "'Tatagûasu' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'O Fogo, o Barro e os Utensílios':",
           "opcoes": [
-            "Uso harmônico de 'Itá'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Tata'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Itá' expressa a construção genuína documentada nas fontes clássicas.",
@@ -318,7 +879,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -0.671,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Tata'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Tata'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tata' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "O que representa 'Tata' na vida comunitária?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de O Fogo, o Barro e os Utensílios",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico.",
+              "enunciado": "Qual afirmação sobre 'Tata' é rigorosamente correta?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas",
+                  "É palavra inventada",
+                  "É termo de gíria moderna",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -326,9 +943,9 @@
           "enunciado": "Ao revisar as estruturas de O Fogo, o Barro e os Utensílios, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -336,7 +953,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -0.921,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de excelência em O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou de qualidade' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades.",
+              "enunciado": "Para dizer que 'Tata' é bom, qual palavra é posposta?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com positividade o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "Qual é a ordem correta para dizer 'Fogo bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu tata",
+                  "Tata katu",
+                  "Katu aíba",
+                  "Tata poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o adjetivo atributivo: substantivo + katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -372,19 +1045,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 7:",
           "pares_corretos": {
-            "Tata": "Fogo",
+            "Tata": "Fogo acolhedor",
             "Tatagûasu": "Grande fogueira",
-            "Itá": "Pedra / Machado de pedra"
+            "Itá": "Pedra resistente",
+            "Ña'ẽ": "Prato de cerâmica"
           },
           "coluna_esquerda": [
             "Tata",
             "Tatagûasu",
-            "Itá"
+            "Itá",
+            "Ña'ẽ"
           ],
           "coluna_direita": [
-            "Fogo",
             "Grande fogueira",
-            "Pedra / Machado de pedra"
+            "Pedra resistente",
+            "Prato de cerâmica",
+            "Fogo acolhedor"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1069,158 @@
             "Tata",
             "Tatagûasu",
             "Itá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 7 (O Fogo, o Barro e os Utensílios) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 7 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Tatagûasu",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Prato de cerâmica",
+                  "Fogo acolhedor",
+                  "Grande fogueira",
+                  "Pedra resistente"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo acolhedor",
+                  "Tatagûasu": "Grande fogueira",
+                  "Itá": "Pedra resistente",
+                  "Ña'ẽ": "Prato de cerâmica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 7 (O Fogo, o Barro e os Utensílios) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de O Fogo, o Barro e os Utensílios com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Tatagûasu",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Grande fogueira",
+                  "Pedra resistente",
+                  "Prato de cerâmica",
+                  "Fogo acolhedor"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo acolhedor",
+                  "Tatagûasu": "Grande fogueira",
+                  "Itá": "Pedra resistente",
+                  "Ña'ẽ": "Prato de cerâmica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 7 (O Fogo, o Barro e os Utensílios) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Tatagûasu",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Pedra resistente",
+                  "Prato de cerâmica",
+                  "Fogo acolhedor",
+                  "Grande fogueira"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo acolhedor",
+                  "Tatagûasu": "Grande fogueira",
+                  "Itá": "Pedra resistente",
+                  "Ña'ẽ": "Prato de cerâmica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 7 (O Fogo, o Barro e os Utensílios) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Tatagûasu",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Prato de cerâmica",
+                  "Pedra resistente",
+                  "Fogo acolhedor",
+                  "Grande fogueira"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo acolhedor",
+                  "Tatagûasu": "Grande fogueira",
+                  "Itá": "Pedra resistente",
+                  "Ña'ẽ": "Prato de cerâmica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 7 (O Fogo, o Barro e os Utensílios) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tata",
+                  "Tatagûasu",
+                  "Itá",
+                  "Ña'ẽ"
+                ],
+                "coluna_direita": [
+                  "Grande fogueira",
+                  "Fogo acolhedor",
+                  "Prato de cerâmica",
+                  "Pedra resistente"
+                ],
+                "pares_corretos": {
+                  "Tata": "Fogo acolhedor",
+                  "Tatagûasu": "Grande fogueira",
+                  "Itá": "Pedra resistente",
+                  "Ña'ẽ": "Prato de cerâmica"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Tata' para o Português:",
           "termo_fonte": "Tata",
           "traducao_esperada": "Fogo",
@@ -406,6 +1229,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Tata"
+          ],
+          "opcoes": [
+            "Fogo",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 7 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Tata'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo",
+                  "Nuvem de chuva",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tata' traduz-se fielmente por 'Fogo'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos elementos essenciais que estruturam o domínio de O Fogo, o Barro e os Utensílios.",
+              "enunciado": "A qual conceito o termo central 'Tata' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Animal de toca",
+                  "Fogo",
+                  "Pássaro que canta",
+                  "Rio largo"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tata' é 'Fogo'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração das conquistas de aprendizado na aldeia.",
+              "enunciado": "Se os guerreiros exclamam 'Tata katu!', o que eles celebram?",
+              "payload": {
+                "opcoes": [
+                  "A presença e excelência de fogo",
+                  "A aproximação da tempestade",
+                  "A perda das sementes",
+                  "A quebra da canoa"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Celebram a excelência de 'Fogo'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese conclusiva do Capítulo 7.",
+              "enunciado": "Em resumo definitivo, 'Tata' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "O elemento sagrado de fogo",
+                  "A escuridão da noite fria",
+                  "O silêncio do pântano",
+                  "O combate corpo a corpo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tata' simboliza 'Fogo'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

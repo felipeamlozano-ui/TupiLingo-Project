@@ -11,6 +11,7 @@ import 'widgets/onboarding_progress_bar.dart';
 import 'widgets/tupi_3d_button.dart';
 import 'package:tupi_lingo/features/auth/presentation/register.dart';
 import 'package:tupi_lingo/features/auth/presentation/login.dart';
+import 'package:tupi_lingo/core/utils/stable_shuffle.dart';
 
 /// Tela principal do fluxo de introdução e tutorial imersivo do TupiLingo.
 class IntroFlowScreen extends StatefulWidget {
@@ -1106,15 +1107,19 @@ class _DemoLessonItemViewState extends State<_DemoLessonItemView> {
   String? _selectedBlankWord;
   Map<String, String> _userMatches = {};
   String? _selectedMatchLeft;
+  List<String>? _cachedShuffledRight;
+  Object? _cachedItemForShuffle;
 
   @override
   void didUpdateWidget(covariant _DemoLessonItemView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.subStepIndex != widget.subStepIndex) {
+    if (oldWidget.subStepIndex != widget.subStepIndex || oldWidget.item != widget.item) {
       _selectedMultipleChoice = null;
       _selectedBlankWord = null;
       _userMatches = {};
       _selectedMatchLeft = null;
+      _cachedShuffledRight = null;
+      _cachedItemForShuffle = null;
     }
   }
 
@@ -1442,7 +1447,11 @@ class _DemoLessonItemViewState extends State<_DemoLessonItemView> {
   Widget _buildMatching() {
     final pairs = widget.item.matchingPairs ?? {};
     final leftList = pairs.keys.toList();
-    final rightList = pairs.values.toList()..shuffle();
+    if (_cachedShuffledRight == null || !identical(_cachedItemForShuffle, widget.item)) {
+      _cachedShuffledRight = StableShuffle.derangedShuffle(pairs.values.toList());
+      _cachedItemForShuffle = widget.item;
+    }
+    final rightList = _cachedShuffledRight!;
 
     return Column(
       children: [

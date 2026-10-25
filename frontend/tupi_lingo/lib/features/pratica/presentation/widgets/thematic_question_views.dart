@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/stable_shuffle.dart';
 
 // Alternativas de múltipla escolha com destaque na opção clicada
 class ThematicMultipleChoiceView extends StatelessWidget {
@@ -188,7 +189,7 @@ class ThematicFreeTextView extends StatelessWidget {
 }
 
 // Duas colunas lado a lado para ligar termos ancestrais às suas traduções em português
-class ThematicMatchingView extends StatelessWidget {
+class ThematicMatchingView extends StatefulWidget {
   final Map<String, dynamic> question;
   final Map<String, String> userAssociations;
   final String? selectedTerm;
@@ -204,12 +205,37 @@ class ThematicMatchingView extends StatelessWidget {
     required this.onLinkPair,
   });
 
-  // Monta as duas colunas verticais com animação de conexão quando o par é associado
+  @override
+  State<ThematicMatchingView> createState() => _ThematicMatchingViewState();
+}
+
+class _ThematicMatchingViewState extends State<ThematicMatchingView> {
+  late List<String> _shuffledTranslations;
+
+  @override
+  void initState() {
+    super.initState();
+    _initShuffled();
+  }
+
+  void _initShuffled() {
+    final pares = (widget.question['pares_associacao'] as List?) ?? [];
+    final traducoes = pares.map((p) => p['traducao'].toString()).toList();
+    _shuffledTranslations = StableShuffle.derangedShuffle(traducoes);
+  }
+
+  @override
+  void didUpdateWidget(covariant ThematicMatchingView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.question != widget.question) {
+      _initShuffled();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final pares = (question['pares_associacao'] as List?) ?? [];
+    final pares = (widget.question['pares_associacao'] as List?) ?? [];
     final termos = pares.map((p) => p['termo'].toString()).toList();
-    final traducoes = pares.map((p) => p['traducao'].toString()).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,12 +252,12 @@ class ThematicMatchingView extends StatelessWidget {
             Expanded(
               child: Column(
                 children: termos.map((t) {
-                  final isLinked = userAssociations.containsKey(t);
-                  final isSelected = selectedTerm == t;
+                  final isLinked = widget.userAssociations.containsKey(t);
+                  final isSelected = widget.selectedTerm == t;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: InkWell(
-                      onTap: () => onSelectTerm(t),
+                      onTap: () => widget.onSelectTerm(t),
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
                         padding: const EdgeInsets.all(12),
@@ -263,17 +289,17 @@ class ThematicMatchingView extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 14),
-            // Coluna Tradução
+            // Coluna Tradução (Ordem desordenada estável)
             Expanded(
               child: Column(
-                children: traducoes.map((trad) {
-                  final isLinked = userAssociations.containsValue(trad);
+                children: _shuffledTranslations.map((trad) {
+                  final isLinked = widget.userAssociations.containsValue(trad);
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: InkWell(
                       onTap: () {
-                        if (selectedTerm != null) {
-                          onLinkPair(selectedTerm!, trad);
+                        if (widget.selectedTerm != null) {
+                          widget.onLinkPair(widget.selectedTerm!, trad);
                         }
                       },
                       borderRadius: BorderRadius.circular(12),
@@ -311,3 +337,4 @@ class ThematicMatchingView extends StatelessWidget {
     );
   }
 }
+

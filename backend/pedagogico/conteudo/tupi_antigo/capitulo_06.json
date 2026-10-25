@@ -65,6 +65,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Kûarasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao alvorecer na praia, o sol dourado desponta majestoso sobre o horizonte das águas de Pindorama.",
+              "enunciado": "Ao contemplar o astro rei que ilumina o mundo e aquece a aldeia, a qual corpo celeste o vocábulo 'Kûarasy' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Sol",
+                  "Lua minguante",
+                  "Estrela d'alva",
+                  "Nuvem escura"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kûarasy' é o sol em Tupi Antigo, fonte de calor e luz cósmica.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O agricultor olha para o céu limpo para calcular a hora exata da colheita antes que o calor aperte.",
+              "enunciado": "Qual astro do dia comanda as horas e as estações na cosmologia tupinambá sob o nome 'Kûarasy'?",
+              "payload": {
+                "opcoes": [
+                  "Cometa brilhante",
+                  "Sol radiante",
+                  "Constelação da ema",
+                  "Vento da tarde"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kûarasy' rege o dia (ara) e o ciclo da agricultura tradicional.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "No poema antigo registrado pelos viajantes, saúda-se a luz matinal que vence a escuridão da mata.",
+              "enunciado": "Quando o ancião aponta para o firmamento dizendo 'Kûarasy ybak pupé', o que ele descreve?",
+              "payload": {
+                "opcoes": [
+                  "O sol está no céu",
+                  "A lua escondeu-se no poente",
+                  "O trovão racha as pedras",
+                  "A fogueira arde na oca"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kûarasy ybak pupé' significa que o sol está presente no céu.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Análise da composição de palavras míticas e calendáricas dos povos costeiros.",
+              "enunciado": "Qual é a tradução rigorosa do substantivo astronômico 'Kûarasy'?",
+              "payload": {
+                "opcoes": [
+                  "Terra firme",
+                  "Sol",
+                  "Rio largo",
+                  "Árvore frondosa"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kûarasy' significa Sol.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +146,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Kûarasy": "Sol"
+            "Kûarasy": "O sol iluminador",
+            "Ybak": "O céu / Firmamento",
+            "Ara": "O dia / A luz do tempo"
           },
           "coluna_esquerda": [
-            "Kûarasy"
+            "Kûarasy",
+            "Ybak",
+            "Ara"
           ],
           "coluna_direita": [
-            "Sol"
+            "O céu / Firmamento",
+            "O dia / A luz do tempo",
+            "O sol iluminador"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Kûarasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "À noite, o sábio aponta para a abóbada celeste e ensina os astros aos jovens sentados na clareira.",
+              "enunciado": "Associe os termos astronômicos e cósmicos fundamentais às suas traduções em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kûarasy",
+                  "Ybak",
+                  "Ara"
+                ],
+                "coluna_direita": [
+                  "O céu / Firmamento",
+                  "O dia / A luz do tempo",
+                  "O sol iluminador"
+                ],
+                "pares_corretos": {
+                  "Kûarasy": "O sol iluminador",
+                  "Ybak": "O céu / Firmamento",
+                  "Ara": "O dia / A luz do tempo"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: Kûarasy->Sol (2), Ybak->Céu (0), Ara->Dia (1). Zero pontos fixos.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Observando a transição entre o nascer do sol e a vastidão azul do firmamento.",
+              "enunciado": "Conecte os conceitos da cosmologia diurna aos seus respectivos significados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ara",
+                  "Kûarasy",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "O astro sol",
+                  "A abóbada do céu",
+                  "A claridade do dia"
+                ],
+                "pares_corretos": {
+                  "Ara": "A claridade do dia",
+                  "Kûarasy": "O astro sol",
+                  "Ybak": "A abóbada do céu"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão prática da orientação espacial e temporal indígena.",
+              "enunciado": "Ligue com precisão os termos celestes às suas identidades:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ybak",
+                  "Ara",
+                  "Kûarasy"
+                ],
+                "coluna_direita": [
+                  "A luz solar diurna",
+                  "O astro rei do dia",
+                  "O céu azul"
+                ],
+                "pares_corretos": {
+                  "Ybak": "O céu azul",
+                  "Ara": "A luz solar diurna",
+                  "Kûarasy": "O astro rei do dia"
+                }
+              },
+              "explicacao": "Permutação circular sem pontos fixos.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Atividade de memorização rápida sobre os astros do universo tupinambá.",
+              "enunciado": "Faça a correlação exata entre os três substantivos celestes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kûarasy",
+                  "Ara",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "Firmamento celestial",
+                  "Sol radioso",
+                  "Dia iluminado"
+                ],
+                "pares_corretos": {
+                  "Kûarasy": "Sol radioso",
+                  "Ara": "Dia iluminado",
+                  "Ybak": "Firmamento celestial"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Quiz cultural sobre o tempo e o cosmos em Tupi Antigo.",
+              "enunciado": "Una cada substantivo astronômico ao seu significado em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ara",
+                  "Ybak",
+                  "Kûarasy"
+                ],
+                "coluna_direita": [
+                  "O sol",
+                  "O dia",
+                  "O céu"
+                ],
+                "pares_corretos": {
+                  "Ara": "O dia",
+                  "Ybak": "O céu",
+                  "Kûarasy": "O sol"
+                }
+              },
+              "explicacao": "Zero posições coincidentes.",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -140,6 +352,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Îasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "A lua cheia desponta prateada por trás das palmeiras de buriti, clareando o terreiro da aldeia.",
+              "enunciado": "Complete a sentença da noite serena: '______ pykói' (A lua brilha):",
+              "payload": {
+                "texto_com_lacunas": "______ pykói.",
+                "respostas_corretas": [
+                  "Îasy"
+                ]
+              },
+              "explicacao": "'Îasy' (Lua) é o astro noturno completando a oração descritiva de luminosidade.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Os pescadores guiam-se pelas marés comandadas pela luz e pelas fases do satélite da Terra.",
+              "enunciado": "Preencha a lacuna: 'Ahecha ______ ybak pupé' (Eu vejo a lua no céu):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______ ybak pupé.",
+                "respostas_corretas": [
+                  "Îasy"
+                ]
+              },
+              "explicacao": "'Îasy' é a lua avistada na abóbada celeste.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Contando as lendas sobre a senhora das noites que protege os amantes e viajantes.",
+              "enunciado": "Qual astro prateado completa: 'I puranga a'e ______' (Bela é aquela lua)?",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "Îasy"
+                ]
+              },
+              "explicacao": "'Îasy' é o sujeito exaltado por sua beleza.",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Observando o calendário lunar das fases que orientam o plantio de raízes.",
+              "enunciado": "Insira o nome da lua em Tupi Antigo: 'Oikó ______' (A lua está presente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Îasy"
+                ]
+              },
+              "explicacao": "'Îasy' é o astro lunar.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -171,10 +445,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Îasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na cosmologia tupinambá registrada nas narrativas de Thevet e Yves d'Évreux.",
+              "enunciado": "Qual corpo celeste da noite é denominado 'Îasy' em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Lua",
+                  "Relâmpago",
+                  "Estrela cadente",
+                  "Vento sul"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îasy' significa Lua nas fontes clássicas.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Identificando palavras da toponímia e dos mitos brasileiros ligados à rainha da noite.",
+              "enunciado": "A qual destes elementos refere-se a raiz clássica 'Îasy' (ou Jaci)?",
+              "payload": {
+                "opcoes": [
+                  "À serra de pedras",
+                  "Ao astro lunar / Lua",
+                  "Ao fogo da fogueira",
+                  "Ao mar bravio"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Îasy' deu origem ao mito de Jaci, a lua protetora dos vegetais.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Contrastando o regente do dia ('Kûarasy') com a senhora da noite.",
+              "enunciado": "Se 'Kûarasy' ilumina o dia, quem ilumina a noite em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Îasy",
+                  "Tatu",
+                  "Pirá",
+                  "Mani'oka"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îasy' é a companheira noturna do sol.",
+              "param_a": 1.0,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exame de vocabulário de astronomia clássica.",
+              "enunciado": "Assinale a opção que traduz com precisão o termo 'Îasy':",
+              "payload": {
+                "opcoes": [
+                  "Lua",
+                  "Sol",
+                  "Rio",
+                  "Nuvem"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îasy' é a Lua.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ retá.'",
           "texto_com_lacunas": "______ retá.",
@@ -186,6 +534,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Îasytatá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O céu límpido sem nuvens brilha pontilhado por milhares de pontos cintilantes de fogo cósmico.",
+              "enunciado": "Complete a sentença sobre os pontos cintilantes da noite: '______ retá' (Muitas estrelas):",
+              "payload": {
+                "texto_com_lacunas": "______ retá.",
+                "respostas_corretas": [
+                  "Îasytatá"
+                ]
+              },
+              "explicacao": "'Îasytatá' (lit. fogo da lua) é o substantivo poético para estrela em Tupi Antigo.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Os navegantes utilizam a constelação da Ema e do Homem Velho para traçar rotas noturnas.",
+              "enunciado": "Insira o nome do corpo brilhante do céu noturno: 'I berab ______' (A estrela reluz):",
+              "payload": {
+                "texto_com_lacunas": "I berab ______.",
+                "respostas_corretas": [
+                  "Îasytatá"
+                ]
+              },
+              "explicacao": "'Îasytatá' é o astro cintilante.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Explicando a metáfora astronômica: o fogo (tatá) que acompanha a lua (îasy) no firmamento.",
+              "enunciado": "Preencha a lacuna: 'Hetá ______ ybak pupé' (Há muitas estrelas no céu):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______ ybak pupé.",
+                "respostas_corretas": [
+                  "Îasytatá"
+                ]
+              },
+              "explicacao": "'Îasytatá' completa a oração existencial de abundância estelar.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "O vigia observa o surgimento da estrela matutina antes do alvorecer.",
+              "enunciado": "Qual vocábulo preenche: 'Ahecha ______' (Eu vejo a estrela)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Îasytatá"
+                ]
+              },
+              "explicacao": "'Îasytatá' é a estrela observada.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,6 +627,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Îasytatá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Análise morfológica da bela metáfora que une a lua (îasy) e o fogo (tatá).",
+              "enunciado": "Qual astro do céu noturno é designado pelo belo vocábulo composto 'Îasytatá'?",
+              "payload": {
+                "opcoes": [
+                  "Estrela",
+                  "Arco-íris",
+                  "Chuva torrencial",
+                  "Neblina da serra"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îasytatá' é literalmente 'fogo da lua', termo clássico para estrela.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Contemplando a Via Láctea ('Tape-kue') que atravessa o céu estrelado de inverno.",
+              "enunciado": "O que pontilha e ilumina o firmamento escuro quando os indígenas observam os 'Îasytatá'?",
+              "payload": {
+                "opcoes": [
+                  "Tochas de guerra",
+                  "Estrelas no céu",
+                  "Faíscas de cupinzeiro",
+                  "Pássaros noturnos"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Îasytatá' são as estrelas do firmamento.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Dicionário de termos astronômicos e cosmológicos de Navarro.",
+              "enunciado": "Assinale a tradução exata de 'Îasytatá':",
+              "payload": {
+                "opcoes": [
+                  "Fogo no chão",
+                  "Estrela",
+                  "Água fervente",
+                  "Peixe luminoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Îasytatá' traduz-se fielmente como estrela.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão dos astros fundamentais do Capítulo 6 de Tupi Antigo.",
+              "enunciado": "Qual corpo celeste corresponde a 'Îasytatá'?",
+              "payload": {
+                "opcoes": [
+                  "Estrela cintilante",
+                  "Vulcão ativo",
+                  "Árvore queimada",
+                  "Canoa rápida"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îasytatá' é a estrela cintilante.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -281,7 +765,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.184,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Avaliação adaptativa da ortografia do sol com semivogal e circunflexo.",
+              "enunciado": "Qual vocábulo representa a forma canônica do sol em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Kûarasy",
+                  "Mokuara",
+                  "Tekûarasy",
+                  "Kuaranã"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kûarasy' é a forma canônica com semivogal circunflexa documentada por Navarro.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando o astro diurno dos astros noturnos na astronomia indígena.",
+              "enunciado": "Selecione o corpo celeste responsável pela claridade do dia (ara):",
+              "payload": {
+                "opcoes": [
+                  "Îasytatá",
+                  "Kûarasy",
+                  "Îasy",
+                  "Paraná"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kûarasy' é o sol iluminador do dia.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão do ciclo solar na vida cotidiana de Pindorama.",
+              "enunciado": "Qual astro rege o alvorecer e o calor das manhãs?",
+              "payload": {
+                "opcoes": [
+                  "Kûarasy",
+                  "Tata",
+                  "Oka",
+                  "Tatu"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kûarasy' é o sol da manhã.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,7 +840,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.084,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo frases afirmativas sobre a lua na abóbada celestial.",
+              "enunciado": "Complete a oração adaptativa: 'Oikó ______ ybak pupé' (A lua está no céu):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______ ybak pupé.",
+                "respostas_corretas": [
+                  "Îasy"
+                ]
+              },
+              "explicacao": "'Îasy' completa o sujeito da oração noturna.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Celebrando as noites de lua cheia no terreiro comunitário.",
+              "enunciado": "Preencha a lacuna: 'I berab a'e ______' (Aquela lua resplandece):",
+              "payload": {
+                "texto_com_lacunas": "I berab a'e ______.",
+                "respostas_corretas": [
+                  "Îasy"
+                ]
+              },
+              "explicacao": "'Îasy' é o astro que resplandece.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Calendário tradicional de caça e pesca guiado pelas fases lunares.",
+              "enunciado": "Qual vocábulo preenche: 'Xe ahecha ______' (Eu vejo a lua)?",
+              "payload": {
+                "texto_com_lacunas": "Xe ahecha ______.",
+                "respostas_corretas": [
+                  "Îasy"
+                ]
+              },
+              "explicacao": "'Îasy' é o satélite noturno.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -318,7 +905,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -0.934,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Compreensão da formação da palavra poética para estrela.",
+              "enunciado": "A qual conceito metafórico se associa a formação de 'Îasytatá'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo da lua (îasy + tatá)",
+                  "Peixe da água doce",
+                  "Folha da mata alta",
+                  "Tronco de fogo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îasytatá' une îasy (lua) e tatá (fogo), significando as fagulhas estelares do céu noturno.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Navegação astronômica e contos de constelações ancestrais.",
+              "enunciado": "Por que os tupinambás chamavam as estrelas de 'Îasytatá'?",
+              "payload": {
+                "opcoes": [
+                  "Porque as viam como pequenos fogos celestes que acompanham a lua",
+                  "Porque eram feitas de barro cozido",
+                  "Porque voavam como pássaros",
+                  "Porque caíam no rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "A metáfora reflete as chamas cintilantes no firmamento noturno.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificando corpos brilhantes em noites de céu limpo.",
+              "enunciado": "Qual destes termos refere-se a uma estrela?",
+              "payload": {
+                "opcoes": [
+                  "Îasytatá",
+                  "Mani'oka",
+                  "Kôy",
+                  "Pirá"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îasytatá' é a estrela.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -336,7 +979,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.184,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Atributos e modificadores da claridade e bondade cósmica.",
+              "enunciado": "Ao saudar o dia promissor com sol pleno, qual expressão celebra a luz do dia?",
+              "payload": {
+                "opcoes": [
+                  "Ara katu",
+                  "Ara aíba",
+                  "Îasy aíba",
+                  "Kûarasy aíba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ara katu' significa bom dia, tempo bom, claridade excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando adjetivos que qualificam a beleza da abóbada celeste.",
+              "enunciado": "Se a noite está limpa e magnífica, como se elogia o céu estrelado?",
+              "payload": {
+                "opcoes": [
+                  "Ybak puranga",
+                  "Ybak aíba",
+                  "Tatu katu",
+                  "So'ó aíba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ybak puranga' significa céu belo e límpido.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Sintaxe da exaltação ao sol iluminador.",
+              "enunciado": "Qual é a ordem correta para 'bom sol' ou 'sol favorável' em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Katu kûarasy",
+                  "Kûarasy katu",
+                  "Katu ybak",
+                  "Kûarasy aíba"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Substantivo ('Kûarasy') antecede o modificador adjetival ('katu').",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -382,9 +1081,10 @@
             "Îasytatá"
           ],
           "coluna_direita": [
-            "Sol",
-            "Lua",
-            "Estrela"
+            "A lua prateada",
+            "Estrela / Fogo da lua",
+            "O céu / Firmamento",
+            "O sol radioso"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1093,158 @@
             "Kûarasy",
             "Îasy",
             "Îasytatá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese cosmológica: correlacione os quatro grandes astros e conceitos do céu.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos celestes em Tupi Antigo às suas traduções em Português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kûarasy",
+                  "Îasy",
+                  "Îasytatá",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "A lua prateada",
+                  "Estrela / Fogo da lua",
+                  "O céu / Firmamento",
+                  "O sol radioso"
+                ],
+                "pares_corretos": {
+                  "Kûarasy": "O sol radioso",
+                  "Îasy": "A lua prateada",
+                  "Îasytatá": "Estrela / Fogo da lua",
+                  "Ybak": "O céu / Firmamento"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: Kûarasy->Sol (3), Îasy->Lua (0), Îasytatá->Estrela (1), Ybak->Céu (2). Zero pontos fixos.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No conselho dos sábios da aldeia, revisam-se os domínios do dia e da noite sob a abóbada cósmica.",
+              "enunciado": "Associe cada vocábulo indígena à sua manifestação na natureza:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ybak",
+                  "Îasytatá",
+                  "Îasy",
+                  "Kûarasy"
+                ],
+                "coluna_direita": [
+                  "O satélite que clareia as noites",
+                  "O grande astro que aquece o dia",
+                  "A morada azul dos corpos celestes",
+                  "As chamas brilhantes do firmamento"
+                ],
+                "pares_corretos": {
+                  "Ybak": "A morada azul dos corpos celestes",
+                  "Îasytatá": "As chamas brilhantes do firmamento",
+                  "Îasy": "O satélite que clareia as noites",
+                  "Kûarasy": "O grande astro que aquece o dia"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão prática com fichas de palha pintadas com os símbolos cósmicos de Pindorama.",
+              "enunciado": "Ligue com precisão os termos astronômicos às suas definições consolidadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Îasy",
+                  "Kûarasy",
+                  "Ybak",
+                  "Îasytatá"
+                ],
+                "coluna_direita": [
+                  "O sol brilhante",
+                  "O céu límpido",
+                  "A estrela cintilante",
+                  "A lua cheia"
+                ],
+                "pares_corretos": {
+                  "Îasy": "A lua cheia",
+                  "Kûarasy": "O sol brilhante",
+                  "Ybak": "O céu límpido",
+                  "Îasytatá": "A estrela cintilante"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Teste de prontidão cosmológica para os jovens navegantes e caçadores da floresta.",
+              "enunciado": "Conecte os conceitos do universo em Tupi Antigo aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Îasytatá",
+                  "Ybak",
+                  "Kûarasy",
+                  "Îasy"
+                ],
+                "coluna_direita": [
+                  "Firmamento celestial",
+                  "Sol do meio-dia",
+                  "Lua serena da noite",
+                  "Estrela cintilante"
+                ],
+                "pares_corretos": {
+                  "Îasytatá": "Estrela cintilante",
+                  "Ybak": "Firmamento celestial",
+                  "Kûarasy": "Sol do meio-dia",
+                  "Îasy": "Lua serena da noite"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Prova de mestria no cosmos tupinambá.",
+              "enunciado": "Faça a associação conclusiva dos corpos celestes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kûarasy",
+                  "Îasytatá",
+                  "Îasy",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "Estrelas da noite",
+                  "A lua prateada",
+                  "O céu azul",
+                  "O sol que ilumina"
+                ],
+                "pares_corretos": {
+                  "Kûarasy": "O sol que ilumina",
+                  "Îasytatá": "Estrelas da noite",
+                  "Îasy": "A lua prateada",
+                  "Ybak": "O céu azul"
+                }
+              },
+              "explicacao": "Derangement perfeito: Kûarasy->Sol (3), Îasytatá->Estrela (0), Îasy->Lua (1), Ybak->Céu (2).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Kûarasy' para o Português:",
           "termo_fonte": "Kûarasy",
           "traducao_esperada": "Sol",
@@ -406,6 +1253,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Kûarasy"
+          ],
+          "opcoes": [
+            "Sol",
+            "Estrela cadente",
+            "Nuvem de tempestade",
+            "Vento frio"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Pergunta de avaliação final do Capítulo 6 com o pajé astrônomo da aldeia.",
+              "enunciado": "Qual é a tradução canônica do vocábulo 'Kûarasy'?",
+              "payload": {
+                "opcoes": [
+                  "Sol",
+                  "Estrela cadente",
+                  "Nuvem de tempestade",
+                  "Vento frio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kûarasy' é o sol em Tupi Antigo.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos mitos de criação e do par cósmico Sol e Lua.",
+              "enunciado": "Qual astro governa o calor e o dia em contraste direto com 'Îasy'?",
+              "payload": {
+                "opcoes": [
+                  "Tatu",
+                  "Kûarasy",
+                  "Pirá",
+                  "Mani'oka"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kûarasy' é o sol que reina durante o dia.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O vigia no alto da sentinela celebra o alvorecer dourado.",
+              "enunciado": "Ao gritar 'Kûarasy oîkó!', o que o sentinela avisa a todos na aldeia?",
+              "payload": {
+                "opcoes": [
+                  "O sol nasceu e o dia começou",
+                  "A tempestade apagou o fogo",
+                  "A canoa virou nas pedras",
+                  "A onça entrou no terreiro"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Avisa o nascimento do sol.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese conclusiva da cosmologia e astronomia de Pindorama.",
+              "enunciado": "Em resumo definitivo, 'Kûarasy' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "A luz soberana do sol e o calor do universo",
+                  "As profundezas das águas marinhas",
+                  "O silêncio das tocas escuras",
+                  "A queima cerimonial do barro"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kûarasy' representa o poder do sol.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

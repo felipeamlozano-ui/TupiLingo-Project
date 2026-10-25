@@ -94,22 +94,65 @@ def _recalibrar_nivel(user: UserProfile, variante: VarianteTupi, licao: Licao | 
         cap_num = licao.capitulo.numero if (licao and licao.capitulo) else 1
         item_b = round(-2.5 + (cap_num - 1) * (5.0 / 19.0), 3)
 
-        # Utiliza os exercícios reais da lição
+        # Utiliza os itens e exposições reais da lição via ItemExposure
+        from users.models import ItemExposure
         exercicios_reais = list(Exercicio.objects.filter(licao=licao).order_by('ordem'))
         total_items = len(exercicios_reais) if exercicios_reais else 5
-        correct_count = int(round(accuracy * total_items))
+
+        # Busca respostas registradas nesta sessão da lição
+        min_start = (user_lesson.iniciada_em - timedelta(minutes=5)) if (user_lesson and user_lesson.iniciada_em) else (timezone.now() - timedelta(hours=2))
+        recent_exposures = list(
+            ItemExposure.objects.filter(
+                user=user,
+                exercicio__in=exercicios_reais,
+                shown_at__gte=min_start,
+                answered_correct__isnull=False
+            ).select_related('versao', 'exercicio').order_by('exercicio_id', '-shown_at')
+        )
 
         lesson_responses = []
-        for i in range(total_items):
-            ex_id = exercicios_reais[i].id if i < len(exercicios_reais) else f"LES_{licao.id}_{i}"
+        seen_ex_ids = set()
+
+        # Prioriza a primeira tentativa registrada para cada exercício
+        for exp in reversed(recent_exposures):
+            if exp.exercicio_id in seen_ex_ids:
+                continue
+            seen_ex_ids.add(exp.exercicio_id)
+
+            param_a = 1.2
+            param_b_val = item_b
+            param_c = 0.25
+
+            if exp.versao:
+                param_a = float(exp.versao.param_a)
+                param_b_val = float(exp.versao.param_b)
+                param_c = float(exp.versao.param_c)
+                item_code = f"VER_{exp.versao_id}"
+            else:
+                item_code = f"EX_{exp.exercicio_id}"
+
             lesson_responses.append({
-                "item_id": f"EX_{ex_id}",
-                "param_a": 1.2,
-                "param_b": item_b,
-                "param_c": 0.25,
-                "is_correct": (i < correct_count),
+                "item_id": item_code,
+                "param_a": param_a,
+                "param_b": param_b_val,
+                "param_c": param_c,
+                "is_correct": bool(exp.answered_correct),
                 "dominio": licao.capitulo.titulo if licao and licao.capitulo else "geral"
             })
+
+        # Se não houver ItemExposure registrado (ex: cliente offline antigo), fallback proporcional seguro
+        if not lesson_responses:
+            correct_count = int(round(accuracy * total_items))
+            for i in range(total_items):
+                ex_id = exercicios_reais[i].id if i < len(exercicios_reais) else f"LES_{licao.id}_{i}"
+                lesson_responses.append({
+                    "item_id": f"EX_{ex_id}",
+                    "param_a": 1.2,
+                    "param_b": item_b,
+                    "param_c": 0.25,
+                    "is_correct": (i < correct_count),
+                    "dominio": licao.capitulo.titulo if licao and licao.capitulo else "geral"
+                })
 
         bb = BirdbrainService()
         new_theta, new_se, diag = bb.update_theta_after_lesson(
@@ -279,29 +322,13 @@ def detalhe_licao(request, licao_id: int):
         })
 
     exercicios = []
-    exercicios_qs = sorted(licao.exercicios.all(), key=lambda x: x.ordem)
+    exercicios_qs = list(licao.exercicios.all())
     if exercicios_qs:
-        for ex in exercicios_qs:
-            item_data = {
-                'id': ex.id,
-                'tipo': ex.tipo,
-                'enunciado': ex.enunciado,
-                'explicacao': ex.explicacao,
-                'dificuldade': ex.dificuldade,
-                'pontos_base': ex.pontos_base,
-                'ordem': ex.ordem,
-                'midia': ex.midia.url if ex.midia else None,
-            }
-            if ex.tipo == 'escolha_multipla':
-                item_data['opcoes'] = ex.opcoes or []
-            elif ex.tipo == 'completar':
-                item_data['texto_com_lacunas'] = ex.texto_com_lacunas or ''
-                item_data['tolerancia_levenshtein'] = ex.tolerancia_levenshtein
-            elif ex.tipo == 'associacao':
-                item_data['coluna_esquerda'] = ex.coluna_esquerda or []
-                item_data['coluna_direita'] = ex.coluna_direita or []
-            exercicios.append(item_data)
+        from trilha.services.question_variant_engine import QuestionVariantEngine
+        engine = QuestionVariantEngine()
+        exercicios = engine.build_lesson_items(user=user, licao=licao)
     else:
+        for ex in ExercicioEscolha.objects.filter(licao=licao).order_by('ordem'):
         for ex in ExercicioEscolha.objects.filter(licao=licao).order_by('ordem'):
             exercicios.append({
                 'id': ex.id, 'tipo': 'escolha_multipla', 'enunciado': ex.enunciado,

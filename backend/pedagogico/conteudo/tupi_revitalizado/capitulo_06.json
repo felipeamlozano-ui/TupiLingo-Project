@@ -65,6 +65,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Kuarasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No horizonte das terras indígenas, os primeiros raios dourados do amanhecer anunciam a chegada de um novo dia de trabalho.",
+              "enunciado": "Ao contemplar o grande astro brilhante que ilumina as manhãs da comunidade, a qual corpo celeste refere-se 'Kuarasy'?",
+              "payload": {
+                "opcoes": [
+                  "Sol",
+                  "Lua cheia",
+                  "Nuvem de tempestade",
+                  "Estrela d'alva"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kuarasy' é a forma contemporânea para o sol no tupi revitalizado e nheengatu.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Os estudantes da oficina de astronomia cultural aprendem a observar o movimento aparente do sol entre as árvores.",
+              "enunciado": "Qual astro do dia comanda as horas de claridade sob o nome 'Kuarasy'?",
+              "payload": {
+                "opcoes": [
+                  "Cometa",
+                  "Sol radioso",
+                  "Meteoro",
+                  "Constelação"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kuarasy' é o grande astro central do dia.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na praia do grande rio, os jovens aproveitam o calor da manhã após o banho nas águas límpidas.",
+              "enunciado": "Quando o guia ambiental diz 'Kuarasy oikó ybak pupé', o que ele observa no céu?",
+              "payload": {
+                "opcoes": [
+                  "O sol brilhando no firmamento",
+                  "A lua escondida atrás das nuvens",
+                  "O relâmpago clareando a mata",
+                  "A chuva caindo no telhado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "A sentença descreve o sol presente na abóbada celeste.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Estudo de etnoastronomia nas escolas da floresta.",
+              "enunciado": "Selecione a correta tradução para 'Kuarasy':",
+              "payload": {
+                "opcoes": [
+                  "Lua",
+                  "Sol",
+                  "Vento",
+                  "Chuva"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kuarasy' traduz-se fielmente como Sol.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +146,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Kuarasy": "Sol"
+            "Kuarasy": "O astro sol",
+            "Ybak": "O firmamento / Céu",
+            "Ara": "O dia iluminado"
           },
           "coluna_esquerda": [
-            "Kuarasy"
+            "Kuarasy",
+            "Ybak",
+            "Ara"
           ],
           "coluna_direita": [
-            "Sol"
+            "O firmamento / Céu",
+            "O dia iluminado",
+            "O astro sol"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Kuarasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No planetário comunitário ao ar livre, os jovens aprendem a correlacionar os elementos do universo diurno.",
+              "enunciado": "Associe os termos astronômicos fundamentais em Tupi Revitalizado aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kuarasy",
+                  "Ybak",
+                  "Ara"
+                ],
+                "coluna_direita": [
+                  "O firmamento / Céu",
+                  "O dia iluminado",
+                  "O astro sol"
+                ],
+                "pares_corretos": {
+                  "Kuarasy": "O astro sol",
+                  "Ybak": "O firmamento / Céu",
+                  "Ara": "O dia iluminado"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: Kuarasy->Sol (2), Ybak->Firmamento (0), Ara->Dia (1). Zero pontos fixos.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Apreciando a imensidão azul que cobre as copas das castanheiras ao meio-dia.",
+              "enunciado": "Conecte os conceitos cosmológicos contemporâneos às suas descrições:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ara",
+                  "Kuarasy",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "O calor do sol",
+                  "A abóbada celeste",
+                  "O tempo e a luz do dia"
+                ],
+                "pares_corretos": {
+                  "Ara": "O tempo e a luz do dia",
+                  "Kuarasy": "O calor do sol",
+                  "Ybak": "A abóbada celeste"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão dos termos de tempo e orientação geográfica.",
+              "enunciado": "Ligue com precisão os substantivos da cosmologia às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ybak",
+                  "Ara",
+                  "Kuarasy"
+                ],
+                "coluna_direita": [
+                  "Claridade do dia",
+                  "Sol radiante",
+                  "Céu azul"
+                ],
+                "pares_corretos": {
+                  "Ybak": "Céu azul",
+                  "Ara": "Claridade do dia",
+                  "Kuarasy": "Sol radiante"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação rápida para os estudantes do curso de revitalização.",
+              "enunciado": "Faça a correlação perfeita entre os três substantivos celestes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kuarasy",
+                  "Ara",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "Céu infinito",
+                  "Sol da manhã",
+                  "Dia ensolarado"
+                ],
+                "pares_corretos": {
+                  "Kuarasy": "Sol da manhã",
+                  "Ara": "Dia ensolarado",
+                  "Ybak": "Céu infinito"
+                }
+              },
+              "explicacao": "Derangement estrito verificado.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Quiz cultural sobre o tempo e a natureza em Tupi Revitalizado.",
+              "enunciado": "Una cada termo da natureza ao seu equivalente em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ara",
+                  "Ybak",
+                  "Kuarasy"
+                ],
+                "coluna_direita": [
+                  "O sol vivo",
+                  "O dia de luz",
+                  "O céu aberto"
+                ],
+                "pares_corretos": {
+                  "Ara": "O dia de luz",
+                  "Ybak": "O céu aberto",
+                  "Kuarasy": "O sol vivo"
+                }
+              },
+              "explicacao": "Zero pontos fixos comprovado.",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -140,6 +352,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Yasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "A lua prateada ilumina os caminhos da aldeia sem a necessidade de tochas de fogo.",
+              "enunciado": "Complete a sentença da noite tranquila: '______ pykói' (A lua brilha):",
+              "payload": {
+                "texto_com_lacunas": "______ pykói.",
+                "respostas_corretas": [
+                  "Yasy"
+                ]
+              },
+              "explicacao": "'Yasy' (Lua) é o astro soberano da noite no tupi revitalizado.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Os pescadores ribeirinhos preparam as canoas para a pescaria guiada pelo luar.",
+              "enunciado": "Insira o nome do astro lunar: 'Ahecha ______ ybak pupé' (Eu vejo a lua no céu):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______ ybak pupé.",
+                "respostas_corretas": [
+                  "Yasy"
+                ]
+              },
+              "explicacao": "'Yasy' completa o objeto da oração de visão.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "As canções de ninar indígenas celebram a senhora que vela o sono dos pequenos.",
+              "enunciado": "Preencha com o astro noturno: 'Puranga a'e ______' (Bela é aquela lua):",
+              "payload": {
+                "texto_com_lacunas": "Puranga a'e ______.",
+                "respostas_corretas": [
+                  "Yasy"
+                ]
+              },
+              "explicacao": "'Yasy' é o sujeito qualificado por puranga (bela).",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Calendário ecológico e lunar da colheita e pesca sustentável.",
+              "enunciado": "Qual vocábulo preenche: 'Oikó ______' (A lua está no céu)?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Yasy"
+                ]
+              },
+              "explicacao": "'Yasy' é a lua.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -171,10 +445,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Yasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na literatura e mitologia das comunidades indígenas contemporâneas.",
+              "enunciado": "Qual astro do céu noturno é designado por 'Yasy' em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Lua",
+                  "Relâmpago",
+                  "Estrela cadente",
+                  "Neblina"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yasy' traduz-se diretamente por Lua.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Estudando a influência dos astros nas marés e nos ciclos naturais de Pindorama.",
+              "enunciado": "A qual destes corpos celestes o termo 'Yasy' se refere com exatidão?",
+              "payload": {
+                "opcoes": [
+                  "À montanha alta",
+                  "Ao astro lunar / Lua",
+                  "À fogueira da roça",
+                  "Ao vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Yasy' é a lua.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Diferenciando o regente diurno do satélite noturno.",
+              "enunciado": "Se 'Kuarasy' governa o dia, qual corpo celeste governa a noite?",
+              "payload": {
+                "opcoes": [
+                  "Yasy",
+                  "Pira",
+                  "Tatu",
+                  "Akuti"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yasy' é a governante da noite.",
+              "param_a": 1.0,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Fixação de substantivos astronômicos nos cadernos escolares.",
+              "enunciado": "Assinale a opção que traduz com precisão o termo 'Yasy':",
+              "payload": {
+                "opcoes": [
+                  "Lua",
+                  "Sol",
+                  "Rio",
+                  "Nuvem"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yasy' é a Lua.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ ybak pupé.'",
           "texto_com_lacunas": "______ ybak pupé.",
@@ -186,6 +534,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Yasy-tata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na clareira silenciosa, os olhos fitam as miríades de estrelas salpicadas pelo firmamento.",
+              "enunciado": "Complete a sentença sobre os astros cintilantes: '______ retá' (Muitas estrelas):",
+              "payload": {
+                "texto_com_lacunas": "______ retá.",
+                "respostas_corretas": [
+                  "Yasy-tata"
+                ]
+              },
+              "explicacao": "'Yasy-tata' (lit. fogo da lua) é o termo padronizado para estrela no Tupi Revitalizado.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Observando as constelações que guiam as navegações noturnas no grande rio.",
+              "enunciado": "Insira o nome do corpo brilhante da noite: 'I berab ______' (A estrela brilha):",
+              "payload": {
+                "texto_com_lacunas": "I berab ______.",
+                "respostas_corretas": [
+                  "Yasy-tata"
+                ]
+              },
+              "explicacao": "'Yasy-tata' é o astro estelar que resplandece.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "As crianças contam os pontos brilhantes que formam figuras míticas no céu.",
+              "enunciado": "Preencha a lacuna: 'Hetá ______ ybak pupé' (Há muitas estrelas no céu):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______ ybak pupé.",
+                "respostas_corretas": [
+                  "Yasy-tata"
+                ]
+              },
+              "explicacao": "'Yasy-tata' completa a oração existencial estelar.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "A estrela da manhã brilha solitária antes do nascer do sol.",
+              "enunciado": "Qual vocábulo preenche: 'Ahecha ______' (Eu vejo a estrela)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Yasy-tata"
+                ]
+              },
+              "explicacao": "'Yasy-tata' é a estrela observada.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,6 +627,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Yasy-tata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Compreendendo a etimologia da metáfora poética do fogo da lua.",
+              "enunciado": "Qual astro é denominado pela bela composição 'Yasy-tata'?",
+              "payload": {
+                "opcoes": [
+                  "Estrela",
+                  "Arco-íris",
+                  "Trovão",
+                  "Geadas"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yasy-tata' une lua (yasy) e fogo (tata), traduzindo estrela.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Identificando constelações nos céus limpos do interior da reserva.",
+              "enunciado": "O que pontilha e embeleza a noite quando os indígenas contemplam os 'Yasy-tata'?",
+              "payload": {
+                "opcoes": [
+                  "Fagulhas de fogueira",
+                  "Estrelas no firmamento",
+                  "Vagalumes no capim",
+                  "Pássaros brancos"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Yasy-tata' são as estrelas do céu.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Dicionário escolar contemporâneo de ciências e astronomia.",
+              "enunciado": "Assinale a opção que traduz fielmente 'Yasy-tata':",
+              "payload": {
+                "opcoes": [
+                  "Fogo na roça",
+                  "Estrela",
+                  "Água fervente",
+                  "Vento frio"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Yasy-tata' é a estrela.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão dos corpos celestes do Capítulo 6 de Tupi Revitalizado.",
+              "enunciado": "Qual elemento astronômico corresponde a 'Yasy-tata'?",
+              "payload": {
+                "opcoes": [
+                  "Estrela cintilante",
+                  "Vulcão ativo",
+                  "Árvore queimada",
+                  "Canoa rápida"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yasy-tata' é a estrela cintilante.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -281,7 +765,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.184,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Avaliação adaptativa da ortografia moderna do sol.",
+              "enunciado": "Qual vocábulo representa o sol no sistema moderno em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Kuarasy",
+                  "Mokuara",
+                  "Tekuarasy",
+                  "Kuarana"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kuarasy' é a grafia moderna sem circunflexos utilizada no tupi revitalizado.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando o astro do dia dos corpos noturnos.",
+              "enunciado": "Selecione o corpo celeste que comanda o calor do dia:",
+              "payload": {
+                "opcoes": [
+                  "Yasy-tata",
+                  "Kuarasy",
+                  "Yasy",
+                  "Paraná"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kuarasy' é o sol da claridade e calor.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão do ciclo solar na vida comunitária.",
+              "enunciado": "Qual astro aquece a terra e promove o crescimento das lavouras?",
+              "payload": {
+                "opcoes": [
+                  "Kuarasy",
+                  "Tata",
+                  "Oka",
+                  "Tatu"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kuarasy' é a energia solar.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,7 +840,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.084,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo frases sobre a lua cheia no céu noturno.",
+              "enunciado": "Complete a oração adaptativa: 'Oikó ______ ybak pupé' (A lua está no céu):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______ ybak pupé.",
+                "respostas_corretas": [
+                  "Yasy"
+                ]
+              },
+              "explicacao": "'Yasy' completa o sujeito da oração noturna.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Apreciação poética do luar nas margens fluviais.",
+              "enunciado": "Preencha a lacuna: 'I berab a'e ______' (Aquela lua resplandece):",
+              "payload": {
+                "texto_com_lacunas": "I berab a'e ______.",
+                "respostas_corretas": [
+                  "Yasy"
+                ]
+              },
+              "explicacao": "'Yasy' é o astro prateado que resplandece.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Etnoastronomia e ritmo das águas nas bacias hidrográficas.",
+              "enunciado": "Qual vocábulo preenche: 'Xe ahecha ______' (Eu vejo a lua)?",
+              "payload": {
+                "texto_com_lacunas": "Xe ahecha ______.",
+                "respostas_corretas": [
+                  "Yasy"
+                ]
+              },
+              "explicacao": "'Yasy' é a lua.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -318,7 +905,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -0.934,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Compreensão da metáfora poética e composição nominal.",
+              "enunciado": "Como se formou a denominação 'Yasy-tata' para a estrela?",
+              "payload": {
+                "opcoes": [
+                  "Pela união de Yasy (lua) e Tata (fogo)",
+                  "Pela união de Y (água) e Pira (peixe)",
+                  "Pela união de Ka'a (mata) e Oca (casa)",
+                  "Pela união de Pe (caminho) e Tatu (animal)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yasy-tata' traduz as fagulhas de fogo da lua espalhadas no céu.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Contando histórias ao redor do fogo sobre o céu estrelado.",
+              "enunciado": "Por que as estrelas são chamadas de 'Yasy-tata' nos relatos ancestrais?",
+              "payload": {
+                "opcoes": [
+                  "Porque brilham no firmamento noturno como fogos celestes",
+                  "Porque caem como gotas de orvalho",
+                  "Porque nascem no fundo dos rios",
+                  "Porque são feitas de casca de árvore"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "É a metáfora dos fogos celestes que iluminam as noites.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificando corpos brilhantes na escuridão serena.",
+              "enunciado": "Qual destes termos refere-se a uma estrela em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Yasy-tata",
+                  "Manioka",
+                  "Koo",
+                  "Pira"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Yasy-tata' é a estrela.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -336,7 +979,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.184,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Saudações tradicionais de bom dia e clima favorável.",
+              "enunciado": "Ao saudar a manhã promissora sob a bênção do sol, qual expressão é utilizada?",
+              "payload": {
+                "opcoes": [
+                  "Ara katu (bom dia / bom tempo)",
+                  "Ara aíba (dia ruim)",
+                  "Yasy aíba (lua má)",
+                  "Kuarasy aíba (sol ruim)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ara katu' expressa bom dia, tempo agradável e promissor.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando adjetivos que qualificam a beleza da abóbada celeste.",
+              "enunciado": "Como se elogia o céu límpido e belo em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Ybak puranga",
+                  "Ybak aíba",
+                  "Tatu katu",
+                  "So'o aíba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ybak puranga' significa céu belo e limpo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Sintaxe do adjetivo de excelência 'katu'.",
+              "enunciado": "Qual é a ordenação natural em Tupi Revitalizado para 'bom sol'?",
+              "payload": {
+                "opcoes": [
+                  "Katu kuarasy",
+                  "Kuarasy katu",
+                  "Katu ybak",
+                  "Kuarasy aíba"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Substantivo ('Kuarasy') seguido de adjetivo ('katu'): Kuarasy katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -382,9 +1081,10 @@
             "Yasy-tata"
           ],
           "coluna_direita": [
-            "Sol",
-            "Lua",
-            "Estrela"
+            "A lua prateada",
+            "Estrela / Fogo da lua",
+            "O céu / Firmamento",
+            "O sol radioso"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1093,158 @@
             "Kuarasy",
             "Yasy",
             "Yasy-tata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese cosmológica: correlacione os quatro astros essenciais no Tupi Revitalizado.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos celestes contemporâneos às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kuarasy",
+                  "Yasy",
+                  "Yasy-tata",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "A lua prateada",
+                  "Estrela / Fogo da lua",
+                  "O céu / Firmamento",
+                  "O sol radioso"
+                ],
+                "pares_corretos": {
+                  "Kuarasy": "O sol radioso",
+                  "Yasy": "A lua prateada",
+                  "Yasy-tata": "Estrela / Fogo da lua",
+                  "Ybak": "O céu / Firmamento"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: Kuarasy->Sol (3), Yasy->Lua (0), Yasy-tata->Estrela (1), Ybak->Céu (2). Zero pontos fixos.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na assembleia dos guardiões da memória cultural, revisam-se os domínios do céu e dos astros.",
+              "enunciado": "Associe cada vocábulo em Tupi Revitalizado à sua manifestação na natureza:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ybak",
+                  "Yasy-tata",
+                  "Yasy",
+                  "Kuarasy"
+                ],
+                "coluna_direita": [
+                  "O satélite que ilumina as noites",
+                  "O astro que aquece e ilumina o dia",
+                  "A morada azul dos corpos celestes",
+                  "As chamas brilhantes do firmamento"
+                ],
+                "pares_corretos": {
+                  "Ybak": "A morada azul dos corpos celestes",
+                  "Yasy-tata": "As chamas brilhantes do firmamento",
+                  "Yasy": "O satélite que ilumina as noites",
+                  "Kuarasy": "O astro que aquece e ilumina o dia"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão prática com tarjetas ilustradas no encerramento da unidade astronômica.",
+              "enunciado": "Ligue com precisão os termos celestes às suas definições consolidadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Yasy",
+                  "Kuarasy",
+                  "Ybak",
+                  "Yasy-tata"
+                ],
+                "coluna_direita": [
+                  "O sol brilhante",
+                  "O céu límpido",
+                  "A estrela cintilante",
+                  "A lua serena"
+                ],
+                "pares_corretos": {
+                  "Yasy": "A lua serena",
+                  "Kuarasy": "O sol brilhante",
+                  "Ybak": "O céu límpido",
+                  "Yasy-tata": "A estrela cintilante"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Teste de prontidão comunitária para os jovens aprendizes da floresta.",
+              "enunciado": "Conecte os conceitos do universo em Tupi Revitalizado aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Yasy-tata",
+                  "Ybak",
+                  "Kuarasy",
+                  "Yasy"
+                ],
+                "coluna_direita": [
+                  "Firmamento celestial",
+                  "Sol do meio-dia",
+                  "Lua prateada da noite",
+                  "Estrela brilhante"
+                ],
+                "pares_corretos": {
+                  "Yasy-tata": "Estrela brilhante",
+                  "Ybak": "Firmamento celestial",
+                  "Kuarasy": "Sol do meio-dia",
+                  "Yasy": "Lua prateada da noite"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Prova de mestria no cosmos indígena contemporâneo.",
+              "enunciado": "Faça a associação conclusiva dos corpos celestes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kuarasy",
+                  "Yasy-tata",
+                  "Yasy",
+                  "Ybak"
+                ],
+                "coluna_direita": [
+                  "Estrelas da noite",
+                  "A lua serena",
+                  "O céu azul",
+                  "O sol que ilumina"
+                ],
+                "pares_corretos": {
+                  "Kuarasy": "O sol que ilumina",
+                  "Yasy-tata": "Estrelas da noite",
+                  "Yasy": "A lua serena",
+                  "Ybak": "O céu azul"
+                }
+              },
+              "explicacao": "Derangement perfeito: Kuarasy->Sol (3), Yasy-tata->Estrela (0), Yasy->Lua (1), Ybak->Céu (2).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Kuarasy' para o Português:",
           "termo_fonte": "Kuarasy",
           "traducao_esperada": "Sol",
@@ -406,6 +1253,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Kuarasy"
+          ],
+          "opcoes": [
+            "Sol",
+            "Estrela cadente",
+            "Nuvem de chuva",
+            "Vento suave"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Pergunta de avaliação formativa com os educadores comunitários.",
+              "enunciado": "Qual é a tradução canônica do vocábulo contemporâneo 'Kuarasy'?",
+              "payload": {
+                "opcoes": [
+                  "Sol",
+                  "Estrela cadente",
+                  "Nuvem de chuva",
+                  "Vento suave"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kuarasy' é o sol em Tupi Revitalizado.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos elementos cosmológicos que estruturam o tempo indígena.",
+              "enunciado": "Qual astro rege o calor e a claridade em oposição direta a 'Yasy'?",
+              "payload": {
+                "opcoes": [
+                  "Tatu",
+                  "Kuarasy",
+                  "Pira",
+                  "Manioka"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kuarasy' é o sol da claridade diurna.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebrando o nascimento da luz do dia no mirante da comunidade.",
+              "enunciado": "Se os guias anunciam 'Kuarasy oikó!', o que está acontecendo?",
+              "payload": {
+                "opcoes": [
+                  "O sol despontou iluminando a terra",
+                  "O temporal começou",
+                  "A lua cheia subiu",
+                  "A canoa chegou ao porto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Anuncia o brilho do sol.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese final do Capítulo 6 de Tupi Revitalizado.",
+              "enunciado": "Em resumo definitivo, 'Kuarasy' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "A luz radiosa do sol e a força do novo dia",
+                  "O mistério das tocas profundas",
+                  "As corredeiras turbulentas",
+                  "A queima cerimonial do barro"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kuarasy' é o sol da renovação.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

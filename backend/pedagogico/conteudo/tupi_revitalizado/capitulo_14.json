@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Tupã'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "O Trovão / Entidade Cósmica"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Trovão / Força da Natureza",
+            "Nuvem cinzenta",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Tupã",
           "explicacao": "'Tupã' significa 'O Trovão / Entidade Cósmica' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Tupã"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Nos ensinamentos ancestrais transmitidos aos jovens sobre o respeito às tempestades do verão amazônico.",
+              "enunciado": "Ao estudar o tema culminante 'As Entidades Protetoras e o Trovão', qual é o significado de 'Tupã'?",
+              "payload": {
+                "opcoes": [
+                  "Trovão / Força da Natureza",
+                  "Nuvem cinzenta",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tupã' traduz-se fielmente por 'Trovão / Força da Natureza'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em reflexão com as lideranças e sábios sobre As Entidades Protetoras e o Trovão.",
+              "enunciado": "Qual conceito sagrado e histórico em Tupi Revitalizado é expresso por 'Tupã'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Trovão / Força da Natureza",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tupã' refere-se a 'Trovão / Força da Natureza'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na oratória solene perante toda a comunidade reunida.",
+              "enunciado": "Ao proclamar a força de 'Tupã', a que realidade sublime o orador se reporta?",
+              "payload": {
+                "opcoes": [
+                  "Trovão / Força da Natureza",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Reporta-se com reverência a 'Trovão / Força da Natureza'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão formal da tradição dos antepassados.",
+              "enunciado": "Assinale a alternativa que traduz com rigor etnolinguístico 'Tupã':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Trovão / Força da Natureza",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tupã' é 'Trovão / Força da Natureza'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Tupã": "O Trovão / Entidade Cósmica"
+            "Tupã": "Trovão majestoso",
+            "Curupira": "Protetor da mata virgem",
+            "Jasy": "A Lua brilhante"
           },
           "coluna_esquerda": [
-            "Tupã"
+            "Tupã",
+            "Curupira",
+            "Jasy"
           ],
           "coluna_direita": [
-            "O Trovão / Entidade Cósmica"
+            "Protetor da mata virgem",
+            "A Lua brilhante",
+            "Trovão majestoso"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Tupã"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Entidades Protetoras e o Trovão (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy"
+                ],
+                "coluna_direita": [
+                  "Protetor da mata virgem",
+                  "A Lua brilhante",
+                  "Trovão majestoso"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão majestoso",
+                  "Curupira": "Protetor da mata virgem",
+                  "Jasy": "A Lua brilhante"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Entidades Protetoras e o Trovão (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de As Entidades Protetoras e o Trovão com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy"
+                ],
+                "coluna_direita": [
+                  "A Lua brilhante",
+                  "Trovão majestoso",
+                  "Protetor da mata virgem"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão majestoso",
+                  "Curupira": "Protetor da mata virgem",
+                  "Jasy": "A Lua brilhante"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Entidades Protetoras e o Trovão (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy"
+                ],
+                "coluna_direita": [
+                  "Protetor da mata virgem",
+                  "A Lua brilhante",
+                  "Trovão majestoso"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão majestoso",
+                  "Curupira": "Protetor da mata virgem",
+                  "Jasy": "A Lua brilhante"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Entidades Protetoras e o Trovão (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy"
+                ],
+                "coluna_direita": [
+                  "A Lua brilhante",
+                  "Trovão majestoso",
+                  "Protetor da mata virgem"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão majestoso",
+                  "Curupira": "Protetor da mata virgem",
+                  "Jasy": "A Lua brilhante"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Entidades Protetoras e o Trovão (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy"
+                ],
+                "coluna_direita": [
+                  "Protetor da mata virgem",
+                  "A Lua brilhante",
+                  "Trovão majestoso"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão majestoso",
+                  "Curupira": "Protetor da mata virgem",
+                  "Jasy": "A Lua brilhante"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -131,7 +331,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ ka'a guardião.'",
-          "texto_com_lacunas": "______ ka'a guardião.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Curupira"
           ],
@@ -140,6 +340,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Curupira"
+          ],
+          "respostas_corretas": [
+            "Curupira"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Invocando o conceito sagrado de 'Curupira' perante a natureza viva.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Protetor das árvores bom/nobre):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Curupira"
+                ]
+              },
+              "explicacao": "'Curupira' completa a oração com solenidade e exatidão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Expressando respeito às forças da ancestralidade.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Protetor das árvores):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Curupira"
+                ]
+              },
+              "explicacao": "'Curupira' afirma a presença da entidade ou elemento.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração comunitária da cultura e memória.",
+              "enunciado": "Qual termo completa a oração afirmativa: 'Ahecha ______' (Eu contemplo Protetor das árvores)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Curupira"
+                ]
+              },
+              "explicacao": "'Curupira' é o objeto da visão sagrada.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ensinamento dos guardiões da memória.",
+              "enunciado": "Insira a palavra canônica na oração: 'I porang ______':",
+              "payload": {
+                "texto_com_lacunas": "I porang ______.",
+                "respostas_corretas": [
+                  "Curupira"
+                ]
+              },
+              "explicacao": "'Curupira' é o núcleo enaltecido na frase.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -147,37 +412,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Curupira'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Guardião da floresta"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Protetor das árvores",
+            "Canoa furada",
+            "Vento frio",
+            "Rio lamacento"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Curupira",
           "explicacao": "'Curupira' traduz-se fielmente como 'Guardião da floresta'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Curupira"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo dos fundamentos lexicais sobre 'Curupira'.",
+              "enunciado": "Qual é o significado de 'Curupira' no contexto tradicional de As Entidades Protetoras e o Trovão?",
+              "payload": {
+                "opcoes": [
+                  "Protetor das árvores",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio lamacento"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Curupira' traduz-se como 'Protetor das árvores'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao rememorar as palavras de grande valor em As Entidades Protetoras e o Trovão.",
+              "enunciado": "A qual conceito o termo 'Curupira' se reporta em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Protetor das árvores",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Curupira' refere-se a 'Protetor das árvores'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação e diálogo com os mais velhos.",
+              "enunciado": "Selecione o equivalente exato para 'Curupira':",
+              "payload": {
+                "opcoes": [
+                  "Protetor das árvores",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Curupira' corresponde a 'Protetor das árvores'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual alternativa traduz 'Curupira' com máxima autenticidade?",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Protetor das árvores",
+                  "Toca funda",
+                  "Céu cinzento"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Curupira' traduz-se como 'Protetor das árvores'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ paraná pupé.'",
-          "texto_com_lacunas": "______ paraná pupé.",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Iara"
           ],
@@ -186,6 +513,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Iara"
+          ],
+          "respostas_corretas": [
+            "Jasy"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença existencial com o termo sagrado 'Jasy'.",
+              "enunciado": "Complete a frase afirmativa: 'Hetá ______' (Há muito/muita Luz prateada da noite):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Jasy"
+                ]
+              },
+              "explicacao": "'Jasy' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diálogo sobre as histórias da mata viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Vive Luz prateada da noite):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Jasy"
+                ]
+              },
+              "explicacao": "'Jasy' é o sujeito atuante.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Declaração de respeito tradicional.",
+              "enunciado": "Qual vocábulo preenche: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Jasy"
+                ]
+              },
+              "explicacao": "'Jasy' é o elemento reverenciado.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações clássicas.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Jasy"
+                ]
+              },
+              "explicacao": "'Jasy' é o substantivo qualificado com bondade.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,30 +585,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Iara'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Senhora das águas fluviais"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Luz prateada da noite",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Iara",
           "explicacao": "'Iara' traduz-se fielmente como 'Senhora das águas fluviais'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Iara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo léxico aprofundado para o termo 'Jasy'.",
+              "enunciado": "Qual é o significado de 'Jasy'?",
+              "payload": {
+                "opcoes": [
+                  "Luz prateada da noite",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Jasy' traduz-se como 'Luz prateada da noite'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Reflexão etnolinguística com os guardiões da língua.",
+              "enunciado": "A que entidade ou elemento corresponde 'Jasy'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Luz prateada da noite",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Jasy' corresponde a 'Luz prateada da noite'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de vocabulário avançado de As Entidades Protetoras e o Trovão.",
+              "enunciado": "Assinale a tradução precisa de 'Jasy':",
+              "payload": {
+                "opcoes": [
+                  "Luz prateada da noite",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Jasy' traduz-se por 'Luz prateada da noite'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Fechamento lexical da Lição 2.",
+              "enunciado": "Qual alternativa descreve com exatidão 'Jasy'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Luz prateada da noite",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Jasy' é 'Luz prateada da noite'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -271,9 +725,9 @@
           "enunciado": "No contexto de 'As Entidades Protetoras e o Trovão', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Tupã",
-            "Mocurupira",
-            "Teiara",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Tupã' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -281,7 +735,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.921,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre As Entidades Protetoras e o Trovão.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Tupã'?",
+              "payload": {
+                "opcoes": [
+                  "Tupã",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tupã' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de As Entidades Protetoras e o Trovão.",
+              "enunciado": "Selecione o termo autêntico e consagrado deste módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Tupã",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tupã' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente de vocabulário.",
+              "enunciado": "Qual termo representa o conceito primordial estudado em As Entidades Protetoras e o Trovão?",
+              "payload": {
+                "opcoes": [
+                  "Tupã",
+                  "Paraná",
+                  "Ywyra",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tupã' é o termo fundamental de As Entidades Protetoras e o Trovão.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,17 +810,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 1.021,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Curupira"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Curupira'.",
+              "enunciado": "Complete a locução solene: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Curupira"
+                ]
+              },
+              "explicacao": "'Curupira' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva em contextos rituais.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Afirmação de presença):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Curupira"
+                ]
+              },
+              "explicacao": "'Curupira' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em As Entidades Protetoras e o Trovão.",
+              "enunciado": "Qual vocábulo preenche com exatidão: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Curupira"
+                ]
+              },
+              "explicacao": "'Curupira' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'As Entidades Protetoras e o Trovão':",
           "opcoes": [
-            "Uso harmônico de 'Iara'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Tupã'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Iara' expressa a construção genuína documentada nas fontes clássicas.",
@@ -318,7 +879,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 1.171,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em As Entidades Protetoras e o Trovão.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Tupã'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Tupã'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tupã' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de As Entidades Protetoras e o Trovão.",
+              "enunciado": "O que representa 'Tupã' na memória coletiva dos povos?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de As Entidades Protetoras e o Trovão",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico de As Entidades Protetoras e o Trovão.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico e histórico.",
+              "enunciado": "Qual afirmação sobre 'Tupã' é historicamente exata?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas e orais",
+                  "É palavra inventada",
+                  "É gíria recente",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas e orais.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -326,9 +943,9 @@
           "enunciado": "Ao revisar as estruturas de As Entidades Protetoras e o Trovão, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -336,7 +953,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.921,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de nobreza e bondade em As Entidades Protetoras e o Trovão.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou sagrado' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades superiores.",
+              "enunciado": "Para qualificar positivamente 'Tupã', qual raiz é adicionada?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com elevação o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de louvor.",
+              "enunciado": "Qual é a ordem correta para dizer 'Trovão / Força da Natureza bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu tupã",
+                  "Tupã katu",
+                  "Katu aíba",
+                  "Tupã poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o modificador atributivo.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -372,19 +1045,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 14:",
           "pares_corretos": {
-            "Tupã": "O Trovão / Entidade Cósmica",
-            "Curupira": "Guardião da floresta",
-            "Iara": "Senhora das águas fluviais"
+            "Tupã": "Trovão ancestral",
+            "Curupira": "Protetor da mata",
+            "Jasy": "Lua iluminada",
+            "Kwarahy": "Sol do novo dia"
           },
           "coluna_esquerda": [
             "Tupã",
             "Curupira",
-            "Iara"
+            "Jasy",
+            "Kwarahy"
           ],
           "coluna_direita": [
-            "O Trovão / Entidade Cósmica",
-            "Guardião da floresta",
-            "Senhora das águas fluviais"
+            "Protetor da mata",
+            "Lua iluminada",
+            "Sol do novo dia",
+            "Trovão ancestral"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1069,158 @@
             "Tupã",
             "Curupira",
             "Iara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 14 (As Entidades Protetoras e o Trovão) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 14 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy",
+                  "Kwarahy"
+                ],
+                "coluna_direita": [
+                  "Sol do novo dia",
+                  "Trovão ancestral",
+                  "Protetor da mata",
+                  "Lua iluminada"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão ancestral",
+                  "Curupira": "Protetor da mata",
+                  "Jasy": "Lua iluminada",
+                  "Kwarahy": "Sol do novo dia"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 14 (As Entidades Protetoras e o Trovão) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de As Entidades Protetoras e o Trovão com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy",
+                  "Kwarahy"
+                ],
+                "coluna_direita": [
+                  "Protetor da mata",
+                  "Lua iluminada",
+                  "Sol do novo dia",
+                  "Trovão ancestral"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão ancestral",
+                  "Curupira": "Protetor da mata",
+                  "Jasy": "Lua iluminada",
+                  "Kwarahy": "Sol do novo dia"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 14 (As Entidades Protetoras e o Trovão) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy",
+                  "Kwarahy"
+                ],
+                "coluna_direita": [
+                  "Lua iluminada",
+                  "Sol do novo dia",
+                  "Trovão ancestral",
+                  "Protetor da mata"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão ancestral",
+                  "Curupira": "Protetor da mata",
+                  "Jasy": "Lua iluminada",
+                  "Kwarahy": "Sol do novo dia"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 14 (As Entidades Protetoras e o Trovão) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy",
+                  "Kwarahy"
+                ],
+                "coluna_direita": [
+                  "Sol do novo dia",
+                  "Lua iluminada",
+                  "Trovão ancestral",
+                  "Protetor da mata"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão ancestral",
+                  "Curupira": "Protetor da mata",
+                  "Jasy": "Lua iluminada",
+                  "Kwarahy": "Sol do novo dia"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 14 (As Entidades Protetoras e o Trovão) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tupã",
+                  "Curupira",
+                  "Jasy",
+                  "Kwarahy"
+                ],
+                "coluna_direita": [
+                  "Protetor da mata",
+                  "Trovão ancestral",
+                  "Sol do novo dia",
+                  "Lua iluminada"
+                ],
+                "pares_corretos": {
+                  "Tupã": "Trovão ancestral",
+                  "Curupira": "Protetor da mata",
+                  "Jasy": "Lua iluminada",
+                  "Kwarahy": "Sol do novo dia"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Tupã' para o Português:",
           "termo_fonte": "Tupã",
           "traducao_esperada": "O Trovão / Entidade Cósmica",
@@ -406,6 +1229,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Tupã"
+          ],
+          "opcoes": [
+            "Trovão / Força da Natureza",
+            "Nuvem de tempestade escura",
+            "Fogo apagado",
+            "Caminho pedregoso"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 14 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Tupã'?",
+              "payload": {
+                "opcoes": [
+                  "Trovão / Força da Natureza",
+                  "Nuvem de tempestade escura",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tupã' traduz-se fielmente por 'Trovão / Força da Natureza'.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Consolidação final dos conceitos de As Entidades Protetoras e o Trovão.",
+              "enunciado": "Assinale a alternativa que define com fidelidade 'Tupã':",
+              "payload": {
+                "opcoes": [
+                  "Noite chuvosa",
+                  "Trovão / Força da Natureza",
+                  "Peixe pequeno",
+                  "Folhagem seca"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tupã' significa 'Trovão / Força da Natureza'.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prova de mestria no encerramento da jornada.",
+              "enunciado": "Identifique a opção em que 'Tupã' é empregado com seu sentido original:",
+              "payload": {
+                "opcoes": [
+                  "Trovão / Força da Natureza",
+                  "Cesto de pesca",
+                  "Flecha curta",
+                  "Areia fina"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Corresponde a 'Trovão / Força da Natureza'.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese e certificação da lição perante os anciãos.",
+              "enunciado": "Qual conceito tradicional encerra com maestria a lição de 'Tupã'?",
+              "payload": {
+                "opcoes": [
+                  "Caminho estreito",
+                  "Trovão / Força da Natureza",
+                  "Árvore caída",
+                  "Vento leve"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tupã' é 'Trovão / Força da Natureza'.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
           ]
         }
       ],

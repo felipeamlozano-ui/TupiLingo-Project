@@ -106,6 +106,7 @@
 | 23 | [Roadmap & Features Futuras (Mapa Interativo de Pindorama)](#23--roadmap--features-futuras-mapa-interativo-de-pindorama) |
 | 24 | [Como Contribuir](#24--como-contribuir) |
 | 25 | [Licença & Créditos Acadêmicos](#25--licença--créditos-acadêmicos) |
+| 26 | [Política de Gestão de Mídias & Repositório Limpo](#26--política-de-gestão-de-mídias--repositório-limpo) |
 
 ---
 
@@ -157,6 +158,7 @@ Esta tabela reflete a auditoria exata do código-fonte atual (`backend/`, `front
 | **Tour Guiado (Spotlight)** | Tutorial interativo em 2 partes destacando o banner do capítulo, primeiro nó da trilha, seletor de variante, ofensiva, conchas, XP e barra de navegação (reexecutável nos Ajustes). | `lib/features/onboarding/presentation/tour/tour_controller.dart` |
 | **Aba 1: Trilha Serpenteante** | Caminho vertical com botões 3D táteis, seletor horizontal de capítulos, **Guia Cultural e Gramatical** por capítulo, **Baús de Artefatos Indígenas** com partículas Marajoaras e **monitor térmico** (pausa GPU após 8s ocioso). | `lib/features/home/presentation/tabs/trail_tab_view.dart`, `trail_canvas_view.dart` |
 | **Player de Lições & Validação** | StoryBlocks narrativos + exercícios de **Múltipla Escolha**, **Completar Lacunas (tokens clicáveis)** e **Associação de Colunas**, com validação fuzzy (`unaccent` + Levenshtein + trigramas `pg_trgm`). | `lib/features/lesson/`, `backend/users/services/validation_service.py` |
+| **Aba 1: Trilha de Capítulos (40 Módulos)** | **20 capítulos completos para Tupi Antigo** + **20 capítulos completos para Tupi Revitalizado** (total de 40 módulos), totalizando **487 exercícios** e **1.879 versões ativas** calibradas com derangement estrito nas associações e zero clichês. | `backend/pedagogico/conteudo/`, `lib/features/trail/` |
 | **Aba 2: Prática Contextualizada** | **6 temas predefinidos** (*Natureza e Rios*, *Animais e Caça*, *Mitologia e Tupã*, *Aldeia e Cotidiano*, *Guerra e Rituais*, *Culinária e Roça*) + **Tema Livre via IA** + **Flashcards de Revisão Espaçada (SM-2)** com banco de vocabulário desbloqueado por capítulo. | `lib/features/home/presentation/tabs/practice_tab_view.dart`, `lib/features/pratica/` |
 | **Nivelamento & TRI 3PL** | Teste adaptativo por variante (`TesteScreen`), cálculo vetorizado MAP/EAP (`VectorizedTRIEngine`), **TRI Progressivo em Tempo Real** (< 1ms no Redis com detecção matemática de chute) e **Calibrador NLP Zero-Shot** (`NLPItemCalibrator`). | `backend/nivelamento/services/`, `lib/features/assessment/presentation/teste.dart` |
 | **Aba 3: Perfil & Analytics** | Medidor psicométrico (`NivelGauge`), Radar de Maestria (`MasteryRadarChart`), Gráfico 3D de XP (`Progress3DBarChart`), Ofensiva (`StreakCard`), Galeria de **46 Conquistas (`AchievementGallery`)** e histórico de lições. | `lib/features/profile/`, `lib/features/dashboard/` |
@@ -777,6 +779,22 @@ Este projeto é distribuído sob a licença **MIT**.
 
 ### Reconhecimento Acadêmico
 O TupiLingo presta homenagem ao trabalho monumental de linguistas, filólogos e pesquisadores dedicados às línguas indígenas do Brasil, em especial ao **Prof. Dr. Eduardo de Almeida Navarro (FFLCH-USP)**, cuja obra lexicográfica e pedagógica tornou possível o estudo rigoroso do Tupi Antigo no século XXI, e aos registros históricos quinhentistas e seiscentistas que preservaram a memória linguística da costa brasileira.
+
+---
+
+## 26 · Política de Gestão de Mídias & Repositório Limpo
+
+Em conformidade com as diretrizes de governança de código limpo, sustentabilidade de repositório e performance de integração contínua (CI/CD):
+
+1. **Remoção de Arquivos de Vídeo e Fotos Redundantes do Rastreamento Git:**
+   - Vídeos de demonstração pesados (gravações de tela de alta resolução e arquivos `.mp4`, `.mov`, `.webm`, `.avi`) e dumps de código brutos foram **removidos do versionamento do Git**.
+   - Capturas de tela redundantes que não pertencem ao Design System ou ao catálogo ativo da Landing Page foram expurgadas do repositório para evitar inchaço desnecessário de tráfego de rede e clonagem.
+2. **Demonstração Interativa em Tempo Real:**
+   - O aplicativo completo pode ser executado em tempo real diretamente no navegador através da [Landing Page Oficial & Web App no GitHub Pages](https://felipeamlozano-ui.github.io/TupiLingo-Project/), dispensando gravações estáticas pesadas no repositório.
+3. **Distribuição do Pacote de Instalação (APK):**
+   - O pacote de instalação compilado para Android (`app-release.apk`, ~58 MB) é servido diretamente pelo GitHub Pages e disponibilizado no catálogo de **Releases Oficiais do GitHub**, mantendo o código-fonte leve e enxuto.
+4. **Regras Estritas no `.gitignore`:**
+   - Regras automatizadas impedem a inclusão acidental de vídeos, crash logs (`hs_err_pid*.log`), logs de execução de servidores ou dumps de texto extensos no histórico de commits.
 
 <div align="center">
 

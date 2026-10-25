@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Marandu'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "História / Memória antiga"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "História Oral / Notícia Ancestral",
+            "Nuvem cinzenta",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Marandu",
           "explicacao": "'Marandu' significa 'História / Memória antiga' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Marandu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao redor do fogo noturno ouvindo as contações de histórias dos mais velhos para a nova geração.",
+              "enunciado": "Ao estudar o tema culminante 'As Narrativas de Origem e Heróis', qual é o significado de 'Marandu'?",
+              "payload": {
+                "opcoes": [
+                  "História Oral / Notícia Ancestral",
+                  "Nuvem cinzenta",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Marandu' traduz-se fielmente por 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em reflexão com as lideranças e sábios sobre As Narrativas de Origem e Heróis.",
+              "enunciado": "Qual conceito sagrado e histórico em Tupi Revitalizado é expresso por 'Marandu'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "História Oral / Notícia Ancestral",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Marandu' refere-se a 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na oratória solene perante toda a comunidade reunida.",
+              "enunciado": "Ao proclamar a força de 'Marandu', a que realidade sublime o orador se reporta?",
+              "payload": {
+                "opcoes": [
+                  "História Oral / Notícia Ancestral",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Reporta-se com reverência a 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão formal da tradição dos antepassados.",
+              "enunciado": "Assinale a alternativa que traduz com rigor etnolinguístico 'Marandu':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "História Oral / Notícia Ancestral",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Marandu' é 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Marandu": "História / Memória antiga"
+            "Marandu": "Narrativa de origem viva",
+            "Mba'e-kuaa": "Conhecimento profundo",
+            "Ywy Pyau": "Nova terra conquistada"
           },
           "coluna_esquerda": [
-            "Marandu"
+            "Marandu",
+            "Mba'e-kuaa",
+            "Ywy Pyau"
           ],
           "coluna_direita": [
-            "História / Memória antiga"
+            "Conhecimento profundo",
+            "Nova terra conquistada",
+            "Narrativa de origem viva"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Marandu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Narrativas de Origem e Heróis (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau"
+                ],
+                "coluna_direita": [
+                  "Conhecimento profundo",
+                  "Nova terra conquistada",
+                  "Narrativa de origem viva"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Narrativa de origem viva",
+                  "Mba'e-kuaa": "Conhecimento profundo",
+                  "Ywy Pyau": "Nova terra conquistada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Narrativas de Origem e Heróis (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de As Narrativas de Origem e Heróis com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau"
+                ],
+                "coluna_direita": [
+                  "Nova terra conquistada",
+                  "Narrativa de origem viva",
+                  "Conhecimento profundo"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Narrativa de origem viva",
+                  "Mba'e-kuaa": "Conhecimento profundo",
+                  "Ywy Pyau": "Nova terra conquistada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Narrativas de Origem e Heróis (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau"
+                ],
+                "coluna_direita": [
+                  "Conhecimento profundo",
+                  "Nova terra conquistada",
+                  "Narrativa de origem viva"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Narrativa de origem viva",
+                  "Mba'e-kuaa": "Conhecimento profundo",
+                  "Ywy Pyau": "Nova terra conquistada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Narrativas de Origem e Heróis (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau"
+                ],
+                "coluna_direita": [
+                  "Nova terra conquistada",
+                  "Narrativa de origem viva",
+                  "Conhecimento profundo"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Narrativa de origem viva",
+                  "Mba'e-kuaa": "Conhecimento profundo",
+                  "Ywy Pyau": "Nova terra conquistada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre As Narrativas de Origem e Heróis (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau"
+                ],
+                "coluna_direita": [
+                  "Conhecimento profundo",
+                  "Nova terra conquistada",
+                  "Narrativa de origem viva"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Narrativa de origem viva",
+                  "Mba'e-kuaa": "Conhecimento profundo",
+                  "Ywy Pyau": "Nova terra conquistada"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -121,7 +321,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ guasu.'",
-          "texto_com_lacunas": "______ guasu.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Mba'e-kuaa"
           ],
@@ -130,6 +330,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Mba'e-kuaa"
+          ],
+          "respostas_corretas": [
+            "Mba'e-kuaa"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Invocando o conceito sagrado de 'Mba'e-kuaa' perante a natureza viva.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Sabedoria herdada bom/nobre):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Mba'e-kuaa"
+                ]
+              },
+              "explicacao": "'Mba'e-kuaa' completa a oração com solenidade e exatidão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Expressando respeito às forças da ancestralidade.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Sabedoria herdada):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Mba'e-kuaa"
+                ]
+              },
+              "explicacao": "'Mba'e-kuaa' afirma a presença da entidade ou elemento.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração comunitária da cultura e memória.",
+              "enunciado": "Qual termo completa a oração afirmativa: 'Ahecha ______' (Eu contemplo Sabedoria herdada)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Mba'e-kuaa"
+                ]
+              },
+              "explicacao": "'Mba'e-kuaa' é o objeto da visão sagrada.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ensinamento dos guardiões da memória.",
+              "enunciado": "Insira a palavra canônica na oração: 'I porang ______':",
+              "payload": {
+                "texto_com_lacunas": "I porang ______.",
+                "respostas_corretas": [
+                  "Mba'e-kuaa"
+                ]
+              },
+              "explicacao": "'Mba'e-kuaa' é o núcleo enaltecido na frase.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -137,30 +402,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Mba'e-kuaa'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Sabedoria ancestral"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Sabedoria herdada",
+            "Canoa furada",
+            "Vento frio",
+            "Rio lamacento"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Mba'e-kuaa",
           "explicacao": "'Mba'e-kuaa' traduz-se fielmente como 'Sabedoria ancestral'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Mba'e-kuaa"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo dos fundamentos lexicais sobre 'Mba'e-kuaa'.",
+              "enunciado": "Qual é o significado de 'Mba'e-kuaa' no contexto tradicional de As Narrativas de Origem e Heróis?",
+              "payload": {
+                "opcoes": [
+                  "Sabedoria herdada",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio lamacento"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mba'e-kuaa' traduz-se como 'Sabedoria herdada'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao rememorar as palavras de grande valor em As Narrativas de Origem e Heróis.",
+              "enunciado": "A qual conceito o termo 'Mba'e-kuaa' se reporta em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Sabedoria herdada",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mba'e-kuaa' refere-se a 'Sabedoria herdada'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação e diálogo com os mais velhos.",
+              "enunciado": "Selecione o equivalente exato para 'Mba'e-kuaa':",
+              "payload": {
+                "opcoes": [
+                  "Sabedoria herdada",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mba'e-kuaa' corresponde a 'Sabedoria herdada'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual alternativa traduz 'Mba'e-kuaa' com máxima autenticidade?",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Sabedoria herdada",
+                  "Toca funda",
+                  "Céu cinzento"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mba'e-kuaa' traduz-se como 'Sabedoria herdada'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -213,9 +540,9 @@
           "enunciado": "No contexto de 'As Narrativas de Origem e Heróis', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Marandu",
-            "Momba'e-kuaa",
-            "Teaué",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Marandu' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -223,7 +550,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 1.974,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre As Narrativas de Origem e Heróis.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Marandu'?",
+              "payload": {
+                "opcoes": [
+                  "Marandu",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Marandu' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de As Narrativas de Origem e Heróis.",
+              "enunciado": "Selecione o termo autêntico e consagrado deste módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Marandu",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Marandu' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente de vocabulário.",
+              "enunciado": "Qual termo representa o conceito primordial estudado em As Narrativas de Origem e Heróis?",
+              "payload": {
+                "opcoes": [
+                  "Marandu",
+                  "Paraná",
+                  "Ywyra",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Marandu' é o termo fundamental de As Narrativas de Origem e Heróis.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -242,17 +625,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 2.074,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Mba'e-kuaa"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Mba'e-kuaa'.",
+              "enunciado": "Complete a locução solene: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Mba'e-kuaa"
+                ]
+              },
+              "explicacao": "'Mba'e-kuaa' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva em contextos rituais.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Afirmação de presença):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Mba'e-kuaa"
+                ]
+              },
+              "explicacao": "'Mba'e-kuaa' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em As Narrativas de Origem e Heróis.",
+              "enunciado": "Qual vocábulo preenche com exatidão: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Mba'e-kuaa"
+                ]
+              },
+              "explicacao": "'Mba'e-kuaa' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'As Narrativas de Origem e Heróis':",
           "opcoes": [
-            "Uso harmônico de 'Aué'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Marandu'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Aué' expressa a construção genuína documentada nas fontes clássicas.",
@@ -260,7 +694,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 2.224,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em As Narrativas de Origem e Heróis.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Marandu'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Marandu'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Marandu' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de As Narrativas de Origem e Heróis.",
+              "enunciado": "O que representa 'Marandu' na memória coletiva dos povos?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de As Narrativas de Origem e Heróis",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico de As Narrativas de Origem e Heróis.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico e histórico.",
+              "enunciado": "Qual afirmação sobre 'Marandu' é historicamente exata?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas e orais",
+                  "É palavra inventada",
+                  "É gíria recente",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas e orais.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -268,9 +758,9 @@
           "enunciado": "Ao revisar as estruturas de As Narrativas de Origem e Heróis, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -278,7 +768,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 1.974,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de nobreza e bondade em As Narrativas de Origem e Heróis.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou sagrado' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades superiores.",
+              "enunciado": "Para qualificar positivamente 'Marandu', qual raiz é adicionada?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com elevação o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de louvor.",
+              "enunciado": "Qual é a ordem correta para dizer 'História Oral / Notícia Ancestral bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu marandu",
+                  "Marandu katu",
+                  "Katu aíba",
+                  "Marandu poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o modificador atributivo.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -309,16 +855,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 18:",
           "pares_corretos": {
-            "Marandu": "História / Memória antiga",
-            "Mba'e-kuaa": "Sabedoria ancestral"
+            "Marandu": "Memória transmitida",
+            "Mba'e-kuaa": "Ciência indígena",
+            "Ywy Pyau": "Terra renascida",
+            "Nhe'ẽ": "Voz ancestral"
           },
           "coluna_esquerda": [
             "Marandu",
-            "Mba'e-kuaa"
+            "Mba'e-kuaa",
+            "Ywy Pyau",
+            "Nhe'ẽ"
           ],
           "coluna_direita": [
-            "História / Memória antiga",
-            "Sabedoria ancestral"
+            "Ciência indígena",
+            "Terra renascida",
+            "Voz ancestral",
+            "Memória transmitida"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -326,11 +878,158 @@
           "itens_alvo": [
             "Marandu",
             "Mba'e-kuaa"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 18 (As Narrativas de Origem e Heróis) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 18 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau",
+                  "Nhe'ẽ"
+                ],
+                "coluna_direita": [
+                  "Voz ancestral",
+                  "Memória transmitida",
+                  "Ciência indígena",
+                  "Terra renascida"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Memória transmitida",
+                  "Mba'e-kuaa": "Ciência indígena",
+                  "Ywy Pyau": "Terra renascida",
+                  "Nhe'ẽ": "Voz ancestral"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 18 (As Narrativas de Origem e Heróis) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de As Narrativas de Origem e Heróis com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau",
+                  "Nhe'ẽ"
+                ],
+                "coluna_direita": [
+                  "Ciência indígena",
+                  "Terra renascida",
+                  "Voz ancestral",
+                  "Memória transmitida"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Memória transmitida",
+                  "Mba'e-kuaa": "Ciência indígena",
+                  "Ywy Pyau": "Terra renascida",
+                  "Nhe'ẽ": "Voz ancestral"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 18 (As Narrativas de Origem e Heróis) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau",
+                  "Nhe'ẽ"
+                ],
+                "coluna_direita": [
+                  "Terra renascida",
+                  "Voz ancestral",
+                  "Memória transmitida",
+                  "Ciência indígena"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Memória transmitida",
+                  "Mba'e-kuaa": "Ciência indígena",
+                  "Ywy Pyau": "Terra renascida",
+                  "Nhe'ẽ": "Voz ancestral"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 18 (As Narrativas de Origem e Heróis) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau",
+                  "Nhe'ẽ"
+                ],
+                "coluna_direita": [
+                  "Voz ancestral",
+                  "Terra renascida",
+                  "Memória transmitida",
+                  "Ciência indígena"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Memória transmitida",
+                  "Mba'e-kuaa": "Ciência indígena",
+                  "Ywy Pyau": "Terra renascida",
+                  "Nhe'ẽ": "Voz ancestral"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 18 (As Narrativas de Origem e Heróis) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Marandu",
+                  "Mba'e-kuaa",
+                  "Ywy Pyau",
+                  "Nhe'ẽ"
+                ],
+                "coluna_direita": [
+                  "Ciência indígena",
+                  "Memória transmitida",
+                  "Voz ancestral",
+                  "Terra renascida"
+                ],
+                "pares_corretos": {
+                  "Marandu": "Memória transmitida",
+                  "Mba'e-kuaa": "Ciência indígena",
+                  "Ywy Pyau": "Terra renascida",
+                  "Nhe'ẽ": "Voz ancestral"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Marandu' para o Português:",
           "termo_fonte": "Marandu",
           "traducao_esperada": "História / Memória antiga",
@@ -339,6 +1038,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Marandu"
+          ],
+          "opcoes": [
+            "História Oral / Notícia Ancestral",
+            "Nuvem de tempestade escura",
+            "Fogo apagado",
+            "Caminho pedregoso"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 18 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Marandu'?",
+              "payload": {
+                "opcoes": [
+                  "História Oral / Notícia Ancestral",
+                  "Nuvem de tempestade escura",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Marandu' traduz-se fielmente por 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Consolidação final dos conceitos de As Narrativas de Origem e Heróis.",
+              "enunciado": "Assinale a alternativa que define com fidelidade 'Marandu':",
+              "payload": {
+                "opcoes": [
+                  "Noite chuvosa",
+                  "História Oral / Notícia Ancestral",
+                  "Peixe pequeno",
+                  "Folhagem seca"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Marandu' significa 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prova de mestria no encerramento da jornada.",
+              "enunciado": "Identifique a opção em que 'Marandu' é empregado com seu sentido original:",
+              "payload": {
+                "opcoes": [
+                  "História Oral / Notícia Ancestral",
+                  "Cesto de pesca",
+                  "Flecha curta",
+                  "Areia fina"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Corresponde a 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese e certificação da lição perante os anciãos.",
+              "enunciado": "Qual conceito tradicional encerra com maestria a lição de 'Marandu'?",
+              "payload": {
+                "opcoes": [
+                  "Caminho estreito",
+                  "História Oral / Notícia Ancestral",
+                  "Árvore caída",
+                  "Vento leve"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Marandu' é 'História Oral / Notícia Ancestral'.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
           ]
         }
       ],

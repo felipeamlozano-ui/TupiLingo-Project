@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Ka'a'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Mata / Floresta"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Floresta preservada",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Ka'a",
           "explicacao": "'Ka'a' significa 'Mata / Floresta' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Ka'a"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na trilha de reconhecimento botânico e proteção contra o desmatamento ilegal.",
+              "enunciado": "Ao estudar o tema 'As Árvores Gigantes e a Floresta Viva', qual é o significado exato de 'Ka'a'?",
+              "payload": {
+                "opcoes": [
+                  "Floresta preservada",
+                  "Nuvem escura",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ka'a' traduz-se fielmente por 'Floresta preservada'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de estudos sobre as tradições e termos de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Qual conceito fundamental em Tupi Revitalizado é expresso por 'Ka'a'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Floresta preservada",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Ka'a' refere-se a 'Floresta preservada'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a prática oral das expressões de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Se o falante diz 'Ka'a katu', a qual elemento de excelência ele se refere?",
+              "payload": {
+                "opcoes": [
+                  "Floresta preservada",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Refere-se a 'Floresta preservada'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão rápida de vocabulário temático.",
+              "enunciado": "Assinale a opção que traduz com rigor 'Ka'a':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Floresta preservada",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Ka'a' é 'Floresta preservada'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Ka'a": "Mata / Floresta"
+            "Ka'a": "Floresta nativa",
+            "Ywyra": "Árvore da mata",
+            "Takwara": "Bambu sustentável"
           },
           "coluna_esquerda": [
-            "Ka'a"
+            "Ka'a",
+            "Ywyra",
+            "Takwara"
           ],
           "coluna_direita": [
-            "Mata / Floresta"
+            "Árvore da mata",
+            "Bambu sustentável",
+            "Floresta nativa"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Ka'a"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Árvores Gigantes e a Floresta Viva (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara"
+                ],
+                "coluna_direita": [
+                  "Árvore da mata",
+                  "Bambu sustentável",
+                  "Floresta nativa"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Floresta nativa",
+                  "Ywyra": "Árvore da mata",
+                  "Takwara": "Bambu sustentável"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Árvores Gigantes e a Floresta Viva (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de As Árvores Gigantes e a Floresta Viva com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara"
+                ],
+                "coluna_direita": [
+                  "Bambu sustentável",
+                  "Floresta nativa",
+                  "Árvore da mata"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Floresta nativa",
+                  "Ywyra": "Árvore da mata",
+                  "Takwara": "Bambu sustentável"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Árvores Gigantes e a Floresta Viva (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara"
+                ],
+                "coluna_direita": [
+                  "Árvore da mata",
+                  "Bambu sustentável",
+                  "Floresta nativa"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Floresta nativa",
+                  "Ywyra": "Árvore da mata",
+                  "Takwara": "Bambu sustentável"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Árvores Gigantes e a Floresta Viva (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara"
+                ],
+                "coluna_direita": [
+                  "Bambu sustentável",
+                  "Floresta nativa",
+                  "Árvore da mata"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Floresta nativa",
+                  "Ywyra": "Árvore da mata",
+                  "Takwara": "Bambu sustentável"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema As Árvores Gigantes e a Floresta Viva (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara"
+                ],
+                "coluna_direita": [
+                  "Árvore da mata",
+                  "Bambu sustentável",
+                  "Floresta nativa"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Floresta nativa",
+                  "Ywyra": "Árvore da mata",
+                  "Takwara": "Bambu sustentável"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -131,7 +331,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ guasu.'",
-          "texto_com_lacunas": "______ guasu.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Ybyrá"
           ],
@@ -140,6 +340,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Ybyrá"
+          ],
+          "respostas_corretas": [
+            "Ywyra"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo uma sentença com o vocábulo 'Ywyra' no cotidiano comunitário.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Árvore viva bom/boa):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Ywyra"
+                ]
+              },
+              "explicacao": "'Ywyra' completa a oração com precisão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Prática oral de adjetivos atributivos.",
+              "enunciado": "Preencha a lacuna com 'Ywyra': 'Ahecha ______' (Eu vejo):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Ywyra"
+                ]
+              },
+              "explicacao": "'Ywyra' é o objeto da percepção visual.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de termos práticos da vida tribal.",
+              "enunciado": "Complete a frase de elogio: 'I puranga a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "Ywyra"
+                ]
+              },
+              "explicacao": "'Ywyra' completa o sujeito da qualidade.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações com verbos de ação.",
+              "enunciado": "Qual termo completa a oração: 'Oikó ______'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Ywyra"
+                ]
+              },
+              "explicacao": "'Ywyra' é a forma canônica atestada.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -147,37 +412,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Ybyrá'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Terra firme"
-            },
-            {
-              "letra": "D",
-              "texto": "Árvore / Madeira"
-            }
+            "Árvore viva",
+            "Canoa furada",
+            "Vento frio",
+            "Rio seco"
           ],
-          "resposta_correta": "D",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Ybyrá",
           "explicacao": "'Ybyrá' traduz-se fielmente como 'Árvore / Madeira'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Ybyrá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No dicionário da língua, estudando a exata tradução de 'Ywyra'.",
+              "enunciado": "Qual é o significado de 'Ywyra'?",
+              "payload": {
+                "opcoes": [
+                  "Árvore viva",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio seco"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ywyra' traduz-se como 'Árvore viva'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao revisar os elementos da cultura material e da língua.",
+              "enunciado": "A qual conceito o termo 'Ywyra' corresponde?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Árvore viva",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Ywyra' é 'Árvore viva'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida de vocabulário de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Selecione o equivalente correto para 'Ywyra':",
+              "payload": {
+                "opcoes": [
+                  "Árvore viva",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ywyra' corresponde a 'Árvore viva'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Prática comparativa de termos tradicionais.",
+              "enunciado": "Assinale a tradução precisa de 'Ywyra':",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Árvore viva",
+                  "Toca funda",
+                  "Céu nublado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Ywyra' é 'Árvore viva'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ oka ári.'",
-          "texto_com_lacunas": "______ oka ári.",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Kapi'i"
           ],
@@ -186,6 +513,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Kapi'i"
+          ],
+          "respostas_corretas": [
+            "Takwara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença afirmativa sobre a presença de 'Takwara' na comunidade.",
+              "enunciado": "Complete a frase: 'Hetá ______' (Há muito/muita Vara de bambu):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Takwara"
+                ]
+              },
+              "explicacao": "'Takwara' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construindo frases sobre a vida cotidiana.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Vara de bambu):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Takwara"
+                ]
+              },
+              "explicacao": "'Takwara' é o termo correto.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática oral de conversação.",
+              "enunciado": "Qual termo completa: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Takwara"
+                ]
+              },
+              "explicacao": "'Takwara' preenche o objeto.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática com predicados nominais.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Takwara"
+                ]
+              },
+              "explicacao": "'Takwara' é o substantivo qualificado.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,30 +585,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kapi'i'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Capim / Folhagem"
-            },
-            {
-              "letra": "B",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Vara de bambu",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Kapi'i",
           "explicacao": "'Kapi'i' traduz-se fielmente como 'Capim / Folhagem'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Kapi'i"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exame da tradição lexical para o substantivo 'Takwara'.",
+              "enunciado": "Qual é o significado de 'Takwara'?",
+              "payload": {
+                "opcoes": [
+                  "Vara de bambu",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Takwara' significa 'Vara de bambu'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da herança linguística dos povos ancestrais.",
+              "enunciado": "A qual conceito refere-se 'Takwara'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Vara de bambu",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Takwara' é 'Vara de bambu'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida no vocabulário de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Assinale a tradução exata de 'Takwara':",
+              "payload": {
+                "opcoes": [
+                  "Vara de bambu",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Takwara' traduz-se por 'Vara de bambu'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual opção define 'Takwara'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Vara de bambu",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Takwara' é 'Vara de bambu'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -271,9 +725,9 @@
           "enunciado": "No contexto de 'As Árvores Gigantes e a Floresta Viva', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Ka'a",
-            "Moybyrá",
-            "Tekapi'i",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Ka'a' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -281,7 +735,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.132,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Ka'a'?",
+              "payload": {
+                "opcoes": [
+                  "Ka'a",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ka'a' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Selecione o termo autêntico do módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Ka'a",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Ka'a' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente.",
+              "enunciado": "Qual termo representa a raiz aprendida em As Árvores Gigantes e a Floresta Viva?",
+              "payload": {
+                "opcoes": [
+                  "Ka'a",
+                  "Paraná",
+                  "Ywyra",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ka'a' é o termo estudado.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,17 +810,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 0.232,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Ywyra"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Ywyra'.",
+              "enunciado": "Complete a locução: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Ywyra"
+                ]
+              },
+              "explicacao": "'Ywyra' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Está presente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Ywyra"
+                ]
+              },
+              "explicacao": "'Ywyra' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Qual vocábulo preenche: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Ywyra"
+                ]
+              },
+              "explicacao": "'Ywyra' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'As Árvores Gigantes e a Floresta Viva':",
           "opcoes": [
-            "Uso harmônico de 'Kapi'i'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Ka'a'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Kapi'i' expressa a construção genuína documentada nas fontes clássicas.",
@@ -318,7 +879,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 0.382,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Ka'a'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Ka'a'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ka'a' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "O que representa 'Ka'a' na vida comunitária?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de As Árvores Gigantes e a Floresta Viva",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico.",
+              "enunciado": "Qual afirmação sobre 'Ka'a' é rigorosamente correta?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas",
+                  "É palavra inventada",
+                  "É termo de gíria moderna",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -326,9 +943,9 @@
           "enunciado": "Ao revisar as estruturas de As Árvores Gigantes e a Floresta Viva, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -336,7 +953,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.132,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de excelência em As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou de qualidade' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades.",
+              "enunciado": "Para dizer que 'Ka'a' é bom, qual palavra é posposta?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com positividade o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "Qual é a ordem correta para dizer 'Floresta preservada bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu ka'a",
+                  "Ka'a katu",
+                  "Katu aíba",
+                  "Ka'a poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o adjetivo atributivo: substantivo + katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -372,19 +1045,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 11:",
           "pares_corretos": {
-            "Ka'a": "Mata / Floresta",
-            "Ybyrá": "Árvore / Madeira",
-            "Kapi'i": "Capim / Folhagem"
+            "Ka'a": "Mata preservada",
+            "Ywyra": "Árvore nativa",
+            "Takwara": "Bambu verde",
+            "Paubrasil": "Pau-brasil nacional"
           },
           "coluna_esquerda": [
             "Ka'a",
-            "Ybyrá",
-            "Kapi'i"
+            "Ywyra",
+            "Takwara",
+            "Paubrasil"
           ],
           "coluna_direita": [
-            "Mata / Floresta",
-            "Árvore / Madeira",
-            "Capim / Folhagem"
+            "Árvore nativa",
+            "Bambu verde",
+            "Pau-brasil nacional",
+            "Mata preservada"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1069,158 @@
             "Ka'a",
             "Ybyrá",
             "Kapi'i"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 11 (As Árvores Gigantes e a Floresta Viva) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 11 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara",
+                  "Paubrasil"
+                ],
+                "coluna_direita": [
+                  "Pau-brasil nacional",
+                  "Mata preservada",
+                  "Árvore nativa",
+                  "Bambu verde"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Mata preservada",
+                  "Ywyra": "Árvore nativa",
+                  "Takwara": "Bambu verde",
+                  "Paubrasil": "Pau-brasil nacional"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 11 (As Árvores Gigantes e a Floresta Viva) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de As Árvores Gigantes e a Floresta Viva com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara",
+                  "Paubrasil"
+                ],
+                "coluna_direita": [
+                  "Árvore nativa",
+                  "Bambu verde",
+                  "Pau-brasil nacional",
+                  "Mata preservada"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Mata preservada",
+                  "Ywyra": "Árvore nativa",
+                  "Takwara": "Bambu verde",
+                  "Paubrasil": "Pau-brasil nacional"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 11 (As Árvores Gigantes e a Floresta Viva) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara",
+                  "Paubrasil"
+                ],
+                "coluna_direita": [
+                  "Bambu verde",
+                  "Pau-brasil nacional",
+                  "Mata preservada",
+                  "Árvore nativa"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Mata preservada",
+                  "Ywyra": "Árvore nativa",
+                  "Takwara": "Bambu verde",
+                  "Paubrasil": "Pau-brasil nacional"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 11 (As Árvores Gigantes e a Floresta Viva) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara",
+                  "Paubrasil"
+                ],
+                "coluna_direita": [
+                  "Pau-brasil nacional",
+                  "Bambu verde",
+                  "Mata preservada",
+                  "Árvore nativa"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Mata preservada",
+                  "Ywyra": "Árvore nativa",
+                  "Takwara": "Bambu verde",
+                  "Paubrasil": "Pau-brasil nacional"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 11 (As Árvores Gigantes e a Floresta Viva) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Ywyra",
+                  "Takwara",
+                  "Paubrasil"
+                ],
+                "coluna_direita": [
+                  "Árvore nativa",
+                  "Mata preservada",
+                  "Pau-brasil nacional",
+                  "Bambu verde"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "Mata preservada",
+                  "Ywyra": "Árvore nativa",
+                  "Takwara": "Bambu verde",
+                  "Paubrasil": "Pau-brasil nacional"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Ka'a' para o Português:",
           "termo_fonte": "Ka'a",
           "traducao_esperada": "Mata / Floresta",
@@ -406,6 +1229,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Ka'a"
+          ],
+          "opcoes": [
+            "Floresta preservada",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 11 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Ka'a'?",
+              "payload": {
+                "opcoes": [
+                  "Floresta preservada",
+                  "Nuvem de chuva",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ka'a' traduz-se fielmente por 'Floresta preservada'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos elementos essenciais que estruturam o domínio de As Árvores Gigantes e a Floresta Viva.",
+              "enunciado": "A qual conceito o termo central 'Ka'a' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Animal de toca",
+                  "Floresta preservada",
+                  "Pássaro que canta",
+                  "Rio largo"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Ka'a' é 'Floresta preservada'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração das conquistas de aprendizado na aldeia.",
+              "enunciado": "Se os guerreiros exclamam 'Ka'a katu!', o que eles celebram?",
+              "payload": {
+                "opcoes": [
+                  "A presença e excelência de floresta preservada",
+                  "A aproximação da tempestade",
+                  "A perda das sementes",
+                  "A quebra da canoa"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Celebram a excelência de 'Floresta preservada'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese conclusiva do Capítulo 11.",
+              "enunciado": "Em resumo definitivo, 'Ka'a' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "O elemento sagrado de floresta preservada",
+                  "A escuridão da noite fria",
+                  "O silêncio do pântano",
+                  "O combate corpo a corpo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ka'a' simboliza 'Floresta preservada'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

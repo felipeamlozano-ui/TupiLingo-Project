@@ -75,6 +75,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Mani'oka"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No roçado comunal, as mulheres desenterram as raízes brancas e tuberosa da planta sagrada dada por Tupã.",
+              "enunciado": "Ao colher a raiz tuberosa sagrada que é a base da alimentação indígena, a qual planta o termo 'Mani'oka' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Mandioca",
+                  "Batata-doce da serra",
+                  "Feijão silvestre",
+                  "Amendoim rasteiro"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mani'oka' é a mandioca (Manihot esculenta), alimento central na vida e economia dos povos de Pindorama.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "As anciãs ralam as raízes descascadas no tipiti para retirar o sumo venenoso e preparar a massa.",
+              "enunciado": "Qual vegetal imprescindível para a feitura da farinha e do beiju é chamado de 'Mani'oka'?",
+              "payload": {
+                "opcoes": [
+                  "Milho verde",
+                  "Mandioca nutritiva",
+                  "Castanha-do-pará",
+                  "Abóbora rasteira"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mani'oka' fornece a massa prensada no tipiti para a produção de farinhas e beijus.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Contando o mito de Mani, a menina de pele alva cujo túmulo brotou uma raiz salvadora contra a fome.",
+              "enunciado": "Na mitologia tupinambá, a raiz pura brotada na oca da aldeia recebeu qual nome memorial?",
+              "payload": {
+                "opcoes": [
+                  "Mani'oka (casa de Mani)",
+                  "Tupãsy",
+                  "Ibiapaba",
+                  "Jacioca"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "A lenda etiológica narra que a raiz brotou na 'oca de Mani', gerando o nome 'Mani'oka'.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Estudando a agricultura de subsistência e o sistema de queima controlada da vegetação (coivara).",
+              "enunciado": "Qual a definição agronômica e botânica tradicional para 'Mani'oka'?",
+              "payload": {
+                "opcoes": [
+                  "Árvore frutífera de madeira dura",
+                  "Mandioca / Planta tuberosa alimentar",
+                  "Palmeira produtora de palmito",
+                  "Cipó de tingir tecidos"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mani'oka' é o arbusto euforbiáceo cultivado pelas raízes ricas em amido.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -106,6 +180,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Tembi'u"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao redor da esteira de palha estendida no chão da oca, a família reúne-se para partilhar o alimento cozido.",
+              "enunciado": "Qual termo clássico designa qualquer alimento, prato cozido ou sustento que se come: 'Tembi'u'?",
+              "payload": {
+                "opcoes": [
+                  "Comida / O que se come",
+                  "Instrumento musical de sopro",
+                  "Madeira de arco",
+                  "Adorno de penas"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tembi'u' deriva do verbo ''u' (comer), significando 'a comida / o que foi comido ou preparado para comer'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O guerreiro cansado da jornada senta-se na maloca e pede alimento à companheira.",
+              "enunciado": "Ao saborear o prato fumegante, o hóspede elogia: 'Tembi'u katu!'. O que ele está dizendo?",
+              "payload": {
+                "opcoes": [
+                  "A comida é saborosa e boa",
+                  "A caça fugiu para o mato",
+                  "O fogo apagou na chuva",
+                  "A água secou no pote"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tembi'u katu' expressa que a comida está excelente, gostosa e bem preparada.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "As mães distribuem porções de peixe moqueado e beiju fresco para todas as crianças da oca.",
+              "enunciado": "O que as mulheres distribuem com generosidade quando preparam o 'Tembi'u'?",
+              "payload": {
+                "opcoes": [
+                  "Flechas emplumadas",
+                  "Comida comunitária",
+                  "Peles secas de onça",
+                  "Cestos vazios"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tembi'u' abrange os pratos alimentares partilhados pela comunidade.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Análise da formação do particípio passivo e substantivos derivados do verbo comer (''u').",
+              "enunciado": "Em Tupi Antigo clássico, como se traduz o substantivo 'Tembi'u'?",
+              "payload": {
+                "opcoes": [
+                  "Bebida sagrada",
+                  "Comida / Alimento",
+                  "Plantação de milho",
+                  "Canoa de carga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tembi'u' significa a comida, o alimento.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -113,16 +261,19 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Mani'oka": "Mandioca",
-            "Tembi'u": "Comida / O que se come"
+            "Mani'oka": "Mandioca sagrada",
+            "Tembi'u": "Comida / Alimento cozido",
+            "Kôy": "Roçado / Plantação"
           },
           "coluna_esquerda": [
             "Mani'oka",
-            "Tembi'u"
+            "Tembi'u",
+            "Kôy"
           ],
           "coluna_direita": [
-            "Mandioca",
-            "Comida / O que se come"
+            "Comida / Alimento cozido",
+            "Roçado / Plantação",
+            "Mandioca sagrada"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -130,6 +281,138 @@
           "itens_alvo": [
             "Mani'oka",
             "Tembi'u"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No terreiro central, as oferendas de colheita e o banquete comunitário são apresentados aos anciãos.",
+              "enunciado": "Associe os termos da alimentação e da roça às suas traduções em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Mani'oka",
+                  "Tembi'u",
+                  "Kôy"
+                ],
+                "coluna_direita": [
+                  "Comida / Alimento cozido",
+                  "Roçado / Plantação",
+                  "Mandioca sagrada"
+                ],
+                "pares_corretos": {
+                  "Mani'oka": "Mandioca sagrada",
+                  "Tembi'u": "Comida / Alimento cozido",
+                  "Kôy": "Roçado / Plantação"
+                }
+              },
+              "explicacao": "Derangement estrito perfeito: Mani'oka->Mandioca (2), Tembi'u->Comida (0), Kôy->Roçado (1).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Preparação das cestarias com os mantimentos colhidos no roçado da família extensa.",
+              "enunciado": "Conecte os conceitos agrícolas nativos aos seus significados correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tembi'u",
+                  "Kôy",
+                  "Mani'oka"
+                ],
+                "coluna_direita": [
+                  "O terreno cultivado",
+                  "A raiz que alimenta a aldeia",
+                  "O prato servido na esteira"
+                ],
+                "pares_corretos": {
+                  "Tembi'u": "O prato servido na esteira",
+                  "Kôy": "O terreno cultivado",
+                  "Mani'oka": "A raiz que alimenta a aldeia"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão dos alimentos vitais de Pindorama com amostras de farinhas e sementes.",
+              "enunciado": "Ligue com precisão cada substantivo à sua descrição culinária tradicional:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kôy",
+                  "Mani'oka",
+                  "Tembi'u"
+                ],
+                "coluna_direita": [
+                  "Mandioca da colheita",
+                  "Comida do almoço",
+                  "A área da roça"
+                ],
+                "pares_corretos": {
+                  "Kôy": "A área da roça",
+                  "Mani'oka": "Mandioca da colheita",
+                  "Tembi'u": "Comida do almoço"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Atividade de memorização rápida sobre a agricultura tradicional tupinambá.",
+              "enunciado": "Faça a correlação exata entre os três substantivos estudados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Mani'oka",
+                  "Kôy",
+                  "Tembi'u"
+                ],
+                "coluna_direita": [
+                  "Alimento preparado",
+                  "Mandioca tuberosa",
+                  "Plantação comunal"
+                ],
+                "pares_corretos": {
+                  "Mani'oka": "Mandioca tuberosa",
+                  "Kôy": "Plantação comunal",
+                  "Tembi'u": "Alimento preparado"
+                }
+              },
+              "explicacao": "Derangement estrito verificado.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Quiz cultural sobre o sustento alimentar ancestral de Pindorama.",
+              "enunciado": "Una cada termo em Tupi Antigo ao seu equivalente em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tembi'u",
+                  "Mani'oka",
+                  "Kôy"
+                ],
+                "coluna_direita": [
+                  "Roçado de subsistência",
+                  "Alimento cozido",
+                  "Raiz de mandioca"
+                ],
+                "pares_corretos": {
+                  "Tembi'u": "Alimento cozido",
+                  "Mani'oka": "Raiz de mandioca",
+                  "Kôy": "Roçado de subsistência"
+                }
+              },
+              "explicacao": "Zero pontos fixos garantido.",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -186,6 +469,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Kãuĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Grandes potes de barro (igaçabas) fermentam a bebida de mandioca ou milho para o grande ritual festivo.",
+              "enunciado": "Complete a sentença sobre a bebida festiva cerimonial: '______ taba pupé' (Cauim na aldeia):",
+              "payload": {
+                "texto_com_lacunas": "______ taba pupé.",
+                "respostas_corretas": [
+                  "Kãuĩ"
+                ]
+              },
+              "explicacao": "'Kãuĩ' (Cauim) é a clássica bebida fermentada tupinambá, essencial nos encontros e celebrações comunitárias.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao redor dos tambores e maracás, as anfitriãs servem a bebida em cuias polidas aos convidados de honra.",
+              "enunciado": "Preencha a lacuna com o nome da bebida fermentada servida nas celebrações: 'A'u ______' (Eu bebo o cauim):",
+              "payload": {
+                "texto_com_lacunas": "A'u ______.",
+                "respostas_corretas": [
+                  "Kãuĩ"
+                ]
+              },
+              "explicacao": "'Kãuĩ' completa o objeto do verbo beber/ingerir (''u').",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "As jovens da aldeia preparam e mastigam a massa cozida para facilitar a fermentação natural.",
+              "enunciado": "Qual vocábulo designa a bebida tradicional que fermenta nas grandes talhas: 'I katu a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Kãuĩ"
+                ]
+              },
+              "explicacao": "'Kãuĩ' é a bebida consagrada na etnografia colonial de Jean de Léry e Thevet.",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Explicando o papel da hospitalidade e do brinde coletivo nas relações entre clãs aliados.",
+              "enunciado": "Insira o nome do fermentado tradicional: 'Ore mongatu ______' (Nós preparamos o cauim):",
+              "payload": {
+                "texto_com_lacunas": "Ore mongatu ______.",
+                "respostas_corretas": [
+                  "Kãuĩ"
+                ]
+              },
+              "explicacao": "'Kãuĩ' é o complemento direto da preparação ritual.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,10 +562,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Kãuĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na crônica colonial sobre as festas e ritos antropofágicos e de reconciliação de quinhentos.",
+              "enunciado": "Qual bebida fermentada tradicional à base de mandioca ou milho é denominada 'Kãuĩ'?",
+              "payload": {
+                "opcoes": [
+                  "Cauim",
+                  "Chá de ervas",
+                  "Mel de abelha puro",
+                  "Sumo amargo de cipó"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kãuĩ' é o cauim, bebida ritual fermentada onipresente nas festividades tupis.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Observando a cultura material e o papel das igaçabas guardadas no interior das malocas.",
+              "enunciado": "O que as mulheres tupinambás armazenam nas grandes igaçabas para os dias de canto e dança?",
+              "payload": {
+                "opcoes": [
+                  "Água da chuva salgada",
+                  "Cauim fermentado",
+                  "Cinzas de fogueira",
+                  "Areia do rio"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kãuĩ' é a bebida armazenada nas talhas de barro (igaçabas).",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Estudando a história dos contatos e a gastronomia dos povos indígenas do Brasil.",
+              "enunciado": "Qual é a tradução consagrada pelo dicionário de Eduardo Navarro para 'Kãuĩ'?",
+              "payload": {
+                "opcoes": [
+                  "Farinha seca de guerra",
+                  "Cauim (bebida fermentada)",
+                  "Peixe salgado no sol",
+                  "Mandioca brava crua"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kãuĩ' traduz-se com fidelidade filológica por cauim.",
+              "param_a": 1.0,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Vocabulário de sociabilidade e comemorações nas aldeias antigas.",
+              "enunciado": "Assinale a opção que identifica com exatidão a palavra 'Kãuĩ':",
+              "payload": {
+                "opcoes": [
+                  "Bebida cerimonial fermentada",
+                  "Espada de madeira",
+                  "Cocar de penas de arara",
+                  "Manto de guará"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kãuĩ' é a bebida alcoólica tradicional indígena.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ taba pupé.'",
           "texto_com_lacunas": "______ taba pupé.",
@@ -232,6 +651,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Abati"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao lado do roçado de mandioca, erguem-se espigas douradas de milho sob as folhas largas e verdes.",
+              "enunciado": "Complete a sentença sobre o cultivo dos grãos dourados: '______ kôy pupé' (Milho no roçado):",
+              "payload": {
+                "texto_com_lacunas": "______ kôy pupé.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' (Milho) é o cereal autóctone americano cultivado nos roçados tupis.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "As famílias assam espigas tenras na brasa viva e preparam papas grossas de milho moído no pilão.",
+              "enunciado": "Insira o nome do cereal nutritivo que alimenta os jovens: 'I katu a'e ______' (Aquele milho é bom):",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o sujeito qualificado na sentença afirmativa.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "As crianças ajudam a debulhar os grãos secos nos cestos trançados de taquara.",
+              "enunciado": "Preencha a lacuna: 'Hetá ______ kôy rupé' (Há muito milho pelo roçado):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______ kôy rupé.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' expressa o milho farto colhido nos campos.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "O agricultor experiente examina o ponto das espigas maduras para a colheita geral.",
+              "enunciado": "Qual vocábulo preenche a locução: 'Ambyaty ______' (Eu colho o milho)?",
+              "payload": {
+                "texto_com_lacunas": "Ambyaty ______.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o cereal colhido pelo agricultor.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -263,6 +744,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Abati"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificando os grandes cultígenos das Américas que enriqueceram a culinária mundial.",
+              "enunciado": "Qual cereal americano de espigas douradas é denominado 'Abati' em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Milho",
+                  "Trigo selvagem",
+                  "Cevada de várzea",
+                  "Arroz de brejo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Abati' é o milho (Zea mays), cultivado em ampla escala ao lado da mandioca.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Examinando termos derivados na gastronomia tradicional, como a 'abatinha' e o pão de milho.",
+              "enunciado": "O que as famílias da aldeia moem no pilão de madeira maciça quando manuseiam o 'Abati'?",
+              "payload": {
+                "opcoes": [
+                  "Grãos de milho",
+                  "Ossos de peixe",
+                  "Folhas secas de tabaco",
+                  "Argila de cerâmica"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Abati' é o milho pilado para fazer farinhas e mingaus.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Comparando plantas agrícolas e suas estações de semeadura nas clareiras de Pindorama.",
+              "enunciado": "Assinale a opção que traduz com precisão o substantivo 'Abati':",
+              "payload": {
+                "opcoes": [
+                  "Pimenta ardida",
+                  "Milho",
+                  "Abacaxi maduro",
+                  "Cacau silvestre"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Abati' é a designação canônica do milho.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Dicionário de flora alimentar nos relatos jesuíticos do século XVI.",
+              "enunciado": "Qual destes vegetais corresponde a 'Abati'?",
+              "payload": {
+                "opcoes": [
+                  "Milho de espiga",
+                  "Cipó de amarrar",
+                  "Urucum de pintar",
+                  "Erva de mate"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Abati' é o milho de espiga.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -328,7 +883,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.447,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Análise ortográfica do tubérculo basilar da alimentação indígena.",
+              "enunciado": "Qual vocábulo representa a forma canônica com apóstrofo da mandioca nas fontes de Navarro?",
+              "payload": {
+                "opcoes": [
+                  "Mani'oka",
+                  "Momani",
+                  "Temanioka",
+                  "Kanioka"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mani'oka' é a forma canônica registrada com oclusiva glotal entre o i e o o.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando alimentos tuberiformes de outros recursos vegetais nas avaliações adaptativas.",
+              "enunciado": "Selecione a raiz comestível primordial cultivada no roçado da aldeia:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Mani'oka",
+                  "Ka'a",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mani'oka' é o principal tubérculo cultivado.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão dos cultígenos que garantem a segurança alimentar da taba.",
+              "enunciado": "Qual vegetal garante a farinha de guerra e o beiju diário?",
+              "payload": {
+                "opcoes": [
+                  "Mani'oka",
+                  "Petym",
+                  "Urukum",
+                  "Ybirapitinga"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mani'oka' é a base de todas as farinhas e beijus.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -347,7 +958,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.347,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo frases sintáticas sobre o cereal de espigas douradas.",
+              "enunciado": "Complete a sentença tradicional de fartura agrícola: 'Oiko ______ kôy pupé' (Há milho no roçado):",
+              "payload": {
+                "texto_com_lacunas": "Oiko ______ kôy pupé.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' completa adequadamente o sujeito que está na plantação.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Preparando o alimento cerimonial de milho verde cozido na brasa.",
+              "enunciado": "Preencha a lacuna: 'Xe a'u ______' (Eu como o milho):",
+              "payload": {
+                "texto_com_lacunas": "Xe a'u ______.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o alimento consumido pelo falante.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Descrevendo a plantação verdejante na estação das chuvas.",
+              "enunciado": "Qual vocábulo completa: 'I puranga a'e ______' (Aquele milho é bonito)?",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o cereal elogiado pelo agricultor.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -365,7 +1023,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -1.197,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Papel da sociabilidade e das celebrações na vida comunitária de Pindorama.",
+              "enunciado": "Qual bebida fermentada tradicional é consumida coletivamente durante os grandes cantos e danças?",
+              "payload": {
+                "opcoes": [
+                  "Kãuĩ (cauim)",
+                  "'Y (água pura)",
+                  "Tembi'u (comida seca)",
+                  "Kôy (roça)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kãuĩ' é a bebida fermentada das festas comunitárias.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Costumes cerimoniais descritos nas obras quinhentistas de Hans Staden e Léry.",
+              "enunciado": "O que as aldeias preparavam em grandes talhas de cerâmica para receber guerreiros aliados?",
+              "payload": {
+                "opcoes": [
+                  "Kãuĩ fermentado",
+                  "Óleo de baleia",
+                  "Pólvora de canhão",
+                  "Vinho de uvas europeias"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kãuĩ' era a bebida hospitaleira indispensável para selar alianças.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Diferenciando alimentos sólidos de fermentados rituais na cultura tupi.",
+              "enunciado": "Qual destes termos refere-se estritamente a uma bebida fermentada?",
+              "payload": {
+                "opcoes": [
+                  "Abati",
+                  "Kãuĩ",
+                  "Mani'oka",
+                  "Tembi'u"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kãuĩ' é a única bebida alcoólica fermentada do grupo.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -383,7 +1097,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.447,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estrutura descritiva de aprovação e fartura alimentar.",
+              "enunciado": "Ao saborear um banquete delicioso e farto, qual expressão clássica exalta a boa comida?",
+              "payload": {
+                "opcoes": [
+                  "Tembi'u katu",
+                  "Tembi'u poxi",
+                  "Mani'oka aíba",
+                  "Kãuĩ aíba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tembi'u katu' significa comida boa, saborosa e abundante.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos modificadores de qualidade nos alimentos da terra.",
+              "enunciado": "O que significa 'Mani'oka katu' na avaliação dos agricultores?",
+              "payload": {
+                "opcoes": [
+                  "Mandioca de boa qualidade / Farta",
+                  "Mandioca apodrecida na chuva",
+                  "Raiz venenosa e amarga",
+                  "Plantação destruída por lagartas"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' qualifica positivamente a colheita da mandioca.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Regra sintática: posição posposta do adjetivo de excelência 'katu'.",
+              "enunciado": "Qual é a ordenação natural em Tupi Antigo para 'boa comida'?",
+              "payload": {
+                "opcoes": [
+                  "Katu tembi'u",
+                  "Tembi'u katu",
+                  "Katu abati",
+                  "Tembi'u aíba"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Substantivo modificado ('Tembi'u') antecede o adjetivo qualificador ('katu').",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -436,10 +1206,10 @@
             "Abati"
           ],
           "coluna_direita": [
-            "Mandioca",
-            "Comida / O que se come",
-            "Cauim fermentado",
-            "Milho"
+            "Comida / Alimento servido",
+            "Bebida fermentada cerimonial",
+            "Milho de espiga dourada",
+            "Mandioca sagrada da terra"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -449,11 +1219,158 @@
             "Tembi'u",
             "Kãuĩ",
             "Abati"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese gastronômica e agrícola: correlacione os quatro pilares da alimentação tupinambá.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais da mandioca e dos alimentos da terra em Tupi Antigo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Mani'oka",
+                  "Tembi'u",
+                  "Kãuĩ",
+                  "Abati"
+                ],
+                "coluna_direita": [
+                  "Comida / Alimento servido",
+                  "Bebida fermentada cerimonial",
+                  "Milho de espiga dourada",
+                  "Mandioca sagrada da terra"
+                ],
+                "pares_corretos": {
+                  "Mani'oka": "Mandioca sagrada da terra",
+                  "Tembi'u": "Comida / Alimento servido",
+                  "Kãuĩ": "Bebida fermentada cerimonial",
+                  "Abati": "Milho de espiga dourada"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: Mani'oka->Mandioca (3), Tembi'u->Comida (0), Kãuĩ->Bebida (1), Abati->Milho (2). Zero pontos fixos.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No conselho da aldeia, os mais velhos avaliam os conhecimentos dos aprendizes sobre a colheita comunitária.",
+              "enunciado": "Associe cada vocábulo indígena à sua descrição no cotidiano de subsistência:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Abati",
+                  "Kãuĩ",
+                  "Tembi'u",
+                  "Mani'oka"
+                ],
+                "coluna_direita": [
+                  "Bebida das grandes celebrações",
+                  "A refeição saborosa da família",
+                  "Raiz tuberosa ralada no tipiti",
+                  "Cereal americano pilado nos pilões"
+                ],
+                "pares_corretos": {
+                  "Abati": "Cereal americano pilado nos pilões",
+                  "Kãuĩ": "Bebida das grandes celebrações",
+                  "Tembi'u": "A refeição saborosa da família",
+                  "Mani'oka": "Raiz tuberosa ralada no tipiti"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão prática com mostruário de raízes, espigas e bebidas fermentadas no centro cultural.",
+              "enunciado": "Ligue com precisão os termos agrícolas clássicos às suas definições consolidadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kãuĩ",
+                  "Mani'oka",
+                  "Abati",
+                  "Tembi'u"
+                ],
+                "coluna_direita": [
+                  "Raiz principal de Pindorama",
+                  "Milho dourado do roçado",
+                  "O sustento alimentar diário",
+                  "Cauim fermentado nas talhas"
+                ],
+                "pares_corretos": {
+                  "Kãuĩ": "Cauim fermentado nas talhas",
+                  "Mani'oka": "Raiz principal de Pindorama",
+                  "Abati": "Milho dourado do roçado",
+                  "Tembi'u": "O sustento alimentar diário"
+                }
+              },
+              "explicacao": "Permutação sem elementos coincidentes.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Teste de prontidão agrícola para encerramento do módulo de alimentação da terra.",
+              "enunciado": "Conecte os conceitos gastronômicos em Tupi Antigo aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tembi'u",
+                  "Abati",
+                  "Mani'oka",
+                  "Kãuĩ"
+                ],
+                "coluna_direita": [
+                  "Espiga de milho",
+                  "Mandioca dos beijus",
+                  "Bebida de cauim",
+                  "Prato de comida nutritiva"
+                ],
+                "pares_corretos": {
+                  "Tembi'u": "Prato de comida nutritiva",
+                  "Abati": "Espiga de milho",
+                  "Mani'oka": "Mandioca dos beijus",
+                  "Kãuĩ": "Bebida de cauim"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Prova de mestria no universo agrícola e culinário de Pindorama.",
+              "enunciado": "Faça a associação conclusiva dos alimentos fundamentais:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Mani'oka",
+                  "Kãuĩ",
+                  "Abati",
+                  "Tembi'u"
+                ],
+                "coluna_direita": [
+                  "Cauim das grandes festas",
+                  "Milho dos celeiros",
+                  "Comida saborosa",
+                  "Mandioca dos roçados"
+                ],
+                "pares_corretos": {
+                  "Mani'oka": "Mandioca dos roçados",
+                  "Kãuĩ": "Cauim das grandes festas",
+                  "Abati": "Milho dos celeiros",
+                  "Tembi'u": "Comida saborosa"
+                }
+              },
+              "explicacao": "Derangement perfeito: Mani'oka->Mandioca (3), Kãuĩ->Cauim (0), Abati->Milho (1), Tembi'u->Comida (2).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Mani'oká' para o Português:",
           "termo_fonte": "Mani'oka",
           "traducao_esperada": "Mandioca",
@@ -462,6 +1379,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Mani'oka"
+          ],
+          "opcoes": [
+            "Mandioca",
+            "Milho verde",
+            "Fruta do conde",
+            "Castanha amarga"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Pergunta final de encerramento do Capítulo 5 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução clássica e exata da palavra 'Mani'oka'?",
+              "payload": {
+                "opcoes": [
+                  "Mandioca",
+                  "Milho verde",
+                  "Fruta do conde",
+                  "Castanha amarga"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mani'oka' é a mandioca, rainha dos alimentos do Brasil indígena.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da herança linguística dos alimentos autóctones de Pindorama.",
+              "enunciado": "A qual tubérculo vital a palavra ancestral 'Mani'oka' deu nome em português?",
+              "payload": {
+                "opcoes": [
+                  "Inhame da costa",
+                  "Mandioca",
+                  "Cará do brejo",
+                  "Batata inglesa"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mani'oka' deu origem direta à palavra portuguesa 'mandioca'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O agricultor mostra a raiz tenra e explica sua importância contra a escassez alimentar.",
+              "enunciado": "Se os trabalhadores da roça anunciam 'Mani'oka katu oĩ!', eles celebram:",
+              "payload": {
+                "opcoes": [
+                  "A fartura de boa mandioca no roçado",
+                  "A queima indevida das plantas",
+                  "A perda das espigas de milho",
+                  "A falta de água para regar"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Celebram a colheita farta e generosa da mandioca.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese final do Capítulo 5 sobre a flora e alimentos da terra.",
+              "enunciado": "Em resumo definitivo, 'Mani'oka' é o alimento que simboliza:",
+              "payload": {
+                "opcoes": [
+                  "O sustento sagrado da raiz e da terra",
+                  "A caça de animais na serra",
+                  "A travessia de grandes mares",
+                  "A guerra entre aldeias distantes"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mani'oka' representa o sustento basilar da terra.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

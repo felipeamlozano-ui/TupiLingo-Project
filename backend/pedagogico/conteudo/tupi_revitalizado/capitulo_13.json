@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Maraká'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Chocalho sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Maracá",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Maraká",
           "explicacao": "'Maraká' significa 'Chocalho sagrado' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Maraká"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No círculo de música da juventude que resgata as melodias ancestrais do povo.",
+              "enunciado": "Ao estudar o tema 'A Música, os Cantos e o Maracá', qual é o significado exato de 'Maraka'?",
+              "payload": {
+                "opcoes": [
+                  "Maracá",
+                  "Nuvem escura",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Maraka' traduz-se fielmente por 'Maracá'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de estudos sobre as tradições e termos de A Música, os Cantos e o Maracá.",
+              "enunciado": "Qual conceito fundamental em Tupi Revitalizado é expresso por 'Maraka'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Maracá",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Maraka' refere-se a 'Maracá'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a prática oral das expressões de A Música, os Cantos e o Maracá.",
+              "enunciado": "Se o falante diz 'Maraka katu', a qual elemento de excelência ele se refere?",
+              "payload": {
+                "opcoes": [
+                  "Maracá",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Refere-se a 'Maracá'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão rápida de vocabulário temático.",
+              "enunciado": "Assinale a opção que traduz com rigor 'Maraka':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Maracá",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Maraka' é 'Maracá'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Maraká": "Chocalho sagrado"
+            "Maraka": "Maracá de cuia",
+            "Porahey": "Canto e poesia",
+            "Mimi": "Flauta de bambu"
           },
           "coluna_esquerda": [
-            "Maraká"
+            "Maraka",
+            "Porahey",
+            "Mimi"
           ],
           "coluna_direita": [
-            "Chocalho sagrado"
+            "Canto e poesia",
+            "Flauta de bambu",
+            "Maracá de cuia"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Maraká"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Música, os Cantos e o Maracá (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi"
+                ],
+                "coluna_direita": [
+                  "Canto e poesia",
+                  "Flauta de bambu",
+                  "Maracá de cuia"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá de cuia",
+                  "Porahey": "Canto e poesia",
+                  "Mimi": "Flauta de bambu"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Música, os Cantos e o Maracá (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de A Música, os Cantos e o Maracá com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi"
+                ],
+                "coluna_direita": [
+                  "Flauta de bambu",
+                  "Maracá de cuia",
+                  "Canto e poesia"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá de cuia",
+                  "Porahey": "Canto e poesia",
+                  "Mimi": "Flauta de bambu"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Música, os Cantos e o Maracá (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi"
+                ],
+                "coluna_direita": [
+                  "Canto e poesia",
+                  "Flauta de bambu",
+                  "Maracá de cuia"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá de cuia",
+                  "Porahey": "Canto e poesia",
+                  "Mimi": "Flauta de bambu"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Música, os Cantos e o Maracá (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi"
+                ],
+                "coluna_direita": [
+                  "Flauta de bambu",
+                  "Maracá de cuia",
+                  "Canto e poesia"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá de cuia",
+                  "Porahey": "Canto e poesia",
+                  "Mimi": "Flauta de bambu"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Música, os Cantos e o Maracá (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi"
+                ],
+                "coluna_direita": [
+                  "Canto e poesia",
+                  "Flauta de bambu",
+                  "Maracá de cuia"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá de cuia",
+                  "Porahey": "Canto e poesia",
+                  "Mimi": "Flauta de bambu"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -131,7 +331,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ taba pupé.'",
-          "texto_com_lacunas": "______ taba pupé.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Poracé"
           ],
@@ -140,6 +340,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Poracé"
+          ],
+          "respostas_corretas": [
+            "Porahey"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo uma sentença com o vocábulo 'Porahey' no cotidiano comunitário.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Música bonita bom/boa):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Porahey"
+                ]
+              },
+              "explicacao": "'Porahey' completa a oração com precisão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Prática oral de adjetivos atributivos.",
+              "enunciado": "Preencha a lacuna com 'Porahey': 'Ahecha ______' (Eu vejo):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Porahey"
+                ]
+              },
+              "explicacao": "'Porahey' é o objeto da percepção visual.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de termos práticos da vida tribal.",
+              "enunciado": "Complete a frase de elogio: 'I puranga a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "Porahey"
+                ]
+              },
+              "explicacao": "'Porahey' completa o sujeito da qualidade.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações com verbos de ação.",
+              "enunciado": "Qual termo completa a oração: 'Oikó ______'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Porahey"
+                ]
+              },
+              "explicacao": "'Porahey' é a forma canônica atestada.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -147,37 +412,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Poracé'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Dança tradicional"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Música bonita",
+            "Canoa furada",
+            "Vento frio",
+            "Rio seco"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Poracé",
           "explicacao": "'Poracé' traduz-se fielmente como 'Dança tradicional'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Poracé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No dicionário da língua, estudando a exata tradução de 'Porahey'.",
+              "enunciado": "Qual é o significado de 'Porahey'?",
+              "payload": {
+                "opcoes": [
+                  "Música bonita",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio seco"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Porahey' traduz-se como 'Música bonita'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao revisar os elementos da cultura material e da língua.",
+              "enunciado": "A qual conceito o termo 'Porahey' corresponde?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Música bonita",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Porahey' é 'Música bonita'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida de vocabulário de A Música, os Cantos e o Maracá.",
+              "enunciado": "Selecione o equivalente correto para 'Porahey':",
+              "payload": {
+                "opcoes": [
+                  "Música bonita",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Porahey' corresponde a 'Música bonita'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Prática comparativa de termos tradicionais.",
+              "enunciado": "Assinale a tradução precisa de 'Porahey':",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Música bonita",
+                  "Toca funda",
+                  "Céu nublado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Porahey' é 'Música bonita'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ guasu!'",
-          "texto_com_lacunas": "______ guasu!",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Toryba"
           ],
@@ -186,6 +513,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Toryba"
+          ],
+          "respostas_corretas": [
+            "Mimi"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença afirmativa sobre a presença de 'Mimi' na comunidade.",
+              "enunciado": "Complete a frase: 'Hetá ______' (Há muito/muita Flauta suave):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Mimi"
+                ]
+              },
+              "explicacao": "'Mimi' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construindo frases sobre a vida cotidiana.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Flauta suave):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Mimi"
+                ]
+              },
+              "explicacao": "'Mimi' é o termo correto.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática oral de conversação.",
+              "enunciado": "Qual termo completa: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Mimi"
+                ]
+              },
+              "explicacao": "'Mimi' preenche o objeto.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática com predicados nominais.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Mimi"
+                ]
+              },
+              "explicacao": "'Mimi' é o substantivo qualificado.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,30 +585,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Toryba'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Alegria / Celebração"
-            },
-            {
-              "letra": "B",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Flauta suave",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Toryba",
           "explicacao": "'Toryba' traduz-se fielmente como 'Alegria / Celebração'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Toryba"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exame da tradição lexical para o substantivo 'Mimi'.",
+              "enunciado": "Qual é o significado de 'Mimi'?",
+              "payload": {
+                "opcoes": [
+                  "Flauta suave",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mimi' significa 'Flauta suave'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da herança linguística dos povos ancestrais.",
+              "enunciado": "A qual conceito refere-se 'Mimi'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Flauta suave",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mimi' é 'Flauta suave'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida no vocabulário de A Música, os Cantos e o Maracá.",
+              "enunciado": "Assinale a tradução exata de 'Mimi':",
+              "payload": {
+                "opcoes": [
+                  "Flauta suave",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Mimi' traduz-se por 'Flauta suave'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual opção define 'Mimi'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Flauta suave",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Mimi' é 'Flauta suave'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -270,10 +724,10 @@
           "tipo": "escolha_multipla",
           "enunciado": "No contexto de 'A Música, os Cantos e o Maracá', qual termo representa a forma canônica aprendida?",
           "opcoes": [
-            "Maraká",
-            "Moporacé",
-            "Tetoryba",
-            "Kutuba"
+            "Maraka",
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Maraká' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -281,7 +735,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.658,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre A Música, os Cantos e o Maracá.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Maraka'?",
+              "payload": {
+                "opcoes": [
+                  "Maraka",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Maraka' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de A Música, os Cantos e o Maracá.",
+              "enunciado": "Selecione o termo autêntico do módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Maraka",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Maraka' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente.",
+              "enunciado": "Qual termo representa a raiz aprendida em A Música, os Cantos e o Maracá?",
+              "payload": {
+                "opcoes": [
+                  "Maraka",
+                  "Paraná",
+                  "Ywyra",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Maraka' é o termo estudado.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,17 +810,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 0.758,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Porahey"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Porahey'.",
+              "enunciado": "Complete a locução: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Porahey"
+                ]
+              },
+              "explicacao": "'Porahey' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Está presente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Porahey"
+                ]
+              },
+              "explicacao": "'Porahey' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em A Música, os Cantos e o Maracá.",
+              "enunciado": "Qual vocábulo preenche: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Porahey"
+                ]
+              },
+              "explicacao": "'Porahey' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Música, os Cantos e o Maracá':",
           "opcoes": [
-            "Uso harmônico de 'Toryba'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Maraka'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Toryba' expressa a construção genuína documentada nas fontes clássicas.",
@@ -318,7 +879,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 0.908,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em A Música, os Cantos e o Maracá.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Maraka'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Maraka'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Maraka' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de A Música, os Cantos e o Maracá.",
+              "enunciado": "O que representa 'Maraka' na vida comunitária?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de A Música, os Cantos e o Maracá",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico.",
+              "enunciado": "Qual afirmação sobre 'Maraka' é rigorosamente correta?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas",
+                  "É palavra inventada",
+                  "É termo de gíria moderna",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -326,9 +943,9 @@
           "enunciado": "Ao revisar as estruturas de A Música, os Cantos e o Maracá, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -336,7 +953,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 0.658,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de excelência em A Música, os Cantos e o Maracá.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou de qualidade' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades.",
+              "enunciado": "Para dizer que 'Maraka' é bom, qual palavra é posposta?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com positividade o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de A Música, os Cantos e o Maracá.",
+              "enunciado": "Qual é a ordem correta para dizer 'Maracá bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu maraka",
+                  "Maraka katu",
+                  "Katu aíba",
+                  "Maraka poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o adjetivo atributivo: substantivo + katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -372,19 +1045,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 13:",
           "pares_corretos": {
-            "Maraká": "Chocalho sagrado",
-            "Poracé": "Dança tradicional",
-            "Toryba": "Alegria / Celebração"
+            "Maraka": "Maracá rítmico",
+            "Porahey": "Canto vivo",
+            "Mimi": "Flauta afinada",
+            "Tore": "Dança do toré"
           },
           "coluna_esquerda": [
-            "Maraká",
-            "Poracé",
-            "Toryba"
+            "Maraka",
+            "Porahey",
+            "Mimi",
+            "Tore"
           ],
           "coluna_direita": [
-            "Chocalho sagrado",
-            "Dança tradicional",
-            "Alegria / Celebração"
+            "Canto vivo",
+            "Flauta afinada",
+            "Dança do toré",
+            "Maracá rítmico"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1069,158 @@
             "Maraká",
             "Poracé",
             "Toryba"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 13 (A Música, os Cantos e o Maracá) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 13 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi",
+                  "Tore"
+                ],
+                "coluna_direita": [
+                  "Dança do toré",
+                  "Maracá rítmico",
+                  "Canto vivo",
+                  "Flauta afinada"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá rítmico",
+                  "Porahey": "Canto vivo",
+                  "Mimi": "Flauta afinada",
+                  "Tore": "Dança do toré"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 13 (A Música, os Cantos e o Maracá) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de A Música, os Cantos e o Maracá com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi",
+                  "Tore"
+                ],
+                "coluna_direita": [
+                  "Canto vivo",
+                  "Flauta afinada",
+                  "Dança do toré",
+                  "Maracá rítmico"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá rítmico",
+                  "Porahey": "Canto vivo",
+                  "Mimi": "Flauta afinada",
+                  "Tore": "Dança do toré"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 13 (A Música, os Cantos e o Maracá) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi",
+                  "Tore"
+                ],
+                "coluna_direita": [
+                  "Flauta afinada",
+                  "Dança do toré",
+                  "Maracá rítmico",
+                  "Canto vivo"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá rítmico",
+                  "Porahey": "Canto vivo",
+                  "Mimi": "Flauta afinada",
+                  "Tore": "Dança do toré"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 13 (A Música, os Cantos e o Maracá) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi",
+                  "Tore"
+                ],
+                "coluna_direita": [
+                  "Dança do toré",
+                  "Flauta afinada",
+                  "Maracá rítmico",
+                  "Canto vivo"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá rítmico",
+                  "Porahey": "Canto vivo",
+                  "Mimi": "Flauta afinada",
+                  "Tore": "Dança do toré"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 13 (A Música, os Cantos e o Maracá) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Maraka",
+                  "Porahey",
+                  "Mimi",
+                  "Tore"
+                ],
+                "coluna_direita": [
+                  "Canto vivo",
+                  "Maracá rítmico",
+                  "Dança do toré",
+                  "Flauta afinada"
+                ],
+                "pares_corretos": {
+                  "Maraka": "Maracá rítmico",
+                  "Porahey": "Canto vivo",
+                  "Mimi": "Flauta afinada",
+                  "Tore": "Dança do toré"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Maraká' para o Português:",
           "termo_fonte": "Maraká",
           "traducao_esperada": "Chocalho sagrado",
@@ -406,6 +1229,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Maraká"
+          ],
+          "opcoes": [
+            "Maracá",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 13 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Maraka'?",
+              "payload": {
+                "opcoes": [
+                  "Maracá",
+                  "Nuvem de chuva",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Maraka' traduz-se fielmente por 'Maracá'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos elementos essenciais que estruturam o domínio de A Música, os Cantos e o Maracá.",
+              "enunciado": "A qual conceito o termo central 'Maraka' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Animal de toca",
+                  "Maracá",
+                  "Pássaro que canta",
+                  "Rio largo"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Maraka' é 'Maracá'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração das conquistas de aprendizado na aldeia.",
+              "enunciado": "Se os guerreiros exclamam 'Maraka katu!', o que eles celebram?",
+              "payload": {
+                "opcoes": [
+                  "A presença e excelência de maracá",
+                  "A aproximação da tempestade",
+                  "A perda das sementes",
+                  "A quebra da canoa"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Celebram a excelência de 'Maracá'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese conclusiva do Capítulo 13.",
+              "enunciado": "Em resumo definitivo, 'Maraka' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "O elemento sagrado de maracá",
+                  "A escuridão da noite fria",
+                  "O silêncio do pântano",
+                  "O combate corpo a corpo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Maraka' simboliza 'Maracá'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

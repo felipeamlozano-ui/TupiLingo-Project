@@ -75,6 +75,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Manioka"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No projeto de agroecologia comunitária da reserva, os jovens cuidam das mudas de mandioca nos canteiros tradicionais.",
+              "enunciado": "Ao cultivar a raiz alimentícia sagrada que sustenta as comunidades contemporâneas, qual planta é chamada de 'Manioka'?",
+              "payload": {
+                "opcoes": [
+                  "Mandioca",
+                  "Inhame silvestre",
+                  "Abóbora de tronco",
+                  "Gengibre do mato"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Manioka' é a forma padronizada no tupi contemporâneo e nheengatu para a mandioca.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante o mutirão de colheita no roçado agroflorestal guiado pelas lideranças femininas da aldeia.",
+              "enunciado": "Qual vegetal raiz de grande valor nutricional e cultural é denominado 'Manioka'?",
+              "payload": {
+                "opcoes": [
+                  "Feijão-manteiga",
+                  "Mandioca nutritiva",
+                  "Castanha de caju",
+                  "Melancia da praia"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Manioka' fornece o sustento feculento indispensável para a farinha e a tapioca.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "As merendeiras da escola bilíngue preparam receitas saudáveis a partir do tubérculo colhido na horta escolar.",
+              "enunciado": "Quando o cardápio tradicional indica 'Manioka katu', o que está sendo servido aos estudantes?",
+              "payload": {
+                "opcoes": [
+                  "Mandioca saborosa e boa",
+                  "Peixe salgado cru",
+                  "Folhas secas de chá",
+                  "Água barrenta da chuva"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Manioka katu' significa mandioca de excelente qualidade.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Estudo botânico e patrimonial da flora alimentar autóctone brasileira.",
+              "enunciado": "Qual a correta identificação agronômica para a palavra 'Manioka'?",
+              "payload": {
+                "opcoes": [
+                  "Palmeira de açaí",
+                  "Mandioca (tubérculo)",
+                  "Arbusto de urucum",
+                  "Flor aquática"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Manioka' é a mandioca.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -106,6 +180,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Uí"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na casa de farinha moderna e higiênica da cooperativa indígena, o forno a lenha exala um aroma tostado acolhedor.",
+              "enunciado": "Qual produto derivado indispensável à mesa ribeirinha é designado pelo substantivo 'Uí'?",
+              "payload": {
+                "opcoes": [
+                  "Farinha de mandioca",
+                  "Azeite de dendê",
+                  "Caldo fermentado",
+                  "Vinho de jenipapo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Uí' é a farinha de mandioca torrada no forno, alimento básico que acompanha peixes e caças.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Os viajantes enchem paneiros de palha trançada com farinha d'água crocante para a travessia do rio.",
+              "enunciado": "Ao elogiar a farinha fina e bem torrada, o comprador afirma: 'Uí katu!'. Qual o significado?",
+              "payload": {
+                "opcoes": [
+                  "A farinha é excelente e boa",
+                  "A mandioca apodreceu",
+                  "O forno quebrou",
+                  "A canoa está cheia de água"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Uí katu' expressa que a farinha está de primeira qualidade.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "As famílias misturam a farinha crocante ao caldo fumegante de peixe fresco na refeição do meio-dia.",
+              "enunciado": "O que as famílias ribeirinhas polvilham no prato quando utilizam o 'Uí'?",
+              "payload": {
+                "opcoes": [
+                  "Areia fina",
+                  "Farinha tostada",
+                  "Pólvora seca",
+                  "Cinzas de folhas"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Uí' é a farinha alimentar.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão vocabular de produtos tradicionais da economia solidária indígena.",
+              "enunciado": "Em Tupi Revitalizado, selecione a tradução exata do substantivo 'Uí':",
+              "payload": {
+                "opcoes": [
+                  "Milho verde",
+                  "Farinha",
+                  "Pimenta doce",
+                  "Água com açúcar"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Uí' significa farinha.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -113,16 +261,19 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Manioka": "Mandioca",
-            "Uí": "Farinha"
+            "Manioka": "Mandioca nutritiva",
+            "Uí": "Farinha torrada",
+            "Koo": "Roça comunitária"
           },
           "coluna_esquerda": [
             "Manioka",
-            "Uí"
+            "Uí",
+            "Koo"
           ],
           "coluna_direita": [
-            "Mandioca",
-            "Farinha"
+            "Farinha torrada",
+            "Roça comunitária",
+            "Mandioca nutritiva"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -130,6 +281,138 @@
           "itens_alvo": [
             "Manioka",
             "Uí"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No armazém comunitário da aldeia, as etiquetas bilíngues identificam os produtos da safra.",
+              "enunciado": "Associe os termos da produção agrícola contemporânea às suas traduções em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Manioka",
+                  "Uí",
+                  "Koo"
+                ],
+                "coluna_direita": [
+                  "Farinha torrada",
+                  "Roça comunitária",
+                  "Mandioca nutritiva"
+                ],
+                "pares_corretos": {
+                  "Manioka": "Mandioca nutritiva",
+                  "Uí": "Farinha torrada",
+                  "Koo": "Roça comunitária"
+                }
+              },
+              "explicacao": "Derangement estrito verificado: Manioka->Mandioca (2), Uí->Farinha (0), Koo->Roça (1). Zero pontos fixos.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Atividade de organização da feira agroecológica dos produtores indígenas.",
+              "enunciado": "Conecte os conceitos agrícolas nativos aos seus respectivos elementos:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Uí",
+                  "Koo",
+                  "Manioka"
+                ],
+                "coluna_direita": [
+                  "A plantação cultivada",
+                  "A raiz colhida no solo",
+                  "A farinha ensacada"
+                ],
+                "pares_corretos": {
+                  "Uí": "A farinha ensacada",
+                  "Koo": "A plantação cultivada",
+                  "Manioka": "A raiz colhida no solo"
+                }
+              },
+              "explicacao": "Derangement absoluto comprovado.",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão prática com tarjetas ilustradas sobre os alimentos da terra.",
+              "enunciado": "Ligue com precisão os substantivos da colheita às suas descrições tradicionais:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Koo",
+                  "Manioka",
+                  "Uí"
+                ],
+                "coluna_direita": [
+                  "Tubérculo de mandioca",
+                  "Farinha crocante",
+                  "Área do roçado coletivo"
+                ],
+                "pares_corretos": {
+                  "Koo": "Área do roçado coletivo",
+                  "Manioka": "Tubérculo de mandioca",
+                  "Uí": "Farinha crocante"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação rápida para os estudantes da juventude tupi.",
+              "enunciado": "Faça a correlação perfeita entre os três substantivos da Lição 1:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Manioka",
+                  "Koo",
+                  "Uí"
+                ],
+                "coluna_direita": [
+                  "Farinha de mesa",
+                  "Mandioca do campo",
+                  "Roçado tradicional"
+                ],
+                "pares_corretos": {
+                  "Manioka": "Mandioca do campo",
+                  "Koo": "Roçado tradicional",
+                  "Uí": "Farinha de mesa"
+                }
+              },
+              "explicacao": "Derangement estrito verificado.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Quiz cultural sobre o sustento alimentar na agricultura viva.",
+              "enunciado": "Una cada substantivo em Tupi Revitalizado ao seu equivalente em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Uí",
+                  "Manioka",
+                  "Koo"
+                ],
+                "coluna_direita": [
+                  "Roçado produtivo",
+                  "Farinha alimentar",
+                  "Raiz de mandioca"
+                ],
+                "pares_corretos": {
+                  "Uí": "Farinha alimentar",
+                  "Manioka": "Raiz de mandioca",
+                  "Koo": "Roçado produtivo"
+                }
+              },
+              "explicacao": "Zero pontos fixos garantido.",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -186,6 +469,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Abati"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No canteiro alto do roçado, as espigas douradas balançam ao vento da tarde sob o sol tropical.",
+              "enunciado": "Complete a sentença sobre o cereal plantado com carinho: '______ koo pupé' (Milho na roça):",
+              "payload": {
+                "texto_com_lacunas": "______ koo pupé.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' (Milho) é o cereal autóctone completando a oração locativa.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "As famílias preparam pamonhas e bolos assados na palha verde de milho na cozinha aberta.",
+              "enunciado": "Preencha a lacuna: 'Hetá ______!' (Há muito milho!):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______!",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o cereal que expressa a colheita abundante.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O agricultor ensina o ponto de colher o milho verde antes que os pássaros debulhem os grãos.",
+              "enunciado": "Qual vocábulo preenche a sentença sobre o cereal fresco: 'I katu a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o sujeito elogiado na sentença.",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Armazenando os grãos secos nos paióis suspensos para semente da próxima estação.",
+              "enunciado": "Insira o nome do cereal preservado com cuidado: 'Amongatu ______' (Eu guardo o milho):",
+              "payload": {
+                "texto_com_lacunas": "Amongatu ______.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o cereal mantido para subsistência.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,10 +562,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Abati"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificando os cultígenos tradicionais que compõem a segurança alimentar dos povos indígenas.",
+              "enunciado": "Qual cereal de grãos amarelos e espigas tenras é denominado 'Abati'?",
+              "payload": {
+                "opcoes": [
+                  "Milho",
+                  "Trigo",
+                  "Aveia",
+                  "Arroz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Abati' é o milho nas línguas tupi-guarani modernas.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Avaliando a culinária à base de milho e suas delícias nas festas comunitárias da colheita.",
+              "enunciado": "O que as famílias cozinham na brasa quando preparam o 'Abati'?",
+              "payload": {
+                "opcoes": [
+                  "Casca de árvore amarga",
+                  "Espigas de milho verde",
+                  "Cipó trançado",
+                  "Folhas secas de palmeira"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Abati' é o milho saboroso preparado de várias formas.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Vocabulário de botânica econômica nas salas de aula da aldeia.",
+              "enunciado": "Qual a correta tradução de 'Abati'?",
+              "payload": {
+                "opcoes": [
+                  "Cacau",
+                  "Milho",
+                  "Banana",
+                  "Abacaxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Abati' é o milho.",
+              "param_a": 1.0,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Comparando os grãos ancestrais da agricultura indígena com produtos industriais.",
+              "enunciado": "Selecione o vegetal correspondente ao termo 'Abati':",
+              "payload": {
+                "opcoes": [
+                  "Milho tradicional",
+                  "Erva daninha",
+                  "Madeira de lei",
+                  "Flor do campo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Abati' é o milho cultivado nos campos.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ taba pupé.'",
           "texto_com_lacunas": "______ taba pupé.",
@@ -232,6 +651,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Koo"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O terreno comunitário da roça onde se plantam mandiocas, milhos e batatas em consórcio agroecológico.",
+              "enunciado": "Complete a frase sobre a terra cultivada pela comunidade: 'Oso ______ koo rupi' (Ele caminha pelo roçado):",
+              "payload": {
+                "texto_com_lacunas": "Oso ______ koo rupi.",
+                "respostas_corretas": [
+                  "Koo"
+                ]
+              },
+              "explicacao": "'Koo' é a roça tradicional ou plantação comunitária de subsistência.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao alvorecer, os agricultores pegam suas enxadas e ferramentas para o trabalho na terra fértil.",
+              "enunciado": "Insira o nome do espaço de cultivo coletivo: 'Aasem ______ pupé' (Entro no roçado):",
+              "payload": {
+                "texto_com_lacunas": "Aasem ______ pupé.",
+                "respostas_corretas": [
+                  "Koo"
+                ]
+              },
+              "explicacao": "'Koo' é o espaço de cultivo agrícola da aldeia.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O ancião aponta com orgulho para as fileiras bem cuidadas de plantas alimentares verdejantes.",
+              "enunciado": "Preencha a lacuna do elogio à terra produtiva: 'Puranga a'e ______' (Belo é aquele roçado):",
+              "payload": {
+                "texto_com_lacunas": "Puranga a'e ______.",
+                "respostas_corretas": [
+                  "Koo"
+                ]
+              },
+              "explicacao": "'Koo' é o substantivo qualificado por puranga (belo/bom).",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Explicando o manejo tradicional sem agrotóxicos da agricultura indígena contemporânea.",
+              "enunciado": "Qual vocábulo designa a roça coletiva: 'Hetá tembi'u ______ pupé' (Há muita comida na roça)?",
+              "payload": {
+                "texto_com_lacunas": "Hetá tembi'u ______ pupé.",
+                "respostas_corretas": [
+                  "Koo"
+                ]
+              },
+              "explicacao": "'Koo' é o espaço produtor de alimentos.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -263,6 +744,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Koo"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na cartografia territorial da aldeia, delimitam-se as áreas de floresta nativa e as áreas de plantio.",
+              "enunciado": "Qual área de cultivo e plantação comunitária de subsistência é designada por 'Koo'?",
+              "payload": {
+                "opcoes": [
+                  "Roça / Terreno de plantio",
+                  "Cemitério ancestral",
+                  "Praia de pedras",
+                  "Canal de navegação"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Koo' é o roçado tradicional onde se cultivam raízes, grãos e legumes.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando a mata virgem fechada (ka'a) do terreno aberto e semeado pelo povo da aldeia.",
+              "enunciado": "O que os agricultores comunitários cultivam e cuidam quando trabalham no 'Koo'?",
+              "payload": {
+                "opcoes": [
+                  "A floresta intocada",
+                  "O roçado de alimentos da terra",
+                  "As corredeiras de pedras",
+                  "Os recifes de corais"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Koo' é o roçado e a lavoura comunitária.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Estudo dos sistemas agrícolas tradicionais reconhecidos como patrimônio imaterial.",
+              "enunciado": "Qual é a tradução precisa do substantivo 'Koo'?",
+              "payload": {
+                "opcoes": [
+                  "Roçado / Plantação",
+                  "Canoa leve",
+                  "Oca cerimonial",
+                  "Arco e flecha"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Koo' traduz-se fielmente como roçado ou plantação.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Vocabulário de meio ambiente e soberania alimentar dos povos tradicionais.",
+              "enunciado": "Selecione o significado de 'Koo':",
+              "payload": {
+                "opcoes": [
+                  "Roça comunal de cultivo",
+                  "Fogueira apagada",
+                  "Pássaro azul",
+                  "Vento frio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Koo' é a roça comunal.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -328,7 +883,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.447,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Fixação ortográfica e fonética da raiz soberana em Tupi Revitalizado.",
+              "enunciado": "Qual vocábulo representa a mandioca no sistema padronizado moderno de escrita?",
+              "payload": {
+                "opcoes": [
+                  "Manioka",
+                  "Moyani",
+                  "Temanioka",
+                  "Kanioka"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Manioka' é a forma canônica grafada no tupi revitalizado contemporâneo.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Identificando o tubérculo principal nas avaliações adaptativas de aprendizagem.",
+              "enunciado": "Selecione o substantivo da raiz alimentícia basilar das aldeias:",
+              "payload": {
+                "opcoes": [
+                  "Pira",
+                  "Manioka",
+                  "Ka'a",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Manioka' é o alimento que sustenta as famílias ribeirinhas.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão dos cultígenos que garantem a segurança alimentar da aldeia.",
+              "enunciado": "Qual planta fornece a matéria-prima para a farinha ('uí')?",
+              "payload": {
+                "opcoes": [
+                  "Manioka",
+                  "Uruku",
+                  "Takwara",
+                  "Ywyra"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "A manioka é prensada e torrada para originar a farinha (uí).",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -347,7 +958,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.347,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo frases sintáticas sobre o cereal de espigas douradas.",
+              "enunciado": "Complete a sentença tradicional de fartura agrícola: 'Oikó ______ koo pupé' (Há milho na roça):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______ koo pupé.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' completa adequadamente o sujeito que está na plantação.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Preparando o alimento cerimonial de milho verde cozido na brasa comunitária.",
+              "enunciado": "Preencha a lacuna: 'Se ______ katu' (Meu bom milho):",
+              "payload": {
+                "texto_com_lacunas": "Se ______ katu.",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o cereal apreciado na alimentação.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Descrevendo a plantação verdejante na estação das chuvas.",
+              "enunciado": "Qual vocábulo completa: 'Hetá ______!' (Muito milho!):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______!",
+                "respostas_corretas": [
+                  "Abati"
+                ]
+              },
+              "explicacao": "'Abati' é o sujeito da fartura agrícola.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -365,7 +1023,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -1.197,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Compreensão da relação entre o espaço do roçado e a produção de alimentos.",
+              "enunciado": "Qual espaço comunitário de cultivo viabiliza a colheita farta de 'Manioka' e 'Abati'?",
+              "payload": {
+                "opcoes": [
+                  "Koo (roça comunitária)",
+                  "Paraná (mar aberto)",
+                  "'Y (rio)",
+                  "Oka (casa fechada)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "O 'Koo' é a roça onde se cultivam em consórcio a mandioca e o milho.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ecologia de subsistência e soberania alimentar dos povos tradicionais.",
+              "enunciado": "A existência de um 'Koo' bem cuidado na aldeia garante:",
+              "payload": {
+                "opcoes": [
+                  "Guerra com vizinhos",
+                  "Soberania e fartura de alimentos da terra",
+                  "Seca nos rios",
+                  "Frio nas noites"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O roçado produtivo garante o abastecimento de comida saudável para a comunidade.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão dos termos de agricultura tradicional nos cadernos pedagógicos.",
+              "enunciado": "Qual termo designa a área onde os jovens trabalham no cultivo da terra?",
+              "payload": {
+                "opcoes": [
+                  "Koo",
+                  "Ygarapé",
+                  "Pira",
+                  "Yawaraté"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Koo' é a roça de cultivo.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -383,7 +1097,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.447,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estrutura descritiva de aprovação e qualidade da colheita de mandioca.",
+              "enunciado": "Ao avaliar a excelente raiz tuberosa recém-colhida no roçado, qual expressão é correta?",
+              "payload": {
+                "opcoes": [
+                  "Manioka katu",
+                  "Manioka aíba",
+                  "Uí aíba",
+                  "Koo aíba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Manioka katu' expressa que a mandioca é boa, farta e nutritiva.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Elogiando a farinha crocante e bem tostada na casa de farinha da cooperativa.",
+              "enunciado": "O que expressa a frase 'Uí katu' na avaliação dos cozinheiros?",
+              "payload": {
+                "opcoes": [
+                  "Farinha de excelente qualidade",
+                  "Farinha mofada e amarga",
+                  "Falta de mandioca no roçado",
+                  "O forno esfriou"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Uí katu' celebra a qualidade superior da farinha torrada.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Sintaxe do adjetivo atributivo 'katu' em Tupi Revitalizado.",
+              "enunciado": "Qual é a ordenação natural na língua para 'boa farinha'?",
+              "payload": {
+                "opcoes": [
+                  "Katu uí",
+                  "Uí katu",
+                  "Katu koo",
+                  "Uí aíba"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Substantivo ('Uí') sucedido de adjetivo ('katu'): Uí katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -436,10 +1206,10 @@
             "Koo"
           ],
           "coluna_direita": [
-            "Mandioca",
-            "Farinha",
-            "Milho",
-            "Roça comunitária"
+            "Farinha torrada crocante",
+            "Milho de espiga nutritivo",
+            "Roça comunitária da aldeia",
+            "Mandioca sagrada da terra"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -449,11 +1219,158 @@
             "Uí",
             "Abati",
             "Koo"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Grande desafio de síntese agrícola: correlacione os quatro pilares da alimentação viva no Tupi Revitalizado.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos da mandioca e dos alimentos da terra às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Manioka",
+                  "Uí",
+                  "Abati",
+                  "Koo"
+                ],
+                "coluna_direita": [
+                  "Farinha torrada crocante",
+                  "Milho de espiga nutritivo",
+                  "Roça comunitária da aldeia",
+                  "Mandioca sagrada da terra"
+                ],
+                "pares_corretos": {
+                  "Manioka": "Mandioca sagrada da terra",
+                  "Uí": "Farinha torrada crocante",
+                  "Abati": "Milho de espiga nutritivo",
+                  "Koo": "Roça comunitária da aldeia"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: Manioka->Mandioca (3), Uí->Farinha (0), Abati->Milho (1), Koo->Roça (2). Zero pontos fixos.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na assembleia de agricultores, avaliam-se os produtos colhidos ao longo da estação produtiva.",
+              "enunciado": "Associe os termos indígenas às suas descrições no cotidiano alimentar da comunidade:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Koo",
+                  "Abati",
+                  "Uí",
+                  "Manioka"
+                ],
+                "coluna_direita": [
+                  "O cereal moído e cozido",
+                  "A farinha essencial de cada refeição",
+                  "A raiz que brota nas covas da terra",
+                  "A área cultivada coletivamente"
+                ],
+                "pares_corretos": {
+                  "Koo": "A área cultivada coletivamente",
+                  "Abati": "O cereal moído e cozido",
+                  "Uí": "A farinha essencial de cada refeição",
+                  "Manioka": "A raiz que brota nas covas da terra"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão prática com fichas pedagógicas no encerramento da trilha da terra fértil.",
+              "enunciado": "Ligue com precisão os termos de agricultura às suas definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Abati",
+                  "Manioka",
+                  "Koo",
+                  "Uí"
+                ],
+                "coluna_direita": [
+                  "Raiz principal de farinha",
+                  "Terreno agrícola produtivo",
+                  "Farinha de mandioca torrada",
+                  "Milho tenro das espigas"
+                ],
+                "pares_corretos": {
+                  "Abati": "Milho tenro das espigas",
+                  "Manioka": "Raiz principal de farinha",
+                  "Koo": "Terreno agrícola produtivo",
+                  "Uí": "Farinha de mandioca torrada"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Teste de prontidão comunitária para os jovens trabalhadores da terra.",
+              "enunciado": "Conecte os conceitos gastronômicos em Tupi Revitalizado aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Uí",
+                  "Koo",
+                  "Manioka",
+                  "Abati"
+                ],
+                "coluna_direita": [
+                  "Roçado de plantio",
+                  "Mandioca de colheita",
+                  "Espigas de milho",
+                  "Farinha crocante"
+                ],
+                "pares_corretos": {
+                  "Uí": "Farinha crocante",
+                  "Koo": "Roçado de plantio",
+                  "Manioka": "Mandioca de colheita",
+                  "Abati": "Espigas de milho"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Prova de mestria no universo agrícola e culinário contemporâneo.",
+              "enunciado": "Faça a correlação conclusiva dos alimentos fundamentais:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Manioka",
+                  "Abati",
+                  "Koo",
+                  "Uí"
+                ],
+                "coluna_direita": [
+                  "Milho doce",
+                  "Roça fértil",
+                  "Farinha fina",
+                  "Mandioca branca"
+                ],
+                "pares_corretos": {
+                  "Manioka": "Mandioca branca",
+                  "Abati": "Milho doce",
+                  "Koo": "Roça fértil",
+                  "Uí": "Farinha fina"
+                }
+              },
+              "explicacao": "Derangement perfeito: Manioka->Mandioca (3), Abati->Milho (0), Koo->Roça (1), Uí->Farinha (2).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Manioka' para o Português:",
           "termo_fonte": "Manioka",
           "traducao_esperada": "Mandioca",
@@ -462,6 +1379,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Manioka"
+          ],
+          "opcoes": [
+            "Mandioca",
+            "Milho verde",
+            "Fruta do mato",
+            "Castanha doce"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Pergunta de avaliação formativa com os educadores comunitários.",
+              "enunciado": "Qual é a tradução contemporânea exata da palavra 'Manioka'?",
+              "payload": {
+                "opcoes": [
+                  "Mandioca",
+                  "Milho verde",
+                  "Fruta do mato",
+                  "Castanha doce"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Manioka' é a mandioca, alimento basilar de Pindorama.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da soberania alimentar nas comunidades indígenas do Brasil.",
+              "enunciado": "Ao ouvir 'Manioka katu oĩ!', a comunidade ribeirinha compreende que:",
+              "payload": {
+                "opcoes": [
+                  "Há boa mandioca colhida na roça",
+                  "A chuva destruiu a plantação",
+                  "O rio secou no verão",
+                  "A farinha estragou no calor"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Expressa fartura de mandioca saudável e nutritiva.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação nos cadernos de etnobotânica da juventude da aldeia.",
+              "enunciado": "A qual alimento da terra a palavra 'Manioka' corresponde?",
+              "payload": {
+                "opcoes": [
+                  "À mandioca, tubérculo de sustento",
+                  "Ao peixe do igarapé",
+                  "À carne de caça",
+                  "À madeira de construção"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Manioka' é a mandioca.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese final do Capítulo 5 em Tupi Revitalizado.",
+              "enunciado": "Em resumo definitivo, 'Manioka' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "A raiz e a segurança alimentar da terra",
+                  "A caça nos topos de serra",
+                  "A travessia de canoa no oceano",
+                  "A guerra cerimonial"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Manioka' representa a soberania alimentar da terra.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

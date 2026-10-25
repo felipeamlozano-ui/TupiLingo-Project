@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Morubixaba'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Chefe político e militar"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Líder / Chefe",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Morubixaba",
           "explicacao": "'Morubixaba' significa 'Chefe político e militar' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Morubixaba"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No conselho da comunidade quando os mais valorosos guerreiros escutam o pronunciamento solene.",
+              "enunciado": "Ao estudar o tema 'A Aldeia e a Organização Comunitária', qual é o significado exato de 'Morubixaba'?",
+              "payload": {
+                "opcoes": [
+                  "Líder / Chefe",
+                  "Nuvem escura",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Morubixaba' traduz-se fielmente por 'Líder / Chefe'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma roda de estudos sobre as tradições e termos de A Aldeia e a Organização Comunitária.",
+              "enunciado": "Qual conceito fundamental em Tupi Antigo é expresso por 'Morubixaba'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Líder / Chefe",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Morubixaba' refere-se a 'Líder / Chefe'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a prática oral das expressões de A Aldeia e a Organização Comunitária.",
+              "enunciado": "Se o falante diz 'Morubixaba katu', a qual elemento de excelência ele se refere?",
+              "payload": {
+                "opcoes": [
+                  "Líder / Chefe",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Refere-se a 'Líder / Chefe'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão rápida de vocabulário temático.",
+              "enunciado": "Assinale a opção que traduz com rigor 'Morubixaba':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Líder / Chefe",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Morubixaba' é 'Líder / Chefe'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Morubixaba": "Chefe político e militar"
+            "Morubixaba": "Líder da taba",
+            "Tamuya": "Ancião respeitado",
+            "Okar": "Praça da aldeia"
           },
           "coluna_esquerda": [
-            "Morubixaba"
+            "Morubixaba",
+            "Tamuya",
+            "Okar"
           ],
           "coluna_direita": [
-            "Chefe político e militar"
+            "Ancião respeitado",
+            "Praça da aldeia",
+            "Líder da taba"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Morubixaba"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Aldeia e a Organização Comunitária (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar"
+                ],
+                "coluna_direita": [
+                  "Ancião respeitado",
+                  "Praça da aldeia",
+                  "Líder da taba"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Líder da taba",
+                  "Tamuya": "Ancião respeitado",
+                  "Okar": "Praça da aldeia"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Aldeia e a Organização Comunitária (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de A Aldeia e a Organização Comunitária com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar"
+                ],
+                "coluna_direita": [
+                  "Praça da aldeia",
+                  "Líder da taba",
+                  "Ancião respeitado"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Líder da taba",
+                  "Tamuya": "Ancião respeitado",
+                  "Okar": "Praça da aldeia"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Aldeia e a Organização Comunitária (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar"
+                ],
+                "coluna_direita": [
+                  "Ancião respeitado",
+                  "Praça da aldeia",
+                  "Líder da taba"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Líder da taba",
+                  "Tamuya": "Ancião respeitado",
+                  "Okar": "Praça da aldeia"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Aldeia e a Organização Comunitária (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar"
+                ],
+                "coluna_direita": [
+                  "Praça da aldeia",
+                  "Líder da taba",
+                  "Ancião respeitado"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Líder da taba",
+                  "Tamuya": "Ancião respeitado",
+                  "Okar": "Praça da aldeia"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre o tema A Aldeia e a Organização Comunitária (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar"
+                ],
+                "coluna_direita": [
+                  "Ancião respeitado",
+                  "Praça da aldeia",
+                  "Líder da taba"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Líder da taba",
+                  "Tamuya": "Ancião respeitado",
+                  "Okar": "Praça da aldeia"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -131,7 +331,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ o-nhe'eng.'",
-          "texto_com_lacunas": "______ o-nhe'eng.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Tamuya"
           ],
@@ -140,6 +340,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Tamuya"
+          ],
+          "respostas_corretas": [
+            "Tamuya"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo uma sentença com o vocábulo 'Tamuya' no cotidiano comunitário.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Avô sábio bom/boa):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Tamuya"
+                ]
+              },
+              "explicacao": "'Tamuya' completa a oração com precisão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Prática oral de adjetivos atributivos.",
+              "enunciado": "Preencha a lacuna com 'Tamuya': 'Ahecha ______' (Eu vejo):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Tamuya"
+                ]
+              },
+              "explicacao": "'Tamuya' é o objeto da percepção visual.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de termos práticos da vida tribal.",
+              "enunciado": "Complete a frase de elogio: 'I puranga a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I puranga a'e ______.",
+                "respostas_corretas": [
+                  "Tamuya"
+                ]
+              },
+              "explicacao": "'Tamuya' completa o sujeito da qualidade.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática de orações com verbos de ação.",
+              "enunciado": "Qual termo completa a oração: 'Oikó ______'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Tamuya"
+                ]
+              },
+              "explicacao": "'Tamuya' é a forma canônica atestada.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -147,37 +412,99 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Tamuya'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Ancião / Avô venerado"
-            },
-            {
-              "letra": "B",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Avô sábio",
+            "Canoa furada",
+            "Vento frio",
+            "Rio seco"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Tamuya",
           "explicacao": "'Tamuya' traduz-se fielmente como 'Ancião / Avô venerado'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Tamuya"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No dicionário da língua, estudando a exata tradução de 'Tamuya'.",
+              "enunciado": "Qual é o significado de 'Tamuya'?",
+              "payload": {
+                "opcoes": [
+                  "Avô sábio",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio seco"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tamuya' traduz-se como 'Avô sábio'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao revisar os elementos da cultura material e da língua.",
+              "enunciado": "A qual conceito o termo 'Tamuya' corresponde?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Avô sábio",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tamuya' é 'Avô sábio'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida de vocabulário de A Aldeia e a Organização Comunitária.",
+              "enunciado": "Selecione o equivalente correto para 'Tamuya':",
+              "payload": {
+                "opcoes": [
+                  "Avô sábio",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tamuya' corresponde a 'Avô sábio'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Prática comparativa de termos tradicionais.",
+              "enunciado": "Assinale a tradução precisa de 'Tamuya':",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Avô sábio",
+                  "Toca funda",
+                  "Céu nublado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tamuya' é 'Avô sábio'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: 'Abá okar pupé.'",
-          "texto_com_lacunas": "Abá okar pupé.",
+          "texto_com_lacunas": "Hetá ______.",
           "respostas_lacunas": [
             "Okar"
           ],
@@ -186,6 +513,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Okar"
+          ],
+          "respostas_corretas": [
+            "Okar"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sentença afirmativa sobre a presença de 'Okar' na comunidade.",
+              "enunciado": "Complete a frase: 'Hetá ______' (Há muito/muita Terreiro central):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______.",
+                "respostas_corretas": [
+                  "Okar"
+                ]
+              },
+              "explicacao": "'Okar' completa a oração existencial.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construindo frases sobre a vida cotidiana.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Terreiro central):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Okar"
+                ]
+              },
+              "explicacao": "'Okar' é o termo correto.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prática oral de conversação.",
+              "enunciado": "Qual termo completa: 'Ahecha ______'?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Okar"
+                ]
+              },
+              "explicacao": "'Okar' preenche o objeto.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão sintática com predicados nominais.",
+              "enunciado": "Insira o termo adequado: 'I katu a'e ______':",
+              "payload": {
+                "texto_com_lacunas": "I katu a'e ______.",
+                "respostas_corretas": [
+                  "Okar"
+                ]
+              },
+              "explicacao": "'Okar' é o substantivo qualificado.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -193,30 +585,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Okar'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Praça da aldeia"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Terreiro central",
+            "Flecha sem ponta",
+            "Rede rasgada",
+            "Cesto velho"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Okar",
           "explicacao": "'Okar' traduz-se fielmente como 'Praça da aldeia'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Okar"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exame da tradição lexical para o substantivo 'Okar'.",
+              "enunciado": "Qual é o significado de 'Okar'?",
+              "payload": {
+                "opcoes": [
+                  "Terreiro central",
+                  "Flecha sem ponta",
+                  "Rede rasgada",
+                  "Cesto velho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Okar' significa 'Terreiro central'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão da herança linguística dos povos ancestrais.",
+              "enunciado": "A qual conceito refere-se 'Okar'?",
+              "payload": {
+                "opcoes": [
+                  "Pedra pontiaguda",
+                  "Terreiro central",
+                  "Rio caudaloso",
+                  "Madeira queimada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Okar' é 'Terreiro central'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificação rápida no vocabulário de A Aldeia e a Organização Comunitária.",
+              "enunciado": "Assinale a tradução exata de 'Okar':",
+              "payload": {
+                "opcoes": [
+                  "Terreiro central",
+                  "Peixe seco",
+                  "Nuvem cinzenta",
+                  "Mata fechada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Okar' traduz-se por 'Terreiro central'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual opção define 'Okar'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa leve",
+                  "Terreiro central",
+                  "Arco flexível",
+                  "Toca de tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Okar' é 'Terreiro central'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -271,9 +725,9 @@
           "enunciado": "No contexto de 'A Aldeia e a Organização Comunitária', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Morubixaba",
-            "Motamuya",
-            "Teokar",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Morubixaba' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -281,7 +735,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -0.132,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre A Aldeia e a Organização Comunitária.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Morubixaba'?",
+              "payload": {
+                "opcoes": [
+                  "Morubixaba",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Morubixaba' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de A Aldeia e a Organização Comunitária.",
+              "enunciado": "Selecione o termo autêntico do módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Morubixaba",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Morubixaba' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente.",
+              "enunciado": "Qual termo representa a raiz aprendida em A Aldeia e a Organização Comunitária?",
+              "payload": {
+                "opcoes": [
+                  "Morubixaba",
+                  "Paraná",
+                  "Ybyrá",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Morubixaba' é o termo estudado.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -300,17 +810,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -0.032,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Tamuya"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Tamuya'.",
+              "enunciado": "Complete a locução: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Tamuya"
+                ]
+              },
+              "explicacao": "'Tamuya' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Está presente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Tamuya"
+                ]
+              },
+              "explicacao": "'Tamuya' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em A Aldeia e a Organização Comunitária.",
+              "enunciado": "Qual vocábulo preenche: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Tamuya"
+                ]
+              },
+              "explicacao": "'Tamuya' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Aldeia e a Organização Comunitária':",
           "opcoes": [
-            "Uso harmônico de 'Okar'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Morubixaba'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Okar' expressa a construção genuína documentada nas fontes clássicas.",
@@ -318,7 +879,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 0.118,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em A Aldeia e a Organização Comunitária.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Morubixaba'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Morubixaba'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Morubixaba' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de A Aldeia e a Organização Comunitária.",
+              "enunciado": "O que representa 'Morubixaba' na vida comunitária?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de A Aldeia e a Organização Comunitária",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico.",
+              "enunciado": "Qual afirmação sobre 'Morubixaba' é rigorosamente correta?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas",
+                  "É palavra inventada",
+                  "É termo de gíria moderna",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -326,9 +943,9 @@
           "enunciado": "Ao revisar as estruturas de A Aldeia e a Organização Comunitária, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -336,7 +953,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -0.132,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de excelência em A Aldeia e a Organização Comunitária.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou de qualidade' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades.",
+              "enunciado": "Para dizer que 'Morubixaba' é bom, qual palavra é posposta?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com positividade o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de A Aldeia e a Organização Comunitária.",
+              "enunciado": "Qual é a ordem correta para dizer 'Líder / Chefe bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu morubixaba",
+                  "Morubixaba katu",
+                  "Katu aíba",
+                  "Morubixaba poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o adjetivo atributivo: substantivo + katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -372,19 +1045,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 10:",
           "pares_corretos": {
-            "Morubixaba": "Chefe político e militar",
-            "Tamuya": "Ancião / Avô venerado",
-            "Okar": "Praça da aldeia"
+            "Morubixaba": "Chefe da aldeia",
+            "Tamuya": "Ancião guardião",
+            "Okar": "Pátio comunitário",
+            "Taba": "Aldeia fortificada"
           },
           "coluna_esquerda": [
             "Morubixaba",
             "Tamuya",
-            "Okar"
+            "Okar",
+            "Taba"
           ],
           "coluna_direita": [
-            "Chefe político e militar",
-            "Ancião / Avô venerado",
-            "Praça da aldeia"
+            "Ancião guardião",
+            "Pátio comunitário",
+            "Aldeia fortificada",
+            "Chefe da aldeia"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -393,11 +1069,158 @@
             "Morubixaba",
             "Tamuya",
             "Okar"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 10 (A Aldeia e a Organização Comunitária) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 10 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Aldeia fortificada",
+                  "Chefe da aldeia",
+                  "Ancião guardião",
+                  "Pátio comunitário"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Chefe da aldeia",
+                  "Tamuya": "Ancião guardião",
+                  "Okar": "Pátio comunitário",
+                  "Taba": "Aldeia fortificada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 10 (A Aldeia e a Organização Comunitária) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de A Aldeia e a Organização Comunitária com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Ancião guardião",
+                  "Pátio comunitário",
+                  "Aldeia fortificada",
+                  "Chefe da aldeia"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Chefe da aldeia",
+                  "Tamuya": "Ancião guardião",
+                  "Okar": "Pátio comunitário",
+                  "Taba": "Aldeia fortificada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 10 (A Aldeia e a Organização Comunitária) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Pátio comunitário",
+                  "Aldeia fortificada",
+                  "Chefe da aldeia",
+                  "Ancião guardião"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Chefe da aldeia",
+                  "Tamuya": "Ancião guardião",
+                  "Okar": "Pátio comunitário",
+                  "Taba": "Aldeia fortificada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 10 (A Aldeia e a Organização Comunitária) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Aldeia fortificada",
+                  "Pátio comunitário",
+                  "Chefe da aldeia",
+                  "Ancião guardião"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Chefe da aldeia",
+                  "Tamuya": "Ancião guardião",
+                  "Okar": "Pátio comunitário",
+                  "Taba": "Aldeia fortificada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 10 (A Aldeia e a Organização Comunitária) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Morubixaba",
+                  "Tamuya",
+                  "Okar",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Ancião guardião",
+                  "Chefe da aldeia",
+                  "Aldeia fortificada",
+                  "Pátio comunitário"
+                ],
+                "pares_corretos": {
+                  "Morubixaba": "Chefe da aldeia",
+                  "Tamuya": "Ancião guardião",
+                  "Okar": "Pátio comunitário",
+                  "Taba": "Aldeia fortificada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Morubixaba' para o Português:",
           "termo_fonte": "Morubixaba",
           "traducao_esperada": "Chefe político e militar",
@@ -406,6 +1229,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Morubixaba"
+          ],
+          "opcoes": [
+            "Líder / Chefe",
+            "Nuvem escura",
+            "Arco quebrado",
+            "Pedra do rio"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 10 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Morubixaba'?",
+              "payload": {
+                "opcoes": [
+                  "Líder / Chefe",
+                  "Nuvem de chuva",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Morubixaba' traduz-se fielmente por 'Líder / Chefe'.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos elementos essenciais que estruturam o domínio de A Aldeia e a Organização Comunitária.",
+              "enunciado": "A qual conceito o termo central 'Morubixaba' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Animal de toca",
+                  "Líder / Chefe",
+                  "Pássaro que canta",
+                  "Rio largo"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Morubixaba' é 'Líder / Chefe'.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração das conquistas de aprendizado na aldeia.",
+              "enunciado": "Se os guerreiros exclamam 'Morubixaba katu!', o que eles celebram?",
+              "payload": {
+                "opcoes": [
+                  "A presença e excelência de líder / chefe",
+                  "A aproximação da tempestade",
+                  "A perda das sementes",
+                  "A quebra da canoa"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Celebram a excelência de 'Líder / Chefe'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese conclusiva do Capítulo 10.",
+              "enunciado": "Em resumo definitivo, 'Morubixaba' simboliza:",
+              "payload": {
+                "opcoes": [
+                  "O elemento sagrado de líder / chefe",
+                  "A escuridão da noite fria",
+                  "O silêncio do pântano",
+                  "O combate corpo a corpo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Morubixaba' simboliza 'Líder / Chefe'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tupi_lingo/core/theme/app_theme.dart';
+import 'package:tupi_lingo/core/utils/stable_shuffle.dart';
 
 class MatchingColumnsView extends StatefulWidget {
   final List<dynamic> leftItems;
@@ -21,17 +22,73 @@ class MatchingColumnsView extends StatefulWidget {
 
 class _MatchingColumnsViewState extends State<MatchingColumnsView> {
   int? _selectedLeftIndex;
+  int? _selectedRightIndex;
   late Map<int, int> _associations;
+  late List<int> _displayRightIndices;
 
   static const Color _primary = Color(0xFFD08A45);
   static const Color _accent = Color(0xFF0E5D4E);
   static const Color _border = Color(0xFFD0D0D0);
   static const Color _subtitle = Color(0xFF565D6D);
 
+  static const List<Color> _pairPalette = [
+    Color(0xFF0E5D4E),
+    Color(0xFFD08A45),
+    Color(0xFF2C5E8A),
+    Color(0xFF8B4513),
+    Color(0xFF6B4423),
+    Color(0xFF386641),
+  ];
+
   @override
   void initState() {
     super.initState();
     _associations = Map<int, int>.from(widget.initialAssociations);
+    _initDisplayIndices();
+  }
+
+  void _initDisplayIndices() {
+    _displayRightIndices = StableShuffle.derangedIndices(widget.rightItems.length);
+  }
+
+  @override
+  void didUpdateWidget(covariant MatchingColumnsView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.rightItems.length != widget.rightItems.length ||
+        oldWidget.leftItems.length != widget.leftItems.length) {
+      _associations = Map<int, int>.from(widget.initialAssociations);
+      _selectedLeftIndex = null;
+      _selectedRightIndex = null;
+      _initDisplayIndices();
+    }
+  }
+
+  Color _getPairColor(int pairIndex) {
+    return _pairPalette[pairIndex % _pairPalette.length];
+  }
+
+  void _linkPair(int leftOriginalIdx, int rightOriginalIdx) {
+    setState(() {
+      _associations.removeWhere((k, v) => k == leftOriginalIdx || v == rightOriginalIdx);
+      _associations[leftOriginalIdx] = rightOriginalIdx;
+      _selectedLeftIndex = null;
+      _selectedRightIndex = null;
+      widget.onAssociationsChanged(_associations);
+    });
+  }
+
+  void _removeMatchForLeft(int leftIdx) {
+    setState(() {
+      _associations.remove(leftIdx);
+      widget.onAssociationsChanged(_associations);
+    });
+  }
+
+  void _removeMatchForRight(int rightIdx) {
+    setState(() {
+      _associations.removeWhere((_, v) => v == rightIdx);
+      widget.onAssociationsChanged(_associations);
+    });
   }
 
   @override
@@ -50,22 +107,26 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
             // Coluna da Esquerda
             Expanded(
               child: Column(
-                children: List.generate(widget.leftItems.length, (i) {
-                  final text = widget.leftItems[i].toString();
-                  final bool isSelected = _selectedLeftIndex == i;
-                  final bool isMatched = _associations.containsKey(i);
+                children: List.generate(widget.leftItems.length, (leftIdx) {
+                  final text = widget.leftItems[leftIdx].toString();
+                  final bool isSelected = _selectedLeftIndex == leftIdx;
+                  final bool isMatched = _associations.containsKey(leftIdx);
+                  final pairColor = isMatched ? _getPairColor(leftIdx) : _accent;
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          if (_selectedLeftIndex == i) {
-                            _selectedLeftIndex = null;
-                          } else {
-                            _selectedLeftIndex = i;
-                          }
-                        });
+                        if (_selectedRightIndex != null) {
+                          _linkPair(leftIdx, _selectedRightIndex!);
+                        } else if (isMatched) {
+                          _removeMatchForLeft(leftIdx);
+                        } else {
+                          setState(() {
+                            _selectedLeftIndex = (_selectedLeftIndex == leftIdx) ? null : leftIdx;
+                            _selectedRightIndex = null;
+                          });
+                        }
                       },
                       borderRadius: BorderRadius.circular(16),
                       child: Container(
@@ -74,14 +135,14 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
                           color: isSelected
                               ? _primary.withValues(alpha: 0.15)
                               : isMatched
-                                  ? _accent.withValues(alpha: 0.08)
+                                  ? pairColor.withValues(alpha: 0.10)
                                   : AppTheme.surface(context),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isSelected
                                 ? _primary
                                 : isMatched
-                                    ? _accent
+                                    ? pairColor
                                     : _border,
                             width: isSelected || isMatched ? 2 : 1,
                           ),
@@ -97,7 +158,7 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
                                   color: isSelected
                                       ? _primary
                                       : isMatched
-                                          ? _accent
+                                          ? pairColor
                                           : _subtitle,
                                 ),
                               ),
@@ -107,11 +168,11 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: _accent,
+                                  color: pairColor,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
-                                  '${i + 1}',
+                                  '${leftIdx + 1}',
                                   style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
                                 ),
                               ),
@@ -125,47 +186,58 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
               ),
             ),
             const SizedBox(width: 12),
-            // Coluna da Direita
+            // Coluna da Direita (Embaralhada com Derangement sem reembaralhar em cliques)
             Expanded(
               child: Column(
-                children: List.generate(widget.rightItems.length, (j) {
-                  final text = widget.rightItems[j].toString();
+                children: List.generate(widget.rightItems.length, (slotIdx) {
+                  final rightIdx = _displayRightIndices.length > slotIdx
+                      ? _displayRightIndices[slotIdx]
+                      : slotIdx;
+                  final text = widget.rightItems[rightIdx].toString();
+
                   int? matchedLeft;
                   for (final entry in _associations.entries) {
-                    if (entry.value == j) {
+                    if (entry.value == rightIdx) {
                       matchedLeft = entry.key;
                       break;
                     }
                   }
                   final bool isMatched = matchedLeft != null;
+                  final bool isSelected = _selectedRightIndex == rightIdx;
+                  final pairColor = isMatched ? _getPairColor(matchedLeft) : _accent;
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          if (_selectedLeftIndex != null) {
-                            _associations.removeWhere((k, v) => v == j);
-                            _associations[_selectedLeftIndex!] = j;
+                        if (_selectedLeftIndex != null) {
+                          _linkPair(_selectedLeftIndex!, rightIdx);
+                        } else if (isMatched) {
+                          _removeMatchForRight(rightIdx);
+                        } else {
+                          setState(() {
+                            _selectedRightIndex = (_selectedRightIndex == rightIdx) ? null : rightIdx;
                             _selectedLeftIndex = null;
-                            widget.onAssociationsChanged(_associations);
-                          } else if (isMatched) {
-                            _associations.remove(matchedLeft);
-                            widget.onAssociationsChanged(_associations);
-                          }
-                        });
+                          });
+                        }
                       },
                       borderRadius: BorderRadius.circular(16),
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
                         decoration: BoxDecoration(
-                          color: isMatched
-                              ? _accent.withValues(alpha: 0.08)
-                              : AppTheme.surface(context),
+                          color: isSelected
+                              ? _primary.withValues(alpha: 0.15)
+                              : isMatched
+                                  ? pairColor.withValues(alpha: 0.10)
+                                  : AppTheme.surface(context),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: isMatched ? _accent : _border,
-                            width: isMatched ? 2 : 1,
+                            color: isSelected
+                                ? _primary
+                                : isMatched
+                                    ? pairColor
+                                    : _border,
+                            width: isSelected || isMatched ? 2 : 1,
                           ),
                         ),
                         child: Row(
@@ -174,7 +246,7 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: _accent,
+                                  color: pairColor,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
@@ -190,7 +262,11 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: isMatched ? _accent : _subtitle,
+                                  color: isSelected
+                                      ? _primary
+                                      : isMatched
+                                          ? pairColor
+                                          : _subtitle,
                                 ),
                               ),
                             ),
@@ -208,3 +284,4 @@ class _MatchingColumnsViewState extends State<MatchingColumnsView> {
     );
   }
 }
+

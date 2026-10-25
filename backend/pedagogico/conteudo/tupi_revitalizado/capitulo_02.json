@@ -2,7 +2,7 @@
   "capitulo_numero": 2,
   "variante": "tupi_revitalizado",
   "titulo": "Capítulo 2: A Casa Comunal e a Família",
-  "descricao": "Domínio temático: Casa Parentesco. Conteúdo estritamente rastreável ao RAG.",
+  "descricao": "Domínio temático: Casa e Relações Familiares na Aldeia Viva. Habitação comunitária, espaços de convivência e laços de parentesco.",
   "nivel_cambridge_equivalente": "A1.1",
   "dificuldade_relativa_0_100": 10,
   "scenario": {
@@ -17,144 +17,351 @@
     {
       "numero": 1,
       "titulo": "Primeiros Encontros: Oka",
-      "descricao": "Apresentação e prática dos primeiros termos essenciais.",
+      "descricao": "Apresentação dos conceitos essenciais de moradia e comunidade: Oka, Taba e Abá.",
       "xp_base": 25,
       "bloco_ensino": {
         "tipo": "apresentacao_lexical",
         "itens_apresentados": [
           {
             "palavra": "Oka",
-            "traducao": "Casa / Habitação",
-            "transliteracao": "O-ka",
+            "traducao": "Casa / Habitação / Lar",
+            "transliteracao": "o-KA",
             "classe_gramatical": "substantivo",
             "categoria": "habitacao",
             "exemplo_uso": "Oka katu.",
-            "exemplo_pt": "Casa bela.",
+            "exemplo_pt": "Casa aconchegante / bela.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_88"
           },
           {
             "palavra": "Taba",
             "traducao": "Aldeia / Povoado",
-            "transliteracao": "TA-ba",
+            "transliteracao": "ta-BA",
             "classe_gramatical": "substantivo",
             "categoria": "comunidade",
             "exemplo_uso": "Yande taba.",
-            "exemplo_pt": "Nossa aldeia.",
+            "exemplo_pt": "Nossa aldeia viva.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_88"
           },
           {
             "palavra": "Abá",
-            "traducao": "Homem / Varão",
-            "transliteracao": "a-pi-GA-wa",
+            "traducao": "Homem / Varão / Pessoa da aldeia",
+            "transliteracao": "a-BA",
             "classe_gramatical": "substantivo",
             "categoria": "pessoas",
             "exemplo_uso": "Abá katu.",
-            "exemplo_pt": "Homem valoroso.",
+            "exemplo_pt": "Homem generoso.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_90"
           }
         ],
-        "dica_cultural": "Na cultura desta variante, 'Oka' possui grande relevância cotidiana."
+        "dica_cultural": "Nas aldeias do movimento de revitalização, a 'oka' tradicional convive com espaços modernos de aprendizado comunitário."
       },
       "exercicios": [
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Oka'?",
+          "enunciado": "No cotidiano de convivência comunitária em Tupi Revitalizado, o que significa a palavra 'Oka'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Casa / Habitação"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Casa / Habitação / Lar",
+            "Barco de madeira",
+            "Pássaro cantor",
+            "Estrela da manhã"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Oka",
-          "explicacao": "'Oka' significa 'Casa / Habitação' conforme atestado no RAG.",
+          "explicacao": "'Oka' designa a casa, lar familiar ou habitação comunitária.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.05,
+          "param_c": 0.25,
           "itens_alvo": [
             "Oka"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Um grupo de estudantes de arquitetura indígena visita a aldeia e desenha a planta baixa das moradias coletivas e familiares.",
+              "enunciado": "Na legenda principal dos desenhos que representam as casas, destaca-se o termo:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "'Oka' é a habitação ou casa.",
+              "payload": {
+                "opcoes": [
+                  "Casa / Habitação / Lar",
+                  "Barco de madeira",
+                  "Pássaro cantor",
+                  "Estrela da manhã"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao receber uma delegação de professores indígenas vizinhos, o anfitrião aponta para a entrada da casa de acolhimento.",
+              "enunciado": "Qual palavra em Tupi Revitalizado nomeia o espaço físico de moradia onde os convidados se acomodam?",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'Oka'.",
+              "payload": {
+                "opcoes": [
+                  "Oka",
+                  "Paranã",
+                  "Ybytu",
+                  "Kunumĩ"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Em um aplicativo educacional sobre sustentabilidade nas terras indígenas contemporâneas.",
+              "enunciado": "A expressão 'Oka katu' é usada pelos moradores para caracterizar:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Significa uma casa boa, acolhedora e saudável.",
+              "payload": {
+                "opcoes": [
+                  "Uma casa boa e acolhedora",
+                  "Um vendaval perigoso",
+                  "Uma trilha alagada",
+                  "Um rio com corredeiras"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Na oficina de sinalização bilíngue da aldeia, placas de madeira são entalhadas para indicar os setores do povoado.",
+              "enunciado": "Para indicar o setor residencial das moradias, os artesãos gravam a palavra:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "A palavra que indica casa é 'Oka'.",
+              "payload": {
+                "opcoes": [
+                  "Oka",
+                  "Taba",
+                  "Abá",
+                  "Inĩ"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         },
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Taba'?",
+          "enunciado": "Como se denomina a comunidade inteira ou povoado indígena em Tupi Revitalizado?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Aldeia / Povoado"
-            },
-            {
-              "letra": "B",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Taba",
+            "Pindoba",
+            "Manioka",
+            "Ka'a"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Taba",
-          "explicacao": "'Taba' significa 'Aldeia / Povoado' conforme atestado no RAG.",
+          "explicacao": "'Taba' é o substantivo empregado para aldeia ou povoado comunitário.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
           "itens_alvo": [
             "Taba"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O documentário comunitário gravado pelos jovens cineastas indígenas abre com imagens aéreas de drone sobre todo o povoado.",
+              "enunciado": "O locutor diz com emoção: 'Ko yande taba!'. O que ele está apresentando?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "Está apresentando 'Esta é a nossa aldeia!'.",
+              "payload": {
+                "opcoes": [
+                  "A aldeia / povoado comunitário",
+                  "A plantação de milho",
+                  "A praia de desembarque",
+                  "A rede de pesca do lago"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em uma assembleia territorial onde representantes de vários povos dialogam sobre demarcação e preservação.",
+              "enunciado": "Para referir-se à sua própria aldeia de origem com carinho e respeito, o orador emprega o termo:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Emprega 'Taba'.",
+              "payload": {
+                "opcoes": [
+                  "Taba",
+                  "Oka",
+                  "Inĩ",
+                  "Abá"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "No mapa interativo da página web desenvolvida pela associação das comunidades indígenas.",
+              "enunciado": "Ao clicar no ícone que agrupa todas as moradias e espaços comuns, o usuário encontra a definição de:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Representa 'Taba' (aldeia/povoado).",
+              "payload": {
+                "opcoes": [
+                  "Taba (aldeia / povoado)",
+                  "Oka (apenas uma casa individual)",
+                  "Paranã (o mar aberto)",
+                  "Ybytu (o vento forte)"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "A comunidade festeja a inauguração do centro cultural e o cacique saúda os visitantes: 'Katu koema yande taba pupé!'.",
+              "enunciado": "Essa saudação acolhedora significa em português:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Bom dia na nossa aldeia!'.",
+              "payload": {
+                "opcoes": [
+                  "Bom dia na nossa aldeia!",
+                  "Tenham cuidado na floresta!",
+                  "A reunião terminou cedo!",
+                  "Boa noite a todos os animais!"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
-          "enunciado": "Qual é o significado correto da palavra 'Abá'?",
+          "enunciado": "Em Tupi Revitalizado, a que indivíduo ou conceito social se refere a palavra 'Abá'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Homem / Varão"
-            },
-            {
-              "letra": "C",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Homem / Varão / Pessoa da comunidade",
+            "Árvore frutífera",
+            "Canoa de carga",
+            "Rio caudaloso"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Abá",
-          "explicacao": "'Abá' significa 'Homem / Varão' conforme atestado no RAG.",
+          "explicacao": "'Abá' é o vocábulo para homem, pessoa humana ou membro da coletividade.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.05,
+          "param_c": 0.25,
           "itens_alvo": [
             "Abá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Durante uma dinâmica de conversação na escola bilíngue, o professor pede que os alunos classifiquem substantivos referentes a seres humanos.",
+              "enunciado": "A palavra 'Abá' é corretamente classificada como:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "'Abá' designa o homem ou pessoa humana.",
+              "payload": {
+                "opcoes": [
+                  "Homem / Pessoa humana / Cidadão",
+                  "Planta medicinal nativa",
+                  "Armação de telhado de palha",
+                  "Instrumento musical de sopro"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No relato de um projeto comunitário de reflorestamento, os organizadores destacam o engajamento de todos os membros masculinos e femininos.",
+              "enunciado": "Para citar os homens que participaram ativamente do plantio das mudas, usa-se:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'Abá'.",
+              "payload": {
+                "opcoes": [
+                  "Abá",
+                  "Inĩ",
+                  "Taba",
+                  "Oka"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao ler uma crônica publicada no informativo digital da federação indígena sobre a ética e liderança dos anciãos.",
+              "enunciado": "A frase 'Abá marangatu' expressa:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Expressa um 'homem bondoso / íntegro'.",
+              "payload": {
+                "opcoes": [
+                  "Homem bondoso e íntegro",
+                  "Noite de vento frio",
+                  "Casa vazia e escura",
+                  "Rede rasgada e velha"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "No estudo da sintaxe das saudações diretas entre membros adultos da comunidade.",
+              "enunciado": "Para dizer com cordialidade 'Este homem é bom', a construção adequada é:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Diz-se 'Ko abá katu'.",
+              "payload": {
+                "opcoes": [
+                  "Ko abá katu",
+                  "Oka taba pupé",
+                  "Inĩ katu teité",
+                  "Aweté koema panhe"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         },
         {
           "ordem": 4,
           "tipo": "associacao",
-          "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
+          "enunciado": "Desafio do Espaço Comunitário: Conecte cada termo em Tupi Revitalizado ao seu significado correto:",
           "pares_corretos": {
-            "Oka": "Casa / Habitação",
+            "Oka": "Casa / Habitação / Lar",
             "Taba": "Aldeia / Povoado",
             "Abá": "Homem / Varão"
           },
@@ -164,17 +371,157 @@
             "Abá"
           ],
           "coluna_direita": [
-            "Casa / Habitação",
             "Aldeia / Povoado",
-            "Homem / Varão"
+            "Homem / Varão",
+            "Casa / Habitação / Lar"
           ],
-          "explicacao": "Pares baseados nos termos apresentados no início da lição.",
+          "explicacao": "Associação dos conceitos de moradia, aldeia e homem em Tupi Revitalizado.",
           "dificuldade": "facil",
           "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -1.0,
+          "param_c": 0.2,
           "itens_alvo": [
             "Oka",
             "Taba",
             "Abá"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No mural ilustrado da escola da floresta, as crianças organizam palavras em pares para facilitar a aprendizagem dos novos alunos.",
+              "enunciado": "Associe os termos aos seus conceitos correspondentes:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -1.0,
+              "param_c": 0.2,
+              "explicacao": "Oka = Casa; Taba = Aldeia; Abá = Homem.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Oka",
+                  "Taba",
+                  "Abá"
+                ],
+                "coluna_direita": [
+                  "Aldeia / Povoado",
+                  "Homem / Varão",
+                  "Casa / Habitação / Lar"
+                ],
+                "pares_corretos": {
+                  "Oka": "Casa / Habitação / Lar",
+                  "Taba": "Aldeia / Povoado",
+                  "Abá": "Homem / Varão"
+                }
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante um jogo de cartas temáticas sobre o território da comunidade indígena viva.",
+              "enunciado": "Conecte os conceitos para somar pontos de fixação:",
+              "dificuldade": "facil",
+              "param_a": 1.25,
+              "param_b": -0.9,
+              "param_c": 0.2,
+              "explicacao": "Pares com derangement garantido.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Taba",
+                  "Abá",
+                  "Oka"
+                ],
+                "coluna_direita": [
+                  "Homem / Varão",
+                  "Casa / Habitação / Lar",
+                  "Aldeia / Povoado"
+                ],
+                "pares_corretos": {
+                  "Taba": "Aldeia / Povoado",
+                  "Abá": "Homem / Varão",
+                  "Oka": "Casa / Habitação / Lar"
+                }
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Você prepara um pequeno panfleto de acolhimento para voluntários que chegam à aldeia para oficinas de agroecologia.",
+              "enunciado": "Ligue cada termo ao seu significado preciso em língua portuguesa:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.85,
+              "param_c": 0.2,
+              "explicacao": "Correspondência de termos comunitários.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Abá",
+                  "Oka",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Casa / Habitação / Lar",
+                  "Aldeia / Povoado",
+                  "Homem / Varão"
+                ],
+                "pares_corretos": {
+                  "Abá": "Homem / Varão",
+                  "Oka": "Casa / Habitação / Lar",
+                  "Taba": "Aldeia / Povoado"
+                }
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "No teste digital de fixação rápida antes de iniciar as noções de parentesco e família.",
+              "enunciado": "Correlacione os termos com velocidade e precisão:",
+              "dificuldade": "medio",
+              "param_a": 1.35,
+              "param_b": -0.75,
+              "param_c": 0.2,
+              "explicacao": "Fixação de termos fundamentais da Lição 1.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Taba",
+                  "Oka",
+                  "Abá"
+                ],
+                "coluna_direita": [
+                  "Casa / Habitação / Lar",
+                  "Homem / Varão",
+                  "Aldeia / Povoado"
+                ],
+                "pares_corretos": {
+                  "Taba": "Aldeia / Povoado",
+                  "Oka": "Casa / Habitação / Lar",
+                  "Abá": "Homem / Varão"
+                }
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Na roda de conversa com os professores para demonstrar segurança no vocabulário espacial.",
+              "enunciado": "Associe os pares sem cometer hesitações:",
+              "dificuldade": "dificil",
+              "param_a": 1.4,
+              "param_b": -0.65,
+              "param_c": 0.2,
+              "explicacao": "Consolidação de conceitos.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Oka",
+                  "Abá",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Homem / Varão",
+                  "Aldeia / Povoado",
+                  "Casa / Habitação / Lar"
+                ],
+                "pares_corretos": {
+                  "Oka": "Casa / Habitação / Lar",
+                  "Abá": "Homem / Varão",
+                  "Taba": "Aldeia / Povoado"
+                }
+              }
+            }
           ]
         }
       ],
@@ -184,13 +531,13 @@
           "Taba",
           "Abá"
         ],
-        "mensagem": "Você aprendeu estes termos essenciais antes de ser cobrado!"
+        "mensagem": "Excelente! Você aprendeu as bases do espaço e da convivência na aldeia contemporânea."
       }
     },
     {
       "numero": 2,
-      "titulo": "Aprofundando o Saber: Kunhã",
-      "descricao": "Construção de frases e expansão contextual do vocabulário.",
+      "titulo": "Aprofundando o Saber: Família e Convivência",
+      "descricao": "Termos de parentesco e conforto domiciliar: Kunhã (Mulher), Pai (Pai) e Inĩ (Rede de dormir).",
       "xp_base": 30,
       "bloco_ensino": {
         "tipo": "apresentacao_lexical",
@@ -202,17 +549,17 @@
             "classe_gramatical": "substantivo",
             "categoria": "pessoas",
             "exemplo_uso": "Kunhã katu.",
-            "exemplo_pt": "Mulher virtuosa.",
+            "exemplo_pt": "Mulher virtuosa / dedicada.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_90"
           },
           {
             "palavra": "Pai",
             "traducao": "Pai",
-            "transliteracao": "PAI",
+            "transliteracao": "pai",
             "classe_gramatical": "substantivo",
             "categoria": "parentesco",
             "exemplo_uso": "Se pai katu.",
-            "exemplo_pt": "Meu pai é bom.",
+            "exemplo_pt": "Meu pai é bom / amoroso.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_92"
           },
           {
@@ -222,149 +569,563 @@
             "classe_gramatical": "substantivo",
             "categoria": "utensilios",
             "exemplo_uso": "Inĩ oka rupi.",
-            "exemplo_pt": "Rede na casa.",
+            "exemplo_pt": "Rede armada na casa.",
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_95"
           }
         ],
-        "dica_cultural": "Observe a aplicação prática em frases autênticas retiradas do RAG."
+        "dica_cultural": "A tecelagem da rede de dormir ('inĩ') é uma tradição viva mantida com carinho pelas mulheres da comunidade."
       },
       "exercicios": [
         {
           "ordem": 1,
           "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
+          "enunciado": "Complete a frase que expressa a força e a virtude da mulher na comunidade:",
           "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Kunhã"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Kunhã' (Mulher).",
-          "dificuldade": "media",
+          "explicacao": "'Kunhã' significa mulher, formando 'Kunhã katu' (Mulher dedicada / virtuosa).",
+          "dificuldade": "facil",
           "pontos_base": 15,
+          "param_a": 1.15,
+          "param_b": -1.05,
+          "param_c": 0.25,
           "itens_alvo": [
             "Kunhã"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "A coordenadora da cooperativa de artesanato indígena organiza a produção de cestos e colares das famílias.",
+              "enunciado": "A liderança elogia a determinação da companheira dizendo: '______ katu.'",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "'Kunhã' é a palavra para mulher.",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_lacunas": [
+                  "Kunhã"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No festival de música indígena, uma jovem cantora entoa melodias de proteção territorial acompanhada por violão acústico.",
+              "enunciado": "Complete a frase de celebração do talento artístico: 'Opurahéi katu ko ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "'Ko kunhã' refere-se a 'esta mulher'.",
+              "payload": {
+                "texto_com_lacunas": "Opurahéi katu ko ______!",
+                "respostas_lacunas": [
+                  "kunhã"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao chegar à cozinha comunitária durante o preparo da tapioca fresca para o café matinal coletivo.",
+              "enunciado": "Preencha a lacuna com o substantivo feminino correto: 'Omoatĩ ko ______.'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'kunhã'.",
+              "payload": {
+                "texto_com_lacunas": "Omoatĩ ko ______.",
+                "respostas_lacunas": [
+                  "kunhã"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Saudando a professora comunitária que inicia o dia de aula com muito carinho para as crianças.",
+              "enunciado": "Complete a saudação com respeito e amizade: 'Katu koema, xe ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'kunhã' ('minha companheira / mulher').",
+              "payload": {
+                "texto_com_lacunas": "Katu koema, xe ______!",
+                "respostas_lacunas": [
+                  "kunhã"
+                ]
+              }
+            }
           ]
         },
         {
           "ordem": 2,
           "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Kunhã'?",
+          "enunciado": "Em Tupi Revitalizado, qual é a tradução de 'Kunhã'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Mulher"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Mulher",
+            "Mata densa",
+            "Canoa de pesca",
+            "Rio profundo"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Kunhã",
-          "explicacao": "'Kunhã' traduz-se fielmente como 'Mulher'.",
+          "explicacao": "'Kunhã' traduz-se fielmente por 'Mulher'.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
           "itens_alvo": [
             "Kunhã"
-          ]
-        },
-        {
-          "ordem": 2,
-          "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: 'Se pai katu.'",
-          "texto_com_lacunas": "Se pai katu.",
-          "respostas_lacunas": [
-            "Pai"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Pai' (Pai).",
-          "dificuldade": "media",
-          "pontos_base": 15,
-          "itens_alvo": [
-            "Pai"
-          ]
-        },
-        {
-          "ordem": 4,
-          "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Pai'?",
-          "opcoes": [
+          "versoes": [
             {
-              "letra": "A",
-              "texto": "Céu noturno"
+              "versao_numero": 1,
+              "contexto_cena": "Ao pesquisar sobre as palavras referentes a gênero nas produções linguísticas contemporâneas.",
+              "enunciado": "Qual alternativa traz a tradução correta de 'Kunhã'?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Mulher'.",
+              "payload": {
+                "opcoes": [
+                  "Mulher",
+                  "Mata densa",
+                  "Canoa de pesca",
+                  "Rio profundo"
+                ],
+                "resposta_correta": 0
+              }
             },
             {
-              "letra": "B",
-              "texto": "Grande rio"
+              "versao_numero": 2,
+              "contexto_cena": "No encontro de lideranças indígenas femininas de várias regiões do Brasil.",
+              "enunciado": "O lema da conferência é 'Kunhã Marangatu'. O que esse título destaca?",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Destaca a nobreza e dignidade das mulheres.",
+              "payload": {
+                "opcoes": [
+                  "A dignidade e nobreza das mulheres",
+                  "A velocidade dos ventos de tempestade",
+                  "A construção de estradas de asfalto",
+                  "A colheita de milho na seca"
+                ],
+                "resposta_correta": 0
+              }
             },
             {
-              "letra": "C",
-              "texto": "Pai"
+              "versao_numero": 3,
+              "contexto_cena": "Em um texto sobre a educação infantil nas comunidades originárias.",
+              "enunciado": "O termo oposto a 'Abá' (homem) no que tange a gênero adulto é:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "O termo correspondente é 'Kunhã'.",
+              "payload": {
+                "opcoes": [
+                  "Kunhã",
+                  "Inĩ",
+                  "Oka",
+                  "Taba"
+                ],
+                "resposta_correta": 0
+              }
             },
             {
-              "letra": "D",
-              "texto": "Terra firme"
+              "versao_numero": 4,
+              "contexto_cena": "Para diferenciar 'Kuñataĩ' (jovem menina) de 'Kunhã' (mulher adulta).",
+              "enunciado": "Qual é a distinção semântica essencial entre os dois termos?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Kuñataĩ' é a jovem mocinha/garota, enquanto 'Kunhã' designa a mulher adulta.",
+              "payload": {
+                "opcoes": [
+                  "'Kunhã' é a mulher adulta e 'Kuñataĩ' é a jovem garota",
+                  "'Kunhã' significa casa e 'Kuñataĩ' significa barco",
+                  "'Kunhã' é saudação noturna e 'Kuñataĩ' é matinal",
+                  "Ambas significam chuva torrencial sem diferença"
+                ],
+                "resposta_correta": 0
+              }
             }
-          ],
-          "resposta_correta": "C",
-          "resposta_correta_termo": "Pai",
-          "explicacao": "'Pai' traduz-se fielmente como 'Pai'.",
-          "dificuldade": "facil",
-          "pontos_base": 10,
-          "itens_alvo": [
-            "Pai"
           ]
         },
         {
           "ordem": 3,
           "tipo": "completar",
-          "enunciado": "Complete a frase com a palavra correta: '______ oka rupi.'",
+          "enunciado": "Complete a frase com o substantivo paternal em Tupi Revitalizado:",
+          "texto_com_lacunas": "Se ______ katu.",
+          "respostas_lacunas": [
+            "pai"
+          ],
+          "explicacao": "'Pai' é o termo corrente para pai na variante contemporânea, formando 'Se pai katu' (Meu pai é bom).",
+          "dificuldade": "medio",
+          "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.9,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Pai"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Um estudante fala com gratidão e orgulho sobre o pai que trabalha no manejo sustentável do açaí na aldeia.",
+              "enunciado": "Complete a homenagem filial: 'Se ______ katu.' (Meu pai é bom)",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'pai'.",
+              "payload": {
+                "texto_com_lacunas": "Se ______ katu.",
+                "respostas_lacunas": [
+                  "pai"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Apresentando os familiares aos visitantes que desembarcam na praia comunitária.",
+              "enunciado": "Preencha a frase de apresentação paterna: 'Ko abá ko se ______.'",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'pai'.",
+              "payload": {
+                "texto_com_lacunas": "Ko abá ko se ______.",
+                "respostas_lacunas": [
+                  "pai"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "No grupo de mensagens familiares pelo celular, a filha envia uma mensagem carinhosa ao pai no seu aniversário.",
+              "enunciado": "Complete o voto de felicidade: 'Katu koema, se ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "Dirige-se ao pai com 'pai'.",
+              "payload": {
+                "texto_com_lacunas": "Katu koema, se ______!",
+                "respostas_lacunas": [
+                  "pai"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "O agricultor ensina ao filho como semear sementes crioulas de milho na roça comunitária.",
+              "enunciado": "O narrador descreve a parceria: 'Oporavyky ko ______.'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'pai'.",
+              "payload": {
+                "texto_com_lacunas": "Oporavyky ko ______.",
+                "respostas_lacunas": [
+                  "pai"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "ordem": 4,
+          "tipo": "escolha_multipla",
+          "enunciado": "Qual relação familiar é expressa pelo termo 'Pai' em Tupi Revitalizado?",
+          "opcoes": [
+            "Pai",
+            "Irmão caçula",
+            "Sobrinho materno",
+            "Amigo de infância"
+          ],
+          "resposta_correta": 0,
+          "resposta_correta_termo": "Pai",
+          "explicacao": "'Pai' é o vocábulo utilizado para pai nas comunidades revitalizadas.",
+          "dificuldade": "facil",
+          "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Pai"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao preencher a ficha de matrícula escolar na secretaria da escola indígena da aldeia.",
+              "enunciado": "No campo de filiação paterna, a indicação do progenitor corresponde a:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "'Pai' traduz-se diretamente como 'Pai'.",
+              "payload": {
+                "opcoes": [
+                  "Pai",
+                  "Vizinho de terra",
+                  "Líder guerreiro",
+                  "Visitante distante"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em um texto sobre os laços de afeto e respeito nas famílias indígenas da atualidade.",
+              "enunciado": "A frase 'Se pai oîkó katu' significa em língua portuguesa:",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Meu pai vive bem / é saudável'.",
+              "payload": {
+                "opcoes": [
+                  "Meu pai vive bem / com saúde",
+                  "A canoa chegou ao porto",
+                  "A casa foi reformada",
+                  "A noite está fria"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Identificando o núcleo familiar na língua originária viva.",
+              "enunciado": "Ao lado de 'Kunhã' (mãe/mulher), qual termo completa os progenitores no lar?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "O termo é 'Pai'.",
+              "payload": {
+                "opcoes": [
+                  "Pai",
+                  "Inĩ",
+                  "Oka",
+                  "Taba"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Comparando a fonética das variantes linguísticas nas oficinas de formação de professores.",
+              "enunciado": "O termo 'Pai' na variante contemporânea corresponde semanticamente na variante histórica a:",
+              "dificuldade": "dificil",
+              "param_a": 1.35,
+              "param_b": -0.65,
+              "param_c": 0.25,
+              "explicacao": "Corresponde a 'Tuba'.",
+              "payload": {
+                "opcoes": [
+                  "Tuba (Pai)",
+                  "Sy (Mãe)",
+                  "Abá (Homem)",
+                  "Oka (Casa)"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
+        },
+        {
+          "ordem": 5,
+          "tipo": "completar",
+          "enunciado": "Complete a frase indicando a presença da rede na casa comunitária:",
           "texto_com_lacunas": "______ oka rupi.",
           "respostas_lacunas": [
             "Inĩ"
           ],
-          "explicacao": "A palavra que completa a sentença é 'Inĩ' (Rede de dormir).",
-          "dificuldade": "media",
+          "explicacao": "'Inĩ' é a rede de dormir, compondo 'Inĩ oka rupi' (A rede armada na casa).",
+          "dificuldade": "medio",
           "pontos_base": 15,
+          "param_a": 1.2,
+          "param_b": -0.9,
+          "param_c": 0.25,
           "itens_alvo": [
             "Inĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No calor da tarde, o jovem amarra sua rede entre os esteios da varanda arejada da oca para ler um livro da escola.",
+              "enunciado": "Complete a frase que localiza a esteira suspensa: '______ oka rupi.'",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "'Inĩ' é a rede de dormir.",
+              "payload": {
+                "texto_com_lacunas": "______ oka rupi.",
+                "respostas_lacunas": [
+                  "Inĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "A artesã expõe na feira de economia solidária uma rede tecida com fios de algodão colorido natural.",
+              "enunciado": "Complete o anúncio da peça de artesanato: 'Ko ______ katu teité!'",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'inĩ' (rede).",
+              "payload": {
+                "texto_com_lacunas": "Ko ______ katu teité!",
+                "respostas_lacunas": [
+                  "inĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Para oferecer um bom repouso ao visitante que viajou muitas horas de barco pelo rio.",
+              "enunciado": "O anfitrião aponta para o quarto de hóspedes e diz com hospitalidade: 'Eîur, ko se ______!'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Oferece a sua rede ('inĩ').",
+              "payload": {
+                "texto_com_lacunas": "Eîur, ko se ______!",
+                "respostas_lacunas": [
+                  "inĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "À noite, o canto de ninar das mães embala o balanço suave das crianças pequenas.",
+              "enunciado": "Preencha o termo do leito tradicional: 'Oker ______ pupé.'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "Dormem na rede ('inĩ pupé').",
+              "payload": {
+                "texto_com_lacunas": "Oker ______ pupé.",
+                "respostas_lacunas": [
+                  "inĩ"
+                ]
+              }
+            }
           ]
         },
         {
           "ordem": 6,
           "tipo": "escolha_multipla",
-          "enunciado": "Em Tupi Contemporaneo, como se traduz 'Inĩ'?",
+          "enunciado": "Em Tupi Revitalizado, o que designa o substantivo 'Inĩ'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "C",
-              "texto": "Rede de dormir"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Rede de dormir",
+            "Mesa de estudo",
+            "Cesto de palha",
+            "Arco de caça"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Inĩ",
-          "explicacao": "'Inĩ' traduz-se fielmente como 'Rede de dormir'.",
+          "explicacao": "'Inĩ' é a rede de dormir tradicional mantida viva no cotidiano das aldeias.",
           "dificuldade": "facil",
           "pontos_base": 10,
+          "param_a": 1.15,
+          "param_b": -1.1,
+          "param_c": 0.25,
           "itens_alvo": [
             "Inĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No catálogo fotográfico de patrimônio imaterial da comunidade indígena.",
+              "enunciado": "O verbete 'Inĩ' é ilustrado pela imagem de:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.1,
+              "param_c": 0.25,
+              "explicacao": "É ilustrado pela rede de dormir.",
+              "payload": {
+                "opcoes": [
+                  "Uma rede de dormir suspensa",
+                  "Um cesto de palha trançada",
+                  "Um colar de contas de açaí",
+                  "Uma canoa ancorada na areia"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao viajar para a aldeia para participar de um mutirão comunitário.",
+              "enunciado": "Para garantir uma noite tranquila de repouso, o que o visitante é orientado a levar em sua mochila?",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Leva sua 'Inĩ' (rede).",
+              "payload": {
+                "opcoes": [
+                  "Inĩ (rede de dormir)",
+                  "Paranã (o mar)",
+                  "Taba (a aldeia)",
+                  "Koema (a manhã)"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante a oficina de valorização do artesanato ancestral feminino.",
+              "enunciado": "A frase 'Kunhã omoapõ inĩ' significa:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Significa 'A mulher tece a rede de dormir'.",
+              "payload": {
+                "opcoes": [
+                  "A mulher tece a rede de dormir",
+                  "O homem conserta a cerca da aldeia",
+                  "A criança nada no grande rio",
+                  "O ancião acende a fogueira"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Identificando o papel da rede no bem-estar comunitário.",
+              "enunciado": "Qual adjetivo formador melhor se combina com 'Inĩ' para dizer 'rede confortável e acolhedora'?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Combina-se com 'katu' ('Inĩ katu').",
+              "payload": {
+                "opcoes": [
+                  "Inĩ katu",
+                  "Inĩ pytuna",
+                  "Inĩ koema",
+                  "Inĩ ybytu"
+                ],
+                "resposta_correta": 0
+              }
+            }
           ]
         }
       ],
@@ -374,13 +1135,13 @@
           "Pai",
           "Inĩ"
         ],
-        "mensagem": "Excelente! Cada frase praticada consolida sua fixação."
+        "mensagem": "Excelente! Cada termo de parentesco e conforto amplia sua familiaridade com o cotidiano da aldeia."
       }
     },
     {
       "numero": 3,
       "titulo": "Prática Adaptativa: A Casa Comunal e a Família",
-      "descricao": "Lição dinâmica gerada por inteligência artificial com foco no vocabulário e nas estruturas de A Casa Comunal e a Família.",
+      "descricao": "Lição dinâmica com inteligência psicométrica com foco no vocabulário de habitação, família e espaços da aldeia.",
       "xp_base": 30,
       "is_dynamic_ai": true,
       "ai_prompt_theme": "A Casa Comunal e a Família",
@@ -394,25 +1155,25 @@
       ],
       "bloco_ensino": {
         "tipo": "pratica_adaptativa_ia",
-        "dica_cultural": "Esta lição dinâmica utiliza inteligência artificial com curadoria das obras de Eduardo Navarro para desafiar seu domínio sobre 'A Casa Comunal e a Família'.",
+        "dica_cultural": "Esta lição integra os laços de parentesco e os espaços físicos na vida comunitária contemporânea.",
         "itens_apresentados": [
           {
             "palavra": "Oka",
-            "traducao": "Termo de consolidação",
-            "transliteracao": "oká",
-            "classe_gramatical": "vocabulo_chave",
+            "traducao": "Casa / Habitação",
+            "transliteracao": "oka",
+            "classe_gramatical": "substantivo",
             "categoria": "adaptativo_ia",
-            "exemplo_uso": "Oka katu!",
-            "exemplo_pt": "Uso contextual de Oka."
+            "exemplo_uso": "Oka pupé.",
+            "exemplo_pt": "Na casa / no lar."
           },
           {
             "palavra": "Taba",
-            "traducao": "Termo de consolidação",
+            "traducao": "Aldeia / Povoado",
             "transliteracao": "taba",
-            "classe_gramatical": "vocabulo_chave",
+            "classe_gramatical": "substantivo",
             "categoria": "adaptativo_ia",
-            "exemplo_uso": "Xe Taba!",
-            "exemplo_pt": "Uso contextual de Taba."
+            "exemplo_uso": "Taba pupé.",
+            "exemplo_pt": "Na aldeia."
           }
         ]
       },
@@ -420,82 +1181,399 @@
         {
           "ordem": 1,
           "tipo": "escolha_multipla",
-          "enunciado": "No contexto de 'A Casa Comunal e a Família', qual termo representa a forma canônica aprendida?",
+          "enunciado": "No contexto da organização comunitária indígena, qual termo representa a aldeia inteira?",
           "opcoes": [
-            "Oka",
-            "Motaba",
-            "Teabá",
-            "Kukunhã"
+            "Taba",
+            "Paranã",
+            "Ygapaba",
+            "Pindoba"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Oka' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
-          "dificuldade": "media",
+          "resposta_correta_termo": "Taba",
+          "explicacao": "'Taba' é a aldeia ou povoado comunitário.",
+          "dificuldade": "medio",
           "pontos_base": 15,
           "param_a": 1.2,
-          "param_b": -2.237,
-          "param_c": 0.25
+          "param_b": -0.85,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Taba",
+            "Oka"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao acessar o portal da comunidade indígena na internet, você vê a descrição de todas as famílias e serviços coletivos.",
+              "enunciado": "O termo principal utilizado para denominar todo o território do povoado é:",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Utiliza-se 'Taba'.",
+              "payload": {
+                "opcoes": [
+                  "Taba",
+                  "Paranã",
+                  "Ygapaba",
+                  "Pindoba"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante uma oficina de cartografia social com jovens da juventude indígena.",
+              "enunciado": "Para legendar a área central onde se encontram o centro comunitário, a escola e as casas, usa-se:",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Usa-se 'Taba'.",
+              "payload": {
+                "opcoes": [
+                  "Taba",
+                  "Inĩ",
+                  "Abá",
+                  "Koema"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O coordenador regional elogia a hospitalidade e a organização do povoado após um grande encontro esportivo.",
+              "enunciado": "Ele declara em tom solene: 'Ko taba oîkó katu!'. Isso significa:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Significa 'Esta aldeia vive bem / é próspera'.",
+              "payload": {
+                "opcoes": [
+                  "Esta aldeia vive bem e em harmonia",
+                  "O barco está pronto para zarpar",
+                  "A noite chegou com chuva forte",
+                  "Faltam redes para os hóspedes"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Para contrapor com clareza a casa familiar ('Oka') e o povoado como um todo ('Taba').",
+              "enunciado": "Qual afirmação sintetiza com exatidão a relação entre os dois conceitos?",
+              "dificuldade": "dificil",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "A 'taba' é o conjunto comunitário onde se situam as várias 'oka'.",
+              "payload": {
+                "opcoes": [
+                  "A taba é a aldeia inteira que abriga as diversas ocas da comunidade",
+                  "A oka é o rio e a taba é o mar aberto",
+                  "A taba é a rede de dormir e a oka a cerca externa",
+                  "Ambas significam canoa de madeira sem diferença"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         },
         {
           "ordem": 2,
           "tipo": "completar",
-          "enunciado": "Complete a sentença tradicional de A Casa Comunal e a Família: 'Xe ____ katu'.",
-          "frase_com_lacunas": "Xe _____ katu.",
-          "palavra_correta": "Taba",
-          "opcoes_banco": [
-            "Taba",
-            "Abá",
-            "Kunhã",
-            "abá"
+          "enunciado": "Complete a frase que celebra a harmonia da aldeia ou do lar:",
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_lacunas": [
+            "taba",
+            "oka"
           ],
-          "explicacao": "A estrutura correta com o pronome 'xe' é completada por 'Taba'.",
-          "dificuldade": "media",
+          "explicacao": "Completa-se com 'taba' (Minha aldeia é boa) ou 'oka' (Minha casa é boa).",
+          "dificuldade": "medio",
           "pontos_base": 15,
-          "param_a": 1.25,
-          "param_b": -2.137,
-          "param_c": 0.25
+          "param_a": 1.2,
+          "param_b": -0.85,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Taba",
+            "Oka"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Em uma apresentação de acolhimento aos participantes de uma conferência ambiental.",
+              "enunciado": "Complete a frase de boas-vindas: 'Xe ______ katu.' (Minha aldeia é acolhedora)",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'taba'.",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_lacunas": [
+                  "taba"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Acolhendo os parentes que chegam para o almoço de confraternização de domingo.",
+              "enunciado": "Complete a frase convidando para entrar: 'Eîur xe ______ pupé!'",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "Entrar em casa ('oka pupé').",
+              "payload": {
+                "texto_com_lacunas": "Eîur xe ______ pupé!",
+                "respostas_lacunas": [
+                  "oka"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao descrever onde o pai da família realiza o conserto das ferramentas comunitárias.",
+              "enunciado": "Preencha o local de convivência familiar: 'Se pai oîkó ______ pupé.'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25,
+              "explicacao": "Está na casa ('oka pupé').",
+              "payload": {
+                "texto_com_lacunas": "Se pai oîkó ______ pupé.",
+                "respostas_lacunas": [
+                  "oka"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Enaltecendo a conduta exemplar e generosa de um jovem cidadão da comunidade.",
+              "enunciado": "Complete a frase: 'Abá katu oîkó ______ pupé.'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "Vive na aldeia ('taba pupé').",
+              "payload": {
+                "texto_com_lacunas": "Abá katu oîkó ______ pupé.",
+                "respostas_lacunas": [
+                  "taba"
+                ]
+              }
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
-          "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Casa Comunal e a Família':",
+          "enunciado": "Identifique a correspondência correta entre os papéis sociais e familiares aprendidos:",
           "opcoes": [
-            "Uso harmônico de 'Abá'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "'Abá' é o homem, 'Kunhã' é a mulher e 'Pai' é o pai",
+            "'Inĩ' é a canoa e 'Taba' é a rede de dormir",
+            "'Oka' é o rio profundo e 'Abá' é a tempestade",
+            "'Kunhã' é o arco de caça e 'Pai' é a flecha"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Abá' expressa a construção genuína documentada nas fontes clássicas.",
-          "dificuldade": "dificil",
-          "pontos_base": 20,
-          "param_a": 1.3,
-          "param_b": -1.987,
-          "param_c": 0.25
+          "resposta_correta_termo": "Abá",
+          "explicacao": "'Abá' (homem/pessoa), 'Kunhã' (mulher) e 'Pai' (pai) compõem as relações sociais e familiares.",
+          "dificuldade": "medio",
+          "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -0.8,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Abá",
+            "Kunhã",
+            "Pai"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao preparar um quadro sinóptico dos termos sociais e familiares em Tupi Revitalizado.",
+              "enunciado": "Qual alternativa relaciona corretamente os três termos com suas respectivas definições?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Abá = homem, Kunhã = mulher, Pai = pai.",
+              "payload": {
+                "opcoes": [
+                  "'Abá' (homem), 'Kunhã' (mulher) e 'Pai' (pai)",
+                  "'Oka' (homem), 'Inĩ' (mulher) e 'Taba' (pai)",
+                  "'Pai' (mulher), 'Kunhã' (pai) e 'Abá' (rede)",
+                  "'Inĩ' (pai), 'Taba' (mãe) e 'Abá' (casa)"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em um relato sobre a divisão do trabalho solidário nas atividades cotidianas da aldeia.",
+              "enunciado": "Qual frase expressa que uma mulher dedicada está descansando na rede?",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "'Kunhã oîkó inĩ pupé' descreve a mulher na rede.",
+              "payload": {
+                "opcoes": [
+                  "Kunhã oîkó inĩ pupé",
+                  "Abá osyk taba guasu",
+                  "Pai oporavyky oka rupi",
+                  "Kunumĩ oker paranã"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao analisar a estrutura das sentenças locativas com a posposição 'pupé'.",
+              "enunciado": "Em 'Se pai oîkó oka pupé', qual informação é transmitida?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Informa que 'Meu pai está dentro de casa'.",
+              "payload": {
+                "opcoes": [
+                  "Meu pai está dentro de casa",
+                  "Meu pai viajou de canoa",
+                  "Minha mãe foi para o roçado",
+                  "A aldeia precisa de reforma"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Para reforçar o vocabulário de indivíduos adultos na comunidade.",
+              "enunciado": "Qual vocábulo forma o par complementar de 'Kunhã' ao citar pessoas adultas?",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "O par complementar é 'Abá'.",
+              "payload": {
+                "opcoes": [
+                  "Abá",
+                  "Oka",
+                  "Inĩ",
+                  "Taba"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         },
         {
           "ordem": 4,
           "tipo": "escolha_multipla",
-          "enunciado": "Ao revisar as estruturas de A Casa Comunal e a Família, qual é a forma adequada de expressar afirmação ou qualidade?",
+          "enunciado": "Ao revisar o mobiliário e os utensílios da habitação, como se descreve uma 'boa rede de descansar'?",
           "opcoes": [
-            "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Inĩ katu",
+            "Oka guasu",
+            "Taba mirĩ",
+            "Abá marangatu"
           ],
           "resposta_correta": 0,
-          "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
-          "dificuldade": "media",
+          "resposta_correta_termo": "Inĩ katu",
+          "explicacao": "'Inĩ katu' combina a rede de dormir ('inĩ') com o adjetivo de conforto ('katu').",
+          "dificuldade": "medio",
           "pontos_base": 15,
           "param_a": 1.2,
-          "param_b": -2.237,
-          "param_c": 0.25
+          "param_b": -0.9,
+          "param_c": 0.25,
+          "itens_alvo": [
+            "Inĩ",
+            "Katu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao final de um longo mutirão comunitário de colheita, você se deita em sua esteira suspensa e elogia o conforto.",
+              "enunciado": "Qual expressão em Tupi Revitalizado você deve pronunciar?",
+              "dificuldade": "facil",
+              "param_a": 1.15,
+              "param_b": -1.05,
+              "param_c": 0.25,
+              "explicacao": "Pronuncia 'Inĩ katu'.",
+              "payload": {
+                "opcoes": [
+                  "Inĩ katu",
+                  "Oka guasu",
+                  "Taba mirĩ",
+                  "Abá marangatu"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Uma feira de produtos tradicionais promove a valorização das peças têxteis trançadas à mão.",
+              "enunciado": "Para elogiar a tecelagem impecável de uma rede exposta na tenda, a cliente exclama:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Exclama 'Inĩ katu teité!'.",
+              "payload": {
+                "opcoes": [
+                  "Inĩ katu teité!",
+                  "Taba ro’ysã!",
+                  "Paranã guasu!",
+                  "Oka pytuna!"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na composição de uma legenda para o álbum digital de fotografias da aldeia.",
+              "enunciado": "A frase 'Inĩ oka rupi' traduz-se fielmente como:",
+              "dificuldade": "medio",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25,
+              "explicacao": "Traduz-se como 'A rede armada na casa'.",
+              "payload": {
+                "opcoes": [
+                  "A rede armada na casa",
+                  "O barco ancorado no lago",
+                  "A fogueira acesa no pátio",
+                  "O caminho no meio da mata"
+                ],
+                "resposta_correta": 0
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ao organizar o inventário de bens e construções físicas do povoado.",
+              "enunciado": "Qual conjunto relaciona exclusivamente elementos materiais e construtivos do Capítulo 2?",
+              "dificuldade": "dificil",
+              "param_a": 1.35,
+              "param_b": -0.7,
+              "param_c": 0.25,
+              "explicacao": "'Oka' (habitação), 'Taba' (aldeia) e 'Inĩ' (rede) compõem a cultura material e espacial.",
+              "payload": {
+                "opcoes": [
+                  "Oka, Taba e Inĩ",
+                  "Abá, Kunhã e Pai",
+                  "Paranã, Ybytu e Itá",
+                  "Kunumĩ, Kuñataĩ e Ygapaba"
+                ],
+                "resposta_correta": 0
+              }
+            }
+          ]
         }
       ]
     },
     {
       "numero": 4,
       "titulo": "Consolidação e Desafio da Aldeia",
-      "descricao": "Revisão adaptativa integrando todos os itens ensinados no capítulo.",
+      "descricao": "Revisão adaptativa integrando todos os itens ensinados sobre o habitat e a vida comunitária.",
       "xp_base": 35,
       "bloco_ensino": {
         "tipo": "revisao_sintese",
@@ -531,52 +1609,327 @@
             "rag_id": "c91d78e766850e39a5e3270cedfd79fdcb99c37bbff45ac46fa3bd22e4b60da8_chunk_95"
           }
         ],
-        "dica_cultural": "Esta lição reúne o vocabulário da jornada até aqui para selar seu aprendizado."
+        "dica_cultural": "A consolidação destes termos sela sua autonomia para se orientar e conversar sobre o lar e as relações comunitárias."
       },
       "exercicios": [
         {
           "ordem": 1,
           "tipo": "associacao",
-          "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 2:",
+          "enunciado": "Desafio da Aldeia: Correlacione os termos centrais do Capítulo 2 à sua tradução correspondente:",
           "pares_corretos": {
             "Oka": "Casa / Habitação",
             "Taba": "Aldeia / Povoado",
-            "Abá": "Homem / Varão",
-            "Kunhã": "Mulher"
+            "Kunhã": "Mulher",
+            "Inĩ": "Rede de dormir"
           },
           "coluna_esquerda": [
             "Oka",
             "Taba",
-            "Abá",
-            "Kunhã"
+            "Kunhã",
+            "Inĩ"
           ],
           "coluna_direita": [
-            "Casa / Habitação",
             "Aldeia / Povoado",
-            "Homem / Varão",
+            "Rede de dormir",
+            "Casa / Habitação",
             "Mulher"
           ],
-          "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
-          "dificuldade": "media",
+          "explicacao": "Revisão geral dos conceitos fundamentais apresentados ao longo do Capítulo 2 em Tupi Revitalizado.",
+          "dificuldade": "medio",
           "pontos_base": 20,
+          "param_a": 1.3,
+          "param_b": -0.85,
+          "param_c": 0.2,
           "itens_alvo": [
             "Oka",
             "Taba",
-            "Abá",
-            "Kunhã"
+            "Kunhã",
+            "Inĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No aplicativo pedagógico da comunidade, uma atividade de ligação testa seus reflexos sobre o vocabulário da casa e da aldeia.",
+              "enunciado": "Conecte cada vocábulo em Tupi Revitalizado ao seu significado correto:",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.9,
+              "param_c": 0.2,
+              "explicacao": "Oka = Casa; Taba = Aldeia; Kunhã = Mulher; Inĩ = Rede.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Oka",
+                  "Taba",
+                  "Kunhã",
+                  "Inĩ"
+                ],
+                "coluna_direita": [
+                  "Aldeia / Povoado",
+                  "Rede de dormir",
+                  "Casa / Habitação",
+                  "Mulher"
+                ],
+                "pares_corretos": {
+                  "Oka": "Casa / Habitação",
+                  "Taba": "Aldeia / Povoado",
+                  "Kunhã": "Mulher",
+                  "Inĩ": "Rede de dormir"
+                }
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante um jogo de cartas interativo no centro cultural com os estudantes de Tupi Revitalizado.",
+              "enunciado": "Ligue cada conceito originário à sua definição em português:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.8,
+              "param_c": 0.2,
+              "explicacao": "Pares com derangement garantido na coluna direita.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Taba",
+                  "Inĩ",
+                  "Oka",
+                  "Kunhã"
+                ],
+                "coluna_direita": [
+                  "Rede de dormir",
+                  "Casa / Habitação",
+                  "Mulher",
+                  "Aldeia / Povoado"
+                ],
+                "pares_corretos": {
+                  "Taba": "Aldeia / Povoado",
+                  "Inĩ": "Rede de dormir",
+                  "Oka": "Casa / Habitação",
+                  "Kunhã": "Mulher"
+                }
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na gincana de consolidação de vocabulário básico com jovens monitores da escola da aldeia.",
+              "enunciado": "Una os pares com velocidade e precisão para conquistar pontos de maestria:",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.85,
+              "param_c": 0.2,
+              "explicacao": "Associação de termos espaciais e sociais.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kunhã",
+                  "Oka",
+                  "Inĩ",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Casa / Habitação",
+                  "Aldeia / Povoado",
+                  "Mulher",
+                  "Rede de dormir"
+                ],
+                "pares_corretos": {
+                  "Kunhã": "Mulher",
+                  "Oka": "Casa / Habitação",
+                  "Inĩ": "Rede de dormir",
+                  "Taba": "Aldeia / Povoado"
+                }
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Você elabora fichas ilustradas para apoiar novos voluntários que chegam à comunidade.",
+              "enunciado": "Correlacione os termos para garantir a fidelidade do guia de acolhimento:",
+              "dificuldade": "dificil",
+              "param_a": 1.35,
+              "param_b": -0.75,
+              "param_c": 0.2,
+              "explicacao": "Fixação de termos fundamentais com derangement estrito.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Inĩ",
+                  "Kunhã",
+                  "Taba",
+                  "Oka"
+                ],
+                "coluna_direita": [
+                  "Mulher",
+                  "Aldeia / Povoado",
+                  "Casa / Habitação",
+                  "Rede de dormir"
+                ],
+                "pares_corretos": {
+                  "Inĩ": "Rede de dormir",
+                  "Kunhã": "Mulher",
+                  "Taba": "Aldeia / Povoado",
+                  "Oka": "Casa / Habitação"
+                }
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "No desafio final contra o tempo no aplicativo para demonstrar prontidão linguística.",
+              "enunciado": "Associe rapidamente os elementos da comunidade e do lar:",
+              "dificuldade": "dificil",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.2,
+              "explicacao": "Consolidação de conceitos.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Oka",
+                  "Inĩ",
+                  "Kunhã",
+                  "Taba"
+                ],
+                "coluna_direita": [
+                  "Rede de dormir",
+                  "Aldeia / Povoado",
+                  "Casa / Habitação",
+                  "Mulher"
+                ],
+                "pares_corretos": {
+                  "Oka": "Casa / Habitação",
+                  "Inĩ": "Rede de dormir",
+                  "Kunhã": "Mulher",
+                  "Taba": "Aldeia / Povoado"
+                }
+              }
+            },
+            {
+              "versao_numero": 6,
+              "contexto_cena": "Na rodada final de verificação de maestria do primeiro ciclo de estudos de Tupi Revitalizado.",
+              "enunciado": "Conecte os conceitos com precisão absoluta para validar seu aprendizado:",
+              "dificuldade": "dificil",
+              "param_a": 1.45,
+              "param_b": -0.65,
+              "param_c": 0.2,
+              "explicacao": "Maestria no vocabulário de habitação e parentesco.",
+              "payload": {
+                "coluna_esquerda": [
+                  "Taba",
+                  "Oka",
+                  "Inĩ",
+                  "Kunhã"
+                ],
+                "coluna_direita": [
+                  "Casa / Habitação",
+                  "Rede de dormir",
+                  "Mulher",
+                  "Aldeia / Povoado"
+                ],
+                "pares_corretos": {
+                  "Taba": "Aldeia / Povoado",
+                  "Oka": "Casa / Habitação",
+                  "Inĩ": "Rede de dormir",
+                  "Kunhã": "Mulher"
+                }
+              }
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
-          "enunciado": "Traduza a palavra 'Oka' para o Português:",
-          "termo_fonte": "Oka",
-          "traducao_esperada": "Casa / Habitação",
-          "explicacao": "'Oka' significa 'Casa / Habitação'.",
-          "dificuldade": "media",
+          "tipo": "completar",
+          "enunciado": "Complete a frase completando o substantivo de moradia ou parentesco que sela o aprendizado do capítulo:",
+          "texto_com_lacunas": "Oka pupé oîkó se ______.",
+          "respostas_lacunas": [
+            "pai"
+          ],
+          "explicacao": "Fixação de 'Oka pupé oîkó se pai' (Meu pai está dentro de casa).",
+          "dificuldade": "medio",
           "pontos_base": 15,
+          "param_a": 1.25,
+          "param_b": -0.85,
+          "param_c": 0.25,
           "itens_alvo": [
-            "Oka"
+            "Pai",
+            "Oka",
+            "Kunhã",
+            "Inĩ"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao voltar para a aldeia após as tarefas da manhã, o rapaz encontra o pai descansando na sala da casa.",
+              "enunciado": "Complete a frase com o substantivo paternal: 'Oka pupé oîkó se ______.'",
+              "dificuldade": "facil",
+              "param_a": 1.2,
+              "param_b": -0.95,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'pai'.",
+              "payload": {
+                "texto_com_lacunas": "Oka pupé oîkó se ______.",
+                "respostas_lacunas": [
+                  "pai"
+                ]
+              }
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Enaltecendo a liderança e a dedicação da mulher que coordena os trabalhos de acolhimento comunitário.",
+              "enunciado": "Complete a frase descritiva: 'Ko ______ oporavyky katu.'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "'Ko kunhã' refere-se à mulher dedicada.",
+              "payload": {
+                "texto_com_lacunas": "Ko ______ oporavyky katu.",
+                "respostas_lacunas": [
+                  "kunhã"
+                ]
+              }
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Destacando a esteira suspensa onde o visitante se acomoda confortavelmente após a viagem.",
+              "enunciado": "Complete a oração indicando o utensílio de descanso: 'Oka pupé oĩ se ______ katu.'",
+              "dificuldade": "medio",
+              "param_a": 1.25,
+              "param_b": -0.85,
+              "param_c": 0.25,
+              "explicacao": "Completa-se com 'inĩ' (rede).",
+              "payload": {
+                "texto_com_lacunas": "Oka pupé oĩ se ______ katu.",
+                "respostas_lacunas": [
+                  "inĩ"
+                ]
+              }
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "A liderança comunitária discursa na assembleia enaltecendo a unidade e a força de todo o território.",
+              "enunciado": "Preencha o termo que define a grande comunidade: 'Ko ______ oiko katu.'",
+              "dificuldade": "medio",
+              "param_a": 1.3,
+              "param_b": -0.75,
+              "param_c": 0.25,
+              "explicacao": "Refere-se à 'taba' (aldeia).",
+              "payload": {
+                "texto_com_lacunas": "Ko ______ oiko katu.",
+                "respostas_lacunas": [
+                  "taba"
+                ]
+              }
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "O anfitrião abre a porta da casa e acolhe os novos amigos com um sorriso generoso.",
+              "enunciado": "Complete a fala de hospitalidade: 'Eîur se ______ pupé!'",
+              "dificuldade": "dificil",
+              "param_a": 1.35,
+              "param_b": -0.65,
+              "param_c": 0.25,
+              "explicacao": "Acolhe em sua casa ('oka pupé').",
+              "payload": {
+                "texto_com_lacunas": "Eîur se ______ pupé!",
+                "respostas_lacunas": [
+                  "oka"
+                ]
+              }
+            }
           ]
         }
       ],
@@ -589,10 +1942,10 @@
           "Pai",
           "Inĩ"
         ],
-        "mensagem": "Parabéns! Você completou com maestria o Capítulo 2 de Tupi Contemporaneo."
+        "mensagem": "Parabéns! Você completou com maestria o Capítulo 2 de Tupi Revitalizado."
       }
     }
   ],
   "total_licoes": 4,
-  "total_exercicios": 12
+  "total_exercicios": 16
 }

@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Moitará'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "C",
-              "texto": "Troca de bens / Aliança"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Feira de Troca Solidária",
+            "Nuvem cinzenta",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Moitará",
           "explicacao": "'Moitará' significa 'Troca de bens / Aliança' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Moitará"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Durante o encontro interaldeias onde se trocam sementes nativas, esteiras tecidas e artesanato de sementes.",
+              "enunciado": "Ao estudar o tema culminante 'Os Povos Vizinhos e o Escambo', qual é o significado de 'Moitará'?",
+              "payload": {
+                "opcoes": [
+                  "Feira de Troca Solidária",
+                  "Nuvem cinzenta",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Moitará' traduz-se fielmente por 'Feira de Troca Solidária'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em reflexão com as lideranças e sábios sobre Os Povos Vizinhos e o Escambo.",
+              "enunciado": "Qual conceito sagrado e histórico em Tupi Revitalizado é expresso por 'Moitará'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Feira de Troca Solidária",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Moitará' refere-se a 'Feira de Troca Solidária'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na oratória solene perante toda a comunidade reunida.",
+              "enunciado": "Ao proclamar a força de 'Moitará', a que realidade sublime o orador se reporta?",
+              "payload": {
+                "opcoes": [
+                  "Feira de Troca Solidária",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Reporta-se com reverência a 'Feira de Troca Solidária'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão formal da tradição dos antepassados.",
+              "enunciado": "Assinale a alternativa que traduz com rigor etnolinguístico 'Moitará':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Feira de Troca Solidária",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Moitará' é 'Feira de Troca Solidária'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Moitará": "Troca de bens / Aliança"
+            "Moitará": "Troca tradicional comunitária",
+            "Me'eng": "Compartilhar bens",
+            "Tekoha": "Território compartilhado"
           },
           "coluna_esquerda": [
-            "Moitará"
+            "Moitará",
+            "Me'eng",
+            "Tekoha"
           ],
           "coluna_direita": [
-            "Troca de bens / Aliança"
+            "Compartilhar bens",
+            "Território compartilhado",
+            "Troca tradicional comunitária"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Moitará"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre Os Povos Vizinhos e o Escambo (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha"
+                ],
+                "coluna_direita": [
+                  "Compartilhar bens",
+                  "Território compartilhado",
+                  "Troca tradicional comunitária"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Troca tradicional comunitária",
+                  "Me'eng": "Compartilhar bens",
+                  "Tekoha": "Território compartilhado"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre Os Povos Vizinhos e o Escambo (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de Os Povos Vizinhos e o Escambo com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha"
+                ],
+                "coluna_direita": [
+                  "Território compartilhado",
+                  "Troca tradicional comunitária",
+                  "Compartilhar bens"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Troca tradicional comunitária",
+                  "Me'eng": "Compartilhar bens",
+                  "Tekoha": "Território compartilhado"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre Os Povos Vizinhos e o Escambo (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha"
+                ],
+                "coluna_direita": [
+                  "Compartilhar bens",
+                  "Território compartilhado",
+                  "Troca tradicional comunitária"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Troca tradicional comunitária",
+                  "Me'eng": "Compartilhar bens",
+                  "Tekoha": "Território compartilhado"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre Os Povos Vizinhos e o Escambo (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha"
+                ],
+                "coluna_direita": [
+                  "Território compartilhado",
+                  "Troca tradicional comunitária",
+                  "Compartilhar bens"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Troca tradicional comunitária",
+                  "Me'eng": "Compartilhar bens",
+                  "Tekoha": "Território compartilhado"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre Os Povos Vizinhos e o Escambo (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha"
+                ],
+                "coluna_direita": [
+                  "Compartilhar bens",
+                  "Território compartilhado",
+                  "Troca tradicional comunitária"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Troca tradicional comunitária",
+                  "Me'eng": "Compartilhar bens",
+                  "Tekoha": "Território compartilhado"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -121,7 +321,7 @@
           "ordem": 1,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: 'A-me'eng manioka.'",
-          "texto_com_lacunas": "A-me'eng manioka.",
+          "texto_com_lacunas": "______ katu.",
           "respostas_lacunas": [
             "Me'eng"
           ],
@@ -130,6 +330,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Me'eng"
+          ],
+          "respostas_corretas": [
+            "Me'eng"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Invocando o conceito sagrado de 'Me'eng' perante a natureza viva.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Oferecer generosamente bom/nobre):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Me'eng"
+                ]
+              },
+              "explicacao": "'Me'eng' completa a oração com solenidade e exatidão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Expressando respeito às forças da ancestralidade.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Oferecer generosamente):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Me'eng"
+                ]
+              },
+              "explicacao": "'Me'eng' afirma a presença da entidade ou elemento.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração comunitária da cultura e memória.",
+              "enunciado": "Qual termo completa a oração afirmativa: 'Ahecha ______' (Eu contemplo Oferecer generosamente)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Me'eng"
+                ]
+              },
+              "explicacao": "'Me'eng' é o objeto da visão sagrada.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ensinamento dos guardiões da memória.",
+              "enunciado": "Insira a palavra canônica na oração: 'I porang ______':",
+              "payload": {
+                "texto_com_lacunas": "I porang ______.",
+                "respostas_corretas": [
+                  "Me'eng"
+                ]
+              },
+              "explicacao": "'Me'eng' é o núcleo enaltecido na frase.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -137,30 +402,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Contemporaneo, como se traduz 'Me'eng'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "B",
-              "texto": "Dar / Doar"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Oferecer generosamente",
+            "Canoa furada",
+            "Vento frio",
+            "Rio lamacento"
           ],
-          "resposta_correta": "B",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Me'eng",
           "explicacao": "'Me'eng' traduz-se fielmente como 'Dar / Doar'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Me'eng"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo dos fundamentos lexicais sobre 'Me'eng'.",
+              "enunciado": "Qual é o significado de 'Me'eng' no contexto tradicional de Os Povos Vizinhos e o Escambo?",
+              "payload": {
+                "opcoes": [
+                  "Oferecer generosamente",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio lamacento"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Me'eng' traduz-se como 'Oferecer generosamente'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao rememorar as palavras de grande valor em Os Povos Vizinhos e o Escambo.",
+              "enunciado": "A qual conceito o termo 'Me'eng' se reporta em Tupi Revitalizado?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Oferecer generosamente",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Me'eng' refere-se a 'Oferecer generosamente'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação e diálogo com os mais velhos.",
+              "enunciado": "Selecione o equivalente exato para 'Me'eng':",
+              "payload": {
+                "opcoes": [
+                  "Oferecer generosamente",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Me'eng' corresponde a 'Oferecer generosamente'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual alternativa traduz 'Me'eng' com máxima autenticidade?",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Oferecer generosamente",
+                  "Toca funda",
+                  "Céu cinzento"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Me'eng' traduz-se como 'Oferecer generosamente'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -213,9 +540,9 @@
           "enunciado": "No contexto de 'Os Povos Vizinhos e o Escambo', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Moitará",
-            "Mome'eng",
-            "Teaué",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Moitará' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -223,7 +550,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 1.711,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre Os Povos Vizinhos e o Escambo.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Moitará'?",
+              "payload": {
+                "opcoes": [
+                  "Moitará",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Moitará' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de Os Povos Vizinhos e o Escambo.",
+              "enunciado": "Selecione o termo autêntico e consagrado deste módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Moitará",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Moitará' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente de vocabulário.",
+              "enunciado": "Qual termo representa o conceito primordial estudado em Os Povos Vizinhos e o Escambo?",
+              "payload": {
+                "opcoes": [
+                  "Moitará",
+                  "Paraná",
+                  "Ywyra",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Moitará' é o termo fundamental de Os Povos Vizinhos e o Escambo.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -242,17 +625,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 1.811,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Me'eng"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Me'eng'.",
+              "enunciado": "Complete a locução solene: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Me'eng"
+                ]
+              },
+              "explicacao": "'Me'eng' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva em contextos rituais.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Afirmação de presença):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Me'eng"
+                ]
+              },
+              "explicacao": "'Me'eng' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em Os Povos Vizinhos e o Escambo.",
+              "enunciado": "Qual vocábulo preenche com exatidão: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Me'eng"
+                ]
+              },
+              "explicacao": "'Me'eng' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'Os Povos Vizinhos e o Escambo':",
           "opcoes": [
-            "Uso harmônico de 'Aué'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Moitará'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Aué' expressa a construção genuína documentada nas fontes clássicas.",
@@ -260,7 +694,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 1.961,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em Os Povos Vizinhos e o Escambo.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Moitará'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Moitará'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Moitará' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de Os Povos Vizinhos e o Escambo.",
+              "enunciado": "O que representa 'Moitará' na memória coletiva dos povos?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de Os Povos Vizinhos e o Escambo",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico de Os Povos Vizinhos e o Escambo.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico e histórico.",
+              "enunciado": "Qual afirmação sobre 'Moitará' é historicamente exata?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas e orais",
+                  "É palavra inventada",
+                  "É gíria recente",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas e orais.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -268,9 +758,9 @@
           "enunciado": "Ao revisar as estruturas de Os Povos Vizinhos e o Escambo, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -278,7 +768,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 1.711,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de nobreza e bondade em Os Povos Vizinhos e o Escambo.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou sagrado' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades superiores.",
+              "enunciado": "Para qualificar positivamente 'Moitará', qual raiz é adicionada?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com elevação o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de louvor.",
+              "enunciado": "Qual é a ordem correta para dizer 'Feira de Troca Solidária bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu moitará",
+                  "Moitará katu",
+                  "Katu aíba",
+                  "Moitará poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o modificador atributivo.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -309,16 +855,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 17:",
           "pares_corretos": {
-            "Moitará": "Troca de bens / Aliança",
-            "Me'eng": "Dar / Doar"
+            "Moitará": "Escambo solidário",
+            "Me'eng": "Doação mútua",
+            "Tekoha": "Chão comunitário",
+            "Parente": "Povo irmão"
           },
           "coluna_esquerda": [
             "Moitará",
-            "Me'eng"
+            "Me'eng",
+            "Tekoha",
+            "Parente"
           ],
           "coluna_direita": [
-            "Troca de bens / Aliança",
-            "Dar / Doar"
+            "Doação mútua",
+            "Chão comunitário",
+            "Povo irmão",
+            "Escambo solidário"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -326,11 +878,158 @@
           "itens_alvo": [
             "Moitará",
             "Me'eng"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 17 (Os Povos Vizinhos e o Escambo) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 17 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha",
+                  "Parente"
+                ],
+                "coluna_direita": [
+                  "Povo irmão",
+                  "Escambo solidário",
+                  "Doação mútua",
+                  "Chão comunitário"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Escambo solidário",
+                  "Me'eng": "Doação mútua",
+                  "Tekoha": "Chão comunitário",
+                  "Parente": "Povo irmão"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 17 (Os Povos Vizinhos e o Escambo) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de Os Povos Vizinhos e o Escambo com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha",
+                  "Parente"
+                ],
+                "coluna_direita": [
+                  "Doação mútua",
+                  "Chão comunitário",
+                  "Povo irmão",
+                  "Escambo solidário"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Escambo solidário",
+                  "Me'eng": "Doação mútua",
+                  "Tekoha": "Chão comunitário",
+                  "Parente": "Povo irmão"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 17 (Os Povos Vizinhos e o Escambo) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha",
+                  "Parente"
+                ],
+                "coluna_direita": [
+                  "Chão comunitário",
+                  "Povo irmão",
+                  "Escambo solidário",
+                  "Doação mútua"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Escambo solidário",
+                  "Me'eng": "Doação mútua",
+                  "Tekoha": "Chão comunitário",
+                  "Parente": "Povo irmão"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 17 (Os Povos Vizinhos e o Escambo) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha",
+                  "Parente"
+                ],
+                "coluna_direita": [
+                  "Povo irmão",
+                  "Chão comunitário",
+                  "Escambo solidário",
+                  "Doação mútua"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Escambo solidário",
+                  "Me'eng": "Doação mútua",
+                  "Tekoha": "Chão comunitário",
+                  "Parente": "Povo irmão"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 17 (Os Povos Vizinhos e o Escambo) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Moitará",
+                  "Me'eng",
+                  "Tekoha",
+                  "Parente"
+                ],
+                "coluna_direita": [
+                  "Doação mútua",
+                  "Escambo solidário",
+                  "Povo irmão",
+                  "Chão comunitário"
+                ],
+                "pares_corretos": {
+                  "Moitará": "Escambo solidário",
+                  "Me'eng": "Doação mútua",
+                  "Tekoha": "Chão comunitário",
+                  "Parente": "Povo irmão"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Moitará' para o Português:",
           "termo_fonte": "Moitará",
           "traducao_esperada": "Troca de bens / Aliança",
@@ -339,6 +1038,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Moitará"
+          ],
+          "opcoes": [
+            "Feira de Troca Solidária",
+            "Nuvem de tempestade escura",
+            "Fogo apagado",
+            "Caminho pedregoso"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 17 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Moitará'?",
+              "payload": {
+                "opcoes": [
+                  "Feira de Troca Solidária",
+                  "Nuvem de tempestade escura",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Moitará' traduz-se fielmente por 'Feira de Troca Solidária'.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Consolidação final dos conceitos de Os Povos Vizinhos e o Escambo.",
+              "enunciado": "Assinale a alternativa que define com fidelidade 'Moitará':",
+              "payload": {
+                "opcoes": [
+                  "Noite chuvosa",
+                  "Feira de Troca Solidária",
+                  "Peixe pequeno",
+                  "Folhagem seca"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Moitará' significa 'Feira de Troca Solidária'.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prova de mestria no encerramento da jornada.",
+              "enunciado": "Identifique a opção em que 'Moitará' é empregado com seu sentido original:",
+              "payload": {
+                "opcoes": [
+                  "Feira de Troca Solidária",
+                  "Cesto de pesca",
+                  "Flecha curta",
+                  "Areia fina"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Corresponde a 'Feira de Troca Solidária'.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese e certificação da lição perante os anciãos.",
+              "enunciado": "Qual conceito tradicional encerra com maestria a lição de 'Moitará'?",
+              "payload": {
+                "opcoes": [
+                  "Caminho estreito",
+                  "Feira de Troca Solidária",
+                  "Árvore caída",
+                  "Vento leve"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Moitará' é 'Feira de Troca Solidária'.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
           ]
         }
       ],

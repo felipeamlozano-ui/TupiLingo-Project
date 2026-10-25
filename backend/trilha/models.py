@@ -640,6 +640,71 @@ class Exercicio(models.Model):
         return f"[{self.licao.titulo} | {self.get_tipo_display()}] {self.enunciado[:40]}..."
 
 
+# ─── Versões do Exercício (Question Variant Engine) ──────────────────────────
+
+class ExercicioVersao(models.Model):
+    """
+    Versão específica de apresentação de um exercício da trilha.
+    Permite que cada exercício tenha múltiplas formulações (3 a 8 versões),
+    evitando repetição de perguntas idênticas quando o aluno refaz a lição ou estuda.
+    """
+    exercicio = models.ForeignKey(
+        Exercicio,
+        on_delete=models.CASCADE,
+        related_name='versoes',
+        verbose_name="Exercício Base"
+    )
+    versao_numero = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name="Número da Versão"
+    )
+    tipo = models.CharField(
+        max_length=30,
+        choices=TipoExercicioChoices.choices,
+        verbose_name="Tipo de Exercício"
+    )
+    contexto_cena = models.TextField(
+        blank=True,
+        verbose_name="Contexto da Cena (Micro-narrativa)"
+    )
+    enunciado = models.CharField(max_length=500, verbose_name="Enunciado")
+    explicacao = models.TextField(blank=True, verbose_name="Explicação Pedagógica")
+
+    # Payload flexível com opcoes/lacunas/pares conforme o tipo
+    payload = models.JSONField(
+        default=dict,
+        verbose_name="Payload da Versão"
+    )
+
+    # Hash SHA-256 do texto de superfície para deduplicação estrita global
+    hash_superficie = models.CharField(
+        max_length=64,
+        unique=True,
+        verbose_name="Hash de Superfície"
+    )
+
+    # Parâmetros psicométricos calibráveis TRI 3PL (Birnbaum)
+    param_a = models.FloatField(default=1.2, verbose_name="Discriminação (a)")
+    param_b = models.FloatField(default=0.0, verbose_name="Dificuldade (b)")
+    param_c = models.FloatField(default=0.25, verbose_name="Acerto ao Acaso (c)")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'trilha_exercicio_versao'
+        verbose_name = "Versão de Exercício"
+        verbose_name_plural = "Versões de Exercícios"
+        ordering = ['exercicio', 'versao_numero']
+        indexes = [
+            models.Index(fields=['exercicio', 'versao_numero'], name='idx_exversao_ex_num'),
+            models.Index(fields=['hash_superficie'], name='idx_exversao_hash'),
+        ]
+
+    def __str__(self):
+        return f"[Ex #{self.exercicio_id} v{self.versao_numero}] {self.enunciado[:40]}..."
+
+
 # ─── UserChestReward ──────────────────────────────────────────────────────────
 
 class UserChestReward(models.Model):

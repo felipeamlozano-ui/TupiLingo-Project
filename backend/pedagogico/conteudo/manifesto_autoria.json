@@ -1,0 +1,816 @@
+{
+  "versao_manifesto": "2.0.0",
+  "descricao": "Rastreamento de redação 1 a 1 de exercícios com múltiplas versões (3 a 8 versões por item)",
+  "regras_autoria": {
+    "min_versoes": 3,
+    "max_versoes": 8,
+    "contexto_cena_obrigatorio": true,
+    "independencia_variantes_obrigatoria": true,
+    "derangement_associacao_obrigatorio": true,
+    "distratores_plausiveis_e_contextuais": true
+  },
+  "tupi_antigo": {
+    "capitulo_01": {
+      "status": "validado_e_importado",
+      "total_versoes": 59,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 15
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 24
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 11
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_02": {
+      "status": "validado_e_importado",
+      "total_versoes": 76,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 18
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 24
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 19
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 15
+      }
+    },
+    "capitulo_03": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_04": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_05": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_06": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_07": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_08": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_09": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_10": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_11": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_12": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_13": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_14": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_15": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_16": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_17": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_18": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_19": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_20": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    }
+  },
+  "tupi_revitalizado": {
+    "capitulo_01": {
+      "status": "validado_e_importado",
+      "total_versoes": 68,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 17
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 24
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 11
+      }
+    },
+    "capitulo_02": {
+      "status": "validado_e_importado",
+      "total_versoes": 68,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 17
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 24
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 17
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 10
+      }
+    },
+    "capitulo_03": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_04": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_05": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_06": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_07": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_08": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_09": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_10": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_11": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_12": {
+      "status": "validado_e_importado",
+      "total_versoes": 50,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 13
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_13": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_14": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_15": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_16": {
+      "status": "validado_e_importado",
+      "total_versoes": 46,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 16
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_17": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_18": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_19": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    },
+    "capitulo_20": {
+      "status": "validado_e_importado",
+      "total_versoes": 38,
+      "licao_1": {
+        "status": "concluido",
+        "versoes": 9
+      },
+      "licao_2": {
+        "status": "concluido",
+        "versoes": 8
+      },
+      "licao_3": {
+        "status": "concluido",
+        "versoes": 12
+      },
+      "licao_4": {
+        "status": "concluido",
+        "versoes": 9
+      }
+    }
+  }
+}

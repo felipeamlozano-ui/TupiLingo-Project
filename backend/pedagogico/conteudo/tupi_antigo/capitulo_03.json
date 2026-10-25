@@ -75,6 +75,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Îagûara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Um caçador experiente da taba aponta para pegadas profundas e garras marcadas no barro úmido da mata fechada.",
+              "enunciado": "Ao avistar pegadas de uma temida fera na trilha da floresta, qual animal o guerreiro identifica pelo termo 'Îagûara'?",
+              "payload": {
+                "opcoes": [
+                  "Onça / Fera feroz",
+                  "Tamanduá-bandeira",
+                  "Capivara das margens",
+                  "Anta da floresta"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Na língua clássica documentada por Navarro, 'îagûara' designa a onça pintada ou qualquer grande fera carnívora temida pelos caçadores.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao redor do fogo da noite, os mais velhos narram contos de coragem contra o maior predador das matas de Pindorama.",
+              "enunciado": "Nas narrativas ancestrais sobre o soberano temido das matas, a qual criatura o vocábulo 'Îagûara' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Macaco-prego brincalhão",
+                  "Onça / Grande fera",
+                  "Quati farejador",
+                  "Veado-mateiro veloz"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Îagûara' simboliza a ferocidade e a força da onça, predador supremo das florestas tropicais de Pindorama.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Durante o reconhecimento de uma trilha de caça, ouve-se um esturro grave ecoando por entre os troncos de jatobá.",
+              "enunciado": "Ouvindo o esturro profundo ecoar na folhagem, o caçador murmura 'Îagûara!'. O que ele reconheceu?",
+              "payload": {
+                "opcoes": [
+                  "Queixada em bando",
+                  "Onça predadora",
+                  "Cutia assustada",
+                  "Jabuti na trilha"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O esturro é a vocalização marcante da onça (îagûara), exigindo atenção e respeito imediato de quem cruza a selva.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "O jovem guerreiro aprende a distinguir os animais que impõem perigo real nas expedições pela floresta virgem.",
+              "enunciado": "Em Tupi Antigo clássico, qual destes predadores da mata é corretamente nomeado como 'Îagûara'?",
+              "payload": {
+                "opcoes": [
+                  "Onça / Predador temido",
+                  "Jacaré do pântano",
+                  "Tatu-galinha",
+                  "Lontra dos igapós"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îagûara' refere-se ao felino dominante da fauna de Pindorama e sua energia predatória.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -106,6 +180,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Tatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Caminhando por um barranco de terra vermelha, as crianças observam montes de terra fresca escavados recentemente.",
+              "enunciado": "Ao notar tocas fundas recém-escavadas na terra dura da colina, qual animal de carapaça é chamado de 'Tatu'?",
+              "payload": {
+                "opcoes": [
+                  "Tatu com carapaça",
+                  "Lagarto teiú",
+                  "Paca da várzea",
+                  "Esquilo da mata"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tatu' é o clássico mamífero encouraçado cavador de tocas subterrâneas, termo preservado integralmente até o português moderno.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O coletor de raízes vê um animal de casca dura esconder-se velozmente dentro de um buraco sob a raiz de uma gameleira.",
+              "enunciado": "Qual animal resistente e cavador é designado pelo vocábulo autóctone 'Tatu'?",
+              "payload": {
+                "opcoes": [
+                  "Preguiça nas folhas",
+                  "Tatu couraçado",
+                  "Cuíca noturna",
+                  "Tamanduá-mirim"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tatu' é o mamífero característico de carapaça móvel, conhecido por cavar túneis profundos para se proteger de predadores.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "No preparo do jantar na aldeia, os caçadores comentam sobre a presa capturada na beira da clareira.",
+              "enunciado": "Quando o ancião diz que encontraram um 'tatu yby pupé', a que criatura ele se refere?",
+              "payload": {
+                "opcoes": [
+                  "Um tatu na terra",
+                  "Uma cobra na água",
+                  "Um gavião nas nuvens",
+                  "Um macaco no galho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Tatu yby pupé' traduz-se literalmente como 'o tatu na terra', descrevendo seu habitat cavador.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Apreciando a riqueza da terra brasileira, os aprendizes catalogam animais que vivem em galerias subterrâneas.",
+              "enunciado": "Selecione a definição correta para o substantivo clássico 'Tatu':",
+              "payload": {
+                "opcoes": [
+                  "Peixe prateado do lago",
+                  "Tatu (animal couraçado)",
+                  "Avestruz das pradarias",
+                  "Serpente venenosa"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Tatu' é o nome clássico tupi para o animal acouraçado cingulado.",
+              "param_a": 1.0,
+              "param_b": -1.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -113,16 +261,19 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Îagûara": "Onça / Fera feroz",
-            "Tatu": "Tatu"
+            "Îagûara": "Onça / Grande fera",
+            "Tatu": "Tatu couraçado",
+            "Ka'a": "Mata / Floresta viva"
           },
           "coluna_esquerda": [
             "Îagûara",
-            "Tatu"
+            "Tatu",
+            "Ka'a"
           ],
           "coluna_direita": [
-            "Onça / Fera feroz",
-            "Tatu"
+            "Tatu couraçado",
+            "Mata / Floresta viva",
+            "Onça / Grande fera"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -130,6 +281,138 @@
           "itens_alvo": [
             "Îagûara",
             "Tatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No centro da taba, o conselheiro desenha na areia as silhuetas dos animais e da floresta.",
+              "enunciado": "Relacione os termos da fauna e da mata às suas respectivas identidades na língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Îagûara",
+                  "Tatu",
+                  "Ka'a"
+                ],
+                "coluna_direita": [
+                  "Tatu couraçado",
+                  "Mata / Floresta viva",
+                  "Onça / Grande fera"
+                ],
+                "pares_corretos": {
+                  "Îagûara": "Onça / Grande fera",
+                  "Tatu": "Tatu couraçado",
+                  "Ka'a": "Mata / Floresta viva"
+                }
+              },
+              "explicacao": "Îagûara->Onça, Tatu->Tatu, Ka'a->Mata. Derangement estrito com posições permutadas.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O instrutor tribal mostra peles, carapaças e folhas secas utilizadas no artesanato da comunidade.",
+              "enunciado": "Conecte as designações nativas aos seus elementos correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Îagûara",
+                  "Tatu"
+                ],
+                "coluna_direita": [
+                  "Fera predadora da mata",
+                  "Animal com carapaça da terra",
+                  "A floresta verdejante"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "A floresta verdejante",
+                  "Îagûara": "Fera predadora da mata",
+                  "Tatu": "Animal com carapaça da terra"
+                }
+              },
+              "explicacao": "Ka'a->Floresta, Îagûara->Fera, Tatu->Animal carapaça. Derangement absoluto.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na observação de rastros matinais na beira da mata, três elementos distintos chamam a atenção.",
+              "enunciado": "Faça a correlação exata entre os termos dos rastreadores e as identidades correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tatu",
+                  "Ka'a",
+                  "Îagûara"
+                ],
+                "coluna_direita": [
+                  "Mata fechada",
+                  "Felino feroz de garras afiadas",
+                  "Escavador de tocas na terra"
+                ],
+                "pares_corretos": {
+                  "Tatu": "Escavador de tocas na terra",
+                  "Ka'a": "Mata fechada",
+                  "Îagûara": "Felino feroz de garras afiadas"
+                }
+              },
+              "explicacao": "Tatu->Escavador, Ka'a->Mata, Îagûara->Felino. Ordem permutada com derangement.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisando os elementos fundamentais da primeira lição com cartões de fibra vegetal trançada.",
+              "enunciado": "Ligue com precisão cada vocábulo em Tupi Antigo ao seu equivalente tradicional:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Îagûara",
+                  "Tatu",
+                  "Ka'a"
+                ],
+                "coluna_direita": [
+                  "Vegetação da floresta",
+                  "Onça predadora",
+                  "Tatu cavador"
+                ],
+                "pares_corretos": {
+                  "Îagûara": "Onça predadora",
+                  "Tatu": "Tatu cavador",
+                  "Ka'a": "Vegetação da floresta"
+                }
+              },
+              "explicacao": "Associação cruzada perfeita sem pontos fixos.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "O caçador veterano testa a rapidez dos jovens na identificação dos elementos essenciais da floresta.",
+              "enunciado": "Una cada substantivo indígena à sua descrição correta:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ka'a",
+                  "Tatu",
+                  "Îagûara"
+                ],
+                "coluna_direita": [
+                  "Fera carnívora da floresta",
+                  "A mata dos espíritos protetores",
+                  "Bicho couraçado da terra"
+                ],
+                "pares_corretos": {
+                  "Ka'a": "A mata dos espíritos protetores",
+                  "Tatu": "Bicho couraçado da terra",
+                  "Îagûara": "Fera carnívora da floresta"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -186,6 +469,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Kapi'ybara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "À margem de uma lagoa mansa, avista-se o maior roedor do mundo pastando capim tenro tranquilamente.",
+              "enunciado": "Complete a frase observada pelo batedor: '______ 'y rembé.' (A capivara à margem da água):",
+              "payload": {
+                "texto_com_lacunas": "______ 'y rembé.",
+                "respostas_corretas": [
+                  "Kapi'ybara"
+                ]
+              },
+              "explicacao": "'Kapi'ybara' (lit. comedor de capim) completa perfeitamente a frase que situa o animal na margem do rio.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O canoeiro desliza pelo remanso e observa uma família de capivaras descansando ao entardecer.",
+              "enunciado": "Insira o nome do pacífico herbívoro das águas para completar a sentença: '______ ka'a ybype.'",
+              "payload": {
+                "texto_com_lacunas": "______ ka'a ybype.",
+                "respostas_corretas": [
+                  "Kapi'ybara"
+                ]
+              },
+              "explicacao": "'Kapi'ybara' é o grande roedor associado aos capinzais e margens aquáticas na etimologia indígena.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Um pescador relata ter visto o animal que se alimenta de gramíneas mergulhando perto dos juncos.",
+              "enunciado": "Complete com o termo exato em Tupi Antigo: 'I katu ______.' (A capivara é boa/mansa):",
+              "payload": {
+                "texto_com_lacunas": "I katu ______.",
+                "respostas_corretas": [
+                  "Kapi'ybara"
+                ]
+              },
+              "explicacao": "A raiz 'Kapi'ybara' compõe sentenças descritivas sobre a fauna fluvial e lacustre.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Na oficina de taxonomia tupinambá, ensina-se a formação do nome a partir do capim ('kapi'i').",
+              "enunciado": "Qual vocábulo preenche a lacuna sobre o herbívoro aquático: 'Oikó ______ 'y pupé'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______ 'y pupé.",
+                "respostas_corretas": [
+                  "Kapi'ybara"
+                ]
+              },
+              "explicacao": "'Kapi'ybara' provém de kapi'i (capim) + 'u (comer) + bara (aquele que tem por hábito).",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,10 +562,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Kapi'ybara"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Ao ensinar as crianças da aldeia sobre a fauna ribeirinha que come ervas à beira do igarapé.",
+              "enunciado": "Qual animal mamífero das margens aquáticas é identificado pelo nome 'Kapi'ybara'?",
+              "payload": {
+                "opcoes": [
+                  "Capivara",
+                  "Lontra voraz",
+                  "Anta da baixada",
+                  "Boto do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kapi'ybara' é a capivara, consagrada no léxico clássico tupi de Eduardo Navarro.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O naturalista jesuíta anota no seu diário os hábitos do gigante comedor de capim que nada muito bem.",
+              "enunciado": "De acordo com as crônicas coloniais e os dicionários clássicos, o que significa 'Kapi'ybara'?",
+              "payload": {
+                "opcoes": [
+                  "Preá dos campos",
+                  "Capivara (grande roedor)",
+                  "Porco do mato",
+                  "Veado-catingueiro"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Kapi'ybara' designa especificamente a capivara (Hydrochoerus hydrochaeris).",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na roda de conversa sobre a etimologia tupi, discute-se a origem dos nomes dos bichos brasileiros.",
+              "enunciado": "A qual destes animais a palavra ancestral 'Kapi'ybara' deu origem na nossa língua?",
+              "payload": {
+                "opcoes": [
+                  "Cutia",
+                  "Capivara",
+                  "Preguiça",
+                  "Jaguatirica"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O termo português moderno 'capivara' é empréstimo direto do tupi clássico 'kapi'ybara'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Durante o reconhecimento ecológico do ecossistema de várzea e brejo de Pindorama.",
+              "enunciado": "Selecione o animal correto referenciado pelo substantivo 'Kapi'ybara':",
+              "payload": {
+                "opcoes": [
+                  "Capivara dos rios",
+                  "Gavião-real",
+                  "Tartaruga marinha",
+                  "Macaco-aranha"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Kapi'ybara' representa a capivara no sistema classificatório indígena.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
           "texto_com_lacunas": "______ katu.",
@@ -232,6 +651,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "So'ó"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Os arqueiros retornam vitoriosos da expedição na floresta trazendo alimentos para alimentar a taba inteira.",
+              "enunciado": "Complete a saudação dos caçadores felizes com o resultado da mata: '______ katu!' (Boa caça!):",
+              "payload": {
+                "texto_com_lacunas": "______ katu!",
+                "respostas_corretas": [
+                  "So'ó"
+                ]
+              },
+              "explicacao": "'So'ó' significa carne ou animal de caça comestível, formando com 'katu' a expressão 'boa caça / boa carne'.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na preparação do moquém para defumar os alimentos obtidos nas matas da serra.",
+              "enunciado": "Preencha a lacuna com a palavra que indica o animal abatido para alimentação: 'Aîpó ______.' (Aquela é a caça):",
+              "payload": {
+                "texto_com_lacunas": "Aîpó ______.",
+                "respostas_corretas": [
+                  "So'ó"
+                ]
+              },
+              "explicacao": "'So'ó' é a caça comestível ou carne de animal terrestre pronta para o consumo.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O ancião ensina que a floresta generosa fornece sustento àqueles que sabem respeitar o ciclo da vida.",
+              "enunciado": "Complete a sentença tradicional de agradecimento ao sustento: 'Ore repiaka ______' (Vemos a caça/carne):",
+              "payload": {
+                "texto_com_lacunas": "Ore repiaka ______.",
+                "respostas_corretas": [
+                  "So'ó"
+                ]
+              },
+              "explicacao": "'So'ó' completa adequadamente o objeto direto da visão do caçador.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ao redor do fogo da fogueira, discute-se o que os jovens aprenderam a rastrear.",
+              "enunciado": "Complete a declaração do jovem guerreiro: 'Xe aikuaba ______' (Eu conheço a caça):",
+              "payload": {
+                "texto_com_lacunas": "Xe aikuaba ______.",
+                "respostas_corretas": [
+                  "So'ó"
+                ]
+              },
+              "explicacao": "'So'ó' denota os animais de caça que servem à subsistência tribal.",
+              "param_a": 1.2,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -263,6 +744,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "So'ó"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O guerreiro explica aos forasteiros a diferença entre predadores perigosos e animais que servem de sustento.",
+              "enunciado": "Em Tupi Antigo clássico, qual é o sentido preciso do substantivo 'So'ó'?",
+              "payload": {
+                "opcoes": [
+                  "Carne / Animal de caça",
+                  "Plantação de milho",
+                  "Peixe pequeno de lago",
+                  "Arco e flecha de guerra"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'So'ó' abrange tanto a carne em si quanto qualquer animal quadrúpede caçado para alimento.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Durante o desmanche e a defumação no moquém tradicional, as anciãs organizam a partilha justa na aldeia.",
+              "enunciado": "O que as mulheres da aldeia preparam quando trabalham sobre o 'So'ó'?",
+              "payload": {
+                "opcoes": [
+                  "Bebida fermentada de aipim",
+                  "Carne de caça comestível",
+                  "Cestos de palha de buriti",
+                  "Tinta vermelha de urucum"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'So'ó' é a carne comestível de caça terrestre preparada no moquém tribal.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Em uma expedição pela floresta, o líder aponta para vestígios de animais herbívoros comestíveis.",
+              "enunciado": "Se o batedor exclama 'so'ó oikó!', o que ele avistou?",
+              "payload": {
+                "opcoes": [
+                  "Caça / Animal comestível está ali",
+                  "Tempestade com raios se aproxima",
+                  "Inimigos de outra aldeia cercam a mata",
+                  "Canoa virou na corredeira"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'So'ó oikó' significa que há animais de caça presentes no local.",
+              "param_a": 1.2,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Comparando os vocábulos tupis que descrevem a alimentação das populações costeiras e do interior.",
+              "enunciado": "Assinale a opção que traduz com fidelidade filológica o termo 'So'ó':",
+              "payload": {
+                "opcoes": [
+                  "Árvore frondosa",
+                  "Carne / Caça",
+                  "Rio navegável",
+                  "Noite estrelada"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'So'ó' é o substantivo canônico para carne e caça animal no Dicionário de Navarro.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -328,7 +883,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.974,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Avaliando o reconhecimento morfológico e ortográfico dos animais terrestres segundo as obras clássicas.",
+              "enunciado": "Qual dos termos abaixo representa a forma canônica da grande fera predadora em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Îagûara",
+                  "Moiagûara",
+                  "Teîagûara",
+                  "Kûasó"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îagûara' é a forma canônica documentada na gramática de Anchieta e no dicionário de Navarro.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Comparando grafias antigas quinhentistas com falsas reconstruções modernas.",
+              "enunciado": "Assinale a grafia correta com semivogal e circunflexo para a onça em Tupi Antigo clássico:",
+              "payload": {
+                "opcoes": [
+                  "Yaguarete-guaçu",
+                  "Îagûara",
+                  "Jaguarão",
+                  "Xagûara"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "A notação padronizada por Navarro utiliza 'Îagûara' com as semivogais î e gû devidamente marcadas.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O teste adaptativo desafia o aluno a diferenciar o animal predador de termos correlatos.",
+              "enunciado": "Qual termo deve ser evitado como distrator ao referir-se à onça nos textos de quinhentos?",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Îagûara",
+                  "Mani'oka",
+                  "Paranã"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Apenas 'Îagûara' é o felino carnívoro de grande porte.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -347,7 +958,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.874,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estrutura sintática clássica unindo o substantivo cavador ao adjetivo de excelência.",
+              "enunciado": "Complete a sentença adaptativa que descreve a qualidade da presa escavadora: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Tatu"
+                ]
+              },
+              "explicacao": "'Tatu' encaixa-se perfeitamente no espaço referencial da frase.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construindo uma sentença com o verbo de ação e o animal couraçado da terra.",
+              "enunciado": "Preencha a lacuna da frase afirmativa tradicional: 'Oîkó ______ yby pupé' (O tatu está na terra):",
+              "payload": {
+                "texto_com_lacunas": "Oîkó ______ yby pupé.",
+                "respostas_corretas": [
+                  "Tatu"
+                ]
+              },
+              "explicacao": "'Tatu' é o sujeito da oração que habita as galerias de terra.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação de substantivos animais com sufixos e adjetivos relacionais de Pindorama.",
+              "enunciado": "Qual vocábulo de carapaça preenche a locução: 'I pyatã a'e ______' (Aquele tatu é forte/duro)?",
+              "payload": {
+                "texto_com_lacunas": "I pyatã a'e ______.",
+                "respostas_corretas": [
+                  "Tatu"
+                ]
+              },
+              "explicacao": "'Tatu' é o mamífero caracterizado pela couraça dura (pyatã).",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -365,7 +1023,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -1.724,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Análise da composição morfológica do grande roedor que pasta capim perto da água.",
+              "enunciado": "Identifique a análise etimológica correta do vocábulo 'Kapi'ybara':",
+              "payload": {
+                "opcoes": [
+                  "Comedor de capim (kapi'i + 'u + bara)",
+                  "Filho da água corrente",
+                  "Animal de dentes de pedra",
+                  "Habitante do buraco escuro"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Kapi'ybara é formado por kapi'i (capim) + 'u (comer) + bara (aquele que costuma fazer), resultando em 'comedor habitual de capim'.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisando as relações ecológicas documentadas no léxico zoológico dos tupinambás.",
+              "enunciado": "A qual ambiente e hábito a palavra 'Kapi'ybara' associa diretamente a criatura?",
+              "payload": {
+                "opcoes": [
+                  "Às copas de palmeiras altas",
+                  "Aos capinzais ribeirinhos e hábito herbívoro",
+                  "Às cavernas profundas das serras",
+                  "Ao mar aberto longe da costa"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O próprio nome reflete seu nicho ecológico de herbívoro ribeirinho que pasta capim nas margens aquáticas.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Comparando raízes nominais na formação de substantivos compostos em Tupi Antigo.",
+              "enunciado": "Qual raiz nominal fundamental inicia a formação do substantivo 'Kapi'ybara'?",
+              "payload": {
+                "opcoes": [
+                  "Kapi'i (capim/grama)",
+                  "Pirá (peixe)",
+                  "'Y (água)",
+                  "Tatu (carapaça)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "A raiz inicial é 'kapi'i' (capim), seguida de alomorfes verbais e sufixo de agente.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -383,7 +1097,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.974,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Expressão e modificadores qualificativos no sistema atributivo do Tupi Antigo.",
+              "enunciado": "Ao revisar as estruturas da Lição 2, qual modificador expressa 'bom, proveitoso ou de qualidade' em 'So'ó katu'?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aba",
+                  "Tekó"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é o adjetivo/pospositivo clássico para 'bom, belo, excelente'. Em 'So'ó katu', significa caça farta ou carne de boa qualidade.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando adjetivos de aprovação e desaprovação usados pelos caçadores ao retornar da mata.",
+              "enunciado": "Se a caça foi farta e a carne está excelente, qual adjetivo qualifica o 'So'ó'?",
+              "payload": {
+                "opcoes": [
+                  "Katu (bom/excelente)",
+                  "Poxi (mau/feio)",
+                  "Miri (minúsculo)",
+                  "Aíba (ruim/amargo)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' expressa a qualidade positiva e fartura da carne obtida pelos membros da aldeia.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Análise da sintaxe tupi: ordem substantivo + modificador direto.",
+              "enunciado": "Qual é a ordem correta para dizer 'boa carne' em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Katu so'ó",
+                  "So'ó katu",
+                  "Katu oikó",
+                  "So'ó poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Em Tupi Antigo, o modificador adjetival sucede imediatamente o substantivo modificado: So'ó (carne) + katu (boa) = So'ó katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -436,10 +1206,10 @@
             "So'ó"
           ],
           "coluna_direita": [
-            "Onça / Fera feroz",
-            "Tatu",
-            "Capivara",
-            "Carne / Caça comestível"
+            "Tatu couraçado",
+            "Capivara das águas",
+            "Carne / Animal de caça",
+            "Onça / Predador feroz"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -449,11 +1219,158 @@
             "Tatu",
             "Kapi'ybara",
             "So'ó"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese: o pajé desafia os aprendizes a correlacionar os quatro animais vitais estudados no capítulo.",
+              "enunciado": "Desafio da Aldeia: Correlacione cada criatura de Pindorama à sua tradução exata em Português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Îagûara",
+                  "Tatu",
+                  "Kapi'ybara",
+                  "So'ó"
+                ],
+                "coluna_direita": [
+                  "Tatu couraçado",
+                  "Capivara das águas",
+                  "Carne / Animal de caça",
+                  "Onça / Predador feroz"
+                ],
+                "pares_corretos": {
+                  "Îagûara": "Onça / Predador feroz",
+                  "Tatu": "Tatu couraçado",
+                  "Kapi'ybara": "Capivara das águas",
+                  "So'ó": "Carne / Animal de caça"
+                }
+              },
+              "explicacao": "Derangement estrito (zero pontos fixos): posições [3, 0, 1, 2] mapeadas na coluna direita.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No conselho da comunidade, os guerreiros revisam os sinais da fauna terrestre encontrados na floresta.",
+              "enunciado": "Associe os termos tupis aos seus papéis e descrições no cotidiano dos povos ancestrais:",
+              "payload": {
+                "coluna_esquerda": [
+                  "So'ó",
+                  "Kapi'ybara",
+                  "Tatu",
+                  "Îagûara"
+                ],
+                "coluna_direita": [
+                  "Herbívoro que come capim nos brejos",
+                  "Fera carnívora dominante das selvas",
+                  "Presa de caça que alimenta a aldeia",
+                  "Cavador de galerias na terra"
+                ],
+                "pares_corretos": {
+                  "So'ó": "Presa de caça que alimenta a aldeia",
+                  "Kapi'ybara": "Herbívoro que come capim nos brejos",
+                  "Tatu": "Cavador de galerias na terra",
+                  "Îagûara": "Fera carnívora dominante das selvas"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições: So'ó->Presa, Kapi'ybara->Herbívoro, Tatu->Cavador, Îagûara->Fera.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão geral dos vocábulos da fauna da mata antes da prova de graduação do arqueiro.",
+              "enunciado": "Conecte os nomes em língua indígena às suas definições zoológicas consolidadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Kapi'ybara",
+                  "Îagûara",
+                  "So'ó",
+                  "Tatu"
+                ],
+                "coluna_direita": [
+                  "Predador de mandíbula forte",
+                  "Caça terrestre para sustento",
+                  "Escavador cingulado de terra",
+                  "Maior roedor das margens fluviais"
+                ],
+                "pares_corretos": {
+                  "Kapi'ybara": "Maior roedor das margens fluviais",
+                  "Îagûara": "Predador de mandíbula forte",
+                  "So'ó": "Caça terrestre para sustento",
+                  "Tatu": "Escavador cingulado de terra"
+                }
+              },
+              "explicacao": "Permutação sem repetição e sem nenhum elemento na posição original.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "O mestre de caça apresenta símbolos em placas de casca de peroba para teste rápido de reflexos.",
+              "enunciado": "Ligue com exatidão as quatro criaturas nativas aos seus significados autênticos:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Tatu",
+                  "So'ó",
+                  "Îagûara",
+                  "Kapi'ybara"
+                ],
+                "coluna_direita": [
+                  "Onça / Fera das matas",
+                  "Capivara dos capinzais",
+                  "Animal de carapaça dura",
+                  "Carne de caça dos caçadores"
+                ],
+                "pares_corretos": {
+                  "Tatu": "Animal de carapaça dura",
+                  "So'ó": "Carne de caça dos caçadores",
+                  "Îagûara": "Onça / Fera das matas",
+                  "Kapi'ybara": "Capivara dos capinzais"
+                }
+              },
+              "explicacao": "Derangement estrito verificado.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Teste de domínio pleno dos quatro itens lexicais estudados ao longo de todo o Capítulo 3.",
+              "enunciado": "Faça a correlação final dos animais da terra em Tupi Antigo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Îagûara",
+                  "Kapi'ybara",
+                  "Tatu",
+                  "So'ó"
+                ],
+                "coluna_direita": [
+                  "Carne comestível de caça",
+                  "Onça / Fera majestosa",
+                  "Grande roedor aquático",
+                  "Tatu de armadura óssea"
+                ],
+                "pares_corretos": {
+                  "Îagûara": "Onça / Fera majestosa",
+                  "Kapi'ybara": "Grande roedor aquático",
+                  "Tatu": "Tatu de armadura óssea",
+                  "So'ó": "Carne comestível de caça"
+                }
+              },
+              "explicacao": "Perfeito derangement: Îagûara->Onça (índice 1), Kapi'ybara->Grande roedor (índice 2), Tatu->Tatu armadura (índice 3), So'ó->Carne (índice 0).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Îagûara' para o Português:",
           "termo_fonte": "Îagûara",
           "traducao_esperada": "Onça / Fera feroz",
@@ -462,6 +1379,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Îagûara"
+          ],
+          "opcoes": [
+            "Onça / Fera feroz",
+            "Tamanduá da campina",
+            "Capivara da represa",
+            "Preguiça das árvores"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Último teste oral na cabana de cerimônias perante o olhar atento dos guardiões da tradição.",
+              "enunciado": "Escreva ou selecione a tradução canônica para o temido predador 'Îagûara':",
+              "payload": {
+                "opcoes": [
+                  "Onça / Fera feroz",
+                  "Tamanduá da campina",
+                  "Capivara da represa",
+                  "Preguiça das árvores"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îagûara' é o felino lendário do ecossistema brasileiro, atestado como 'Onça / Fera feroz' por Eduardo Navarro.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O líder da expedição pergunta ao jovem recruta como traduzir a palavra da fera em caso de alerta imediato.",
+              "enunciado": "Se o vigia gritar 'Îagûara!' do alto da sentinela, qual animal está rondando o acampamento?",
+              "payload": {
+                "opcoes": [
+                  "Bando de macacos",
+                  "Onça predadora",
+                  "Cardume de piranhas",
+                  "Revoada de araras"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O grito de 'Îagûara' avisa a aproximação da onça, predador supremo das florestas.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão filológica de termos clássicos que entraram na toponímia e no português do Brasil.",
+              "enunciado": "A qual destes animais se vincula a etimologia da palavra 'Îagûara'?",
+              "payload": {
+                "opcoes": [
+                  "Onça / Grande fera",
+                  "Tatu-bola",
+                  "Cutia dourada",
+                  "Veado-catingueiro"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Îagûara' é a raiz clássica da onça e de palavras como Jaguar e Jaguariúna.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Concluindo com chave de ouro a exploração dos animais terrestres de Pindorama.",
+              "enunciado": "Em síntese perfeita, 'Îagûara' é consagrado no dicionário tupi como:",
+              "payload": {
+                "opcoes": [
+                  "Pássaro cantor matutino",
+                  "Onça / Fera carnívora",
+                  "Peixe de água doce",
+                  "Planta medicinal amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Îagûara' representa a onça e as feras carnívoras.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

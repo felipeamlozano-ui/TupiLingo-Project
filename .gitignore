@@ -438,7 +438,16 @@ Thumbs.db
 *.bak
 
 # ------------------------------------------------------------------------------
-
+# 🎬 Vídeos e Mídias Pesadas (Não versionar no repositório GitHub)
 # ------------------------------------------------------------------------------
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+codigos_*.txt
+hs_err_pid*.log
+
 LP3 Final/
+
 

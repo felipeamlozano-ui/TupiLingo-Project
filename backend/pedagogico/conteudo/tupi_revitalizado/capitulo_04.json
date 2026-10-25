@@ -75,6 +75,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "'Y"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "À beira da corredeira serena, o grupo de jovens comunitários faz uma pausa para se refrescar durante o mutirão agroflorestal.",
+              "enunciado": "Ao contemplar a nascente límpida que abastece a comunidade, a qual elemento natural refere-se o substantivo ''Y'?",
+              "payload": {
+                "opcoes": [
+                  "Água / Rio",
+                  "Terra de cultivo",
+                  "Madeira de construção",
+                  "Fogueira cerimonial"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é o elemento vital primordial que designa a água e os rios nos dialetos tupi contemporâneos.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na cartilha de preservação hídrica desenvolvida pelos professores indígenas da escola da aldeia.",
+              "enunciado": "Qual recurso hidrográfico sagrado e fundamental para a vida comunitária é chamado de ''Y'?",
+              "payload": {
+                "opcoes": [
+                  "Vento da tempestade",
+                  "Água doce / Rio",
+                  "Argila do barranco",
+                  "Sombra da árvore"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' é o elemento hídrico que sustenta a biodiversidade e as famílias ribeirinhas.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O monitor ambiental testa a potabilidade da água que desce límpida da cabeceira do igarapé.",
+              "enunciado": "Ao atestar a pureza cristalina da nascente, o jovem exclama: ''Y katu!'. O que ele expressa?",
+              "payload": {
+                "opcoes": [
+                  "A água é boa e limpa",
+                  "O rio está barrento",
+                  "A água secou por completo",
+                  "O igarapé sumiu"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y katu' expressa que a água é boa, potável e benéfica.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão ortográfica contemporânea dos monossílabos fundamentais da língua.",
+              "enunciado": "Qual vocábulo monossilábico gutural traduz o conceito de água e correnteza fluvial?",
+              "payload": {
+                "opcoes": [
+                  "Ka",
+                  "'Y",
+                  "Pe",
+                  "Po"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' é a raiz hídrica originária.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -106,6 +180,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Paraná"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "A comitiva de barco a motor navega por um afluente e depara-se com o encontro das águas do grande rio caudaloso.",
+              "enunciado": "Ao contemplar a imensidão de um rio largo como o mar, qual termo geográfico é empregado: 'Paraná'?",
+              "payload": {
+                "opcoes": [
+                  "Riacho de pedras",
+                  "Rio grande / Mar / Grande caudal",
+                  "Poça de enxurrada",
+                  "Canal estreito"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Paraná' refere-se ao rio imenso de águas caudalosas ou ao mar.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na bacia hidrográfica amazônica, os pescadores relatam a força das marés de água doce nas grandes vazantes.",
+              "enunciado": "A qual ambiente de águas profundas e abertas aplica-se o vocábulo 'Paraná'?",
+              "payload": {
+                "opcoes": [
+                  "Ao grande rio majestoso e ao mar",
+                  "Ao charco de várzea",
+                  "À poça de barro",
+                  "Ao olho-d'água pequeno"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Paraná' abrange os grandes rios navegáveis e a imensidão oceânica.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Embarcando para uma viagem interfluvial que conecta várias comunidades do baixo curso do rio.",
+              "enunciado": "Ao ouvir 'Paraná guasu oĩ' (O grande rio/mar está diante de nós), os viajantes preparam-se para:",
+              "payload": {
+                "opcoes": [
+                  "Navegar em águas amplas e agitadas",
+                  "Atravessar a pé uma poça rasa",
+                  "Acampar num descampado seco",
+                  "Subir uma colina sem água"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Paraná guasu' indica a presença de um corpo de água gigantesco.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Estudo de geografia física e territorial das comunidades tradicionais.",
+              "enunciado": "Selecione o significado preciso do substantivo 'Paraná':",
+              "payload": {
+                "opcoes": [
+                  "Planta medicinal",
+                  "Rio grande / Mar",
+                  "Vento quente",
+                  "Trilha na serra"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Paraná' traduz-se fielmente como 'Rio grande / Mar'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -113,16 +261,19 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "'Y": "Água / Rio",
-            "Paraná": "Rio grande / Mar"
+            "'Y": "Água doce / Rio comum",
+            "Paraná": "Rio volumoso / Mar",
+            "Pira": "Peixe das correntes"
           },
           "coluna_esquerda": [
             "'Y",
-            "Paraná"
+            "Paraná",
+            "Pira"
           ],
           "coluna_direita": [
-            "Água / Rio",
-            "Rio grande / Mar"
+            "Rio volumoso / Mar",
+            "Peixe das correntes",
+            "Água doce / Rio comum"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -130,6 +281,138 @@
           "itens_alvo": [
             "'Y",
             "Paraná"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No laboratório de etnoecologia da escola, os estudantes organizam os mapas hídricos do território.",
+              "enunciado": "Associe os termos fundamentais da hidrografia contemporânea aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Paraná",
+                  "Pira"
+                ],
+                "coluna_direita": [
+                  "Rio volumoso / Mar",
+                  "Peixe das correntes",
+                  "Água doce / Rio comum"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água doce / Rio comum",
+                  "Paraná": "Rio volumoso / Mar",
+                  "Pira": "Peixe das correntes"
+                }
+              },
+              "explicacao": "Derangement estrito verificado: 'Y->Água (2), Paraná->Rio volumoso (0), Pira->Peixe (1).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Observando a fauna e os cursos d'água a partir do mirante da aldeia.",
+              "enunciado": "Conecte os conceitos hídricos aos seus elementos correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Paraná",
+                  "Pira",
+                  "'Y"
+                ],
+                "coluna_direita": [
+                  "Corrente de água limpa",
+                  "Grande caudal imenso",
+                  "Pescado das águas"
+                ],
+                "pares_corretos": {
+                  "Paraná": "Grande caudal imenso",
+                  "Pira": "Pescado das águas",
+                  "'Y": "Corrente de água limpa"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado em todas as linhas.",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão com fichas ilustradas das riquezas das bacias fluviais.",
+              "enunciado": "Ligue com precisão os substantivos da vida ribeirinha às suas definições:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pira",
+                  "'Y",
+                  "Paraná"
+                ],
+                "coluna_direita": [
+                  "O grande rio majestoso",
+                  "Peixe capturado no rio",
+                  "A água potável da fonte"
+                ],
+                "pares_corretos": {
+                  "Pira": "Peixe capturado no rio",
+                  "'Y": "A água potável da fonte",
+                  "Paraná": "O grande rio majestoso"
+                }
+              },
+              "explicacao": "Zero pontos fixos garantido.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Atividade de consolidação lexical no curso de Tupi Revitalizado.",
+              "enunciado": "Faça a correlação perfeita entre os três termos da Lição 1:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Pira",
+                  "Paraná"
+                ],
+                "coluna_direita": [
+                  "Peixe saboroso",
+                  "Água corrente cristalina",
+                  "Mar / Grande rio"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água corrente cristalina",
+                  "Pira": "Peixe saboroso",
+                  "Paraná": "Mar / Grande rio"
+                }
+              },
+              "explicacao": "Associação cruzada perfeita sem repetição de posições.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Quiz rápido sobre a hidrografia do Brasil indígena.",
+              "enunciado": "Una cada substantivo em tupi à sua definição exata:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Paraná",
+                  "'Y",
+                  "Pira"
+                ],
+                "coluna_direita": [
+                  "Peixe das vazantes",
+                  "Grande massa de água caudalosa",
+                  "Água de beber do rio"
+                ],
+                "pares_corretos": {
+                  "Paraná": "Grande massa de água caudalosa",
+                  "'Y": "Água de beber do rio",
+                  "Pira": "Peixe das vazantes"
+                }
+              },
+              "explicacao": "Derangement absoluto comprovado.",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -186,6 +469,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Pira"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Os pescadores ribeirinhos preparam redes de malha fina para a pesca nos remansos calmos.",
+              "enunciado": "Complete a frase do pescador na margem: '______ 'y pupé' (Peixe na água):",
+              "payload": {
+                "texto_com_lacunas": "______ 'y pupé.",
+                "respostas_corretas": [
+                  "Pira"
+                ]
+              },
+              "explicacao": "'Pira' (Peixe) é a criatura das águas completando a sentença afirmativa.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na proa da canoa, o jovem observa cardumes brilhando sob os reflexos do sol poente.",
+              "enunciado": "Insira o nome do pescado avistado nas águas: 'Ahecha ______' (Eu vejo o peixe):",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Pira"
+                ]
+              },
+              "explicacao": "'Pira' completa o objeto da percepção visual.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Após uma jornada farta pelas lagoas marginais da reserva de desenvolvimento sustentável.",
+              "enunciado": "Complete a exclamação de fartura alimentar da família: 'Hetá ______!' (Há muito peixe!):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______!",
+                "respostas_corretas": [
+                  "Pira"
+                ]
+              },
+              "explicacao": "'Pira' expressa o alimento que nutre a aldeia.",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Preparando o tradicional assado de peixe com farinha d'água na cozinha comunitária.",
+              "enunciado": "Preencha a lacuna com o substantivo culinário: 'Moquém arama oĩ ______':",
+              "payload": {
+                "texto_com_lacunas": "Moquém arama oĩ ______.",
+                "respostas_corretas": [
+                  "Pira"
+                ]
+              },
+              "explicacao": "'Pira' é o peixe destinado ao moquém comunitário.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,10 +562,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Pira"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na aula de etnoictiologia, estudam-se os nomes de dezenas de peixes que preservam a raiz tupi.",
+              "enunciado": "Qual recurso biológico aquático é designado pelo vocábulo 'Pira'?",
+              "payload": {
+                "opcoes": [
+                  "Peixe",
+                  "Sapo cururu",
+                  "Gaivota ribeirinha",
+                  "Camarão de água doce"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pira' significa peixe em Tupi Revitalizado e em toda a família linguística tupi-guarani.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Pesquisando palavras do cotidiano brasileiro como pirarucu, piranha e piracema.",
+              "enunciado": "Qual elemento comum está presente em palavras como 'pirarucu' (peixe vermelho) e 'piracema' (subida dos peixes)?",
+              "payload": {
+                "opcoes": [
+                  "A raiz de madeira",
+                  "A raiz 'Pira' (peixe)",
+                  "A raiz de fogo",
+                  "A raiz de estrela"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pira' é o radical comum para peixe em todos esses termos biológicos.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Diferenciando peixes de mamíferos aquáticos nas atividades de campo.",
+              "enunciado": "Ao catalogar o pescado fresco da manhã, qual categoria zoológica recebe a etiqueta 'Pira'?",
+              "payload": {
+                "opcoes": [
+                  "Peixe",
+                  "Boto",
+                  "Capivara",
+                  "Lontra"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pira' identifica especificamente os peixes com escamas ou couro.",
+              "param_a": 1.0,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Fixação de termos fundamentais de alimentação e ecologia nos cadernos de estudos.",
+              "enunciado": "Assinale a opção que traduz com precisão o termo 'Pira':",
+              "payload": {
+                "opcoes": [
+                  "Peixe",
+                  "Canoa",
+                  "Rede",
+                  "Anzol"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pira' traduz-se fielmente como peixe.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ katu.'",
           "texto_com_lacunas": "______ katu.",
@@ -232,6 +651,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Igarapé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Navegando por um curso de água estreito sombreado pelas copas fechadas de açaizeiros e buritis.",
+              "enunciado": "Complete a sentença sobre o estreito canal de navegação: 'Oso ygaraté ______ rupi' (A pequena canoa vai pelo igarapé):",
+              "payload": {
+                "texto_com_lacunas": "Oso ygaraté ______ rupi.",
+                "respostas_corretas": [
+                  "Ygarapé"
+                ]
+              },
+              "explicacao": "'Ygarapé' (caminho de canoa) é o curso fluvial estreito e navegável por pequenas embarcações.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "A comunidade ribeirinha utiliza os canais naturais para se deslocar entre as casas e a roça.",
+              "enunciado": "Insira o termo que define o braço de rio navegável: 'Puranga a'e ______' (Belo é aquele igarapé):",
+              "payload": {
+                "texto_com_lacunas": "Puranga a'e ______.",
+                "respostas_corretas": [
+                  "Ygarapé"
+                ]
+              },
+              "explicacao": "'Ygarapé' é o caminho natural por onde deslizam as canoas no interior da floresta.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O guia orienta a embarcação para entrar no canal sombreado onde a correnteza é mansa.",
+              "enunciado": "Complete com o termo geográfico nativo: 'Aasem ______ pupé' (Entro no igarapé):",
+              "payload": {
+                "texto_com_lacunas": "Aasem ______ pupé.",
+                "respostas_corretas": [
+                  "Ygarapé"
+                ]
+              },
+              "explicacao": "'Ygarapé' situa o espaço de navegação fluvial protegida.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Explicando a etimologia da palavra aos visitantes do centro cultural.",
+              "enunciado": "Qual vocábulo designa a passagem estreita e sinuosa de água na mata: 'Oikó ______ ka'a mbytépe'?",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______ ka'a mbytépe.",
+                "respostas_corretas": [
+                  "Ygarapé"
+                ]
+              },
+              "explicacao": "'Ygarapé' expressa o curso d'água no meio da floresta.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -263,6 +744,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Igarapé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na aula de toponímia e geografia amazônica, analisa-se a composição morfológica de termos fluviais.",
+              "enunciado": "Qual curso hídrico estreito e navegável por pequenas embarcações é denominado 'Ygarapé'?",
+              "payload": {
+                "opcoes": [
+                  "Igarapé / Caminho da canoa",
+                  "Oceano alto",
+                  "Lago salgado",
+                  "Pântano intransitável"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ygarapé' significa literalmente 'caminho de canoa' (ygara + pé), definindo os riachos e canais navegáveis.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Examinando as rotas tradicionais de navegação que conectam as aldeias do interior da floresta.",
+              "enunciado": "O que representa o 'Ygarapé' para os povos que vivem nas bacias hidrográficas tropicais?",
+              "payload": {
+                "opcoes": [
+                  "Estrada de asfalto",
+                  "Caminho aquático essencial para o transporte em canoas",
+                  "Montanha rochosa",
+                  "Campos áridos"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Ygarapé' é a verdadeira via de transporte fluvial no cotidiano da floresta.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Estudo linguístico da formação das palavras compostas com o sufixo '-pe' (caminho).",
+              "enunciado": "Qual o significado da junção morfológica que forma a palavra 'Ygarapé'?",
+              "payload": {
+                "opcoes": [
+                  "Caminho de canoa",
+                  "Ninho de peixe",
+                  "Madeira queimada",
+                  "Praia de pedras"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Ygara (canoa) + pé (caminho/trilha) = caminho de canoa.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Consolidação dos termos de geografia fluvial em Tupi Revitalizado.",
+              "enunciado": "Assinale a tradução precisa do substantivo 'Ygarapé':",
+              "payload": {
+                "opcoes": [
+                  "Igarapé (canal fluvial)",
+                  "Pico nevado",
+                  "Deserto de areia",
+                  "Vulcão adormecido"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Ygarapé' é o igarapé navegável.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -328,7 +883,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.711,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Prática de síntese dos elementos vitais da hidrografia comunitária.",
+              "enunciado": "No contexto da preservação das bacias da floresta viva, qual é o vocábulo primordial para água potável e rio?",
+              "payload": {
+                "opcoes": [
+                  "'Y",
+                  "Tatu",
+                  "Oka",
+                  "Taba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é o elemento hídrico basilar nos estudos de Tupi Revitalizado.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando águas de rio e grandes massas oceânicas nas avaliações adaptativas.",
+              "enunciado": "Qual substantivo curto representa a substância líquida da chuva e das fontes?",
+              "payload": {
+                "opcoes": [
+                  "'Y",
+                  "Ka'a",
+                  "So'o",
+                  "Akuti"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é a água.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão dos recursos hídricos para a saúde da comunidade.",
+              "enunciado": "Selecione o termo que expressa a fonte líquida da vida:",
+              "payload": {
+                "opcoes": [
+                  "Pira",
+                  "'Y",
+                  "Ywyra",
+                  "Takwara"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' é a água doce.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -347,7 +958,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.611,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo sentenças adaptativas sobre os grandes rios da América do Sul.",
+              "enunciado": "Complete a sentença sobre a força das correntes caudalosas: 'Hetá 'y ______ pupé' (Há muita água no grande rio/mar):",
+              "payload": {
+                "texto_com_lacunas": "Hetá 'y ______ pupé.",
+                "respostas_corretas": [
+                  "Paraná"
+                ]
+              },
+              "explicacao": "'Paraná' completa a afirmação sobre o grande caudal.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Navegando pelos trechos mais largos do delta fluvial.",
+              "enunciado": "Preencha a lacuna: 'Oaso kanoa ______ rupi' (A canoa passa pelo grande rio):",
+              "payload": {
+                "texto_com_lacunas": "Oaso kanoa ______ rupi.",
+                "respostas_corretas": [
+                  "Paraná"
+                ]
+              },
+              "explicacao": "'Paraná' é a via fluvial principal.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Descrevendo a grandeza das águas abertas sob o céu ensolarado.",
+              "enunciado": "Qual vocábulo preenche a descrição: 'I berab ______' (O grande rio/mar brilha)?",
+              "payload": {
+                "texto_com_lacunas": "I berab ______.",
+                "respostas_corretas": [
+                  "Paraná"
+                ]
+              },
+              "explicacao": "'Paraná' é o sujeito da oração que brilha sob o sol.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -365,7 +1023,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -1.461,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Relação de interdependência entre canais navegáveis e a pesca artesanal.",
+              "enunciado": "Por qual canal fluvial tradicional os pescadores navegam para encontrar cardumes de 'Pira'?",
+              "payload": {
+                "opcoes": [
+                  "Ygarapé (caminho de canoa)",
+                  "Oka (casa)",
+                  "Taba (aldeia)",
+                  "Kapi'i (capinzal)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "O 'Ygarapé' é o caminho navegável por onde se acessam os pesqueiros ricos em peixe (pira).",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Estratégias de manejo pesqueiro comunitário nos períodos de cheia.",
+              "enunciado": "A conexão entre 'Ygarapé' e 'Pira' reflete no cotidiano:",
+              "payload": {
+                "opcoes": [
+                  "A agricultura em terra firme e seca",
+                  "A circulação aquática e o abastecimento de pescado na aldeia",
+                  "A coleta de mel nas montanhas",
+                  "O combate ao fogo na mata"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa a rota e a fonte de alimento proteico das comunidades fluviais.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Análise da toponímia e dos costumes ribeirinhos nos livros didáticos.",
+              "enunciado": "Qual o significado da expressão composta 'Ygarapé pira'?",
+              "payload": {
+                "opcoes": [
+                  "Igarapé dos peixes",
+                  "Canoa quebrada",
+                  "Árvore alta",
+                  "Fogo no lago"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Indica o canal fluvial habitado por fartos cardumes de peixes.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -383,7 +1097,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.711,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualidade dos recursos hídricos para a saúde da juventude da aldeia.",
+              "enunciado": "Qual expressão consagra a água potável, fresca e cristalina em Tupi Contemporâneo?",
+              "payload": {
+                "opcoes": [
+                  "'Y katu",
+                  "'Y aíba",
+                  "Paraná miri",
+                  "Pira aíba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y katu' expressa que a água é boa, limpa e adequada para o consumo.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Celebrando a água límpida que alimenta os pomares e hortas comunitárias.",
+              "enunciado": "Para dizer que a água do rio está excelente para banho e pesca, utiliza-se:",
+              "payload": {
+                "opcoes": [
+                  "'Y katu",
+                  "'Y poxi",
+                  "So'o poxi",
+                  "Oka poxi"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y katu' é o adjetivo de excelência e pureza.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Sintaxe da frase atributiva em Tupi Revitalizado.",
+              "enunciado": "Qual a sequência exata para afirmar 'água boa'?",
+              "payload": {
+                "opcoes": [
+                  "Katu 'y",
+                  "'Y katu",
+                  "Katu pira",
+                  "Pira aíba"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Substantivo ('Y) seguido de adjetivo (katu): 'Y katu.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -436,10 +1206,10 @@
             "Igarapé"
           ],
           "coluna_direita": [
-            "Água / Rio",
             "Rio grande / Mar",
-            "Peixe",
-            "Canal de canoa"
+            "Peixe das correntes",
+            "Igarapé / Canal de canoa",
+            "Água doce / Rio fluente"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -449,11 +1219,158 @@
             "Paraná",
             "Pira",
             "Igarapé"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Grande desafio de síntese náutica: ligue os quatro conceitos fundamentais das águas no Tupi Revitalizado.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos vivos de hidrografia e navegação às suas traduções em Português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Paraná",
+                  "Pira",
+                  "Ygarapé"
+                ],
+                "coluna_direita": [
+                  "Rio grande / Mar",
+                  "Peixe das correntes",
+                  "Igarapé / Canal de canoa",
+                  "Água doce / Rio fluente"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água doce / Rio fluente",
+                  "Paraná": "Rio grande / Mar",
+                  "Pira": "Peixe das correntes",
+                  "Ygarapé": "Igarapé / Canal de canoa"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: 'Y->Água (3), Paraná->Rio grande (0), Pira->Peixe (1), Ygarapé->Igarapé (2). Zero pontos fixos.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na roda de conversa de encerramento da expedição ecológica pelos afluentes da bacia.",
+              "enunciado": "Associe os termos indígenas às suas funções e identidades no ecossistema ribeirinho:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Ygarapé",
+                  "Pira",
+                  "Paraná",
+                  "'Y"
+                ],
+                "coluna_direita": [
+                  "O caudal caudaloso do rio maior",
+                  "O recurso hídrico da fonte",
+                  "O canal navegável entre a mata",
+                  "O alimento proteico pescado"
+                ],
+                "pares_corretos": {
+                  "Ygarapé": "O canal navegável entre a mata",
+                  "Pira": "O alimento proteico pescado",
+                  "Paraná": "O caudal caudaloso do rio maior",
+                  "'Y": "O recurso hídrico da fonte"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão final com tarjetas interativas no encerramento do módulo de navegação.",
+              "enunciado": "Ligue com exatidão cada vocábulo à sua respectiva definição:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pira",
+                  "'Y",
+                  "Ygarapé",
+                  "Paraná"
+                ],
+                "coluna_direita": [
+                  "Água pura para beber",
+                  "Grande curso de mar e rio",
+                  "Peixe capturado no anzol",
+                  "Canal de canoa na floresta"
+                ],
+                "pares_corretos": {
+                  "Pira": "Peixe capturado no anzol",
+                  "'Y": "Água pura para beber",
+                  "Ygarapé": "Canal de canoa na floresta",
+                  "Paraná": "Grande curso de mar e rio"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Teste de prontidão comunitária para os jovens navegantes dos igarapés.",
+              "enunciado": "Conecte os conceitos fluviais de Tupi Revitalizado aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Paraná",
+                  "Ygarapé",
+                  "'Y",
+                  "Pira"
+                ],
+                "coluna_direita": [
+                  "Canal de navegação fluvial",
+                  "Peixe saboroso",
+                  "Grande rio caudaloso / Mar",
+                  "Água doce de beber"
+                ],
+                "pares_corretos": {
+                  "Paraná": "Grande rio caudaloso / Mar",
+                  "Ygarapé": "Canal de navegação fluvial",
+                  "'Y": "Água doce de beber",
+                  "Pira": "Peixe saboroso"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Prova de mestria no universo aquático contemporâneo.",
+              "enunciado": "Faça a correlação conclusiva dos termos estudados ao longo do Capítulo 4:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Pira",
+                  "Paraná",
+                  "Ygarapé"
+                ],
+                "coluna_direita": [
+                  "Peixe das águas límpidas",
+                  "Mar ou rio imenso",
+                  "Canal onde passa a canoa",
+                  "Água do rio caudaloso"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água do rio caudaloso",
+                  "Pira": "Peixe das águas límpidas",
+                  "Paraná": "Mar ou rio imenso",
+                  "Ygarapé": "Canal onde passa a canoa"
+                }
+              },
+              "explicacao": "Derangement perfeito: 'Y->Água (3), Pira->Peixe (0), Paraná->Mar (1), Ygarapé->Canal (2).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra ''Y' para o Português:",
           "termo_fonte": "'Y",
           "traducao_esperada": "Água / Rio",
@@ -462,6 +1379,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "'Y"
+          ],
+          "opcoes": [
+            "Água / Rio",
+            "Terra de roça",
+            "Tronco de madeira",
+            "Semente de milho"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Pergunta de avaliação formativa com os educadores da aldeia.",
+              "enunciado": "Qual é o sentido elementar e essencial do vocábulo ''Y'?",
+              "payload": {
+                "opcoes": [
+                  "Água / Rio",
+                  "Terra de roça",
+                  "Tronco de madeira",
+                  "Semente de milho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é o termo genérico para a água e as correntes fluviais.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão das expressões cotidianas dos moradores ribeirinhos.",
+              "enunciado": "Se os viajantes dizem ''Y katu oĩ!', eles querem dizer que:",
+              "payload": {
+                "opcoes": [
+                  "A mata fechou a trilha",
+                  "Há água boa e límpida",
+                  "A canoa afundou",
+                  "A tempestade chegou"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y katu' expressa que há água boa, pura e agradável.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação nos registros de etnoecologia da juventude indígena.",
+              "enunciado": "A qual elemento natural o substantivo ancestral ''Y' dá nome?",
+              "payload": {
+                "opcoes": [
+                  "Ao elemento hídrico da água e dos rios",
+                  "Ao fogo e às brasas",
+                  "Às estrelas do céu",
+                  "Aos animais de pelo"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' representa as águas doces e os rios.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese final do aprendizado do módulo das águas em Tupi Revitalizado.",
+              "enunciado": "Em resumo definitivo, ''Y' representa:",
+              "payload": {
+                "opcoes": [
+                  "A montanha",
+                  "A água e o rio",
+                  "A casa comunitária",
+                  "O arco de caça"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' é a água.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

@@ -41,30 +41,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Qual é o significado correto da palavra 'Pindorama'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "Fogo sagrado"
-            },
-            {
-              "letra": "B",
-              "texto": "Onça veloz"
-            },
-            {
-              "letra": "C",
-              "texto": "Terra das Palmeiras"
-            },
-            {
-              "letra": "D",
-              "texto": "Água pura"
-            }
+            "Terra das Palmeiras Livres",
+            "Nuvem cinzenta",
+            "Arco quebrado",
+            "Pedra do rio"
           ],
-          "resposta_correta": "C",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Pindorama",
           "explicacao": "'Pindorama' significa 'Terra das Palmeiras' conforme atestado no RAG.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Pindorama"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No alto do morro contemplando a imensidão verde e as praias infinitas da pátria imemorial.",
+              "enunciado": "Ao estudar o tema culminante 'A Memória Eterna de Pindorama', qual é o significado de 'Pindorama'?",
+              "payload": {
+                "opcoes": [
+                  "Terra das Palmeiras Livres",
+                  "Nuvem cinzenta",
+                  "Arco quebrado",
+                  "Pedra do rio"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pindorama' traduz-se fielmente por 'Terra das Palmeiras Livres'.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Em reflexão com as lideranças e sábios sobre A Memória Eterna de Pindorama.",
+              "enunciado": "Qual conceito sagrado e histórico em Tupi Antigo é expresso por 'Pindorama'?",
+              "payload": {
+                "opcoes": [
+                  "Fogo extinto",
+                  "Terra das Palmeiras Livres",
+                  "Madeira podre",
+                  "Vento tempestuoso"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pindorama' refere-se a 'Terra das Palmeiras Livres'.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Na oratória solene perante toda a comunidade reunida.",
+              "enunciado": "Ao proclamar a força de 'Pindorama', a que realidade sublime o orador se reporta?",
+              "payload": {
+                "opcoes": [
+                  "Terra das Palmeiras Livres",
+                  "Peixe pequeno",
+                  "Noite sem estrelas",
+                  "Canoa virada"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Reporta-se com reverência a 'Terra das Palmeiras Livres'.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão formal da tradição dos antepassados.",
+              "enunciado": "Assinale a alternativa que traduz com rigor etnolinguístico 'Pindorama':",
+              "payload": {
+                "opcoes": [
+                  "Caminho de barro",
+                  "Terra das Palmeiras Livres",
+                  "Ninho de pássaro",
+                  "Raiz amarga"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pindorama' é 'Terra das Palmeiras Livres'.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -72,19 +134,157 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "Pindorama": "Terra das Palmeiras"
+            "Pindorama": "Terra das palmeiras sagradas",
+            "Nhe'engatu": "Língua boa e nobre",
+            "Teko Porang": "Modo de viver virtuoso"
           },
           "coluna_esquerda": [
-            "Pindorama"
+            "Pindorama",
+            "Nhe'engatu",
+            "Teko Porang"
           ],
           "coluna_direita": [
-            "Terra das Palmeiras"
+            "Língua boa e nobre",
+            "Modo de viver virtuoso",
+            "Terra das palmeiras sagradas"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
           "pontos_base": 15,
           "itens_alvo": [
             "Pindorama"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Memória Eterna de Pindorama (Versão 1).",
+              "enunciado": "Associe os termos fundamentais da Lição 1 às suas traduções em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang"
+                ],
+                "coluna_direita": [
+                  "Língua boa e nobre",
+                  "Modo de viver virtuoso",
+                  "Terra das palmeiras sagradas"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Terra das palmeiras sagradas",
+                  "Nhe'engatu": "Língua boa e nobre",
+                  "Teko Porang": "Modo de viver virtuoso"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Memória Eterna de Pindorama (Versão 2).",
+              "enunciado": "Relacione cada elemento cultural de A Memória Eterna de Pindorama com o seu significado autêntico:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang"
+                ],
+                "coluna_direita": [
+                  "Modo de viver virtuoso",
+                  "Terra das palmeiras sagradas",
+                  "Língua boa e nobre"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Terra das palmeiras sagradas",
+                  "Nhe'engatu": "Língua boa e nobre",
+                  "Teko Porang": "Modo de viver virtuoso"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.3,
+              "param_b": -1.0999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Memória Eterna de Pindorama (Versão 3).",
+              "enunciado": "Conecte os conceitos correspondentes aprendidos nesta etapa inicial:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang"
+                ],
+                "coluna_direita": [
+                  "Língua boa e nobre",
+                  "Modo de viver virtuoso",
+                  "Terra das palmeiras sagradas"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Terra das palmeiras sagradas",
+                  "Nhe'engatu": "Língua boa e nobre",
+                  "Teko Porang": "Modo de viver virtuoso"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Memória Eterna de Pindorama (Versão 4).",
+              "enunciado": "Ligue os vocábulos da coluna esquerda às definições adequadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang"
+                ],
+                "coluna_direita": [
+                  "Modo de viver virtuoso",
+                  "Terra das palmeiras sagradas",
+                  "Língua boa e nobre"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Terra das palmeiras sagradas",
+                  "Nhe'engatu": "Língua boa e nobre",
+                  "Teko Porang": "Modo de viver virtuoso"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.4,
+              "param_b": -0.8999999999999999,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Exercício de fixação e conexão visual sobre A Memória Eterna de Pindorama (Versão 5).",
+              "enunciado": "Identifique a correspondência correta entre os termos tradicionais do módulo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang"
+                ],
+                "coluna_direita": [
+                  "Língua boa e nobre",
+                  "Modo de viver virtuoso",
+                  "Terra das palmeiras sagradas"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Terra das palmeiras sagradas",
+                  "Nhe'engatu": "Língua boa e nobre",
+                  "Teko Porang": "Modo de viver virtuoso"
+                }
+              },
+              "explicacao": "Associação de pares com derangement estrito (zero pontos fixos).",
+              "param_a": 1.45,
+              "param_b": -0.7999999999999999,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -130,6 +330,71 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Nhe'engatu"
+          ],
+          "respostas_corretas": [
+            "Nhe'engatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Invocando o conceito sagrado de 'Nhe'engatu' perante a natureza viva.",
+              "enunciado": "Complete a sentença tradicional: '______ katu' (Expressão viva e bela bom/nobre):",
+              "payload": {
+                "texto_com_lacunas": "______ katu.",
+                "respostas_corretas": [
+                  "Nhe'engatu"
+                ]
+              },
+              "explicacao": "'Nhe'engatu' completa a oração com solenidade e exatidão.",
+              "param_a": 1.2,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Expressando respeito às forças da ancestralidade.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Existe Expressão viva e bela):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Nhe'engatu"
+                ]
+              },
+              "explicacao": "'Nhe'engatu' afirma a presença da entidade ou elemento.",
+              "param_a": 1.25,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Celebração comunitária da cultura e memória.",
+              "enunciado": "Qual termo completa a oração afirmativa: 'Ahecha ______' (Eu contemplo Expressão viva e bela)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Nhe'engatu"
+                ]
+              },
+              "explicacao": "'Nhe'engatu' é o objeto da visão sagrada.",
+              "param_a": 1.15,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ensinamento dos guardiões da memória.",
+              "enunciado": "Insira a palavra canônica na oração: 'I porang ______':",
+              "payload": {
+                "texto_com_lacunas": "I porang ______.",
+                "respostas_corretas": [
+                  "Nhe'engatu"
+                ]
+              },
+              "explicacao": "'Nhe'engatu' é o núcleo enaltecido na frase.",
+              "param_a": 1.3,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -137,30 +402,92 @@
           "tipo": "escolha_multipla",
           "enunciado": "Em Tupi Antigo, como se traduz 'Nhe'engatu'?",
           "opcoes": [
-            {
-              "letra": "A",
-              "texto": "A língua clássica pura"
-            },
-            {
-              "letra": "B",
-              "texto": "Céu noturno"
-            },
-            {
-              "letra": "C",
-              "texto": "Grande rio"
-            },
-            {
-              "letra": "D",
-              "texto": "Terra firme"
-            }
+            "Expressão viva e bela",
+            "Canoa furada",
+            "Vento frio",
+            "Rio lamacento"
           ],
-          "resposta_correta": "A",
+          "resposta_correta": 0,
           "resposta_correta_termo": "Nhe'engatu",
           "explicacao": "'Nhe'engatu' traduz-se fielmente como 'A língua clássica pura'.",
           "dificuldade": "facil",
           "pontos_base": 10,
           "itens_alvo": [
             "Nhe'engatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Estudo dos fundamentos lexicais sobre 'Nhe'engatu'.",
+              "enunciado": "Qual é o significado de 'Nhe'engatu' no contexto tradicional de A Memória Eterna de Pindorama?",
+              "payload": {
+                "opcoes": [
+                  "Expressão viva e bela",
+                  "Canoa furada",
+                  "Vento frio",
+                  "Rio lamacento"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Nhe'engatu' traduz-se como 'Expressão viva e bela'.",
+              "param_a": 1.05,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ao rememorar as palavras de grande valor em A Memória Eterna de Pindorama.",
+              "enunciado": "A qual conceito o termo 'Nhe'engatu' se reporta em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "Folha seca",
+                  "Expressão viva e bela",
+                  "Areia da praia",
+                  "Arco quebrado"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Nhe'engatu' refere-se a 'Expressão viva e bela'.",
+              "param_a": 1.1,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Fixação e diálogo com os mais velhos.",
+              "enunciado": "Selecione o equivalente exato para 'Nhe'engatu':",
+              "payload": {
+                "opcoes": [
+                  "Expressão viva e bela",
+                  "Chuva forte",
+                  "Fogueira apagada",
+                  "Peixe morto"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Nhe'engatu' corresponde a 'Expressão viva e bela'.",
+              "param_a": 1.0,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese vocabular da Lição 2.",
+              "enunciado": "Qual alternativa traduz 'Nhe'engatu' com máxima autenticidade?",
+              "payload": {
+                "opcoes": [
+                  "Mata escura",
+                  "Expressão viva e bela",
+                  "Toca funda",
+                  "Céu cinzento"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Nhe'engatu' traduz-se como 'Expressão viva e bela'.",
+              "param_a": 1.15,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -213,9 +540,9 @@
           "enunciado": "No contexto de 'A Memória Eterna de Pindorama', qual termo representa a forma canônica aprendida?",
           "opcoes": [
             "Pindorama",
-            "Monhe'engatu",
-            "Teaué",
-            "Kutuba"
+            "Mokuara",
+            "Tekuara",
+            "Kuso'o"
           ],
           "resposta_correta": 0,
           "explicacao": "'Pindorama' é o vocábulo central atestado no Dicionário de Tupi Antigo de Eduardo Navarro.",
@@ -223,7 +550,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 2.5,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Reconhecimento morfológico em testes adaptativos sobre A Memória Eterna de Pindorama.",
+              "enunciado": "Qual é a forma canônica do vocábulo 'Pindorama'?",
+              "payload": {
+                "opcoes": [
+                  "Pindorama",
+                  "Mokuara",
+                  "Tekuara",
+                  "Kuso'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pindorama' é a forma canônica correta.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciação lexical adaptativa no módulo de A Memória Eterna de Pindorama.",
+              "enunciado": "Selecione o termo autêntico e consagrado deste módulo:",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "Pindorama",
+                  "Manioka",
+                  "Tatu"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pindorama' é o vocábulo central do tema.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de fixação permanente de vocabulário.",
+              "enunciado": "Qual termo representa o conceito primordial estudado em A Memória Eterna de Pindorama?",
+              "payload": {
+                "opcoes": [
+                  "Pindorama",
+                  "Paraná",
+                  "Ybyrá",
+                  "So'o"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pindorama' é o termo fundamental de A Memória Eterna de Pindorama.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -242,17 +625,68 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": 2.6,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "texto_com_lacunas": "Xe ______ katu.",
+          "respostas_corretas": [
+            "Nhe'engatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Sintaxe de possessivo e adjetivo com 'Nhe'engatu'.",
+              "enunciado": "Complete a locução solene: 'Xe ______ katu':",
+              "payload": {
+                "texto_com_lacunas": "Xe ______ katu.",
+                "respostas_corretas": [
+                  "Nhe'engatu"
+                ]
+              },
+              "explicacao": "'Nhe'engatu' completa a locução perfeitamente.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Construção sintática viva em contextos rituais.",
+              "enunciado": "Preencha a lacuna: 'Oikó ______' (Afirmação de presença):",
+              "payload": {
+                "texto_com_lacunas": "Oikó ______.",
+                "respostas_corretas": [
+                  "Nhe'engatu"
+                ]
+              },
+              "explicacao": "'Nhe'engatu' é o sujeito.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Predicação afirmativa em A Memória Eterna de Pindorama.",
+              "enunciado": "Qual vocábulo preenche com exatidão: 'I porang a'e ______'?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Nhe'engatu"
+                ]
+              },
+              "explicacao": "'Nhe'engatu' é o elemento exaltado.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
           "tipo": "escolha_multipla",
           "enunciado": "Identifique a relação gramatical correta relacionada ao tema 'A Memória Eterna de Pindorama':",
           "opcoes": [
-            "Uso harmônico de 'Aué'",
-            "Construção com prefixo incorreto",
-            "Termo estrangeiro sem raiz",
-            "Forma verbal inexistente"
+            "Uso harmônico de 'Pindorama'",
+            "Construção incorreta",
+            "Palavra inexistente",
+            "Termo sem raiz"
           ],
           "resposta_correta": 0,
           "explicacao": "'Aué' expressa a construção genuína documentada nas fontes clássicas.",
@@ -260,7 +694,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": 2.75,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificação das relações conceituais em A Memória Eterna de Pindorama.",
+              "enunciado": "Qual relação conceitual correta se aplica a 'Pindorama'?",
+              "payload": {
+                "opcoes": [
+                  "Uso harmônico de 'Pindorama'",
+                  "Construção incorreta",
+                  "Palavra inexistente",
+                  "Termo sem raiz"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pindorama' expressa a construção genuína da língua.",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise cultural de A Memória Eterna de Pindorama.",
+              "enunciado": "O que representa 'Pindorama' na memória coletiva dos povos?",
+              "payload": {
+                "opcoes": [
+                  "Elemento sem importância",
+                  "Elemento tradicional de A Memória Eterna de Pindorama",
+                  "Objeto importado",
+                  "Invenção colonial"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Representa elemento tradicional autêntico de A Memória Eterna de Pindorama.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Avaliação de rigor etnolinguístico e histórico.",
+              "enunciado": "Qual afirmação sobre 'Pindorama' é historicamente exata?",
+              "payload": {
+                "opcoes": [
+                  "É termo consagrado nas fontes clássicas e orais",
+                  "É palavra inventada",
+                  "É gíria recente",
+                  "Não possui significado"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Consagrado nas fontes etnolinguísticas e orais.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -268,9 +758,9 @@
           "enunciado": "Ao revisar as estruturas de A Memória Eterna de Pindorama, qual é a forma adequada de expressar afirmação ou qualidade?",
           "opcoes": [
             "Katu",
-            "Ibi",
-            "Tekó",
-            "Moñy"
+            "Poxi",
+            "Aíba",
+            "Miri"
           ],
           "resposta_correta": 0,
           "explicacao": "'Katu' é a raiz clássica para 'bom, bem, de boa qualidade' em Tupi Antigo/Revitalizado.",
@@ -278,7 +768,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": 2.5,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Qualificadores atributivos de nobreza e bondade em A Memória Eterna de Pindorama.",
+              "enunciado": "Qual modificador expressa 'bom, excelente ou sagrado' em Tupi?",
+              "payload": {
+                "opcoes": [
+                  "Katu",
+                  "Poxi",
+                  "Aíba",
+                  "Miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Katu' é a raiz canônica para bom, belo e excelente.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Sintaxe da exaltação de qualidades superiores.",
+              "enunciado": "Para qualificar positivamente 'Pindorama', qual raiz é adicionada?",
+              "payload": {
+                "opcoes": [
+                  "Aíba",
+                  "Katu",
+                  "Poxi",
+                  "Teko"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Katu' qualifica com elevação o substantivo.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ordem natural dos termos em orações de louvor.",
+              "enunciado": "Qual é a ordem correta para dizer 'Terra das Palmeiras Livres bom'?",
+              "payload": {
+                "opcoes": [
+                  "Katu pindorama",
+                  "Pindorama katu",
+                  "Katu aíba",
+                  "Pindorama poxi"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O substantivo antecede o modificador atributivo.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -309,16 +855,22 @@
           "tipo": "associacao",
           "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais do Capítulo 20:",
           "pares_corretos": {
-            "Pindorama": "Terra das Palmeiras",
-            "Nhe'engatu": "A língua clássica pura"
+            "Pindorama": "Berço ancestral de Pindorama",
+            "Nhe'engatu": "Língua geral viva",
+            "Teko Porang": "Beleza das tradições",
+            "Moingobe": "Vida para sempre perpetuada"
           },
           "coluna_esquerda": [
             "Pindorama",
-            "Nhe'engatu"
+            "Nhe'engatu",
+            "Teko Porang",
+            "Moingobe"
           ],
           "coluna_direita": [
-            "Terra das Palmeiras",
-            "A língua clássica pura"
+            "Língua geral viva",
+            "Beleza das tradições",
+            "Vida para sempre perpetuada",
+            "Berço ancestral de Pindorama"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -326,11 +878,158 @@
           "itens_alvo": [
             "Pindorama",
             "Nhe'engatu"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 20 (A Memória Eterna de Pindorama) - Versão 1.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos fundamentais do Capítulo 20 às suas traduções:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang",
+                  "Moingobe"
+                ],
+                "coluna_direita": [
+                  "Vida para sempre perpetuada",
+                  "Berço ancestral de Pindorama",
+                  "Língua geral viva",
+                  "Beleza das tradições"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Berço ancestral de Pindorama",
+                  "Nhe'engatu": "Língua geral viva",
+                  "Teko Porang": "Beleza das tradições",
+                  "Moingobe": "Vida para sempre perpetuada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.37,
+              "param_b": -0.75,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 20 (A Memória Eterna de Pindorama) - Versão 2.",
+              "enunciado": "Grande Síntese: Relacione cada elemento cultural de A Memória Eterna de Pindorama com seu significado exato:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang",
+                  "Moingobe"
+                ],
+                "coluna_direita": [
+                  "Língua geral viva",
+                  "Beleza das tradições",
+                  "Vida para sempre perpetuada",
+                  "Berço ancestral de Pindorama"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Berço ancestral de Pindorama",
+                  "Nhe'engatu": "Língua geral viva",
+                  "Teko Porang": "Beleza das tradições",
+                  "Moingobe": "Vida para sempre perpetuada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.3900000000000001,
+              "param_b": -0.7000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 20 (A Memória Eterna de Pindorama) - Versão 3.",
+              "enunciado": "Prova dos Anciãos: Conecte os quatro vocábulos às definições correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang",
+                  "Moingobe"
+                ],
+                "coluna_direita": [
+                  "Beleza das tradições",
+                  "Vida para sempre perpetuada",
+                  "Berço ancestral de Pindorama",
+                  "Língua geral viva"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Berço ancestral de Pindorama",
+                  "Nhe'engatu": "Língua geral viva",
+                  "Teko Porang": "Beleza das tradições",
+                  "Moingobe": "Vida para sempre perpetuada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4100000000000001,
+              "param_b": -0.65,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 20 (A Memória Eterna de Pindorama) - Versão 4.",
+              "enunciado": "Mapeamento Lexical: Associe as palavras ancestrais às suas equivalências:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang",
+                  "Moingobe"
+                ],
+                "coluna_direita": [
+                  "Vida para sempre perpetuada",
+                  "Beleza das tradições",
+                  "Berço ancestral de Pindorama",
+                  "Língua geral viva"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Berço ancestral de Pindorama",
+                  "Nhe'engatu": "Língua geral viva",
+                  "Teko Porang": "Beleza das tradições",
+                  "Moingobe": "Vida para sempre perpetuada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4300000000000002,
+              "param_b": -0.6000000000000001,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Desafio de síntese geral da aldeia sobre o Capítulo 20 (A Memória Eterna de Pindorama) - Versão 5.",
+              "enunciado": "Conclusão do Capítulo: Faça a correspondência precisa entre todos os pares apresentados:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pindorama",
+                  "Nhe'engatu",
+                  "Teko Porang",
+                  "Moingobe"
+                ],
+                "coluna_direita": [
+                  "Língua geral viva",
+                  "Berço ancestral de Pindorama",
+                  "Vida para sempre perpetuada",
+                  "Beleza das tradições"
+                ],
+                "pares_corretos": {
+                  "Pindorama": "Berço ancestral de Pindorama",
+                  "Nhe'engatu": "Língua geral viva",
+                  "Teko Porang": "Beleza das tradições",
+                  "Moingobe": "Vida para sempre perpetuada"
+                }
+              },
+              "explicacao": "Derangement estrito verificado (zero posições fixas).",
+              "param_a": 1.4500000000000002,
+              "param_b": -0.55,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra 'Pindorama' para o Português:",
           "termo_fonte": "Pindorama",
           "traducao_esperada": "Terra das Palmeiras",
@@ -339,6 +1038,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Pindorama"
+          ],
+          "opcoes": [
+            "Terra das Palmeiras Livres",
+            "Nuvem de tempestade escura",
+            "Fogo apagado",
+            "Caminho pedregoso"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Última avaliação de encerramento do Capítulo 20 perante os mestres da tradição.",
+              "enunciado": "Qual é a tradução canônica e exata do vocábulo 'Pindorama'?",
+              "payload": {
+                "opcoes": [
+                  "Terra das Palmeiras Livres",
+                  "Nuvem de tempestade escura",
+                  "Fogo apagado",
+                  "Caminho pedregoso"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pindorama' traduz-se fielmente por 'Terra das Palmeiras Livres'.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Consolidação final dos conceitos de A Memória Eterna de Pindorama.",
+              "enunciado": "Assinale a alternativa que define com fidelidade 'Pindorama':",
+              "payload": {
+                "opcoes": [
+                  "Noite chuvosa",
+                  "Terra das Palmeiras Livres",
+                  "Peixe pequeno",
+                  "Folhagem seca"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pindorama' significa 'Terra das Palmeiras Livres'.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Prova de mestria no encerramento da jornada.",
+              "enunciado": "Identifique a opção em que 'Pindorama' é empregado com seu sentido original:",
+              "payload": {
+                "opcoes": [
+                  "Terra das Palmeiras Livres",
+                  "Cesto de pesca",
+                  "Flecha curta",
+                  "Areia fina"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "Corresponde a 'Terra das Palmeiras Livres'.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Síntese e certificação da lição perante os anciãos.",
+              "enunciado": "Qual conceito tradicional encerra com maestria a lição de 'Pindorama'?",
+              "payload": {
+                "opcoes": [
+                  "Caminho estreito",
+                  "Terra das Palmeiras Livres",
+                  "Árvore caída",
+                  "Vento leve"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pindorama' é 'Terra das Palmeiras Livres'.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
           ]
         }
       ],

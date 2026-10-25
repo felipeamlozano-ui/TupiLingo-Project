@@ -75,6 +75,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "'Y"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Após uma longa marcha pela floresta úmida, os guerreiros alcançam uma fonte cristalina que brota da rocha.",
+              "enunciado": "Ao ouvir o barulho refrescante de uma vertente cristalina, a qual elemento vital o termo ''Y' se refere?",
+              "payload": {
+                "opcoes": [
+                  "Água / Rio",
+                  "Terra argilosa",
+                  "Madeira de arco",
+                  "Fogo de acampamento"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é o termo elementar e onipresente em Tupi Antigo para 'água', 'rio' ou qualquer curso hídrico.",
+              "param_a": 1.0,
+              "param_b": -1.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "As mães e crianças descem ao porto da taba com igaçabas de cerâmica para recolher o sustento líquido do dia.",
+              "enunciado": "Qual recurso indispensável à vida e à aldeia é designado pela vogal gutural ''Y'?",
+              "payload": {
+                "opcoes": [
+                  "Farinha de mandioca",
+                  "Água pura de rio",
+                  "Sal marinho",
+                  "Resina de árvore"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' designa a água doce essencial para a sobrevivência e os cursos d'água onde se pesca e navega.",
+              "param_a": 1.1,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O timoneiro observa o espelho límpido de um remanso e diz aos jovens remadores que podem saciar a sede.",
+              "enunciado": "Ao beber do manancial sereno, o caçador exclama: ''Y katu!'. O que ele está afirmando?",
+              "payload": {
+                "opcoes": [
+                  "A água é boa e pura",
+                  "O rio secou no verão",
+                  "A correnteza está furiosa",
+                  "A canoa bateu na pedra"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y katu' expressa que a água é boa, potável e agradável ao paladar.",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "No estudo da formação de nomes de rios brasileiros (como Tietê, Iguaçu, Paranaíba).",
+              "enunciado": "Qual raiz tupi deu origem ao prefixo ou sufixo hidronímico presente em dezenas de rios nacionais?",
+              "payload": {
+                "opcoes": [
+                  "Taba",
+                  "'Y",
+                  "Oka",
+                  "Aba"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "A raiz ''Y' (água/rio) gerou palavras como Iguaçu ('y + gûasu = rio grande) e Ipiranga ('y + piranga = rio vermelho).",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -106,6 +180,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Paraná"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Saindo da barra de um igarapé estreito, os navegantes tupinambás deparam-se com a imensidão das águas abertas.",
+              "enunciado": "Ao avistar a vastidão caudalosa sem margem visível do outro lado, qual grandeza hídrica é chamada de 'Paraná'?",
+              "payload": {
+                "opcoes": [
+                  "Poça de chuva",
+                  "Mar / Grande caudal / Rio volumoso",
+                  "Riacho temporário",
+                  "Lagoa rasa"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Paraná' designa o mar, o grande rio caudaloso ou o oceano bravio nas fontes quinhentistas de Navarro.",
+              "param_a": 1.1,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Os pescadores da costa contemplam o bater contínuo das ondas e o sopro salgado do vento marinho.",
+              "enunciado": "A qual domínio geográfico da costa marítima e dos grandes cursos se aplica o vocábulo 'Paraná'?",
+              "payload": {
+                "opcoes": [
+                  "Ao mar aberto e grandes rios",
+                  "Ao topo das montanhas secas",
+                  "À clareira de mandioca",
+                  "Ao interior da maloca"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Paraná' refere-se ao oceano ou a imensos rios navegáveis semelhantes ao mar.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Uma comitiva de canoas prepara-se para a grande travessia da baía sob o comando do morubixaba.",
+              "enunciado": "Quando o piloto avisa 'Paraná guasu oikó!', qual alerta ele dá à tripulação?",
+              "payload": {
+                "opcoes": [
+                  "Estamos diante do grande mar aberto",
+                  "A mata pegou fogo na serra",
+                  "Os peixes sumiram da praia",
+                  "Chegamos a uma fonte pequena"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Paraná guasu' é a expressão clássica para o grande oceano ou mar aberto.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Revisão toponímica dos estados e bacias hidrográficas da América do Sul.",
+              "enunciado": "O estado brasileiro do Paraná deve seu nome a este substantivo ancestral, cujo sentido exato é:",
+              "payload": {
+                "opcoes": [
+                  "Céu azul",
+                  "Rio que se parece com o mar / Grande caudal",
+                  "Floresta de pinheiros",
+                  "Terra de ouro"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "Paraná provém de 'para' (mar/rio largo) + 'ná' (semelhante a), significando rio caudaloso como o mar.",
+              "param_a": 1.05,
+              "param_b": -1.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -113,16 +261,19 @@
           "tipo": "associacao",
           "enunciado": "Associe corretamente cada termo à sua tradução correspondente:",
           "pares_corretos": {
-            "'Y": "Água / Rio",
-            "Paraná": "Mar / Grande caudal"
+            "'Y": "Água doce / Rio comum",
+            "Paraná": "Mar / Grande rio caudaloso",
+            "Pirá": "Peixe das águas"
           },
           "coluna_esquerda": [
             "'Y",
-            "Paraná"
+            "Paraná",
+            "Pirá"
           ],
           "coluna_direita": [
-            "Água / Rio",
-            "Mar / Grande caudal"
+            "Mar / Grande rio caudaloso",
+            "Peixe das águas",
+            "Água doce / Rio comum"
           ],
           "explicacao": "Pares baseados nos termos apresentados no início da lição.",
           "dificuldade": "facil",
@@ -130,6 +281,138 @@
           "itens_alvo": [
             "'Y",
             "Paraná"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "No ancoradouro da aldeia litorânea, o mestre navegador instrui os aprendizes sobre os termos fluviais e marinhos.",
+              "enunciado": "Associe os termos fundamentais das águas aos seus significados em língua portuguesa:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Paraná",
+                  "Pirá"
+                ],
+                "coluna_direita": [
+                  "Mar / Grande rio caudaloso",
+                  "Peixe das águas",
+                  "Água doce / Rio comum"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água doce / Rio comum",
+                  "Paraná": "Mar / Grande rio caudaloso",
+                  "Pirá": "Peixe das águas"
+                }
+              },
+              "explicacao": "Derangement estrito garantido: 'Y->Água (índice 2), Paraná->Mar (índice 0), Pirá->Peixe (índice 1).",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Observando a foz onde o rio deságua bravamente no oceano aberto.",
+              "enunciado": "Conecte os conceitos hidrográficos nativos aos elementos correspondentes:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Paraná",
+                  "Pirá",
+                  "'Y"
+                ],
+                "coluna_direita": [
+                  "A corrente de água doce",
+                  "O vasto oceano costeiro",
+                  "Criatura que nada nas ondas"
+                ],
+                "pares_corretos": {
+                  "Paraná": "O vasto oceano costeiro",
+                  "Pirá": "Criatura que nada nas ondas",
+                  "'Y": "A corrente de água doce"
+                }
+              },
+              "explicacao": "Permutação completa sem pontos fixos (derangement total).",
+              "param_a": 1.3,
+              "param_b": -1.1,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão dos recursos aquáticos com placas de cerâmica pintadas com urucum e jenipapo.",
+              "enunciado": "Ligue com precisão os substantivos da vida aquática às suas descrições:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pirá",
+                  "'Y",
+                  "Paraná"
+                ],
+                "coluna_direita": [
+                  "O oceano e suas grandes marés",
+                  "Peixe capturado no covo",
+                  "O rio que banha a aldeia"
+                ],
+                "pares_corretos": {
+                  "Pirá": "Peixe capturado no covo",
+                  "'Y": "O rio que banha a aldeia",
+                  "Paraná": "O oceano e suas grandes marés"
+                }
+              },
+              "explicacao": "Derangement absoluto em 100% dos pares.",
+              "param_a": 1.2,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Preparando os aprendizes para a primeira travessia marítima rumo às ilhas costeiras.",
+              "enunciado": "Faça a correlação perfeita entre os três termos da Lição 1:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Pirá",
+                  "Paraná"
+                ],
+                "coluna_direita": [
+                  "Pescado saboroso",
+                  "Água cristalina da fonte",
+                  "Grande mar aberto"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água cristalina da fonte",
+                  "Pirá": "Pescado saboroso",
+                  "Paraná": "Grande mar aberto"
+                }
+              },
+              "explicacao": "Derangement verificado.",
+              "param_a": 1.15,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Quiz rápido de fixação sobre os ambientes aquáticos de Pindorama.",
+              "enunciado": "Una cada termo em Tupi Antigo à sua definição correta:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Paraná",
+                  "'Y",
+                  "Pirá"
+                ],
+                "coluna_direita": [
+                  "Peixe dos igarapés",
+                  "Imensidão do oceano",
+                  "Água potável de beber"
+                ],
+                "pares_corretos": {
+                  "Paraná": "Imensidão do oceano",
+                  "'Y": "Água potável de beber",
+                  "Pirá": "Peixe dos igarapés"
+                }
+              },
+              "explicacao": "Zero posições coincidentes.",
+              "param_a": 1.35,
+              "param_b": -1.0,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -186,6 +469,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Pira"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Pescadores armam covos e redes de fibra vegetal nos remansos tranquilos do igarapé ao amanhecer.",
+              "enunciado": "Complete a sentença tradicional do canoeiro pescador: '______ 'y pupé' (Peixe na água):",
+              "payload": {
+                "texto_com_lacunas": "______ 'y pupé.",
+                "respostas_corretas": [
+                  "Pirá"
+                ]
+              },
+              "explicacao": "'Pirá' (Peixe) é o habitante das águas fluviais e marinhas, completando a oração canônica.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na proa da canoa, o jovem guerreiro aponta o arco com flecha de ponta tripla para a água rasa.",
+              "enunciado": "Qual termo completa a frase que descreve a presa que nada no rio: 'Ahecha ______' (Vejo o peixe)?",
+              "payload": {
+                "texto_com_lacunas": "Ahecha ______.",
+                "respostas_corretas": [
+                  "Pirá"
+                ]
+              },
+              "explicacao": "'Pirá' é o pescado visado pelo arqueiro pescador.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "No retorno da pescaria noturna com tochas de resina acesas.",
+              "enunciado": "Preencha a lacuna da exclamação de fartura alimentar: 'Hetá ______!' (Há muito peixe!):",
+              "payload": {
+                "texto_com_lacunas": "Hetá ______!",
+                "respostas_corretas": [
+                  "Pirá"
+                ]
+              },
+              "explicacao": "'Pirá' forma a expressão clássica de abundância piscifacetada.",
+              "param_a": 1.15,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Preparando o moquém de peixes frescos enrolados em folhas de bananeira-brava.",
+              "enunciado": "Complete a frase do banquete da aldeia: 'Moquém pupé oîkó ______':",
+              "payload": {
+                "texto_com_lacunas": "Moquém pupé oîkó ______.",
+                "respostas_corretas": [
+                  "Pirá"
+                ]
+              },
+              "explicacao": "'Pirá' é o alimento que é defumado na grelha de madeira tradicional.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -217,10 +562,84 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Pira"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Na roda de contação de histórias sobre a fauna aquática e os métodos tradicionais de pesca.",
+              "enunciado": "Qual animal aquático é universalmente designado em Tupi Antigo pela raiz 'Pirá'?",
+              "payload": {
+                "opcoes": [
+                  "Peixe",
+                  "Gaivota marinha",
+                  "Caranguejo do mangue",
+                  "Tartaruga de casco mole"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pirá' significa 'peixe' em Tupi Antigo, raiz presente em termos como Piracicaba e Piranha.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Examinando a presença de vocábulos indígenas na ictiologia e na culinária nacional.",
+              "enunciado": "A qual classe de criaturas vivas o termo ancestral 'Pirá' dá nome?",
+              "payload": {
+                "opcoes": [
+                  "Aves de rapina",
+                  "Peixes das águas doces e marinhas",
+                  "Mamíferos de toca",
+                  "Plantas rasteiras"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pirá' é o substantivo comum para qualquer espécie de peixe.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Ao ensinar as crianças a distinguir carne de caça terrestre de carne de peixe.",
+              "enunciado": "Para diferenciar da carne de mata (so'ó), qual nome é dado à carne de peixe das redes?",
+              "payload": {
+                "opcoes": [
+                  "Ka'a",
+                  "Pirá",
+                  "Tatu",
+                  "Oka"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Pirá' é o alimento vindo das águas, distinto do alimento da mata terrestre.",
+              "param_a": 1.0,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Análise zoológica clássica de Pindorama segundo os relatos de Hans Staden e Jean de Léry.",
+              "enunciado": "Assinale a tradução precisa do vocábulo 'Pirá':",
+              "payload": {
+                "opcoes": [
+                  "Peixe",
+                  "Barco a vela",
+                  "Pedra de amolar",
+                  "Cesto de palha"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "'Pirá' é a tradução incontestável de peixe.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            }
           ]
         },
         {
-          "ordem": 2,
+          "ordem": 3,
           "tipo": "completar",
           "enunciado": "Complete a frase com a palavra correta: '______ paraná pupé.'",
           "texto_com_lacunas": "______ paraná pupé.",
@@ -232,6 +651,68 @@
           "pontos_base": 15,
           "itens_alvo": [
             "Ygata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Os carpinteiros da taba talham pacientemente um tronco maciço de peroba com fogo e machados de pedra.",
+              "enunciado": "Complete a sentença sobre a embarcação escavada em tronco único: 'Oso ______ 'y rupi' (A canoa vai pelo rio):",
+              "payload": {
+                "texto_com_lacunas": "Oso ______ 'y rupi.",
+                "respostas_corretas": [
+                  "'Ygá"
+                ]
+              },
+              "explicacao": "''Ygá' (Canoa) é a embarcação monóxila indígena escavada em tronco de árvore.",
+              "param_a": 1.25,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "As canoas de guerra atracam suavemente na areia branca da praia protegida por recifes.",
+              "enunciado": "Insira o nome da embarcação que desliza suavemente sobre a lâmina das águas: 'I puranga ______' (Bela é a canoa):",
+              "payload": {
+                "texto_com_lacunas": "I puranga ______.",
+                "respostas_corretas": [
+                  "'Ygá"
+                ]
+              },
+              "explicacao": "''Ygá' completa a sentença estética de exaltação ao barco tribal.",
+              "param_a": 1.2,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O vigia no topo do penhasco costeiro avista embarcações amigas chegando para o escambo.",
+              "enunciado": "Complete o aviso do vigia: 'Oîkó ______ paraná pupé' (A canoa está no mar):",
+              "payload": {
+                "texto_com_lacunas": "Oîkó ______ paraná pupé.",
+                "respostas_corretas": [
+                  "'Ygá"
+                ]
+              },
+              "explicacao": "''Ygá' é o barco que desafia as marés e correntes fluviais.",
+              "param_a": 1.3,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Ensinando a técnica de remar em ritmo uníssono com remos de madeira nobre.",
+              "enunciado": "Qual vocábulo preenche a locução de navegação: 'Asem ______ pupé' (Entro na canoa)?",
+              "payload": {
+                "texto_com_lacunas": "Asem ______ pupé.",
+                "respostas_corretas": [
+                  "'Ygá"
+                ]
+              },
+              "explicacao": "''Ygá pupé' significa 'dentro da canoa'.",
+              "param_a": 1.35,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
@@ -263,6 +744,80 @@
           "pontos_base": 10,
           "itens_alvo": [
             "Ygata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "O cronista seiscentista descreve a habilidade naval dos indígenas em suas expedições pelos grandes rios.",
+              "enunciado": "Qual meio de transporte aquático e fluvial é designado pelo termo clássico ''Ygá'?",
+              "payload": {
+                "opcoes": [
+                  "Canoa / Embarcação de tronco",
+                  "Carroça de tração",
+                  "Ponte pênsil de cipó",
+                  "Jangada de junco"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Ygá' é a tradicional canoa esculpida de um só tronco de madeira, essencial para a mobilidade nos rios de Pindorama.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Na praia da aldeia, dezenas de homens empurram a embarcação recém-construída para a água.",
+              "enunciado": "O que os guerreiros e pescadores lançam às águas quando manuseiam o ''Ygá'?",
+              "payload": {
+                "opcoes": [
+                  "Rede de dormir",
+                  "Canoa de madeira",
+                  "Armadilha de caça",
+                  "Escudo de couro de anta"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Ygá' é a canoa monóxila feita de tronco nobre escavado a fogo.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisando raízes etimológicas que geraram a palavra brasileira 'Igarapé'.",
+              "enunciado": "Sabendo que 'igarapé' significa 'caminho de canoa' ('ygá + pé), o que significa exatamente a raiz ''Ygá'?",
+              "payload": {
+                "opcoes": [
+                  "Remo longo",
+                  "Canoa",
+                  "Peixe grande",
+                  "Margem barrenta"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "'Igarapé' é o caminho ('pé') por onde navegam as canoas (''ygá').",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Dicionário prático da cultura material e tecnologias tradicionais de transporte.",
+              "enunciado": "Assinale a opção que define com exatidão o substantivo ''Ygá':",
+              "payload": {
+                "opcoes": [
+                  "Canoa indígena",
+                  "Vara de pescar",
+                  "Arpão de osso",
+                  "Anzol de espinho"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Ygá' é a canoa talhada a fogo e formão de pedra.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],
@@ -328,7 +883,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.711,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Identificando o papel fundamental das águas na cosmologia e na geografia de Pindorama.",
+              "enunciado": "Qual vocábulo elementar de raiz única representa a substância da água e os rios que cruzam a terra?",
+              "payload": {
+                "opcoes": [
+                  "'Y",
+                  "Tatu",
+                  "Oka",
+                  "Taba"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é o morfema primordial para a água e as correntes fluviais.",
+              "param_a": 1.2,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Análise fonética da oclusiva glotal que precede a vogal 'y' em Tupi Antigo.",
+              "enunciado": "Como se representa com rigor ortográfico filológico a palavra para 'água' nas obras de Eduardo Navarro?",
+              "payload": {
+                "opcoes": [
+                  "I",
+                  "'Y",
+                  "Yg",
+                  "Hy"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "A grafia precisa registra o apóstrofo (') para a oclusiva glotal antes do y gutural.",
+              "param_a": 1.25,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Exercício adaptativo sobre a distinção entre cursos de água doce e mar aberto.",
+              "enunciado": "Selecione o substantivo correto para a água doce em contraposição a 'Paraná':",
+              "payload": {
+                "opcoes": [
+                  "Pirá",
+                  "'Y",
+                  "Ka'a",
+                  "So'ó"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' é a água doce potável do rio.",
+              "param_a": 1.15,
+              "param_b": -1.5,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 2,
@@ -347,7 +958,54 @@
           "pontos_base": 15,
           "param_a": 1.25,
           "param_b": -1.611,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Construindo frases sobre a grandeza do oceano que beija a costa brasileira.",
+              "enunciado": "Complete a sentença sobre o mar aberto: '______ gûasu oikó' (Existe o grande mar):",
+              "payload": {
+                "texto_com_lacunas": "______ gûasu oikó.",
+                "respostas_corretas": [
+                  "Paraná"
+                ]
+              },
+              "explicacao": "'Paraná' forma com o aumentativo 'gûasu' a expressão para o oceano.",
+              "param_a": 1.25,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "O piloto instrui a tripulação sobre as vagas revoltas da baía.",
+              "enunciado": "Preencha a lacuna: 'Oremonhang 'ygá ______ pupé' (Navegamos a canoa no mar):",
+              "payload": {
+                "texto_com_lacunas": "Oremonhang 'ygá ______ pupé.",
+                "respostas_corretas": [
+                  "Paraná"
+                ]
+              },
+              "explicacao": "'Paraná' é o grande corpo aquático onde se navega.",
+              "param_a": 1.3,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Descrevendo o litoral de Pindorama banhado pelo Atlântico sul.",
+              "enunciado": "Qual vocábulo preenche a sentença geográfica: 'I porang a'e ______' (Aquele mar é belo)?",
+              "payload": {
+                "texto_com_lacunas": "I porang a'e ______.",
+                "respostas_corretas": [
+                  "Paraná"
+                ]
+              },
+              "explicacao": "'Paraná' completa a afirmação sobre a beleza das águas marinhas.",
+              "param_a": 1.35,
+              "param_b": -1.1,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 3,
@@ -365,7 +1023,63 @@
           "pontos_base": 20,
           "param_a": 1.3,
           "param_b": -1.461,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Interação entre o veículo náutico e o recurso alimentar aquático.",
+              "enunciado": "Qual ferramenta naval permitia aos tupinambás capturar o 'pirá' em águas profundas?",
+              "payload": {
+                "opcoes": [
+                  "'Ygá (canoa monóxila)",
+                  "Oka (habitação)",
+                  "Tatu (animal)",
+                  "So'ó (caça terrestre)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Ygá' é a embarcação indispensável para a pesca fluvial e marítima de peixes (pirá).",
+              "param_a": 1.3,
+              "param_b": -1.0,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Ecologia de subsistência ribeirinha nas crônicas de quinhentos.",
+              "enunciado": "Na vida cotidiana das tabas litorâneas, a associação entre ''Ygá' e 'Pirá' representava:",
+              "payload": {
+                "opcoes": [
+                  "Guerra contra feras terrestres",
+                  "A expedição de pesca que trazia o peixe à aldeia",
+                  "A queima cerimonial de mandioca",
+                  "A dança dos pássaros no terreiro"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "A canoa e o peixe constituíam a base da economia de subsistência aquática.",
+              "param_a": 1.25,
+              "param_b": -1.2,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Análise da composição nominal de termos náuticos em Tupi Antigo.",
+              "enunciado": "O termo composto ''ygara' deriva diretamente de qual vocábulo náutico básico?",
+              "payload": {
+                "opcoes": [
+                  "'Ygá (canoa)",
+                  "Paraná (mar)",
+                  "Pirá (peixe)",
+                  "'Y (rio)"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Ygara' é a forma flexionada/composta de ''ygá' (canoa).",
+              "param_a": 1.2,
+              "param_b": -1.4,
+              "param_c": 0.25
+            }
+          ]
         },
         {
           "ordem": 4,
@@ -383,7 +1097,63 @@
           "pontos_base": 15,
           "param_a": 1.2,
           "param_b": -1.711,
-          "param_c": 0.25
+          "param_c": 0.25,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Revisão dos atributos da água potável e da navegação segura.",
+              "enunciado": "Qual expressão consagra a água fresca, saudável e doce em Tupi Antigo?",
+              "payload": {
+                "opcoes": [
+                  "'Y katu",
+                  "'Y poxi",
+                  "Paraná aíba",
+                  "'Ygá miri"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y katu' expressa água doce, límpida e propícia ao consumo humano.",
+              "param_a": 1.2,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Diferenciando adjetivos que qualificam a força dos rios.",
+              "enunciado": "Se os navegantes dizem que a água está mansa e excelente para navegar, eles dizem:",
+              "payload": {
+                "opcoes": [
+                  "'Y katu",
+                  "'Y poxi",
+                  "So'ó katu",
+                  "Oka guasu"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y katu' qualifica as águas fluviais benéficas e puras.",
+              "param_a": 1.15,
+              "param_b": -1.6,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Gramática descritiva: posição do adjetivo 'katu' posposto ao substantivo aquático.",
+              "enunciado": "Qual é a ordenação natural em Tupi Antigo para 'rio bom/água boa'?",
+              "payload": {
+                "opcoes": [
+                  "Katu 'y",
+                  "'Y katu",
+                  "Katu paraná",
+                  "'Y aíba"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "O adjetivo atributivo 'katu' vem imediatamente após o substantivo ''Y'.",
+              "param_a": 1.3,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
+          ]
         }
       ]
     },
@@ -436,10 +1206,10 @@
             "Ygata"
           ],
           "coluna_direita": [
-            "Água / Rio",
             "Mar / Grande caudal",
-            "Peixe",
-            "Canoa de guerra"
+            "Peixe das águas",
+            "Canoa de tronco escavado",
+            "Água doce / Rio fluente"
           ],
           "explicacao": "Revisão geral dos conceitos fundamentais apresentados neste capítulo.",
           "dificuldade": "media",
@@ -449,11 +1219,158 @@
             "Paraná",
             "Pira",
             "Ygata"
+          ],
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Grande desafio de síntese naval: o líder da expedição desafia a correlação dos quatro termos das águas.",
+              "enunciado": "Desafio da Aldeia: Correlacione os termos essenciais de hidrografia e navegação em Tupi Antigo:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Paraná",
+                  "Pirá",
+                  "'Ygá"
+                ],
+                "coluna_direita": [
+                  "Mar / Grande caudal",
+                  "Peixe das águas",
+                  "Canoa de tronco escavado",
+                  "Água doce / Rio fluente"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água doce / Rio fluente",
+                  "Paraná": "Mar / Grande caudal",
+                  "Pirá": "Peixe das águas",
+                  "'Ygá": "Canoa de tronco escavado"
+                }
+              },
+              "explicacao": "Derangement estrito verificado: 'Y->Água (3), Paraná->Mar (0), Pirá->Peixe (1), 'Ygá->Canoa (2). Zero pontos fixos.",
+              "param_a": 1.35,
+              "param_b": -0.8,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "No conselho dos timoneiros costeiros, revisam-se os elementos vitais para a expedição pelos canais fluviais.",
+              "enunciado": "Associe cada vocábulo indígena ao seu papel na vida ribeirinha e marítima:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Ygá",
+                  "Pirá",
+                  "Paraná",
+                  "'Y"
+                ],
+                "coluna_direita": [
+                  "O oceano vasto e bravio",
+                  "A fonte de água doce potável",
+                  "A embarcação dos remadores",
+                  "O pescado que nutre a aldeia"
+                ],
+                "pares_corretos": {
+                  "'Ygá": "A embarcação dos remadores",
+                  "Pirá": "O pescado que nutre a aldeia",
+                  "Paraná": "O oceano vasto e bravio",
+                  "'Y": "A fonte de água doce potável"
+                }
+              },
+              "explicacao": "Derangement absoluto em todas as posições.",
+              "param_a": 1.4,
+              "param_b": -0.7,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "Revisão prática com fichas de fibras entrelaçadas antes da cerimônia de navegação.",
+              "enunciado": "Ligue com precisão os termos de navegação e hidrografia às suas definições consolidadas:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Pirá",
+                  "'Y",
+                  "'Ygá",
+                  "Paraná"
+                ],
+                "coluna_direita": [
+                  "Água pura do ribeirão",
+                  "Grande caudal marítimo",
+                  "Pescado das redes",
+                  "Canoa escavada no tronco"
+                ],
+                "pares_corretos": {
+                  "Pirá": "Pescado das redes",
+                  "'Y": "Água pura do ribeirão",
+                  "'Ygá": "Canoa escavada no tronco",
+                  "Paraná": "Grande caudal marítimo"
+                }
+              },
+              "explicacao": "Permutação circular perfeita sem pontos fixos.",
+              "param_a": 1.3,
+              "param_b": -0.9,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Teste de prontidão náutica para os arqueiros pescadores da frota.",
+              "enunciado": "Conecte os conceitos fluviais de Tupi Antigo aos seus significados em português:",
+              "payload": {
+                "coluna_esquerda": [
+                  "Paraná",
+                  "'Ygá",
+                  "'Y",
+                  "Pirá"
+                ],
+                "coluna_direita": [
+                  "Canoa tradicional",
+                  "Peixe capturado",
+                  "Oceano / Grande mar",
+                  "Rio / Água doce"
+                ],
+                "pares_corretos": {
+                  "Paraná": "Oceano / Grande mar",
+                  "'Ygá": "Canoa tradicional",
+                  "'Y": "Rio / Água doce",
+                  "Pirá": "Peixe capturado"
+                }
+              },
+              "explicacao": "Derangement estrito assegurado.",
+              "param_a": 1.35,
+              "param_b": -0.85,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 5,
+              "contexto_cena": "Prova final de consolidação do Capítulo 4 sobre o domínio das águas e navegação.",
+              "enunciado": "Faça a associação conclusiva dos termos do universo aquático:",
+              "payload": {
+                "coluna_esquerda": [
+                  "'Y",
+                  "Pirá",
+                  "Paraná",
+                  "'Ygá"
+                ],
+                "coluna_direita": [
+                  "Peixe saboroso",
+                  "Mar aberto",
+                  "Canoa ágil",
+                  "Água do rio"
+                ],
+                "pares_corretos": {
+                  "'Y": "Água do rio",
+                  "Pirá": "Peixe saboroso",
+                  "Paraná": "Mar aberto",
+                  "'Ygá": "Canoa ágil"
+                }
+              },
+              "explicacao": "Derangement perfeito: 'Y->Água (3), Pirá->Peixe (0), Paraná->Mar (1), 'Ygá->Canoa (2).",
+              "param_a": 1.45,
+              "param_b": -0.6,
+              "param_c": 0.25
+            }
           ]
         },
         {
           "ordem": 2,
-          "tipo": "traducao",
+          "tipo": "escolha_multipla",
           "enunciado": "Traduza a palavra ''Y' para o Português:",
           "termo_fonte": "'Y",
           "traducao_esperada": "Água / Rio",
@@ -462,6 +1379,87 @@
           "pontos_base": 15,
           "itens_alvo": [
             "'Y"
+          ],
+          "opcoes": [
+            "Água / Rio",
+            "Terra firme",
+            "Fogo sagrado",
+            "Vento suave"
+          ],
+          "resposta_correta": 0,
+          "versoes": [
+            {
+              "versao_numero": 1,
+              "contexto_cena": "Pergunta de encerramento do capítulo com o conselho dos mestres navegantes.",
+              "enunciado": "Qual é a tradução clássica e mais elementar da palavra ''Y'?",
+              "payload": {
+                "opcoes": [
+                  "Água / Rio",
+                  "Terra firme",
+                  "Fogo sagrado",
+                  "Vento suave"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é o elemento água e os rios de Pindorama.",
+              "param_a": 1.05,
+              "param_b": -1.5,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 2,
+              "contexto_cena": "Revisão dos hidrônimos indígenas que sobrevivem na geografia moderna do Brasil.",
+              "enunciado": "O que significa a raiz ''Y' presente nos nomes dos rios Tietê, Iguaçu e Paranaíba?",
+              "payload": {
+                "opcoes": [
+                  "Pedra negra",
+                  "Água / Rio",
+                  "Mata fechada",
+                  "Serpente grande"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' é o morfema clássico de rio e água doce.",
+              "param_a": 1.1,
+              "param_b": -1.4,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 3,
+              "contexto_cena": "O guerreiro sacia a sede em um regato cristalino da floresta.",
+              "enunciado": "Se alguém na trilha pede ''Y!', qual necessidade vital essa pessoa expressa?",
+              "payload": {
+                "opcoes": [
+                  "Pede água para beber",
+                  "Pede arco para caçar",
+                  "Avisa que a onça chegou",
+                  "Pede abrigo da chuva"
+                ],
+                "resposta_correta": 0
+              },
+              "explicacao": "''Y' é água de beber e curso de água doce.",
+              "param_a": 1.15,
+              "param_b": -1.3,
+              "param_c": 0.25
+            },
+            {
+              "versao_numero": 4,
+              "contexto_cena": "Consolidação dos conhecimentos do Capítulo 4 perante os anciãos da taba.",
+              "enunciado": "Em resumo definitivo, ''Y' representa nas línguas tupi:",
+              "payload": {
+                "opcoes": [
+                  "A terra e o chão",
+                  "A água e os rios",
+                  "O céu e as estrelas",
+                  "O fogo da fogueira"
+                ],
+                "resposta_correta": 1
+              },
+              "explicacao": "''Y' é o elemento aquático primordial.",
+              "param_a": 1.2,
+              "param_b": -1.2,
+              "param_c": 0.25
+            }
           ]
         }
       ],

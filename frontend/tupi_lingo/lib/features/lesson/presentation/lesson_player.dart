@@ -291,7 +291,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     }
   }
 
-  Future<void> _verifyAnswer(int exercicioId, String tipo, dynamic resposta) async {
+  Future<void> _verifyAnswer(
+    int exercicioId,
+    String tipo,
+    dynamic resposta, {
+    int? timeMs,
+    String? variantToken,
+  }) async {
     if (_isVerifying) return;
     setState(() => _isVerifying = true);
 
@@ -300,11 +306,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
     try {
       final baseUrl = dotenv.env['API_URL'] ?? 'http://127.0.0.1:8000';
       
-      final payload = {
+      final payload = <String, dynamic>{
         'exercicio_id': exercicioId,
         'tipo': tipo,
         'primeira_tentativa': isFirstTry,
       };
+
+      if (variantToken != null && variantToken.isNotEmpty) {
+        payload['variant_token'] = variantToken;
+      }
+      if (timeMs != null && timeMs > 0) {
+        payload['time_ms'] = timeMs;
+      }
 
       if (tipo == 'escolha_multipla') {
         payload['resposta_indice'] = int.tryParse(resposta.toString()) ?? 0;
@@ -369,7 +382,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
             content: Text(userMessage),
             action: SnackBarAction(
               label: 'Tentar Novamente',
-              onPressed: () => _verifyAnswer(exercicioId, tipo, resposta),
+              onPressed: () => _verifyAnswer(
+                exercicioId,
+                tipo,
+                resposta,
+                timeMs: timeMs,
+                variantToken: variantToken,
+              ),
             ),
           ),
         );
@@ -1052,8 +1071,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
       key: ValueKey('ex_${item['id']}_$_currentIndex'),
       item: item,
       wordTranslations: _lessonVocabulary,
-      onVerify: (dynamic resposta) {
-        _verifyAnswer(item['id'], tipo, resposta);
+      onVerify: (dynamic resposta, int timeMs, String? variantToken) {
+        _verifyAnswer(
+          item['id'],
+          tipo,
+          resposta,
+          timeMs: timeMs,
+          variantToken: variantToken,
+        );
       },
     );
   }
@@ -1064,7 +1089,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> with TickerProv
 class _ExercicioDispatcher extends StatefulWidget {
   final Map<String, dynamic> item;
   final Map<String, String> wordTranslations;
-  final Function(dynamic) onVerify;
+  final Function(dynamic resposta, int timeMs, String? variantToken) onVerify;
 
   const _ExercicioDispatcher({
     super.key,
@@ -1082,17 +1107,21 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
   final TextEditingController _textController = TextEditingController();
   final Map<int, int> _associations = {}; // leftIndex -> rightIndex
   final FocusNode _keyboardFocusNode = FocusNode();
+  late DateTime _renderedAt;
 
   @override
   void initState() {
     super.initState();
+    _renderedAt = DateTime.now();
     _keyboardFocusNode.requestFocus();
   }
 
   @override
   void didUpdateWidget(covariant _ExercicioDispatcher oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.item['id'] != widget.item['id']) {
+    if (oldWidget.item['id'] != widget.item['id'] ||
+        oldWidget.item['variant_token'] != widget.item['variant_token']) {
+      _renderedAt = DateTime.now();
       _selectedOption = null;
       _textController.clear();
       _associations.clear();
@@ -1108,13 +1137,16 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
   }
 
   void _triggerVerification(String tipo) {
+    final int timeMs = DateTime.now().difference(_renderedAt).inMilliseconds;
+    final String? variantToken = widget.item['variant_token']?.toString();
+
     if (tipo == 'escolha_multipla') {
-      widget.onVerify(_selectedOption);
+      widget.onVerify(_selectedOption, timeMs, variantToken);
     } else if (tipo == 'completar') {
-      widget.onVerify(_textController.text.trim());
+      widget.onVerify(_textController.text.trim(), timeMs, variantToken);
     } else if (tipo == 'associacao') {
       final mapPayload = _associations.map((k, v) => MapEntry(k.toString(), v.toString()));
-      widget.onVerify(mapPayload);
+      widget.onVerify(mapPayload, timeMs, variantToken);
     }
   }
 
@@ -1176,6 +1208,35 @@ class _ExercicioDispatcherState extends State<_ExercicioDispatcher> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (widget.item['contexto_cena'] != null && widget.item['contexto_cena'].toString().trim().isNotEmpty) ...[
+            Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: _TupiColors.primary.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: _TupiColors.primary.withValues(alpha: 0.25)),
+              ),
+              child: Row(
+                children: [
+                  const Text('🌿', style: TextStyle(fontSize: 16)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      widget.item['contexto_cena'].toString(),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w600,
+                        color: _TupiColors.accent,
+                        height: 1.3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
           Text(
             enunciado,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: _TupiColors.accent, height: 1.4),
