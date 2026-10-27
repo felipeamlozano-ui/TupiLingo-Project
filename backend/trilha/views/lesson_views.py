@@ -329,7 +329,6 @@ def detalhe_licao(request, licao_id: int):
         exercicios = engine.build_lesson_items(user=user, licao=licao)
     else:
         for ex in ExercicioEscolha.objects.filter(licao=licao).order_by('ordem'):
-        for ex in ExercicioEscolha.objects.filter(licao=licao).order_by('ordem'):
             exercicios.append({
                 'id': ex.id, 'tipo': 'escolha_multipla', 'enunciado': ex.enunciado,
                 'explicacao': ex.explicacao, 'dificuldade': ex.dificuldade,
