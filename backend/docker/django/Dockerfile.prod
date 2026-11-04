@@ -49,15 +49,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Copiar libs da fase builder
-COPY --from=builder --link /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
-COPY --from=builder --link /usr/local/bin /usr/local/bin
+COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
-# Copiar código fonte
-COPY --link --chown=django:django . .
+# Copiar código fonte e criar diretórios necessários para collectstatic/media/logs
+COPY --chown=django:django . .
+RUN mkdir -p /app/staticfiles /app/media /app/pdfs /app/logs \
+    && chown -R django:django /app
 
-# Copiar script de entrypoint e dar permissão
-COPY --link --chown=django:django docker/django/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Copiar script de entrypoint, coletar arquivos estáticos no build e dar permissão
+COPY --chown=django:django docker/django/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh \
+    && SECRET_KEY="build-only-collectstatic-key" python manage.py collectstatic --noinput --clear
+ENV SKIP_COLLECTSTATIC=true
 
 # Trocar para usuário não-root
 USER django
@@ -66,5 +70,5 @@ USER django
 EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Usar gunicorn (production WSGI server) em vez de runserver
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "config.wsgi:application"]
+# Usar gunicorn (production WSGI server) sem --preload para abrir o socket TCP 8000 imediatamente
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "2", "--timeout", "120", "config.wsgi:application"]

@@ -19,8 +19,8 @@ if _allowed_hosts_raw == '*':
 else:
     ALLOWED_HOSTS = [s.strip() for s in _allowed_hosts_raw.split(',') if s.strip()]
 
-# Garante que 127.0.0.1 e localhost estejam sempre presentes para healthchecks internos do Docker/dev.bat
-for _h in ('127.0.0.1', 'localhost'):
+# Garante que 127.0.0.1, localhost e .fly.dev estejam sempre presentes para healthchecks internos e Fly.io
+for _h in ('127.0.0.1', 'localhost', '.fly.dev'):
     if _h not in ALLOWED_HOSTS:
         ALLOWED_HOSTS.append(_h)
 
@@ -43,6 +43,8 @@ CSRF_TRUSTED_ORIGINS = config(
 )
 if 'https://felipeamlozano-ui.github.io' not in CSRF_TRUSTED_ORIGINS:
     CSRF_TRUSTED_ORIGINS.append('https://felipeamlozano-ui.github.io')
+if 'https://*.fly.dev' not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append('https://*.fly.dev')
 if CLOUDFLARE_TUNNEL_DOMAIN:
     cf_origin = f"https://{CLOUDFLARE_TUNNEL_DOMAIN.replace('https://', '').replace('http://', '').strip('/')}"
     if cf_origin not in CSRF_TRUSTED_ORIGINS:
@@ -50,6 +52,8 @@ if CLOUDFLARE_TUNNEL_DOMAIN:
 
 # CORS para requisições em produção (herda origens de base.py incluindo github.io e trycloudflare)
 CORS_ALLOWED_ORIGIN_REGEXES = list(CORS_ALLOWED_ORIGIN_REGEXES)
+if r'^https:\/\/[a-zA-Z0-9-]+\.fly\.dev$' not in CORS_ALLOWED_ORIGIN_REGEXES:
+    CORS_ALLOWED_ORIGIN_REGEXES.append(r'^https:\/\/[a-zA-Z0-9-]+\.fly\.dev$')
 if CLOUDFLARE_TUNNEL_DOMAIN:
     cf_clean = CLOUDFLARE_TUNNEL_DOMAIN.replace('https://', '').replace('http://', '').strip('/')
     if cf_clean:

@@ -12,16 +12,18 @@ class AppConfig {
   static const String fallbackTunnelConfigUrl =
       'https://pcquxppvheodcrdkwqhh.supabase.co/storage/v1/object/public/public-config/tunnel_url.json';
 
+  static const String flyProductionUrl = 'https://quiet-surf-9903.fly.dev';
+
   static String get backendBaseUrl {
     final url = dotenv.env['API_URL']?.trim();
     if (url != null && url.isNotEmpty) {
       return url.endsWith('/') ? url.substring(0, url.length - 1) : url;
     }
-    return 'http://127.0.0.1:8000';
+    return (kIsWeb && Uri.base.scheme == 'https') ? flyProductionUrl : 'http://127.0.0.1:8000';
   }
 
   /// Testa a conectividade real com um endpoint através de /api/health/
-  static Future<bool> checkHealth(String url, {Duration timeout = const Duration(milliseconds: 2500)}) async {
+  static Future<bool> checkHealth(String url, {Duration timeout = const Duration(milliseconds: 5000)}) async {
     try {
       final clean = url.trim().endsWith('/') ? url.trim().substring(0, url.trim().length - 1) : url.trim();
       if (!clean.startsWith('http://') && !clean.startsWith('https://')) return false;
@@ -98,6 +100,7 @@ class AppConfig {
         'http://10.0.2.2:8000',
       ],
       current,
+      flyProductionUrl,
     }.where((u) => !isHttpsWeb || u.startsWith('https://')).toList();
 
     for (final candidate in candidates) {

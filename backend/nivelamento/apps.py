@@ -38,9 +38,12 @@ class NivelamentoConfig(AppConfig):
     def _initialize_services():
         """
         Warm-up assíncrono de boot:
-          1. Pré-aquece o singleton do SupabaseService (connection pooling).
-          2. Dispara a 1ª corrida global do PingRaceRouter e persiste o ranking no Redis.
+          1. Aguarda o carregamento inicial de URLs do processo principal para evitar contenção de ImportLock.
+          2. Pré-aquece o singleton do SupabaseService (connection pooling).
+          3. Dispara a 1ª corrida global do PingRaceRouter e persiste o ranking no Redis.
         """
+        import time
+        time.sleep(8.0)
         use_supabase = getattr(settings, "USE_SUPABASE_QUIZ_ENGINE", True)
 
         if use_supabase:

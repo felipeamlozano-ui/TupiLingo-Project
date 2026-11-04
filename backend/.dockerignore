@@ -66,3 +66,14 @@ pytest.ini
 
 # Chroma DB
 chroma_db/
+
+# Heavy local/offline assets & caches (not needed in API container)
+backups/
+scratch/
+models/
+ocr_cache/
+ocr_exports/
+pedagogico/filologia/page_images/
+.ruff_cache/
+.buildx-cache*
+vector_store.db-*

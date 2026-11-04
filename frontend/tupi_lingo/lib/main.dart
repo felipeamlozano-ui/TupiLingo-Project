@@ -45,11 +45,11 @@ Future<void> main() async {
   if (kIsWeb) {
     const sbUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://pcquxppvheodcrdkwqhh.supabase.co');
     const sbKey = String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjcXV4cHB2aGVvZGNyZGt3cWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MjY4MTgsImV4cCI6MjA5MTQwMjgxOH0.19umF7nkdYtTGbC-xDKUhcQ37qgkqQDq77sgvQRGaOY');
-    const envApiUrl = String.fromEnvironment('API_URL');
+    const envApiUrl = String.fromEnvironment('API_URL', defaultValue: 'https://quiet-surf-9903.fly.dev');
     final isHttps = Uri.base.scheme == 'https';
     final apiUrl = envApiUrl.isNotEmpty
         ? envApiUrl
-        : (isHttps ? '' : 'http://127.0.0.1:8000');
+        : (isHttps ? 'https://quiet-surf-9903.fly.dev' : 'http://127.0.0.1:8000');
     dotenv.loadFromString(envString: '''
 SUPABASE_URL=$sbUrl
 SUPABASE_ANON_KEY=$sbKey
@@ -206,6 +206,7 @@ class _AuthGateState extends State<AuthGate> {
         if (cachedWinningUrl != null && cachedWinningUrl.isNotEmpty) cachedWinningUrl,
         if (dynamicTunnelUrl != null && dynamicTunnelUrl.isNotEmpty) dynamicTunnelUrl,
         configuredUrl,
+        AppConfig.flyProductionUrl,
         if (!isHttpsWeb && (kDebugMode || !kIsWeb)) ...[
           'http://127.0.0.1:8000',
           'http://10.0.2.2:8000',

@@ -14,3 +14,10 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 application = get_wsgi_application()
+
+# Pré-carrega a árvore de URLs no boot do worker para evitar latência de importação (litellm/pydantic) na 1ª requisição
+try:
+    from django.urls import get_resolver
+    _ = get_resolver().url_patterns
+except Exception:
+    pass

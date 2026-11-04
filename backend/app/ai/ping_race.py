@@ -328,7 +328,13 @@ class PingRaceRouter:
 
         r = get_redis_client()
         try:
-            # 1. Filtra candidatos fora de erro fatal e fora de cooldown transitório
+            # 1. Pré-carrega o registry antes de abrir as threads para evitar deadlock no ImportLock do Python
+            try:
+                from app.ai.registry import registry as _preload_registry  # noqa: F401
+            except Exception:
+                pass
+
+            # 2. Filtra candidatos fora de erro fatal e fora de cooldown transitório
             active_chain = [m for m in chain if not cls.is_fatal_disabled(m) and not cls.is_in_cooldown(m)]
             if not active_chain:
                 # Apenas modelos que NÃO são fatais podem ter cooldown transitório resetado
