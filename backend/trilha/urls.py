@@ -52,6 +52,16 @@ urlpatterns = [
 
     # ── Trilha / Mapa ─────────────────────────────────────────────────────────
     path(
+        'trilha/mapa/',
+        views.trilha_mapa_view,
+        name='trilha_mapa_view',
+    ),
+    path(
+        'mapa/',
+        views.trilha_mapa_view,
+        name='mapa_fallback',
+    ),
+    path(
         'trilha/regioes/',
         views.listar_regioes_mapa,
         name='listar_regioes_mapa',

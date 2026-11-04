@@ -104,7 +104,9 @@ class HomeController extends ChangeNotifier {
     }
 
     try {
-      final url = '$baseUrl/api/v1/trilha/mapa/';
+      final url = _varianteAtivaId > 0
+          ? '$baseUrl/api/v1/trilha/$_varianteAtivaId/capitulos/'
+          : '$baseUrl/api/v1/trilha/mapa/';
       final res = await ApiCacheManager.instance.getStaleWhileRevalidate(
         url,
         extraHeaders: {
@@ -146,7 +148,7 @@ class HomeController extends ChangeNotifier {
 
   void _parseTrailPayload(Map<String, dynamic> data) {
     // 1. Dados do Usuário
-    final user = data['usuario'] ?? {};
+    final user = data['usuario'] ?? data['user_stats'] ?? {};
     _streakDays = (user['streak_atual'] as num?)?.toInt() ?? _streakDays;
     _conchas = (user['conchas'] as num?)?.toInt() ?? _conchas;
     _xpTotal = (user['xp_total'] as num?)?.toInt() ?? _xpTotal;

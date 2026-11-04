@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:tupi_lingo/core/config/app_config.dart';
 import 'package:tupi_lingo/core/network/api_client.dart';
 import 'package:tupi_lingo/core/state/app_progression_notifier.dart';
@@ -38,6 +38,7 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
   
   // Estado Variantes
   bool _isLoadingVariants = true;
+  int? _submittingVarianteId;
   List<Map<String, dynamic>> _variantes = [];
   Map<String, dynamic>? _selectedVariante;
 
@@ -142,127 +143,164 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
 
   void _onVarianteTap(Map<String, dynamic> v) {
     if (widget.nivel.toLowerCase() == 'nenhum') {
-      showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        builder: (ctx) => Padding(
-          padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                v['icone'] ?? '🌿',
-                style: const TextStyle(fontSize: 48),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                v['nome'] ?? '',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: _TupiColors.accent,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Como você está começando do zero nesta língua, você pode ir direto para a trilha básica ou fazer o teste de nivelamento.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: _TupiColors.subtitle, height: 1.4),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    _startFromLevel1(v);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _TupiColors.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
-                  child: const Text(
-                    'Começar do Início (Nível 1)',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    _startTestForVariante(v);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    side: const BorderSide(color: _TupiColors.inputBorder, width: 2),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
-                  child: const Text(
-                    'Fazer Teste de Nivelamento',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _TupiColors.accent),
-                  ),
-                ),
-              ),
-            ],
+      final isWide = kIsWeb || MediaQuery.of(context).size.width >= 600;
+      if (isWide) {
+        showDialog(
+          context: context,
+          builder: (ctx) => Dialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: _buildVariantModalContent(ctx, v),
+            ),
           ),
-        ),
-      );
+        );
+      } else {
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          builder: (ctx) => _buildVariantModalContent(ctx, v),
+        );
+      }
     } else {
       _startTestForVariante(v);
     }
   }
 
+  Widget _buildVariantModalContent(BuildContext ctx, Map<String, dynamic> v) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            v['icone'] ?? '🌿',
+            style: const TextStyle(fontSize: 48),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            v['nome'] ?? '',
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: _TupiColors.accent,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Como você está começando do zero nesta língua, você pode ir direto para a trilha básica ou fazer o teste de nivelamento.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14, color: _TupiColors.subtitle, height: 1.4),
+          ),
+          const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                _startFromLevel1(v);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _TupiColors.primary,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              ),
+              child: const Text(
+                'Começar do Início (Nível 1)',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                _startTestForVariante(v);
+              },
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                side: const BorderSide(color: _TupiColors.inputBorder, width: 2),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              ),
+              child: const Text(
+                'Fazer Teste de Nivelamento',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _TupiColors.accent),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _startFromLevel1(Map<String, dynamic> variante) async {
+    final int varianteId = (variante['id'] as num).toInt();
     setState(() {
       _selectedVariante = variante;
-      _isLoadingVariants = true;
+      _submittingVarianteId = varianteId;
       _feedbackMessage = null;
     });
 
     try {
-      // 1. Atualiza variante ativa
-      await ApiClient.post(
-        '${AppConfig.backendBaseUrl}/api/v1/auth/update-variante',
-        body: {'variante_id': variante['id']},
-      );
+      await AppConfig.discoverWorkingBackendUrl();
 
-      // 2. Registra avaliação direta como nível 1
-      await ApiClient.post(
-        '${AppConfig.backendBaseUrl}/api/v1/nivelamento/avaliar/',
+      final response = await ApiClient.post(
+        '${AppConfig.backendBaseUrl}/api/v1/nivelamento/definir-nivel-inicial/',
         body: {
-          'variante_id': variante['id'],
-          'current_level': 1,
-          'answers': [],
+          'variante_id': varianteId,
+          'nivel': 1,
         },
       );
 
-      DashboardRepositoryImpl.invalidateCache();
-      await ApiCacheManager.instance.clearAll();
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        if (data is Map<String, dynamic> && data['success'] == true) {
+          DashboardRepositoryImpl.invalidateCache();
+          await ApiCacheManager.instance.clearAll();
+          AppProgressionNotifier.instance.notifyProgressionChanged();
 
-      if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/home');
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(context, '/home');
+          return;
+        } else {
+          final errorMsg = data is Map ? data['error']?.toString() : null;
+          throw Exception(errorMsg ?? 'Falha ao definir nível.');
+        }
+      } else {
+        throw Exception('Servidor indisponível (${response.statusCode})');
+      }
     } catch (e) {
       if (mounted) {
         setState(() {
-          _isLoadingVariants = false;
+          _submittingVarianteId = null;
           _feedbackMessage = 'Erro ao definir nível: $e';
         });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao definir nível: $e'),
+            backgroundColor: _TupiColors.danger,
+            action: SnackBarAction(
+              label: 'Tentar Novamente',
+              textColor: Colors.white,
+              onPressed: () => _startFromLevel1(variante),
+            ),
+          ),
+        );
       }
     }
   }
@@ -588,7 +626,7 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
   }
 
   Widget _buildVariantSelection() {
-    if (_isLoadingVariants) {
+    if (_isLoadingVariants && _variantes.isEmpty) {
       return const Center(child: CircularProgressIndicator(color: _TupiColors.primary));
     }
     
@@ -657,63 +695,104 @@ class _TesteScreenState extends State<TesteScreen> with TickerProviderStateMixin
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16, color: _TupiColors.subtitle, height: 1.4),
           ),
-          const SizedBox(height: 40),
-          ..._variantes.map((v) => Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: InkWell(
-              onTap: () => _onVarianteTap(v),
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: _TupiColors.inputBorder, width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.04),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+          const SizedBox(height: 24),
+          if (_feedbackMessage != null) ...[
+            Container(
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 20),
+              decoration: BoxDecoration(
+                color: _TupiColors.danger.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: _TupiColors.danger.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.error_outline, color: _TupiColors.danger, size: 20),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      _feedbackMessage!,
+                      style: const TextStyle(color: _TupiColors.danger, fontSize: 13),
                     ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      v['icone'] ?? '🌿',
-                      style: const TextStyle(fontSize: 32),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            v['nome'] ?? '',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: _TupiColors.accent,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            v['descricao'] ?? 'Aprenda a língua nativa.',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: _TupiColors.subtitle,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.arrow_forward_ios_rounded, color: _TupiColors.inputBorder),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          )),
+          ],
+          const SizedBox(height: 16),
+          ..._variantes.map((v) {
+            final int? vid = (v['id'] as num?)?.toInt();
+            final bool isCardLoading = _submittingVarianteId == vid;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: InkWell(
+                onTap: _submittingVarianteId != null ? null : () => _onVarianteTap(v),
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: isCardLoading ? _TupiColors.primary : _TupiColors.inputBorder,
+                      width: 2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        v['icone'] ?? '🌿',
+                        style: const TextStyle(fontSize: 32),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              v['nome'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: _TupiColors.accent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              v['descricao'] ?? 'Aprenda a língua nativa.',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: _TupiColors.subtitle,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (isCardLoading)
+                        const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            color: _TupiColors.primary,
+                          ),
+                        )
+                      else
+                        const Icon(Icons.arrow_forward_ios_rounded, color: _TupiColors.inputBorder),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
         ],
       ),
     );

@@ -80,7 +80,26 @@ class ProgressService:
         )
 
         if not capitulos:
-            return {"capitulos": [], "trilha": {"id": trilha.id, "titulo": trilha.titulo}}
+            return {
+                "success": True,
+                "variante": {"id": variante.id, "nome": variante.nome, "codigo": variante.codigo},
+                "trilha": {"id": trilha.id, "titulo": trilha.titulo, "subtitulo": getattr(trilha, 'subtitulo', '')},
+                "user_stats": {
+                    "xp_total": user.xp_total,
+                    "streak_atual": user.streak_atual,
+                    "dias_ofensiva": user.streak_atual,
+                    "conchas": getattr(user, 'conchas', 0),
+                    "maior_streak": user.maior_streak,
+                },
+                "usuario": {
+                    "xp_total": user.xp_total,
+                    "streak_atual": user.streak_atual,
+                    "conchas": getattr(user, 'conchas', 0),
+                    "is_staff": getattr(user, 'is_staff', False),
+                    "is_superuser": getattr(user, 'is_superuser', False),
+                },
+                "capitulos": [],
+            }
 
         # 2. Carrega todos os registros de progresso do usuário nesta trilha
         user_lessons_map = {
@@ -261,6 +280,13 @@ class ProgressService:
                 "dias_ofensiva": user.streak_atual,
                 "conchas": getattr(user, 'conchas', 0),
                 "maior_streak": user.maior_streak,
+            },
+            "usuario": {
+                "xp_total": user.xp_total,
+                "streak_atual": user.streak_atual,
+                "conchas": getattr(user, 'conchas', 0),
+                "is_staff": getattr(user, 'is_staff', False),
+                "is_superuser": getattr(user, 'is_superuser', False),
             },
             "capitulos": capitulos_data,
         }

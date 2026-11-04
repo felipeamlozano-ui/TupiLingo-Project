@@ -12,6 +12,7 @@ from .trail_views import (
     listar_variantes,
     listar_capitulos_mapa,
     listar_regioes_mapa,
+    trilha_mapa_view,
 )
 from .lesson_views import (
     detalhe_licao,
@@ -33,6 +34,7 @@ __all__ = [
     'listar_variantes',
     'listar_capitulos_mapa',
     'listar_regioes_mapa',
+    'trilha_mapa_view',
     'detalhe_licao',
     'concluir_licao',
     '_recalibrar_nivel',

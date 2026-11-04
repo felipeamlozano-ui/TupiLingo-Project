@@ -136,3 +136,26 @@ def listar_regioes_mapa(request):
             pass
 
     return JsonResponse(resp_data)
+
+
+@csrf_exempt
+@ratelimit(key='ip', rate='30/m', block=True)
+@supabase_auth_required
+@require_GET
+def trilha_mapa_view(request):
+    """
+    Retorna a estrutura completa do mapa interativo para a variante ativa do usuário.
+    Atua como alias/fallback canônico para /api/v1/trilha/mapa/.
+    """
+    user, err = _get_user(request)
+    if err:
+        return err
+
+    variante = user.variante_ativa
+    if not variante:
+        variante = VarianteTupi.objects.filter(ativo=True).order_by('ordem').first()
+    if not variante:
+        return JsonResponse({'error': 'Nenhuma variante cadastrada.'}, status=404)
+
+    return listar_capitulos_mapa(request, variante.id)
+
