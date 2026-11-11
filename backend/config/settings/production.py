@@ -19,8 +19,8 @@ if _allowed_hosts_raw == '*':
 else:
     ALLOWED_HOSTS = [s.strip() for s in _allowed_hosts_raw.split(',') if s.strip()]
 
-# Garante que 127.0.0.1, localhost e .fly.dev estejam sempre presentes para healthchecks internos e Fly.io
-for _h in ('127.0.0.1', 'localhost', '.fly.dev'):
+# Garante que 127.0.0.1, localhost, .fly.dev e .railway.app estejam sempre presentes para healthchecks internos e Railway
+for _h in ('127.0.0.1', 'localhost', '.fly.dev', '.railway.app'):
     if _h not in ALLOWED_HOSTS:
         ALLOWED_HOSTS.append(_h)
 
@@ -45,6 +45,8 @@ if 'https://felipeamlozano-ui.github.io' not in CSRF_TRUSTED_ORIGINS:
     CSRF_TRUSTED_ORIGINS.append('https://felipeamlozano-ui.github.io')
 if 'https://*.fly.dev' not in CSRF_TRUSTED_ORIGINS:
     CSRF_TRUSTED_ORIGINS.append('https://*.fly.dev')
+if 'https://*.railway.app' not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append('https://*.railway.app')
 if CLOUDFLARE_TUNNEL_DOMAIN:
     cf_origin = f"https://{CLOUDFLARE_TUNNEL_DOMAIN.replace('https://', '').replace('http://', '').strip('/')}"
     if cf_origin not in CSRF_TRUSTED_ORIGINS:
@@ -54,6 +56,8 @@ if CLOUDFLARE_TUNNEL_DOMAIN:
 CORS_ALLOWED_ORIGIN_REGEXES = list(CORS_ALLOWED_ORIGIN_REGEXES)
 if r'^https:\/\/[a-zA-Z0-9-]+\.fly\.dev$' not in CORS_ALLOWED_ORIGIN_REGEXES:
     CORS_ALLOWED_ORIGIN_REGEXES.append(r'^https:\/\/[a-zA-Z0-9-]+\.fly\.dev$')
+if r'^https:\/\/[a-zA-Z0-9-]+\.railway\.app$' not in CORS_ALLOWED_ORIGIN_REGEXES:
+    CORS_ALLOWED_ORIGIN_REGEXES.append(r'^https:\/\/[a-zA-Z0-9-]+\.railway\.app$')
 if CLOUDFLARE_TUNNEL_DOMAIN:
     cf_clean = CLOUDFLARE_TUNNEL_DOMAIN.replace('https://', '').replace('http://', '').strip('/')
     if cf_clean:

@@ -12,7 +12,8 @@ class AppConfig {
   static const String fallbackTunnelConfigUrl =
       'https://pcquxppvheodcrdkwqhh.supabase.co/storage/v1/object/public/public-config/tunnel_url.json';
 
-  static const String flyProductionUrl = 'https://quiet-surf-9903.fly.dev';
+  static const String flyProductionUrl = 'https://tupilingo-project-production.up.railway.app';
+  static const String railwayProductionUrl = 'https://tupilingo-project-production.up.railway.app';
 
   static String get backendBaseUrl {
     final url = dotenv.env['API_URL']?.trim();
